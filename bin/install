@@ -1,4 +1,0 @@
-#!/bin/sh
-# @author: Daniel (dmilith) Dettlaff (dmilith@verknowsys.com)
-
-INSTALL="YES" bin/build
