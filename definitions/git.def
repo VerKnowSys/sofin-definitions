@@ -16,4 +16,4 @@ esac
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 FORCE_GNU_COMPILER="true"
-APP_EXPORTS="git"
+APP_EXPORTS="git git-cvsserver git-receive-pack git-shell git-upload-archive git-upload-pack"
