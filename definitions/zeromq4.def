@@ -1,8 +1,8 @@
 APP_FULL_NAME="ZMQ - zeromq.org"
-APP_SHA="50d894108a26a610eb22cd425cc487480e898acc"
+APP_SHA="a363ddfff75f73976f656b3ba48f32544b214075"
 APP_NAME="zeromq"
 APP_POSTFIX="4"
-APP_VERSION="4.0.1"
+APP_VERSION="4.0.3"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_ARGS="--without-documentation --with-poller"
 if [ "${SYSTEM_NAME}" != "Darwin" ]; then
