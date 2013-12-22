@@ -5,6 +5,11 @@ APP_NAME="ffmpeg"
 APP_VERSION="2.1.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="gmake yasm"
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    export APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
+    export FORCE_GNU_COMPILER="true"
+fi
+APP_CONFIGURE_ARGS="--enable-shared --disable-ffplay --disable-devices"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}; true"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_EXPORTS="ffserver ffprobe ffmpeg"
