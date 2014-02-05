@@ -5,4 +5,7 @@ APP_VERSION="0.7"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="gmake libiconv expat zlib pcre pkgconf libffi gettext python-legacy libtool libiconv glib238"
 APP_CONFIGURE_ARGS="--enable-utf8"
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    unset APP_CONFIGURE_ARGS
+fi
 APP_EXPORTS="goaccess"
