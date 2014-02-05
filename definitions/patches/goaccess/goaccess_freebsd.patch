@@ -1,0 +1,80 @@
+diff --git commons.c commons.c
+index 8f73750..be1f909 100644
+--- commons.c
++++ commons.c
+@@ -24,7 +24,11 @@
+ #endif
+ 
+ #ifdef HAVE_LIBNCURSESW
++#ifdef __FreeBSD__
++#include <ncurses.h>
++#else
+ #include <ncursesw/curses.h>
++#endif
+ #else
+ #include <ncurses.h>
+ #endif
+diff --git error.c error.c
+index 733916e..298a5f2 100644
+--- error.c
++++ error.c
+@@ -24,7 +24,11 @@
+ #endif
+ 
+ #ifdef HAVE_LIBNCURSESW
++#ifdef __FreeBSD__
++#include <ncurses.h>
++#else
+ #include <ncursesw/curses.h>
++#endif
+ #else
+ #include <ncurses.h>
+ #endif
+diff --git gmenu.h gmenu.h
+index ce38821..72223e3 100644
+--- gmenu.h
++++ gmenu.h
+@@ -23,7 +23,11 @@
+ #endif
+ 
+ #ifdef HAVE_LIBNCURSESW
++#ifdef __FreeBSD__
++#include <ncurses.h>
++#else
+ #include <ncursesw/curses.h>
++#endif
+ #else
+ #include <ncurses.h>
+ #endif
+diff --git parser.c parser.c
+index 478dc2d..2c4946e 100644
+--- parser.c
++++ parser.c
+@@ -37,7 +37,11 @@
+ #endif
+ 
+ #ifdef HAVE_LIBNCURSESW
++#ifdef __FreeBSD__
++#include <ncurses.h>
++#else
+ #include <ncursesw/curses.h>
++#endif
+ #else
+ #include <ncurses.h>
+ #endif
+diff --git ui.h ui.h
+index 4a8cf08..73c2f61 100644
+--- ui.h
++++ ui.h
+@@ -26,7 +26,11 @@
+ #endif
+ 
+ #ifdef HAVE_LIBNCURSESW
++#ifdef __FreeBSD__
++#include <ncurses.h>
++#else
+ #include <ncursesw/curses.h>
++#endif
+ #else
+ #include <ncurses.h>
+ #endif
