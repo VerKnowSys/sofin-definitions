@@ -1,0 +1,8 @@
+DISABLE_ON="Darwin"
+APP_FULL_NAME="S.M.A.R.T. Monitoring Tools"
+APP_NAME="smartmontools"
+APP_SHA="37848ff5103d68b672463a30cd99e7d23d6696a5"
+APP_VERSION="6.2"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_CONFIGURE_ARGS="--without-x --disable-nasm --disable-video --disable-joystick"
+APP_EXPORTS="smartctl smartd"
