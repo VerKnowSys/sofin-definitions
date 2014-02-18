@@ -1,5 +1,6 @@
 clang
 ccache
+curl
 zeromq
 git
 nginx
