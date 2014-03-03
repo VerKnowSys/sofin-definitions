@@ -1,7 +1,7 @@
 DISABLE_ON="Linux FreeBSD"
 APP_FULL_NAME="Qt5 Library with Glib support"
 APP_NAME="qt5"
-APP_SHA="3cc6ebc6480e1f63b808c4476ef2053570b9a22d"
+APP_SHA="31a5cf175bb94dbde3b52780d3be802cbeb19d65"
 APP_VERSION="5.2.1"
 APP_POSTFIX="-glib"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qt-everywhere-opensource-src-${APP_VERSION}.tar.gz"
