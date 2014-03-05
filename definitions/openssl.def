@@ -10,6 +10,7 @@ export APP_CONFIGURE_SCRIPT="./Configure"
 export APP_CONFIGURE_ARGS="darwin64-x86_64-cc -shared"
 fi
 APP_REQUIREMENTS="perl"
+APP_NO_CCACHE="true"
 APP_EXPORTS="openssl"
 APP_MAKE_METHOD="make -s"
 APP_INSTALL_METHOD="make -s install"
