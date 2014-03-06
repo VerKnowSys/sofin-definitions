@@ -1,7 +1,7 @@
 APP_FULL_NAME="The Service Spawner"
-APP_SHA="0c72a5eb1c6ad3fc6032263c2882f53e1cfcdb4f"
+APP_SHA="03a9a64b16a529fee61f134a9c366b2b1423ea47"
 APP_NAME="thess"
-APP_VERSION="0.70.3"
+APP_VERSION="0.84.3"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_REQUIREMENTS="gmake pkgconf qt" # requires clang installed in OS
