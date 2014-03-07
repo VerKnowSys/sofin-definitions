@@ -1,0 +1,13 @@
+DISABLE_ON="Linux FreeBSD"
+APP_FULL_NAME="Audacious"
+APP_NAME="audacious"
+APP_VERSION="3.5-devel"
+APP_SHA=$(shasum ~/.cache/cache/${APP_NAME}-${APP_VERSION}.tar | awk '{print $1}')
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar"
+APP_REQUIREMENTS="m4 gmake perl autoconf automake zlib pcre pkgconf libffi gettext python-legacy libtool glib238"
+APP_CONFIGURE_SCRIPT="./autogen.sh ; ./configure"
+APP_CONFIGURE_ARGS="--disable-dbus --disable-gtk"
+APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+APP_NO_CCACHE="YES"
+APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
