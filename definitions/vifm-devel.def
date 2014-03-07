@@ -10,6 +10,7 @@ APP_INSTALL_METHOD="${PREFIX}/bin/gmake -s ${MAKE_OPTS} install; true"
 APP_HTTP_PATH="https://github.com/ksteen/vifm.git"
 APP_USE_GIT_PATH="true"
 APP_AFTER_INSTALL_CALLBACK="update_vifm_default_config"
+APP_CONFLICTS_WITH="vifm"
 
 update_vifm_default_config () {
   ${MKDIR_BIN} "$HOME/.vifm"
