@@ -4,6 +4,7 @@ FORCE_GNU_COMPILER="" # use only if really required by some lame software
 APP_EXPORTS="" # defines list of binaries to be exported to user env into PATH
 APP_FULL_NAME=""
 APP_HTTP_PATH=""
+APP_USE_GIT_PATH=""
 APP_NAME="" # this is software name, but also folder name in /Software or ~/Apps with app root directory.
 APP_VERSION=""
 APP_POSTFIX="" # a postfix added to APP_NAME if defined. Used in Sofin to do legacy versions of software.
