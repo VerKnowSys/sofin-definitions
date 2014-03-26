@@ -5,5 +5,5 @@ APP_VERSION="2.12"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_SCRIPT="no-conf" # no configure script for this package
 APP_MAKE_METHOD="make prefix=${PREFIX}"
-APP_MAKE_METHOD="make install prefix=${PREFIX} || true" # not my fault. blame Dmidecode team.
+APP_INSTALL_METHOD="make install prefix=${PREFIX} || true" # not my fault. blame Dmidecode team.
 APP_EXPORTS="dmidecode biosdecode vpddecode"
