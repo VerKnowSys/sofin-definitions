@@ -1,0 +1,7 @@
+REQUIRE_ROOT_ACCESS="true"
+APP_FULL_NAME="Courier Unicode Lib"
+DATA_DIR="/SystemUsers/SoftwareData/Courier/"
+APP_SHA="250622fd16839ee19712ec9bd5dc9cb893779fad"
+APP_NAME="courier-unicode"
+APP_VERSION="1.0"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
