@@ -6,7 +6,7 @@ APP_SHA="ebea424284adf766311cb08289bdad3db57d5da1"
 APP_NAME="courier"
 APP_VERSION="0.73.1.20140312"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="pkgconf libiconv perl pcre libtool openssl db gmake expat gettext courier-unicode courier-authlib courier-imap"
+APP_REQUIREMENTS="pkgconf libiconv perl pcre libtool openssl db gmake expat gettext courier-unicode courier-authlib m4 autoconf automake courier-imap"
 APP_CONFIGURE_ARGS="--enable-mimetypes=/etc/mime.types --disable-silent-rules --disable-root-check --enable-syslog=1 --enable-use-flock --enable-unicode --enable-workarounds-for-imap-client-bugs --enable-mimecharset=UTF-8 --without-ipv6 --without-ispell --with-db=db --cache-file=${DATA_DIR}courier.cache --sysconfdir=${DATA_DIR}etc --localstatedir=${DATA_DIR}var --with-certsdir=/etc/ssl --with-etcdir=${DATA_DIR}etc" # NOTE: this mime.types file exists in ServeD system by default, same with /etc/ssl
 APP_INSTALL_METHOD="make install && make install-configure"
 APP_EXPORTS="courier-config courierauthconfig couriermlm couriertls deliverquota mailbot maildiracl maildirkw maildirmake maildrop makemime pop3d aliaslookup courier esmtpd imapd-ssl makepercentrelay mkesmtpdcert pop3login showmodules webmaild authdaemond courieresmtpd esmtpd-msa imaplogin makesmtpaccess mkimapdcert pw2userdb userdb authenumerate courierfilter esmtpd-ssl makeacceptmailfor makesmtpaccess-msa mkpop3dcert sharedindexinstall userdb-test-cram-md5 authpasswd courierlogger filterctl makealiases makeuserdb pop3d  sharedindexsplit userdbpw authtest couriertcpd imapd makehosteddomains makeuucpneighbors pop3d-ssl showconfig webgpg courier-admin mailq"
