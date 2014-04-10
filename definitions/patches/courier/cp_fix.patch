@@ -5,7 +5,7 @@
 
  esmtpd.cnf: esmtpd.cnf.@ssllib@
 -	cp $< $@
-+	cp esmtpd.cnf.@ssllib@ $@
++	cp esmtpd.cnf.openssl $@
  	touch $@
 
  module_PROGRAMS=courieresmtp courieresmtpd addcr
