@@ -3,7 +3,7 @@ APP_NAME="nginx"
 APP_SHA="e13b5b23f9be908b69652b0c394a95e9029687e3"
 APP_VERSION="1.4.7"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="libiconv zlib pcre"
+APP_REQUIREMENTS="libiconv zlib pcre perl openssl"
 if [ "${SYSTEM_NAME}" != "Darwin" ]; then
     export ADDITION=" -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 fi
