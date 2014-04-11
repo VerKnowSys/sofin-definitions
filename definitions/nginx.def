@@ -7,6 +7,6 @@ APP_REQUIREMENTS="libiconv zlib pcre perl openssl"
 if [ "${SYSTEM_NAME}" != "Darwin" ]; then
     export ADDITION=" -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 fi
-APP_CONFIGURE_ARGS="--with-http_ssl_module --with-http_gzip_static_module --user=nobody --group=nogroup --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib${ADDITION}'"
+APP_CONFIGURE_ARGS="--with-poll_module --without-select_module --with-http_spdy_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module  --user=nobody --group=nogroup --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib${ADDITION}'" # --with-openssl=${PREFIX} --with-zlib=${PREFIX}
 APP_EXPORTS="nginx"
 APP_CONFLICTS_WITH="Passenger"
