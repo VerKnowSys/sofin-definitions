@@ -1,4 +1,3 @@
-DISABLE_ON="Darwin"
 APP_FULL_NAME="LibXML2 Library"
 APP_SHA="859dd535edbb851cc15b64740ee06551a7a17d40"
 APP_NAME="libxml2"
