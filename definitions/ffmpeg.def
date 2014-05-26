@@ -1,13 +1,12 @@
 DISABLE_ON="Linux"
 APP_FULL_NAME="FFMPEG"
-APP_SHA="e7a5b2d7f702c4e9ca69e23c6d3527f93de0d1bd"
+APP_SHA="8a4f282ccb5efbec31a9747d12c8d7b07c481f2e"
 APP_NAME="ffmpeg"
-APP_VERSION="2.1.1"
+APP_VERSION="2.2.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="gmake yasm"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
-    export FORCE_GNU_COMPILER="true"
+    export APP_COMPILER_ARGS="-mmacosx-version-min=10.7"
 fi
 APP_CONFIGURE_ARGS="--enable-shared --disable-ffplay --disable-devices"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}; true"
