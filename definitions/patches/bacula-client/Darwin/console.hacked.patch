@@ -1,0 +1,38 @@
+--- src/console/console.c.orig	2014-05-28 18:27:33.000000000 +0200
++++ src/console/console.c	2014-05-28 18:27:38.000000000 +0200
+@@ -44,7 +44,7 @@
+ 
+ /* Exported variables */
+ 
+-//extern int rl_catch_signals;
++extern int rl_catch_signals;
+ 
+ /* Imported functions */
+ int authenticate_director(JCR *jcr, DIRRES *director, CONRES *cons);
+@@ -637,7 +637,7 @@
+          cpl_item = cmd;
+          cpl_type = ITEM_HELP;
+          /* we don't want to append " " at the end */
+-         rl_completion_suppress_append=true;
++         //rl_completion_suppress_append=true;
+          matches = rl_completion_matches(text, cpl_generator);
+       }
+       free(s);
+@@ -847,7 +847,7 @@
+  */
+ 
+    if (history_truncate_file(histfile, 100) == 0) {
+-      ret = append_history(history_length, histfile);
++      //ret = append_history(history_length, histfile);
+    } else {
+       ret = write_history(histfile);
+    }
+@@ -864,7 +864,7 @@
+    using_history();
+    ret = read_history(histfile);
+    /* Tell the completer that we want a complete . */
+-   rl_completion_entry_function = dummy_completion_function;
++   //rl_completion_entry_function = dummy_completion_function;
+    rl_attempted_completion_function = readline_completion;
+    rl_filename_completion_desired = 0;
+    stifle_history(100);
