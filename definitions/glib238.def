@@ -8,7 +8,7 @@ APP_REQUIREMENTS="gmake zlib pcre pkgconf libffi gettext python-legacy libtool l
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     export APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
 fi
-APP_CONFIGURE_ARGS="--disable-dependency-tracking  --disable-fam --disable-gtk-doc --disable-gtk-doc-html --disable-dtrace --without-xml-catalog --with-pcre=internal --disable-largefile --disable-maintainer-mode --disable-silent-rules --disable-modular-tests --disable-libelf"
+APP_CONFIGURE_ARGS="--disable-dependency-tracking  --disable-fam --disable-gtk-doc --disable-gtk-doc-html --disable-dtrace --without-xml-catalog --with-pcre=internal --disable-largefile --disable-maintainer-mode --disable-silent-rules --disable-modular-tests --disable-libelf --enable-static"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_NO_CCACHE="YES"
