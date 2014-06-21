@@ -4,8 +4,11 @@ APP_NAME="flac"
 APP_VERSION="1.3.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="libiconv"
-APP_CONFIGURE_ARGS="--disable-xmms-plugin --with-ogg=${PREFIX} --with-libiconv-prefix=${PREFIX} --disable-doxygen-docs --disable-thorough-tests --disable-largefile --disable-static"
+APP_CONFIGURE_ARGS="--disable-xmms-plugin --with-ogg=${PREFIX} --with-libiconv-prefix=${PREFIX} --disable-doxygen-docs --disable-thorough-tests --disable-largefile"
 APP_EXPORTS="flac metaflac"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
   export FORCE_GNU_COMPILER="true"
+  export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-static"
+else
+  export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --disable-static"
 fi
