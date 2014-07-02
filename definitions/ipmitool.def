@@ -3,6 +3,5 @@ APP_SHA="16ff9c4e386ac26bee3de161bcaeb90c9bf8cca1"
 APP_NAME="ipmitool"
 APP_VERSION="1.8.14"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="bzip2 libiconv gmake libtool libgpg-error libgcrypt freeipmi"
+APP_REQUIREMENTS="bzip2 libiconv gmake libtool autoconf automake libgpg-error libgcrypt argp-standalone freeipmi"
 APP_CONFIGURE_ARGS="--enable-intf-lan --enable-intf-lanplus --enable-intf-free --disable-intf-imb --disable-intf-lipmi --disable-intf-bmc"
-
