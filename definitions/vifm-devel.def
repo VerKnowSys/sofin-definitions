@@ -7,9 +7,9 @@ APP_CONFIGURE_ARGS="--disable-desktop-files --without-X11 --without-gtk --enable
 APP_EXPORTS="vifm vifm-pause vifmrc-converter"
 APP_MAKE_METHOD="${PREFIX}/bin/gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="${PREFIX}/bin/gmake -s ${MAKE_OPTS} install; true"
-APP_HTTP_PATH="https://github.com/ksteen/vifm.git"
+APP_HTTP_PATH="https://github.com/xaizek/vifm.git"
 APP_GIT_MODE="true"
-APP_GIT_CHECKOUT="v0.7.6-beta"
+APP_GIT_CHECKOUT="master"
 APP_AFTER_INSTALL_CALLBACK="update_vifm_default_config"
 APP_CONFLICTS_WITH="vifm"
 
