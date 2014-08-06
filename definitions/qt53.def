@@ -4,11 +4,11 @@ APP_NAME="qt53"
 APP_SHA="3244dd34f5fb695e903eaa49c6bd0838b9bf7a73"
 APP_VERSION="5.3.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qt-everywhere-opensource-src-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="-prefix ${PREFIX} -c++11 -opensource -confirm-license -release -shared -no-cups -no-sql-sqlite -no-xcb -verbose -nomake examples -nomake tests -L${PREFIX}/lib"
+APP_CONFIGURE_ARGS="-prefix ${PREFIX} -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -no-xcb -nomake examples -nomake demos -nomake docs -nomake translations -nomake tests -L${PREFIX}/lib"
 APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 APP_REQUIREMENTS="pkgconf"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export APP_COMPILER_ARGS="-mmacosx-version-min=10.7"
+    export APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
     export APP_AFTER_INSTALL_CALLBACK="makeSymlinks"
 
     makeSymlinks () {
