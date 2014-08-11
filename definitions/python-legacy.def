@@ -1,9 +1,9 @@
 . ${DEFINITIONS_DIR}python.def
 
 APP_FULL_NAME="Python 2"
-APP_SHA="842c4e2aff3f016feea3c6e992c7fa96e49c9aa0"
+APP_SHA="511960dd78451a06c9df76509635aeec05b2051a"
 APP_POSTFIX="-legacy"
-APP_VERSION="2.7.3"
+APP_VERSION="2.7.8"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_PIP_INSTALLER_PATH="https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
 APP_ST_EGG_NAME="setuptools-0.6c11-py2.7.egg"
