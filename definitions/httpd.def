@@ -1,0 +1,8 @@
+APP_FULL_NAME="Apache Httpd server"
+APP_NAME="httpd"
+APP_SHA="00f5c3f8274139bd6160eda2cf514fa9b74549e5"
+APP_VERSION="2.4.10"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_REQUIREMENTS="libiconv zlib pcre perl openssl libxml2 apr apr-util"
+APP_CONFIGURE_ARGS="--enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=60443 --with-port=60080"
+APP_EXPORTS="httpd htpasswd apachectl ab htcacheclean fcgistarter"
