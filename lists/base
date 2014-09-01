@@ -1,7 +1,5 @@
-clang
 ccache
 curl
-zeromq
 git
 nginx
 mercurial
@@ -9,9 +7,8 @@ most
 subversion
 zsh
 vim
-vifm
+vifm-devel
 pstree
-pkgconf
 tig
 tmux
 thess
