@@ -1,7 +1,7 @@
 APP_FULL_NAME="Nginx Standalone"
 APP_NAME="nginx"
-APP_SHA="e58c865f67b580541ed4eadf69d1676762bf50ab"
-APP_VERSION="1.6.1"
+APP_SHA="1a5458bc15acf90eea16353a1dd17285cf97ec35"
+APP_VERSION="1.6.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="libiconv zlib pcre perl openssl"
 if [ "${SYSTEM_NAME}" != "Darwin" ]; then
