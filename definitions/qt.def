@@ -3,6 +3,8 @@ APP_NAME="qt"
 APP_SHA="ddf9c20ca8309a116e0466c42984238009525da6"
 APP_VERSION="4.8.6"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-everywhere-opensource-src-${APP_VERSION}.tar.gz"
+# NOTE: on freeBSD 10, configure script is pretty fucking dumb, hence hack is required:
+# NOTE: ln -s /usr/bin/clang++ /usr/bin/g++
 APP_CONFIGURE_ARGS="-prefix ${PREFIX} -release -opensource -confirm-license -shared -no-largefile -no-accessibility -stl -no-qt3support -no-xmlpatterns -no-multimedia -no-audio-backend -no-phonon -no-phonon-backend -webkit -no-script -no-javascript-jit -no-scripttools -no-declarative -no-declarative-debug -qt-zlib -no-libtiff -no-libpng -no-libmng -no-libjpeg -openssl -optimized-qmake -no-cups -no-iconv -no-pch -no-dbus -no-nas-sound -no-gtkstyle -no-opengl -no-openvg -no-sm -no-xsync -no-xshape -no-xinerama -no-xcursor -no-xfixes -no-xrandr -no-xrender -no-mitshm -no-fontconfig -no-xinput -no-xkb -exceptions -no-gui -fast -verbose -silent -nomake examples -nomake demos -nomake docs -nomake translations -continue"
 APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc"
 APP_REQUIREMENTS="gmake"
