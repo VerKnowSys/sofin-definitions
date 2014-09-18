@@ -1,15 +1,10 @@
 ccache
-curl
 git
-nginx
-mercurial
 most
-subversion
 zsh
 vim
-vifm-devel
+vifm
 pstree
 tig
 tmux
-thess
 qt
