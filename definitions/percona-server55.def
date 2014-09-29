@@ -4,7 +4,7 @@ APP_NAME="percona-server"
 APP_VERSION="5.5.39-36.0"
 APP_POSTFIX="55"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake3 ncurses"
+APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake ncurses"
 case "${SYSTEM_NAME}" in
     Darwin)
         export APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
