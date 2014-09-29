@@ -1,0 +1,17 @@
+APP_FULL_NAME="Percona Server 5.5"
+APP_SHA="3b9191aacd3181e99dd7d0be705239e226aa8694"
+APP_NAME="percona-server"
+APP_VERSION="5.5.39-36.0"
+APP_POSTFIX="55"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake3 ncurses"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        export APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
+        ;;
+esac
+
+APP_CONFIGURE_SCRIPT="cmake"
+#APP_AFTER_INSTALL_CALLBACK="cd ${PREFIX} && ${PREFIX}/bin/perl scripts/mysql_install_db"
+APP_EXPORTS="mysql mysql_config mysqld mysqld_multi mysqld_safe mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db"
+APP_CONFLICTS_WITH="Mysql51 Mysql"
