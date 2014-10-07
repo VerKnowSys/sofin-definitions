@@ -12,7 +12,7 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     export APP_AFTER_INSTALL_CALLBACK="makeSymlinks"
 
     makeSymlinks () {
-        for lib in QtCore QtGui QtMacExtras QtWidgets; do
+        for lib in QtCore QtGui QtMacExtras QtWidgets QtOpenGL; do
             ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
         done
     }
