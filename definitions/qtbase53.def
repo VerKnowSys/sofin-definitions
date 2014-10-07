@@ -1,4 +1,3 @@
-DISABLE_ON="Darwin"
 APP_FULL_NAME="Qt 5.3 Base Library"
 APP_NAME="qtbase53"
 APP_SHA="faf4f33aa7e8dabcdcdf5f10824263beebbccd96"
