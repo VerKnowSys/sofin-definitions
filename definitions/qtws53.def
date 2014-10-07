@@ -7,3 +7,4 @@ APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qd
 APP_REQUIREMENTS="pkgconf qtbase53"
 APP_CONFIGURE_SCRIPT="no-conf"
 APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtwebsockets.pro"
+APP_CONFLICTS_WITH="Qt Qt53 Qtbase53"
