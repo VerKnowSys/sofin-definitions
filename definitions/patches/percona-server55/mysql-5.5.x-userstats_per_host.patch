@@ -1,0 +1,29 @@
+--- a/sql/sql_connect.cc	2014-03-25 14:10:46.000000000 +0100
++++ b/sql/sql_connect.cc	2014-04-25 10:39:13.000000000 +0200
+@@ -477,10 +477,12 @@
+ */
+ static int increment_connection_count(THD* thd, bool use_lock)
+ {
+-  char* user_string=         get_valid_user_string(thd->main_security_ctx.user);
++  char user_string[max(USERNAME_LENGTH, LIST_PROCESS_HOST_LEN) + 1];
+   const char* client_string= get_client_host(thd);
+   int return_value=          0;
+ 
++  strxnmov(user_string, max(USERNAME_LENGTH, LIST_PROCESS_HOST_LEN) + 1, get_valid_user_string(thd->security_ctx->priv_user), "@", thd->security_ctx->priv_host, NullS);
++
+   if (acl_is_utility_user(thd->security_ctx->user,
+                           thd->security_ctx->get_host()->ptr(),
+                           thd->security_ctx->get_ip()->ptr()))
+@@ -571,9 +573,11 @@
+ // Updates the global stats of a user or client
+ void update_global_user_stats(THD* thd, bool create_user, time_t now)
+ {
+-  char* user_string=         get_valid_user_string(thd->main_security_ctx.user);
++  char user_string[max(USERNAME_LENGTH, LIST_PROCESS_HOST_LEN) + 1];
+   const char* client_string= get_client_host(thd);
+ 
++  strxnmov(user_string, max(USERNAME_LENGTH, LIST_PROCESS_HOST_LEN) + 1, get_valid_user_string(thd->security_ctx->priv_user), "@", thd->security_ctx->priv_host, NullS);
++
+   USER_STATS* user_stats;
+   THREAD_STATS* thread_stats;
+ 
