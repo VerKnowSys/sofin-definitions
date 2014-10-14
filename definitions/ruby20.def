@@ -1,10 +1,10 @@
 . ${DEFINITIONS_DIR}ruby.def
 
 APP_FULL_NAME="Ruby YARV 2.0"
-APP_SHA="dded7b7349d59feb83d4f774b2ddec23eeab7978"
+APP_SHA="5bf54cbcc6c19729f85110d165eb90c702289662"
 APP_NAME="ruby"
 APP_POSTFIX="20"
-APP_VERSION="2.0.0-p481"
+APP_VERSION="2.0.0-p576"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CURRENT_VERSION="$(${CURL_BIN} -L http://www.ruby-lang.org/en/downloads/ 2>/dev/null | ${AWK_BIN} '/pub\/ruby\/2.0/ {gsub(/ *<[^>]+> */, ""); print $2}')"
 APP_CONFLICTS_WITH="Rubinius Jruby Ruby-legacy Ruby-minimal Passenger Ruby Ruby18 Ruby19"
