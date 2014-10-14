@@ -13,7 +13,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Linux)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-shared"
+        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-shared --with-gcc=/usr/bin/gcc"
 
   ;;
 esac
