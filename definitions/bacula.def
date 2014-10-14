@@ -1,3 +1,4 @@
+DISABLE_ON="Linux"
 APP_FULL_NAME="Bacula backup system"
 APP_NAME="bacula"
 APP_SHA="3c4b2430960daf2607e824f0c0641f65023e43ce"
