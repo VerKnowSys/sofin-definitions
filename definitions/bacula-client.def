@@ -2,6 +2,7 @@
 
 APP_FULL_NAME="Bacula backup system client"
 APP_POSTFIX="-client"
+APP_REQUIREMENTS="gmake zlib libiconv"
 APP_CONFIGURE_ARGS="--enable-smartalloc --disable-nls --with-openssl=${PREFIX} --disable-conio --with-scriptdir=${PREFIX}/share/${APP_NAME} --enable-batch-insert --with-plugindir=${PREFIX}/lib --with-sbin-perm=755 --with-baseport=9101 --with-sd-group=operator --disable-libtool --enable-client-only DEBUG="
 APP_EXPORTS="bacula bacula-fd bconsole btraceback"
 
