@@ -8,6 +8,9 @@ case "${SYSTEM_NAME}" in
     Darwin)
         export APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
         ;;
+    Linux)
+        export APP_CONFIGURE_ARGS=" -DENABLE_DTRACE=OFF"
+        ;;
 esac
 
 APP_CONFIGURE_SCRIPT="cmake"
