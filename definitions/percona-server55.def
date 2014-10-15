@@ -12,6 +12,9 @@ case "${SYSTEM_NAME}" in
     Linux)
         export APP_CONFIGURE_ARGS=" -DENABLE_DTRACE=OFF"
         ;;
+    FreeBSD)
+        export APP_CONFIGURE_ARGS=" -DENABLE_DTRACE=OFF"
+        ;;
 esac
 
 APP_CONFIGURE_SCRIPT="cmake"
