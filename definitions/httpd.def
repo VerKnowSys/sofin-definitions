@@ -4,6 +4,17 @@ APP_SHA="00f5c3f8274139bd6160eda2cf514fa9b74549e5"
 APP_VERSION="2.4.10"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="libiconv zlib pcre perl openssl libxml2 apr apr-util"
-APP_CONFIGURE_ARGS="--with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-proxy-balancer --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook"
+APP_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-proxy-balancer --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook"
 APP_EXPORTS="httpd htpasswd apachectl ab htcacheclean fcgistarter"
 APP_CONFLICTS_WITH="Nginx"
+APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
+
+build_addons_and_extensions () {
+    base_dir="${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}/"
+    MOD_NAME="mod_limitipconn"
+    MOD_VERSION="0.24"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2"
+    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.bz2"
+    cd "${MOD_NAME}-${MOD_VERSION}"
+    PATH=${PREFIX}/bin:/bin:/usr/bin make install
+}
