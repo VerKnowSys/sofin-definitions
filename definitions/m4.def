@@ -1,4 +1,4 @@
-DISABLE_ON="Darwin FreeBSD"
+DISABLE_ON="Darwin"
 APP_SHA="74ad71fa100ec8c13bc715082757eb9ab1e4bbb0"
 APP_FULL_NAME="GNU M4 Library"
 APP_NAME="m4"
