@@ -11,6 +11,6 @@ APP_EXPORTS="php php-fpm php-config phpize pecl"
 # install Imagemagick extension
 APP_AFTER_INSTALL_CALLBACK="PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick"
 
-# HACK: Required to detect freetds (dob't blame me, blame Php/TDS guys)
+# HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
 APP_AFTER_UNPACK_CALLBACK="${MKDIR_BIN} -p ${PREFIX}/Software ; ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true"
 APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
