@@ -3,13 +3,14 @@ APP_SHA="3c999036d4e55ae5b701490ca938d0bed12e6bdd"
 APP_NAME="php"
 APP_VERSION="5.6.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib:/lib LDFLAGS=-L${PREFIX}/lib:/usr/lib:/lib CC=/usr/bin/clang CXX=/usr/bin/clang++ ./configure"
-APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zend-multibyte --enable-zip --enable-mysqlnd --without-apache --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-xml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX}"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-  export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-iconv"
-  export APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib:/lib LDFLAGS=-L${PREFIX}/lib:/usr/lib:/lib CC=/usr/bin/gcc CXX=/usr/bin/g++ ./configure"
-else
-  export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-iconv-dir=${PREFIX}"
-fi
-APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 bison flex postgresql libxml2 pcre libexif libpng jpeg freetype fontconfig gd expat cmake ncurses mysql icu libmcrypt openssl"
-APP_EXPORTS="php php-fpm php-config phpize"
+APP_CONFIGURE_SCRIPT="./configure"
+APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --without-apache --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-xml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-mssql=${PREFIX} --with-imap-ssl --with-xmlrpc --with-kerberos --with-apxs2=${PREFIX}/bin/apxs --with-iconv"
+APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex postgresql libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt openssl curl gmp freetype fontconfig libiconv jpeg libpng tiff jasper imagemagick freetds apr apr-util httpd"
+APP_EXPORTS="php php-fpm php-config phpize pecl"
+
+# install Imagemagick extension
+APP_AFTER_INSTALL_CALLBACK="PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick"
+
+# HACK: Required to detect freetds (dob't blame me, blame Php/TDS guys)
+APP_AFTER_UNPACK_CALLBACK="${MKDIR_BIN} -p ${PREFIX}/Software ; ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true"
+APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
