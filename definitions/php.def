@@ -9,8 +9,30 @@ APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bis
 APP_EXPORTS="php php-fpm php-config phpize pecl"
 
 # install Imagemagick extension
-APP_AFTER_INSTALL_CALLBACK="PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick"
+APP_AFTER_INSTALL_CALLBACK="install_after"
 
 # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
 APP_AFTER_UNPACK_CALLBACK="${MKDIR_BIN} -p ${PREFIX}/Software ; ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true"
 APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
+
+
+install_imagick () {
+    PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick
+}
+
+install_mod_security () {
+    MOD_NAME="modsecurity"
+    MOD_VERSION="2.8.0"
+    TARBALL=".tar.gz"
+    MOD="${MOD_NAME}-${MOD_VERSION}"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD}${TARBALL}"
+    ${TAR_BIN} xf "${MOD}${TARBALL}"
+    cd "${MOD}"
+    ./configure --prefix=${PREFIX} --with-apxs=${PREFIX}/bin/apxs --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-libxml=${PREFIX} --with-curl=${PREFIX} --with-apu=${PREFIX}
+    make install
+}
+
+install_after () {
+    install_imagick
+    install_mod_security
+}
