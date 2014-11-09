@@ -10,7 +10,6 @@ APP_MAKE_METHOD="bin/build && ${MKDIR_BIN} -p ${PREFIX}"
 APP_INSTALL_METHOD="install_thess_fun"
 APP_AFTER_EXPORT_CALLBACK="igniters_install"
 APP_EXPORTS="svdpanel svdshell svdss svddw ignitersinstall svdirc_notify svddeployer svdply svdcoreginx_helper ttys_updater svdadduser"
-APP_CONFLICTS_WITH="Thess"
 
 install_thess_fun () {
     if [ "${SYSTEM_NAME}" = "Linux" ]; then
