@@ -1,6 +1,6 @@
 # DISABLE_ON="Darwin"
 APP_FULL_NAME="GNU binutils"
-APP_ORIGIN="https://www.gnu.org/software/binutils/"
+APP_ORIGIN="http://ftp.gnu.org/gnu/binutils/"
 APP_SHA="c3fb8bab921678b3e40a14e648c89d24b1d6efec"
 APP_NAME="binutils"
 APP_VERSION="2.23.2"
