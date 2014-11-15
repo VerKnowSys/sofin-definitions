@@ -7,3 +7,25 @@ APP_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-licens
 APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 APP_REQUIREMENTS="pkgconf"
 APP_CONFLICTS_WITH="Qt Qt53 Qtws53"
+
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    hack_gcc_and_clang_for_qt_if_root_on_fbsd () {
+        if [ "$(/bin/realpath /usr/bin/gcc)" != "/usr/bin/clang" ]; then
+            ${RM_BIN} -f /tmp/gcc.tmp /tmp/g++.tmp
+            ${MV_BIN} -v /usr/bin/gcc /tmp/gcc.tmp
+            ${MV_BIN} -v /usr/bin/g++ /tmp/g++.tmp
+            ${LN_BIN} -s /usr/bin/clang /usr/bin/gcc
+            ${LN_BIN} -s /usr/bin/clang++ /usr/bin/g++
+        fi
+    }
+
+    unhack_gcc_and_clang_for_qt_if_root_on_fbsd () {
+        if [ "$(/bin/realpath /usr/bin/gcc)" = "/usr/bin/clang" ]; then
+            ${RM_BIN} -v /usr/bin/gcc /usr/bin/g++
+            ${MV_BIN} -v /tmp/gcc.tmp /usr/bin/gcc
+            ${MV_BIN} -v /tmp/g++.tmp /usr/bin/g++
+        fi
+    }
+    APP_AFTER_UNPACK_CALLBACK="hack_gcc_and_clang_for_qt_if_root_on_fbsd"
+    APP_AFTER_INSTALL_CALLBACK="unhack_gcc_and_clang_for_qt_if_root_on_fbsd"
+fi
