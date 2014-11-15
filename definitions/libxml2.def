@@ -1,4 +1,3 @@
-DISABLE_ON="Darwin"
 APP_FULL_NAME="LibXML2 Library"
 APP_SHA="f46a37ea6d869f702e03f393c376760f3cbee673"
 APP_NAME="libxml2"
@@ -6,3 +5,4 @@ APP_VERSION="2.9.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_EXPORTS="xml2-config xmlcatalog xmllint"
 APP_MAKE_METHOD="make -s"
+APP_INSTALL_METHOD="make install ; true" # HACK: xml2 team really wants to make a mess in your Darwin system, by doing install to: /Library/Python/2.7/site-packages/drv_libxml2.py . It's of course denied by definition
