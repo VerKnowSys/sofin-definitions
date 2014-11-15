@@ -1,14 +1,14 @@
 APP_FULL_NAME="MongoDB - NoSQL database"
 APP_NAME="mongodb"
-APP_SHA="3aa495cf32769a09ee9532827391892d96337d6b"
-APP_VERSION="2.4.9"
+APP_SHA="f5a68505a0de1152b534d62a8f0147d258d503a0"
+APP_VERSION="2.6.5"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-r${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="libiconv bzip2 python-legacy scons libexecinfo gmake nspr" # v8
+APP_REQUIREMENTS="libiconv bzip2 python-legacy scons libexecinfo gmake nspr"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="true"
 case "${SYSTEM_NAME}" in
     Darwin)
-        export APP_INSTALL_METHOD="scons ${MAKE_OPTS} --clang --cc='/usr/bin/clang -w' --cxx='/usr/bin/clang++ -w' --extrapath=${PREFIX} --64 --release --prefix=${PREFIX} install"
+        export APP_INSTALL_METHOD="scons ${MAKE_OPTS} --cc='/usr/bin/clang -w' --cxx='/usr/bin/clang++ -w' --extrapath=${PREFIX} --64 --release --prefix=${PREFIX} install"
         ;;
 
     *)
