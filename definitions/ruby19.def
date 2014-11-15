@@ -1,9 +1,9 @@
 . ${DEFINITIONS_DIR}ruby.def
 
 APP_FULL_NAME="Ruby YARV 1.9"
-APP_SHA="d4f1574a7fbcd402407b6c0ebf6ebea9c0c7d55a"
+APP_SHA="35600f4e2ac98653fa8a634104cb6ab3d47a1535"
 APP_POSTFIX="19"
-APP_VERSION="1.9.3-p550"
+APP_VERSION="1.9.3-p551"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 APP_CONFLICTS_WITH="Rubinius Jruby Ruby Ruby-minimal Passenger Ruby18 Ruby20"
