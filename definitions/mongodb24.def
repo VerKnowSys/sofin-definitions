@@ -1,0 +1,22 @@
+APP_FULL_NAME="MongoDB - NoSQL database"
+APP_NAME="mongodb"
+APP_POSTFIX="24"
+APP_SHA="3aa495cf32769a09ee9532827391892d96337d6b"
+APP_VERSION="2.4.9"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-r${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="libiconv bzip2 python-legacy scons libexecinfo gmake nspr" # v8
+APP_CONFIGURE_SCRIPT="ignore"
+APP_MAKE_METHOD="true"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        export APP_INSTALL_METHOD="scons ${MAKE_OPTS} --clang --cc='/usr/bin/clang -w' --cxx='/usr/bin/clang++ -w' --extrapath=${PREFIX} --64 --release --prefix=${PREFIX} install"
+        ;;
+
+    *)
+        # cannot be built with clang: https://groups.google.com/group/mongodb-user/browse_thread/thread/988eebe374e43624?hl=en&noredirect=true&pli=1
+        export APP_INSTALL_METHOD="scons ${MAKE_OPTS} --extrapath=${PREFIX} --64 --release --prefix=${PREFIX} install"
+        ;;
+
+esac
+
+APP_EXPORTS="mongo mongod mongos mongostat mongodump mongoexport mongoperf mongofiles mongotop mongooplog"
