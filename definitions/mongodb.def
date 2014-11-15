@@ -17,4 +17,10 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 APP_EXPORTS="mongo mongod mongos mongostat mongodump mongoexport mongoperf mongofiles mongotop mongooplog"
-APP_AFTER_INSTALL_CALLBACK="for binary in ${PREFIX}/bin/mongo*; do ${STRIP_BIN} \$binary; done" # NOTE: because Mongodb creators are pretty insane, each binary has more than 400MiB in size!!
+APP_AFTER_INSTALL_CALLBACK="strip_binaries" # NOTE: because Mongodb creators are pretty insane, each binary has more than 400MiB in size!!
+
+strip_binaries () {
+    for binary in ${PREFIX}/bin/mongo*; do
+        ${STRIP_BIN} -v $binary
+    done
+}
