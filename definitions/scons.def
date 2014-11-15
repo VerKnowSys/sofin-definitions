@@ -6,9 +6,10 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_INSTALL_METHOD="true"
 APP_EXPORTS="scons"
+SETUP="setup.py install --prefix=${PREFIX} --standalone-lib --no-version-script --no-install-man"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    APP_MAKE_METHOD="/usr/bin/python setup.py install --prefix=${PREFIX} --standalone-lib --no-version-script --no-install-man"
+    APP_MAKE_METHOD="/usr/bin/python ${SETUP}"
 else
     APP_REQUIREMENTS="python-legacy"
-    APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib ${PREFIX}/bin/python ./configure"
+    APP_MAKE_METHOD="${PREFIX}/bin/python ${SETUP}"
 fi
