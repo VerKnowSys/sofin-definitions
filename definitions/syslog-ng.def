@@ -1,3 +1,4 @@
+DISABLE_ON="Linux"
 APP_FULL_NAME="Syslog-ng"
 APP_NAME="syslog-ng"
 APP_SHA="be7e95696ed172db1d0f44904e173d25769daa93"
