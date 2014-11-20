@@ -1,6 +1,7 @@
 APP_FULL_NAME="PostgreSQL 9"
 APP_SHA="8b27e654b4c5cc3193a9ca87b48d58e20799526a"
 APP_NAME="postgresql"
+APP_POSTFIX="92"
 APP_VERSION="9.2.9"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-libedit-preferred --with-openssl --without-readline --enable-thread-safety"
@@ -15,6 +16,7 @@ APP_NO_CCACHE="YES"
 APP_ORIGIN="http://www.postgresql.org"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+APP_CONFLICTS_WITH="Postgresql"
 
 
 build_addons_and_extensions () {
