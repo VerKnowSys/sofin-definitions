@@ -1,0 +1,8 @@
+APP_FULL_NAME="Varnish cache"
+APP_SHA="af9a87a1e8536e895c1ebf0e09921a583dafe29a"
+APP_NAME="varnish"
+APP_VERSION="4.0.2"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_CONFIGURE_ARGS="--with-rst2man=true --with-rst2html=true --with-sysroot=${SOFTWARE_DATA_DIR}"
+APP_REQUIREMENTS="pkgconf ncurses pcre python-legacy"
+APP_EXPORTS="varnishd varnishstat varnishlog varnishadm varnishhist varnishncsa varnishtest varnishtop"
