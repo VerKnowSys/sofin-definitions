@@ -8,7 +8,7 @@ APP_EXPORTS="vifm vifm-pause vifmrc-converter"
 APP_MAKE_METHOD="${PREFIX}/bin/gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="${PREFIX}/bin/gmake -s ${MAKE_OPTS} install; true"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_AFTER_INSTALL_CALLBACK="update_vifm_default_config"
+APP_AFTER_EXPORT_CALLBACK="update_vifm_default_config"
 APP_CONFLICTS_WITH="vifm-devel"
 
 update_vifm_default_config () {
