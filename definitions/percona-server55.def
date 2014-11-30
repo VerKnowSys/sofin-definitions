@@ -5,15 +5,16 @@ APP_VERSION="5.5.40-36.1"
 APP_POSTFIX="55"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake ncurses"
+APP_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR}"
 case "${SYSTEM_NAME}" in
     Darwin)
         export APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
         ;;
     Linux)
-        export APP_CONFIGURE_ARGS=" -DENABLE_DTRACE=OFF"
+        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         ;;
     FreeBSD)
-        export APP_CONFIGURE_ARGS=" -DENABLE_DTRACE=OFF"
+        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         ;;
 esac
 
