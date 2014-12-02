@@ -21,8 +21,8 @@ build_limitipconn () {
 build_fcgid () {
     MOD_NAME="mod_fcgid"
     MOD_VERSION="2.3.9"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2"
-    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.bz2"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
+    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz"
     cd "${MOD_NAME}-${MOD_VERSION}"
     PATH=${PREFIX}/bin:/bin:/usr/bin make install
 }
