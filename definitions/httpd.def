@@ -36,8 +36,19 @@ build_useragent2 () {
     PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_auth_useragent2.c
 }
 
+build_security {
+    MOD_NAME="modsecurity"
+    MOD_VERSION="2.8.0"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
+    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz"
+    cd "${MOD_NAME}-${MOD_VERSION}"
+    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure
+    PATH=${PREFIX}/bin:/bin:/usr/bin make install
+}
+
 build_addons_and_extensions () {
     build_limitipconn
     build_fcgid
     build_useragent2
+    build_security
 }
