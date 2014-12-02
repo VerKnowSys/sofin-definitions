@@ -42,7 +42,7 @@ build_security () {
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
     ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz"
     cd "${MOD_NAME}-${MOD_VERSION}"
-    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure
+    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --with-apxs="${PREFIX}/bin/apxs" --with-apr="${PREFIX}" --with-apu="${PREFIX}"
     PATH=${PREFIX}/bin:/bin:/usr/bin make install
 }
 
