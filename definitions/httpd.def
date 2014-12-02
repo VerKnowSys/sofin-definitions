@@ -36,7 +36,7 @@ build_useragent2 () {
     PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_auth_useragent2.c
 }
 
-build_security {
+build_security () {
     MOD_NAME="modsecurity"
     MOD_VERSION="2.8.0"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
