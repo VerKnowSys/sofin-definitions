@@ -27,7 +27,17 @@ build_fcgid () {
     PATH=${PREFIX}/bin:/bin:/usr/bin make install
 }
 
+build_useragent2 () {
+    MOD_NAME="mod_auth_useragent2"
+    MOD_VERSION="0.9.1"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
+    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz"
+    cd "${MOD_NAME}-${MOD_VERSION}"
+    PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_auth_useragent2.c
+}
+
 build_addons_and_extensions () {
     build_limitipconn
     build_fcgid
+    build_useragent2
 }
