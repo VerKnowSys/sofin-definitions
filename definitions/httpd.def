@@ -9,12 +9,25 @@ APP_EXPORTS="httpd htpasswd apachectl ab htcacheclean fcgistarter"
 APP_CONFLICTS_WITH="Nginx"
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
 
-build_addons_and_extensions () {
-    base_dir="${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}/"
+build_limitipconn () {
     MOD_NAME="mod_limitipconn"
     MOD_VERSION="0.24"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2"
     ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.bz2"
     cd "${MOD_NAME}-${MOD_VERSION}"
     PATH=${PREFIX}/bin:/bin:/usr/bin make install
+}
+
+build_fcgid () {
+    MOD_NAME="mod_fcgid"
+    MOD_VERSION="2.3.9"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2"
+    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.bz2"
+    cd "${MOD_NAME}-${MOD_VERSION}"
+    PATH=${PREFIX}/bin:/bin:/usr/bin make install
+}
+
+build_addons_and_extensions () {
+    build_limitipconn
+    build_fcgid
 }
