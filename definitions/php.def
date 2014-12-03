@@ -8,8 +8,8 @@ APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP 
 APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex postgresql libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt openssl curl gmp tiff jasper imagemagick freetds apr apr-util httpd"
 APP_EXPORTS="php php-fpm php-config phpize pecl"
 
-# install Imagemagick extension
-APP_AFTER_INSTALL_CALLBACK="install_after"
+# install extensions
+APP_AFTER_INSTALL_CALLBACK="install_extensions"
 
 # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
 APP_AFTER_UNPACK_CALLBACK="${MKDIR_BIN} -p ${PREFIX}/Software ; ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true"
@@ -18,21 +18,24 @@ APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
 
 install_imagick () {
     PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick
+    test "$?" = "0" || error "Error building imagick"
 }
 
-install_mod_security () {
-    MOD_NAME="modsecurity"
-    MOD_VERSION="2.8.0"
-    TARBALL=".tar.gz"
-    MOD="${MOD_NAME}-${MOD_VERSION}"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD}${TARBALL}"
-    ${TAR_BIN} xf "${MOD}${TARBALL}"
-    cd "${MOD}"
-    ./configure --prefix=${PREFIX} --with-apxs=${PREFIX}/bin/apxs --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-libxml=${PREFIX} --with-curl=${PREFIX} --with-apu=${PREFIX}
-    make install
+install_rar () {
+    PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install rar
+    test "$?" = "0" || error "Error building rar"
 }
 
-install_after () {
+install_phalcon () {
+    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git
+    cd cphalcon/build
+    PATH=${PREFIX}/bin:$PATH ./install
+    test "$?" = "0" || error "Error building cphalcon"
+}
+
+install_extensions () {
     install_imagick
-    install_mod_security
+    install_rar
+    install_phalcon
+    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug-zts-*/* ${PREFIX}/lib/php/extensions
 }
