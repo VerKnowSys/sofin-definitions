@@ -1,11 +1,11 @@
 APP_FULL_NAME="PHP"
-APP_SHA="3c999036d4e55ae5b701490ca938d0bed12e6bdd"
+APP_SHA="05cb83b781b5a1259ee7ba4eda4b6fa48a58ffec"
 APP_NAME="php"
-APP_VERSION="5.6.2"
+APP_VERSION="5.6.3"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_SCRIPT="./configure"
-APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --without-apache --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-xml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-mssql=${PREFIX} --with-imap-ssl --with-xmlrpc --with-kerberos --with-apxs2=${PREFIX}/bin/apxs --with-iconv"
-APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex postgresql libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt openssl curl gmp tiff jasper imagemagick freetds apr apr-util httpd"
+APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --without-apache --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-xml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-mssql=${PREFIX} --with-imap-ssl --with-xmlrpc --with-kerberos --with-iconv --disable-maintainer-zts --enable-cgi --disable-roxen-zts"
+APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex postgresql libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt openssl curl gmp tiff jasper imagemagick freetds"
 APP_EXPORTS="php php-fpm php-config phpize pecl"
 
 # install extensions
@@ -37,5 +37,5 @@ install_extensions () {
     install_imagick
     install_rar
     install_phalcon
-    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug-zts-*/* ${PREFIX}/lib/php/extensions
+    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
 }
