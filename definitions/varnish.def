@@ -7,3 +7,4 @@ APP_CONFIGURE_ARGS="--with-rst2man=true --with-rst2html=true --with-sysroot=${SO
 APP_REQUIREMENTS="pkgconf ncurses pcre python-legacy libexecinfo"
 APP_EXPORTS="varnishd varnishstat varnishlog varnishadm varnishhist varnishncsa varnishtest varnishtop"
 APP_COMPILER_ARGS="-w"
+APP_NO_CCACHE="true"
