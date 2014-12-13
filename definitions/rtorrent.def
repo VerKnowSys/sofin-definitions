@@ -1,4 +1,4 @@
-DISABLE_ON="Linux"
+DISABLE_ON="Linux FreeBSD"
 APP_FULL_NAME="RTorrent"
 APP_NAME="rtorrent"
 APP_SHA="e997822e9b0d53cf8ecfb6b836e380065890e10d"

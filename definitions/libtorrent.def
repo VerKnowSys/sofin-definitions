@@ -1,3 +1,4 @@
+DISABLE_ON="Linux FreeBSD"
 APP_FULL_NAME="Torrent library"
 APP_NAME="libtorrent"
 APP_SHA="3a3ca87054d020bc376abe2c1ea15bbbaef31131"
