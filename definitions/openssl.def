@@ -14,3 +14,5 @@ APP_NO_CCACHE="true"
 APP_EXPORTS="openssl"
 APP_MAKE_METHOD="make -s"
 APP_INSTALL_METHOD="make -s install"
+# install default cert from curl.haxx.se site
+APP_AFTER_INSTALL_CALLBACK="cd ${PREFIX}/ssl && ${FETCH_BIN} http://curl.haxx.se/ca/cacert.pem && mv cacert.pem cert.pem"
