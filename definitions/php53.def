@@ -6,7 +6,7 @@ APP_NAME="php"
 APP_VERSION="5.3.29"
 APP_POSTFIX="53"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --without-openssl --disable-fpm --enable-cli --enable-cgi --without-apxs2"
+APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --enable-cli --enable-cgi --without-apxs2"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     # on the fly patch for stdc++
