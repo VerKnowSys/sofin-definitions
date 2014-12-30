@@ -1,0 +1,6 @@
+APP_FULL_NAME="OpenLDAP client"
+APP_SHA="0cfac3b024b99de2e2456cc7254481b6644e0b96"
+APP_NAME="openldap"
+APP_VERSION="2.4.40"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
+APP_CONFIGURE_ARGS="--enable-ipv6 --enable-dynamic --with-tls=openssl --without-cyrus-sasl --disable-slapd"
