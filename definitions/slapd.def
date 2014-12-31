@@ -1,0 +1,15 @@
+DISABLE_ON="Darwin Linux"
+APP_FULL_NAME="OpenLDAP server"
+APP_SHA="0cfac3b024b99de2e2456cc7254481b6644e0b96"
+APP_NAME="slapd"
+APP_VERSION="2.4.40"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}openldap-${APP_VERSION}.tgz"
+APP_CONFIGURE_ARGS="--enable-dynamic --with-tls=openssl --enable-overlays=mod --enable-modules --enable-slapd --enable-sock --with-fetch --with-threads=posix --with-mp=gmp --disable-dependency-tracking --enable-hdb=yes --enable-bdb=yes --disable-mdb --datadir=${SOFTWARE_DATA_DIR} --datarootdir=${SOFTWARE_DATA_DIR} --sysconfdir=${SOFTWARE_DATA_DIR}"
+APP_REQUIREMENTS="libtool gmp db"
+APP_EXPORTS="slapd ldapadd ldapcompare ldapdelete ldapexop ldapmodify ldapmodrdn ldappasswd ldapsearch ldapurl ldapwhoami slapacl slapadd slapauth slapcat slapdn slapindex slappasswd slapschema slaptest"
+
+patch_configure () {
+    # HACK: db dependency seems to be completely fine, but configure script insists to say it's broken:
+    ${SED_BIN} -i '' -e 's#if test $ol_cv_bdb_compat != yes ; then#if test $ol_cv_bdb_compat != no ; then#g' ./configure
+}
+APP_AFTER_UNPACK_CALLBACK="patch_configure"
