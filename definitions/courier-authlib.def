@@ -6,3 +6,11 @@ APP_NAME="courier-authlib"
 APP_VERSION="0.66.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_ARGS="--without-authpam --without-authldap --without-authpwd --without-authshadow --without-stdheaderdir --sysconfdir=${DATA_DIR}etc --localstatedir=${DATA_DIR}var"
+
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    patch_makefile () {
+        ${SED_BIN} -i 's#@REPOSITORY@#dev#g' Makefile
+        ${SED_BIN} -i 's#http://github.com/VerKnowSys/sofin-definitions.git#dev#g' Makefile
+    }
+    APP_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+fi
