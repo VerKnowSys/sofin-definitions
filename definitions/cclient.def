@@ -1,0 +1,20 @@
+APP_FULL_NAME="Cclient Library"
+APP_SHA="7a82ebd5aae57a5dede96ac4923b63f850ff4fa7"
+APP_NAME="cclient"
+APP_VERSION="2007f"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_CONFIGURE_SCRIPT="ignore"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    a_sys="lnp"
+else
+    a_sys="bsf"
+fi
+APP_MAKE_METHOD="make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS=-fPIC"
+APP_INSTALL_METHOD="install_files"
+
+install_files () {
+    ${MKDIR_BIN} -p ${PREFIX}/include ${PREFIX}/lib
+    ${CP_BIN} c-client/c-client.a ${PREFIX}/lib/libc-client.a
+    ${CP_BIN} c-client/*.h ${PREFIX}/include
+    ${CP_BIN} src/c-client/*.h ${PREFIX}/include
+}
