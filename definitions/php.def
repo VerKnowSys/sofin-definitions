@@ -59,7 +59,7 @@ install_extensions () {
     install_rar
     if [ "${SYSTEM_NAME}" = "Linux" ]; then
         install_geoip
-        install_phalcon
+        # install_phalcon
     fi
     install_dbase
     install_pear_modules
