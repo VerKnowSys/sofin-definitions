@@ -1,4 +1,5 @@
 APP_FULL_NAME="Elastic Search"
+APP_STANDALONE="true"
 APP_NAME="elasticsearch"
 APP_SHA="e52cd5e7cae2be85d7df65315ec7b91e2e84f83e"
 APP_VERSION="0.20.5"

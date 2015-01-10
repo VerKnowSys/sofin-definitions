@@ -1,4 +1,5 @@
 APP_FULL_NAME="Apache Httpd server"
+APP_STANDALONE="true"
 APP_NAME="httpd"
 APP_SHA="00f5c3f8274139bd6160eda2cf514fa9b74549e5"
 APP_VERSION="2.4.10"

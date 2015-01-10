@@ -1,4 +1,5 @@
 APP_FULL_NAME="Nginx Standalone"
+APP_STANDALONE="true"
 APP_NAME="nginx"
 APP_SHA="1a5458bc15acf90eea16353a1dd17285cf97ec35"
 APP_VERSION="1.6.2"

@@ -1,4 +1,5 @@
 APP_FULL_NAME="JBoss Application Server"
+APP_STANDALONE="true"
 APP_NAME="jboss"
 APP_SHA="fcec1002dce22d3281cc08d18d0ce72006868b6f"
 APP_VERSION="7.1.1"

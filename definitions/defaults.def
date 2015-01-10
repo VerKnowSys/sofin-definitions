@@ -30,3 +30,4 @@ APP_CONFLICTS_WITH="" # defines list of definitions which are in conflict with s
 REQUIRE_ROOT_ACCESS="" # set to true, to disallow definition to be built as non root users.
 APP_APPLE_BUNDLE="" # set to true, to enable .app bundling for default (first) export.
 APP_ORIGIN="" # app origin location, to gather newer software version if available
+APP_STANDALONE="false"

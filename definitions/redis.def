@@ -1,4 +1,5 @@
 APP_FULL_NAME="Redis data store"
+APP_STANDALONE="true"
 APP_SHA="913479f9d2a283bfaadd1444e17e7bab560e5d1e"
 APP_NAME="redis"
 APP_VERSION="2.8.17"

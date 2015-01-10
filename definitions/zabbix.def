@@ -1,4 +1,5 @@
 DISABLE_ON="Darwin"
+APP_STANDALONE="true"
 APP_FULL_NAME="Zabbix monitoring system"
 APP_NAME="zabbix"
 APP_SHA="627ed5196b81a1f4e36690695dfbcaa1803890e3"

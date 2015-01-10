@@ -1,4 +1,5 @@
 DISABLE_ON="Darwin"
+APP_STANDALONE="true"
 APP_FULL_NAME="ZNC - An advanced IRC Bouncer"
 APP_NAME="znc"
 APP_SHA="50e6e3aacb67cf0a63d77f5031d4b75264cee294"
