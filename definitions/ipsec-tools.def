@@ -4,7 +4,6 @@ APP_NAME="ipsec-tools"
 APP_SHA="7d92cae9fde59fb4f125636698c43b0a3df3d0f0"
 APP_VERSION="0.8.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-# m4 gmake flex perl autoconf libtool automake
 APP_REQUIREMENTS="libiconv"
 APP_CONFIGURE_ARGS="--enable-ipv6 --disable-adminport --enable-stats --enable-dpd --enable-natt=kernel --enable-security-context=kernel --enable-frag --enable-hybrid --without-libpam --disable-gssapi --sysconfdir=${SOFTWARE_DATA_DIR}/etc/racoon --localstatedir=${SOFTWARE_DATA_DIR}/var --with-libradius --without-libldap --with-openssl --with-libiconv"
 APP_AFTER_UNPACK_CALLBACK="unpack_callback"
