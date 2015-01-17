@@ -6,5 +6,10 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebsockets-opensource-src-${APP_VERSIO
 APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 APP_REQUIREMENTS="qtbase53"
 APP_CONFIGURE_SCRIPT="no-conf"
-APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtwebsockets.pro"
 APP_CONFLICTS_WITH="Qt Qt53 Qtbase53"
+
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake -spec freebsd-clang qtwebsockets.pro"
+else
+    APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtwebsockets.pro"
+fi
