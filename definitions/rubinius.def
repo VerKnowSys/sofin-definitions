@@ -9,6 +9,7 @@ APP_MAKE_METHOD="rake install"
 APP_INSTALL_METHOD="true"
 APP_NO_CCACHE="YES"
 APP_AFTER_UNPACK_CALLBACK="bundle install"
+APP_AFTER_INSTALL_CALLBACK="afterInstall"
 APP_CONFIGURE_ARGS="--release-build --preserve-prefix --with-rpath"
 case "${SYSTEM_NAME}" in
   FreeBSD)
@@ -16,3 +17,11 @@ case "${SYSTEM_NAME}" in
     ;;
 esac
 APP_CONFLICTS_WITH="Ruby Jruby Passenger Ruby18 Ruby19 Ruby20 Rubinius24"
+
+afterInstall () {
+    # remove old, unnecessary and unused stuff from base, fixing paths
+    ${RM_BIN} -rf ${PREFIX}/lib/ruby
+    ${MV_BIN} ${PREFIX}/gems/bin/* ${PREFIX}/bin/
+    ${RM_BIN} -rf ${PREFIX}/gems/bin
+    ${LN_BIN} -s ${PREFIX}/bin ${PREFIX}/gems/bin
+}
