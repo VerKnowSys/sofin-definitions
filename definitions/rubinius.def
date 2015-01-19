@@ -15,4 +15,4 @@ case "${SYSTEM_NAME}" in
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dtrace --with-execinfo"
     ;;
 esac
-APP_CONFLICTS_WITH="Ruby Jruby Ruby-legacy Ruby-minimal Passenger Ruby18 Ruby19 Ruby20"
+APP_CONFLICTS_WITH="Ruby Jruby Passenger Ruby18 Ruby19 Ruby20 Rubinius24"
