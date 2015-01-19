@@ -1,7 +1,7 @@
 APP_FULL_NAME="Rubinius Ruby VM"
-APP_SHA="8b6180954ef0078cc2ece46b49afc6db14f2b063"
+APP_SHA="a4d3342a99802415564d6331128b9771b347a4d9"
 APP_NAME="rubinius"
-APP_VERSION="2.4.1"
+APP_VERSION="2.5.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="zlib bzip2 libxml2 libiconv gmake python-legacy llvm libtool libgpg-error libgcrypt libxslt yaml sqlite perl m4 bison openssl ruby"
 APP_EXPORTS="ruby rbx gem irb ri rdoc erb rake bundle"
@@ -9,12 +9,10 @@ APP_MAKE_METHOD="rake install"
 APP_INSTALL_METHOD="true"
 APP_NO_CCACHE="YES"
 APP_AFTER_UNPACK_CALLBACK="bundle install"
+APP_CONFIGURE_ARGS="--release-build --preserve-prefix --with-rpath"
 case "${SYSTEM_NAME}" in
-  Darwin)
-    APP_CONFIGURE_ARGS="--preserve-prefix --with-rpath"
-    ;;
-  *)
-    APP_CONFIGURE_ARGS="--preserve-prefix --with-execinfo --with-rpath --with-dtrace"
+  FreeBSD)
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dtrace --with-execinfo"
     ;;
 esac
 APP_CONFLICTS_WITH="Ruby Jruby Ruby-legacy Ruby-minimal Passenger Ruby18 Ruby19 Ruby20"
