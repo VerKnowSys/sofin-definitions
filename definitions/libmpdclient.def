@@ -1,0 +1,6 @@
+APP_FULL_NAME="Music Player Daemon Client Library"
+APP_NAME="libmpdclient"
+APP_SHA="1a3557d4d1f78085db6285a8c8cb9085c300d9d3"
+APP_VERSION="2.9"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_CONFIGURE_ARGS="--disable-documentation"
