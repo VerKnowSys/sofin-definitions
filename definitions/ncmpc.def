@@ -1,0 +1,7 @@
+APP_FULL_NAME="Music Player Daemon Ncurses Client"
+APP_NAME="ncmpc"
+APP_SHA="4fe581299aa1b2efdce3018b734f6cfc283bea07"
+APP_VERSION="0.24"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_REQUIREMENTS="gmake zlib pcre pkgconf libffi gettext python-legacy libtool glib240"
+APP_EXPORTS="ncmpc"
