@@ -1,0 +1,31 @@
+DISABLE_ON="Darwin Linux"
+APP_FULL_NAME="Glassgow Haskell Compiler"
+APP_SHA="06b1d15aa87a5600165e6988c24fc186bf801f5e"
+APP_NAME="ghc"
+APP_VERSION="7.8.4"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}-src.tar.xz"
+APP_REQUIREMENTS="m4 gmp libiconv perl gmake python-legacy llvm autoconf libtool automake libffi"
+APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun"
+APP_CONFIGURE_SCRIPT="LDFLAGS= ./configure"
+APP_MAKE_METHOD="${PREFIX}/bin/perl ./boot && gmake"
+APP_INSTALL_METHOD="gmake install"
+APP_CONFIGURE_ARGS="--with-ld=/usr/bin/clang --with-clang=/usr/bin/clang --with-opt=${PREFIX} --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib --with-iconv-includes=${PREFIX}/include --with-iconv-libraries=${PREFIX}/lib --with-ghc=/Software/Ghc-bs/bin/ghc --with-ffi-includes=${PREFIX}/include --with-ffi-libraries=${PREFIX}/lib"
+APP_NO_CCACHE="YES"
+
+APP_AFTER_UNPACK_CALLBACK="prepare_build"
+prepare_build () {
+    # on *BSD set it on fast build machine (https://ghc.haskell.org/trac/ghc/wiki/Building/Troubleshooting#Makehasrestarteditself3timesisthereamakefilebug):
+    sysctl vfs.timestamp_precision=2
+
+    ${CP_BIN} mk/build.mk.sample mk/build.mk
+    ${SED_BIN} -i '' -e 's/#BuildFlavour = perf$/BuildFlavour = perf/' mk/build.mk
+
+    # Fix for issue with no support for "-finline-limit=2500" option:
+    ${SED_BIN} -i '' -e 's/rts\/sm\/Compact_CC_OPTS.*//' rts/ghc.mk
+
+    # executables and libraries are messed up after build and have no ability to see some of their prefix libraries,
+    # so we need to hack it by giving explicit LD_LIBRARY_PATH for all bin scripts..
+    ${SED_BIN} -i '' -e "s#exec \"\$executablename\"#LD_LIBRARY_PATH=\$topdir/.. exec \"\$executablename\"#" ${PREFIX}/bin/ghc-${APP_VERSION} ${PREFIX}/bin/ghc-pkg-${APP_VERSION} ${PREFIX}/bin/haddock-ghc-${APP_VERSION} ${PREFIX}/bin/runghc-${APP_VERSION}
+}
+
+test -x /Software/Ghc/bin/ghc || error "You have to use prebuilt version of Ghc-bs to build Ghc"
