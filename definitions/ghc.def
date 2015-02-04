@@ -11,6 +11,7 @@ APP_MAKE_METHOD="${PREFIX}/bin/perl ./boot && gmake"
 APP_INSTALL_METHOD="gmake install"
 APP_CONFIGURE_ARGS="--with-ld=/usr/bin/clang --with-clang=/usr/bin/clang --with-opt=${PREFIX} --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib --with-iconv-includes=${PREFIX}/include --with-iconv-libraries=${PREFIX}/lib --with-ghc=/Software/Ghc-bs/bin/ghc --with-ffi-includes=${PREFIX}/include --with-ffi-libraries=${PREFIX}/lib"
 APP_NO_CCACHE="YES"
+APP_CONFLICTS_WITH="Ghc-bs"
 
 APP_AFTER_UNPACK_CALLBACK="prepare_build"
 prepare_build () {

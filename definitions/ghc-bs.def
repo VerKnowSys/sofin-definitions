@@ -10,6 +10,7 @@ APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS} "
 APP_INSTALL_METHOD="true"
 APP_CONFIGURE_ARGS="--with-gcc=/Software/Gcc/exports/gcc --with-ld=/Software/Gcc/exports/ld --with-iconv-libraries=${PREFIX}/lib --with-iconv-includes=${PREFIX}/include --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib CFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib"
 APP_EXPORTS="ghc ghci ghc-pkg runghc runhaskell"
+APP_CONFLICTS_WITH="Ghc"
 
 APP_AFTER_UNPACK_CALLBACK="make_hacks_for_ghc"
 APP_AFTER_INSTALL_CALLBACK="unmake_hacks_for_ghc"
