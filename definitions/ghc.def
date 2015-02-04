@@ -29,4 +29,4 @@ prepare_build () {
     ${SED_BIN} -i '' -e "s#exec \"\$executablename\"#LD_LIBRARY_PATH=\$topdir/.. exec \"\$executablename\"#" ${PREFIX}/bin/ghc-${APP_VERSION} ${PREFIX}/bin/ghc-pkg-${APP_VERSION} ${PREFIX}/bin/haddock-ghc-${APP_VERSION} ${PREFIX}/bin/runghc-${APP_VERSION}
 }
 
-test -x /Software/Ghc/bin/ghc || error "You have to use prebuilt version of Ghc-bs to build Ghc"
+test -x /Software/Ghc-bs/bin/ghc || error "You have to use prebuilt version of Ghc-bs to build Ghc"
