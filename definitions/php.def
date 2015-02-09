@@ -64,8 +64,3 @@ install_extensions () {
     install_pear_modules
     ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
 }
-
-install_litespeed_sapi () {
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}php-litespeed-6.7.tgz
-    ${TAR_BIN} xf php-litespeed-6.7.tgz --directory sapi/
-}
