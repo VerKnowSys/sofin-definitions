@@ -1,41 +1,43 @@
-DISABLE_ON="Darwin Linux"
-APP_FULL_NAME="Glassgow Haskell Compiler FreeBSD x86_64 Bootstrap"
-APP_SHA="3507549290a8226febb1284a50c51a5f10261d94"
+APP_FULL_NAME="Glassgow Haskell Compiler - bootstrap build"
+APP_SHA="06b1d15aa87a5600165e6988c24fc186bf801f5e"
 APP_NAME="ghc"
-APP_VERSION="7.8.4"
 APP_POSTFIX="-bs"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}-x86_64-portbld-freebsd.tar.xz"
-APP_REQUIREMENTS="perl gmake"
-APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS} "
-APP_INSTALL_METHOD="true"
-APP_CONFIGURE_ARGS="--with-gcc=/Software/Gcc/exports/gcc --with-ld=/Software/Gcc/exports/ld --with-iconv-libraries=${PREFIX}/lib --with-iconv-includes=${PREFIX}/include --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib CFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib"
-APP_EXPORTS="ghc ghci ghc-pkg runghc runhaskell"
+APP_VERSION="7.8.4"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}-src.tar.xz"
+APP_REQUIREMENTS="m4 autoconf libtool automake gmp51 perl gmake python-legacy llvm"
+APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun haddock happy"
+APP_MAKE_METHOD="/usr/bin/perl ./boot && gmake -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="gmake install"
+APP_CONFIGURE_ARGS="--with-clang=/usr/bin/clang --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib --with-ghc=/Software/Ghc/bin/ghc"
+APP_NO_CCACHE="YES"
 APP_CONFLICTS_WITH="Ghc"
 
-APP_AFTER_UNPACK_CALLBACK="make_hacks_for_ghc"
-APP_AFTER_INSTALL_CALLBACK="unmake_hacks_for_ghc"
+APP_AFTER_UNPACK_CALLBACK="prepare_build"
+prepare_build () {
 
-make_hacks_for_ghc () {
-    ${FETCH_BIN} http://software.verknowsys.com/source/compat8x9x-2015-02.tar.xz
-    test -d /usr/local && error "/usr/local already exists. Move it temporarely to continue this hack-build."
-    # so the story is:
-    # for prebuilt port version of ghc has hardcoded /usr/local/lib for it's libraries.
-    # the thing is, that you can't use RPATH related (you can't specify -R or -Wl,...-rpath to linker)
-    # variables to Ghc configure script (for source release it .
-    ${MKDIR_BIN} -p /usr/local
-    ${TAR_BIN} xfJ compat8x9x-2015-02.tar.xz --directory /tmp/
-    ${MV_BIN} /tmp/compat8x9x/lib /usr/local/
-    ${MV_BIN} /tmp/compat8x9x/include /usr/local/
-    ${CP_BIN} -H /usr/local/lib/* ${PREFIX}/lib
-    ${CP_BIN} -H /usr/local/include/* ${PREFIX}/include
+    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+        # on *BSD set it on fast build machine (https://ghc.haskell.org/trac/ghc/wiki/Building/Troubleshooting#Makehasrestarteditself3timesisthereamakefilebug):
+        sysctl vfs.timestamp_precision=2
+        # Fix for issue with no support for "-finline-limit=2500" option:
+        ${SED_BIN} -i '' -e 's/rts\/sm\/Compact_CC_OPTS.*//' rts/ghc.mk
+    fi
+
+    ${CP_BIN} mk/build.mk.sample mk/build.mk
+    ${SED_BIN} -i '' -e 's/#BuildFlavour = perf$/BuildFlavour = perf/' mk/build.mk
 }
 
-unmake_hacks_for_ghc () {
-    ${RM_BIN} -rf /usr/local.off-$(date +%F)
-    ${MV_BIN} /usr/local /usr/local.off-$(date +%F)
-    ${RM_BIN} -rf /tmp/compat8x9x
-
-    # executables and libraries are fucked up after build, and have no ability to see their prefix libraries,
-    # so we need to hack it by giving explicit LD_LIBRARY_PATH for all bin scripts..
-    ${SED_BIN} -i '' -e "s#exec \"\$executablename\"#LD_LIBRARY_PATH=\$topdir/.. exec \"\$executablename\"#" ${PREFIX}/bin/ghc-${APP_VERSION} ${PREFIX}/bin/ghc-pkg-${APP_VERSION} ${PREFIX}/bin/haddock-ghc-${APP_VERSION} ${PREFIX}/bin/runghc-${APP_VERSION}
+APP_AFTER_INSTALL_CALLBACK="after_build"
+after_build () {
+    cabal_version="1.22.0.0"
+    cabal_install="cabal-install-${cabal_version}.tar.gz"
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${cabal_install}
+    tar xf ${cabal_install}
+    cd cabal-install-${cabal_version}
+    ${SED_BIN} -i '' -e 's#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---user}"#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---global}"#' ./bootstrap.sh
+    note "Installing cabal"
+    PATH=${PREFIX}/bin:/bin:/usr/bin PREFIX=${PREFIX} ./bootstrap.sh
+    note "Updating cabal repositories"
+    ${PREFIX}/bin/cabal update
+    note "Installing happy"
+    ${PREFIX}/bin/cabal install happy --prefix=${PREFIX}
 }
