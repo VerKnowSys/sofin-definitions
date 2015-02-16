@@ -4,24 +4,22 @@ APP_NAME="ghc"
 APP_POSTFIX="-bs"
 APP_VERSION="7.8.4"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}-src.tar.xz"
-APP_REQUIREMENTS="m4 autoconf libtool automake gmp51 perl gmake python-legacy llvm"
-APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun haddock happy"
+APP_REQUIREMENTS="perl m4 autoconf libtool automake gmp51 gmake python-legacy llvm"
+APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun haddock"
 APP_MAKE_METHOD="/usr/bin/perl ./boot && gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install"
-APP_CONFIGURE_ARGS="--with-clang=/usr/bin/clang --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib --with-ghc=/Software/Ghc/bin/ghc"
+APP_CONFIGURE_ARGS="--with-clang=/usr/bin/clang --with-ghc=/Software/Ghc/bin/ghc"
 APP_NO_CCACHE="YES"
 APP_CONFLICTS_WITH="Ghc"
 
 APP_AFTER_UNPACK_CALLBACK="prepare_build"
 prepare_build () {
-
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
         # on *BSD set it on fast build machine (https://ghc.haskell.org/trac/ghc/wiki/Building/Troubleshooting#Makehasrestarteditself3timesisthereamakefilebug):
         sysctl vfs.timestamp_precision=2
         # Fix for issue with no support for "-finline-limit=2500" option:
         ${SED_BIN} -i '' -e 's/rts\/sm\/Compact_CC_OPTS.*//' rts/ghc.mk
     fi
-
     ${CP_BIN} mk/build.mk.sample mk/build.mk
     ${SED_BIN} -i '' -e 's/#BuildFlavour = perf$/BuildFlavour = perf/' mk/build.mk
 }
@@ -36,8 +34,4 @@ after_build () {
     ${SED_BIN} -i '' -e 's#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---user}"#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---global}"#' ./bootstrap.sh
     note "Installing cabal"
     PATH=${PREFIX}/bin:/bin:/usr/bin PREFIX=${PREFIX} ./bootstrap.sh
-    note "Updating cabal repositories"
-    ${PREFIX}/bin/cabal update
-    note "Installing happy"
-    ${PREFIX}/bin/cabal install happy --prefix=${PREFIX}
 }

@@ -3,11 +3,11 @@ APP_SHA="06b1d15aa87a5600165e6988c24fc186bf801f5e"
 APP_NAME="ghc"
 APP_VERSION="7.8.4"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}-src.tar.xz"
-APP_REQUIREMENTS="m4 autoconf libtool automake gmp51 perl gmake python-legacy llvm"
-APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun haddock happy cabal"
+APP_REQUIREMENTS="perl m4 autoconf libtool automake gmp51 gmake python-legacy llvm"
+APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun haddock cabal happy json2yaml yaml2json haskell-docs cpphs HsColour hpc  hsc2hs opt aeson-pretty hlint ghc-mod ghc-modi"
 APP_MAKE_METHOD="/usr/bin/perl ./boot && gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install"
-APP_CONFIGURE_ARGS="--with-clang=/usr/bin/clang --with-gmp-includes=${PREFIX}/include --with-gmp-libraries=${PREFIX}/lib --with-ghc=/Software/Ghc-bs/bin/ghc"
+APP_CONFIGURE_ARGS="--with-clang=/usr/bin/clang --with-ghc=/Software/Ghc-bs/bin/ghc"
 APP_NO_CCACHE="YES"
 APP_CONFLICTS_WITH="Ghc-bs"
 
@@ -33,8 +33,10 @@ after_build () {
     ${SED_BIN} -i '' -e 's#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---user}"#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---global}"#' ./bootstrap.sh
     note "Installing cabal"
     PATH=${PREFIX}/bin:/bin:/usr/bin PREFIX=${PREFIX} ./bootstrap.sh
-    note "Updating cabal repositories"
-    ${PREFIX}/bin/cabal update
-    note "Installing happy"
-    ${PREFIX}/bin/cabal install happy --prefix=${PREFIX}
+    ${PREFIX}/bin/cabal install happy ghc-mod hlint haskell-docs --prefix=${PREFIX} --reinstall --force-reinstalls
 }
+
+# TIps and tricks:
+# 0. Use "cabal install XXXXX --prefix=/Software/Ghc".
+# 1. Use "cabal install hdocs --extra-lib-dirs=/usr/lib" if you see iconv linking problems on OSX
+# 2.
