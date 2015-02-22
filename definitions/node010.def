@@ -10,7 +10,7 @@ APP_NO_CCACHE="YES"
 APP_ORIGIN="http://nodejs.org/download/"
 APP_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib gmake install -s ${MAKE_OPTS}"
-APP_CONFLICTS_WITH="Node06 Node08 Node"
+APP_CONFLICTS_WITH="Node"
 APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib /usr/bin/python ./configure"
