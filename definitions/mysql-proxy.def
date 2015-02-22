@@ -1,0 +1,8 @@
+APP_FULL_NAME="MySQL Proxy"
+APP_STANDALONE="true"
+APP_SHA="e8599ef16bc7d16daffa654368e02ba73182bfbc"
+APP_NAME="mysql-proxy"
+APP_VERSION="0.8.5"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake ncurses percona-server"
+APP_EXPORTS="mysql-proxy"
