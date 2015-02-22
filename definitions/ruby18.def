@@ -11,8 +11,8 @@ APP_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.ge
 APP_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
-APP_CONFLICTS_WITH="Rubinius24 Rubinius25 Jruby Ruby-legacy Ruby-minimal Passenger Ruby21 Ruby19 Ruby20"
 FORCE_GNU_COMPILER="YES"
+APP_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
 install_rubygems () {
     # it's specific version of rubygems for compatibility with ruby 1.8.7. Don't trust rubygems.org about this compatibility, with newest version expect problems under OSX 10.8
     RUBYGEMS_VERSION="1.8.15"

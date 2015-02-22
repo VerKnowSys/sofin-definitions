@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}ruby.def
+. ${DEFINITIONS_DIR}ruby21.def
 
 APP_FULL_NAME="Ruby YARV 1.9"
 APP_SHA="35600f4e2ac98653fa8a634104cb6ab3d47a1535"
@@ -6,5 +6,4 @@ APP_POSTFIX="19"
 APP_VERSION="1.9.3-p551"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
-APP_CONFLICTS_WITH="Rubinius25 Rubinius24 Jruby Ruby-minimal Passenger Ruby18 Ruby20 Ruby21"
 APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-search-path=${PREFIX}/lib"
