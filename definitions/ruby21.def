@@ -18,7 +18,7 @@ case "${SYSTEM_NAME}" in
 
   ;;
 esac
-APP_REQUIREMENTS="zlib bzip2 libiconv libxml2 gmake libtool libgpg-error libgcrypt libxslt yaml libffi sqlite perl openssl readline"
+APP_REQUIREMENTS="zlib bzip2 libiconv libxml2 gmake libtool libgpg-error libgcrypt libxslt yaml libffi sqlite libressl readline"
 APP_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler rack"
 APP_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
