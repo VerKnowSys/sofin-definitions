@@ -1,20 +1,12 @@
-APP_FULL_NAME="Nodejs"
+. ${DEFINITIONS_DIR}node010.def
+
+DISABLE_ON="Linux Darwin"
 APP_SHA="d08810034d170c19759cb38bfc9442ab6b0ebc7a"
-APP_NAME="node"
-APP_VERSION="0.12.0"
 APP_POSTFIX="012"
+APP_VERSION="0.12.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-v${APP_VERSION}.tar.gz"
-APP_AFTER_INSTALL_CALLBACK="npm install -g coffee-script less uglify-js nodemon"
-APP_EXPORTS="node npm node-waf coffee lessc nodemon uglifyjs"
-APP_NO_CCACHE="YES"
-APP_ORIGIN="http://nodejs.org/download/"
-APP_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib gmake install -s ${MAKE_OPTS}"
-APP_CONFLICTS_WITH="Node06 Node08 Node010"
-APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib /usr/bin/python ./configure"
-else
-    APP_REQUIREMENTS="${APP_REQUIREMENTS} python-legacy libexecinfo"
-    APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib ${PREFIX}/bin/python ./configure"
-fi
+FORCE_GNU_COMPILER="true"
+APP_CONFIGURE_SCRIPT="./configure"
+APP_MAKE_METHOD="gmake -s"
+APP_INSTALL_METHOD="gmake install -s"
+APP_CONFLICTS_WITH="Node Node08"
