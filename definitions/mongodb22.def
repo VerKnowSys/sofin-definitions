@@ -5,7 +5,7 @@ APP_SHA="c85c721cc61bbb1bc86cecc58c8eb29906335816"
 APP_VERSION="2.2.3"
 APP_POSTFIX="22"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-r${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="libiconv bzip2 python-legacy scons libexecinfo gmake nspr" # v8
+APP_REQUIREMENTS="libiconv bzip2 python27 scons libexecinfo gmake nspr" # v8
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="true"
 case "${SYSTEM_NAME}" in

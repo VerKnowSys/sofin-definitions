@@ -4,7 +4,7 @@ APP_POSTFIX="238"
 APP_SHA="6c671e83d9143d6b89c04665b5704817c4f5cddf"
 APP_VERSION="2.38.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="gmake zlib pcre pkgconf libffi gettext python-legacy libtool libiconv"
+APP_REQUIREMENTS="gmake zlib pcre pkgconf libffi gettext python27 libtool libiconv"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     export APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
 fi

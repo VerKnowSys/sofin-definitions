@@ -3,7 +3,7 @@ APP_SHA="06b1d15aa87a5600165e6988c24fc186bf801f5e"
 APP_NAME="ghc"
 APP_VERSION="7.8.4"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}-src.tar.xz"
-APP_REQUIREMENTS="perl m4 autoconf libtool automake gmp51 gmake python-legacy llvm"
+APP_REQUIREMENTS="perl m4 autoconf libtool automake gmp51 gmake python27 llvm"
 APP_EXPORTS="ghc ghci ghc-pkg runhaskell ghcrun haddock cabal happy json2yaml yaml2json haskell-docs cpphs HsColour hpc  hsc2hs opt aeson-pretty hlint ghc-mod ghc-modi"
 APP_MAKE_METHOD="/usr/bin/perl ./boot && gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install"
@@ -33,7 +33,7 @@ after_build () {
     ${SED_BIN} -i '' -e 's#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---user}"#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---global}"#' ./bootstrap.sh
     note "Installing cabal"
     PATH=${PREFIX}/bin:/bin:/usr/bin PREFIX=${PREFIX} ./bootstrap.sh
-    ${PREFIX}/bin/cabal install happy ghc-mod hlint haskell-docs --prefix=${PREFIX} --reinstall --force-reinstalls
+    ${PREFIX}/bin/cabal install happy ghc-mod hlint haskell-docs --prefix=${PREFIX} --reinstall --force-reinstalls -j6
 }
 
 # TIps and tricks:

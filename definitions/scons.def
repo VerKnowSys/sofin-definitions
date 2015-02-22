@@ -10,6 +10,6 @@ SETUP="setup.py install --prefix=${PREFIX} --standalone-lib --no-version-script 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     APP_MAKE_METHOD="/usr/bin/python ${SETUP}"
 else
-    APP_REQUIREMENTS="python-legacy"
+    APP_REQUIREMENTS="python27"
     APP_MAKE_METHOD="${PREFIX}/bin/python ${SETUP}"
 fi

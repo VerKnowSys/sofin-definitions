@@ -4,7 +4,7 @@ APP_NAME="mongodb"
 APP_SHA="f5a68505a0de1152b534d62a8f0147d258d503a0"
 APP_VERSION="2.6.5"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-r${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="libiconv bzip2 python-legacy scons libexecinfo gmake nspr"
+APP_REQUIREMENTS="libiconv bzip2 python27 scons libexecinfo gmake nspr"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="true"
 case "${SYSTEM_NAME}" in

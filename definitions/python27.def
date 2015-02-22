@@ -1,10 +1,10 @@
-DISABLE_ON="Darwin"
 . ${DEFINITIONS_DIR}python.def
 
+DISABLE_ON="Darwin"
 APP_FULL_NAME="Python 2"
-APP_SHA="511960dd78451a06c9df76509635aeec05b2051a"
-APP_POSTFIX="-legacy"
-APP_VERSION="2.7.8"
+APP_SHA="7a191bcccb598ccbf2fa6a0edce24a97df3fc0ad"
+APP_POSTFIX="27"
+APP_VERSION="2.7.9"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
 APP_PIP_INSTALLER_PATH="https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
 APP_ST_EGG_NAME="setuptools-0.6c11-py2.7.egg"
