@@ -49,7 +49,7 @@ build_useragent2 () {
 
 build_security () {
     MOD_NAME="modsecurity"
-    MOD_VERSION="2.8.0"
+    MOD_VERSION="2.9.0"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
     ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz"
     cd "${MOD_NAME}-${MOD_VERSION}"
