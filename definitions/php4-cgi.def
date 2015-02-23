@@ -57,4 +57,5 @@ install_extensions () {
     note "Proceeding with pear modules"
     install_pear_modules
     ${MV_BIN} ${PREFIX}/bin/php ${PREFIX}/bin/php-cgi
+    ${LN_BIN} -s ${PREFIX}/bin/php-cgi ${PREFIX}/bin/php
 }

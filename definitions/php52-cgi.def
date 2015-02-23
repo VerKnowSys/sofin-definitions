@@ -74,6 +74,7 @@ install_extensions () {
     install_pear_modules
     ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
     ${MV_BIN} ${PREFIX}/bin/php ${PREFIX}/bin/php-cgi
+    ${LN_BIN} -s ${PREFIX}/bin/php-cgi ${PREFIX}/bin/php
 }
 
 # additional: libmhash
