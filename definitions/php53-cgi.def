@@ -1,0 +1,17 @@
+. ${DEFINITIONS_DIR}php56.def
+
+APP_FULL_NAME="PHP53"
+APP_SHA="6e9e492c6d5853d063ddb9a4dbef60b8e5d87444"
+APP_NAME="php"
+APP_VERSION="5.3.29"
+APP_POSTFIX="53"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --enable-cli --without-apxs2 --without-litespeed --enable-cgi --enable-fastcgi"
+
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    # on the fly patch for stdc++
+    add_libstdc_to_makefile () {
+        ${SED_BIN} -i '' -e 's:^EXTRA_LIBS = :EXTRA_LIBS = -lstdc++ :' Makefile
+    }
+    APP_AFTER_CONFIGURE_CALLBACK="add_libstdc_to_makefile"
+fi
