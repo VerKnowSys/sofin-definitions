@@ -1,0 +1,21 @@
+APP_FULL_NAME="CdrTools"
+APP_SHA="cd923377bd7ef15a08aa3bb1aff4e6604c7be7cd"
+APP_NAME="cdrtools"
+APP_VERSION="3.01a27"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_CONFIGURE_SCRIPT="ignore"
+APP_MAKE_METHOD="make DESTDIR=${PREFIX}"
+APP_INSTALL_METHOD="make install DESTDIR=${PREFIX}"
+APP_EXPORTS="btcflash cdda2mp3 cdda2ogg cdda2wav cdrecord devdump isodebug isodump isoinfo isovfy mkhybrid mkisofs readcd scgcheck scgskeleton"
+APP_AFTER_INSTALL_CALLBACK="put_files_where_they_should_be"
+
+put_files_where_they_should_be () {
+    # i can't stop thinking that software developers just can't make things right..
+    cd ${PREFIX}/opt/schily
+    ${MV_BIN} bin ../../
+    ${MV_BIN} include ../../
+    ${MV_BIN} lib ../../
+    ${MV_BIN} sbin ../../
+    ${MV_BIN} share ../../
+    ${RM_BIN} -rf ${PREFIX}/opt
+}
