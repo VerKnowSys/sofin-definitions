@@ -14,13 +14,19 @@ APP_AFTER_EXPORT_CALLBACK="add_default_includes"
 
 add_default_includes () {
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        # replace default syslogd
+        # replace default syslogd with preconfigured syslog-ng
+
+        note "Checking jail-loggers entry presence"
         ${GREP_BIN} "jail-loggers" ${PREFIX}/etc/syslog-ng.conf > /dev/null 2>&1
         if [ "$?" != "0" ]; then
             printf '@include "/Jails/Prison/Sentry/*/jail-loggers/*.conf"' >> ${PREFIX}/etc/syslog-ng.conf
         fi
+
+        note "Checking links to /etc"
+        test -d ${PREFIX}/etc && ${MV_BIN} ${PREFIX}/etc /etc/syslog-ng && ${LN_BIN} -s /etc/syslog-ng ${PREFIX}/etc
         test -d ${PREFIX}/var && ${RM_BIN} -rf ${PREFIX}/var && ${LN_BIN} -s /var/run ${PREFIX}/var
 
+        note "Creating rc script for syslog-ng"
         test ! -x /etc/rc.d/syslog-ng && ${CP_BIN} /etc/rc.d/syslogd /etc/rc.d/syslog-ng
         ${SED_BIN} -i '' -e 's#pidfile=.*#pidfile="/var/run/syslog-ng.pid"#' /etc/rc.d/syslog-ng
         ${SED_BIN} -i '' -e 's#syslogd#syslog_ng#g' /etc/rc.d/syslog-ng
