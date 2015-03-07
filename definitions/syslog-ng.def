@@ -23,7 +23,13 @@ add_default_includes () {
         fi
 
         note "Checking links to /etc"
-        test -d ${PREFIX}/etc && ${MV_BIN} ${PREFIX}/etc /etc/syslog-ng && ${LN_BIN} -s /etc/syslog-ng ${PREFIX}/etc
+        if [ ! -d /etc/syslog-ng ]; then
+            test -d ${PREFIX}/etc && ${MV_BIN} ${PREFIX}/etc /etc/syslog-ng && ${LN_BIN} -s /etc/syslog-ng ${PREFIX}/etc
+            test -L ${PREFIX}/etc || error "Symlink not created: ${PREFIX}/etc"
+        else
+            ${RM_BIN} -f ${PREFIX}/etc
+            ${LN_BIN} -s /etc/syslog-ng ${PREFIX}/etc
+        fi
         test -d ${PREFIX}/var && ${RM_BIN} -rf ${PREFIX}/var && ${LN_BIN} -s /var/run ${PREFIX}/var
 
         note "Creating rc script for syslog-ng"
