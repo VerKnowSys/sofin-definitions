@@ -15,9 +15,9 @@ APP_AFTER_EXPORT_CALLBACK="add_default_includes"
 add_default_includes () {
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
         # replace default syslogd
-        ${GREP_BIN} "jail-logger" ${PREFIX}/etc/syslog-ng.conf > /dev/null 2>&1
+        ${GREP_BIN} "jail-loggers" ${PREFIX}/etc/syslog-ng.conf > /dev/null 2>&1
         if [ "$?" != "0" ]; then
-            printf '@include "/Jails/Prison/Sentry/*/jail-logger/*.conf"' >> ${PREFIX}/etc/syslog-ng.conf
+            printf '@include "/Jails/Prison/Sentry/*/jail-loggers/*.conf"' >> ${PREFIX}/etc/syslog-ng.conf
         fi
         test -d ${PREFIX}/var && ${RM_BIN} -rf ${PREFIX}/var && ${LN_BIN} -s /var/run ${PREFIX}/var
 
