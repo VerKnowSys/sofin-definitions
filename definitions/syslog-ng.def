@@ -11,6 +11,7 @@ APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_EXPORTS="syslog-ng syslog-ng-ctl"
 APP_AFTER_EXPORT_CALLBACK="add_default_includes"
+APP_USELESS="lib/python2.7 lib/libffi-3.0.9 lib/glib-2.0 share/gtk-doc share/aclocal share/doc"
 
 add_default_includes () {
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
