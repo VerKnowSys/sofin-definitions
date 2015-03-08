@@ -6,7 +6,7 @@ APP_NAME="mysql"
 APP_POSTFIX="51"
 APP_VERSION="5.1.69"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="zlib bzip2 expat libiconv ncurses libtool"
+APP_REQUIREMENTS="zlib bzip2 expat libiconv ncurses m4 libtool"
 case "${SYSTEM_NAME}" in
     Darwin)
         export APP_REQUIREMENTS="zlib bzip2 expat ncurses libtool"

@@ -7,7 +7,7 @@ APP_SHA="ebea424284adf766311cb08289bdad3db57d5da1"
 APP_NAME="courier"
 APP_VERSION="0.73.1.20140312"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="pkgconf libiconv perl pcre libtool openssl db gmake expat gettext courier-unicode courier-authlib courier-imap"
+APP_REQUIREMENTS="pkgconf libiconv perl pcre m4 libtool openssl db gmake expat gettext courier-unicode courier-authlib courier-imap"
 FORCE_GNU_COMPILER="true"
 APP_CONFIGURE_ARGS="--enable-mimetypes=/etc/mime.types --disable-silent-rules --disable-root-check --enable-syslog=1 --enable-use-flock --enable-unicode --enable-workarounds-for-imap-client-bugs --enable-mimecharset=UTF-8 --without-ipv6 --without-ispell --with-db=db --cache-file=${PREFIX}courier.cache --sysconfdir=${DATA_DIR}etc --localstatedir=${DATA_DIR}var --with-certsdir=/etc/ssl --with-etcdir=${DATA_DIR}etc" # NOTE: this mime.types file exists in ServeD system by default, same with /etc/ssl
 APP_INSTALL_METHOD="gmake install && gmake install-configure"
