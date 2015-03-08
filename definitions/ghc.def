@@ -10,6 +10,7 @@ APP_INSTALL_METHOD="gmake install"
 APP_CONFIGURE_ARGS="--with-clang=/usr/bin/clang --with-ghc=/Software/Ghc-bs/bin/ghc"
 APP_NO_CCACHE="YES"
 APP_CONFLICTS_WITH="Ghc-bs"
+APP_CLEAN_USELESS="no"
 
 APP_AFTER_UNPACK_CALLBACK="prepare_build"
 prepare_build () {
