@@ -1,8 +1,9 @@
 APP_FULL_NAME="MongoDB - NoSQL database"
 APP_STANDALONE="true"
 APP_NAME="mongodb"
-APP_SHA="f5a68505a0de1152b534d62a8f0147d258d503a0"
-APP_VERSION="2.6.5"
+APP_SHA="f68219cc1226f164676f9c74909e82383e9215b8"
+APP_VERSION="3.0.0"
+APP_POSTFIX="30"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-r${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="libiconv bzip2 python27 scons libexecinfo gmake nspr"
 APP_CONFIGURE_SCRIPT="ignore"
@@ -22,10 +23,3 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 APP_EXPORTS="mongo mongod mongos mongostat mongodump mongoexport mongoperf mongofiles mongotop mongooplog"
-APP_AFTER_INSTALL_CALLBACK="strip_binaries" # NOTE: because Mongodb creators are pretty insane, each binary has more than 400MiB in size!!
-
-strip_binaries () {
-    for binary in ${PREFIX}/bin/mongo*; do
-        ${STRIP_BIN} -v $binary
-    done
-}
