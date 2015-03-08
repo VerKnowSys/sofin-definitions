@@ -12,6 +12,7 @@ APP_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib gmake install -s ${MAKE_OPTS}"
 APP_CONFLICTS_WITH="Node"
 APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv"
+APP_USELESS="include/python2.7 lib/python2.7"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     APP_CONFIGURE_SCRIPT="LD_LIBRARY_PATH=${PREFIX}/lib:/usr/lib /usr/bin/python ./configure"
 else
