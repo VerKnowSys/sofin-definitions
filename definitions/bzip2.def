@@ -10,5 +10,5 @@ APP_EXPORTS="bzip2"
 
 APP_AFTER_UNPACK_CALLBACK="patch_makefiles"
 patch_makefiles () {
-    ${SED_BIN} -i '' -e 's/CC=.*$/CC=clang/' Makefile-libbz2_so
+    ${SED_BIN} -i '' -e 's/CC=.*$/CC=clang/' Makefile Makefile-libbz2_so
 }
