@@ -9,6 +9,7 @@ APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bis
 APP_INSTALL_METHOD="gmake install -s"
 APP_EXPORTS="php php-cgi php-config phpize pecl lsphp"
 APP_NO_CCACHE="YES"
+APP_USELESS="docs lib/perl5 mysql-test scripts sql-bench support-files data Software man"
 
 APP_AFTER_UNPACK_CALLBACK="hack_after_unpack"
 hack_after_unpack () {
