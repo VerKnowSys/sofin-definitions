@@ -7,3 +7,8 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_SCRIPT="no-conf" # no configure script for this package
 APP_MAKE_METHOD="make -f Makefile-libbz2_so"
 APP_EXPORTS="bzip2"
+
+APP_AFTER_UNPACK_CALLBACK="patch_makefiles"
+patch_makefiles () {
+    ${SED_BIN} -i '' -e 's/CC=.*$/CC=clang/' Makefile-libbz2_so
+}
