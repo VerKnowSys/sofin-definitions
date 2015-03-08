@@ -8,7 +8,7 @@ APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP 
 APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex postgresql93 libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt openssl curl gmp51 tiff jasper imagemagick freetds sqlite2 sqlite cyrus-sasl openldap geoip cclient"
 APP_INSTALL_METHOD="gmake install -s"
 APP_EXPORTS="php php-cgi php-fpm php-config phpize pecl lsphp"
-APP_USELESS="docs lib/perl5 mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so"
+APP_USELESS="doc docs lib/perl5 mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal"
 
 hack_after_unpack () {
     # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
