@@ -31,3 +31,6 @@ REQUIRE_ROOT_ACCESS="" # set to true, to disallow definition to be built as non 
 APP_APPLE_BUNDLE="" # set to true, to enable .app bundling for default (first) export.
 APP_ORIGIN="" # app origin location, to gather newer software version if available
 APP_STANDALONE="false"
+APP_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
+APP_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
+APP_CLEAN_USELESS="true" # if set to true, all not exported binaries will be removed from PREFIX/bin and PREFIX/sbin
