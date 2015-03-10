@@ -1,0 +1,40 @@
+APP_FULL_NAME="Lua"
+APP_SHA="b3882111ad02ecc6b972f8c1241647905cb2e3fc"
+APP_NAME="lua"
+APP_VERSION="5.1.5"
+APP_POSTFIX="51"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_EXPORTS="lua luac"
+APP_CONFIGURE_SCRIPT="ignore"
+case "${SYSTEM_NAME}" in
+    Linux)
+        APP_MAKE_METHOD="make linux"
+        ;;
+
+    FreeBSD)
+        APP_MAKE_METHOD="make freebsd"
+        ;;
+
+    Darwin)
+        APP_MAKE_METHOD="make macosx"
+        ;;
+
+    *)
+        APP_MAKE_METHOD="make posix"
+        ;;
+esac
+
+APP_INSTALL_METHOD="install_files_manually"
+install_files_manually () {
+    ${MKDIR_BIN} -p ${PREFIX}/lib ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/pkgconfig
+    ${CP_BIN} src/liblua.a ${PREFIX}/lib/
+    ${CP_BIN} src/lua ${PREFIX}/bin/
+    ${CP_BIN} src/luac ${PREFIX}/bin/
+    ${CP_BIN} src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp ${PREFIX}/include/
+    ${PRINTF_BIN} "version=${APP_VERSION}
+prefix=${PREFIX}
+libdir=${PREFIX}/lib
+includedir=${PREFIX}/include
+" > ${PREFIX}/lib/pkgconfig/lua.pc
+    ${CP_BIN} ${PREFIX}/lib/pkgconfig/lua.pc ${PREFIX}/lib/pkgconfig/lua5.1.pc
+}
