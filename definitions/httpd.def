@@ -11,10 +11,10 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
 else
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-suexec-caller=apache --with-suexec-logfile=/var/log/httpd/suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/local/bin:/usr/bin:/bin'"
 fi
-APP_EXPORTS="httpd htdigest fcgistarter apr-1-config apu-1-config htpasswd apachectl ab htcacheclean fcgistarter suexec enc2xs apxs suexec logresolve"
-APP_CONFLICTS_WITH="Nginx"
+APP_EXPORTS="httpd htdigest fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve"
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
-APP_USELESS="lib/cmake lib/libperl.so man manual share logs"
+APP_USELESS="lib/cmake man manual share logs"
+APP_USEFUL="bin/perl* bin/ap[[:alpha:]]-1-config bin/curl*"
 
 build_limitipconn () {
     MOD_NAME="mod_limitipconn"
@@ -77,7 +77,4 @@ build_addons_and_extensions () {
     build_security
     build_evasive
     note "Done building modules"
-
-    note "Patching apxs and enc2xs to use Perl from env."
-    ${SED_BIN} -i '' -e 's#!/Software/.*$#!/usr/bin/env perl#' ${PREFIX}/apxs ${PREFIX}/enc2xs
 }
