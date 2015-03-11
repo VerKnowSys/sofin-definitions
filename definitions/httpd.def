@@ -11,7 +11,7 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
 else
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-suexec-caller=apache --with-suexec-logfile=/var/log/httpd/suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/local/bin:/usr/bin:/bin'"
 fi
-APP_EXPORTS="httpd htdigest fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve"
+APP_EXPORTS="httpd htdigest fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve dbmanage"
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
 APP_USELESS="lib/cmake man manual share logs"
 APP_USEFUL="bin/perl* bin/ap[[:alpha:]]-1-config bin/curl*"
