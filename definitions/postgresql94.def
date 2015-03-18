@@ -23,5 +23,9 @@ build_addons_and_extensions () {
 }
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} LIBS=-lpthread"
+    # ...
+    # <RhodiumToad> anyway, the main issue I know of is that freebsd's threading libs mess up the concept of RLIMIT_STACK for the initial thread of the process that breaks pg's stack limit checking, meaning that you can crash the backend in situations that ought to just produce an error message
+    # <RhodiumToad> --enable-thread-safety only affects libpq, yes
+    # <RhodiumToad> the problem is that dblink and postgres_fdw end up dynamically linking libpq into the backend
+    APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety"
 fi
