@@ -1,16 +1,12 @@
 APP_FULL_NAME="PostgreSQL 9"
 APP_STANDALONE="true"
-APP_SHA="8b27e654b4c5cc3193a9ca87b48d58e20799526a"
+APP_SHA="3c82fc1d37ae10063b15caef39216616252de0a0"
 APP_NAME="postgresql"
 APP_POSTFIX="92"
-APP_VERSION="9.2.9"
+APP_VERSION="9.2.10"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --enable-thread-safety"
 APP_REQUIREMENTS="gmake zlib libiconv libressl"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export DEVEL="true" # it's a hack for Postgresql dev team stupidity, to skip symbol strip from binaries/libraries.
-                        # this fixes issue with "Symbol not found: _check_encoding_conversion_args" on OSX
-fi
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
 APP_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog reindexdb vacuumdb"
 APP_NO_CCACHE="YES"
