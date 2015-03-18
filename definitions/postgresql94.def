@@ -6,7 +6,7 @@ APP_POSTFIX="94"
 APP_VERSION="9.4.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --enable-thread-safety"
-APP_REQUIREMENTS="gmake zlib libiconv"
+APP_REQUIREMENTS="gmake zlib libiconv libressl"
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
 APP_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog reindexdb vacuumdb"
 APP_NO_CCACHE="YES"
@@ -21,3 +21,7 @@ build_addons_and_extensions () {
     cd ${base_dir}/pg_archivecleanup && gmake install
     cd ${base_dir}/hstore && gmake install
 }
+
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} LIBS=-lpthread"
+fi
