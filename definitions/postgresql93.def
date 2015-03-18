@@ -13,7 +13,7 @@ APP_NO_CCACHE="YES"
 APP_ORIGIN="http://www.postgresql.org"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
-APP_CONFLICTS_WITH="Postgresql92"
+APP_CONFLICTS_WITH="Postgresql"
 APP_STRIP="exports"
 
 build_addons_and_extensions () {
