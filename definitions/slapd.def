@@ -5,7 +5,7 @@ APP_NAME="slapd"
 APP_VERSION="2.4.40"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}openldap-${APP_VERSION}.tgz"
 APP_CONFIGURE_ARGS="--enable-dynamic --with-tls=openssl --enable-overlays=mod --enable-modules --enable-slapd --enable-sock --with-fetch --with-threads=posix --with-mp=gmp --disable-dependency-tracking --enable-hdb=yes --enable-bdb=yes --disable-mdb --sysconfdir=${SOFTWARE_DATA_DIR}/etc --localstatedir=${SOFTWARE_DATA_DIR}/var"
-APP_REQUIREMENTS="m4 libtool gmp db"
+APP_REQUIREMENTS="m4 libtool gmp51 db"
 APP_EXPORTS="slapd ldapadd ldapcompare ldapdelete ldapexop ldapmodify ldapmodrdn ldappasswd ldapsearch ldapurl ldapwhoami slapacl slapadd slapauth slapcat slapdn slapindex slappasswd slapschema slaptest"
 
 patch_configure () {
