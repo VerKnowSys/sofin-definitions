@@ -9,6 +9,6 @@ if [ "${SYSTEM_NAME}" != "Darwin" ]; then
     export ADDITION=" -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
     export ADD_OPTIONS="--with-file-aio"
 fi
-APP_CONFIGURE_ARGS="--with-poll_module --without-select_module --with-http_spdy_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module  --user=nobody --group=nogroup --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib${ADDITION}' --error-log-path=${SOFTWARE_DATA_DIR}/.logs/service.error.log ${ADD_OPTIONS}" # --with-openssl=${PREFIX} --with-zlib=${PREFIX}
+APP_CONFIGURE_ARGS="--with-poll_module --without-select_module --with-http_spdy_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module  --user=nobody --group=nogroup --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib${ADDITION}' --error-log-path=${SOFTWARE_DATA_DIR}/.logs/service.error.log ${ADD_OPTIONS}"
 APP_EXPORTS="nginx"
 APP_CONFLICTS_WITH="Httpd"
