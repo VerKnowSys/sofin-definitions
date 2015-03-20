@@ -10,32 +10,4 @@ APP_REQUIREMENTS="pkgconf eventlog gmake zlib pcre libffi gettext python27 m4 li
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_EXPORTS="syslog-ng syslog-ng-ctl"
-APP_AFTER_EXPORT_CALLBACK="add_default_includes"
 APP_USELESS="lib/python2.7 lib/libffi-3.0.9 lib/glib-2.0 share/gtk-doc share/aclocal share/doc"
-
-add_default_includes () {
-    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        # replace default syslogd with preconfigured syslog-ng
-
-        note "Checking jail-loggers entry presence"
-        ${GREP_BIN} "jail-loggers" ${PREFIX}/etc/syslog-ng.conf > /dev/null 2>&1
-        if [ "$?" != "0" ]; then
-            printf '@include "/Jails/Prison/Sentry/*/jail-loggers/*.conf"' >> ${PREFIX}/etc/syslog-ng.conf
-        fi
-
-        note "Checking links to /etc"
-        if [ ! -d /etc/syslog-ng ]; then
-            test -d ${PREFIX}/etc && ${MV_BIN} ${PREFIX}/etc /etc/syslog-ng && ${LN_BIN} -s /etc/syslog-ng ${PREFIX}/etc
-            test -L ${PREFIX}/etc || error "Symlink not created: ${PREFIX}/etc"
-        else
-            ${RM_BIN} -rf ${PREFIX}/etc
-            ${LN_BIN} -s /etc/syslog-ng ${PREFIX}/etc
-        fi
-        test -d ${PREFIX}/var && ${RM_BIN} -rf ${PREFIX}/var && ${LN_BIN} -s /var/run ${PREFIX}/var
-
-        note "Creating rc script for syslog-ng"
-        test ! -x /etc/rc.d/syslog-ng && ${CP_BIN} /etc/rc.d/syslogd /etc/rc.d/syslog-ng
-        ${SED_BIN} -i '' -e 's#pidfile=.*#pidfile="/var/run/syslog-ng.pid"#' /etc/rc.d/syslog-ng
-        ${SED_BIN} -i '' -e 's#syslogd#syslog_ng#g' /etc/rc.d/syslog-ng
-    fi
-}
