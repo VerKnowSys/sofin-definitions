@@ -24,14 +24,22 @@ APP_CONFLICTS_WITH="Percona Mysql"
 APP_USELESS="man lib/perl5 lib/python2.7 doc docs sql-bench mysql-test share/cmake* share/gtk* share/glib* share/man"
 APP_NO_CCACHE="true"
 
-APP_AFTER_INSTALL_CALLBACK="after_build"
-after_build () {
-    mysql_proxy_name="mysql-proxy"
-    mysql_proxy_version="0.8.5"
-    mysql_proxy_archive="${mysql_proxy_name}-${mysql_proxy_version}.tar.gz"
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${mysql_proxy_archive}
-    tar xf ${mysql_proxy_archive}
-    cd ${mysql_proxy_name}-${mysql_proxy_version}
-    PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX}
-    make install
-}
+case ${SYSTEM_NAME} in
+    Linux)
+        APP_AFTER_INSTALL_CALLBACK="after_build"
+        after_build () {
+            mysql_proxy_name="mysql-proxy"
+            mysql_proxy_version="0.8.5"
+            mysql_proxy_archive="${mysql_proxy_name}-${mysql_proxy_version}.tar.gz"
+            ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${mysql_proxy_archive}
+            tar xf ${mysql_proxy_archive}
+            cd ${mysql_proxy_name}-${mysql_proxy_version}
+            PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX}
+            make install
+        }
+        ;;
+
+    *)
+        # no-op - don't build mysql-proxy
+        ;;
+esac
