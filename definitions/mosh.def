@@ -7,3 +7,10 @@ APP_REQUIREMENTS="pkgconf libiconv zlib protobuf bzip2 perl libressl ncurses"
 APP_CONFIGURE_ARGS="--enable-hardening"
 APP_USEFUL="bin/perl*"
 APP_EXPORTS="mosh-client mosh-server mosh"
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    APP_AFTER_INSTALL_CALLBACK="patch_mosh_bin"
+fi
+
+patch_mosh_bin () {
+    ${SED_BIN} -i '' -e "s#\#\!\/.*\$#\#\!${PREFIX}/bin/perl#" ${PREFIX}/bin/mosh
+}
