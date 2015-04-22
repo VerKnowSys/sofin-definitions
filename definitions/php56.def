@@ -20,7 +20,7 @@ APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
 
 # install extensions
 APP_AFTER_INSTALL_CALLBACK="install_extensions"
-APP_CLEAN_USELESS="false"
+#APP_CLEAN_USELESS="false"
 
 
 install_geoip () {
