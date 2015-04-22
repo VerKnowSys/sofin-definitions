@@ -1,0 +1,136 @@
+--- a/main/main.c	2010-06-19 22:47:24.000000000 +0200
++++ b/main/main.c	2012-02-01 14:56:28.000000000 +0100
+@@ -28,6 +28,8 @@
+ #include "php.h"
+ #include <stdio.h>
+ #include <fcntl.h>
++#include <sys/resource.h>
++#include <pwd.h>
+ #ifdef PHP_WIN32
+ #include "win32/time.h"
+ #include "win32/signal.h"
+@@ -1945,6 +1947,88 @@
+ 	}
+ #endif
+ }
++
++void write_cpu_usage(double cpu_usage, const char *filename)
++{
++	struct passwd *user;
++	FILE *log;
++	char log_path[PATH_MAX < 256 ? PATH_MAX : 256];
++
++	if(cpu_usage == -1)
++	{
++		return;
++	}
++
++	user = getpwuid(geteuid());
++
++	if(!user)
++	{
++		return;
++	}
++
++	// Write log file only for users within /home/.
++	if(strncmp(user->pw_dir, "/home/", sizeof("/home/") - sizeof(char)) != 0)
++	{
++		return;
++	}
++
++	// Do not add records for DirectAdmin.
++	if(strncmp(filename, "/usr/local/directadmin/", sizeof("/usr/local/directadmin/") - sizeof(char)) == 0
++		|| strncmp(filename, "-", sizeof("-") - sizeof(char)) == 0)
++	{
++		return;
++	}
++
++	// Unsafe open. There should be no access for other users anyway.
++   snprintf(log_path, sizeof(log_path), "/home/PHP_LOGS/%s/cpu_usage.log", user->pw_name);
++	log = fopen(log_path, "a+");
++
++	// Silently ignore failures.
++	if(log)
++	{
++		char time_str[sizeof("00:00:00")];
++		time_t time_now;
++		char* locale_old;
++
++		locale_old = setlocale(LC_NUMERIC, "C");
++		time_now = time(NULL);
++		strftime(time_str, sizeof(time_str), "%H:%M:%S", localtime(&time_now));
++
++		fprintf(log, "[%s] %.3f %s\n", time_str, cpu_usage, filename);
++
++		setlocale(LC_NUMERIC, locale_old);
++		fclose(log);
++	}
++}
++
++double get_cpu_usage()
++{
++	struct rusage cpu_usage;
++	double cpu_usage_sec;
++
++	if(getrusage(RUSAGE_SELF, &cpu_usage) == -1)
++	{
++		return -1;
++	}
++
++	cpu_usage_sec = (double) cpu_usage.ru_utime.tv_sec
++		+ ((double) cpu_usage.ru_utime.tv_usec / 1000000.0)
++		+ (double) cpu_usage.ru_stime.tv_sec
++		+ ((double) cpu_usage.ru_stime.tv_usec / 1000000.0);
++
++	if(getrusage(RUSAGE_CHILDREN, &cpu_usage) == -1)
++	{
++		return -1;
++	}
++
++	cpu_usage_sec += (double) cpu_usage.ru_utime.tv_sec
++		+ ((double) cpu_usage.ru_utime.tv_usec / 1000000.0)
++		+ (double) cpu_usage.ru_stime.tv_sec
++		+ ((double) cpu_usage.ru_stime.tv_usec / 1000000.0);
++
++	return cpu_usage_sec;
++}
++
+ /* }}} */
+
+ /* {{{ php_execute_script
+@@ -1958,11 +2042,21 @@
+ #else
+ 	char *old_cwd;
+ #endif
++	double cpu_usage_start, cpu_usage_stop;
+ 	int retval = 0;
+-
++
++	cpu_usage_start = get_cpu_usage();
++
+ 	EG(exit_status) = 0;
+ 	if (php_handle_special_queries(TSRMLS_C)) {
+ 		zend_file_handle_dtor(primary_file);
++
++		cpu_usage_stop = get_cpu_usage();
++		if(cpu_usage_start != -1 && cpu_usage_stop != -1)
++		{
++			write_cpu_usage(cpu_usage_stop - cpu_usage_start, primary_file->filename);
++		}
++
+ 		return 0;
+ 	}
+ #ifndef HAVE_BROKEN_GETCWD
+@@ -2048,6 +2142,12 @@
+ 	}
+ 	free_alloca(old_cwd);
+ #endif
++	cpu_usage_stop = get_cpu_usage();
++	if(cpu_usage_start != -1 && cpu_usage_stop != -1)
++	{
++		write_cpu_usage(cpu_usage_stop - cpu_usage_start, primary_file->filename);
++	}
++
+ 	return retval;
+ }
+ /* }}} */
