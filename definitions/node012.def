@@ -1,10 +1,11 @@
 . ${DEFINITIONS_DIR}node010.def
 
-APP_SHA="d08810034d170c19759cb38bfc9442ab6b0ebc7a"
+APP_SHA="a969f17a0a6c9238584f8946d96e8d39be8eb957"
 APP_POSTFIX="012"
-APP_VERSION="0.12.0"
+APP_VERSION="0.12.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-v${APP_VERSION}.tar.gz"
-FORCE_GNU_COMPILER="true"
-APP_CONFIGURE_SCRIPT="./configure"
+APP_CONFIGURE_SCRIPT="CC=clang CXX=clang++ ./configure"
 APP_MAKE_METHOD="gmake -s"
 APP_INSTALL_METHOD="gmake install -s"
+APP_CONFIGURE_ARGS="--shared-zlib"
+APP_COMPILER_ARGS="-Wno-unused-const-variable -Wno-unused-private-field"
