@@ -1,0 +1,8 @@
+APP_FULL_NAME="Disk Archive software"
+APP_NAME="dar"
+APP_SHA="b0a5b87ead362baf21190899d34766aa65d76bba"
+APP_VERSION="2.4.17"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="lzo gmake m4 libtool libgpg-error libgcrypt"
+APP_CONFIGURE_ARGS="--enable-mode=64 --disable-static"
+APP_EXPORTS="dar_xform dar_slave dar_manager dar_cp"
