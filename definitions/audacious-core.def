@@ -1,7 +1,7 @@
 DISABLE_ON="Linux FreeBSD"
 APP_FULL_NAME="Audacious Core"
 APP_NAME="audacious"
-APP_VERSION="3.6-beta1"
+APP_VERSION="3.7-devel"
 APP_GIT_MODE="true"
 APP_GIT_CHECKOUT="master"
 APP_HTTP_PATH="git@github.com:audacious-media-player/audacious.git"
