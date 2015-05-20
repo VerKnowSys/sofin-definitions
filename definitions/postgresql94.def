@@ -16,7 +16,7 @@ APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_CONFLICTS_WITH="Postgresql"
 APP_STRIP="exports"
 
-if [ "${SYSTEM_NAME}" != "Darwin" ]; then
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # Do not strip binaries on OS X, due to:
     # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
     export APP_STRIP="no"
