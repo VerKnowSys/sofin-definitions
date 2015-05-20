@@ -16,6 +16,9 @@ case "${SYSTEM_NAME}" in
   FreeBSD)
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dtrace --with-execinfo"
     ;;
+  Darwin)
+    APP_STRIP="no"
+    ;;
 esac
 APP_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
 APP_USELESS="lib/libperl.so lib/perl5 include/python2.7 lib/python2.7 man share"
