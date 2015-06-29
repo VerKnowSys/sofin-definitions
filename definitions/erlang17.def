@@ -4,9 +4,10 @@ APP_NAME="erlang"
 APP_VERSION="17.5"
 APP_POSTFIX="17"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}otp_src_${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="gmake perl libressl"
+APP_REQUIREMENTS="gmake perl libressl" # jpeg tiff libpng wxwidgets
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s"
-APP_CONFIGURE_ARGS="--enable-threads --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --disable-dynamic-ssl-lib --without-javac --enable-native-libs"
+APP_CONFIGURE_SCRIPT="PATH=${PREFIX}/bin:/usr/bin:/bin ./configure"
+APP_CONFIGURE_ARGS="--enable-threads --enable-kernel-poll --disable-silent-rules --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --without-javac --enable-native-libs --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib" # --enable-wx
 APP_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 APP_CONFLICTS_WITH="Erlang"
