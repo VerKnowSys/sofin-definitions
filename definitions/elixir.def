@@ -10,7 +10,7 @@ APP_MAKE_METHOD="gmake ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install ${MAKE_OPTS}"
 APP_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
 APP_AFTER_INSTALL_CALLBACK="install_repl_history"
-APP_CLEAN_USELESS="false"
+# APP_CLEAN_USELESS="false"
 
 install_repl_history() {
     git clone https://github.com/ferd/erlang-history.git
