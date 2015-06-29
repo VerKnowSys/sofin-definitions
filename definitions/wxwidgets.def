@@ -1,0 +1,12 @@
+APP_FULL_NAME="wxWidgets"
+APP_NAME="wxWidgets"
+APP_SHA="6461eab4428c0a8b9e41781b8787510484dea800"
+APP_VERSION="3.0.2"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_REQUIREMENTS="pkgconf jpeg tiff libpng"
+APP_CONFIGURE_ARGS="--enable-unicode --enable-utf8 --enable-utf8only --disable-compat26 --disable-tls --with-cocoa --without-libjbig --enable-debug --enable-std_string --enable-display --with-opengl --with-libtiff --with-libpng --with-zlib --enable-dnd --enable-clipboard --enable-webkit --enable-svg --disable-mediactrl --enable-graphics_ctx --enable-controls --enable-dataviewctrl --with-expat --disable-precomp-headers --enable-monolithic --with-macosx-version-min=10.9 --disable-shared --enable-stl" # --enable-macosx_arch=x86_64
+APP_EXPORTS="wx-config wxrc wxrc-3.0"
+APP_MAKE_METHOD="make ${MAKE_OPTS}"
+APP_INSTALL_METHOD="make install"
+APP_CLEAN_USELESS="false"
+APP_STRIP="no"
