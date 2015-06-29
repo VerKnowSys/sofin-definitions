@@ -5,7 +5,15 @@ APP_HTTP_PATH="https://github.com/elixir-lang/elixir.git"
 APP_GIT_MODE="true"
 APP_GIT_CHECKOUT="v1.0.4"
 APP_CONFIGURE_SCRIPT="no-conf"
-APP_REQUIREMENTS="gmake perl libressl erlang17"
+APP_REQUIREMENTS="gmake perl libressl erlang17" # pkgconf autoconf libtool automake libressl jpeg tiff libpng wxwidgets
 APP_MAKE_METHOD="gmake ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install ${MAKE_OPTS}"
 APP_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
+APP_AFTER_INSTALL_CALLBACK="install_repl_history"
+APP_CLEAN_USELESS="false"
+
+install_repl_history() {
+    git clone https://github.com/ferd/erlang-history.git
+    cd erlang-history
+    PATH=$PATH:${PREFIX}/bin:/bin make install
+}
