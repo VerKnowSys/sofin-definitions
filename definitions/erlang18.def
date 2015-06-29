@@ -13,7 +13,7 @@ APP_CONFLICTS_WITH="Erlang"
 APP_AFTER_INSTALL_CALLBACK="install_repl_history"
 
 install_repl_history() {
-    git clone https://github.com/ferd/erlang-history.git
+    ${GIT_BIN} clone https://github.com/ferd/erlang-history.git
     cd erlang-history
-    PATH=$PATH:${PREFIX}/bin:/bin make install
+    PATH=$PATH:${PREFIX}/bin:/bin gmake install
 }
