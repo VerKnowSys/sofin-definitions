@@ -1,0 +1,7 @@
+DISABLE_ON="Darwin"
+APP_FULL_NAME="Bonnie++ disk benchmark tool"
+APP_SHA="cf172c262fea075a83df12d5bde337bacba78ea6"
+APP_NAME="bonnie++"
+APP_VERSION="1.03e"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
+APP_EXPORTS="bonnie++"
