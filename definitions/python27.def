@@ -9,7 +9,7 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_PIP_INSTALLER_PATH="https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
 APP_ST_EGG_NAME="setuptools-0.6c11-py2.7.egg"
 APP_AFTER_INSTALL_CALLBACK="install_ei_and_pip"
-APP_EXPORTS="python python2.7 python-config easy_install pip"
+APP_EXPORTS="python python2 python2.7 python-config easy_install pip"
 
 
 install_ei_and_pip () {
