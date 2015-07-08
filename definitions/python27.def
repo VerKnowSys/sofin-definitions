@@ -2,9 +2,9 @@
 
 DISABLE_ON="Darwin"
 APP_FULL_NAME="Python 2"
-APP_SHA="7a191bcccb598ccbf2fa6a0edce24a97df3fc0ad"
+APP_SHA="ee5a50c5562e7448f037d35fdedc18d95c748b9e"
 APP_POSTFIX="27"
-APP_VERSION="2.7.9"
+APP_VERSION="2.7.10"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
 APP_PIP_INSTALLER_PATH="https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
 APP_ST_EGG_NAME="setuptools-0.6c11-py2.7.egg"
