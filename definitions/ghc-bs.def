@@ -1,3 +1,4 @@
+DISABLE_ON="FreeBSD Linux Darwin"
 APP_FULL_NAME="Glassgow Haskell Compiler - bootstrap build"
 APP_SHA="06b1d15aa87a5600165e6988c24fc186bf801f5e"
 APP_NAME="ghc"
