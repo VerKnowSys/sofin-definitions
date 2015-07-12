@@ -1,3 +1,4 @@
+DISABLE_ON="FreeBSD"
 APP_FULL_NAME="Glassgow Haskell Compiler"
 APP_SHA="06b1d15aa87a5600165e6988c24fc186bf801f5e"
 APP_NAME="ghc"
