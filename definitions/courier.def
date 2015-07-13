@@ -43,4 +43,4 @@ install_courier_admin () {
   ${CURL_BIN} "https://raw.github.com/VerKnowSys/courier-admin/master/courier-admin" > "${PREFIX}/bin/courier-admin" && \
   ${CHMOD_BIN} 755 "${PREFIX}/bin/courier-admin"
 }
-APP_USELESS="lib/perl5 lib/pkgconfig lib/courier-authlib/*.a share/aclocal docs share/htmldoc share/info share/libtool"
+APP_USELESS="lib/perl5 lib/pkgconfig lib/courier-authlib/*.a share/aclocal docs share/htmldoc share/info share/libtool lib/libperl.so share/gettext"
