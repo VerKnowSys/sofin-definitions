@@ -19,7 +19,7 @@ APP_STRIP="exports"
 
 case "${SYSTEM_NAME}" in
 
-    Dawrin)
+    Darwin)
         # Do not strip binaries on OS X, due to:
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
         APP_STRIP="no"
@@ -31,7 +31,7 @@ case "${SYSTEM_NAME}" in
         # <RhodiumToad> anyway, the main issue I know of is that freebsd's threading libs mess up the concept of RLIMIT_STACK for the initial thread of the process that breaks pg's stack limit checking, meaning that you can crash the backend in situations that ought to just produce an error message
         # <RhodiumToad> --enable-thread-safety only affects libpq, yes
         # <RhodiumToad> the problem is that dblink and postgres_fdw end up dynamically linking libpq into the backend
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace DTRACEFLAGS='-64'"
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace"
         APP_LINKER_ARGS="-lelf"
         ;;
 
