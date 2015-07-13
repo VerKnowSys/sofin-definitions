@@ -1,9 +1,10 @@
 REQUIRE_ROOT_ACCESS="true"
 APP_FULL_NAME="Courier Mail Server Auth Lib"
 DATA_DIR="/SystemUsers/SoftwareData/Courier/"
-APP_SHA="76632ece8b75ae333a6ef9de113c75721561c5c0"
+APP_SHA="c4e5fcf746da4104156c59c6d56fbfbf82f544ba"
 APP_NAME="courier-authlib"
-APP_VERSION="0.66.1"
+APP_VERSION="0.66.3"
+APP_LINKER_ARGS="-lpthread"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_ARGS="--without-authpam --without-authldap --without-authpwd --without-authshadow --without-stdheaderdir --sysconfdir=${DATA_DIR}etc --localstatedir=${DATA_DIR}var"
 
