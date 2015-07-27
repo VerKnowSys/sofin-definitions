@@ -1,5 +1,6 @@
 . ${DEFINITIONS_DIR}percona-server55.def
 
+DISABLE_ON="FreeBSD"
 APP_FULL_NAME="Percona Server 5.6"
 APP_SHA="c4858f32ef3c0d02da0a3ea5a8f54e891904dd36"
 APP_NAME="percona-server"
