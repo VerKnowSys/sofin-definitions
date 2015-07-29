@@ -1,0 +1,81 @@
+APP_FULL_NAME="Exim"
+APP_SHA="5e2c2e5fcc83646e7d7dd308f1d13da0e49db924"
+APP_NAME="exim"
+APP_VERSION="4.86"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_REQUIREMENTS="libressl pcre db53 cyrus-sasl libspf2 libsrs2 libsrs_alt"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_AFTER_UNPACK_CALLBACK="create_makefile"
+APP_MAKE_METHOD="make makefile ; make -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="make install"
+APP_AFTER_INSTALL_CALLBACK="symlink_exim"
+APP_EXPORTS="exicyclog exigrep exim exim-4.86-3 exim_checkaccess exim_dbmbuild exim_dumpdb exim_fixdb exim_lock exim_tidydb eximstats exinext exipick exiqgrep exiqsumm exiwhat spfd spfd_static spfquery spfquery_static spftest spftest_static srs spf_example spf_example_static saslauthd sasldblistusers2 saslpasswd2 testsaslauthd pluginviewer"
+APP_USELESS="docs"
+
+symlink_exim () {
+    ${LN_BIN} -s ${PREFIX}/sbin/exim-* ${PREFIX}/sbin/exim
+}
+
+create_makefile () {
+    ${PRINTF_BIN} "
+HAVE_IPV6=YES
+HAVE_ICONV=yes
+ALT_CONFIG_PREFIX=/etc/exim
+DISABLE_D_OPTION=yes
+WITH_CONTENT_SCAN=yes
+WITH_OLD_DEMIME=yes
+BIN_DIRECTORY=${PREFIX}/sbin
+CONFIGURE_FILE=/etc/exim.conf
+SYSTEM_ALIASES_FILE=/etc/aliases
+EXIM_USER=mail
+SPOOL_DIRECTORY=/var/spool/exim
+ROUTER_ACCEPT=yes
+ROUTER_DNSLOOKUP=yes
+ROUTER_IPLITERAL=yes
+ROUTER_MANUALROUTE=yes
+ROUTER_QUERYPROGRAM=yes
+ROUTER_REDIRECT=yes
+TRANSPORT_APPENDFILE=yes
+TRANSPORT_AUTOREPLY=yes
+TRANSPORT_PIPE=yes
+TRANSPORT_SMTP=yes
+TRANSPORT_LMTP=yes
+SUPPORT_MAILDIR=yes
+SUPPORT_MAILSTORE=yes
+SUPPORT_MBX=yes
+LOOKUP_DBM=no
+LOOKUP_LSEARCH=yes
+LOOKUP_CDB=no
+LOOKUP_DNSDB=yes
+PCRE_LIBS=-lpcre
+INCLUDE=-I${PREFIX}/include
+AUTH_CRAM_MD5=yes
+AUTH_PLAINTEXT=yes
+SUPPORT_TLS=yes
+TLS_LIBS=-lssl -lcrypto
+TLS_LIBS=-L${PREFIX}/lib -lssl -lcrypto
+TLS_INCLUDE=-I${PREFIX}/include/
+INFO_DIRECTORY=${PREFIX}/share/info
+LOG_FILE_PATH=/var/log/exim/%%slog
+EXICYCLOG_MAX=10
+COMPRESS_COMMAND=/usr/bin/gzip
+COMPRESS_SUFFIX=gz
+ZCAT_COMMAND=/usr/bin/zcat
+# EXIM_PERL=perl.o
+NO_SYMLINK=yes
+LOG_DIRECTORY_MODE=0755
+LOG_MODE=0644
+PID_FILE_PATH=/var/run/exim.pid
+SUPPORT_MOVE_FROZEN_MESSAGES=yes
+EXPERIMENTAL_SRS=yes
+EXPERIMENTAL_SPF=yes
+# CFLAGS=-O -I${PREFIX}/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+CFLAGS += -I${PREFIX}/include -DSPF
+LDFLAGS += -L${PREFIX}/lib -lsrs_alt
+LFLAGS += -L${PREFIX}/lib -ldb
+EXTRALIBS_EXIM += -L${PREFIX}/lib -lspf2 -L/usr/local/lib
+DBMLIB = -ldb
+USE_DB = yes
+LIBS = -lnsl -lcrypt -lm
+" > Local/Makefile
+}
