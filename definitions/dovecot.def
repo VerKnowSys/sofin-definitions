@@ -1,0 +1,16 @@
+APP_FULL_NAME="Dovecot"
+APP_SHA="8309b5ef8d33d464eb7a6e1d3cba0b4e87c55eff"
+APP_NAME="dovecot"
+APP_VERSION="2.2.18"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_EXPORTS="dovecot doveadm doveconf dsync aggregator anvil auth checkpassword-reply config deliver dict decode2text.sh director dns-client doveadm-server dovecot-lda gdbhelper imap imap-login imap-urlauth imap-urlauth-login imap-urlauth-worker indexer indexer-worker ipc lmtp log maildirlock pop3 pop3-login quota-status rawlog replicator script script-login ssl-params stats xml2text"
+APP_REQUIREMENTS="libressl"
+APP_CONFIGURE_ARGS="--sysconfdir=/etc --localstatedir=/var --without-gssapi --with-ssl=openssl"
+APP_USEFUL="libexec/dovecot"
+APP_AFTER_INSTALL_CALLBACK="make_libexec_symlinks"
+
+make_libexec_symlinks () {
+    for a_file in aggregator anvil auth checkpassword-reply config deliver dict decode2text.sh director dns-client doveadm-server dovecot-lda gdbhelper imap imap-login imap-urlauth imap-urlauth-login imap-urlauth-worker indexer indexer-worker ipc lmtp log maildirlock pop3 pop3-login quota-status rawlog replicator script script-login ssl-params stats xml2text; do
+        ${LN_BIN} -s ${PREFIX}/libexec/dovecot/${a_file} ${PREFIX}/libexec/${a_file}
+    done
+}
