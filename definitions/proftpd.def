@@ -1,0 +1,16 @@
+APP_FULL_NAME="ProFTPD"
+APP_STANDALONE="true"
+APP_NAME="proftpd"
+APP_SHA="7c4027c207bdfe7c88b859810c7fa9b978b0524d"
+APP_VERSION="1.3.5a"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="libressl geoip"
+APP_CONFIGURE_ARGS="--with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --enable-openssl --sysconfdir=/etc --localstatedir=/var/run --without-pam --disable-auth-pam --with-modules=mod_ifsession:mod_ratio:mod_readme:mod_tls:mod_geoip"
+APP_EXPORTS="ftpscrub ftpshut in.proftpd proftpd ftpasswd ftpcount ftpdctl ftpmail ftpquota ftptop ftpwho prxs"
+APP_AFTER_UNPACK_CALLBACK="fetch_geoip"
+
+fetch_geoip () {
+    cd contrib
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/mod_geoip.c
+    cd ..
+}
