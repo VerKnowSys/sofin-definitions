@@ -43,7 +43,7 @@ TRANSPORT_LMTP=yes
 SUPPORT_MAILDIR=yes
 SUPPORT_MAILSTORE=yes
 SUPPORT_MBX=yes
-LOOKUP_DBM=no
+LOOKUP_DBM=yes
 LOOKUP_LSEARCH=yes
 LOOKUP_CDB=no
 LOOKUP_DNSDB=yes
@@ -71,10 +71,10 @@ EXPERIMENTAL_SRS=yes
 EXPERIMENTAL_SPF=yes
 # CFLAGS=-O -I${PREFIX}/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 CFLAGS += -I/usr/include -I${PREFIX}/include -DSPF
-LDFLAGS += -L/usr/lib -L${PREFIX}/lib -L${PREFIX}/lib/perl5/5.22.0/x86_64-linux/CORE} -lsrs_alt
-LFLAGS += -L/usr/lib -L${PREFIX}/lib -ldb
-EXTRALIBS_EXIM += -L${PREFIX}/lib -lspf2
-DBMLIB = -ldb
+LDFLAGS += -L/usr/lib -L${PREFIX}/lib -R${PREFIX}/lib -lsrs_alt
+LFLAGS += -L/usr/lib -L${PREFIX}/lib -R${PREFIX}/lib -ldb
+EXTRALIBS_EXIM += -R${PREFIX}/lib -L${PREFIX}/lib -lspf2
+DBMLIB = -R${PREFIX}/lib -ldb
 USE_DB = yes
 LIBS = -lnsl -lcrypt -lm
 " > Local/Makefile
