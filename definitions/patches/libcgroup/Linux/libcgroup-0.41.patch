@@ -1,0 +1,48 @@
+diff -ur libcgroup-0.41/src/api.c libcgroup-0.41/src/api.c
+--- libcgroup-0.41/src/api.c	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/src/api.c	2015-08-20 19:19:56.000000000 +0200
+@@ -4054,6 +4054,7 @@
+ 		 * readlink() fails if a kernel thread, and a process
+ 		 * name is taken from /proc/<pid>/status.
+ 		 */
++		strncpy(pname_status, "__KERNEL__", sizeof("__KERNEL__"));
+ 		*procname = pname_status;
+ 		return 0;
+ 	}
+@@ -4090,10 +4091,10 @@
+ 	/*
+ 	 * The above strncmp() is not 0 also if executing a symbolic link,
+ 	 * /proc/pid/exe points to real executable name then.
+-	 * Return it as the last resort.
++	 * As the last resort, return name from /proc/<pid>/status.
+ 	 */
++	*procname = strdup(pname_status);
+ 	free(pname_status);
+-	*procname = strdup(buf);
+ 	if (*procname == NULL) {
+ 		last_errno = errno;
+ 		return ECGOTHER;
+diff -ur libcgroup-0.41/src/daemon/cgrulesengd.c libcgroup-0.41/src/daemon/cgrulesengd.c
+--- libcgroup-0.41/src/daemon/cgrulesengd.c	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/src/daemon/cgrulesengd.c	2015-08-27 13:11:17.000000000 +0200
+@@ -950,6 +950,9 @@
+ 
+ 	/* Ask libcgroup to reload the template rules table. */
+ 	cgroup_reload_cached_templates(CGCONFIG_CONF_FILE);
++
++	/* Reapply cgroups to running processes. */
++	cgroup_change_all_cgroups();
+ }
+ 
+ /**
+@@ -967,6 +970,9 @@
+ 
+ 	/* Ask libcgroup to reload the templates table. */
+ 	cgroup_reload_cached_templates(CGCONFIG_CONF_FILE);
++
++	/* Reapply cgroups to running processes. */
++	cgroup_change_all_cgroups();
+ }
+ 
+ /**
+
