@@ -1,0 +1,23 @@
+APP_FULL_NAME="Go Language"
+APP_NAME="go"
+APP_SHA="7242bb5ae29594641c75bdc3453d5854cc0a8604"
+APP_VERSION="1.5"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}${APP_VERSION}.src.tar.gz"
+APP_REQUIREMENTS="bash pkgconf pcre"
+APP_MAKE_METHOD="make_script"
+APP_INSTALL_METHOD="install_script"
+APP_CONFIGURE_SCRIPT="ignore"
+APP_EXPORTS="go gofmt"
+APP_USELESS="src doc test include share "
+
+make_script () {
+    cd src
+    export GOROOT=${PREFIX}
+    export CC=/usr/bin/clang
+    export GOROOT_BOOTSTRAP=/usr/local/go # XXX: you need go bootstrap to build from source.
+    ./all.bash
+}
+
+install_script () {
+    ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}
+}
