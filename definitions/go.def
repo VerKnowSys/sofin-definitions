@@ -4,20 +4,29 @@ APP_SHA="7242bb5ae29594641c75bdc3453d5854cc0a8604"
 APP_VERSION="1.5"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}${APP_VERSION}.src.tar.gz"
 APP_REQUIREMENTS="bash pkgconf pcre"
-APP_MAKE_METHOD="make_script"
-APP_INSTALL_METHOD="install_script"
 APP_CONFIGURE_SCRIPT="ignore"
-APP_EXPORTS="go gofmt"
-APP_USELESS="src doc test include share "
+APP_EXPORTS="go gofmt go-${APP_VERSION} gofmt-${APP_VERSION}"
+APP_USELESS="doc test include share"
+APP_MAKE_METHOD="make_script"
+APP_AFTER_INSTALL_CALLBACK="make_wrappers"
+APP_INSTALL_METHOD="true"
 
 make_script () {
-    cd src
-    export GOROOT=${PREFIX}
-    export CC=/usr/bin/clang
-    export GOROOT_BOOTSTRAP=/usr/local/go # XXX: you need go bootstrap to build from source.
-    ./all.bash
+    ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}/
+    cd ${PREFIX}/src
+    test -d /usr/local/go || error "Go bootstrap is required in /usr/local/go to build Go from source."
+    PATH=${PREFIX}/bin:/usr/bin:/bin:/usr/sbin GOROOT_BOOTSTRAP=/usr/local/go CC=/usr/bin/clang GOROOT="${PREFIX}" GOROOT_FINAL="${PREFIX}" ./all.bash
 }
 
-install_script () {
-    ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}
+make_wrappers () {
+    if [ ! -x ${PREFIX}/bin/go-${APP_VERSION} ]; then
+        ${MV_BIN} ${PREFIX}/bin/go ${PREFIX}/bin/go-${APP_VERSION} && \
+        ${PRINTF_BIN} "#!/bin/sh\n\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/exports/go-${APP_VERSION} \$@\n" > ${PREFIX}/bin/go
+        ${CHMOD_BIN} a+x ${PREFIX}/bin/go
+    fi
+    if [ ! -x ${PREFIX}/bin/gofmt-${APP_VERSION} ]; then
+        ${MV_BIN} ${PREFIX}/bin/gofmt ${PREFIX}/bin/gofmt-${APP_VERSION} && \
+        ${PRINTF_BIN} "#!/bin/sh\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/exports/gofmt-${APP_VERSION} \$@\n" > ${PREFIX}/bin/gofmt
+        ${CHMOD_BIN} a+x ${PREFIX}/bin/gofmt
+    fi
 }
