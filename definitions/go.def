@@ -15,18 +15,18 @@ make_script () {
     ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}/
     cd ${PREFIX}/src
     test -d /usr/local/go || error "Go bootstrap is required in /usr/local/go to build Go from source."
-    PATH=${PREFIX}/bin:/usr/bin:/bin:/usr/sbin GOROOT_BOOTSTRAP=/usr/local/go CC=/usr/bin/clang GOROOT="${PREFIX}" GOROOT_FINAL="${PREFIX}" ./all.bash
+    PATH=${PREFIX}/bin:/usr/bin:/bin:/usr/sbin GOROOT_BOOTSTRAP=/usr/local/go CC=/usr/bin/clang GOROOT="${PREFIX}" GOROOT_FINAL="${PREFIX}" ./make.bash
 }
 
 make_wrappers () {
     if [ ! -x ${PREFIX}/bin/go-${APP_VERSION} ]; then
         ${MV_BIN} ${PREFIX}/bin/go ${PREFIX}/bin/go-${APP_VERSION} && \
-        ${PRINTF_BIN} "#!/bin/sh\n\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/exports/go-${APP_VERSION} \$@\n" > ${PREFIX}/bin/go
+        ${PRINTF_BIN} "#!/bin/sh\n\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${APP_VERSION} \$@\n" > ${PREFIX}/bin/go
         ${CHMOD_BIN} a+x ${PREFIX}/bin/go
     fi
     if [ ! -x ${PREFIX}/bin/gofmt-${APP_VERSION} ]; then
         ${MV_BIN} ${PREFIX}/bin/gofmt ${PREFIX}/bin/gofmt-${APP_VERSION} && \
-        ${PRINTF_BIN} "#!/bin/sh\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/exports/gofmt-${APP_VERSION} \$@\n" > ${PREFIX}/bin/gofmt
+        ${PRINTF_BIN} "#!/bin/sh\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${APP_VERSION} \$@\n" > ${PREFIX}/bin/gofmt
         ${CHMOD_BIN} a+x ${PREFIX}/bin/gofmt
     fi
 }
