@@ -9,7 +9,7 @@ APP_REQUIREMENTS="bash pkgconf pcre go"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="make_action"
 APP_INSTALL_METHOD="install_links"
-APP_USELESS="doc test include share src local/src misc pkg"
+APP_USELESS="doc test include share src local/src misc pkg api"
 APP_EXPORTS="influx influx_stress influxd inspect test_client urlgen"
 
 make_action () {
