@@ -11,6 +11,7 @@ APP_MAKE_METHOD="make_action"
 APP_INSTALL_METHOD="install_links"
 APP_USELESS="doc test include share src local/src misc pkg api"
 APP_EXPORTS="grafana"
+APP_NO_CCACHE="true"
 
 make_action () {
     debug "Fetching Grafana"
