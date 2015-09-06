@@ -14,8 +14,11 @@ APP_INSTALL_METHOD="true"
 make_script () {
     ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}/
     cd ${PREFIX}/src
-    test -d /usr/local/go || error "Go bootstrap is required in /usr/local/go to build Go from source."
-    PATH=${PREFIX}/bin:/usr/bin:/bin:/usr/sbin GOROOT_BOOTSTRAP=/usr/local/go CC=/usr/bin/clang GOROOT="${PREFIX}" GOROOT_FINAL="${PREFIX}" ./make.bash
+    PP="/usr/local/go"
+    if [ ! -d "${PP}" ]; then
+        error "Go bootstrap not found in path: ${PP}"
+    fi
+    GOROOT_BOOTSTRAP=${PP} CC=/usr/bin/clang GOROOT="${PREFIX}" GOROOT_FINAL="${PREFIX}" ./make.bash
 }
 
 make_wrappers () {
