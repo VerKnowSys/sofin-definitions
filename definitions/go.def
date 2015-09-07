@@ -3,7 +3,7 @@ APP_NAME="go"
 APP_SHA="7242bb5ae29594641c75bdc3453d5854cc0a8604"
 APP_VERSION="1.5"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}${APP_VERSION}.src.tar.gz"
-APP_REQUIREMENTS="bash pkgconf pcre"
+APP_REQUIREMENTS="pkgconf pcre"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_EXPORTS="go gofmt go-${APP_VERSION} gofmt-${APP_VERSION}"
 APP_USELESS="doc test include share"
@@ -17,6 +17,10 @@ make_script () {
     PP="/usr/local/go"
     if [ ! -d "${PP}" ]; then
         error "Go bootstrap not found in path: ${PP}"
+    fi
+    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+        # change shebang:
+        ${SED_BIN} -i '' -e 's:^#!.*$:#!/bin/sh:' ./make.bash
     fi
     GOROOT_BOOTSTRAP=${PP} CC=/usr/bin/clang GOROOT="${PREFIX}" GOROOT_FINAL="${PREFIX}" ./make.bash
 }
