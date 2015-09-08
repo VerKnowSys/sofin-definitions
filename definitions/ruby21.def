@@ -3,7 +3,7 @@ APP_SHA="e2e195a4a58133e3ad33b955c829bb536fa3c075"
 APP_NAME="ruby"
 APP_POSTFIX="21"
 APP_VERSION="2.1.7"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_ARGS="--with-opt-dir=${PREFIX} --with-gcc=/usr/bin/clang --disable-install-doc --disable-install-rdoc --enable-load-relative"
 case "${SYSTEM_NAME}" in
     FreeBSD)
