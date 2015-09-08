@@ -71,11 +71,11 @@ EXPERIMENTAL_SRS=yes
 EXPERIMENTAL_SPF=yes
 # CFLAGS=-O -I${PREFIX}/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 CFLAGS += -I/usr/include -I${PREFIX}/include -DSPF
-LDFLAGS += -L/usr/lib -L${PREFIX}/lib -R${PREFIX}/lib -lsrs_alt
+LDFLAGS += -L/usr/lib -L${PREFIX}/lib -lsrs_alt
 # 2015-08-24 12:43:20 - dmilith - To link properly, it requires libdb-dev from aptitude under Debian:
-LFLAGS += -L/usr/lib -L${PREFIX}/lib -R${PREFIX}/lib -ldb
-EXTRALIBS_EXIM += -R${PREFIX}/lib -L${PREFIX}/lib -lspf2
-DBMLIB = -R${PREFIX}/lib -ldb
+LFLAGS += -L/usr/lib -L${PREFIX}/lib -ldb
+EXTRALIBS_EXIM += -L${PREFIX}/lib -lspf2
+DBMLIB = -ldb
 USE_DB = yes
 LIBS = -lnsl -lcrypt -lm
 " > Local/Makefile
