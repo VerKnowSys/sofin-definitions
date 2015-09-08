@@ -17,6 +17,13 @@ symlink_exim () {
 }
 
 create_makefile () {
+    export ADD_LIBS=""
+    if [ -e /etc/centos-release ]; then
+        debug "Preparing centos 7 hacks"
+        test ! -L /usr/lib64/libperl.so && ${LN_BIN} -s /usr/lib64/perl5/CORE/libperl.so /usr/lib64/libperl.so
+        export ADD_LIBS="-L/usr/lib64/petl5/CORE -lperl"
+    fi
+
     ${PRINTF_BIN} "
 HAVE_IPV6=YES
 HAVE_ICONV=yes
@@ -69,14 +76,13 @@ PID_FILE_PATH=/var/run/exim.pid
 SUPPORT_MOVE_FROZEN_MESSAGES=yes
 EXPERIMENTAL_SRS=yes
 EXPERIMENTAL_SPF=yes
-# CFLAGS=-O -I${PREFIX}/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 CFLAGS += -I/usr/include -I${PREFIX}/include -DSPF
-LDFLAGS += -L/usr/lib -L${PREFIX}/lib -lsrs_alt
+LDFLAGS += -L/usr/lib -L${PREFIX}/lib -lsrs_alt -lperl
 # 2015-08-24 12:43:20 - dmilith - To link properly, it requires libdb-dev from aptitude under Debian:
-LFLAGS += -L/usr/lib -L${PREFIX}/lib -ldb
+LFLAGS += -L/usr/lib -L${PREFIX}/lib -ldb -lperl
 EXTRALIBS_EXIM += -L${PREFIX}/lib -lspf2
 DBMLIB = -ldb
 USE_DB = yes
-LIBS = -lnsl -lcrypt -lm
+LIBS = -lnsl -lcrypt -lm -lperl
 " > Local/Makefile
 }
