@@ -5,7 +5,7 @@ GO_VERSION="1.5"
 APP_HTTP_PATH="git://github.com/OliverLetterer/dummy-repo.git"
 APP_GIT_MODE="true"
 APP_GIT_CHECKOUT="master"
-APP_REQUIREMENTS="bash pkgconf pcre go"
+APP_REQUIREMENTS="pkgconf pcre go"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="make_action"
 APP_INSTALL_METHOD="install_links"
@@ -13,6 +13,7 @@ APP_USELESS="doc test include share src local/src misc pkg api"
 APP_EXPORTS="influx influx_stress influxd inspect test_client urlgen"
 
 make_action () {
+    export PATH=${PATH}:/Software/Git/exports ## XXX
     ${PREFIX}/bin/go get github.com/influxdb/influxdb
     cd ${PREFIX}/local/src/github.com/influxdb
     ${PREFIX}/bin/go get -u -f -t ./...
