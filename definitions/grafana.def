@@ -15,6 +15,7 @@ APP_NO_CCACHE="true"
 
 make_action () {
     debug "Fetching Grafana"
+    export PATH=${PATH}:/Software/Git/exports ## XXX
     ${PREFIX}/bin/go get github.com/grafana/grafana
     cd ${PREFIX}/local/src/github.com/grafana/grafana
     debug "Fetching dependencies of Grafana"
