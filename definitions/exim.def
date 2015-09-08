@@ -17,11 +17,11 @@ symlink_exim () {
 }
 
 create_makefile () {
-    export ADD_LIBS=""
-    if [ -e /etc/centos-release ]; then
+    export ADDITIONAL=""
+    if [ -f /etc/centos-release ]; then
         debug "Preparing centos 7 hacks"
         test ! -L /usr/lib64/libperl.so && ${LN_BIN} -s /usr/lib64/perl5/CORE/libperl.so /usr/lib64/libperl.so
-        export ADD_LIBS="-L/usr/lib64/petl5/CORE -lperl"
+        export ADDITIONAL="-L/usr/lib64/perl5/CORE -L/usr/lib64 -lperl"
     fi
 
     ${PRINTF_BIN} "
@@ -77,12 +77,12 @@ SUPPORT_MOVE_FROZEN_MESSAGES=yes
 EXPERIMENTAL_SRS=yes
 EXPERIMENTAL_SPF=yes
 CFLAGS += -I/usr/include -I${PREFIX}/include -DSPF
-LDFLAGS += -L/usr/lib -L${PREFIX}/lib -lsrs_alt -lperl
+LDFLAGS += ${ADDITIONAL} -L/usr/lib -L${PREFIX}/lib -lsrs_alt
 # 2015-08-24 12:43:20 - dmilith - To link properly, it requires libdb-dev from aptitude under Debian:
-LFLAGS += -L/usr/lib -L${PREFIX}/lib -ldb -lperl
-EXTRALIBS_EXIM += -L${PREFIX}/lib -lspf2
-DBMLIB = -ldb
+LFLAGS += ${ADDITIONAL} -L/usr/lib -L${PREFIX}/lib -ldb
+EXTRALIBS_EXIM += ${ADDITIONAL} -L${PREFIX}/lib -lspf2
+DBMLIB = -ldb ${ADDITIONAL}
 USE_DB = yes
-LIBS = -lnsl -lcrypt -lm -lperl
+LIBS = ${ADDITIONAL}  -lnsl -lcrypt -lm
 " > Local/Makefile
 }
