@@ -4,21 +4,14 @@ APP_NAME="ruby"
 APP_POSTFIX="21"
 APP_VERSION="2.1.7"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="--with-opt-dir=${PREFIX} --with-gcc=/usr/bin/clang --disable-install-doc --disable-install-rdoc --enable-load-relative"
+APP_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX} --with-gcc=/usr/bin/clang --disable-install-doc --disable-install-rdoc --enable-load-relative"
 case "${SYSTEM_NAME}" in
-    FreeBSD)
-        ;;
-
-    Darwin)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-shared"
-        ;;
-
     Linux)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-shared --with-gcc=/usr/bin/gcc"
+        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
 
   ;;
 esac
-APP_REQUIREMENTS="zlib bzip2 libiconv libxml2 gmake m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite libressl readline"
+APP_REQUIREMENTS="pkgconf zlib bzip2 libiconv libxml2 gmake m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite libressl readline"
 APP_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler rack"
 APP_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
