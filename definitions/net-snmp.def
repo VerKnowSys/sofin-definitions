@@ -1,0 +1,8 @@
+APP_FULL_NAME="Net-SNMP library"
+APP_NAME="net-snmp"
+APP_SHA="97dc25077257680815de44e34128d365c76bd839"
+APP_VERSION="5.7.3"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS=""
+APP_CONFIGURE_ARGS="--with-sys-contact=admin@verknowsys.com --with-default-snmp-version=3 --disable-manuals --enable-ipv6 --disable-snmpv1 --disable-debugging --disable-embedded-perl --with-sys-location=/SoftwareData/net-snmp --with-logfile=/var/log/snmpd.log --with-persistent-directory=/var/net-snmp"
+APP_EXPORTS="snmp snmpd"
