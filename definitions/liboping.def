@@ -2,4 +2,16 @@ APP_FULL_NAME="Oping library"
 APP_NAME="liboping"
 APP_SHA="4ba4774cf7894cee0749844d33f9a5f9a6a2c793"
 APP_VERSION="1.8.0"
+APP_REQUIREMENTS="gmake m4 libtool autoconf automake"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_AFTER_UNPACK_CALLBACK="patch_Makefileam"
+
+patch_Makefileam () {
+    if [ "${SYSTEM_NAME}" != "Linux" ]; then
+        ${SED_BIN} -i '' -e 's#-Wall -Werror##g' src/Makefile.am
+    fi
+
+    ${LN_BIN} -s ${PREFIX}/bin/aclocal ${PREFIX}/bin/aclocal-1.14 || true
+    ${LN_BIN} -s ${PREFIX}/bin/automake ${PREFIX}/bin/automake-1.14 || true
+    ${PREFIX}/bin/autoreconf
+}
