@@ -1,10 +1,10 @@
 APP_FULL_NAME="Percona Server 5.5"
-APP_SHA="f7c9d6fb2217b98da330edc84757a76e3e1ea045"
+APP_SHA="b32314df35f4811ffc65f7b852f2e02008fc1f52"
 APP_NAME="percona-server"
-APP_VERSION="5.5.44-37.3"
+APP_VERSION="5.5.45-37.4"
 APP_POSTFIX="55"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 bison gmake pcre pkgconf libffi gettext python27 libtool15 glib238 libiconv libevent flex"
+APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgconf libffi gettext python27 libtool15 glib238 libiconv libevent flex"
 APP_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR} -DWITH_SSL=bundled -DWITH_ZLIB=yes"
 case "${SYSTEM_NAME}" in
     Darwin)
