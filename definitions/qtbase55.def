@@ -12,15 +12,11 @@ APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    hack_gcc_and_clang_for_qt_if_root_on_fbsd () {
+    create_freebsd_clang_spec_on_sources () {
         pd=$(pwd)
         ${SED_BIN} -i '' -e 's#PLATFORM=freebsd-g++#PLATFORM=freebsd-clang#g' ./configure
         ${SED_BIN} -i '' -e 's/gethostname$/\
 #include <libutil.h>/g' src/corelib/io/qlockfile_unix.cpp
-
-        # for f in $(find . -name '*.prl' -type f); do
-        #     ${SED_BIN} -i '' -e 's#-lQt5Core#-lQt5Core -lutil#g' ${f}
-        # done
 
         # create mkspec for fbsd clang!
         if [ ! -d "mkspecs/freebsd-clang" ]; then
@@ -35,7 +31,7 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
         cd ${pd}
     }
 
-    unhack_gcc_and_clang_for_qt_if_root_on_fbsd () {
+    create_dest_freebsd_clang_spec () {
         # add freebsd-clang spec:
         if [ ! -d "${PREFIX}/mkspecs/freebsd-clang" ]; then
             ${MKDIR_BIN} -p ${PREFIX}/mkspecs/freebsd-clang
@@ -47,8 +43,8 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
             ${SED_BIN} -i '' -e 's/-pthread/-pthread -lutil -lexecinfo/g' qmake.conf
         fi
     }
-    APP_AFTER_UNPACK_CALLBACK="hack_gcc_and_clang_for_qt_if_root_on_fbsd"
-    APP_AFTER_INSTALL_CALLBACK="unhack_gcc_and_clang_for_qt_if_root_on_fbsd"
+    APP_AFTER_UNPACK_CALLBACK="create_freebsd_clang_spec_on_sources"
+    APP_AFTER_INSTALL_CALLBACK="create_dest_freebsd_clang_spec"
 fi
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
