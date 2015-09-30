@@ -7,5 +7,10 @@ APP_CONFIGURE_ARGS="--disable-alsa --disable-static --disable-sqlite"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # issue: configure script can't find "Carbon.h"
     # solution:
-    APP_COMPILER_ARGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
+    for ver in 11 10 9; do
+        if [ -d "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.${ver}.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers" ]; then
+            APP_COMPILER_ARGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
+            break
+        fi
+    done
 fi
