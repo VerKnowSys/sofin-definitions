@@ -8,4 +8,4 @@ APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qd
 APP_REQUIREMENTS="pkgconf gmake qtbase55"
 APP_CONFIGURE_SCRIPT="no-conf"
 APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtmacextras.pro"
-APP_CONFLICTS_WITH="Qt Qt53 Qtbase53 Qtbase54"
+APP_CONFLICTS_WITH="Qt55 Qtbase55"
