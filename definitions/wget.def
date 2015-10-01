@@ -1,0 +1,7 @@
+APP_FULL_NAME="wget"
+APP_SHA="3c082bc26fbcb73c7f53ddaa6576dc77776d2695"
+APP_NAME="wget"
+APP_VERSION="1.16.3"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_EXPORTS="wget"
+APP_REQUIREMENTS="gmake bzip2 libiconv perl zlib m4 pkgconf libtool libgpg-error gmp nettle p11-kit gnutls"
