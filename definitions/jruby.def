@@ -6,10 +6,9 @@ APP_VERSION="9.0.1.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-bin-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_SCRIPT="binary"
 APP_AFTER_UNPACK_CALLBACK="${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}/ ${PREFIX}"
-APP_AFTER_INSTALL_CALLBACK="${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm; ${LN_BIN} -s ${PREFIX}/bin/jruby ${PREFIX}/bin/ruby; ${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler --force ; echo 'done'"
 APP_REQUIREMENTS="openjdk8"
 APP_USEFUL="bin/jdb bin/jhat bin/jinfo bin/jmap bin/jar bin/jps bin/jarsigner bin/jrunscript bin/policytool bin/java bin/jstack bin/registervm bin/classpath bin/javac bin/jstat bin/rmic bin/javadoc bin/jstatd bin/rmid bin/javah bin/keytool bin/rmiregistry bin/javap bin/javavm jcmd"
-APP_EXPORTS="ast gem jgem irb jirb jruby jrubyc ri rdoc rake ruby bundle ng"
+APP_EXPORTS="ast gem jgem irb jirb jruby jrubyc ri rdoc rake ruby bundle"
 APP_ORIGIN="http://jruby.org/download"
 APP_CONFLICTS_WITH="Rubinius Ruby Passenger"
 APP_AFTER_INSTALL_CALLBACK="create_jruby_script"
@@ -33,5 +32,10 @@ create_jruby_script () {
     cd ${PREFIX}/tool/nailgun
     ./configure
     make
-    ${MV_BIN} ng ${PREFIX}/bin/ng
+
+    # make some post install magic:
+    ${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm
+    ${LN_BIN} -s ${PREFIX}/bin/jruby ${PREFIX}/bin/ruby
+    test ! -f ${HOME}/.gemrc && ${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc
+    gem install bundler
 }
