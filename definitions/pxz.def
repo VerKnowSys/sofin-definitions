@@ -1,0 +1,18 @@
+APP_FULL_NAME="Parallel XZ"
+APP_SHA="fe352d3e076183be95609497b1102a5a49a65b4f"
+APP_NAME="pxz"
+APP_VERSION="4.999.9beta.20091201git"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_INSTALL_METHOD="install_pxz"
+install_pxz () {
+    ${MKDIR_BIN} -p ${PREFIX}/bin
+    ${CP_BIN} ${APP_NAME} ${PREFIX}/bin/
+}
+
+APP_AFTER_UNPACK_CALLBACK="patch_makefiles"
+patch_makefiles () {
+    ${SED_BIN} -i '' -e 's/gcc/clang/g' Makefile
+    ${SED_BIN} -i '' -e 's/\|MAP_POPULATE//' pxz.c
+}
+APP_EXPORTS="pxz"
