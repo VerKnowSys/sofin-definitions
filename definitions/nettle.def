@@ -1,10 +1,14 @@
 APP_FULL_NAME="Low-level cryptographic library"
 APP_NAME="nettle"
-APP_SHA="57ad2aff231ba625c35f77b2bf80d29dfb136ce1"
-APP_VERSION="3.1"
+APP_SHA="1836601393522124787e029466935408e22dd204"
+APP_VERSION="3.1.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="bzip2 zlib libiconv gmake m4 gmp"
-APP_CONFIGURE_ARGS="--enable-shared"
+if [ "${SYSTEM_ARCH}" = "arm" ]; then
+    APP_CONFIGURE_ARGS="--enable-shared --disable-assembler"
+else
+    APP_CONFIGURE_ARGS="--enable-shared"
+fi
 APP_EXPORTS="nettle-hash nettle-lfib-stream"
 APP_MAKE_METHOD="gmake -s"
 APP_INSTALL_METHOD="gmake install"
