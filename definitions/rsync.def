@@ -8,6 +8,7 @@ APP_CONFIGURE_ARGS="--disable-ipv6 --disable-debug --enable-acl-support --enable
 APP_EXPORTS="rsync"
 APP_USELESS="lib/*perl*"
 APP_AFTER_UNPACK_CALLBACK="patch_max_path_length"
+APP_CONFLICTS_WITH="Rsync"
 patch_max_path_length () {
     note "Increasing default MAXPATHLEN from 1024 to 8194"
     ${SED_BIN} -i '' -e 's/#define MAXPATHLEN 1024/#define MAXPATHLEN 8194/' rsync.h
