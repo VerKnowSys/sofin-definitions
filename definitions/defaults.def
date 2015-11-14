@@ -13,6 +13,7 @@ APP_CONFIGURE_ARGS="" # additional arguments to configuration script of software
 APP_REQUIREMENTS="" # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
 APP_COMPILER_ARGS="" # additional special arguments to compiler used to build software
 APP_LINKER_ARGS="" # additional arguments to linker
+APP_LINKER_NO_DTAGS="" # if set to any but "", will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
 APP_CONFIGURE_SCRIPT="./configure" # default configure script name
 APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
