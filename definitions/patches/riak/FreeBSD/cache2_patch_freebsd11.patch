@@ -1,0 +1,10 @@
+--- deps/eleveldb/c_src/leveldb/util/cache2.h.orig	2015-11-14 18:59:55.530967000 +0100
++++ deps/eleveldb/c_src/leveldb/util/cache2.h	2015-11-14 19:03:07.001027000 +0100
+@@ -24,6 +24,7 @@
+ #define STORAGE_LEVELDB_INCLUDE_CACHE2_H_
+ 
+ #include <stdint.h>
++#include <time.h>
+ #include "leveldb/atomics.h"
+ #include "leveldb/cache.h"
+ #include "leveldb/options.h"
