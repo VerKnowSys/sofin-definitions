@@ -14,8 +14,18 @@ APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_CONFLICTS_WITH="Node"
 APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv"
 APP_USELESS="include/python2.7 lib/python2.7"
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    APP_COMPILER_ARGS="-Wno-unused-const-variable -Wno-unused-private-field"
-    APP_CONFIGURE_ARGS="--shared-zlib"
-    APP_REQUIREMENTS="${APP_REQUIREMENTS} python27 libexecinfo"
-fi
+
+case "${SYSTEM_NAME}" in
+    FreeBSD)
+        APP_COMPILER_ARGS="-Wno-unused-const-variable -Wno-unused-private-field"
+        APP_CONFIGURE_ARGS="--shared-zlib"
+        APP_REQUIREMENTS="${APP_REQUIREMENTS} python27 libexecinfo"
+        ;;
+
+    Darwin)
+        APP_STRIP="no" # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
+        ;;
+
+    *)
+        ;;
+esac
