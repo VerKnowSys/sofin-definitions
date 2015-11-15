@@ -23,7 +23,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        APP_STRIP="no" # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
+        APP_STRIP="libs" # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
         ;;
 
     *)
