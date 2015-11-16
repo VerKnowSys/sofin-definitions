@@ -7,3 +7,9 @@ APP_CONFIGURE_ARGS="--with-libiconv=native --enable-contrib --with-system-libtif
 APP_REQUIREMENTS="zlib gmake pkgconf jbig2dec libidn libiconv tiff libpng jpeg freetype libxml2 fontconfig libpaper m4 bison perl autoconf automake libtool util-macros python27 libxslt xcb-proto libpthread-stubs xproto libXau libxcb xtrans xextproto libX11 libICE libSM kbproto libXt libXext"
 APP_MAKE_METHOD="gmake ${MAKE_OPTS} so"
 APP_INSTALL_METHOD="gmake ${MAKE_OPTS} soinstall"
+APP_AFTER_UNPACK_CALLBACK="patch_afterunpack"
+
+patch_afterunpack () {
+    ${SED_BIN} -i '' -e 's/JCOPYRIGHT_SHORT/"Copyright - verknowsys.com"/' ${PREFIX}/include/jerror.h
+    ${SED_BIN} -i '' -e 's/JVERSION/"1.0"/' ${PREFIX}/include/jerror.h
+}
