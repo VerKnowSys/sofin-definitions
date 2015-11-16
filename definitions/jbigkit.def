@@ -1,0 +1,20 @@
+APP_FULL_NAME="JBIG-KIT"
+APP_NAME="jbigkit"
+APP_SHA="4864646df004e8331d19f2fa103ed731fdb6c099"
+APP_VERSION="2.1"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="gmake"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="install_compiled_stuff"
+APP_AFTER_UNPACK_CALLBACK="fix_makefile"
+
+fix_makefile () {
+    ${SED_BIN} -i '' -e 's/gcc/clang/' Makefile
+}
+
+install_compiled_stuff () {
+    ${MKDIR_BIN} -p ${PREFIX}/lib ${PREFIX}/include
+    ${CP_BIN} libjbig/*.a ${PREFIX}/lib
+    ${CP_BIN} libjbig/*.h ${PREFIX}/include
+}
