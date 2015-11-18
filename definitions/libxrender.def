@@ -1,0 +1,6 @@
+DISABLE_ON="Darwin"
+APP_FULL_NAME="X renderer library"
+APP_SHA="31bf63dfb4fcb82a6db73abe98df87cb50c17176"
+APP_NAME="libXrender"
+APP_VERSION="0.9.9"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
