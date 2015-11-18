@@ -5,14 +5,14 @@
          valid = true;
          ready = true;
 -
-+#if defined(STRsdUCT_STATVFS_HAS_F_FRSIZE)
++#if defined(STRUCT_STATVFS_HAS_F_FRSIZE)
          bytesTotal = statfs_buf.f_blocks * statfs_buf.f_frsize;
          bytesFree = statfs_buf.f_bfree * statfs_buf.f_frsize;
          bytesAvailable = statfs_buf.f_bavail * statfs_buf.f_frsize;
 +#else
-+	bytesTotal = statfs_buf.f_blocks * 512;
-+        bytesFree = statfs_buf.f_bfree * 512;
-+        bytesAvailable = statfs_buf.f_bavail * 512;
++        bytesTotal = statfs_buf.f_blocks * statfs_buf.f_bsize;
++        bytesFree = statfs_buf.f_bfree * statfs_buf.f_bsize;
++        bytesAvailable = statfs_buf.f_bavail * statfs_buf.f_bsize;
 +#endif
  #if defined(Q_OS_ANDROID) || defined (Q_OS_BSD4)
  #if defined(_STATFS_F_FLAGS)
