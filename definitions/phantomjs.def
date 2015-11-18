@@ -1,0 +1,21 @@
+APP_FULL_NAME="Phantomjs"
+APP_NAME="phantomjs"
+APP_VERSION="2.0-master"
+APP_HTTP_PATH="git://github.com/VerKnowSys/phantomjs.git"
+APP_GIT_MODE="true"
+APP_GIT_CHECKOUT="master"
+APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison gperf icu ruby22 python27 qtbase55 qtwk55"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_USELESS="lib/perl5 lib/python2.7 lib/ruby"
+APP_COMPILER_ARGS="-DJSC_TAINTED_32 -D__BSD_VISIBLE"
+APP_EXPORTS="phantomjs"
+
+APP_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+patch_n_prepare () {
+    ${PREFIX}/bin/qmake -config release
+}
+
+APP_INSTALL_METHOD="install_phantomjs"
+install_phantomjs () {
+    ${CP_BIN} bin/phantomjs ${PREFIX}/bin/phantomjs
+}
