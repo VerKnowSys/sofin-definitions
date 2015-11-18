@@ -1,11 +1,5 @@
-APP_FULL_NAME="Qt 5.5 Base Library + Mac Extras"
+. ${DEFINITIONS_DIR}qtbase55.def
+
 APP_NAME="qtme"
-APP_POSTFIX="55"
-APP_SHA="bd42e329ae70585e746edff70ce594ca486fc8d3"
-APP_VERSION="5.5.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${APP_VERSION}.tar.xz"
-APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 APP_REQUIREMENTS="pkgconf gmake qtbase55"
-APP_CONFIGURE_SCRIPT="no-conf"
 APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtmacextras.pro"
-APP_CONFLICTS_WITH="Qt55 Qtbase55 Qtwk55"
