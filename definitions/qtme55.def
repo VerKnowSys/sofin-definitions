@@ -1,5 +1,6 @@
 . ${DEFINITIONS_DIR}qtbase55.def
 
 APP_NAME="qtme"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${APP_VERSION}.tar.xz"
 APP_REQUIREMENTS="pkgconf gmake qtbase55"
 APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtmacextras.pro"
