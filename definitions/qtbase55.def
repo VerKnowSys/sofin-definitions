@@ -9,6 +9,7 @@ APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qd
 APP_CONFLICTS_WITH="Qt Qt55 Qt55 Qtws55"
 APP_REQUIREMENTS="pkgconf gmake"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+APP_COMPILER_ARGS="-D__BSD_VISIBLE"
 APP_INSTALL_METHOD="gmake install -s"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
