@@ -1,0 +1,16 @@
+APP_FULL_NAME="Qt 5.5 Base Library + WebKit"
+APP_NAME="qtwk"
+APP_POSTFIX="55"
+APP_SHA="e1e16f3eb48c1ce863b9ab33364e4ac178ae51a7"
+APP_VERSION="5.5.1"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebkit-opensource-src-${APP_VERSION}.tar.xz"
+APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby python27 qtbase55"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
+APP_CONFLICTS_WITH="Qt55 Qtbase55 Qtme55"
+APP_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+
+patch_n_prepare () {
+    ${PREFIX}/bin/qmake WebKit.pro
+    ${RM_BIN} Source/WebCore/DerivedSources.cpp # bizarre, but this hack works: https://bugreports.qt.io/browse/QTBUG-41743
+}
