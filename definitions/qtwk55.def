@@ -11,6 +11,6 @@ APP_CONFLICTS_WITH="Qt55 Qtbase55 Qtme55"
 APP_AFTER_UNPACK_CALLBACK="patch_n_prepare"
 
 patch_n_prepare () {
-    ${PREFIX}/bin/qmake WebKit.pro
+    ${PREFIX}/bin/qmake "WEBKIT_CONFIG -= use_glib use_gstreamer use_gstreamer010 use_native_fullscreen_video legacy_web_audio web_audio video gamepad" WebKit.pro
     ${RM_BIN} Source/WebCore/DerivedSources.cpp # bizarre, but this hack works: https://bugreports.qt.io/browse/QTBUG-41743
 }
