@@ -1,0 +1,19 @@
+--- src/corelib/io/qstorageinfo_unix.cpp.orig	2015-11-18 12:24:37.075707000 +0100
++++ src/corelib/io/qstorageinfo_unix.cpp	2015-11-18 12:28:05.580492000 +0100
+@@ -505,10 +505,15 @@
+     if (result == 0) {
+         valid = true;
+         ready = true;
+-
++#if defined(STRUCT_STATVFS_HAS_F_FRSIZE)
+         bytesTotal = statfs_buf.f_blocks * statfs_buf.f_frsize;
+         bytesFree = statfs_buf.f_bfree * statfs_buf.f_frsize;
+         bytesAvailable = statfs_buf.f_bavail * statfs_buf.f_frsize;
++#else
++        bytesTotal = statfs_buf.f_blocks * statfs_buf.f_bsize;
++        bytesFree = statfs_buf.f_bfree * statfs_buf.f_bsize;
++        bytesAvailable = statfs_buf.f_bavail * statfs_buf.f_bsize;
++#endif
+ #if defined(Q_OS_ANDROID) || defined (Q_OS_BSD4)
+ #if defined(_STATFS_F_FLAGS)
+         readOnly = (statfs_buf.f_flags & ST_RDONLY) != 0;
