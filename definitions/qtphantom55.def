@@ -1,5 +1,15 @@
 . ${DEFINITIONS_DIR}qtbase55.def
 
 APP_NAME="qtphantom"
-APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby python27 qtbase55"
-APP_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -nomake examples -nomake tests -L${PREFIX}/lib -no-qpa-platform-guard -continue -qpa phantom -no-openvg -no-eglfs -no-egl -no-glib -no-gtkstyle -no-cups -no-sm -no-xinerama -no-xkb -no-xcb -no-kms -no-linuxfb -no-directfb -no-mtdev -no-libudev -no-evdev -no-pulseaudio -no-alsa -no-feature-PRINTPREVIEWWIDGET"
+APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby python27 freetype libxml2 fontconfig qtbase55"
+APP_CONFIGURE_ARGS="-qpa phantom -v -prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -L${PREFIX}/lib -no-openvg -no-eglfs -no-egl -no-glib -no-gtkstyle -no-cups -no-sm -no-xinerama -no-xkb -no-xcb -no-kms -no-linuxfb -no-directfb -no-mtdev -no-libudev -no-evdev -no-pulseaudio -no-alsa -no-opengl -no-openvg -no-dbus -openssl -fontconfig -qt-sql-sqlite -qt-harfbuzz -qt-pcre -no-qml-debug -no-xinput2 -no-xrender -icu -pkg-config -no-compile-examples -continue"
+PHANTOM_QPA_REPO="https://github.com/dmilith/qtphantomqpa.git"
+
+APP_AFTER_UNPACK_CALLBACK="create_freebsd_clang_spec_on_sources; after_unpack_patch" # NOTE: create_freebsd_clang_spec_on_sources() from qtbase55.def
+after_unpack_patch () {
+    ${PRINTF_BIN} "TEMPLATE = subdirs\nSUBDIRS = phantom\n" > src/plugins/platforms/platforms.pro
+    cwd="$(pwd)"
+    cd src/plugins/platforms
+    ${GIT_BIN} clone ${PHANTOM_QPA_REPO} phantom
+    cd "${cwd}"
+}
