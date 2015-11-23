@@ -21,4 +21,5 @@ APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
 fix_makefile () {
     ${SED_BIN} -i '' -e '/6.Q16.pc/d' Makefile
     ${SED_BIN} -i '' -e '/cp -f\ \$\^\ \$\@/d' Makefile
+    true
 }
