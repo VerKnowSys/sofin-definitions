@@ -44,22 +44,3 @@ build_addons_and_extensions () {
     cd ${base_dir}/hstore && gmake install
     cd ${base_dir}/pg_trgm && gmake install
 }
-
-# service management definitions:
-
-init () {
-    zfs create ${SERVICE_PREFIX}
-}
-
-destroy () {
-    zfs destroy ${SERVICE_PREFIX}
-}
-
-start () {
-
-}
-
-stop () {
-
-}
-
