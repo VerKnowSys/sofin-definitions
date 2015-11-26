@@ -1,25 +1,26 @@
 APP_FULL_NAME="Simple Build Tool"
 APP_NAME="sbt"
-APP_SHA="ce875b394293b9e6e26659624d9fb5918d52bc31"
-APP_VERSION="0.12.2"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_SHA="879ee72d049f1718a29551f55590aa94972f4c96"
+APP_VERSION="0.13.9"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
 APP_CONFIGURE_SCRIPT="binary"
-APP_AFTER_UNPACK_CALLBACK="${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}/ ${PREFIX}"
-APP_AFTER_CONFIGURE_CALLBACK="${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm"
+APP_AFTER_UNPACK_CALLBACK="${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}"
+APP_AFTER_CONFIGURE_CALLBACK="after_jobs"
+APP_REQUIREMENTS="openjdk8"
 APP_AFTER_INSTALL_CALLBACK="createLaunchScript"
 APP_EXPORTS="sbt"
+
+
+after_jobs () {
+    ${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm
+    ${CP_BIN} ${PREFIX}/bin/sbt-launch.jar ${PREFIX}/lib/
+}
 
 createLaunchScript () {
   ${PRINTF_BIN} "#!/bin/sh
 
-exec java \
--XX:+AggressiveOpts \
--Xms512M \
--Xmx1536M \
--Xss1M \
--XX:+CMSClassUnloadingEnabled \
--XX:MaxPermSize=384M \
-${SBT_OPTS} -cp ${PREFIX}/bin/jansi.jar:${PREFIX}/bin/sbt-launch.jar xsbt.boot.Boot \"\$@\"
+SBT_OPTS=\"-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled\"
+java \$SBT_OPTS -jar ${PREFIX}/lib/sbt-launch.jar \"\$\@\"
 " > ${PREFIX}/bin/sbt
   ${CHMOD_BIN} +x ${PREFIX}/bin/sbt
 
