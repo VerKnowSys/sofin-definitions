@@ -8,8 +8,9 @@ APP_AFTER_UNPACK_CALLBACK="${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VER
 APP_AFTER_CONFIGURE_CALLBACK="after_jobs"
 APP_REQUIREMENTS="openjdk8"
 APP_AFTER_INSTALL_CALLBACK="createLaunchScript"
-APP_EXPORTS="sbt"
-
+APP_EXPORTS="sbt jdb jhat jinfo jmap jar jps jarsigner jrunscript policytool java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
+APP_CONFLICTS_WITH="Openjdk"
+APP_USELESS="demo sample src.zip"
 
 after_jobs () {
     ${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm
@@ -20,8 +21,7 @@ createLaunchScript () {
   ${PRINTF_BIN} "#!/bin/sh
 
 SBT_OPTS=\"-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled\"
-java \$SBT_OPTS -jar ${PREFIX}/lib/sbt-launch.jar \"\$\@\"
+${PREFIX}/bin/java \$SBT_OPTS -jar ${PREFIX}/lib/sbt-launch.jar \"\$\@\"
 " > ${PREFIX}/bin/sbt
   ${CHMOD_BIN} +x ${PREFIX}/bin/sbt
-
 }
