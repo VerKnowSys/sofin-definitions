@@ -1,12 +1,13 @@
 APP_FULL_NAME="Python 3"
-APP_SHA="0727d8a8498733baabe6f51632b9bab0cbaa9ada"
+APP_SHA="a809c1d4f9b1dfbf332edec6f360abb4b3445147"
 APP_NAME="Python"
-APP_VERSION="3.4.2"
-APP_POSTFIX="34"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_VERSION="3.5.0"
+APP_POSTFIX="35"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
 APP_CONFIGURE_ARGS="--with-fpectl --without-pydebug --disable-ipv6 --without-doc-strings --disable-tsc"
 APP_REQUIREMENTS="zlib bzip2 yaml libiconv"
 APP_EXPORTS="python3 python3-config easy_install pip"
+APP_USEFUL="bin/python*"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
   export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-universalsdk --with-universal-archs=intel --enable-shared"
 fi
