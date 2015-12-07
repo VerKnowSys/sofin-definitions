@@ -1,0 +1,8 @@
+APP_FULL_NAME="Git SCM Library"
+APP_SHA="02ff3374da7fdf116984adf41749db7b4d0a5877"
+APP_NAME="libgit2"
+APP_VERSION="0.23.4"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="libressl libssh2 libiconv cmake python27"
+APP_CONFIGURE_SCRIPT="cmake"
+APP_USELESS="lib/python* doc share include/python*"
