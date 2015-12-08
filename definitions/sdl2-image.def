@@ -1,0 +1,7 @@
+APP_FULL_NAME="SDL Image"
+APP_NAME="SDL2_image"
+APP_SHA="20b1b0db9dd540d6d5e40c7da8a39c6a81248865"
+APP_VERSION="2.0.0"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="sdl2"
+# APP_CONFIGURE_ARGS="--without-x --disable-nasm --disable-video --disable-joystick"
