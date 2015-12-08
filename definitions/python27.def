@@ -8,7 +8,7 @@ APP_VERSION="2.7.10"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_PIP_INSTALLER_PATH="https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
 APP_ST_EGG_NAME="setuptools-0.6c11-py2.7.egg"
-APP_AFTER_INSTALL_CALLBACK="install_ei_and_pip"
+APP_AFTER_INSTALL_CALLBACK="install_ei_and_pip ; install_some_useful_modules"
 APP_EXPORTS="python python2 python2.7 python-config easy_install pip"
 
 
@@ -20,4 +20,8 @@ install_ei_and_pip () {
     ${FETCH_BIN} ${APP_PIP_INSTALLER_PATH}
     ${PREFIX}/bin/python ./get-pip.py
     ${RM_BIN} -f ./get-pip.py ./${APP_ST_EGG_NAME}
+}
+
+install_some_useful_modules () {
+    ${PREFIX}/bin/pip install pytoml dulwich
 }
