@@ -8,7 +8,7 @@ APP_CONFIGURE_SCRIPT="PATH=${PREFIX}/bin:/Software/Git/bin:${PATH} ./configure"
 APP_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=${CPUS} gmake ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install ${MAKE_OPTS}"
 APP_CONFIGURE_ARGS="--disable-valgrind --enable-clang --disable-docs --release-channel=stable --disable-optimize-tests --enable-rpath --llvm-root=${PREFIX} --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache"
-APP_EXPORTS="rustc rust-gdb rustdoc cargo"
+APP_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
 APP_USELESS="lib/perl* lib/python* share/bison share/aclocal share/info share/doc/flex"
 APP_CONFLICTS_WITH="Rust"
 
@@ -24,4 +24,9 @@ install_cargo () {
     unset CC
     RUSTFLAGS=-Ccodegen_units=${CPUS} ${PREFIX}/bin/gmake
     ${PREFIX}/bin/gmake install
+
+    # make wrapper for cargo which doesn't include rpath information in binary:
+    ${MV_BIN} ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin
+    ${PRINTF_BIN} "#\!/bin/sh\nLD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo
+    ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo
 }
