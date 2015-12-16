@@ -15,9 +15,9 @@ APP_EXPORTS="python python2 python2.7 python-config easy_install pip"
 install_ei_and_pip () {
     ${TEST_BIN} ! -d ${HOME}/tmp && ${MKDIR_BIN} -p ${HOME}/tmp
     cd ${HOME}/tmp
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${APP_ST_EGG_NAME}
+    ${FETCH_BIN} --no-check-certificate ${MAIN_SOURCE_REPOSITORY}${APP_ST_EGG_NAME}
     PYTHONPATH=${PREFIX}/lib/python2.7/site-packages /bin/sh ./${APP_ST_EGG_NAME} --prefix=${PREFIX}
-    ${FETCH_BIN} ${APP_PIP_INSTALLER_PATH}
+    ${FETCH_BIN} --no-check-certificate ${APP_PIP_INSTALLER_PATH}
     ${PREFIX}/bin/python ./get-pip.py
     ${RM_BIN} -f ./get-pip.py ./${APP_ST_EGG_NAME}
 }
