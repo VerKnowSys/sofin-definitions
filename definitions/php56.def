@@ -57,6 +57,9 @@ install_dbase () {
 }
 
 install_extensions () {
+    # update pecl protocols before installing extensions
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
+
     install_imagick
     install_rar
     if [ "${SYSTEM_NAME}" = "Linux" ]; then
