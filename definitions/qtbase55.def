@@ -56,4 +56,5 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
         done
     }
     APP_AFTER_INSTALL_CALLBACK="makeSymlinks"
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -no-rpath"
 fi
