@@ -1,0 +1,5 @@
+. ${DEFINITIONS_DIR}rust.def
+
+APP_POSTFIX="-nightly"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}c-${APP_VERSION}-src.tar.gz"
+APP_CONFIGURE_ARGS="--disable-valgrind --enable-clang --disable-docs --release-channel=nightly --disable-optimize-tests --enable-rpath --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache"
