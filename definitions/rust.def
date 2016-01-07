@@ -3,11 +3,11 @@ APP_SHA="84624c55911bbba6a9c7665ab1801b594ff60928"
 APP_NAME="rust"
 APP_VERSION="1.5.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}c-${APP_VERSION}-src.tar.gz"
-APP_REQUIREMENTS="gmake pkgconf libiconv python27 curl m4 libressl ccache cmake libssh2" # LLVM >= 3.7.1 required for: llvm
+APP_REQUIREMENTS="gmake pkgconf libiconv python27 curl m4 libressl ccache cmake libssh2 llvm"
 APP_CONFIGURE_SCRIPT="PATH=${PREFIX}/bin:/Software/Git/bin:${PATH} ./configure"
 APP_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=${CPUS} gmake ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install ${MAKE_OPTS}"
-APP_CONFIGURE_ARGS="--disable-valgrind --enable-clang --disable-docs --release-channel=stable --disable-optimize-tests --enable-rpath --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache" # LLVM >= 3.7.1 required for: --llvm-root=${PREFIX}
+APP_CONFIGURE_ARGS="--disable-valgrind --enable-clang --disable-docs --release-channel=stable --disable-optimize-tests --enable-rpath --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache --llvm-root=${PREFIX}"
 APP_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
 APP_USELESS="lib/perl* lib/python* share/bison share/aclocal share/info share/doc/flex"
 APP_CONFLICTS_WITH="Rust"
