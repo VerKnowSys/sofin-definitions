@@ -1,10 +1,30 @@
 APP_FULL_NAME="MariaDB 10"
 APP_STANDALONE="true"
-APP_SHA="ee40a5c912e414c9d0e5170b664974fc79343e78"
+APP_SHA="bd6c69c9d043c001a1574867fc2c4d53bda76ade"
 APP_NAME="mariadb"
-APP_VERSION="10.0.21"
+APP_VERSION="10.0.23"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake ncurses"
+APP_REQUIREMENTS="zlib bzip2 perl expat libiconv cmake ncurses libressl"
 APP_CONFIGURE_SCRIPT="cmake"
-APP_EXPORTS="mysql mysql_config mysqld mysqld_multi mysqld_safe mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqlshow mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror"
+APP_EXPORTS="mysql mysql_config mysqld mysqld_multi mysqld_safe mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqlshow mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysql-proxy"
 APP_USELESS="doc sql-bench mysql-test support-files lib/perl5 data lib/libperl* share/aclocal share/cmake-3.0"
+
+case "${SYSTEM_NAME}" in
+    Linux)
+        APP_REQUIREMENTS="${APP_REQUIREMENTS} m4 bison gmake pcre pkgconf libffi gettext python27 libtool15 glib238 libevent flex"
+        APP_AFTER_INSTALL_CALLBACK="after_build"
+        after_build () {
+            mysql_proxy_name="mysql-proxy"
+            mysql_proxy_version="0.8.5"
+            mysql_proxy_archive="${mysql_proxy_name}-${mysql_proxy_version}.tar.gz"
+            ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${mysql_proxy_archive}
+            tar xf ${mysql_proxy_archive}
+            cd ${mysql_proxy_name}-${mysql_proxy_version}
+            PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX}
+            make install
+        }
+        ;;
+
+    *)
+        ;;
+esac
