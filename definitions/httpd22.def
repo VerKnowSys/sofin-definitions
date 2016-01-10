@@ -1,0 +1,12 @@
+. ${DEFINITIONS_DIR}httpd.def
+
+APP_FULL_NAME="Apache Httpd server version 2.2"
+APP_POSTFIX="22"
+APP_SHA="e3b55387112206307ba76526820a2627472f3787"
+APP_VERSION="2.2.31"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_REQUIREMENTS="libiconv zlib pcre perl openssl python27 libxml2 apr apr-util curl"
+
+build_evasive () {
+    echo "Skipped mod_evasive for 2.2"
+}
