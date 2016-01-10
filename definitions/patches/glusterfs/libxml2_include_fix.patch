@@ -1,0 +1,13 @@
+--- cli/src/cli.h.orig	2016-01-10 17:45:03.635209000 +0100
++++ cli/src/cli.h	2016-01-10 18:04:23.139338000 +0100
+@@ -24,8 +24,8 @@
+ #include "cli1-xdr.h"
+ 
+ #if (HAVE_LIB_XML)
+-#include <libxml/encoding.h>
+-#include <libxml/xmlwriter.h>
++#include <libxml2/libxml/encoding.h>
++#include <libxml2/libxml/xmlwriter.h>
+ #endif
+ 
+ #define DEFAULT_EVENT_POOL_SIZE            16384
