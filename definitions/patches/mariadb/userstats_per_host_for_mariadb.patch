@@ -5,28 +5,28 @@
  static bool increment_connection_count(THD* thd, bool use_lock)
  {
 -  const char *user_string= get_valid_user_string(thd->main_security_ctx.user);
-+  uint user_length = strlen(thd->security_ctx->priv_user) + 1 + strlen(thd->security_ctx->priv_host) + 1; /* +1 for '@' +1 for NULL */
++  uint user_length = strlen(thd->main_security_ctx.user) + 1 + strlen(thd->main_security_ctx.priv_host) + 1; /* +1 for '@' +1 for NULL */
 +  char user_string[user_length];
-+  strxnmov(user_string, user_length, get_valid_user_string(thd->security_ctx->priv_user), "@", thd->security_ctx->priv_host, NullS);
++  strxnmov(user_string, user_length, get_valid_user_string(thd->main_security_ctx.user), "@", thd->main_security_ctx.priv_host, NullS);
 +
    const char *client_string= get_client_host(thd);
    bool return_value= FALSE;
- 
+
 @@ -718,12 +721,16 @@
  /*  Updates the global stats of a user or client */
  void update_global_user_stats(THD *thd, bool create_user, time_t now)
  {
 -  const char *user_string, *client_string;
 +  const char *client_string;
-+  
-+  uint user_length = strlen(thd->security_ctx->priv_user) + 1 + strlen(thd->security_ctx->priv_host) + 1; /* +1 for '@' +1 for NULL */
++
++  uint user_length = strlen(thd->main_security_ctx.user) + 1 + strlen(thd->main_security_ctx.priv_host) + 1; /* +1 for '@' +1 for NULL */
 +  char user_string[user_length];
 +
    USER_STATS *user_stats;
    size_t user_string_length, client_string_length;
    DBUG_ASSERT(thd->userstat_running);
-+  strxnmov(user_string, user_length, get_valid_user_string(thd->security_ctx->priv_user), "@", thd->security_ctx->priv_host, NullS);
- 
++  strxnmov(user_string, user_length, get_valid_user_string(thd->main_security_ctx.user), "@", thd->main_security_ctx.priv_host, NullS);
+
 -  user_string= get_valid_user_string(thd->main_security_ctx.user);
    user_string_length= strlen(user_string);
    client_string= get_client_host(thd);
