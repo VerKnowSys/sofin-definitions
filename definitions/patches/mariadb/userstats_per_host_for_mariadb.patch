@@ -1,33 +1,47 @@
---- sql/sql_connect.cc.orig	2016-01-14 20:51:15.252394213 +0100
-+++ sql/sql_connect.cc	2016-01-14 21:32:39.832726812 +0100
-@@ -625,7 +625,10 @@
+--- sql/sql_connect.cc.orig	2016-01-15 13:57:09.789468531 +0100
++++ sql/sql_connect.cc	2016-01-15 16:18:50.862153214 +0100
+@@ -625,7 +625,7 @@
  #ifndef EMBEDDED_LIBRARY
  static bool increment_connection_count(THD* thd, bool use_lock)
  {
 -  const char *user_string= get_valid_user_string(thd->main_security_ctx.user);
-+  uint user_length = strlen(thd->main_security_ctx.user) + 1 + strlen(thd->main_security_ctx.priv_host) + 1; /* +1 for '@' +1 for NULL */
-+  char user_string[user_length];
-+  strxnmov(user_string, user_length, get_valid_user_string(thd->main_security_ctx.user), "@", thd->main_security_ctx.priv_host, NullS);
-+
++  const char *user_string2= get_valid_user_string(thd->main_security_ctx.user);
    const char *client_string= get_client_host(thd);
    bool return_value= FALSE;
 
-@@ -718,12 +721,16 @@
+@@ -635,6 +635,10 @@
+   if (use_lock)
+     mysql_mutex_lock(&LOCK_global_user_client_stats);
+
++  size_t username_length = strlen(user_string2) + strlen("@") + strlen(thd->security_ctx->priv_host) + 1;
++  char user_string[username_length];
++  strxnmov(user_string, username_length, user_string2, "@", thd->security_ctx->priv_host, NullS);
++
+   if (increment_count_by_name(user_string, strlen(user_string), user_string,
+                               &global_user_stats, thd))
+   {
+@@ -718,17 +722,19 @@
  /*  Updates the global stats of a user or client */
  void update_global_user_stats(THD *thd, bool create_user, time_t now)
  {
 -  const char *user_string, *client_string;
-+  const char *client_string;
-+
-+  uint user_length = strlen(thd->main_security_ctx.user) + 1 + strlen(thd->main_security_ctx.priv_host) + 1; /* +1 for '@' +1 for NULL */
-+  char user_string[user_length];
-+
++  const char *user_string2, *client_string;
    USER_STATS *user_stats;
    size_t user_string_length, client_string_length;
    DBUG_ASSERT(thd->userstat_running);
-+  strxnmov(user_string, user_length, get_valid_user_string(thd->main_security_ctx.user), "@", thd->main_security_ctx.priv_host, NullS);
 
 -  user_string= get_valid_user_string(thd->main_security_ctx.user);
-   user_string_length= strlen(user_string);
+-  user_string_length= strlen(user_string);
++  mysql_mutex_lock(&LOCK_global_user_client_stats);
++
    client_string= get_client_host(thd);
    client_string_length= strlen(client_string);
+-
+-  mysql_mutex_lock(&LOCK_global_user_client_stats);
++  user_string2= get_valid_user_string(thd->main_security_ctx.user);
++  user_string_length= strlen(user_string2) + strlen("@") + strlen(thd->security_ctx->priv_host) + 1;
++  char user_string[user_string_length];
++  strxnmov(user_string, user_string_length, user_string2, "@", thd->security_ctx->priv_host, NullS);
+
+   // Update by user name
+   if ((user_stats= (USER_STATS*) my_hash_search(&global_user_stats,
