@@ -1,9 +1,9 @@
 . ${DEFINITIONS_DIR}php56.def
 
 APP_FULL_NAME="PHP70"
-APP_SHA="be0ec3b512458ecfe9944ed3e66ddf141b83b5ae"
+APP_SHA="288cd2055f1e99c6645bb88b2257a6772c176021"
 APP_NAME="php"
-APP_VERSION="7.0.1"
+APP_VERSION="7.0.2"
 APP_POSTFIX="70"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex readline postgresql94 python27 libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt libressl curl gmp51 tiff jasper imagemagick freetds sqlite cyrus-sasl openldap geoip cclient"
