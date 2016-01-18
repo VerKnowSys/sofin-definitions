@@ -1,5 +1,5 @@
---- sql/sql_connect.cc.orig	2016-01-15 13:57:09.789468531 +0100
-+++ sql/sql_connect.cc	2016-01-15 16:18:50.862153214 +0100
+--- sql/sql_connect.cc.orig 2016-01-18 17:08:44.000000000 +0100
++++ sql/sql_connect.cc  2016-01-18 17:07:52.197306072 +0100
 @@ -625,7 +625,7 @@
  #ifndef EMBEDDED_LIBRARY
  static bool increment_connection_count(THD* thd, bool use_lock)
@@ -32,12 +32,10 @@
 
 -  user_string= get_valid_user_string(thd->main_security_ctx.user);
 -  user_string_length= strlen(user_string);
-+  mysql_mutex_lock(&LOCK_global_user_client_stats);
-+
    client_string= get_client_host(thd);
    client_string_length= strlen(client_string);
--
--  mysql_mutex_lock(&LOCK_global_user_client_stats);
+
+   mysql_mutex_lock(&LOCK_global_user_client_stats);
 +  user_string2= get_valid_user_string(thd->main_security_ctx.user);
 +  user_string_length= strlen(user_string2) + strlen("@") + strlen(thd->security_ctx->priv_host) + 1;
 +  char user_string[user_string_length];
