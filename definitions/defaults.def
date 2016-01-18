@@ -16,6 +16,7 @@ APP_LINKER_ARGS="" # additional arguments to linker
 APP_LINKER_NO_DTAGS="" # if set to any but "", will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
 APP_CONFIGURE_SCRIPT="./configure" # default configure script name
 APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
+APP_TEST_METHOD="true" # define to enable software internal testing
 APP_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
 APP_SOURCE_DIR_POSTFIX="" # special value required for software which delivers software sources in custom non standard directory.
 APP_AFTER_UNPACK_CALLBACK=""
