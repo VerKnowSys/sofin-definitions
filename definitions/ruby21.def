@@ -14,7 +14,7 @@ case "${SYSTEM_NAME}" in
         export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace"
         ;;
 esac
-APP_REQUIREMENTS="pkgconf zlib bzip2 libiconv libxml2 gmake m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite perl openssl readline gmp51"
+APP_REQUIREMENTS="pkgconf zlib bzip2 libiconv python27 libxml2 gmake m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite perl openssl readline gmp51"
 APP_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler rack"
 APP_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
