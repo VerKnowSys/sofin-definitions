@@ -5,6 +5,3 @@ APP_POSTFIX="3"
 APP_VERSION="3.2.4"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_ARGS="--without-documentation --with-poller"
-if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-    export FORCE_GNU_COMPILER="true"
-fi
