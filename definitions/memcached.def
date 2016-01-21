@@ -1,11 +1,8 @@
 APP_FULL_NAME="Memcached"
 APP_NAME="memcached"
-APP_SHA="ab10c46dd9f5d4401872d9670e575afa5bc7d66f"
-APP_VERSION="1.4.21"
+APP_SHA="7fd0ba9283c61204f196638ecf2e9295688b2314"
+APP_VERSION="1.4.25"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="libevent"
 APP_CONFIGURE_ARGS="CFLAGS=-Wno-error --with-libevent=${PREFIX} --enable-64bit --disable-docs"
 APP_EXPORTS="memcached"
-if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-    FORCE_GNU_COMPILER="true"
-fi
