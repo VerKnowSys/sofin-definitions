@@ -1,6 +1,7 @@
 APP_FULL_NAME="ZMQ - zeromq.org"
 APP_SHA="08303259f08edd1faeac2e256f5be3899377135e"
 APP_NAME="zeromq"
+APP_POSTFIX="3"
 APP_VERSION="3.2.4"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_ARGS="--without-documentation --with-poller"
