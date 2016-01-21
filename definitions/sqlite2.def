@@ -1,4 +1,4 @@
-DISABLE_ON="Darwin"
+DISABLE_ON="Darwin FreeBSD"
 APP_FULL_NAME="SQLite2"
 APP_SHA="75db1cf3b00ea18ae8528e676fc9fdf698e2fe58"
 APP_NAME="sqlite"
