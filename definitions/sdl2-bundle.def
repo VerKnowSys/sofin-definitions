@@ -1,3 +1,4 @@
+DISABLE_ON="Linux FreeBSD"
 APP_FULL_NAME="SDL Bundle"
 APP_NAME="SDL2-bundle"
 APP_VERSION="2.0"
