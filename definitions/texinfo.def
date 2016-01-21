@@ -1,0 +1,6 @@
+APP_FULL_NAME="Tex Info"
+APP_NAME="texinfo"
+APP_SHA="39d9b15029a49c4ac106e7686b87d374a99c207f"
+APP_VERSION="6.0"
+# APP_CONFIGURE_ARGS="--disable-nls --disable-static --enable-shared --disable-valgrind-tests --disable-gtk-doc-html --with-libpth-prefix=${PREFIX}"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
