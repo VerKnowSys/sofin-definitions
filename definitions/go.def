@@ -1,7 +1,7 @@
 APP_FULL_NAME="Go Language"
 APP_NAME="go"
-APP_SHA="7242bb5ae29594641c75bdc3453d5854cc0a8604"
-APP_VERSION="1.5"
+APP_SHA="c17563a84df8aefb6a1e703a42f1e2842615e4a6"
+APP_VERSION="1.5.3"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}${APP_VERSION}.src.tar.gz"
 APP_REQUIREMENTS="pkgconf pcre"
 APP_CONFIGURE_SCRIPT="ignore"
@@ -14,7 +14,7 @@ APP_INSTALL_METHOD="true"
 make_script () {
     ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}/
     cd ${PREFIX}/src
-    PP="/usr/local/go"
+    PP="/usr/go"
     if [ ! -d "${PP}" ]; then
         error "Go bootstrap not found in path: ${PP}"
     fi
