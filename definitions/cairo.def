@@ -1,9 +1,10 @@
 DISABLE_ON="Darwin"
 APP_FULL_NAME="Cairo graphics library (with PDF, PNG, JPEG support)"
-APP_SHA="4188d44b9a566c92c1c60d01244530df65d55f15"
+APP_SHA="0a59324e6cbe031b5b898ff8b9e2ffceb9d114f5"
 APP_NAME="cairo"
-APP_VERSION="1.12.2"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="--disable-directfb --disable-largefile --disable-valgrind --enable-full-testing=no --enable-trace=no --enable-interpreter=yes --enable-gobject --disable-gl --disable-xlib --enable-symbol-lookup=no"
-APP_REQUIREMENTS="gmake libiconv jpeg pkgconf perl zlib libpng pixman pcre libffi gettext python27 libtool icu glib zlib jbig2dec libidn tiff freetype libxml2 fontconfig libpaper m4 bison autoconf automake util-macros libxslt xcb-proto libpthread-stubs xproto libXau libxcb xtrans xextproto libX11 libICE libSM kbproto libXt libXext libgs libspectre"
-APP_EXPORTS="pkg-config" # XXX: pkg-config is required to let 3rd party apps know about library location
+APP_VERSION="1.14.6"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_CONFIGURE_ARGS="--disable-directfb --disable-valgrind --enable-full-testing=no --enable-trace=no --enable-interpreter=yes --enable-gobject --disable-gl --disable-xlib --enable-symbol-lookup=no"
+APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma lzo m4 pcre libressl python27 perl autoconf automake libtool bison util-macros cups libxml2 libxslt icu jbig2dec jbigkit libiconv nasm libjpeg-turbo freetype libpaper xcb-proto libpthread-stubs xproto libXau libxcb xtrans xextproto libX11 libICE libSM kbproto libXt libXext texinfo libidn jpeg tiff lcms2 krb pixman libffi libgs libpng gettext glib240"
+APP_USEFUL="bin/pkgconf bin/pkg-config" # XXX: pkg-config is required to let 3rd party apps know about library location
+APP_USELESS="include/python2.7 lib/libperl.so lib/perl5 lib/python2.7 lib/libxslt-plugins libexec ssl man share/man share/bash* share/aclocal* share/auto* share/cups share/bison share/doc share/examples share/gtk-doc share/texinfo share/emacs share/info share/libtool share/ghostscript/${APP_VERSION}/doc share/ghostscript/${APP_VERSION}/examples "
