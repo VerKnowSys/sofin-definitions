@@ -8,4 +8,4 @@ APP_CONFIGURE_ARGS="--localstatedir=${SERVICE_DIR}/state --disable-gssapi --with
 APP_AFTER_INSTALL_CALLBACK="${MKDIR_BIN} -p ${SERVICE_DIR}/state ${SERVICE_DIR}/cache"
 APP_MAKE_METHOD="gmake -s"
 APP_INSTALL_METHOD="gmake -s install"
-APP_EXPORTS="cancel cups-config cupstestdsc cupstestppd ipptool lp lpoptions lppasswd lpq lpr lprm lpstat ppdc ppdhtml ppdi ppdmerge ppdpo"
+APP_EXPORTS="cancel cups-config cupstestdsc cupstestppd ipptool lp lpoptions lppasswd lpq lpr lprm lpstat ppdc ppdhtml ppdi ppdmerge ppdpo accept cupsaccept cupsaddsmb cupsctl cupsd cupsdisable cupsenable cupsfilter cupsreject lpadmin lpc lpinfo lpmove paperconfig reject"
