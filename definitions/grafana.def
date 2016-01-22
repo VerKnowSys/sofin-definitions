@@ -8,7 +8,7 @@ APP_REQUIREMENTS="pkgconf pcre go zlib bzip2 gmake yaml libiconv python27 node42
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="make_action"
 APP_INSTALL_METHOD="install_links"
-APP_USELESS="doc test include share src local/src misc pkg api"
+APP_USELESS="doc test include share src local/src misc pkg api man lib/python2.7"
 APP_EXPORTS="grafana"
 APP_NO_CCACHE="true"
 
