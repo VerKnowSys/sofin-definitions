@@ -1,32 +1,43 @@
 APP_FULL_NAME="Rust Language"
-APP_SHA="84624c55911bbba6a9c7665ab1801b594ff60928"
+APP_SHA="fadca2ef0f632b25e6a4dd4e2d8ab8ea218dd4a6"
 APP_NAME="rust"
-APP_VERSION="1.5.0"
+APP_VERSION="1.6.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}c-${APP_VERSION}-src.tar.gz"
-APP_REQUIREMENTS="gmake pkgconf libiconv python27 curl m4 libressl ccache cmake libssh2 llvm"
-APP_CONFIGURE_SCRIPT="PATH=${PREFIX}/bin:/Software/Git/bin:${PATH} ./configure"
+CARGO_REPOSITORY="https://github.com/rust-lang/cargo"
+APP_REQUIREMENTS="pkgconf m4 gmake libunwind jemalloc ccache libiconv python27 libxml2 cmake libssh2 libressl perl texinfo libidn curl bison llvm"
+APP_CONFIGURE_ARGS="--disable-stage0-landing-pads --disable-manage-submodules --release-channel=stable --enable-optimize --enable-optimize-tests --enable-optimize-cxx --enable-optimize-llvm --disable-valgrind --disable-valgrind-rpass --enable-clang --disable-docs --enable-rpath --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache --llvm-root=${PREFIX} --jemalloc-root=${PREFIX}/lib --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info"
+APP_CONFIGURE_SCRIPT="./configure"
 APP_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=${CPUS} gmake ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install ${MAKE_OPTS}"
-APP_CONFIGURE_ARGS="--disable-valgrind --enable-clang --disable-docs --release-channel=stable --disable-optimize-tests --enable-rpath --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache --llvm-root=${PREFIX}"
+APP_INSTALL_METHOD="PREFIX=${PREFIX} gmake install ${MAKE_OPTS}"
 APP_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
-APP_USELESS="lib/perl* lib/python* share/bison share/aclocal share/info share/doc/flex"
+APP_COMPILER_ARGS="-I${PREFIX}/include"
+APP_LINKER_ARGS="-L${PREFIX}/lib"
+APP_USELESS="doc man ssl include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/perl*"
 APP_CONFLICTS_WITH="Rust"
 
 APP_AFTER_INSTALL_CALLBACK="install_cargo"
 install_cargo () {
-    export PATH=${PREFIX}/bin:/usr/bin:/bin:/Software/Git/bin
-    export PKG_CONFIG_EXECUTABLE=${PREFIX}/bin/pkgconf
+    export PATH="${PREFIX}/bin:/usr/bin:/bin:$(${DIRNAME_BIN} ${GIT_BIN})"
+    export PKG_CONFIG_EXECUTABLE="${PREFIX}/bin/pkgconf"
     ${LN_BIN} -s ${PREFIX}/lib/libcurl.so.8 ${PREFIX}/lib/libcurl.so.4
-    ${GIT_BIN} clone https://github.com/rust-lang/cargo
+    debug "Cloning Cargo from remote repository.."
+    ${GIT_BIN} clone ${CARGO_REPOSITORY}
     cd cargo
     ${GIT_BIN} submodule update --init
-    ./configure --prefix=${PREFIX} --local-rust-root=${PREFIX}
-    unset CC
-    RUSTFLAGS=-Ccodegen_units=${CPUS} ${PREFIX}/bin/gmake
-    ${PREFIX}/bin/gmake install
+    debug "Configuring Cargo.." && \
+    ./configure --prefix=${PREFIX} --local-rust-root=${PREFIX} && \
+    unset CC && \
+    debug "Building Cargo using ${CPUS} cpus.." && \
+    RUSTFLAGS=-Ccodegen_units=${CPUS} ${PREFIX}/bin/gmake && \
+    debug "Installing Rust.." && \
+    ${PREFIX}/bin/gmake install && \
+    ret="$?"
 
-    # make wrapper for cargo which doesn't include rpath information in binary:
+    # make wrapper for cargo which does not include rpath information in binary:
     ${MV_BIN} ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin
     ${PRINTF_BIN} "#\!/bin/sh\nLD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo
     ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo
+
+    return ${ret}
 }
+
