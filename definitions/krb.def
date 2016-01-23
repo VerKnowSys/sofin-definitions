@@ -1,3 +1,4 @@
+DISABLE_ON="Linux"
 APP_FULL_NAME="Kerberos 5"
 APP_NAME="krb"
 APP_SHA="02973f6605b1170bec812af9c8da4e447eeca9a9"
