@@ -1,0 +1,5 @@
+APP_FULL_NAME="re2c - lexer generator for C/C++"
+APP_SHA="cf41da098dda3d6e6848d23ffaa0b9aadaaf15fc"
+APP_NAME="re2c"
+APP_VERSION="0.16"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
