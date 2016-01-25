@@ -6,8 +6,8 @@ APP_VERSION="2.8.5"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="m4 gmake perl autoconf libtool automake yasm sdl2 libressl"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export APP_COMPILER_ARGS="-mmacosx-version-min=10.11"
+    export APP_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
 fi
-APP_CONFIGURE_ARGS="--cc=cc --cxx=c++ --disable-devices --enable-openssl --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-programs"
+APP_CONFIGURE_ARGS="--cc=cc --cxx=c++ --disable-devices --enable-openssl --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-programs --enable-pic --disable-ssse3 --enable-ftrapv"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
