@@ -8,7 +8,7 @@ APP_REQUIREMENTS="m4 gmake perl autoconf libtool automake yasm sdl2 libressl"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     export APP_COMPILER_ARGS="-mmacosx-version-min=10.9"
 fi
-APP_CONFIGURE_ARGS="--cc=cc --cxx=c++ --enable-openssl --enable-shared --disable-ffplay --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug"
+APP_CONFIGURE_ARGS="--cc=cc --cxx=c++ --enable-openssl --enable-shared --enable-static --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_EXPORTS="ffserver ffprobe ffmpeg"
