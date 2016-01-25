@@ -8,3 +8,9 @@ APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient=${PREFIX} --enable-f
 APP_EXPORTS="mpd"
 APP_STANDALONE="true"
 APP_USELESS="ssl doc share man include/boost include/python2.7 lib/python2.7"
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
+        ;;
+esac
