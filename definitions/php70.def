@@ -1,18 +1,12 @@
 . ${DEFINITIONS_DIR}php56.def
 
-APP_FULL_NAME="PHP70"
+APP_FULL_NAME="PHP 7"
 APP_SHA="288cd2055f1e99c6645bb88b2257a6772c176021"
-APP_NAME="php"
 APP_VERSION="7.0.2"
 APP_POSTFIX="70"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex readline postgresql94 python27 libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt libressl curl gmp51 tiff jasper imagemagick freetds sqlite cyrus-sasl openldap geoip cclient"
-APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-xmlrpc --with-iconv --disable-maintainer-zts --enable-cgi --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --with-pdo-sqlite=${PREFIX} --with-sqlite3=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --with-litespeed --enable-cgi --enable-opcache --enable-phar"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-config-file-path=${PREFIX}"
-else
-    export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-config-file-path=${SERVICE_DIR}/etc"
-fi
+APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-xmlrpc --with-iconv --disable-maintainer-zts --enable-cgi --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --with-pdo-sqlite=${PREFIX} --with-sqlite3=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --with-litespeed --enable-cgi --enable-opcache --enable-phar --disable-phpdbg-debug --disable-phpdbg-webhelper --disable-phpdbg"
+
 install_imagick () {
     PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick
     # test "$?" = "0" || error "Error building imagick"
