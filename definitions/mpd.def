@@ -1,16 +1,21 @@
 APP_FULL_NAME="Music Player Daemon"
+APP_STANDALONE="true"
 APP_NAME="mpd"
 APP_SHA="9de55e24d2612526ca8eb688126d0784339f2ee8"
 APP_VERSION="0.19.12"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="pkgconf curl zlib bzip2 pcre libressl sqlite libffi gettext python27 m4 libtool gmake glib240 libiconv icu boost libsamplerate yasm flac expat lame mpg123 ffmpeg libid3tag libsndfile cmake soxr yajl faad libogg libvorbis wavpack libmpdclient"
-APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient=${PREFIX} --enable-ffmpeg=${PREFIX} --enable-flac=${PREFIX} --enable-id3 --enable-lame-encoder=${PREFIX} --enable-mpg123=${PREFIX} --enable-icu=${PREFIX}"
+APP_REQUIREMENTS="pkgconf zlib bzip2 nasm zip pcre libressl db libffi gettext python27 m4 libtool gmake libiconv yasm perl autoconf automake flac expat lame mpg123 libid3tag libsamplerate cmake soxr yajl faad libogg libvorbis wavpack texinfo libidn curl libshout boost glib240 ffmpeg libsndfile libmpdclient"
+APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-icu --disable-nfs --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib"
 APP_EXPORTS="mpd"
-APP_STANDALONE="true"
-APP_USELESS="ssl doc share man include/boost include/python2.7 lib/python2.7"
-
+APP_USELESS="ssl doc* share man include/boost include/python* lib/python* include/perl* lib/perl*"
 case "${SYSTEM_NAME}" in
     Darwin)
-        APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
+        APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS} --disable-rpath"
+        APP_AFTER_INSTALL_CALLBACK="create_mpdconf"
+        create_mpdconf () {
+            if [ ! -f "${SERVICE_DIR}/etc/mpdconf.example" ]; then
+                ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpdconf.example
+            fi
+        }
         ;;
 esac
