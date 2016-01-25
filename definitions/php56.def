@@ -8,7 +8,7 @@ APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP 
 APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib nasm lzma lzo db libpng jpeg libressl gettext bzip2 m4 gmp51 autoconf bison27 flex readline postgresql94 python27 libxml2 libtool icu libgpg-error libgcrypt libxslt pcre libexif freetype fontconfig tiff jasper jbig2dec jbigkit libjpeg-turbo gd cmake ncurses mysql libmcrypt texinfo libidn curl imagemagick freetds sqlite2 sqlite cyrus-sasl openldap geoip cclient krb re2c"
 APP_INSTALL_METHOD="gmake install -s"
 APP_EXPORTS="php php-cgi php-fpm php-config phpize pecl pear lsphp"
-APP_USELESS="doc docs lib/perl5 mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal"
+APP_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal lib/python* include/python*"
 
 case "${SYSTEM_NAME}" in
     Linux)
