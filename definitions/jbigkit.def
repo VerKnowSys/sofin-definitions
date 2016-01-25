@@ -3,15 +3,18 @@ APP_NAME="jbigkit"
 APP_SHA="4864646df004e8331d19f2fa103ed731fdb6c099"
 APP_VERSION="2.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="gmake"
-APP_CONFIGURE_SCRIPT="no-conf"
+APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="install_compiled_stuff"
+APP_REQUIREMENTS="gmake"
 APP_AFTER_UNPACK_CALLBACK="fix_makefile"
 
 fix_makefile () {
-    ${SED_BIN} -i '' -e 's/gcc/clang/' Makefile
-    ${SED_BIN} -i '' -e 's/^CFLAGS.*$/CFLAGS = -O2 -W -Wno-unused-result -fPIC/' Makefile
+    if [ -x "/usr/bin/clang" ]; then
+        ${SED_BIN} -i '' -e 's/gcc/clang/' ./Makefile
+    fi
+    ${SED_BIN} -i '' -e 's/^CFLAGS.*$/CFLAGS = -O2 -W -Wno-unused-result -fPIC/' ./Makefile
+    file Makefile # Under Linux, sed can throw an error after a successful task..
 }
 
 install_compiled_stuff () {
