@@ -1,0 +1,5 @@
+APP_FULL_NAME="FFTW library for computing the discrete Fourier transform (DFT)"
+APP_SHA="fd508bac8ac13b3a46152c54b7ac885b69734262"
+APP_NAME="fftw"
+APP_VERSION="3.3.4"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
