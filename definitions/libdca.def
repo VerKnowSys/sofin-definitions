@@ -1,0 +1,6 @@
+APP_FULL_NAME="DCA Library"
+APP_SHA="3fa5188eaaa2fc83fb9c4196f6695a23cb17f3bc"
+APP_NAME="libdca"
+APP_VERSION="0.0.5"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_CONFIGURE_ARGS="--disable-oss --enable-fixed --enable-double --enable-shared --disable-solaris-audio --disable-win"
