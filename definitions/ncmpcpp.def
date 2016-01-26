@@ -1,0 +1,17 @@
+APP_FULL_NAME="Music Player Daemon Ncurses Client ++"
+APP_NAME="ncmpcpp"
+APP_SHA="9f2b1d8028cb0827cecd88efe206c7d61bafabf8"
+APP_VERSION="0.7.3"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+APP_REQUIREMENTS="pkgconf gmake m4 perl libtool icu readline cmake taglib curl boost libmpdclient"
+APP_CONFIGURE_ARGS="--disable-shared --enable-static --enable-clock --with-curl --with-taglib"
+APP_USELESS="share doc include"
+APP_EXPORTS="ncmpcpp ncmpcpp.bin"
+
+APP_AFTER_INSTALL_CALLBACK="after_install_cbk"
+after_install_cbk () {
+    # make wrapper for ncmpcpp which does not include rpath information in binary:
+    ${MV_BIN} ${PREFIX}/bin/ncmpcpp ${PREFIX}/bin/ncmpcpp.bin
+    ${PRINTF_BIN} "#\!/bin/sh\nLD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/ncmpcpp.bin \$*\n" > ${PREFIX}/bin/ncmpcpp
+    ${CHMOD_BIN} 755 ${PREFIX}/bin/ncmpcpp
+}
