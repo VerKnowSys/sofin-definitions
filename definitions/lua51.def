@@ -24,17 +24,8 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-APP_INSTALL_METHOD="install_files_manually"
-install_files_manually () {
-    ${MKDIR_BIN} -p ${PREFIX}/lib ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/pkgconfig
-    ${CP_BIN} src/liblua.a ${PREFIX}/lib/
-    ${CP_BIN} src/lua ${PREFIX}/bin/
-    ${CP_BIN} src/luac ${PREFIX}/bin/
-    ${CP_BIN} src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp ${PREFIX}/include/
-    ${PRINTF_BIN} "version=${APP_VERSION}
-prefix=${PREFIX}
-libdir=${PREFIX}/lib
-includedir=${PREFIX}/include
-" > ${PREFIX}/lib/pkgconfig/lua.pc
-    ${CP_BIN} ${PREFIX}/lib/pkgconfig/lua.pc ${PREFIX}/lib/pkgconfig/lua5.1.pc
+APP_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+patch_makefile () {
+    ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile || true # Linux..
+    ${SED_BIN} -i '' -e "s/CFLAGS= .*\$/CFLAGS= -O2 -Wall -fPIC \$(MYCFLAGS)/" src/Makefile || true # Linux..
 }
