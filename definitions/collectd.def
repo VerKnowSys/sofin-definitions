@@ -6,12 +6,12 @@ APP_VERSION="5.5.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 case ${SYSTEM_NAME} in
     FreeBSD)
-        APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake libstatgrab pcre libffi gettext curl libpcap liboping python27 libxml2 glib243 libiconv readline postgresql94 libgpg-error libgcrypt mysql libressl nginx bind yajl net-snmp"
+        APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake libstatgrab pcre libffi gettext curl libpcap liboping libressl python27 libxml2 glib243 libiconv readline postgresql94 libgpg-error libgcrypt mysql nginx bind yajl net-snmp"
         PLATFORM_SPECIFIC_OPTIONS="--enable-pf"
         ;;
 
     Linux)
-        APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake pcre libffi gettext curl flex bison libpcap liboping python27 libxml2 glib238 libiconv readline postgresql94 libgpg-error libgcrypt mysql libressl nginx bind libcgroup yajl net-snmp"
+        APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake pcre libffi gettext curl flex bison libpcap liboping libressl python27 libxml2 glib238 libiconv readline postgresql94 libgpg-error libgcrypt mysql nginx bind libcgroup yajl net-snmp"
         PLATFORM_SPECIFIC_OPTIONS="--disable-pf --enable-md --enable-cgroups"
         ;;
 esac
