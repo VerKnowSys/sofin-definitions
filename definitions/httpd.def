@@ -4,7 +4,7 @@ APP_NAME="httpd"
 APP_SHA="271a129f2f04e3aa694e5c2091df9b707bf8ef80"
 APP_VERSION="2.4.18"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="libiconv zlib pcre libressl perl python27 libxml2 apr apr-util curl"
+APP_REQUIREMENTS="gmake libiconv zlib pcre libressl perl python27 libxml2 apr apr-util curl"
 APP_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-proxy-balancer --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-static-htdbm --enable-static-httxt2dbm"
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-suexec-caller=worker --with-suexec-logfile=${SOFTWARE_DATA_DIR}/.logs/httpd-suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/bin:/bin'"
