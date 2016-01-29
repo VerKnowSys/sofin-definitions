@@ -1,0 +1,7 @@
+APP_FULL_NAME="Http2 Library"
+APP_NAME="nghttp2"
+APP_SHA="cd640ec1786d8d8c4568da864a941d3d4e2e1751"
+APP_VERSION="1.7.0"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_REQUIREMENTS="libz libressl libevent spdylay"
+# APP_CONFIGURE_ARGS="--with-sysroot=${PREFIX}"
