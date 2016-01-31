@@ -1,14 +1,39 @@
 APP_FULL_NAME="Nginx Standalone"
 APP_STANDALONE="true"
 APP_NAME="nginx"
-APP_SHA="12bad312764feae50246685ab2e74512d1aa9b2f"
-APP_VERSION="1.8.0"
+APP_SHA="b7ddb8bb55ad20c336c94526cd2c26b5699caeb5"
+APP_VERSION="1.9.10"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="libiconv zlib pcre libressl"
-if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-    export ADDITION=" -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
-    export ADD_OPTIONS="--with-file-aio"
-fi
-APP_CONFIGURE_ARGS="--with-poll_module --without-select_module --with-http_spdy_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module  --user=nobody --group=nogroup --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib${ADDITION}' --error-log-path=${SOFTWARE_DATA_DIR}/.logs/service.error.log ${ADD_OPTIONS}"
+APP_REQUIREMENTS="gmake pkgconf m4 libtool jemalloc libiconv zlib bzip2 xz pcre libressl libxml2 libevent spdylay perl texinfo geoip autoconf automake nghttp2"
+APP_CONFIGURE_ARGS="--with-pcre --with-threads --with-ipv6 --with-poll_module --without-select_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-http_realip_module --with-stream --with-stream_ssl_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module"
+APP_MAKE_METHOD="OPENSSL=${PREFIX} && gmake -s ${MAKE_OPTS}"
+APP_AFTER_MAKE_CALLBACK="after_make"
+after_make () {
+    for pref in /etc/conf /var/lock /var/log /var/proxy /var/body /var/run /var/body /var/fcgi; do
+        ${MKDIR_BIN} -p "${SERVICE_DIR}${pref}"
+    done
+}
+
+APP_AFTER_UNPACK_CALLBACK="patch_modules"
+patch_modules () {
+    ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" auto/lib/geoip/conf
+    ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" auto/lib/pcre/conf
+    ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" auto/lib/zlib/conf
+}
+
+svd_args="--error-log-path=${SERVICE_DIR}/var/log --http-log-path=${SERVICE_DIR}/var/log --pid-path=${SERVICE_DIR}/var/run --lock-path=${SERVICE_DIR}/var/lock --conf-path=${SERVICE_DIR}/etc/conf --pid-path=${SERVICE_DIR}/var/run --http-proxy-temp-path=${SERVICE_DIR}/var/proxy --http-client-body-temp-path=${SERVICE_DIR}/var/body --http-fastcgi-temp-path=${SERVICE_DIR}/var/fcgi"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=nobody --group=nogroup ${svd_args}"
+        ;;
+
+    Linux)
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=www-data --group=www-data --with-file-aio"
+        ;;
+
+    FreeBSD)
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-file-aio --user=worker --group=staff --build=ServeD --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib -R${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags' ${svd_args}"
+        ;;
+esac
 APP_EXPORTS="nginx"
 APP_CONFLICTS_WITH="Httpd"
