@@ -4,18 +4,19 @@ APP_NAME="mpd"
 APP_SHA="9de55e24d2612526ca8eb688126d0784339f2ee8"
 APP_VERSION="0.19.12"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="pkgconf zlib bzip2 nasm zip pcre libressl db sqlite libffi gettext python27 m4 libtool gmake libiconv yasm perl autoconf automake fftw expat lame mpg123 libid3tag libsndfile libbs2b libcue cmake libdca taglib soxr yajl faad neon libogg libvorbis flac libtheora wavpack openal texinfo libidn libssh2 curl speex boost glib240 libmpdclient mpc ffmpeg libsamplerate libshout"
-APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-icu --disable-nfs --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib --enable-sqlite"
+APP_REQUIREMENTS="pkgconf gmake libiconv libatomic_ops m4 zlib lzma xz bzip2 nasm pcre perl python27 autoconf automake libtool libressl libaacplus boost libffi gettext glib243 libmpdclient mpc db sqlite yasm fftw expat lame libid3tag mpg123 libcue cmake libdca taglib yajl faad neon libogg libvorbis flac libtheora uriparser libxspf speex libao wavpack libsndfile twolame libbs2b texinfo libidn curl libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr ffmpeg"
+APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-nfs --disable-icu --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib --enable-sqlite"
 APP_EXPORTS="mpd mpc"
 APP_USELESS="ssl doc* share man include/boost include/python* lib/python* include/perl* lib/perl*"
 case "${SYSTEM_NAME}" in
     Darwin)
+        APP_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
         APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
         APP_AFTER_UNPACK_CALLBACK="./autogen.sh"
         APP_AFTER_INSTALL_CALLBACK="create_mpdconf"
         create_mpdconf () {
             if [ ! -f "${SERVICE_DIR}/etc/mpdconf.example" ]; then
-                ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpdconf.example
+                ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example
             fi
         }
         ;;
