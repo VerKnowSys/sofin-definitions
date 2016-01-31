@@ -1,0 +1,9 @@
+APP_FULL_NAME="Mad MPEG decoder"
+APP_SHA="cac19cd00e1a907f3150cc040ccc077783496d76"
+APP_NAME="libmad"
+APP_VERSION="0.15.1b"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    APP_CONFIGURE_ARGS="x86_64-apple-darwin"
+fi
+APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso"
