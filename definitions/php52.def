@@ -20,8 +20,9 @@ hack_after_unpack () {
     ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
     test -d /tmp/pear && ${RM_BIN} -fr /tmp/pear
 
-    debug "Fetching Litespeed SAPI"
-    install_litespeed_sapi
+    debug "Fetching Litespeed SAPI" && \
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}php-litespeed-5.5.tgz && \
+    ${TAR_BIN} xf php-litespeed-5.5.tgz --directory sapi/
 
     debug "Fixing GMP definition name"
     ${SED_BIN} -i 's/__GMP_BITS_PER_MP_LIMB/GMP_LIMB_BITS/g' ext/gmp/gmp.c
