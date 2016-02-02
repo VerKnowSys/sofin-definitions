@@ -20,23 +20,42 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
+install_oci8_libs () {
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}oci8-12.1.tar.xz" && \
+    ${TAR_BIN} xf oci8-12.1.tar.xz && \
+    ${CP_BIN} oci8/*.h ${PREFIX}/include/ && \
+    ${MV_BIN} oci8/*.h ${PREFIX}/lib/ && \
+    ${MV_BIN} oci8/*.so* ${PREFIX}/lib/ && \
+    note "OCI8 libraries installed"
+}
 
 hack_after_unpack () {
     # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
     ${MKDIR_BIN} -p ${PREFIX}/Software
     ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
 }
-APP_AFTER_UNPACK_CALLBACK="hack_after_unpack"
+
+APP_AFTER_UNPACK_CALLBACK="install_oci8_libs ; hack_after_unpack"
 APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
 
 # install extensions
-APP_AFTER_INSTALL_CALLBACK="install_extensions"
-#APP_CLEAN_USELESS="false"
-
+APP_AFTER_INSTALL_CALLBACK="install_extensions ; cleanup_oci8_headers"
+cleanup_oci8_headers () {
+    ${RM_BIN} -f ${PREFIX}/lib/*.h
+}
 
 install_geoip () {
-    PATH=$PATH:${PREFIX}/bin:/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install geoip
-    test "$?" = "0" || error "Error building geoip"
+    geoip_name="geoip-1.0.8"
+    geoip_archive="${geoip_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${geoip_archive}" && \
+    ${TAR_BIN} xf ${geoip_archive} && \
+    cd ${geoip_name} && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX} && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "GeoIP libraries installed" && \
+    return 0
+    return 1
 }
 
 install_imagick () {
@@ -50,9 +69,10 @@ install_rar () {
 }
 
 install_phalcon () {
-    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git
+    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git && \
     cd cphalcon/build
-    PATH=${PREFIX}/bin:$PATH ./install
+    ${SED_BIN} -i '' -e "s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
+    CFLAGS="-I${PREFIX}/include" PATH=${PREFIX}/bin:$PATH ./install
     test "$?" = "0" || error "Error building cphalcon"
 }
 
@@ -64,20 +84,47 @@ install_pear_modules () {
 }
 
 install_dbase () {
-    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install dbase
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install dbase && \
+    ${MV_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
 }
+
+
+install_xdebug () {
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install xdebug && \
+    ${MV_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
+}
+
+
+install_oci8 () {
+    arch_name="oci8-2.0.10"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --with-oci8=instantclient,${PREFIX}/lib && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    ${MV_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions && \
+    note "Installed OCI8 pecl module" && \
+    return 0
+    return 1
+}
+
+
+install_and_move () {
+    name="$1"
+    install_${name} && \
+    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/${name}* ${PREFIX}/lib/php/extensions/ && \
+    ${RM_BIN} -f ${PREFIX}/lib/php/extensions/no-debug*/${name}*
+}
+
 
 install_extensions () {
     # update pecl protocols before installing extensions
     PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
-
-    install_imagick
-    install_rar
-    if [ "${SYSTEM_NAME}" = "Linux" ]; then
-        install_geoip
-        # install_phalcon
-    fi
-    install_dbase
+    extensions_dir="${PREFIX}/lib/php/extensions"
+    for name in phalcon oci8 xdebug imagick rar geoip dbase; do
+        test -f "${extensions_dir}/${name}.so" || install_and_move "${name}"
+    done
     install_pear_modules
-    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
 }
