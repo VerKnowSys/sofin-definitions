@@ -30,6 +30,8 @@ install_oci8_libs () {
 }
 
 hack_after_unpack () {
+    ${RM_BIN} -f /root/.pearrc
+
     # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
     ${MKDIR_BIN} -p ${PREFIX}/Software
     ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
