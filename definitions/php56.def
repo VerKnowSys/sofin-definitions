@@ -125,5 +125,9 @@ install_extensions () {
     for name in ${APP_BUNDLED_EXTENSIONS}; do
         test -f "${extensions_dir}/${name}.so" || install_and_move "${name}" || error "Failed to install extension: ${name}"
     done
+    name="opcache"
+    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/${name}* ${PREFIX}/lib/php/extensions/ && \
+    ${RM_BIN} -f ${PREFIX}/lib/php/extensions/no-debug*/${name}* || \
+    note "No opcache moved"
     install_pear_modules
 }
