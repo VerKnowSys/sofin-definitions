@@ -63,12 +63,10 @@ install_geoip () {
 
 install_imagick () {
     PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install imagick
-    test "$?" = "0" || error "Error building imagick"
 }
 
 install_rar () {
     PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install rar
-    test "$?" = "0" || error "Error building rar"
 }
 
 install_phalcon () {
@@ -76,7 +74,6 @@ install_phalcon () {
     cd cphalcon/build
     ${SED_BIN} -i '' -e "s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
     CFLAGS="-I${PREFIX}/include" PATH=${PREFIX}/bin:$PATH ./install
-    test "$?" = "0" || error "Error building cphalcon"
 }
 
 install_pear_modules () {
