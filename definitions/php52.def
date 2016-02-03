@@ -47,3 +47,17 @@ install_xdebug () {
     return 1
 }
 
+# Php 5.2-5.3 extension version:
+install_imagick () {
+    arch_name="imagick-3.1.2"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --with-imagick=${PREFIX} --with-php-config=${PREFIX}/bin/php-config && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed Imagick pecl module: v3.1.2" && \
+    return 0
+    return 1
+}
