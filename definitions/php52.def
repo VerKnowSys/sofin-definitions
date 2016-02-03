@@ -32,6 +32,18 @@ hack_after_unpack () {
     PATH=${PREFIX}/bin:/bin:/usr/bin:/usr/sbin:/sbin ./buildconf --force
 }
 APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
+
+
+# Php 5.2-5.3 extension:
+install_apc () {
+    printf "no\nno\nno\nno\nno\nyes\n" | PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install apc
+}
+
+# Php 5.2-5.3 extension:
+install_phar () {
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install phar
+}
+
 # Php 5.2-5.3 extension version:
 install_xdebug () {
     arch_name="xdebug-2.2.7"
