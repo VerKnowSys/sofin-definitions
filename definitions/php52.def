@@ -14,7 +14,6 @@ APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS} autoconf213 php52-cgi" | ${SED_BIN
 APP_MAKE_METHOD="gmake -s"
 APP_INSTALL_METHOD="gmake install -s"
 
-APP_AFTER_UNPACK_CALLBACK="hack_after_unpack"
 hack_after_unpack () {
     ${MKDIR_BIN} -p ${PREFIX}/Software
     ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
