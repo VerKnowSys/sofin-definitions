@@ -32,3 +32,18 @@ hack_after_unpack () {
     PATH=${PREFIX}/bin:/bin:/usr/bin:/usr/sbin:/sbin ./buildconf --force
 }
 APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
+# Php 5.2-5.3 extension version:
+install_xdebug () {
+    arch_name="xdebug-2.2.7"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed Xdebug pecl module: v2.2.7" && \
+    return 0
+    return 1
+}
+
