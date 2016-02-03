@@ -20,4 +20,18 @@ install_imagick () {
     return 0
     return 1
 }
+
+install_oci8 () {
+    arch_name="oci8-2.1.0"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --with-oci8=instantclient,${PREFIX}/lib && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed OCI8 pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}
 }
