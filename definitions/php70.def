@@ -34,4 +34,17 @@ install_oci8 () {
     return 0
     return 1
 }
+
+install_xdebug () {
+    arch_name="xdebug-2.4.0rc4"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "xdebug-2.4.0RC4" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed Xdebug pecl module: ${arch_name}" && \
+    return 0
+    return 1
 }
