@@ -86,14 +86,12 @@ install_pear_modules () {
 }
 
 install_dbase () {
-    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install dbase && \
-    ${MV_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install dbase
 }
 
 
 install_xdebug () {
-    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install xdebug && \
-    ${MV_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install xdebug
 }
 
 
@@ -106,7 +104,6 @@ install_oci8 () {
     ${PREFIX}/bin/phpize && \
     ./configure --prefix=${PREFIX} --with-oci8=instantclient,${PREFIX}/lib && \
     PATH=${PREFIX}/bin:$PATH make install && \
-    ${MV_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions && \
     note "Installed OCI8 pecl module" && \
     return 0
     return 1
@@ -117,7 +114,9 @@ install_and_move () {
     name="$1"
     install_${name} && \
     ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/${name}* ${PREFIX}/lib/php/extensions/ && \
-    ${RM_BIN} -f ${PREFIX}/lib/php/extensions/no-debug*/${name}*
+    ${RM_BIN} -f ${PREFIX}/lib/php/extensions/no-debug*/${name}* && \
+    return 0
+    return 1
 }
 
 
@@ -125,8 +124,8 @@ install_extensions () {
     # update pecl protocols before installing extensions
     PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
     extensions_dir="${PREFIX}/lib/php/extensions"
-    for name in phalcon oci8 xdebug imagick rar geoip dbase; do
-        test -f "${extensions_dir}/${name}.so" || install_and_move "${name}"
+    for name in ${APP_BUNDLED_EXTENSIONS}; do
+        test -f "${extensions_dir}/${name}.so" || install_and_move "${name}" || error "Failed to install extension: ${name}"
     done
     install_pear_modules
 }
