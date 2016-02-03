@@ -56,7 +56,7 @@ install_geoip () {
     ${PREFIX}/bin/phpize && \
     ./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX} && \
     PATH=${PREFIX}/bin:$PATH make install && \
-    note "GeoIP libraries installed" && \
+    note "Installed PECL extension: ${geoip_name}" && \
     return 0
     return 1
 }
@@ -102,7 +102,7 @@ install_oci8 () {
     ${PREFIX}/bin/phpize && \
     ./configure --prefix=${PREFIX} --with-oci8=instantclient,${PREFIX}/lib && \
     PATH=${PREFIX}/bin:$PATH make install && \
-    note "Installed OCI8 pecl module" && \
+    note "Installed PECL extension: ${arch_name}" && \
     return 0
     return 1
 }
@@ -123,11 +123,26 @@ install_extensions () {
     PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
     extensions_dir="${PREFIX}/lib/php/extensions"
     for name in ${APP_BUNDLED_EXTENSIONS}; do
-        test -f "${extensions_dir}/${name}.so" || install_and_move "${name}" || error "Failed to install extension: ${name}"
+        test -f "${extensions_dir}/${name}.so" || install_and_move "${name}" || error "Failed to install PECL extension: ${name}"
     done
     name="opcache"
     ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/${name}* ${PREFIX}/lib/php/extensions/ && \
     ${RM_BIN} -f ${PREFIX}/lib/php/extensions/no-debug*/${name}* || \
-    note "No opcache moved"
+    note "No opcache PECL extension moved"
     install_pear_modules
+}
+
+# Used by Php 5.2-5.4:
+install_opcache () {
+    PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install zendopcache
+}
+
+# Used by Php 5.2-5.4:
+install_apc () {
+    printf "no\nno\nno\nno\nno\nyes\n" | PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install apc
+}
+
+# Used by Php 5.2-5.3:
+install_phar () {
+    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install phar
 }

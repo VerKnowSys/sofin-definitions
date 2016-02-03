@@ -7,3 +7,18 @@ APP_VERSION="5.4.45"
 APP_POSTFIX="54"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/libressl/openssl/')"
+APP_BUNDLED_EXTENSIONS="${APP_BUNDLED_EXTENSIONS} apc opcache"
+
+install_rar () {
+    arch_name="rar-3.0.2"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --enable-rar --with-php-config=${PREFIX}/bin/php-config CFLAGS="-I${PREFIX}/include" && \
+    CFLAGS="-I${PREFIX}/include" PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed Rar pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}

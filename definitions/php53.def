@@ -16,3 +16,18 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     }
     APP_AFTER_CONFIGURE_CALLBACK="${APP_AFTER_CONFIGURE_CALLBACK}; add_libstdc_to_makefile"
 fi
+
+install_rar () {
+    arch_name="rar-3.0.2"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    export PATH=${PREFIX}/bin:/bin:/usr/bin:/sbin:/usr/sbin && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --disable-static --enable-shared --enable-rar --with-php-config=${PREFIX}/bin/php-config && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed Rar pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}
