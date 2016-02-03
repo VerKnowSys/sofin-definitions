@@ -1,0 +1,7 @@
+#!/bin/sh
+
+git push --all git@github.com:VerKnowSys/sofin-definitions.git
+git push --tags git@github.com:VerKnowSys/sofin-definitions.git
+git push --all git@bitbucket.org:verknowsys/sofin-definitions.git
+git push --tags git@bitbucket.org:verknowsys/sofin-definitions.git
+
