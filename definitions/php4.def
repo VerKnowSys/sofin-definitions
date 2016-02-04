@@ -1,18 +1,16 @@
+. ${DEFINITIONS_DIR}php52.def
+
 DISABLE_ON="FreeBSD Darwin"
 APP_FULL_NAME="PHP 4.4"
 APP_SHA="9aec9c740011c7cf2b0891d544c454775283af04"
-APP_NAME="php"
 APP_VERSION="4.4.9"
 APP_POSTFIX="4"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-litespeed --with-libxml-dir=${PREFIX} --with-pcre-regex --enable-filter --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --without-apache --disable-debug --enable-sockets --enable-soap --enable-json --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-xml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --with-openssl=${PREFIX} --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --with-xmlrpc --with-iconv --disable-maintainer-zts --disable-roxen-zts --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --enable-sqlite-utf8 --with-sqlite=${PREFIX} --with-pdo-sqlite=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --without-kerberos --with-mysql=${PREFIX} --with-mysqli=${PREFIX}/bin/mysql_config --enable-cli --enable-spl --with-expat-dir=${PREFIX}"
-APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib gettext bzip2 m4 autoconf bison flex postgresql93 libxml2 libtool libgpg-error libgcrypt libxslt pcre libexif libpng jpeg freetype fontconfig gd cmake ncurses mysql icu libmcrypt openssl curl gmp tiff jasper imagemagick  sqlite2 sqlite cyrus-sasl openldap geoip cclient autoconf213 expat" # NOTE: this autoconf23 is required here, cause php 5.2 buildconf script requires that to generate configure script correctly. Also newer version is required earlier by gmp.
+APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/libressl/openssl/; s/ gd//; s/php52-cgi//') expat php4-cgi"
 APP_INSTALL_METHOD="gmake install -s"
-APP_EXPORTS="php php-cgi php-config phpize pecl pear lsphp"
 APP_NO_CCACHE="YES"
-APP_USELESS="doc docs lib/perl5 mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal"
 
-APP_AFTER_UNPACK_CALLBACK="hack_after_unpack"
 hack_after_unpack () {
     # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
     ${MKDIR_BIN} -p ${PREFIX}/Software
@@ -49,18 +47,29 @@ install_pear_modules () {
     true
 }
 
-install_dbase () {
-    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install dbase
-}
-
 install_extensions () {
     # pecl modules skipped cause build blocked by php authors:
     # WARNING: channel "pecl.php.net" has updated its protocols, use "channel-update pecl.php.net" to update pecl/imagick requires PHP (version >= 5.1.3), installed version is 4.4.9
-    #
-    # ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/* ${PREFIX}/lib/php/extensions
-    #
+
+    install_xdebug
+
     note "Proceeding with pear modules"
     install_pear_modules
+}
+
+# Php 4.4 extension version:
+install_xdebug () {
+    arch_name="xdebug-2.0.2"
+    archive="${arch_name}.tgz"
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${TAR_BIN} xf "${archive}" && \
+    cd "${arch_name}" && \
+    ${PREFIX}/bin/phpize && \
+    ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed PECL extension: ${arch_name}" && \
+    return 0
+    return 1
 }
 
 install_litespeed_sapi () {
