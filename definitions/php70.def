@@ -6,7 +6,10 @@ APP_VERSION="7.0.2"
 APP_POSTFIX="70"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-xmlrpc --with-iconv --disable-maintainer-zts --enable-cgi --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --with-pdo-sqlite=${PREFIX} --with-sqlite3=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --with-litespeed --enable-cgi --enable-opcache --enable-phar --disable-phpdbg-debug --disable-phpdbg-webhelper --disable-phpdbg"
-APP_BUNDLED_EXTENSIONS="xdebug oci8 imagick" # rar geoip dbase
+APP_BUNDLED_EXTENSIONS="xdebug imagick" # rar geoip dbase
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
+fi
 
 install_imagick () {
     arch_name="imagick-3.4.0RC6"
@@ -23,10 +26,6 @@ install_imagick () {
 }
 
 install_oci8 () {
-    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        warn "OCI8 not supported under FreeBSD hosts!" && \
-        return 0
-    fi
     arch_name="oci8-2.1.0"
     archive="${arch_name}.tgz"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
