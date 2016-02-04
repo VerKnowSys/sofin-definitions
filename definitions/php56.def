@@ -22,6 +22,10 @@ case "${SYSTEM_NAME}" in
 esac
 
 install_oci8_libs () {
+    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+        warn "OCI8 not supported under FreeBSD hosts!" && \
+        return 0
+    fi
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}oci8-12.1.tar.xz" && \
     ${TAR_BIN} xf oci8-12.1.tar.xz && \
     ${CP_BIN} oci8/*.h ${PREFIX}/include/ && \
@@ -94,6 +98,10 @@ install_xdebug () {
 
 
 install_oci8 () {
+    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+        warn "OCI8 not supported under FreeBSD hosts!" && \
+        return 0
+    fi
     arch_name="oci8-2.0.10"
     archive="${arch_name}.tgz"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \

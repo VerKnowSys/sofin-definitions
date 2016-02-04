@@ -23,6 +23,10 @@ install_imagick () {
 }
 
 install_oci8 () {
+    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+        warn "OCI8 not supported under FreeBSD hosts!" && \
+        return 0
+    fi
     arch_name="oci8-2.1.0"
     archive="${arch_name}.tgz"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
