@@ -8,16 +8,22 @@ APP_REQUIREMENTS="pkgconf gmake libiconv libatomic_ops m4 zlib lzma lzo xz bzip2
 APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-nfs --enable-icu --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib --enable-sqlite"
 APP_EXPORTS="mpd mpc"
 APP_USELESS="ssl doc* share man include/boost include/python* lib/python* include/perl* lib/perl*"
+
+APP_AFTER_INSTALL_CALLBACK="create_mpdconf ; make_dirs"
+make_dirs () {
+    ${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db
+}
+create_mpdconf () {
+    if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
+        ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example
+    fi
+}
+
 case "${SYSTEM_NAME}" in
     Darwin)
         APP_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
         APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
         APP_AFTER_UNPACK_CALLBACK="./autogen.sh"
-        APP_AFTER_INSTALL_CALLBACK="create_mpdconf"
-        create_mpdconf () {
-            if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
-                ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example
-            fi
-        }
+        APP_AFTER_INSTALL_CALLBACK="create_mpdconf ; make_dirs"
         ;;
 esac
