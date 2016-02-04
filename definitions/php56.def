@@ -76,34 +76,28 @@ install_rar () {
     PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install rar
 }
 
-install_phalcon () {
+install_phalcon_common () {
+    p_version="${1}"
     current_builddir="$(${PWD_BIN} 2>/dev/null)"
+    export PATH=${PREFIX}/bin:/bin:/usr/bin:/sbin:/usr/sbin && \
     ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git cph1 && \
     cd cph1 && \
-    ${GIT_BIN} checkout -b v1.3.6 && \
+    ${GIT_BIN} checkout -b "v${p_version}" && \
     cd build
-    ${SED_BIN} -i '' -e "s#gcc#cc#g; s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
-    CFLAGS="-I${PREFIX}/include" PATH=${PREFIX}/bin:$PATH /bin/sh ./install && \
+    ${SED_BIN} -i '' -e "s/32bits/64bits/g; s#--enable-phalcon#--enable-phalcon --enable-shared --disable-static --with-php-config=${PREFIX}/bin/php-config#g; s#gcc #cc #g; s#\"gcc\"#\"cc\"#g; s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
+    PATH=$PATH /bin/sh ./install && \
     note "Installed PECL: phalcon" && \
     cd "${current_builddir}" && \
     return 0
     return 1
 }
 
+install_phalcon () {
+    install_phalcon_common "1.3.6"
+}
+
 install_phalcon2 () {
-    current_builddir="$(${PWD_BIN} 2>/dev/null)"
-    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git cph2 && \
-    cd cph2 && \
-    ${GIT_BIN} checkout -b v2.0.0 && \
-    cd build
-    ${SED_BIN} -i '' -e "s#gcc#cc#g; s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
-    CFLAGS="-I${PREFIX}/include" PATH=${PREFIX}/bin:$PATH /bin/sh ./install && \
-    cd ${PREFIX}/lib/php/extensions/no-debug* && \
-    ${MV_BIN} phalcon.so phalcon2.so && \
-    note "Installed PECL: phalcon2" && \
-    cd "${current_builddir}" && \
-    return 0
-    return 1
+    install_phalcon_common "2.0.0"
 }
 
 install_pear_modules () {
@@ -134,7 +128,7 @@ install_oci8 () {
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \
-    ./configure --prefix=${PREFIX} --with-oci8=instantclient,${PREFIX}/lib && \
+    ./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-oci8=instantclient,${PREFIX}/lib && \
     PATH=${PREFIX}/bin:$PATH make install && \
     note "Installed PECL extension: ${arch_name}" && \
     return 0
