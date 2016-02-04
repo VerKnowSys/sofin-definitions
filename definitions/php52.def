@@ -13,7 +13,7 @@ APP_LINKER_ARGS="-L${PREFIX}/lib"
 APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS} autoconf213 php52-cgi" | ${SED_BIN} -e 's/libressl/openssl/;s/ gd//')" # NOTE: this autoconf23 is required here, cause php 5.2 buildconf script requires that to generate configure script correctly. Also newer version is required earlier by gmp..
 APP_MAKE_METHOD="gmake -s"
 APP_INSTALL_METHOD="gmake install -s"
-APP_BUNDLED_EXTENSIONS="$(echo "${APP_BUNDLED_EXTENSIONS}" | ${SED_BIN} -e 's/phalcon//') apc phar opcache" # XXX: +phalcon, which cannot be built here right away, cause of autoconf213 old mess..
+APP_BUNDLED_EXTENSIONS="$(echo "${APP_BUNDLED_EXTENSIONS}" | ${SED_BIN} -e 's/phalcon2//;s/phalcon//') apc phar opcache" # XXX: +phalcon, which cannot be built here right away, cause of autoconf213 old mess..
 
 hack_after_unpack () {
     ${MKDIR_BIN} -p ${PREFIX}/Software
