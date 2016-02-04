@@ -12,7 +12,7 @@ if [ "${SYSTEM_NAME}" = "Linux" ]; then
     APP_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
 fi
 APP_EXPORTS="php php-cgi php-fpm php-config phpize pecl pear lsphp"
-APP_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal lib/python* include/python*"
+APP_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
 
 case "${SYSTEM_NAME}" in
     Linux)
