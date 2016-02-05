@@ -4,15 +4,17 @@ APP_NAME="mpd"
 APP_SHA="9de55e24d2612526ca8eb688126d0784339f2ee8"
 APP_VERSION="0.19.12"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="pkgconf gmake libiconv libatomic_ops m4 zlib lzma lzo xz bzip2 nasm pcre perl python27 autoconf automake libtool libressl boost libffi gettext glib243 libmpdclient mpc icu db sqlite yasm fftw faac expat lame libid3tag mpg123 libcue cmake libdca taglib yajl faad neon libogg libvorbis flac opus opus-tools libtheora uriparser libxspf speex libao wavpack libsndfile twolame libbs2b texinfo libidn curl libmpcdec libsamplerate libmad libshout soxr ffmpeg" # libaacplus
+APP_REQUIREMENTS="pkgconf gmake libiconv libatomic_ops m4 zlib lzma lzo xz bzip2 nasm pcre perl python27 autoconf automake libtool libressl boost libffi gettext glib243 libmpdclient mpc icu db sqlite yasm fftw faac expat lame libid3tag mpg123 libcue cmake libdca taglib yajl faad neon libogg libvorbis flac opus opus-tools libtheora uriparser libxspf speex libao wavpack libsndfile twolame libbs2b texinfo libidn curl libmpcdec libsamplerate libmad libshout soxr ffmpeglib"
 APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-nfs --enable-icu --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib --enable-sqlite"
 APP_EXPORTS="mpd mpc"
 APP_USELESS="ssl doc* share man include/boost include/python* lib/python* include/perl* lib/perl*"
-
+APP_AFTER_UNPACK_CALLBACK="./autogen.sh"
 APP_AFTER_INSTALL_CALLBACK="create_mpdconf ; make_dirs"
+
 make_dirs () {
     ${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db
 }
+
 create_mpdconf () {
     if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
         ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example
@@ -23,7 +25,10 @@ case "${SYSTEM_NAME}" in
     Darwin)
         APP_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
         APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
-        APP_AFTER_UNPACK_CALLBACK="./autogen.sh"
-        APP_AFTER_INSTALL_CALLBACK="create_mpdconf ; make_dirs"
+        ;;
+
+    FreeBSD)
+        APP_LINKER_ARGS="-L${PREFIX}/lib -lavutil -lm"
+        APP_COMPILER_ARGS="-I${PREFIX}/include -lavutil -lm -arch=x86_64"
         ;;
 esac
