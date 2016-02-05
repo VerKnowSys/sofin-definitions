@@ -52,6 +52,8 @@ install_extensions () {
     # WARNING: channel "pecl.php.net" has updated its protocols, use "channel-update pecl.php.net" to update pecl/imagick requires PHP (version >= 5.1.3), installed version is 4.4.9
 
     install_xdebug
+    ${CP_BIN} -v ${PREFIX}/lib/php/extensions/no-debug*/${name}* ${PREFIX}/lib/php/extensions/ && \
+    ${RM_BIN} -f ${PREFIX}/lib/php/extensions/no-debug*/${name}*
 
     note "Proceeding with pear modules"
     install_pear_modules
