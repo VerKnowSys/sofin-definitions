@@ -1,0 +1,5 @@
+. ${DEFINITIONS_DIR}binutils.def
+
+APP_FULL_NAME="Gold Linker"
+APP_NAME="binutils-gold"
+APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-gold --enable-plugins --enable-lto"
