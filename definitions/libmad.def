@@ -7,3 +7,8 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     APP_CONFIGURE_ARGS="x86_64-apple-darwin"
 fi
 APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso"
+APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
+fix_makefile () {
+    # Options unsupported under FreeBSD:
+    ${SED_BIN} -i '' -e 's#-fforce-mem -fforce-addr -fthread-jumps -fcse-follow-jumps -fcse-skip-blocks -fexpensive-optimizations -fregmove##g' ./Makefile || true
+}
