@@ -4,3 +4,8 @@ APP_NAME="jpeg"
 APP_VERSION="v9b"
 APP_CONFIGURE_ARGS="--disable-static --enable-shared"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}src.${APP_VERSION}.tar.gz"
+APP_AFTER_INSTALL_CALLBACK="patch_header"
+
+patch_header () {
+    ${SED_BIN} -i '' -e 's#JCOPYRIGHT#"JCOPYRIGHT"#; s#JCOPYRIGHT_SHORT#"JCOPYRIGHT_SHORT"#; s#JVERSION#"v9b"#' ${PREFIX}/include/jerror.h
+}
