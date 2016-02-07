@@ -7,6 +7,7 @@ APP_REQUIREMENTS="gmake python27 libxml2"
 APP_CONFIGURE_ARGS="--disable-docs --disable-doxygen --enable-optimized --enable-jit"
 APP_EXPORTS="bugpoint c-index-test clang clang++ clang-cpp clang-tblgen idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-link llvm-mc llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt lldb"
 APP_CONFIGURE_SCRIPT="../configure"
+APP_USELESS="lib/perl* include/python* lib/python* share man"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 
