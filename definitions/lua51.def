@@ -29,3 +29,11 @@ patch_makefile () {
     ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile || true # Linux..
     ${SED_BIN} -i '' -e "s/CFLAGS= .*\$/CFLAGS= -O2 -Wall -fPIC \$(MYCFLAGS)/" src/Makefile || true # Linux..
 }
+
+# because Lua guys possibly don't know how to do things correctly:
+APP_AFTER_MAKE_CALLBACK="create_pc"
+create_pc () {
+    ${MKDIR_BIN} -p ${PREFIX}/lib/pkgconfig
+    ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#" etc/lua.pc
+    ${INSTALL_BIN} -v etc/lua.pc ${PREFIX}/lib/pkgconfig/
+}
