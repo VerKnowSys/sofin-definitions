@@ -19,18 +19,35 @@ APP_AFTER_INSTALL_CALLBACK="install_cargo"
 install_cargo () {
     export PATH="${PREFIX}/bin:/usr/bin:/bin:$(${DIRNAME_BIN} ${GIT_BIN})"
     export PKG_CONFIG_EXECUTABLE="${PREFIX}/bin/pkgconf"
+    export CARGO_SNAPSHOT="${MAIN_SOURCE_REPOSITORY}cargo-nightly-x86_64-unknown-freebsd.tar.gz"
+    export CARGO_FBSD_PATCH="${MAIN_SOURCE_REPOSITORY}cargo_freebsd_support_patch.patch"
     ${LN_BIN} -s ${PREFIX}/lib/libcurl.so.8 ${PREFIX}/lib/libcurl.so.4
     debug "Cloning Cargo from remote repository.."
     ${GIT_BIN} clone ${CARGO_REPOSITORY}
     cd cargo
     ${GIT_BIN} submodule update --init
+
+    debug "Patching Cargo for FreeBSD"
+    ${FETCH_BIN} "${CARGO_FBSD_PATCH}"
+    ${PATCH_BIN} -p0 < cargo_freebsd_support_patch.patch
+
+    debug "Downloading Cargo snapshot from: ${CARGO_SNAPSHOT}"
+    ${MKDIR_BIN} -p target/dl
+    cd target/dl
+    ${FETCH_BIN} "${CARGO_SNAPSHOT}"
+    cd ../..
+
+    ${PRINTF_BIN} "2015-04-02
+  freebsd-x86_64 2e0ade0901864ea67200f990cb289343b08959e7
+" > src/snapshots.txt
+
     debug "Configuring Cargo.." && \
     ./configure --prefix=${PREFIX} --local-rust-root=${PREFIX} && \
     unset CC && \
     debug "Building Cargo using ${CPUS} cpus.." && \
     RUSTFLAGS=-Ccodegen_units=${CPUS} ${PREFIX}/bin/gmake && \
     debug "Installing Rust.." && \
-    ${PREFIX}/bin/gmake install && \
+    ${PREFIX}/bin/gmake install
     ret="$?"
 
     # make wrapper for cargo which does not include rpath information in binary:
