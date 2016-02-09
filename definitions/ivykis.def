@@ -1,0 +1,5 @@
+APP_FULL_NAME="Ivykis async I/O-assisting library"
+APP_NAME="ivykis"
+APP_SHA="b393ed53e472d89a1bbbca71c2885215a1e582e6"
+APP_VERSION="0.39"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
