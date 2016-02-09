@@ -2,12 +2,21 @@ DISABLE_ON="Linux"
 APP_STANDALONE="true"
 APP_FULL_NAME="Syslog-ng"
 APP_NAME="syslog-ng"
-APP_SHA="33a8983d8324abf88975838149cbb772f5860d8a"
-APP_VERSION="3.6.3"
+APP_SHA="39d8232ecd7ab5f972d87589ffc882ee9d72a7bc"
+APP_VERSION="3.7.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="--enable-ssl"
-APP_REQUIREMENTS="pkgconf eventlog gmake zlib pcre libffi gettext python27 m4 libtool flex perl bison glib238 libressl geoip"
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+APP_CONFIGURE_ARGS="--enable-ssl --with-ivykis=system --disable-static"
+APP_REQUIREMENTS="pkgconf eventlog gmake zlib pcre libffi gettext python27 m4 libtool flex perl bison autoconf automake glib243 libressl geoip libnet ivykis"
+APP_MAKE_METHOD="gmake -s"
+APP_INSTALL_METHOD="gmake install -s || test -f ${PREFIX}/sbin/syslog-ng"
 APP_EXPORTS="syslog-ng syslog-ng-ctl"
 APP_USELESS="lib/python2.7 lib/libffi-3.0.9 lib/glib-2.0 share/gtk-doc share/aclocal share/doc"
+APP_AFTER_UNPACK_CALLBACK="auto_make"
+auto_make () {
+    ${PREFIX}/bin/libtoolize --force --copy
+    ${PREFIX}/bin/aclocal -I m4 --install
+    ${SED_BIN} -i -e 's/PKG_PROG_PKG_CONFIG(\[0\.16\])/PKG_PROG_PKG_CONFIG([0.14])/g' aclocal.m4
+    ${PREFIX}/bin/autoheader
+    ${PREFIX}/bin/automake --foreign --add-missing --copy
+    ${PREFIX}/bin/autoconf
+}
