@@ -11,6 +11,8 @@ APP_REQUIREMENTS="pkgconf gmake"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_COMPILER_ARGS="-D__BSD_VISIBLE"
 APP_INSTALL_METHOD="gmake install -s"
+APP_LINKER_NO_DTAGS="YES"
+APP_NO_GOLDEN_LINKER="YES"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     create_freebsd_clang_spec () {
