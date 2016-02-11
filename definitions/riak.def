@@ -9,6 +9,7 @@ APP_MAKE_METHOD="gmake rel"
 APP_INSTALL_METHOD="install_riak"
 APP_EXPORTS="riak riak-admin riak-debug search-cmd"
 APP_LINKER_NO_DTAGS="true" # requires sofin v0.84
+APP_NO_GOLDEN_LINKER="YES"
 
 install_riak () {
     ${CP_BIN} -R rel/riak/ ${PREFIX}/
