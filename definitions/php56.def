@@ -80,8 +80,8 @@ install_phalcon_common () {
     p_version="${1}"
     current_builddir="$(${PWD_BIN} 2>/dev/null)"
     export PATH=${PREFIX}/bin:/bin:/usr/bin:/sbin:/usr/sbin && \
-    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git cph1 && \
-    cd cph1 && \
+    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git cph${p_version} && \
+    cd cph${p_version} && \
     ${GIT_BIN} checkout -b "v${p_version}" && \
     cd build
     ${SED_BIN} -i '' -e "s/32bits/64bits/g; s#--enable-phalcon#--enable-phalcon --enable-shared --disable-static --with-php-config=${PREFIX}/bin/php-config#g; s#gcc #cc #g; s#\"gcc\"#\"cc\"#g; s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
@@ -97,7 +97,11 @@ install_phalcon () {
 }
 
 install_phalcon2 () {
-    install_phalcon_common "2.0.0"
+    current_builddir="$(${PWD_BIN} 2>/dev/null)"
+    install_phalcon_common "2.0.0" && \
+    cd ${PREFIX}/lib/php/extensions/no-debug-non-zts-* && \
+    ${MV_BIN} phalcon.so phalcon2.so && \
+    cd "${current_builddir}"
 }
 
 install_pear_modules () {
