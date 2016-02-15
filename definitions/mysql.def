@@ -12,6 +12,7 @@ case "${SYSTEM_NAME}" in
 esac
 
 APP_CONFIGURE_SCRIPT="cmake"
+APP_CONFIGURE_ARGS="-DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=off -DENABLE_DEBUG_SYNC=off -DWITH_UNIT_TESTS=off"
 #APP_AFTER_INSTALL_CALLBACK="cd ${PREFIX} && ${PREFIX}/bin/perl scripts/mysql_install_db"
 APP_EXPORTS="mysql mysql_config mysqld mysqld_multi mysqld_safe mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db"
 APP_CONFLICTS_WITH="Mysql Percona"
