@@ -84,7 +84,8 @@ install_phalcon_common () {
     cd cph${p_version} && \
     ${GIT_BIN} checkout -b "v${p_version}" && \
     cd build
-    ${SED_BIN} -i '' -e "s/32bits/64bits/g; s#--enable-phalcon#--enable-phalcon --enable-shared --disable-static --with-php-config=${PREFIX}/bin/php-config#g; s#gcc #cc #g; s#\"gcc\"#\"cc\"#g; s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include #" ./install
+    ${SED_BIN} -i '' -e "s/32bits/64bits/g; s#--enable-phalcon#--enable-phalcon --enable-shared --disable-static --with-php-config=${PREFIX}/bin/php-config#g; s#gcc #cc #g; s#\"gcc\"#\"cc\"#g;
+    s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include -fvisibility=hidden #" ./install
     PATH=$PATH /bin/sh ./install && \
     note "Installed PECL: phalcon" && \
     cd "${current_builddir}" && \
