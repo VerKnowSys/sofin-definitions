@@ -31,3 +31,17 @@ install_rar () {
     return 0
     return 1
 }
+
+hack_after_unpack () {
+    ${MKDIR_BIN} -p ${PREFIX}/Software
+    ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
+    test -d /tmp/pear && ${RM_BIN} -fr /tmp/pear
+
+    debug "Fetching Litespeed SAPI" && \
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}php-litespeed-6.7.tgz && \
+    ${TAR_BIN} xf php-litespeed-6.7.tgz --directory sapi/
+
+    debug "Regenerating configure script"
+    touch ac*
+    PATH=${PREFIX}/bin:/bin:/usr/bin:/usr/sbin:/sbin ./buildconf --force
+}
