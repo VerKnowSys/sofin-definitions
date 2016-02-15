@@ -7,7 +7,7 @@ APP_VERSION="5.2.17"
 APP_POSTFIX="52"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_CONFIGURE_SCRIPT="export FREETYPE2_DIR=${PREFIX} && export FREETYPE2_INC_DIR=${PREFIX}/include/freetype2 && ./configure"
-APP_CONFIGURE_ARGS="$(echo "${APP_CONFIGURE_ARGS}" | ${SED_BIN} -e "s/--with-kerberos/--without-kerberos/") --with-freetype-dir=${PREFIX} --enable-spl --with-mysql=${PREFIX} --with-mysqli=${PREFIX}/bin/mysql_config --with-pcre-regex --with-pcre-dir=${PREFIX} --with-gd"
+APP_CONFIGURE_ARGS="$(echo "${APP_CONFIGURE_ARGS}" | ${SED_BIN} -e "s/--with-kerberos/--without-kerberos/") --with-freetype-dir=${PREFIX} --enable-spl --with-mysql=${PREFIX} --with-mysqli=${PREFIX}/bin/mysql_config --with-pcre-regex --with-pcre-dir=${PREFIX} --with-gd --enable-zend-multibyte"
 APP_COMPILER_ARGS="-I${PREFIX}/include -I${PREFIX}/include/freetype2 -I/usr/include"
 APP_LINKER_ARGS="-L${PREFIX}/lib"
 APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS} autoconf213 php52-cgi" | ${SED_BIN} -e 's/libressl/openssl/;s/ gd//')" # NOTE: this autoconf23 is required here, cause php 5.2 buildconf script requires that to generate configure script correctly. Also newer version is required earlier by gmp..
