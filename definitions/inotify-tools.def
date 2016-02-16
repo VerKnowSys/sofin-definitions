@@ -1,0 +1,7 @@
+DISABLE_ON="Darwin FreeBSD"
+APP_FULL_NAME="Inotify Tools"
+APP_NAME="inotify-tools"
+APP_SHA="4f9c027e441a84e78b36f9c1a87bf1896216b5ff"
+APP_VERSION="3.13"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_EXPORTS="inotifywatch inotifywait"

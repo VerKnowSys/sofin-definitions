@@ -1,0 +1,538 @@
+diff -pruN libcgroup-0.41/doc/man/cgrulesengd.8 libcgroup-0.41/doc/man/cgrulesengd.8
+--- libcgroup-0.41/doc/man/cgrulesengd.8	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/doc/man/cgrulesengd.8	2015-09-15 14:29:57.000000000 +0200
+@@ -55,6 +55,22 @@ write them to the standard output.
+ .B -g <group>|--socket-group=<group>
+ Set the owner of cgrulesengd socket. Assumes that \fBcgexec\fR runs with proper
+ suid permissions so it can write to the socket when \fBcgexec\fR --sticky is used.
++.TP
++.B -b <size>|--netlink-buffer=<size>
++Set the netlink buffer size in bytes. On busy systems buffer of up to 8MiB
++might be required. To bypass rmem_max limit, SO_RCVBUFFORCE is used.
++.TP
++.B -p <type>|--procname-fallback=<type>
++Set a default fallback for process name. Type can be one of:
++.RS
++\fBexe\fR    - fallback to readlink() from /proc/<pid>/exe (default)
++.RE
++.RS
++\fBstatus\fR - fallback to a name from /proc/<pid>/status
++.RE
++.TP
++.B -k|--kernel-procname
++Set a name of kernel processes to "KERNEL".
+ 
+ .SH ENVIRONMENT VARIABLES
+ .TP
+diff -pruN libcgroup-0.41/include/libcgroup/config.h libcgroup-0.41/include/libcgroup/config.h
+--- libcgroup-0.41/include/libcgroup/config.h	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/include/libcgroup/config.h	2015-09-15 14:29:57.000000000 +0200
+@@ -26,6 +26,14 @@ __BEGIN_DECLS
+  * and applications can benefit from them.
+  */
+ 
++/* --procname-fallback values */
++enum {
++	CGROUP_PFALLBACK_MIN = 0,
++	CGROUP_PFALLBACK_EXE,
++	CGROUP_PFALLBACK_STATUS,
++	CGROUP_PFALLBACK_MAX
++};
++
+ /**
+  * Load configuration file and mount and create control groups described there.
+  * See cgconfig.conf man page for format of the file.
+diff -pruN libcgroup-0.41/include/libcgroup/groups.h libcgroup-0.41/include/libcgroup/groups.h
+--- libcgroup-0.41/include/libcgroup/groups.h	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/include/libcgroup/groups.h	2015-09-15 14:29:57.000000000 +0200
+@@ -572,6 +572,18 @@ int cg_chmod_recursive(struct cgroup *cg
+ char *cgroup_get_cgroup_name(struct cgroup *cgroup);
+ 
+ /**
++ *  Set name of kernel processes to "KERNEL"
++ *  @param kernel_procname_l 0 = disabled, 1 = enabled
++ */
++int cg_set_kernel_procname(int kernel_procname_l);
++
++/**
++ *  Set default fallback for process name
++ *  @param procname_fallback_l One of CGROUP_PFALLBACK_*
++ */
++int cg_set_procname_fallback(int procname_fallback_l);
++
++/**
+  * @}
+  * @}
+  */
+diff -pruN libcgroup-0.41/src/api.c libcgroup-0.41/src/api.c
+--- libcgroup-0.41/src/api.c	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/src/api.c	2015-09-15 14:29:57.000000000 +0200
+@@ -75,6 +75,12 @@ static struct cgroup_rule_list trl;
+ /* Lock for the list of rules (rl) */
+ static pthread_rwlock_t rl_lock = PTHREAD_RWLOCK_INITIALIZER;
+ 
++/* Procname fallback */
++static int procname_fallback = CGROUP_PFALLBACK_EXE;
++
++/* Set name of kernel processes to "KERNEL" */
++static int kernel_procname = 0;
++
+ /* Namespace */
+ __thread char *cg_namespace_table[CG_CONTROLLER_MAX];
+ 
+@@ -116,6 +122,24 @@ const char const *cgroup_strerror_codes[
+ 
+ static const char const *cgroup_ignored_tasks_files[] = { "tasks", NULL };
+ 
++int cg_set_kernel_procname(int kernel_procname_l)
++{
++	kernel_procname = kernel_procname_l;
++	return 0;
++}
++
++int cg_set_procname_fallback(int procname_fallback_l)
++{
++	if (procname_fallback_l > CGROUP_PFALLBACK_MIN
++			&& procname_fallback_l < CGROUP_PFALLBACK_MAX)
++	{
++		procname_fallback = procname_fallback_l;
++		return 0;
++	} else {
++		return -1;
++	}
++}
++
+ static int cg_chown(const char *filename, uid_t owner, gid_t group)
+ {
+ 	if (owner == NO_UID_GID)
+@@ -1897,15 +1921,25 @@ static int cg_move_task_files(FILE *inpu
+ 			break;
+ 
+ 		ret = fprintf(output_tasks, "%d", tids);
+-		if (ret < 0)
+-			break;
++		if (ret < 0) {
++			if (errno == ESRCH) {
++				ret = 0;
++			} else {
++				break;
++			}
++		}
+ 
+ 		/*
+ 		 * Flush the file, we need only one process per write() call.
+ 		 */
+ 		ret = fflush(output_tasks);
+-		if (ret < 0)
+-			break;
++		if (ret < 0) {
++			if (errno == ESRCH) {
++				ret = 0;
++			} else {
++				break;
++			}
++		}
+ 	}
+ 
+ 	if (ret < 0) {
+@@ -2594,13 +2628,17 @@ static struct cgroup_rule *cgroup_find_m
+ 			/* Get the group data. */
+ 			sp = &(rule->username[1]);
+ 			grp = getgrnam(sp);
+-			if (!grp)
++			if (!grp) {
++				rule = rule->next;
+ 				continue;
++			}
+ 
+ 			/* Get the data for UID. */
+ 			usr = getpwuid(uid);
+-			if (!usr)
++			if (!usr) {
++				rule = rule->next;
+ 				continue;
++			}
+ 
+ 			/* If UID is a member of group, we matched. */
+ 			for (i = 0; grp->gr_mem[i]; i++) {
+@@ -4054,6 +4092,10 @@ int cgroup_get_procname_from_procfs(pid_
+ 		 * readlink() fails if a kernel thread, and a process
+ 		 * name is taken from /proc/<pid>/status.
+ 		 */
++		if(kernel_procname) {
++			free(pname_status);
++			pname_status = strdup("KERNEL");
++		}
+ 		*procname = pname_status;
+ 		return 0;
+ 	}
+@@ -4090,10 +4132,16 @@ int cgroup_get_procname_from_procfs(pid_
+ 	/*
+ 	 * The above strncmp() is not 0 also if executing a symbolic link,
+ 	 * /proc/pid/exe points to real executable name then.
+-	 * Return it as the last resort.
+ 	 */
+-	free(pname_status);
+-	*procname = strdup(buf);
++
++	if (procname_fallback == CGROUP_PFALLBACK_STATUS) {
++		// As the last resort, return name from /proc/<pid>/status.
++		*procname = pname_status;
++	} else {
++		// As the last resort, return name from /proc/<pid>/exe.
++		free(pname_status);
++		*procname = strdup(buf);
++	}
+ 	if (*procname == NULL) {
+ 		last_errno = errno;
+ 		return ECGOTHER;
+diff -pruN libcgroup-0.41/src/config.c libcgroup-0.41/src/config.c
+--- libcgroup-0.41/src/config.c	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/src/config.c	2015-09-15 14:29:57.000000000 +0200
+@@ -217,7 +217,7 @@ int config_parse_controller_options(char
+ 	struct cgroup_dictionary *values, int flag)
+ {
+ 	const char *name, *value;
+-	struct cgroup_controller *cgc;
++	struct cgroup_controller *cgc = NULL;
+ 	int error;
+ 	struct cgroup *config_cgroup;
+ 	void *iter = NULL;
+@@ -1583,7 +1583,7 @@ int cgroup_config_create_template_group(
+ 	int i, j, k;
+ 	struct cgroup *t_cgroup;
+ 	char buffer[FILENAME_MAX];
+-	struct cgroup *aux_cgroup;
++	struct cgroup *aux_cgroup = NULL;
+ 	struct cgroup_controller *cgc;
+ 	int found;
+ 
+@@ -1659,9 +1659,9 @@ int cgroup_config_create_template_group(
+ 		/* no template is present for given name x controller pair
+ 		 * add controller to result cgroup */
+ 		aux_cgroup = cgroup_new_cgroup(cgroup->name);
+-		if (aux_cgroup) {
++		if (aux_cgroup == NULL) {
+ 			ret = ECGINVAL;
+-			fprintf(stderr, "cgroup %s can't be created\n",
++			fprintf(stderr, "cgroup %s can't be created: cgroup_new_cgroup()\n",
+ 				cgroup->name);
+ 			goto end;
+ 		}
+@@ -1669,19 +1669,22 @@ int cgroup_config_create_template_group(
+ 			(cgroup->controller[i])->name);
+ 		if (cgc == NULL) {
+ 			ret = ECGINVAL;
+-			fprintf(stderr, "cgroup %s can't be created\n",
++			fprintf(stderr, "cgroup %s can't be created: cgroup_add_controller()\n",
+ 				cgroup->name);
+ 			goto end;
+ 		}
+ 		ret = cgroup_create_cgroup(aux_cgroup, flags);
+ 		if (ret) {
+ 			ret = ECGINVAL;
+-			fprintf(stderr, "cgroup %s can't be created\n",
++			fprintf(stderr, "cgroup %s can't be created: cgroup_create_cgroup()\n",
+ 				cgroup->name);
+ 			goto end;
+ 		}
+ 	}
+ 
+ end:
++	if(aux_cgroup) {
++		free(aux_cgroup);
++	}
+ 	return ret;
+ }
+diff -pruN libcgroup-0.41/src/daemon/cgrulesengd.c libcgroup-0.41/src/daemon/cgrulesengd.c
+--- libcgroup-0.41/src/daemon/cgrulesengd.c	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/src/daemon/cgrulesengd.c	2015-09-15 16:49:59.000000000 +0200
+@@ -51,6 +51,7 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <unistd.h>
++#include <fcntl.h>
+ #include <linux/connector.h>
+ #include <linux/cn_proc.h>
+ #include <linux/un.h>
+@@ -60,7 +61,7 @@
+ #define NUM_PER_REALLOCATIOM	(100)
+ 
+ /* Log file, NULL if logging to file is disabled */
+-FILE* logfile;
++FILE* logfile = NULL;
+ 
+ /* Log facility, 0 if logging to syslog is disabled */
+ int logfacility;
+@@ -106,6 +107,10 @@ static void usage(FILE* fd, const char*
+ 			CGRULE_CGRED_SOCKET_PATH " socket user\n"
+ 		"    -g <group>   | --socket-group=<group> set "
+ 			CGRULE_CGRED_SOCKET_PATH " socket group\n"
++		"    -b <size>    | --netlink-buffer=<size> set the netlink buffer size in bytes\n"
++		"    -p <type>    | --procname-fallback=<type> set a default fallback for\n"
++		"                 |     process name. Type can be one of \"exe\" (default) or \"status\".\n"
++		"    -k           | --kernel-procname   set a name of kernel processes to \"KERNEL\"\n"
+ 		"    -h           | --help              show this help\n\n"
+ 		);
+ 	va_end(ap);
+@@ -548,46 +553,68 @@ static int cgre_handle_msg(struct cn_msg
+ static int cgre_receive_netlink_msg(int sk_nl)
+ {
+ 	char buff[BUFF_SIZE];
+-	size_t recv_len;
++	ssize_t recv_len;
+ 	struct sockaddr_nl from_nla;
+ 	socklen_t from_nla_len;
+ 	struct nlmsghdr *nlh;
+ 	struct cn_msg *cn_hdr;
++	int buff_full_logged = 0, tries = 0;
+ 
+-	memset(buff, 0, sizeof(buff));
+-	from_nla_len = sizeof(from_nla);
+-	recv_len = recvfrom(sk_nl, buff, sizeof(buff), 0,
+-		(struct sockaddr *)&from_nla, &from_nla_len);
+-	if (recv_len == ENOBUFS) {
+-		flog(LOG_ERR, "ERROR: NETLINK BUFFER FULL, MESSAGE DROPPED!\n");
+-		return 0;
+-	}
+-	if (recv_len < 1)
+-		return 0;
++	// Handle more messages in a single run without returning to select().
++	for(tries = 0; tries < 100; tries++)
++	{
++		memset(buff, 0, sizeof(buff));
++		from_nla_len = sizeof(from_nla);
++
++		recv_len = recvfrom(sk_nl, buff, sizeof(buff), MSG_DONTWAIT,
++			(struct sockaddr *)&from_nla, &from_nla_len);
++
++		if (recv_len < 1)
++		{
++			if (errno == ENOBUFS) {
++				if(!buff_full_logged)
++				{
++					flog(LOG_ERR, "ERROR: NETLINK BUFFER FULL, MESSAGE DROPPED!\n");
++					buff_full_logged = 1;
++				}
++				// Loop until we get rid of all "buffer full" messages.
++				tries--;
++				continue;
++			} else if (errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
++				// return to select().
++				break;
++			} else {
++				flog(LOG_ERR, "recvfrom() from netlink socket returned error: %s\n", strerror(errno));
++				return -1;
++			}
++		}
+ 
+-	if (from_nla_len != sizeof(from_nla)) {
+-		flog(LOG_ERR, "Bad address size reading netlink socket\n");
+-		return 0;
+-	}
+-	if (from_nla.nl_groups != CN_IDX_PROC
+-	    || from_nla.nl_pid != 0)
+-		return 0;
++		if (from_nla_len != sizeof(from_nla)) {
++			flog(LOG_ERR, "Bad address size reading netlink socket.\n");
++			continue;
++		}
++		if (from_nla.nl_groups != CN_IDX_PROC
++			|| from_nla.nl_pid != 0)
++			continue;
+ 
+-	nlh = (struct nlmsghdr *)buff;
+-	while (NLMSG_OK(nlh, recv_len)) {
+-		cn_hdr = NLMSG_DATA(nlh);
+-		if (nlh->nlmsg_type == NLMSG_NOOP) {
++		nlh = (struct nlmsghdr *)buff;
++		while (NLMSG_OK(nlh, recv_len)) {
++			cn_hdr = NLMSG_DATA(nlh);
++			if (nlh->nlmsg_type == NLMSG_NOOP) {
++				nlh = NLMSG_NEXT(nlh, recv_len);
++				continue;
++			}
++			if ((nlh->nlmsg_type == NLMSG_ERROR) ||
++					(nlh->nlmsg_type == NLMSG_OVERRUN))
++				break;
++			if (cgre_handle_msg(cn_hdr) < 0) {
++				flog(LOG_ERR, "cgre_handle_msg() failed.\n");
++				return -1;
++			}
++			if (nlh->nlmsg_type == NLMSG_DONE)
++				break;
+ 			nlh = NLMSG_NEXT(nlh, recv_len);
+-			continue;
+ 		}
+-		if ((nlh->nlmsg_type == NLMSG_ERROR) ||
+-				(nlh->nlmsg_type == NLMSG_OVERRUN))
+-			break;
+-		if (cgre_handle_msg(cn_hdr) < 0)
+-			return 1;
+-		if (nlh->nlmsg_type == NLMSG_DONE)
+-			break;
+-		nlh = NLMSG_NEXT(nlh, recv_len);
+ 	}
+ 	return 0;
+ }
+@@ -644,7 +671,7 @@ close:
+ 	return;
+ }
+ 
+-static int cgre_create_netlink_socket_process_msg(void)
++static int cgre_create_netlink_socket_process_msg(int nl_buf_size)
+ {
+ 	int sk_nl = 0, sk_unix = 0, sk_max;
+ 	struct sockaddr_nl my_nla;
+@@ -670,6 +697,16 @@ static int cgre_create_netlink_socket_pr
+ 		return rc;
+ 	}
+ 
++	if(nl_buf_size > 0) {
++		if(setsockopt(sk_nl, SOL_SOCKET, SO_RCVBUFFORCE, &nl_buf_size, sizeof(nl_buf_size)) < 0) {
++			flog(LOG_ERR, "Error: cannot set requested netlink buffer size: %s\n",
++					strerror(errno));
++			goto close_and_exit;
++		} else {
++			flog(LOG_DEBUG, "Netlink buffer successfully set to %d\n", nl_buf_size);
++		}
++	}
++
+ 	my_nla.nl_family = AF_NETLINK;
+ 	my_nla.nl_groups = CN_IDX_PROC;
+ 	my_nla.nl_pid = getpid();
+@@ -752,6 +789,14 @@ static int cgre_create_netlink_socket_pr
+ 		goto close_and_exit;
+ 	}
+ 
++	if(fcntl(sk_nl, F_SETFL, O_NONBLOCK) < 0) {
++		flog(LOG_ERR, "Error: cannot set O_NONBLOCK on netlink socket: %s\n",
++				strerror(errno));
++		goto close_and_exit;
++	} else {
++		flog(LOG_DEBUG, "Netlink socket successfully set to O_NONBLOCK mode.\n");
++	}
++
+ 	FD_ZERO(&readfds);
+ 	FD_SET(sk_nl, &readfds);
+ 	FD_SET(sk_unix, &readfds);
+@@ -772,11 +817,14 @@ static int cgre_create_netlink_socket_pr
+ 
+ 		memcpy(&fds, &readfds, sizeof(fd_set));
+ 		if (select(sk_max + 1, &fds, NULL, NULL, NULL) < 0) {
++			if(errno == EINTR) {
++				continue;
++			}
+ 			flog(LOG_ERR, "Selecting error: %s\n", strerror(errno));
+ 			goto close_and_exit;
+ 		}
+ 		if (FD_ISSET(sk_nl, &fds)) {
+-			if (cgre_receive_netlink_msg(sk_nl))
++			if (cgre_receive_netlink_msg(sk_nl) < 0)
+ 				break;
+ 		}
+ 		if (FD_ISSET(sk_unix, &fds))
+@@ -950,6 +998,9 @@ void cgre_flash_rules(int signum)
+ 
+ 	/* Ask libcgroup to reload the template rules table. */
+ 	cgroup_reload_cached_templates(CGCONFIG_CONF_FILE);
++
++	/* Reapply cgroups to running processes. */
++	cgroup_change_all_cgroups();
+ }
+ 
+ /**
+@@ -967,6 +1018,9 @@ void cgre_flash_templates(int signum)
+ 
+ 	/* Ask libcgroup to reload the templates table. */
+ 	cgroup_reload_cached_templates(CGCONFIG_CONF_FILE);
++
++	/* Reapply cgroups to running processes. */
++	cgroup_change_all_cgroups();
+ }
+ 
+ /**
+@@ -1047,6 +1101,9 @@ int main(int argc, char *argv[])
+ 	/* Should we daemonize? */
+ 	unsigned char daemon = 1;
+ 
++	/* Netlink buffer size */
++	int nl_buf_size = 0; // 0 = system default
++
+ 	/* Return codes */
+ 	int ret = 0;
+ 
+@@ -1054,7 +1111,7 @@ int main(int argc, char *argv[])
+ 	struct group *gr;
+ 
+ 	/* Command line arguments */
+-	const char *short_options = "hvqf:s::ndQu:g:";
++	const char *short_options = "hvqf:s::ndQup:g:b:p:k";
+ 	struct option long_options[] = {
+ 		{"help", no_argument, NULL, 'h'},
+ 		{"verbose", no_argument, NULL, 'v'},
+@@ -1066,6 +1123,9 @@ int main(int argc, char *argv[])
+ 		{"nolog", no_argument, NULL, 'Q'},
+ 		{"socket-user", required_argument, NULL, 'u'},
+ 		{"socket-group", required_argument, NULL, 'g'},
++		{"netlink-buffer", required_argument, NULL, 'b'},
++		{"procname-fallback", required_argument, NULL, 'p'},
++		{"kernel-procname", no_argument, NULL, 'k'},
+ 		{NULL, 0, NULL, 0}
+ 	};
+ 
+@@ -1165,6 +1225,32 @@ int main(int argc, char *argv[])
+ 			flog(LOG_DEBUG, "Using socket group %s id %d\n",
+ 					optarg, (int)socket_group);
+ 			break;
++		case 'b': /* --netlink-buffer */
++			nl_buf_size = atoi(optarg);
++			if(nl_buf_size < 0) {
++				usage(stderr, "Cannot set netlink buffer to %d", optarg);
++				ret = 3;
++				goto finished;
++			}
++			flog(LOG_DEBUG, "Using netlink socket buffer size %d\n",
++					nl_buf_size);
++			break;
++		case 'p': /* --procname-fallback */
++			if(strncmp(optarg, "status", sizeof("status")) == 0) {
++				cg_set_procname_fallback(CGROUP_PFALLBACK_STATUS);
++			} else if(strncmp(optarg, "exe", sizeof("exe")) == 0) {
++				cg_set_procname_fallback(CGROUP_PFALLBACK_EXE);
++			} else {
++				usage(stderr, "Invalid procname fallback \"%s\"", optarg);
++				ret = 3;
++				goto finished;
++			}
++			flog(LOG_DEBUG, "Using procname fallback \"%s\"\n",
++					optarg);
++			break;
++		case 'k': /* --kernel-procname */
++			cg_set_kernel_procname(1);
++			break;
+ 		default:
+ 			usage(stderr, "");
+ 			ret = 2;
+@@ -1256,7 +1342,7 @@ int main(int argc, char *argv[])
+ 	flog(LOG_INFO, "Started the CGroup Rules Engine Daemon.\n");
+ 
+ 	/* We loop endlesly in this function, unless we encounter an error. */
+-	ret =  cgre_create_netlink_socket_process_msg();
++	ret =  cgre_create_netlink_socket_process_msg(nl_buf_size);
+ 
+ finished:
+ 	if (logfile && logfile != stdout)
+diff -pruN libcgroup-0.41/src/libcgroup.map libcgroup-0.41/src/libcgroup.map
+--- libcgroup-0.41/src/libcgroup.map	2014-01-13 15:05:56.000000000 +0100
++++ libcgroup-0.41/src/libcgroup.map	2015-09-15 14:29:57.000000000 +0200
+@@ -117,3 +117,9 @@ CGROUP_0.39 {
+ 	cgroup_log;
+ 	cgroup_parse_log_level_str;
+ } CGROUP_0.38;
++
++CGROUP_0.42 {
++	cg_set_procname_fallback;
++	cg_set_kernel_procname;
++} CGROUP_0.39;
++
