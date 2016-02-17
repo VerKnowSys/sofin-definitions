@@ -54,6 +54,7 @@ install_cargo () {
     ${MV_BIN} ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin
     ${PRINTF_BIN} "#\!/bin/sh\nLD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo
     ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo
+    # NOTE: ^ can be also solved by: patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/bin/cargo
 
     return ${ret}
 }
