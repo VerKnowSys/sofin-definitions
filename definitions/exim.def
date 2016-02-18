@@ -4,7 +4,7 @@ APP_SHA="5e2c2e5fcc83646e7d7dd308f1d13da0e49db924"
 APP_NAME="exim"
 APP_VERSION="4.86"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="zlib libressl perl pcre cyrus-sasl libspf2 libsrs2 libsrs_alt"
+APP_REQUIREMENTS="zlib libressl perl pcre db cyrus-sasl libspf2 libsrs2 libsrs_alt"
 APP_CONFIGURE_SCRIPT="no-conf"
 APP_AFTER_UNPACK_CALLBACK="create_makefile"
 APP_MAKE_METHOD="make makefile ; make -s ${MAKE_OPTS}"
@@ -77,7 +77,7 @@ PID_FILE_PATH=/var/run/exim.pid
 SUPPORT_MOVE_FROZEN_MESSAGES=yes
 EXPERIMENTAL_SRS=yes
 EXPERIMENTAL_SPF=yes
-CFLAGS += -I/usr/include -I${PREFIX}/include -DSPF
+CFLAGS += -fPIC -mno-avx -I/usr/include -I${PREFIX}/include -DSPF
 LDFLAGS += ${ADDITIONAL} -L/usr/lib -L${PREFIX}/lib -lsrs_alt
 # 2015-08-24 12:43:20 - dmilith - To link properly, it requires libdb-dev from aptitude under Debian:
 LFLAGS += ${ADDITIONAL} -L/usr/lib -L${PREFIX}/lib -ldb
