@@ -3,7 +3,7 @@ APP_SHA="1153fb7eb990053379b99821c7eaf5b63cd6818a"
 APP_NAME="dovecot"
 APP_VERSION="2.2.21"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_EXPORTS="dovecot doveadm doveconf dsync aggregator anvil auth checkpassword-reply config deliver dict decode2text.sh director dns-client doveadm-server dovecot-lda gdbhelper imap imap-login imap-urlauth imap-urlauth-login imap-urlauth-worker indexer indexer-worker ipc lmtp log maildirlock pop3 pop3-login quota-status rawlog replicator script script-login ssl-params stats xml2text"
+APP_EXPORTS="dovecot doveadm doveconf dsync aggregator anvil auth checkpassword-reply config deliver dict decode2text.sh director dns-client doveadm-server dovecot-lda gdbhelper imap imap-login imap-urlauth imap-urlauth-login imap-urlauth-worker indexer indexer-worker ipc lmtp log maildirlock pop3 pop3-login quota-status rawlog replicator script script-login ssl-params stats xml2text sieve-dump sieve-filter sieve-test sievec"
 APP_REQUIREMENTS="gmake bzip2 zlib xz libressl"
 APP_CONFIGURE_ARGS="--sysconfdir=/etc --localstatedir=/var --without-gssapi --with-ssl=openssl --without-docs --with-zlib --with-lzma --with-bzlib --with-pic --without-icu --without-gc --without-libcap --without-solr --without-lz4"
 APP_USEFUL="libexec/dovecot"
@@ -19,6 +19,6 @@ install_pigeonhole () {
     ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/dovecot-2.2-pigeonhole-0.4.8.tar.gz
     tar xf dovecot-2.2-pigeonhole-0.4.8.tar.gz
     cd dovecot-2.2-pigeonhole-0.4.8
-    PATH=$PATH:${PREFIX}/bin:${PREFIX}/libexec:/bin:/usr/bin ./configure --with-dovecot=${PREFIX}/lib/dovecot
+    PATH=$PATH:${PREFIX}/bin:${PREFIX}/libexec:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-dovecot=${PREFIX}/lib/dovecot --without-docs --with-managesieve
     make install
 }
