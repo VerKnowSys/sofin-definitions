@@ -12,7 +12,7 @@ if [ "${SYSTEM_NAME}" != "Linux" ]; then
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dynamic-trace=dtrace"
 fi
 APP_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
-APP_CONFLICTS_WITH="Erlang"
+APP_CONFLICTS_WITH="Erlang Elixir"
 
 install_repl_history() {
     ${GIT_BIN} clone https://github.com/ferd/erlang-history.git
