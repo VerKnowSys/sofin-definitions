@@ -1,4 +1,4 @@
-DISABLE_ON="Darwin"
+DISABLE_ON="Darwin Linux"
 APP_FULL_NAME="Common Unix Printing System"
 APP_SHA="7b5bcd0da7a11185ab01f5ab5cd8d1168c7c8b3f"
 APP_NAME="cups"
