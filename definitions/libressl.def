@@ -1,7 +1,27 @@
 APP_FULL_NAME="LibreSSL Library"
-APP_SHA="37c765c6a452e1dd6c5ed368d618c05e5875715e"
+APP_SHA="1421b6402ddf6d5040bf0d8c8b5b145c055b9110"
 APP_NAME="libressl"
-APP_VERSION="2.3.1"
+APP_VERSION="2.3.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_AFTER_INSTALL_CALLBACK="mkdir -p ${PREFIX}/ssl ; cd ${PREFIX}/ssl && ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/cacert.pem && ${MV_BIN} cacert.pem cert.pem"
 APP_EXPORTS="openssl"
+
+cacert_source="http://curl.haxx.se/ca/cacert.pem"
+cacert_source_alt="http://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt"
+os_specific="${SERVICE_DIR}"
+safety_opts="--no-verify-peer"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    os_specific="${PREFIX}"
+    safety_opts="--no-check-certificate"
+fi
+
+APP_AFTER_INSTALL_CALLBACK="create_cert_file"
+create_cert_file () {
+    ${MKDIR_BIN} -p ${os_specific}/etc/ssl
+    cd ${os_specific}/etc/ssl
+    # 1st try:
+    ${FETCH_BIN} ${safety_opts} ${cacert_source} -o ${os_specific}/etc/ssl/cert.pem || \
+    # 2nd try:
+    ${FETCH_BIN} ${safety_opts} ${cacert_source_alt} -o ${os_specific}/etc/ssl/cert.pem || \
+    error "Couldn't fetch recent cert.pem"
+    note "Fetched and installed most recent cert.pem in prefix: ${os_specific}"
+}
