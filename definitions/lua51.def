@@ -27,7 +27,10 @@ esac
 APP_AFTER_CONFIGURE_CALLBACK="patch_makefile"
 patch_makefile () {
     ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile || true # Linux..
-    ${SED_BIN} -i '' -e "s/CFLAGS= .*\$/CFLAGS= -O2 -Wall -fPIC \$(MYCFLAGS)/" src/Makefile || true # Linux..
+    ${SED_BIN} -i '' -e "s/CFLAGS= .*\$/CFLAGS= -O2 -Wall -mno-avx -fPIC \$(MYCFLAGS)/" src/Makefile || true # Linux..
+    if [ "${SYSTEM_NAME}" != "Linux" ]; then
+        ${SED_BIN} -i '' -e "s/CC= gcc/CC= clang/" src/Makefile
+    fi
 }
 
 # because Lua guys possibly don't know how to do things correctly:
