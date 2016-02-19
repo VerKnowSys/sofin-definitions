@@ -7,6 +7,7 @@ APP_EXPORTS="dovecot doveadm doveconf dsync aggregator anvil auth checkpassword-
 APP_REQUIREMENTS="gmake bzip2 zlib xz libressl"
 APP_CONFIGURE_ARGS="--sysconfdir=/etc --localstatedir=/var --without-gssapi --with-ssl=openssl --without-docs --with-zlib --with-lzma --with-bzlib --with-pic --without-icu --without-gc --without-libcap --without-solr --without-lz4"
 APP_USEFUL="libexec/dovecot"
+APP_USELESS="man share/doc share/info share/man"
 APP_AFTER_INSTALL_CALLBACK="make_libexec_symlinks && install_pigeonhole"
 
 make_libexec_symlinks () {
