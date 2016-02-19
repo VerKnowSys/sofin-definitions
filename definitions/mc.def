@@ -7,3 +7,6 @@ APP_REQUIREMENTS="gmake zlib bzip2 pkgconf libffi gettext libressl python27 m4 l
 APP_CONFIGURE_ARGS="--with-pcre=${PREFIX} --with-slang-libs=${PREFIX}/lib --disable-doxygen-man --disable-doxygen-html --disable-doxygen-doc --disable-doxygen-dot --without-internal-edit --without-diff-viewer"
 APP_EXPORTS="mc"
 APP_USELESS="lib/*perl* include/*python* lib/*python* share/aclocal share/bash-completion share/emacs share/gdb share/gettext* share/glib* share/*doc* share/info share/slsh share/man share/libtool man"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/243/240/')"
+fi
