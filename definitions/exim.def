@@ -11,7 +11,7 @@ APP_MAKE_METHOD="make makefile ; make -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="make install"
 APP_AFTER_INSTALL_CALLBACK="symlink_exim"
 APP_EXPORTS="exicyclog exigrep exim exim-4.86-3 exim_checkaccess exim_dbmbuild exim_dumpdb exim_fixdb exim_lock exim_tidydb eximstats exinext exipick exiqgrep exiqsumm exiwhat spfd spfd_static spfquery spfquery_static spftest spftest_static srs spf_example spf_example_static saslauthd sasldblistusers2 saslpasswd2 testsaslauthd pluginviewer"
-APP_USELESS="docs"
+APP_USELESS="docs man share"
 
 symlink_exim () {
     ${LN_BIN} -s ${PREFIX}/sbin/exim-* ${PREFIX}/sbin/exim
