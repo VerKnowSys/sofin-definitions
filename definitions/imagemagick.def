@@ -22,8 +22,7 @@ esac
 
 APP_MAKE_METHOD="make -s"
 APP_INSTALL_METHOD="make install -s"
-APP_AFTER_INSTALL_CALLBACK="${SED_BIN} -i '' 's@pkg-config@${PREFIX}/bin/pkgconf@' ${PREFIX}/bin/Magick*config ${PREFIX}/bin/Wand-config"
 APP_USEFUL="bin/pkgconf bin/pkg-config"
-APP_USELESS="lib/perl5 lib/python2.7 share/examples share/emacs share/gtk-doc share/info share/bison"
+APP_USELESS="lib/*perl* lib/*python* share/examples share/emacs share/gtk-doc share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool share/man man lib/cmake lib/libxslt-plugins lib/*.sh share/texinfo share/util-macros"
 APP_EXPORTS="convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config Wand-config MagickCore-config"
 APP_CONFLICTS_WITH="GraphicsMagick"
