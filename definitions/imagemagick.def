@@ -4,22 +4,26 @@ APP_SHA="3fbca3a326b4756bf491329cb45dc67136e59a11"
 APP_NAME="ImageMagick"
 APP_VERSION="6.9.2-6"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="lzo gmake pkgconf zlib libxml2 freetype jpeg nasm libjpeg-turbo libpng tiff jasper jbig2dec libidn libpaper m4 perl bison autoconf automake libtool15 util-macros python27 fontconfig libxslt xcb-proto libpthread-stubs xproto libXau libxcb xtrans xextproto libX11 libICE libSM kbproto libXt libXext jbigkit lzma libgs"
-APP_EXPORTS="convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config Wand-config MagickCore-config"
-APP_AFTER_INSTALL_CALLBACK="${SED_BIN} -i '' 's@pkg-config@${PREFIX}/bin/pkgconf@' ${PREFIX}/bin/Magick*config ${PREFIX}/bin/Wand-config"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-  export APP_AFTER_INSTALL_CALLBACK="${SED_BIN} -i 's@pkg-config@${PREFIX}/bin/pkgconf@' ${PREFIX}/bin/Magick*config ${PREFIX}/bin/Wand-config"
-fi
-APP_CONFLICTS_WITH="GraphicsMagick"
-APP_CONFIGURE_ARGS="--with-gslib=${PREFIX} --with-lzma=${PREFIX} --without-gcc-arch --without-perl --with-threads"
-APP_MAKE_METHOD="make -s"
-APP_INSTALL_METHOD="make install -s"
-APP_USEFUL="bin/pkgconf bin/pkg-config"
-APP_USELESS="lib/perl5 lib/python2.7 share/examples share/emacs share/gtk-doc share/info share/bison"
+APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma lzo m4 libressl python27 perl autoconf automake libtool bison util-macros cups libxml2 libxslt jbig2dec jbigkit libiconv nasm libjpeg-turbo freetype texinfo libidn jpeg tiff lcms2 krb libpng jasper fontconfig"
+APP_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --disable-gtk"
 APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
-
 fix_makefile () {
     ${SED_BIN} -i '' -e '/6.Q16.pc/d' Makefile
     ${SED_BIN} -i '' -e '/cp -f\ \$\^\ \$\@/d' Makefile
     true
 }
+
+case ${SYSTEM_NAME} in
+    FreeBSD)
+        APP_CONFIGURE_ARGS="--with-gslib=${PREFIX} ${APP_CONFIGURE_ARGS}"
+        APP_REQUIREMENTS="${APP_REQUIREMENTS} libpaper xcb-proto libpthread-stubs xproto libXau libxcb xtrans xextproto libX11 libICE libSM kbproto libXt libXext libgs"
+        ;;
+esac
+
+APP_MAKE_METHOD="make -s"
+APP_INSTALL_METHOD="make install -s"
+APP_AFTER_INSTALL_CALLBACK="${SED_BIN} -i '' 's@pkg-config@${PREFIX}/bin/pkgconf@' ${PREFIX}/bin/Magick*config ${PREFIX}/bin/Wand-config"
+APP_USEFUL="bin/pkgconf bin/pkg-config"
+APP_USELESS="lib/perl5 lib/python2.7 share/examples share/emacs share/gtk-doc share/info share/bison"
+APP_EXPORTS="convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config Wand-config MagickCore-config"
+APP_CONFLICTS_WITH="GraphicsMagick"
