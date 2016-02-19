@@ -6,7 +6,7 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="perl"
 APP_CONFIGURE_ARGS="--disable-ipv6 --disable-debug --enable-acl-support --enable-xattr-support --enable-iconv --enable-locale"
 APP_EXPORTS="rsync"
-APP_USELESS="lib/*perl*"
+APP_USELESS="lib/*perl* man share/man"
 APP_AFTER_UNPACK_CALLBACK="patch_max_path_length"
 APP_CONFLICTS_WITH="Rsync"
 patch_max_path_length () {

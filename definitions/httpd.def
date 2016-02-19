@@ -8,7 +8,7 @@ APP_REQUIREMENTS="gmake pkgconf m4 libtool expat jemalloc libiconv zlib pcre lib
 APP_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-proxy-balancer --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-static-htdbm --enable-static-httxt2dbm --enable-http --enable-http2 --with-nghttp2=${PREFIX}"
 APP_EXPORTS="httpd htdigest httxt2dbm htdbm fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve dbmmanage rotatelogs h2ph h2xs a2p"
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
-APP_USELESS="lib/cmake man manual share logs"
+APP_USELESS="lib/cmake man manual share logs lib/*python* lib/lua docs include/python*"
 APP_USEFUL="bin/perl* bin/ap[[:alpha:]]-1-config bin/curl*"
 
 case "${SYSTEM_NAME}" in
