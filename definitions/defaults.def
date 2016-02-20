@@ -36,5 +36,7 @@ APP_STANDALONE="false"
 APP_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
 APP_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 APP_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
-APP_DEFAULT_USELESS="lib/*.a share/doc"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_DEFAULT_USELESS="lib/*.a include man share/man doc docs share/doc share/docs share/info"
+fi
 APP_CLEAN_USELESS="true" # if set to true, all not exported binaries will be removed from PREFIX/bin and PREFIX/sbin
