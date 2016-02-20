@@ -1,13 +1,21 @@
 DISABLE_ON="Linux Darwin"
 APP_FULL_NAME="Glusterfs"
-APP_SHA="e611726b87f55e91041d4e8e6aa8c50e861f0957"
+APP_SHA="7e35c369e9dbca8125bd977f4d537f7bd6ae3d63"
 APP_NAME="glusterfs"
-APP_VERSION="3.7.6"
+APP_VERSION="3.7.8"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="pkgconf gmake zlib libiconv readline m4 perl libxml2 libressl flex bison autoconf libtool automake python27 userspace-rcu sqlite rsync"
+APP_REQUIREMENTS="pkgconf gmake zlib libiconv readline-dynamic m4 perl libxml2 libressl bison autoconf libtool automake sqlite userspace-rcu rsync python27"
 APP_CONFIGURE_SCRIPT="./autogen.sh ; ./configure"
 APP_CONFIGURE_ARGS="--disable-cmocka --disable-epoll --disable-bd-xlator --disable-ibverbs --disable-qemu-block --disable-firewalld --disable-systemtap --enable-georeplication"
 APP_MAKE_COMMAND="make -D__STDC__ -DHAVE_LIB_XML ${MAKE_OPTS}"
-APP_AFTER_INSTALL_CALLBACK="${MV_BIN} /sbin/mount_glusterfs ${PREFIX}/sbin/mount_glusterfs"
 APP_EXPORTS="gfind_missing_files gcron.py gluster glusterd glusterfs glusterfsd snap_scheduler.py umountd glusterfind mount_glusterfs"
 APP_USEFUL="bin/python* bin/rsync bin/sqlite3"
+APP_USELESS="include/python2.7 lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/gtk-doc share/bison share/man/man1 share/man/man3 share/man/man5 share/readline"
+
+APP_AFTER_INSTALL_CALLBACK="after_install"
+after_install () {
+    ${SED_BIN} -i '' -e "s#/usr/bin/env python#${PREFIX}/bin/python#" ${PREFIX}/bin/glusterfind ${PREFIX}/sbin/gcron.py ${PREFIX}/sbin/snap_scheduler.py
+    ${TEST_BIN} -f /sbin/mount_glusterfs && \
+        ${MV_BIN} /sbin/mount_glusterfs ${PREFIX}/sbin/mount_glusterfs
+    return 0
+}
