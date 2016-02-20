@@ -8,11 +8,15 @@ APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP 
 APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib nasm lzma lzo db libpng jpeg libressl cclient gettext bzip2 m4 gmp51 autoconf bison27 flex readline postgresql94 python27 libxml2 libtool icu libgpg-error libgcrypt libxslt pcre libexif freetype fontconfig tiff jasper jbig2dec jbigkit libjpeg-turbo gd cmake ncurses mysql libmcrypt texinfo libidn curl imagemagick freetds sqlite2 sqlite cyrus-sasl openldap geoip libnet krb re2c"
 APP_INSTALL_METHOD="gmake install -s"
 APP_BUNDLED_EXTENSIONS="phalcon2 phalcon xdebug imagick rar geoip dbase"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    APP_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
-fi
 APP_EXPORTS="php php-cgi php-fpm php-config phpize pecl pear lsphp"
 APP_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
+    # Under Linux, we don't need these libs after oci extension is built, cause
+    # we use ld cache to specify system wide place for Oracle libs.
+    # We remove those cause they add redundant 160+MiB to bundle size:
+    APP_USELESS="${APP_USELESS} lib/libociei.so lib/libclntsh* lib/libocci.so.* lib/libnnz*.so lib/libocijdbc*.so lib/liboramysql*.so lib/libipc*.so lib/libmql*.so lib/libons.so lib/liboramysql*.so"
+fi
 
 case "${SYSTEM_NAME}" in
     Linux)
