@@ -22,17 +22,18 @@ patch_modules () {
 }
 
 svd_args="--error-log-path=${SERVICE_DIR}/var/log --http-log-path=${SERVICE_DIR}/var/log --pid-path=${SERVICE_DIR}/var/run --lock-path=${SERVICE_DIR}/var/lock --conf-path=${SERVICE_DIR}/etc/conf --pid-path=${SERVICE_DIR}/var/run --http-proxy-temp-path=${SERVICE_DIR}/var/proxy --http-client-body-temp-path=${SERVICE_DIR}/var/body --http-fastcgi-temp-path=${SERVICE_DIR}/var/fcgi"
+common_args="--with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib -R${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
 case "${SYSTEM_NAME}" in
     Darwin)
         APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=nobody --group=nogroup ${svd_args}"
         ;;
 
     Linux)
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=www-data --group=www-data --with-file-aio"
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=www-data --group=www-data --with-file-aio --with-openssl=${PREFIX} --with-zlib=${PREFIX} ${common_args}"
         ;;
 
     FreeBSD)
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-file-aio --user=worker --group=staff --build=ServeD --with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib -R${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags' ${svd_args}"
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-file-aio --user=worker --group=staff --build=ServeD ${common_args} ${svd_args}"
         ;;
 esac
 APP_EXPORTS="nginx"
