@@ -11,7 +11,7 @@ case ${SYSTEM_NAME} in
         ;;
 
     Linux)
-        APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake pcre libffi gettext curl flex bison libpcap liboping libressl python27 libxml2 glib238 libiconv readline postgresql94 libgpg-error libgcrypt mysql nginx bind libcgroup yajl net-snmp"
+        APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake pcre libffi gettext curl flex bison libpcap liboping libressl python27 libxml2 glib240 libiconv readline postgresql94 libgpg-error libgcrypt mysql nginx bind libcgroup yajl net-snmp"
         PLATFORM_SPECIFIC_OPTIONS="--disable-pf --enable-md --enable-cgroups"
         ;;
 esac
