@@ -38,5 +38,7 @@ APP_USELESS="" # list of patterns of files to be removed after build process. ex
 APP_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     APP_DEFAULT_USELESS="lib/*.a include man share/man doc docs share/doc share/docs share/info"
+else
+    APP_DEFAULT_USELESS="lib/*.a man doc docs share/doc share/docs share/info"
 fi
 APP_CLEAN_USELESS="true" # if set to true, all not exported binaries will be removed from PREFIX/bin and PREFIX/sbin
