@@ -19,10 +19,15 @@ APP_CONFIGURE_ARGS="--enable-gnu-indirect-function --disable-libgcj \
     --disable-bootstrap --with-pkgversion=\"ServeD GCC build\" \
     --enable-languages=${langs} --disable-shared --enable-static \
 "
-# we don't do shared build because each binary built with shared gcc compiler
-# will result with a dependency to libstdcxx from Gcc bundle..
+# ^ we don't do shared build because each binary built with shared gcc compiler
+# ^ will result with a dependency to libstdcxx from Gcc bundle..
 APP_REQUIREMENTS="pkgconf bzip2 gmake m4 perl gmp4 mpfr libmpc isl012 zip autoconf libtool automake bison gmp51 texinfo binutils-gold"
-APP_COMPILER_ARGS="-Wl,-fuse-ld=gold -Wno-error"
+
+# We have to override CROSS_PLATFORM_COMPILER_FLAGS to disable stack protector.
+# This feature requires Sofin 0.98.x to work:
+CROSS_PLATFORM_COMPILER_FLAGS="-w -O2 -fPIC -fPIE -fno-strict-overflow -fno-stack-protector"
+DEFAULT_COMPILER_FLAGS="${CROSS_PLATFORM_COMPILER_FLAGS} -Wl,-fuse-ld=gold"
+APP_LINKER_ARGS="-lssp"
 
 common_opts="LANG=C LC_ALL=C SUFFIX=${suffix} GCC_VERSION=${APP_VERSION} DISTVERSION=${APP_VERSION}"
 APP_MAKE_METHOD="${common_opts} gmake -s ${MAKE_OPTS}"
@@ -30,15 +35,18 @@ APP_INSTALL_METHOD="${common_opts} gmake install -s ${MAKE_OPTS}"
 APP_DEFAULT_USELESS="" # we do static build, hence we need to leave lib/*.a intact
 APP_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
 APP_USEFUL="bin/ld* bin/x86_64-unknown-freebsd*"
-APP_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp"
+APP_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp"
 APP_CONFLICTS_WITH="Binutils"
 
-APP_AFTER_UNPACK_CALLBACK="make_builddir"
-make_builddir () {
+APP_AFTER_UNPACK_CALLBACK="make_and_enter_builddir"
+make_and_enter_builddir () {
     ${MKDIR_BIN} -p gcc-build
     cd gcc-build
 }
-APP_AFTER_INSTALL_CALLBACK="go_up"
-go_up () {
+APP_AFTER_INSTALL_CALLBACK="strip_libexec_and_go_up"
+strip_libexec_and_go_up () {
+    for to_str in cc1 cc1obj cc1plus collect2 f951 lto1 lto-wrapper liblto_plugin.so.0; do
+        ${STRIP_BIN} ${PREFIX}/libexec/gcc/x86_64-unknown-freebsd11.0/${APP_VERSION}/${to_str}
+    done
     cd ..
 }
