@@ -1,11 +1,44 @@
-DISABLE_ON="Linux"
-APP_FULL_NAME="GNU Compiler"
+DISABLE_ON="Linux Darwin"
+langs="c,c++,objc,fortran"
+APP_FULL_NAME="GNU Compiler 5.3 (with langs: ${langs})"
+APP_VERSION="5.3.0"
 APP_NAME="gcc"
-APP_SHA="b6c947b09adf780fe02065d0c48bfd7b4bdddfa3"
-APP_VERSION="5.1.0"
-APP_CONFIGURE_ARGS="--enable-gnu-indirect-function --disable-nls --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX}"
-APP_REQUIREMENTS="m4 gmp4 mpfr libmpc gmake zip"
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+APP_SHA="0612270b103941da08376df4d0ef4e5662a2e9eb"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_EXPORTS="aot-compile c++ cpp g++ gappletviewer gc-analyze gcc gcc-ar gcc-nm gcc-ranlib gcj gcj-dbtool gcjh gcov gfortran gij gjar gjarsigner gjavah gkeytool gorbd grmic grmid grmiregistry gserialver gtnameserv jcf-dump jv-convert rebuild-gcj-db"
+APP_CONFIGURE_SCRIPT="../configure"
+
+suffix="$(echo "${APP_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
+targlib="${PREFIX}/lib"
+libexec="${PREFIX}/libexec"
+APP_CONFIGURE_ARGS="--enable-gnu-indirect-function --disable-libgcj \
+    --enable-libstdcxx --disable-multilib --disable-nls --with-system-zlib \
+    --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} \
+    --with-isl=${PREFIX} --with-gxx-include-dir=${targlib}/include/c++/ \
+    --libexecdir=${libexec} --libdir=${targlib} --with-as=${PREFIX}/bin/as \
+    --with-ld=/usr/bin/ld.gold --enable-gold=yes --enable-lto=yes \
+    --disable-bootstrap --with-pkgversion=\"ServeD GCC build\" \
+    --enable-languages=${langs} --disable-shared --enable-static \
+"
+# we don't do shared build because each binary built with shared gcc compiler
+# will result with a dependency to libstdcxx from Gcc bundle..
+APP_REQUIREMENTS="pkgconf bzip2 gmake m4 perl gmp4 mpfr libmpc isl012 zip autoconf libtool automake bison gmp51 texinfo binutils-gold"
+APP_COMPILER_ARGS="-Wl,-fuse-ld=gold -Wno-error"
+
+common_opts="LANG=C LC_ALL=C SUFFIX=${suffix} GCC_VERSION=${APP_VERSION} DISTVERSION=${APP_VERSION}"
+APP_MAKE_METHOD="${common_opts} gmake -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="${common_opts} gmake install -s ${MAKE_OPTS}"
+APP_DEFAULT_USELESS="" # we do static build, hence we need to leave lib/*.a intact
+APP_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
+APP_USEFUL="bin/ld* bin/x86_64-unknown-freebsd*"
+APP_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp"
+APP_CONFLICTS_WITH="Binutils"
+
+APP_AFTER_UNPACK_CALLBACK="make_builddir"
+make_builddir () {
+    ${MKDIR_BIN} -p gcc-build
+    cd gcc-build
+}
+APP_AFTER_INSTALL_CALLBACK="go_up"
+go_up () {
+    cd ..
+}
