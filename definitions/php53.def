@@ -9,13 +9,12 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
 APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/php52-cgi/php53-cgi/')"
 APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --without-cgi --without-apxs2"
 
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    # on the fly patch for stdc++
-    add_libstdc_to_makefile () {
-        ${SED_BIN} -i '' -e 's:^EXTRA_LIBS = :EXTRA_LIBS = -lstdc++ :' Makefile
-    }
-    APP_AFTER_CONFIGURE_CALLBACK="${APP_AFTER_CONFIGURE_CALLBACK}; add_libstdc_to_makefile"
-fi
+# on the fly patch for stdc++
+add_libstdc_to_makefile () {
+    ${SED_BIN} -i '' -e 's:^EXTRA_LIBS = :EXTRA_LIBS = -lstdc++ :' Makefile
+    true
+}
+APP_AFTER_CONFIGURE_CALLBACK="${APP_AFTER_CONFIGURE_CALLBACK}; add_libstdc_to_makefile"
 
 install_rar () {
     arch_name="rar-3.0.2"
