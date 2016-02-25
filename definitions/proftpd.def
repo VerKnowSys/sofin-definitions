@@ -8,7 +8,7 @@ APP_REQUIREMENTS="libressl geoip gettext"
 APP_CONFIGURE_ARGS="--enable-nls --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --enable-openssl --sysconfdir=/etc --localstatedir=/var/run --without-pam --disable-auth-pam --with-modules=mod_ifsession:mod_ratio:mod_readme:mod_tls:mod_geoip"
 APP_EXPORTS="ftpscrub ftpshut in.proftpd proftpd ftpasswd ftpcount ftpdctl ftpmail ftpquota ftptop ftpwho prxs"
 APP_INSTALL_METHOD="make install"
-APP_USELESS="man share/man"
+APP_USELESS="share/aclocal*"
 APP_AFTER_UNPACK_CALLBACK="fetch_geoip"
 
 fetch_geoip () {
