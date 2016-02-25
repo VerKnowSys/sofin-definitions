@@ -10,7 +10,7 @@ APP_CONFIGURE_ARGS="--disable-cmocka --disable-epoll --disable-bd-xlator --disab
 APP_MAKE_COMMAND="make -D__STDC__ -DHAVE_LIB_XML ${MAKE_OPTS}"
 APP_EXPORTS="gfind_missing_files gcron.py gluster glusterd glusterfs glusterfsd snap_scheduler.py umountd glusterfind mount_glusterfs"
 APP_USEFUL="bin/python* bin/rsync bin/sqlite3"
-APP_USELESS="include/python2.7 lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/gtk-doc share/bison share/man/man1 share/man/man3 share/man/man5 share/readline"
+APP_USELESS="include/python* lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/gtk-doc share/bison share/readline"
 
 APP_AFTER_INSTALL_CALLBACK="after_install"
 after_install () {
