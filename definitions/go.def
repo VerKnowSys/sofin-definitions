@@ -14,7 +14,7 @@ APP_INSTALL_METHOD="true"
 make_script () {
     ${CP_BIN} -Rv ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/ ${PREFIX}/
     cd ${PREFIX}/src
-    PP="/usr/go"
+    PP="/var/go"
     if [ ! -d "${PP}" ]; then
         error "Go bootstrap not found in path: ${PP}"
     fi
