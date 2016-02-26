@@ -3,29 +3,35 @@ APP_NAME="grafana"
 APP_VERSION="2.6.0"
 APP_HTTP_PATH="git://github.com/OliverLetterer/dummy-repo.git"
 APP_GIT_MODE="true"
-APP_GIT_CHECKOUT="master"
-APP_REQUIREMENTS="pkgconf pcre go zlib bzip2 gmake yaml libiconv python27 node42"
+APP_GIT_CHECKOUT="v${APP_VERSION}"
+APP_REQUIREMENTS="pkgconf pcre go15 zlib bzip2 gmake yaml libiconv python27 node42"
 APP_CONFIGURE_SCRIPT="ignore"
-APP_MAKE_METHOD="make_action"
-APP_INSTALL_METHOD="install_links"
-APP_USELESS="doc test include share src local/src misc pkg api man lib/python2.7"
-APP_EXPORTS="grafana"
+APP_USELESS="doc test include share src local/src misc pkg api man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
+APP_EXPORTS="grafana-cli grafana-server"
 APP_NO_CCACHE="true"
 
+APP_MAKE_METHOD="make_action"
 make_action () {
-    debug "Fetching Grafana"
     # XXX: hardcoded path to git:
-    export PATH=${PATH}:/Software/Git/exports && \
-    export GOPATH=${PREFIX} && \
-    ${PREFIX}/bin/go get github.com/grafana/grafana && \
-    cd ${PREFIX}/local/src/github.com/grafana/grafana && \
+    export PATH=${PATH}:/Software/Git/exports
+    export GOPATH=${PREFIX}/local
+    debug "Cleaning GOPATH: ${GOPATH}"
+    ${RM_BIN} -rf "${GOPATH}"
+    ${MKDIR_BIN} -p "${GOPATH}"
+    cd "${GOPATH}"
+    debug "Fetching Grafana"
+    ${PREFIX}/bin/go get github.com/grafana/grafana
+    cd "${GOPATH}/src/github.com/grafana/grafana"
+
+    debug "Checking out v${APP_VERSION}" && \
+    ${GIT_BIN} checkout -b "v${APP_VERSION}" && \
     debug "Fetching dependencies of Grafana" && \
     ${PREFIX}/bin/go run build.go setup && \
-    ${PREFIX}/local/bin/godep restore && \
+    ${GOPATH}/bin/godep restore && \
     debug "Building Grafana" && \
-    ${PREFIX}/bin/go build . && \
-    debug "Installing Grafana" && \
-    ${PREFIX}/bin/go install . && \
+    ${PREFIX}/bin/go clean ./... && \
+    debug "Installing ${APP_NAME}" && \
+    ${PREFIX}/bin/go install ./... && \
     debug "Installing node modules" && \
     cd ${PREFIX} && \
     ${GIT_BIN} clone https://github.com/grafana/grafana.git grafana-github && \
@@ -38,11 +44,12 @@ make_action () {
     ${CP_BIN} -R conf/ ../conf && \
     cd .. && \
     ${RM_BIN} -rf ./grafana-github && \
-    debug "Done."
+    note "Done."
 }
 
+APP_INSTALL_METHOD="install_links"
 install_links () {
-    for binary in godep grafana; do
+    for binary in grafana-cli grafana-server; do
         ${LN_BIN} -s ${PREFIX}/local/bin/${binary} ${PREFIX}/bin/${binary}
     done
 }
