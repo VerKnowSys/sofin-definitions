@@ -5,4 +5,4 @@ APP_VERSION="2.68"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="m4 gmake perl"
 APP_EXPORTS="autoconf autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames"
-APP_CLEAN_USELESS="false"
+APP_CLEAN_USELESS=NO
