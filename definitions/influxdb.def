@@ -1,9 +1,10 @@
 APP_FULL_NAME="Influxb database"
 APP_NAME="influxdb"
-APP_SHA="0298032e972da022ceb56a69d816e0c30c8eaddf"
-APP_VERSION="0.9.6.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-v${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="pkgconf pcre go protobuf"
+APP_HTTP_PATH="git://github.com/OliverLetterer/dummy-repo.git"
+APP_GIT_MODE="true"
+APP_VERSION="0.9.6"
+APP_GIT_CHECKOUT="v${APP_VERSION}"
+APP_REQUIREMENTS="pkgconf pcre go15 protobuf"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="make_action"
 APP_INSTALL_METHOD="strip_and_install_links"
@@ -12,19 +13,20 @@ APP_EXPORTS="influx influx_stress influxd inspect test_client urlgen"
 
 make_action () {
     srcdir="$(${PWD_BIN} 2>/dev/null)"
+    influxdb_git_repo="https://github.com/influxdata/influxdb.git"
     export PATH=${PATH}:/Software/Git/exports
     export GOPATH=${PREFIX}/local
     debug "Cleaning GOPATH: ${GOPATH}"
     ${RM_BIN} -rf "${GOPATH}"
-    ${MKDIR_BIN} -p ${GOPATH}/src/github.com/influxdb
-    cd $GOPATH/src/github.com/influxdb && \
-    debug "Cloning https://github.com/influxdata/influxdb.git" && \
-    ${GIT_BIN} clone https://github.com/influxdata/influxdb.git && \
-    cd $GOPATH/src/github.com/influxdb/influxdb && \
-    debug "Getting ${APP_NAME}" && \
-    ${PREFIX}/bin/go get -u -f -t ./... && \
-    debug "Checking out version: ${APP_VERSION}" && \
+    ${MKDIR_BIN} -p ${GOPATH}/src/github.com/influxdata
+    cd $GOPATH/src/github.com/influxdata && \
+    debug "Cloning ${influxdb_git_repo}" && \
+    ${GIT_BIN} clone ${influxdb_git_repo} && \
+    cd $GOPATH/src/github.com/influxdata/influxdb && \
+    debug "Checking out branch: v${APP_VERSION}" && \
     ${GIT_BIN} checkout -b "v${APP_VERSION}" && \
+    debug "Getting ${APP_NAME}" && \
+    ${PREFIX}/bin/go get -v -t ./... && \
     debug "Building ${APP_NAME}" && \
     ${PREFIX}/bin/go clean ./... && \
     debug "Installing ${APP_NAME}" && \
