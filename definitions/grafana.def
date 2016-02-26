@@ -6,7 +6,7 @@ APP_GIT_MODE="true"
 APP_GIT_CHECKOUT="v${APP_VERSION}"
 APP_REQUIREMENTS="pkgconf pcre go15 zlib bzip2 gmake yaml libiconv python27 node42"
 APP_CONFIGURE_SCRIPT="ignore"
-APP_USELESS="doc test include share src local/src misc pkg api man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
+APP_USELESS="etc doc test include share src local/src misc pkg api man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
 APP_EXPORTS="grafana-cli grafana-server"
 APP_NO_CCACHE="true"
 
@@ -50,6 +50,8 @@ make_action () {
 APP_INSTALL_METHOD="install_links"
 install_links () {
     for binary in grafana-cli grafana-server; do
+        ${RM_BIN} -f ${PREFIX}/bin/${binary}
+        ${STRIP_BIN} ${PREFIX}/local/bin/${binary}
         ${LN_BIN} -s ${PREFIX}/local/bin/${binary} ${PREFIX}/bin/${binary}
     done
 }
