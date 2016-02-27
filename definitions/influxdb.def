@@ -8,7 +8,7 @@ APP_REQUIREMENTS="pkgconf pcre go15 protobuf"
 APP_CONFIGURE_SCRIPT="ignore"
 APP_MAKE_METHOD="make_action"
 APP_INSTALL_METHOD="strip_and_install_links"
-APP_USELESS="doc test include share src local/src misc pkg api"
+APP_USELESS="doc test include share src local/src misc pkg api etc man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
 APP_EXPORTS="influx influx_stress influxd inspect test_client urlgen"
 
 make_action () {
