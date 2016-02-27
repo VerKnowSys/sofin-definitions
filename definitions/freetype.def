@@ -1,10 +1,17 @@
 APP_FULL_NAME="Freetype 2 Library"
-APP_SHA="7b7460ef51a8fdb17baae53c6658fc1ad000a1c2"
+APP_SHA="29c22b85b77cb22cf95c13e7062e21f39fe6b17a"
 APP_NAME="freetype"
-APP_VERSION="2.5.5"
+APP_VERSION="2.6.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="gmake zlib"
-APP_AFTER_UNPACK_CALLBACK="${FIND_BIN} ${PREFIX} -type f -name 'libbz2.a' | ${XARGS_BIN} ${RM_BIN} -f" # remove static archive to prevent fPIC failures in freetype > 2.4.4
-APP_CONFIGURE_SCRIPT="GNUMAKE=${PREFIX}/bin/gmake ./configure" # yea, that kind of shit makes me sad
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+APP_REQUIREMENTS="pkgconf zlib bzip2 gmake perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_CONFIGURE_OPTS="--prefix=${PREFIX} --enable-shared --enable-static --with-pic"
+APP_MAKE_METHOD="setup_and_make"
+setup_and_make () {
+    cd builds/unix
+    ./configure ${APP_CONFIGURE_OPTS}
+    cd ../..
+    ${PREFIX}/bin/gmake setup CFG="${APP_CONFIGURE_OPTS}"
+    ${PREFIX}/bin/gmake ${MAKE_OPTS}
+}
+APP_INSTALL_METHOD="gmake -s install"
