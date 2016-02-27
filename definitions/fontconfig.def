@@ -3,7 +3,7 @@ APP_NAME="fontconfig"
 APP_SHA="5eb9b1fe8c3f9e0447b1238ade3c7af15b671a4d"
 APP_VERSION="2.11.94"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="pkgconf gmake libressl python27 freetype expat"
+APP_REQUIREMENTS="pkgconf zlib bzip2 gmake perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake freetype"
 APP_CONFIGURE_ARGS="--disable-docs --enable-iconv \
     --with-configdir=${SERVICE_DIR}/etc/fonts/conf.d \
     --with-templatedir=${SERVICE_DIR}/etc/fonts/conf.avail \
@@ -19,3 +19,13 @@ APP_MAKE_METHOD="LC_ALL=C gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="LC_ALL=C gmake install -s ${MAKE_OPTS}"
 APP_EXPORTS="fc-cache fc-cat fc-list fc-match fc-pattern fc-query fc-scan fc-validate"
 APP_USELESS="include/python* lib/python*"
+
+APP_AFTER_MAKE_CALLBACK="make_destdirs"
+make_destdirs () {
+    ${MKDIR_BIN} -p \
+        ${SERVICE_DIR}/etc/fonts/conf.d \
+        ${SERVICE_DIR}/etc/fonts/conf.avail \
+        ${SERVICE_DIR}/etc/fonts \
+        ${SERVICE_DIR}/var/db/fontconfig \
+        ${PREFIX}/lib/X11/fonts
+}
