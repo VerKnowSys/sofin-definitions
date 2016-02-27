@@ -1,6 +1,6 @@
 . ${DEFINITIONS_DIR}libgs.def
 
 APP_NAME="ghostscript"
-APP_MAKE_METHOD="gmake ${MAKE_FLAGS} AUXEXTRALIBS='-L${PREFIX}/lib -I${PREFIX}/include'"
-APP_INSTALL_METHOD="gmake install AUXEXTRALIBS='-L${PREFIX}/lib -I${PREFIX}/include'"
+APP_MAKE_METHOD="make_stuff"
+APP_INSTALL_METHOD="make_stuff install"
 APP_EXPORTS="gs ${APP_EXPORTS}"
