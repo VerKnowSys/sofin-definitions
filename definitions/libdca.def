@@ -1,3 +1,4 @@
+DISABLE_ON="Darwin"
 APP_FULL_NAME="DCA Library"
 APP_SHA="3fa5188eaaa2fc83fb9c4196f6695a23cb17f3bc"
 APP_NAME="libdca"
