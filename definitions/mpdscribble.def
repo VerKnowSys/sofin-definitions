@@ -1,0 +1,7 @@
+APP_FULL_NAME="MPD Scribble"
+APP_NAME="mpdscribble"
+APP_GIT_MODE="true"
+APP_HTTP_PATH="git://git.musicpd.org/master/mpdscribble.git/"
+APP_CONFIGURE_SCRIPT="./autogen.sh ; ./configure"
+APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
