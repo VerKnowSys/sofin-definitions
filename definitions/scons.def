@@ -1,15 +1,34 @@
 APP_FULL_NAME="Scons"
 APP_NAME="scons"
-APP_SHA="7bb1c755610613d9dab71bd56267fd1f531a2f97"
-APP_VERSION="2.3.3"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_SHA="f505f70803264155aaa02870b24220545d646bc1"
+APP_VERSION="2.4.1"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_SCRIPT="ignore"
-APP_INSTALL_METHOD="true"
-APP_EXPORTS="scons"
-SETUP="setup.py install --prefix=${PREFIX} --standalone-lib --no-version-script --no-install-man"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    APP_MAKE_METHOD="/usr/bin/python ${SETUP}"
-else
-    APP_REQUIREMENTS="python27"
-    APP_MAKE_METHOD="${PREFIX}/bin/python ${SETUP}"
-fi
+APP_REQUIREMENTS="gmake libressl libxml2 python27"
+APP_EXPORTS="scons scons-time sconsign"
+APP_USEFUL="bin/python*"
+
+case ${SYSTEM_NAME} in
+    Darwin)
+        python_bin="/usr/bin/python"
+        ;;
+    *)
+        python_bin="${PREFIX}/bin/python"
+        ;;
+esac
+
+APP_MAKE_METHOD="bootstrap_stuff"
+bootstrap_stuff () {
+    cur_dir="$(${PWD_BIN} 2>/dev/null)"
+    ${python_bin} bootstrap.py build/scons
+    cd ${cur_dir}
+}
+
+APP_INSTALL_METHOD="install_stuff"
+install_stuff () {
+    cd build/scons
+    ${python_bin} setup.py install \
+        --prefix=${PREFIX} --standard-lib \
+        --no-version-script
+    cd ../..
+}
