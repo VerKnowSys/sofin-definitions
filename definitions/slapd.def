@@ -1,11 +1,13 @@
 DISABLE_ON="Darwin Linux"
 APP_FULL_NAME="OpenLDAP server"
-APP_SHA="0cfac3b024b99de2e2456cc7254481b6644e0b96"
+APP_SHA="016a738d050a68d388602a74b5e991035cdba149"
 APP_NAME="slapd"
-APP_VERSION="2.4.40"
+APP_VERSION="2.4.44"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}openldap-${APP_VERSION}.tgz"
-APP_CONFIGURE_ARGS="--enable-dynamic --with-tls=openssl --enable-overlays=mod --enable-modules --enable-slapd --enable-sock --with-fetch --with-threads=posix --with-mp=gmp --disable-dependency-tracking --enable-hdb=yes --enable-bdb=yes --disable-mdb --sysconfdir=${SOFTWARE_DATA_DIR}/etc --localstatedir=${SOFTWARE_DATA_DIR}/var"
-APP_REQUIREMENTS="m4 libtool gmp51 db"
+APP_CONFIGURE_ARGS="--enable-dynamic --with-tls=openssl --enable-overlays=mod --enable-modules --enable-slapd --enable-sock --with-threads=posix --with-mp=gmp --disable-dependency-tracking --enable-hdb=yes --enable-bdb=yes --disable-mdb --sysconfdir=${SERVICE_DIR}/etc --localstatedir=${SERVICE_DIR}/var"
+APP_REQUIREMENTS="gmake m4 libtool gmp51 db47 libressl"
+APP_USEFUL="bin/db_*"
+APP_USELESS="lib/*perl* include/python* lib/python* man share docs"
 APP_EXPORTS="slapd ldapadd ldapcompare ldapdelete ldapexop ldapmodify ldapmodrdn ldappasswd ldapsearch ldapurl ldapwhoami slapacl slapadd slapauth slapcat slapdn slapindex slappasswd slapschema slaptest"
 
 patch_configure () {
