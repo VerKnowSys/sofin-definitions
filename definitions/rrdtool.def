@@ -8,3 +8,4 @@ APP_CONFIGURE_ARGS="--disable-examples --disable-rrdcgi --disable-perl --disable
 APP_EXPORTS="rrdtool"
 APP_MAKE_METHOD="make || true"
 APP_INSTALL_METHOD="make install || true"
+APP_NO_FAST_MATH=YES
