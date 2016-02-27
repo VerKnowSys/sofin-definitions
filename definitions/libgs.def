@@ -31,4 +31,3 @@ make_stuff () {
 APP_INSTALL_METHOD="make_stuff soinstall"
 APP_USELESS="include/python* lib/*perl* lib/python* man libexec share/aclocal* share/auto* share/cups share/bison share/doc share/examples share/texinfo share/info share/libtool share/ghostscript/${APP_VERSION}/doc share/ghostscript/${APP_VERSION}/examples"
 APP_EXPORTS="gs gsbj gsdj gsdj500 gslj gslp gsnd"
-APP_CLEAN_USELESS=NO
