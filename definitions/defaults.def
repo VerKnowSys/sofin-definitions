@@ -37,9 +37,10 @@ APP_STANDALONE="" # TODO: it's currently only a marker for standalone bundles
 APP_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
 APP_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 APP_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
+APP_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/libtool"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    APP_DEFAULT_USELESS="lib/*.a include doc docs share/doc share/docs share/info share/acloc* share/libtool share/automa* share/emacs share/libtool"
+    APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} include doc docs share/doc share/docs share/info share/acloc* share/automa*"
 else
-    APP_DEFAULT_USELESS="lib/*.a"
+    APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS}"
 fi
 APP_CLEAN_USELESS=YES # if set to true, all not exported binaries will be removed from PREFIX/bin and PREFIX/sbin
