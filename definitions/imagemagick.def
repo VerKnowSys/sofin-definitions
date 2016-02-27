@@ -4,25 +4,31 @@ APP_SHA="3fbca3a326b4756bf491329cb45dc67136e59a11"
 APP_NAME="ImageMagick"
 APP_VERSION="6.9.2-6"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma lzo m4 libressl python27 perl autoconf automake libtool bison util-macros cups libxml2 libxslt jbig2dec jbigkit libiconv nasm libjpeg-turbo freetype texinfo libidn jpeg tiff lcms2 krb libpng jasper fontconfig"
-APP_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --disable-gtk"
+APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper fftw libffi gettext glib243 ghostscript libpng pixman cairo pango"
+APP_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
+APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
+APP_INSTALL_METHOD="make install -s"
+APP_USEFUL="bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
+APP_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool man lib/cmake lib/*.sh share/texinfo share/util-macros"
+APP_EXPORTS="convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
+APP_CONFLICTS_WITH="GraphicsMagick"
+
 APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
 fix_makefile () {
-    ${SED_BIN} -i '' -e '/6.Q16.pc/d' Makefile
-    ${SED_BIN} -i '' -e '/cp -f\ \$\^\ \$\@/d' Makefile
+    ${SED_BIN} -i '' -e \
+        '/6.Q16.pc/d ; /cp -f\ \$\^\ \$\@/d' \
+        Makefile
     true
 }
 
-case ${SYSTEM_NAME} in
-    FreeBSD)
-        APP_CONFIGURE_ARGS="--with-gslib=${PREFIX} ${APP_CONFIGURE_ARGS}"
-        APP_REQUIREMENTS="${APP_REQUIREMENTS} libpaper xcb-proto libpthread-stubs xproto libXau libxcb xtrans xextproto libX11 libICE libSM kbproto libXt libXext libgs"
-        ;;
-esac
-
-APP_MAKE_METHOD="make -s"
-APP_INSTALL_METHOD="make install -s"
-APP_USEFUL="bin/pkgconf bin/pkg-config"
-APP_USELESS="lib/*perl* lib/*python* share/examples share/emacs share/gtk-doc share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool share/man man lib/cmake lib/libxslt-plugins lib/*.sh share/texinfo share/util-macros"
-APP_EXPORTS="convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config Wand-config MagickCore-config"
-APP_CONFLICTS_WITH="GraphicsMagick"
+APP_AFTER_INSTALL_CALLBACK="use_bundled_pkgconf"
+use_bundled_pkgconf () {
+    ${SED_BIN} -i '' -e \
+        "s:pkg-config:${PREFIX}/bin/pkgconf:g" \
+        ${PREFIX}/bin/Magick++-config \
+        ${PREFIX}/bin/Magick-config \
+        ${PREFIX}/bin/MagickCore-config \
+        ${PREFIX}/bin/MagickWand-config \
+        ${PREFIX}/bin/Wand-config
+    true
+}
