@@ -15,6 +15,7 @@ APP_COMPILER_ARGS="" # additional special arguments to compiler used to build so
 APP_LINKER_ARGS="" # additional arguments to linker
 APP_LINKER_NO_DTAGS="" # if set to any but "", will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
 APP_NO_GOLDEN_LINKER="" # if set to anything but "", will try to explicitly use regular bfd linker instead of gold - which is default since 0.92.x
+APP_NO_FAST_MATH="" # if empty, then: -ffast-math compiler option is used
 APP_CONFIGURE_SCRIPT="./configure" # default configure script name
 APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
 APP_TEST_METHOD="true" # define to enable software internal testing
