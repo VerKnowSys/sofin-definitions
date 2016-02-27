@@ -10,7 +10,7 @@ APP_REQUIREMENTS="pkgconf eventlog gmake zlib pcre libffi gettext python27 m4 li
 APP_MAKE_METHOD="gmake -s"
 APP_INSTALL_METHOD="gmake install -s"
 APP_EXPORTS="syslog-ng syslog-ng-ctl"
-APP_USELESS="lib/python* lib/libffi* lib/glib* share/gtk-doc share/aclocal* share/doc lib/*perl* share/bison share/autoconf* share/automake* share/gettext* share/libtool"
+APP_USELESS="lib/python* lib/libffi* lib/glib* share/aclocal* share/doc lib/*perl* share/bison share/autoconf* share/automake* share/gettext* share/libtool"
 APP_AFTER_PATCH_CALLBACK="patch_libnet_detect"
 patch_libnet_detect () {
     ${SED_BIN} -i '' -e 's:libnet-config:libnet11-config:g' ./configure

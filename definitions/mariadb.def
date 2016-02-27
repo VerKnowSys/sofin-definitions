@@ -8,7 +8,7 @@ APP_REQUIREMENTS="pkgconf gmake zlib bzip2 m4 perl bison expat libiconv cmake nc
 APP_CONFIGURE_SCRIPT="cmake"
 APP_CONFIGURE_ARGS="-DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=off -DENABLE_DEBUG_SYNC=off -DWITH_UNIT_TESTS=off"
 APP_EXPORTS="mysql mysql_config mysqld mysqld_multi mysqld_safe mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqlshow mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysql-proxy"
-APP_USELESS="share/bison share/gdb share/libtool doc sql-bench mysql-test support-files data share/aclocal share/cmake* man lib/*perl* lib/python* doc docs sql-bench mysql-test share/cmake* share/gtk* share/glib* share/man INSTALL-BINARY README COPYING"
+APP_USELESS="share/bison share/gdb share/libtool doc sql-bench mysql-test support-files data share/cmake* man lib/*perl* lib/python* doc docs sql-bench mysql-test share/cmake* share/gtk* share/glib* share/man INSTALL-BINARY README COPYING"
 APP_CONFLICTS_WITH="Percona Mysql"
 
 case "${SYSTEM_NAME}" in

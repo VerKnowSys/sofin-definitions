@@ -9,7 +9,7 @@ APP_REQUIREMENTS="gmake perl libiconv pkgconf zlib nasm lzma lzo db libpng jpeg 
 APP_INSTALL_METHOD="gmake install -s"
 APP_BUNDLED_EXTENSIONS="phalcon2 phalcon xdebug imagick rar geoip dbase"
 APP_EXPORTS="php php-cgi php-fpm php-config phpize pecl pear lsphp"
-APP_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/gtk-doc share/cmake* share/aclocal lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
+APP_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/cmake* lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     APP_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
     # Under Linux, we don't need these libs after oci extension is built, cause
