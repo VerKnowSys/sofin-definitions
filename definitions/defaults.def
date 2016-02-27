@@ -47,6 +47,6 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} include"
+        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} include doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline"
         ;;
 esac
