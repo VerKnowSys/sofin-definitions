@@ -24,7 +24,7 @@ make_stuff () {
     XCFLAGS="${APP_COMPILER_ARGS} ${CFLAGS}" \
     XLDFLAGS="${APP_LINKER_ARGS} ${LDFLAGS}" \
     SOC_LOADER="dxmainc.c" \
-        ${PREFIX}/bin/gmake ${compile_mode} ${MAKE_FLAGS} \
+        ${PREFIX}/bin/gmake ${compile_mode} ${MAKE_OPTS} \
         AUXEXTRALIBS="-pthread -L${PREFIX}/lib -I${PREFIX}/include" && \
         debug "Done build"
 }
