@@ -9,10 +9,16 @@ cacert_source="http://curl.haxx.se/ca/cacert.pem"
 cacert_source_alt="http://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt"
 os_specific="${SERVICE_DIR}"
 safety_opts="--no-verify-peer"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    os_specific="${PREFIX}"
-    safety_opts="--no-check-certificate"
-fi
+case "${SYSTEM_NAME}" in
+    Linux)
+        os_specific="${PREFIX}"
+        safety_opts="--no-check-certificate"
+        ;;
+
+    Darwin)
+        safety_opts=""
+        ;;
+esac
 
 APP_AFTER_INSTALL_CALLBACK="create_cert_file"
 create_cert_file () {
