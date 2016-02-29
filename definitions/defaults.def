@@ -1,3 +1,5 @@
+DEFAULTS_VERSION="1.0"
+
 # DEFAULT VALUES
 DISABLE_ON="" # defines list of unames. For example DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
 FORCE_GNU_COMPILER="" # use only if really required by some lame software
@@ -13,9 +15,6 @@ APP_CONFIGURE_ARGS="" # additional arguments to configuration script of software
 APP_REQUIREMENTS="" # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
 APP_COMPILER_ARGS="" # additional special arguments to compiler used to build software
 APP_LINKER_ARGS="" # additional arguments to linker
-APP_LINKER_NO_DTAGS="" # if set to any but "", will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
-APP_NO_GOLDEN_LINKER="" # if set to anything but "", will try to explicitly use regular bfd linker instead of gold - which is default since 0.92.x
-APP_NO_FAST_MATH="" # if empty, then: -ffast-math compiler option is used
 APP_CONFIGURE_SCRIPT="./configure" # default configure script name
 APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
 APP_TEST_METHOD="true" # define to enable software internal testing
@@ -28,7 +27,6 @@ APP_AFTER_INSTALL_CALLBACK=""
 APP_AFTER_PATCH_CALLBACK=""
 APP_AFTER_EXPORT_CALLBACK=""
 APP_SHA="" # sha1 of archive source, used to check file checksum after archive download
-APP_NO_CCACHE="" # use only for software that doesn't support ccache
 APP_USER_INFO="" # additional optional information from definition to user displayed after installation
 APP_CONFLICTS_WITH="" # defines list of definitions which are in conflict with software.
 REQUIRE_ROOT_ACCESS="" # set to true, to disallow definition to be built as non root users.
@@ -39,7 +37,7 @@ APP_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to stri
 APP_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 APP_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
 APP_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/common-lisp share/bison"
-APP_CLEAN_USELESS=YES # if set to true, all not exported binaries will be removed from PREFIX/bin and PREFIX/sbin
+APP_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
 case "${SYSTEM_NAME}" in
     Linux)
@@ -50,3 +48,9 @@ case "${SYSTEM_NAME}" in
         APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} include doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline"
         ;;
 esac
+
+APP_NO_CCACHE="" # any value disables ccache usage for current definition
+APP_LINKER_NO_DTAGS="" # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
+#APP_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
+APP_NO_GOLDEN_LINKER="" # any value disables golden linker flags for configuration stage for current definition
+APP_NO_FAST_MATH="" # any value disables "-ffast-math" compiler option for current definition
