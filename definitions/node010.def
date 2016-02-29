@@ -1,8 +1,8 @@
 APP_FULL_NAME="Nodejs"
-APP_SHA="7e89d33ad0e56f6ca517f43a4a7b56079db18420"
+APP_SHA="b5086ffabd628eb2f76808171cfdf0390f8cd935"
 APP_NAME="node"
 APP_POSTFIX="010"
-APP_VERSION="0.10.36"
+APP_VERSION="0.10.40"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-v${APP_VERSION}.tar.gz"
 APP_AFTER_INSTALL_CALLBACK="npm install -g coffee-script less uglify-js nodemon brunch"
 APP_EXPORTS="node npm node-waf coffee lessc nodemon uglifyjs brunch"
@@ -13,13 +13,13 @@ APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_CONFLICTS_WITH="Node"
 APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv"
-APP_USELESS="include/python2.7 lib/python2.7"
+APP_USELESS="include/python* lib/python*"
 
 case "${SYSTEM_NAME}" in
     FreeBSD)
         APP_COMPILER_ARGS="-Wno-unused-const-variable -Wno-unused-private-field"
         APP_CONFIGURE_ARGS="--shared-zlib"
-        APP_REQUIREMENTS="${APP_REQUIREMENTS} python27 libexecinfo"
+        APP_REQUIREMENTS="${APP_REQUIREMENTS} libressl python27 libexecinfo"
         ;;
 
     Darwin)
