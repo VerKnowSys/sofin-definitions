@@ -1,8 +1,8 @@
 APP_FULL_NAME="MariaDB 10.1"
 APP_STANDALONE="true"
-APP_SHA="8f32562b2cbc8ad2bc6b68be96d5f9d31cfad555"
+APP_SHA="ea3b98d79f6c2af741f3819b3a77c96d6ab7a3fe"
 APP_NAME="mariadb"
-APP_VERSION="10.1.11"
+APP_VERSION="10.1.12"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="pkgconf gmake zlib bzip2 m4 perl bison expat libiconv cmake ncurses libressl pcre lua51"
 APP_CONFIGURE_SCRIPT="cmake"
@@ -13,7 +13,7 @@ APP_CONFLICTS_WITH="Percona Mysql"
 
 case "${SYSTEM_NAME}" in
     Linux)
-        APP_REQUIREMENTS="${APP_REQUIREMENTS} m4 bison gmake pcre pkgconf libffi gettext python27 libtool15 glib240 libevent flex"
+        APP_REQUIREMENTS="${APP_REQUIREMENTS} libffi gettext python27 libtool15 glib240 libevent flex"
         APP_AFTER_INSTALL_CALLBACK="after_build"
         after_build () {
             mysql_proxy_name="mysql-proxy"
