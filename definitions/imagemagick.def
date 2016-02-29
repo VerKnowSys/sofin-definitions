@@ -5,6 +5,9 @@ APP_NAME="ImageMagick"
 APP_VERSION="6.9.2-6"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper fftw libffi gettext glib243 ghostscript libpng pixman cairo pango"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/glib243/glib240/')"
+fi
 APP_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
 APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="make install -s"
