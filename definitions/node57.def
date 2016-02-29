@@ -1,0 +1,18 @@
+. ${DEFINITIONS_DIR}node010.def
+
+APP_SHA="790c72e3f9cbb299ece2e0a0ec25dba3bc447513"
+APP_POSTFIX="57"
+APP_VERSION="5.7.0"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-v${APP_VERSION}.tar.gz"
+APP_AFTER_INSTALL_CALLBACK="" # don't install a thing, because npm install doesn't work under node57:
+#
+# an example:
+# npm ERR! FreeBSD 11.0-CURRENT-HBSD
+# npm ERR! argv "/Software/Node57/bin/node" "/Software/Node57/bin/npm" "install" "-g" "coffee-script" "less" "uglify-js" "nodemon" "brunch"
+# npm ERR! node v5.7.0
+# npm ERR! npm  v3.6.0
+
+# npm ERR! invalid argument: family must be 4 or 6
+# npm ERR!
+# npm ERR! If you need help, you may report this error at:
+# npm ERR!     <https://github.com/npm/npm/issues>
