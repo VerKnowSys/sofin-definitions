@@ -1,4 +1,4 @@
-DISABLE_ON="Darwin Linux"
+DISABLE_ON="Darwin"
 APP_FULL_NAME="OpenLDAP server"
 APP_SHA="016a738d050a68d388602a74b5e991035cdba149"
 APP_NAME="slapd"
@@ -13,5 +13,6 @@ APP_EXPORTS="slapd ldapadd ldapcompare ldapdelete ldapexop ldapmodify ldapmodrdn
 patch_configure () {
     # HACK: db dependency seems to be completely fine, but configure script insists to say it's broken:
     ${SED_BIN} -i '' -e 's#if test $ol_cv_bdb_compat != yes ; then#if test $ol_cv_bdb_compat != no ; then#g' ./configure
+    true
 }
 APP_AFTER_UNPACK_CALLBACK="patch_configure"
