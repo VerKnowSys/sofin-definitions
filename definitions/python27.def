@@ -4,21 +4,22 @@ DISABLE_ON="Darwin"
 APP_FULL_NAME="Python 2"
 APP_SHA="ee5a50c5562e7448f037d35fdedc18d95c748b9e"
 APP_POSTFIX="27"
-APP_VERSION="2.7.10"
+APP_MAJOR="2.7"
+APP_VERSION="${APP_MAJOR}.10"
 PIP_VERSION="8.0.2"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_PIP_INSTALLER_PATH="https://bootstrap.pypa.io/get-pip.py"
 APP_ST_EGG_NAME="setuptools-0.6c11-py2.7.egg"
 APP_AFTER_INSTALL_CALLBACK="install_ei_and_pip ; install_some_useful_modules"
-APP_REQUIREMENTS="libressl"
 APP_EXPORTS="python python2 python2.7 python-config easy_install pip"
 
 
 install_ei_and_pip () {
+    export PYTHONHOME="${PREFIX}/lib/python${APP_MAJOR}"
     ${TEST_BIN} ! -d ${HOME}/tmp && ${MKDIR_BIN} -p ${HOME}/tmp
     cd ${HOME}/tmp
     ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${APP_ST_EGG_NAME}
-    PYTHONPATH=${PREFIX}/lib/python2.7/site-packages /bin/sh ./${APP_ST_EGG_NAME} --prefix=${PREFIX}
+    PYTHONPATH=${PREFIX}/lib/python${APP_MAJOR}/site-packages /bin/sh ./${APP_ST_EGG_NAME} --prefix=${PREFIX}
     ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}pip-${PIP_VERSION}.tar.gz && \
     ${TAR_BIN} xf pip-${PIP_VERSION}.tar.gz && \
     cd pip-${PIP_VERSION} && \
