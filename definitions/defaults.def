@@ -41,11 +41,11 @@ APP_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from P
 
 case "${SYSTEM_NAME}" in
     Linux)
-        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} include doc docs share/doc share/docs share/info share/acloc* share/automa*"
+        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
         ;;
 
     Darwin)
-        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} include doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline"
+        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
         ;;
 esac
 
