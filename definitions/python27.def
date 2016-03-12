@@ -27,7 +27,3 @@ install_ei_and_pip () {
     ${PREFIX}/bin/python setup.py install --prefix=${PREFIX} && \
     note "Pip installed successfully"
 }
-
-install_some_useful_modules () {
-    ${PREFIX}/bin/pip install pytoml dulwich
-}
