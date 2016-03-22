@@ -3,7 +3,7 @@ APP_NAME="gd"
 APP_SHA="9038ed488b577d16aa8c32b6c10b4a70b10f7fa1"
 APP_VERSION="2.1.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}lib${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma lzo nasm python27 libxml2 freetype fontconfig libiconv jpeg libpng tiff jbig2dec jbigkit libjpeg-turbo" # t1lib
+APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma lzo nasm python27 libxml2 expat freetype fontconfig libiconv jpeg libpng tiff jbig2dec jbigkit libjpeg-turbo"
 APP_EXPORTS="gd2copypal gd2togif gd2topng gdtopng gdparttopng gdcmpgif gdlib-config gdparttopng gdtopng giftogd2 pngtogd pngtogd2 pal2rgb rgb2ycbcr rdjpgcom"
 APP_CONFIGURE_ARGS="--disable-nls --without-x --with-zlib=${PREFIX} --with-png=${PREFIX} --with-jpeg=${PREFIX} --with-fontconfig=${PREFIX} --with-freetype=${PREFIX} --with-tiff=${PREFIX} --without-xpm --without-vpx"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
