@@ -15,8 +15,8 @@ make_action () {
     # XXX: hardcoded path to git:
     export PATH=${PATH}:/Software/Git/exports
     export GOPATH=${PREFIX}/local
-    debug "Cleaning GOPATH: ${GOPATH}"
-    ${RM_BIN} -rf "${GOPATH}"
+    debug "Cleaning GOPATH: ${GOPATH} & ${PREFIX}/grafana-github"
+    ${RM_BIN} -rf "${GOPATH}" "${PREFIX}/grafana-github"
     ${MKDIR_BIN} -p "${GOPATH}"
     cd "${GOPATH}"
     debug "Fetching Grafana"
