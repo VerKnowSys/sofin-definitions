@@ -2,7 +2,6 @@ DEFAULTS_VERSION="1.0"
 
 # DEFAULT VALUES
 DISABLE_ON="" # defines list of unames. For example DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
-FORCE_GNU_COMPILER="" # use only if really required by some lame software
 APP_EXPORTS="" # defines list of binaries to be exported to user env into PATH
 APP_FULL_NAME=""
 APP_HTTP_PATH=""
