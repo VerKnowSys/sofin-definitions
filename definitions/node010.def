@@ -12,7 +12,7 @@ APP_CONFIGURE_SCRIPT="CC=clang CXX=clang++ ./configure"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_CONFLICTS_WITH="Node"
-APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv"
+APP_REQUIREMENTS="zlib bzip2 gmake yaml libiconv readline-dynamic"
 APP_USELESS="include/python* lib/python*"
 
 case "${SYSTEM_NAME}" in
