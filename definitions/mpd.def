@@ -8,7 +8,7 @@ APP_REQUIREMENTS="pkgconf gmake libiconv libatomic_ops m4 zlib lzma lzo xz bzip2
 APP_CONFIGURE_ARGS="--enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-nfs --enable-icu --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib"
 APP_EXPORTS="mpd mpc mpdscribble"
 APP_USELESS="ssl doc* share man include/boost include/python* lib/python* include/perl* lib/perl*"
-APP_AFTER_UNPACK_CALLBACK="./autogen.sh"
+APP_AFTER_UNPACK_CALLBACK="prepare_lazily ; ./autogen.sh"
 APP_AFTER_INSTALL_CALLBACK="create_mpdconf ; make_dirs"
 
 make_dirs () {
@@ -21,14 +21,17 @@ create_mpdconf () {
     fi
 }
 
-case "${SYSTEM_NAME}" in
-    Darwin)
-        APP_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
-        APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
-        ;;
+prepare_lazily () {
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            APP_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
+            APP_CONFIGURE_ARGS="--enable-osx ${APP_CONFIGURE_ARGS}"
+            ;;
 
-    FreeBSD)
-        APP_LINKER_ARGS="-L${PREFIX}/lib -lavutil -lm"
-        APP_COMPILER_ARGS="-I${PREFIX}/include -lavutil -lm -arch=x86_64"
-        ;;
-esac
+        FreeBSD)
+            APP_LINKER_ARGS="-L${PREFIX}/lib -lm -lavutil"
+            APP_COMPILER_ARGS="-I${PREFIX}/include -lm -arch=x86_64 -lavutil"
+            ;;
+    esac
+}
+
