@@ -36,3 +36,4 @@ APP_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --enable-removal-policies=\"lru heap\""
 APP_USEFUL="bin/perl bin/openssl"
 APP_EXPORTS="squid squidclient purge cachemgr.cgi cert_tool cert_valid.pl diskd ext_delayer_acl ext_file_userip_acl ext_kerberos_ldap_group_acl ext_sql_session_acl ext_time_quota_acl ext_unix_group_acl ext_wbinfo_group_acl helper-mux log_db_daemon log_file_daemon storeid_file_rewrite unlinkd url_fake_rewrite url_fake_rewrite.sh url_lfs_rewrite"
+APP_LINKER_ARGS="-lpthread"
