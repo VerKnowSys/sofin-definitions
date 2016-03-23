@@ -14,6 +14,11 @@ APP_COMPILER_ARGS="-I${PREFIX}/include"
 APP_LINKER_ARGS="-L${PREFIX}/lib"
 APP_USELESS="doc man ssl include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
 APP_CONFLICTS_WITH="Rust"
+APP_AFTER_UNPACK_CALLBACK="disable_aslr"
+disable_aslr () {
+    sysctl hardening.pax.aslr.status=1
+    true
+}
 
 APP_AFTER_INSTALL_CALLBACK="install_cargo"
 install_cargo () {
