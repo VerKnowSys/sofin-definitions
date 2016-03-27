@@ -1,3 +1,4 @@
+DISABLE_ON="Linux"
 APP_FULL_NAME="Low Level Virtual Machine"
 APP_SHA="5dbdcafac105273dcbff94c68837a66c6dd78cef"
 APP_NAME="llvm"
