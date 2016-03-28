@@ -4,15 +4,15 @@ APP_NAME="rust"
 APP_VERSION="1.7.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}c-${APP_VERSION}-src.tar.gz"
 CARGO_REPOSITORY="https://github.com/rust-lang/cargo"
-APP_REQUIREMENTS="pkgconf m4 gmake libunwind ccache libiconv python27 libxml2 cmake libssh2 libressl perl texinfo libidn curl bison llvm"
-APP_CONFIGURE_ARGS="--disable-jemalloc --disable-stage0-landing-pads --disable-manage-submodules --release-channel=stable --enable-optimize --enable-optimize-tests --enable-optimize-cxx --enable-optimize-llvm --disable-valgrind --disable-valgrind-rpass --enable-clang --disable-docs --enable-rpath --musl-root=${PREFIX} --python=${PREFIX}/bin/python --enable-ccache --llvm-root=${PREFIX} --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info"
+APP_REQUIREMENTS="pkgconf m4 gmake libunwind ccache zlib xz libffi libiconv python27 libxml2 cmake libssh2 perl texinfo libidn curl bison llvm"
+APP_CONFIGURE_ARGS="--disable-jemalloc --disable-stage0-landing-pads --disable-manage-submodules --release-channel=stable --enable-optimize --disable-optimize-tests --enable-optimize-cxx --enable-optimize-llvm --disable-valgrind --disable-valgrind-rpass --enable-clang --disable-docs --enable-rpath --python=${PREFIX}/bin/python --enable-ccache --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --llvm-root=${PREFIX} --default-linker=ld.gold"
 APP_CONFIGURE_SCRIPT="./configure"
-APP_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=${CPUS} gmake ${MAKE_OPTS}"
+APP_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=8 gmake ${MAKE_OPTS}"
 APP_INSTALL_METHOD="PREFIX=${PREFIX} gmake install ${MAKE_OPTS}"
 APP_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
 APP_COMPILER_ARGS="-I${PREFIX}/include"
 APP_LINKER_ARGS="-L${PREFIX}/lib"
-APP_USELESS="doc man ssl include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
+APP_USELESS="doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
 APP_CONFLICTS_WITH="Rust"
 APP_AFTER_UNPACK_CALLBACK="disable_aslr"
 disable_aslr () {
@@ -22,11 +22,14 @@ disable_aslr () {
 
 APP_AFTER_INSTALL_CALLBACK="install_cargo"
 install_cargo () {
+    export CFLAGS="-I/usr/include -I${PREFIX}/include"
+    export CXXFLAGS="-I/usr/include -I${PREFIX}/include"
+    export LDFLAGS="-L/usr/lib -L${PREFIX}/lib"
     export PATH="${PREFIX}/bin:/usr/bin:/bin:$(${DIRNAME_BIN} ${GIT_BIN})"
     export PKG_CONFIG_EXECUTABLE="${PREFIX}/bin/pkgconf"
     export CARGO_SNAPSHOT="${MAIN_SOURCE_REPOSITORY}cargo-nightly-x86_64-unknown-freebsd.tar.gz"
     export CARGO_FBSD_PATCH="${MAIN_SOURCE_REPOSITORY}cargo_freebsd_support_patch.patch"
-    ${LN_BIN} -s ${PREFIX}/lib/libcurl.so.8 ${PREFIX}/lib/libcurl.so.4
+
     debug "Cloning Cargo from remote repository.."
     ${GIT_BIN} clone ${CARGO_REPOSITORY}
     cd cargo
@@ -42,16 +45,16 @@ install_cargo () {
     ${FETCH_BIN} "${CARGO_SNAPSHOT}"
     cd ../..
 
-    ${PRINTF_BIN} "2015-04-02
-  freebsd-x86_64 2e0ade0901864ea67200f990cb289343b08959e7
+    ${PRINTF_BIN} "2016-03-29
+  freebsd-x86_64 dc83f32512e60cfd72df7012de80af324116977e
 " > src/snapshots.txt
 
     debug "Configuring Cargo.." && \
     ./configure --prefix=${PREFIX} --local-rust-root=${PREFIX} && \
     unset CC && \
-    debug "Building Cargo using ${CPUS} cpus.." && \
-    RUSTFLAGS=-Ccodegen_units=${CPUS} ${PREFIX}/bin/gmake && \
-    debug "Installing Rust.." && \
+    debug "Building Cargo using 8 parallel units.." && \
+    RUSTFLAGS=-Ccodegen_units=8 ${PREFIX}/bin/gmake && \
+    debug "Installing Cargo" && \
     ${PREFIX}/bin/gmake install
     ret="$?"
 
