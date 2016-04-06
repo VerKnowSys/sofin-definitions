@@ -2,12 +2,7 @@
 
 APP_FULL_NAME="Zabbix agent"
 APP_POSTFIX="-agent"
-APP_CONFIGURE_ARGS="--disable-proxy --disable-server --enable-agent --with-jabber --with-libcurl --with-sqlite3 --with-iconv=${PREFIX} --with-iconv-include=${PREFIX}/include --with-iconv-lib=${PREFIX}/lib"
-APP_EXPORTS="zabbix_get zabbix_sender zabbix_agent zabbix_agentd"
-APP_USELESS="include share/texinfo lib/perl*"
-
-case "${SYSTEM_NAME}" in
-    Linux)
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --sysconfdir=/etc"
-        ;;
-esac
+APP_CONFIGURE_ARGS="--disable-proxy --disable-server ${COMMON_ZABBIX_CONF_ARGS}"
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --sysconfdir=/etc"
+fi
