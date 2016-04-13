@@ -1,6 +1,8 @@
---- sql/sql_view.cc.orig	2015-06-17 14:54:12 UTC
+Fix clang build error
+
+--- sql/sql_view.cc.orig	2015-10-15 15:43:47 UTC
 +++ sql/sql_view.cc
-@@ -716,46 +716,46 @@ static const int required_view_parameter
+@@ -720,46 +720,46 @@ static const int required_view_parameter
  */
  static File_option view_parameters[]=
  {{{ C_STRING_WITH_LEN("query")},

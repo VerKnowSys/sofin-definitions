@@ -1,4 +1,6 @@
---- sql/sql_trigger.cc.orig	2015-06-17 14:54:12 UTC
+Fix clang build error
+
+--- sql/sql_trigger.cc.orig	2015-10-15 15:43:47 UTC
 +++ sql/sql_trigger.cc
 @@ -192,32 +192,32 @@ static File_option triggers_file_paramet
  {
