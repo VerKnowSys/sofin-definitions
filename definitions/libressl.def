@@ -28,6 +28,6 @@ create_cert_file () {
     ${FETCH_BIN} ${safety_opts} ${cacert_source} -o ${os_specific}/etc/ssl/cert.pem || \
     # 2nd try:
     ${FETCH_BIN} ${safety_opts} ${cacert_source_alt} -o ${os_specific}/etc/ssl/cert.pem || \
+    test -f /etc/ssl/cert.pem || \
     error "Couldn't fetch recent cert.pem"
-    note "Fetched and installed most recent cert.pem in prefix: ${os_specific}"
 }
