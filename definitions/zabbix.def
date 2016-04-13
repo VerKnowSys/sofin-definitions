@@ -5,7 +5,7 @@ APP_NAME="zabbix"
 APP_SHA="2e4e870bc3359f594d2d661f7e1fe9e8163ef79e"
 APP_VERSION="3.0.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-COMMON_ZABBIX_CONF_ARGS="--enable-agent --with-libcurl --with-sqlite3 --with-iconv=${PREFIX} --with-iconv-include=${PREFIX}/include --with-iconv-lib=${PREFIX}/lib --with-openssl=${PREFIX}"
+COMMON_ZABBIX_CONF_ARGS="--enable-ipv6 --enable-agent --with-libcurl --with-sqlite3 --with-iconv=${PREFIX} --with-iconv-include=${PREFIX}/include --with-iconv-lib=${PREFIX}/lib --with-openssl=${PREFIX}"
 APP_CONFIGURE_ARGS="--enable-proxy --enable-server ${COMMON_ZABBIX_CONF_ARGS}"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --sysconfdir=/etc"
