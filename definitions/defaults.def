@@ -53,3 +53,4 @@ APP_LINKER_NO_DTAGS="" # any value will cause omition of "-Wl,-rpath=${PREFIX}/l
 #APP_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
 APP_NO_GOLDEN_LINKER="" # any value disables golden linker flags for configuration stage for current definition
 APP_NO_FAST_MATH="" # any value disables "-ffast-math" compiler option for current definition
+APP_CMAKE_BUILD_DIR="." # default build dir when cmake is used
