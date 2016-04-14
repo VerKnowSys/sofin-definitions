@@ -1,25 +1,14 @@
 APP_FULL_NAME="Python 3"
 APP_SHA="b7f832e6d84b406db4c854e3eb46411e6931bc98"
 APP_NAME="Python"
-APP_MAJOR="3.5"
-APP_VERSION="${APP_MAJOR}.1"
 APP_POSTFIX="35"
+APP_VERSION="3.5.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
-APP_CONFIGURE_ARGS="--with-fpectl --without-pydebug --enable-ipv6 --with-doc-strings --disable-tsc"
-APP_EXPORTS="python3 python3-config easy_install pip dulwich pytoml pip"
-APP_REQUIREMENTS="pkgconf lzma xz db gmake sqlite zlib bzip2 yaml libiconv libressl"
-APP_USEFUL="bin/python*"
+APP_REQUIREMENTS="pkgconf gmake xz sqlite bzip2 yaml libffi readline"
+APP_CONFIGURE_ARGS="--enable-shared --with-threads --with-fpectl --without-pydebug --enable-ipv6 --with-doc-strings --with-ensurepip=upgrade ac_cv_posix_semaphores_enabled=yes ac_cv_opt_olimit_ok=no OPT="
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-  export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-universalsdk --with-universal-archs=intel --enable-shared"
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-universalsdk --with-universal-archs=64-bit"
 fi
-APP_MAKE_METHOD="PYTHONHOME=\"${PREFIX}/lib/python${APP_MAJOR}\" make ${MAKE_OPTS}"
-APP_AFTER_INSTALL_CALLBACK="install_and_upgrade_pip ; install_some_useful_modules"
-
-install_and_upgrade_pip () {
-    ${PREFIX}/bin/python3 -m ensurepip --upgrade --root ${PREFIX}
-    ${PREFIX}/bin/python3 -m pip install --upgrade pip
-}
-
-install_some_useful_modules () {
-    ${PREFIX}/bin/pip install pytoml dulwich
-}
+APP_AFTER_INSTALL_CALLBACK="${PREFIX}/bin/pip install pytoml dulwich"
+APP_EXPORTS="python3 python3-config easy_install pip dulwich pytoml pip"
+APP_USEFUL="bin/python*"
