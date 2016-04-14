@@ -2,19 +2,8 @@
 
 DISABLE_ON="Darwin"
 APP_FULL_NAME="Python 2"
-APP_SHA="c3b8bbe3f084c4d4ea13ffb03d75a5e22f9756ff"
 APP_POSTFIX="27"
 APP_VERSION="2.7.11"
+APP_SHA="c3b8bbe3f084c4d4ea13ffb03d75a5e22f9756ff"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_USEFUL="bin/python*"
-APP_EXPORTS="python python2 python2.7 python-config easy_install pip"
-APP_AFTER_INSTALL_CALLBACK="install_and_upgrade_pip ; install_some_useful_modules"
-
-install_and_upgrade_pip () {
-    ${PREFIX}/bin/python -m ensurepip
-    ${PREFIX}/bin/python -m pip install --upgrade pip
-}
-
-install_some_useful_modules () {
-    ${PREFIX}/bin/pip install pytoml dulwich
-}
+APP_EXPORTS="python python2 python2-config easy_install pip dulwich pytoml"
