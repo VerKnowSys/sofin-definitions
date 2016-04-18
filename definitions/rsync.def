@@ -12,4 +12,5 @@ APP_CONFLICTS_WITH="Rsync"
 patch_max_path_length () {
     note "Increasing default MAXPATHLEN from 1024 to 8194"
     ${SED_BIN} -i '' -e 's/#define MAXPATHLEN 1024/#define MAXPATHLEN 8194/' rsync.h
+    true
 }
