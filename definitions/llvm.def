@@ -10,8 +10,6 @@ APP_CONFIGURE_SCRIPT="cmake"
 APP_CMAKE_BUILD_DIR="../"
 APP_EXPORTS="bugpoint c-index-test clang clang++ clang-cpp clang-tblgen idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-link llvm-mc llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt lldb"
 APP_USELESS="lib/perl* include/python* lib/python* share man"
-APP_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make install -s ${MAKE_OPTS}"
 
 APP_AFTER_UNPACK_CALLBACK="make_builddir"
 make_builddir () {
