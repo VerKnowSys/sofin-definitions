@@ -7,3 +7,14 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_REQUIREMENTS="gmake m4 perl bison"
 APP_CONFIGURE_ARGS="--enable-dependency-tracking --with-cacert=/etc/ssl"
 APP_EXPORTS="ntpctl ntpd"
+
+#
+# Pick an older version for linux hosts that fails to build latest 5.9, caused by:
+#
+# /usr/include/time.h:336: error: conflicting types for 'clock_gettime' ...
+#
+if [ "${SYSTEM_NAME}" = "Linux" ]; then
+    APP_SHA="ba885dc7cf599161b351cd90af2af175071e3a9d"
+    APP_VERSION="5.7p4"
+    APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+fi
