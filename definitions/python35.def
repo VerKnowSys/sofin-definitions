@@ -4,7 +4,7 @@ APP_NAME="Python"
 APP_POSTFIX="35"
 APP_VERSION="3.5.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tgz"
-APP_REQUIREMENTS="pkgconf gmake xz sqlite bzip2 yaml libffi readline"
+APP_REQUIREMENTS="pkgconf gmake zlib xz lzma sqlite bzip2 yaml libffi readline libressl"
 APP_CONFIGURE_ARGS="--enable-shared --with-threads --with-fpectl --without-pydebug --enable-ipv6 --with-doc-strings --with-ensurepip=upgrade ac_cv_posix_semaphores_enabled=yes ac_cv_opt_olimit_ok=no OPT="
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-universalsdk --with-universal-archs=64-bit"
