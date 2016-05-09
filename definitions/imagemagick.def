@@ -1,8 +1,8 @@
 DISABLE_ON="Darwin"
 APP_FULL_NAME="ImageMagick Graphics Library"
-APP_SHA="3fbca3a326b4756bf491329cb45dc67136e59a11"
+APP_SHA="01d89854f6375d0c551c839ef22b775f10b24237"
 APP_NAME="ImageMagick"
-APP_VERSION="6.9.2-6"
+APP_VERSION="7.0.1-1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper fftw libffi gettext glib243 ghostscript libpng pixman cairo pango"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
@@ -11,15 +11,15 @@ fi
 APP_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
 APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="make install -s"
-APP_USEFUL="bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
+APP_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
 APP_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool man lib/cmake lib/*.sh share/texinfo share/util-macros"
-APP_EXPORTS="convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
+APP_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
 APP_CONFLICTS_WITH="GraphicsMagick"
 
 APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
 fix_makefile () {
     ${SED_BIN} -i '' -e \
-        '/6.Q16.pc/d ; /cp -f\ \$\^\ \$\@/d' \
+        '/7.Q16HDRI.pc/d ; /cp -f\ \$\^\ \$\@/d' \
         Makefile
     true
 }
