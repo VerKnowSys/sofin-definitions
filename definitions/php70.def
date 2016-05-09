@@ -1,8 +1,8 @@
 . ${DEFINITIONS_DIR}php56.def
 
 APP_FULL_NAME="PHP 7"
-APP_SHA="d02f33c44a531e71e981c0a811a0f15f3d21852d"
-APP_VERSION="7.0.5"
+APP_SHA="f1f3014098a00a31078d42b60d28883d6f50b849"
+APP_VERSION="7.0.6"
 APP_POSTFIX="70"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-config-file-path=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-xmlrpc --with-iconv --disable-maintainer-zts --enable-cgi --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --with-pdo-sqlite=${PREFIX} --with-sqlite3=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --with-litespeed --enable-cgi --enable-opcache --enable-phar --disable-phpdbg-debug --disable-phpdbg-webhelper --disable-phpdbg"
@@ -12,7 +12,7 @@ if [ "${SYSTEM_NAME}" = "Linux" ]; then
 fi
 
 install_imagick () {
-    arch_name="imagick-3.4.0RC6"
+    arch_name="imagick-3.4.1"
     archive="${arch_name}.tgz"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
     ${TAR_BIN} xf "${archive}" && \
@@ -40,11 +40,11 @@ install_oci8 () {
 }
 
 install_xdebug () {
-    arch_name="xdebug-2.4.0rc4"
+    arch_name="xdebug-2.4.0"
     archive="${arch_name}.tgz"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
     ${TAR_BIN} xf "${archive}" && \
-    cd "xdebug-2.4.0RC4" && \
+    cd "xdebug-2.4.0" && \
     ${PREFIX}/bin/phpize && \
     ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
     PATH=${PREFIX}/bin:$PATH make install && \
