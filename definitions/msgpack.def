@@ -1,0 +1,6 @@
+APP_FULL_NAME="MessagePack is an extremely efficient object serialization library"
+APP_NAME="msgpack"
+APP_SHA="f7e33459a867017d88b2412085229d4153176ab2"
+APP_VERSION="0.5.4"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_EXPORTS="msgcat msgcmp msgcomm msgconv msgen msgexec msgfilter msgfmt msggrep msginit msgmerge msgunfmt msguniq"
