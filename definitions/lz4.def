@@ -1,0 +1,7 @@
+APP_FULL_NAME="LZ4 is lossless compression algorithm"
+APP_NAME="lz4"
+APP_SHA="b6eab6461977dca11e7efc4ed79d59924b216c7e"
+APP_VERSION="r131"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_CONFIGURE_SCRIPT="no-conf"
+APP_EXPORTS="lz4 lz4c lz4cat"
