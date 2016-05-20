@@ -1,3 +1,4 @@
+DISABLE_ON="FreeBSD Darwin"
 APP_FULL_NAME="Kyoto Text Analysis Toolkit"
 APP_NAME="kytea"
 APP_SHA="684f6b90bd4ae048ea3a6fc9762b1baecb006eb3"
