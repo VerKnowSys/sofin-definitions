@@ -29,7 +29,6 @@ case "${SYSTEM_NAME}" in
 
     FreeBSD)
         APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DHAVE_STDCXX11=on -DWITHOUT_TOKUDB=on"
-        APP_LINKER_NO_DTAGS=YES
         APP_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s ${MAKE_OPTS}"
         APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s install ${MAKE_OPTS}"
         ;;
