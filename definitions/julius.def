@@ -7,7 +7,7 @@ APP_REQUIREMENTS="libiconv perl"
 APP_COMPILER_ARGS="-Wno-return-type -I${PREFIX}/include"
 APP_LINKER_ARGS="-L${PREFIX}/lib -liconv"
 APP_EXPORTS="accept_check instmodsh mkbingram adinrec mkbinhmm adintool generate jcontrol mkbinhmmlist generate-ngram julius mkfa libjulius-config mkgshmm dfa_determinize mkss dfa_minimize libsent-config nextword"
-APP_USELESS="lib/*perl* include/*perl*"
+APP_DEFAULT_USELESS="lib/*perl* include/*perl* share/gtk-doc share/emacs share/common-lisp share/bison"
 
 case "${SYSTEM_NAME}" in
     Darwin)
