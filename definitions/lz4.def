@@ -1,3 +1,4 @@
+DISABLE_ON="FreeBSD"
 APP_FULL_NAME="LZ4 is lossless compression algorithm"
 APP_NAME="lz4"
 APP_SHA="b6eab6461977dca11e7efc4ed79d59924b216c7e"
