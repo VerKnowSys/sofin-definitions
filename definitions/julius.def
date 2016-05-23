@@ -1,0 +1,31 @@
+APP_FULL_NAME="Julius is a high-performance, two-pass large vocabulary continuous speech recognition (LVCSR) decoder software for speech-related researchers and developers."
+APP_SHA="88f64ae9ed00b6ab5a2d4fe07e3ced141a46c196"
+APP_NAME="julius"
+APP_VERSION="4.3.1"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+APP_REQUIREMENTS="libiconv perl"
+APP_COMPILER_ARGS="-Wno-return-type -I${PREFIX}/include"
+APP_LINKER_ARGS="-L${PREFIX}/lib -liconv"
+APP_EXPORTS="accept_check instmodsh mkbingram adinrec mkbinhmm adintool generate jcontrol mkbinhmmlist generate-ngram julius mkfa libjulius-config mkgshmm dfa_determinize mkss dfa_minimize libsent-config nextword"
+APP_USELESS="lib/*perl* include/*perl*"
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-mictype=coreaudio"
+        ;;
+
+    FreeBSD)
+        APP_VERSION="4.1.2"
+        APP_SHA="5b08a207c642aaeeb33c6ef9524ccd1b8aa3f09d"
+        APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+        APP_CONFIGURE_ARGS="ac_cv_path_PERL=${PREFIX}/bin/perl --with-mictype=freebsd"
+        ;;
+
+    Linux)
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-mictype=linux"
+        ;;
+
+    *)
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-mictype=oss"
+        ;;
+esac
