@@ -21,5 +21,6 @@ install_mysql_connector () {
     ${FETCH_BIN} "https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-${CONNECTOR_VER}.tar.gz"
     tar zxvf mysql-connector-python-${CONNECTOR_VER}.tar.gz
     cd mysql-connector-python-${CONNECTOR_VER}
-    ${PREFIX}/bin/python3 setup.py install
+    ${PREFIX}/bin/python3 setup.py install || \
+        ${PREFIX}/bin/python setup.py install
 }
