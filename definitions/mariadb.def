@@ -4,10 +4,10 @@ APP_SHA="dcf46d638cd33032117a9f0d89e8650aa1309e74"
 APP_NAME="mariadb"
 APP_VERSION="10.1.14"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="pkgconf gmake libnet lz4 libiconv ccache zlib bzip2 xz lzma lzo lzop m4 perl bison expat cmake ncurses libressl readline pcre lua51 libffi gettext python27 libtool glib240 libevent flex boost-minimal libxml2 db yasm autoconf texinfo automake msgpack kytea libsodium zeromq4 mariadb-client"
+APP_REQUIREMENTS="pkgconf gmake libnet readline pcre libiconv ccache zlib bzip2 xz lzma lzo lzop lz4 m4 perl db yasm autoconf texinfo automake bison libtool msgpack kytea libsodium zeromq4 expat cmake ncurses libressl python27 lua51 libffi gettext glib240 libevent flex boost-minimal libxml2 mariadb-client"
 APP_CONFIGURE_SCRIPT="cmake"
-APP_CONFIGURE_ARGS="-DWITH_READLINE=1 -DPLUGIN_TOKUDB=NO -DPLUGIN_OQGRAPH=NO -DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=off -DENABLE_DEBUG_SYNC=off -DWITH_UNIT_TESTS=0 -DWITH_LIBWRAP=1 -DWITH_FAST_MUTEXES=1  -DDISABLE_LIBMYSQLCLIENT_SYMBOL_VERSIONING=TRUE"
-APP_EXPORTS="mysql mysql_config mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqlshow mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysql-proxy"
+APP_CONFIGURE_ARGS="-DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=off -DWITH_LIBWRAP=1 -DPLUGIN_AUTH_GSSAPI_CLIENT=NO -DPLUGIN_TOKUDB=NO"
+APP_EXPORTS="mysql mysqld_multi mysqld mysqld_safe mysql_config mysqladmin mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysqlshow mysql-proxy"
 APP_USELESS="share/bison share/gdb share/libtool doc sql-bench support-files data share/cmake* man lib/*perl* include/python* lib/python* doc docs sql-bench share/cmake* share/gtk* share/glib* share/man INSTALL-BINARY README COPYING share/gettext share/*.sql share/lua COPYING.LESSER COPYING.thirdparty CREDITS EXCEPTIONS-CLIENT README-wsrep scripts libexec lib/lua mysql-test include/boost"
 APP_CONFLICTS_WITH="Percona Mysql"
 
@@ -33,8 +33,8 @@ case "${SYSTEM_NAME}" in
             ${SED_BIN} -i '' -e 's|%%PREFIX%%|${PREFIX}|g' mysys/my_default.c
             ${SED_BIN} -i '' -e 's/*.1/${MAN1}/' man/CMakeLists.txt
         }
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DHAVE_STDCXX11=on -DWITH_JEMALLOC=system"
+        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DHAVE_STDCXX11=on"
         APP_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s ${MAKE_OPTS}"
-        APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s install ${MAKE_OPTS}"
+        APP_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s install ${MAKE_OPTS} ; read adsadasd"
         ;;
 esac
