@@ -1,8 +1,8 @@
 APP_FULL_NAME="Ruby YARV 2.1"
-APP_SHA="c7e50159357afd87b13dc5eaf4ac486a70011149"
+APP_SHA="dd68afc652fe542f83a9a709a74f4da2662054bf"
 APP_NAME="ruby"
 APP_POSTFIX="21"
-APP_VERSION="2.1.8"
+APP_VERSION="2.1.9"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX} --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS="
 case "${SYSTEM_NAME}" in
