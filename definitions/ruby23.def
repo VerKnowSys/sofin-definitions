@@ -1,9 +1,9 @@
 . ${DEFINITIONS_DIR}ruby21.def
 
 APP_FULL_NAME="Ruby YARV 2.3"
-APP_SHA="2dfcf7f33bda4078efca30ae28cb89cd0e36ddc4"
+APP_SHA="c39b4001f7acb4e334cb60a0f4df72d434bef711"
 APP_NAME="ruby"
 APP_POSTFIX="23"
-APP_VERSION="2.3.0"
+APP_VERSION="2.3.1"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
