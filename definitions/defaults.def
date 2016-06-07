@@ -1,4 +1,4 @@
-DEFAULTS_VERSION="1.0"
+DEFAULTS_VERSION="1.0.0ßo1"
 
 # DEFAULT VALUES
 DISABLE_ON="" # defines list of unames. For example DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
