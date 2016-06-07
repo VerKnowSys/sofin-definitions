@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}rsync.def
+load_defs rsync
 
 APP_POSTFIX="-static"
 APP_REQUIREMENTS="perl zlib popt libiconv"

@@ -1,2 +1,2 @@
-. ${DEFINITIONS_DIR}audacious.def
+load_defs audacious
 APP_CLEAN_USELESS=NO

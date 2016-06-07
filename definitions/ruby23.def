@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}ruby21.def
+load_defs ruby21
 
 APP_FULL_NAME="Ruby YARV 2.3"
 APP_SHA="c39b4001f7acb4e334cb60a0f4df72d434bef711"

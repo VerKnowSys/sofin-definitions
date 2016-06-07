@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}mariadb.def
+load_defs mariadb
 
 DISABLE_ON="Linux"
 APP_FULL_NAME="MariaDB 10.1 client"

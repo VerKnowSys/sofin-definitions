@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}python35.def
+load_defs python35
 
 DISABLE_ON="Darwin"
 APP_FULL_NAME="Python 2"

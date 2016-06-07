@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}llvm.def
+load_defs llvm
 
 APP_FULL_NAME="LLVM + Gold Linker"
 APP_NAME="gold"

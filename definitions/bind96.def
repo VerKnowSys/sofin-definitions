@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}bind.def
+load_defs bind
 
 APP_POSTFIX="96"
 APP_SHA="739cd279243308af616179dcf3d84fbe8a57e9c3"

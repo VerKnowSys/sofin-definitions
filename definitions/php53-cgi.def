@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}php53.def
+load_defs php53
 
 APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --enable-cli --without-apxs2 --without-litespeed --enable-cgi --enable-fastcgi"
 

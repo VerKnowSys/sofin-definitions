@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}httpd.def
+load_defs httpd
 
 APP_FULL_NAME="Apache Httpd server version 2.2"
 APP_POSTFIX="22"

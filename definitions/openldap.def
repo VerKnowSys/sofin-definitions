@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}slapd.def
+load_defs slapd
 
 APP_FULL_NAME="OpenLDAP client"
 APP_NAME="openldap"

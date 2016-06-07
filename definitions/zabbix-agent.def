@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}zabbix.def
+load_defs zabbix
 
 APP_FULL_NAME="Zabbix agent"
 APP_POSTFIX="-agent"

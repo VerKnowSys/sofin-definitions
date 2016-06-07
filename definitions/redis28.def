@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}redis3.def
+load_defs redis3
 
 APP_SHA="3e362f4770ac2fdbdce58a5aa951c1967e0facc8"
 APP_VERSION="2.8.19"

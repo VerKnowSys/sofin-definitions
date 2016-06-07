@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}php56.def
+load_defs php56
 
 DISABLE_ON="FreeBSD"
 APP_FULL_NAME="PHP 5.4"

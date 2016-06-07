@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}llvm.def
+load_defs llvm
 
 APP_SHA="85faf7cbd518dabeafc4d3f7e909338fc1dab3c4"
 APP_NAME="llvm"

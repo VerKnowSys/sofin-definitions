@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}php52.def
+load_defs php52
 
 DISABLE_ON="FreeBSD Darwin"
 APP_FULL_NAME="PHP 5.3"

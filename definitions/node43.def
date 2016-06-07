@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}node010.def
+load_defs node010
 
 APP_SHA="8020fa254ada3f7197251db493d3504b1a28d464"
 APP_POSTFIX="43"

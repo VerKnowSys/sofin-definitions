@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}gnupg.def
+load_defs gnupg
 
 APP_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
 APP_NAME="gpgme"

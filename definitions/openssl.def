@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}libressl.def
+load_defs libressl
 
 APP_FULL_NAME="OpenSSL Library"
 APP_SHA="577585f5f5d299c44dd3c993d3c0ac7a219e4949"

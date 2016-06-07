@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}binutils.def
+load_defs binutils
 
 APP_FULL_NAME="Gold Linker"
 APP_NAME="binutils-gold"

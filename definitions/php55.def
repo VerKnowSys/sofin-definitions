@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}php56.def
+load_defs php56
 
 APP_FULL_NAME="PHP55"
 APP_SHA="aad3671503b6a67d3b42f41bc2bb1082130f2d4f"

@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}qtbase55.def
+load_defs qtbase55
 
 APP_NAME="qtphantom"
 APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby python27 freetype libxml2 fontconfig qtbase55"

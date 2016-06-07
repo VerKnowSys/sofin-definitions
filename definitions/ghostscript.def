@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}libgs.def
+load_defs libgs
 
 APP_NAME="ghostscript"
 APP_MAKE_METHOD="make_stuff"

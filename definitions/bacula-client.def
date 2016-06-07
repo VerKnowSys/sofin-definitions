@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}bacula.def
+load_defs bacula
 
 DISABLE_ON=""
 APP_FULL_NAME="Bacula backup system client"

@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}isl.def
+load_defs isl
 
 APP_SHA="f694b741530676cd1ea27a6437bd090c69e61455"
 APP_POSTFIX="012"

@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}qtbase55.def
+load_defs qtbase55
 
 APP_NAME="qtphantomwk"
 APP_HTTP_PATH="https://github.com/VerKnowSys/qtwebkit.git"

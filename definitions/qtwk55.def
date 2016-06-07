@@ -1,4 +1,4 @@
-. ${DEFINITIONS_DIR}qtbase55.def
+load_defs qtbase55
 
 APP_NAME="qtwk"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebkit-opensource-src-${APP_VERSION}.tar.xz"
