@@ -5,8 +5,8 @@ APP_NAME="postgresql"
 APP_POSTFIX="94"
 APP_VERSION="9.4.8"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety"
-APP_REQUIREMENTS="gmake zlib libiconv libressl readline-dynamic"
+APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
+APP_REQUIREMENTS="gmake zlib libiconv libressl readline-dynamic libtool"
 APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
 APP_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog pg_archivecleanup pg_basebackup pg_isready pg_receivexlog pg_recvlogical pg_resetxlog postmaster reindexdb vacuumdb createlang droplang dropuser ecpg clusterdb"
 APP_ORIGIN="http://www.postgresql.org"
@@ -14,10 +14,12 @@ APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 APP_CONFLICTS_WITH="Postgresql"
 APP_STRIP="exports"
-APP_NO_CCACHE=YES
 APP_NO_FAST_MATH=YES
 
 case "${SYSTEM_NAME}" in
+    Linux)
+        APP_NO_GOLDEN_LINKER=YES
+        ;;
 
     Darwin)
         # Do not strip binaries on OS X, due to:
