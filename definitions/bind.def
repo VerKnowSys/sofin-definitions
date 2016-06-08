@@ -1,3 +1,4 @@
+DISABLE_ON="Darwin FreeBSD"
 APP_FULL_NAME="Implementation of the Domain Name System (DNS)"
 APP_STANDALONE="true"
 APP_SHA="6383901b64e6c56ede5839c37664b715a901622c"
