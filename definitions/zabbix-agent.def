@@ -1,4 +1,4 @@
-load_defs zabbix
+inherit zabbix
 
 APP_FULL_NAME="Zabbix agent"
 APP_POSTFIX="-agent"

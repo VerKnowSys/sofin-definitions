@@ -1,4 +1,4 @@
-load_defs qtbase55
+inherit qtbase55
 
 APP_NAME="qtphantomwk"
 APP_HTTP_PATH="https://github.com/VerKnowSys/qtwebkit.git"

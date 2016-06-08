@@ -1,4 +1,4 @@
-load_defs qtbase55
+inherit qtbase55
 
 APP_NAME="qtme"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${APP_VERSION}.tar.xz"

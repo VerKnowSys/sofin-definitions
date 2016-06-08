@@ -1,4 +1,4 @@
-load_defs openjdk8
+inherit openjdk8
 
 APP_FULL_NAME="OpenJDK 1.7 64bit"
 APP_SHA="11568fd8bf970aa7adc7ef46648764b7a0d3d1ad"

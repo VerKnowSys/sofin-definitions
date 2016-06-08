@@ -1,4 +1,4 @@
-load_defs php52
+inherit php52
 
 DISABLE_ON="FreeBSD Darwin"
 APP_FULL_NAME="PHP 5.3"

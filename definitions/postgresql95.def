@@ -1,4 +1,4 @@
-load_defs postgresql94
+inherit postgresql94
 
 APP_SHA="930afeb713b81778f29d32e7bf18fd08ce2aa8f9"
 APP_NAME="postgresql"

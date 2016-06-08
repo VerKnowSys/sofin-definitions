@@ -1,4 +1,4 @@
-load_defs gnupg
+inherit gnupg
 
 APP_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
 APP_NAME="gpgme"

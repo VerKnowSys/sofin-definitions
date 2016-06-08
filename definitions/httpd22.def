@@ -1,4 +1,4 @@
-load_defs httpd
+inherit httpd
 
 APP_FULL_NAME="Apache Httpd server version 2.2"
 APP_POSTFIX="22"

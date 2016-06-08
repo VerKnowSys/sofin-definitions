@@ -1,4 +1,4 @@
-load_defs qtbase55
+inherit qtbase55
 
 APP_NAME="qtxcb"
 APP_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -nomake examples -nomake tests -L${PREFIX}/lib -no-qpa-platform-guard -continue -xcb"

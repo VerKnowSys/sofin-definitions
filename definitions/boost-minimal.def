@@ -1,4 +1,4 @@
-load_defs boost
+inherit boost
 
 APP_FULL_NAME="Boost - C++ Libraries - minimal configuration"
 APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --without-icu --with-libraries=system,thread"

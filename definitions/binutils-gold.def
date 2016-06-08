@@ -1,4 +1,4 @@
-load_defs binutils
+inherit binutils
 
 APP_FULL_NAME="Gold Linker"
 APP_NAME="binutils-gold"

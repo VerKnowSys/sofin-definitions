@@ -1,4 +1,4 @@
-load_defs percona-server55
+inherit percona-server55
 
 DISABLE_ON="FreeBSD"
 APP_FULL_NAME="Percona Server 5.6"

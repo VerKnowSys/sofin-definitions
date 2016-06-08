@@ -1,4 +1,4 @@
-load_defs php52
+inherit php52
 
 APP_CONFIGURE_ARGS="$(echo "${APP_CONFIGURE_ARGS}" | ${SED_BIN} -e 's/--with-litespeed/--enable-cli --without-apxs2 --enable-cgi --enable-fastcgi --enable-spl/')"
 

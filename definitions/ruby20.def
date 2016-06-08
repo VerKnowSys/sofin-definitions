@@ -1,4 +1,4 @@
-load_defs ruby21
+inherit ruby21
 
 APP_FULL_NAME="Ruby YARV 2.0"
 APP_SHA="2323df55f5e941c45be13500df9daf216098f884"

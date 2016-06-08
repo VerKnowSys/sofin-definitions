@@ -1,4 +1,4 @@
-load_defs mariadb
+inherit mariadb
 
 DISABLE_ON="Linux"
 APP_FULL_NAME="MariaDB 10.1 client"

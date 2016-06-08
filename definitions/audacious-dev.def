@@ -1,2 +1,2 @@
-load_defs audacious
+inherit audacious
 APP_CLEAN_USELESS=NO

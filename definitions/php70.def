@@ -1,4 +1,4 @@
-load_defs php56
+inherit php56
 
 APP_FULL_NAME="PHP 7"
 APP_SHA="0ee7ed95915cffea50196d6e44918960e997818d"

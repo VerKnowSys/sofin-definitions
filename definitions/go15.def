@@ -1,4 +1,4 @@
-load_defs go16
+inherit go16
 
 APP_SHA="c17563a84df8aefb6a1e703a42f1e2842615e4a6"
 APP_VERSION="1.5.3"

@@ -1,4 +1,4 @@
-load_defs node010
+inherit node010
 
 APP_SHA="c4278b6944d120471287b6b082f4fee358c75a1a"
 APP_POSTFIX="012"

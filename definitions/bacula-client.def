@@ -1,4 +1,4 @@
-load_defs bacula
+inherit bacula
 
 DISABLE_ON=""
 APP_FULL_NAME="Bacula backup system client"
