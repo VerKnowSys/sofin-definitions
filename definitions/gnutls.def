@@ -4,7 +4,11 @@ APP_SHA="b4f4d182a64a863ccbf1943bf7f3536b89397fa1"
 APP_VERSION="3.4.13"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
 APP_REQUIREMENTS="gmake bzip2 libiconv perl zlib m4 pkgconf libtool libgpg-error gmp51 nettle libtasn1 libffi p11-kit"
-APP_CONFIGURE_ARGS="--disable-guile --disable-nls --enable-local-libopts"
+APP_CONFIGURE_ARGS="--disable-guile --disable-nls --enable-local-libopts --disable-docs"
 APP_MAKE_METHOD="gmake"
 APP_INSTALL_METHOD="gmake install"
 APP_EXPORTS="gnutls-cli gnutls-serv"
+
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    APP_CONFIGURE_ARGS="--disable-cxx"
+fi
