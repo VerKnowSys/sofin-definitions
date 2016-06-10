@@ -11,19 +11,19 @@ if [ "${SYSTEM_NAME}" = "Linux" ]; then
     APP_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
 fi
 
-install_imagick () {
-    arch_name="imagick-3.4.1"
-    archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
-    ${TAR_BIN} xf "${archive}" && \
-    cd "${arch_name}" && \
-    ${PREFIX}/bin/phpize && \
-    ./configure --prefix=${PREFIX} --with-imagick=${PREFIX} && \
-    PATH=${PREFIX}/bin:$PATH make install && \
-    note "Installed IMagick pecl module" && \
-    return 0
-    return 1
-}
+# install_imagick () {
+#     arch_name="imagick-3.4.1"
+#     archive="${arch_name}.tgz"
+#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+#     ${TAR_BIN} xf "${archive}" && \
+#     cd "${arch_name}" && \
+#     ${PREFIX}/bin/phpize && \
+#     ./configure --prefix=${PREFIX} --with-imagick=${PREFIX} && \
+#     PATH=${PREFIX}/bin:$PATH make install && \
+#     note "Installed IMagick pecl module" && \
+#     return 0
+#     return 1
+# }
 
 install_oci8 () {
     arch_name="oci8-2.1.1"
@@ -39,19 +39,19 @@ install_oci8 () {
     return 1
 }
 
-install_xdebug () {
-    arch_name="xdebug-2.4.0"
-    archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
-    ${TAR_BIN} xf "${archive}" && \
-    cd "xdebug-2.4.0" && \
-    ${PREFIX}/bin/phpize && \
-    ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
-    PATH=${PREFIX}/bin:$PATH make install && \
-    note "Installed Xdebug pecl module: ${arch_name}" && \
-    return 0
-    return 1
-}
+# install_xdebug () {
+#     arch_name="xdebug-2.4.0"
+#     archive="${arch_name}.tgz"
+#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+#     ${TAR_BIN} xf "${archive}" && \
+#     cd "xdebug-2.4.0" && \
+#     ${PREFIX}/bin/phpize && \
+#     ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
+#     PATH=${PREFIX}/bin:$PATH make install && \
+#     note "Installed Xdebug pecl module: ${arch_name}" && \
+#     return 0
+#     return 1
+# }
 
 # install_rar () {
 #     arch_name="rar-3.0.2"
