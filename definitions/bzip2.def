@@ -10,7 +10,5 @@ APP_EXPORTS="bzip2"
 
 APP_AFTER_UNPACK_CALLBACK="patch_makefiles"
 patch_makefiles () {
-    if [ "${SYSTEM_NAME}" != "Linux" ]; then
-        ${SED_BIN} -i '' -e 's/CC=.*$/CC=clang/' Makefile Makefile-libbz2_so
-    fi
+    ${SED_BIN} -i -e 's/CC=.*$/CC=clang/' Makefile Makefile-libbz2_so
 }

@@ -1,4 +1,4 @@
-DISABLE_ON="Darwin"
+DISABLE_ON="Darwin Minix"
 APP_FULL_NAME="Perl"
 APP_SHA="35770ea5cf49a1082852c2300ccc3cbbc58b70fd"
 APP_NAME="perl"

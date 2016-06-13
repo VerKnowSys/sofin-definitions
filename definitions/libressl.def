@@ -1,3 +1,4 @@
+DISABLE_ON="Minix"
 APP_FULL_NAME="LibreSSL Library"
 APP_SHA="87e9d5589a1e4f29e3417fcde28fe01a7783eb2c"
 APP_NAME="libressl"
