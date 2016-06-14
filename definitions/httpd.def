@@ -57,11 +57,11 @@ build_useragent2 () {
 
 build_security () {
     MOD_NAME="modsecurity"
-    MOD_VERSION="2.9.0"
+    MOD_VERSION="2.9.1"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
     ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-libxml="${PREFIX}" --with-apxs="${PREFIX}/bin/apxs" --with-pcre="${PREFIX}" --with-apr="${PREFIX}" --with-apu="${PREFIX}" --with-curl="${PREFIX}" && \
+    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-libxml="${PREFIX}" --with-apxs="${PREFIX}/bin/apxs" --with-pcre="${PREFIX}" --with-apr="${PREFIX}" --with-apu="${PREFIX}" --with-curl="${PREFIX}" --enable-htaccess-config && \
     PATH=${PREFIX}/bin:/bin:/usr/bin make install && \
     note "Installed: mod_security" && \
     return 0
