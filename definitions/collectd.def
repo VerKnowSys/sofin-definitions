@@ -4,7 +4,7 @@ APP_NAME="collectd"
 APP_SHA="ef97838e249814ad96a2edc0410326efbb4f3d08"
 APP_VERSION="5.5.0"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="pkgconf zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake libstatgrab pcre libffi gettext curl libpcap liboping libressl python27 libxml2 glib libiconv readline postgresql94 libgpg-error libgcrypt mysql geoip bind yajl net-snmp"
+APP_REQUIREMENTS="pkgconf ccache zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake libstatgrab pcre libffi gettext curl libpcap liboping libressl python27 libxml2 glib libiconv readline postgresql94 libgpg-error libgcrypt mysql geoip bind yajl net-snmp"
 case ${SYSTEM_NAME} in
     FreeBSD)
         APP_REQUIREMENTS="${APP_REQUIREMENTS} nginx"
@@ -12,7 +12,6 @@ case ${SYSTEM_NAME} in
         ;;
 
     Linux)
-        APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/glib243/glib240/')"
         PLATFORM_SPECIFIC_OPTIONS="--disable-pf --enable-md --enable-cgroups"
         ;;
 esac
