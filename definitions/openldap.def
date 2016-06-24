@@ -1,5 +1,5 @@
 inherit slapd
 
-APP_FULL_NAME="OpenLDAP client"
-APP_NAME="openldap"
-APP_CONFIGURE_ARGS="--with-threads=posix --enable-ipv6 --enable-dynamic --with-tls=openssl --without-cyrus-sasl --disable-slapd"
+DEF_FULL_NAME="OpenLDAP client"
+DEF_NAME="openldap"
+DEF_CONFIGURE_ARGS="--with-threads=posix --enable-ipv6 --enable-dynamic --with-tls=openssl --without-cyrus-sasl --disable-slapd"

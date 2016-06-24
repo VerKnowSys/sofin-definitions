@@ -1,6 +1,6 @@
 inherit php53
 
-APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --enable-cli --without-apxs2 --without-litespeed --enable-cgi --enable-fastcgi"
+DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --enable-cli --without-apxs2 --without-litespeed --enable-cgi --enable-fastcgi"
 
 install_pear_modules () {
     echo "NOOP"

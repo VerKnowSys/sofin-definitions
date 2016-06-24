@@ -1,12 +1,12 @@
-APP_FULL_NAME="Scons"
-APP_NAME="scons"
-APP_SHA="f505f70803264155aaa02870b24220545d646bc1"
-APP_VERSION="2.4.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_SCRIPT="ignore"
-APP_REQUIREMENTS="gmake libressl libxml2 python27"
-APP_EXPORTS="scons scons-time sconsign"
-APP_USEFUL="bin/python*"
+DEF_FULL_NAME="Scons"
+DEF_NAME="scons"
+DEF_SHA="f505f70803264155aaa02870b24220545d646bc1"
+DEF_VERSION="2.4.1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-src-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE="ignore"
+DEF_REQUIREMENTS="gmake libressl libxml2 python27"
+DEF_EXPORTS="scons scons-time sconsign"
+DEF_USEFUL="bin/python*"
 
 case ${SYSTEM_NAME} in
     Darwin)
@@ -17,14 +17,14 @@ case ${SYSTEM_NAME} in
         ;;
 esac
 
-APP_MAKE_METHOD="bootstrap_stuff"
+DEF_MAKE_METHOD="bootstrap_stuff"
 bootstrap_stuff () {
     cur_dir="$(${PWD_BIN} 2>/dev/null)"
     ${python_bin} bootstrap.py build/scons
     cd ${cur_dir}
 }
 
-APP_INSTALL_METHOD="install_stuff"
+DEF_INSTALL_METHOD="install_stuff"
 install_stuff () {
     cd build/scons
     ${python_bin} setup.py install \

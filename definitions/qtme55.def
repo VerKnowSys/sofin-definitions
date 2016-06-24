@@ -1,8 +1,8 @@
 inherit qtbase55
 
-APP_NAME="qtme"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${APP_VERSION}.tar.xz"
-APP_SHA="bd42e329ae70585e746edff70ce594ca486fc8d3"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_REQUIREMENTS="pkgconf gmake qtbase55"
-APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtmacextras.pro"
+DEF_NAME="qtme"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${APP_VERSION}.tar.xz"
+DEF_SHA="bd42e329ae70585e746edff70ce594ca486fc8d3"
+DEF_CONFIGURE="no-conf"
+DEF_REQUIREMENTS="pkgconf gmake qtbase55"
+DEF_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtmacextras.pro"

@@ -1,24 +1,24 @@
-APP_FULL_NAME="Ruby YARV 2.1"
-APP_SHA="dd68afc652fe542f83a9a709a74f4da2662054bf"
-APP_NAME="ruby"
-APP_POSTFIX="21"
-APP_VERSION="2.1.9"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX} --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS="
+DEF_FULL_NAME="Ruby YARV 2.1"
+DEF_SHA="dd68afc652fe542f83a9a709a74f4da2662054bf"
+DEF_NAME="ruby"
+DEF_POSTFIX="21"
+DEF_VERSION="2.1.9"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX} --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS="
 case "${SYSTEM_NAME}" in
     Linux)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
+        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
         ;;
 
     FreeBSD|Darwin)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
+        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
         ;;
 esac
-APP_REQUIREMENTS="pkgconf zlib bzip2 libiconv perl openssl python27 gmake libxml2 m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline-dynamic gmp51"
-APP_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler rack"
-APP_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
-APP_ORIGIN="http://www.ruby-lang.org/en/downloads/"
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
-APP_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
-APP_USELESS="lib/*perl* include/python* lib/python* man share"
+DEF_REQUIREMENTS="pkgconf gmake libiconv m4 expat zlib bzip2 lzma xz perl openssl python27 libxml2 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline-dynamic gmp51"
+DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler rack"
+DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
+DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
+DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
+DEF_USELESS="lib/*perl* include/python* lib/python* man share"

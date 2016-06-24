@@ -1,19 +1,19 @@
-DISABLE_ON="Darwin"
-APP_FULL_NAME="ImageMagick Graphics Library"
-APP_SHA="516a2b9f1f2d4811b775468b55f26c106629f284"
-APP_NAME="ImageMagick"
-APP_VERSION="7.0.2-1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper fftw libffi gettext glib ghostscript libpng pixman cairo pango"
-APP_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
-APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="make install -s"
-APP_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
-APP_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool man lib/cmake lib/*.sh share/texinfo share/util-macros"
-APP_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
-APP_CONFLICTS_WITH="GraphicsMagick"
+DEF_DISABLE_ON="Darwin"
+DEF_FULL_NAME="ImageMagick Graphics Library"
+DEF_SHA="516a2b9f1f2d4811b775468b55f26c106629f284"
+DEF_NAME="ImageMagick"
+DEF_VERSION="7.0.2-1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+DEF_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper fftw libffi gettext glib ghostscript libpng pixman cairo pango"
+DEF_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
+DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="make install -s"
+DEF_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
+DEF_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool man lib/cmake lib/*.sh share/texinfo share/util-macros"
+DEF_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
+DEF_CONFLICTS_WITH="GraphicsMagick"
 
-APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
+DEF_AFTER_CONFIGURE_CALLBACK="fix_makefile"
 fix_makefile () {
     ${SED_BIN} -i '' -e \
         '/7.Q16HDRI.pc/d ; /cp -f\ \$\^\ \$\@/d' \
@@ -21,7 +21,7 @@ fix_makefile () {
     true
 }
 
-APP_AFTER_INSTALL_CALLBACK="use_bundled_pkgconf"
+DEF_AFTER_INSTALL_CALLBACK="use_bundled_pkgconf"
 use_bundled_pkgconf () {
     ${SED_BIN} -i '' -e \
         "s:pkg-config:${PREFIX}/bin/pkgconf:g" \

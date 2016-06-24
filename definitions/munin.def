@@ -1,16 +1,16 @@
-APP_FULL_NAME="Munin"
-APP_SHA="0f912632fd756fcb619b1910d9d720fc845da085"
-APP_NAME="munin"
-APP_VERSION="2.0.25"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="gmake perl openssl"
-APP_USEFUL="bin/munin* bin/perl"
-APP_EXPORTS="munin munin-node munin-node-configure munin-run munindoc"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_MAKE_METHOD="gmake"
-APP_INSTALL_METHOD="gmake install"
+DEF_FULL_NAME="Munin"
+DEF_SHA="0f912632fd756fcb619b1910d9d720fc845da085"
+DEF_NAME="munin"
+DEF_VERSION="2.0.25"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_REQUIREMENTS="gmake perl openssl"
+DEF_USEFUL="bin/munin* bin/perl"
+DEF_EXPORTS="munin munin-node munin-node-configure munin-run munindoc"
+DEF_CONFIGURE="no-conf"
+DEF_MAKE_METHOD="gmake"
+DEF_INSTALL_METHOD="gmake install"
 
-APP_AFTER_UNPACK_CALLBACK="install_perl_modules"
+DEF_AFTER_UNPACK_CALLBACK="install_perl_modules"
 install_perl_modules () {
     ${SED_BIN} -i '' -e "s/PREFIX.*$/PREFIX = ${PREFIX}/" Makefile.config
     echo "yes\n" | cpan install inc::latest Time::HiRes Digest::MD5 Digest::SHA1 Crypt::Rijndael Crypt::DES Crypt::CBC Net::SSLeay Storable HTML::Template Text::Balanced Params::Validate Getopt::Long File::Copy::Recursive CGI::Fast IO::Socket::INET6 Log::Log4perl IPC::Shareable Log::Dispatch Log::Dispatch::FileRotate MIME::Lite Mail::Sender Mail::Sendmail Net::Server Net::SNMP

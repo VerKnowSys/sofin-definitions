@@ -1,14 +1,14 @@
-DISABLE_ON="Darwin"
-APP_FULL_NAME="Bzip2 Library"
-APP_SHA="3f89f861209ce81a6bab1fd1998c0ef311712002"
-APP_NAME="bzip2"
-APP_VERSION="1.0.6"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_SCRIPT="no-conf" # no configure script for this package
-APP_MAKE_METHOD="make -f Makefile-libbz2_so"
-APP_EXPORTS="bzip2"
+DEF_DISABLE_ON="Darwin"
+DEF_FULL_NAME="Bzip2 Library"
+DEF_SHA="3f89f861209ce81a6bab1fd1998c0ef311712002"
+DEF_NAME="bzip2"
+DEF_VERSION="1.0.6"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE="no-conf" # no configure script for this package
+DEF_MAKE_METHOD="make -f Makefile-libbz2_so"
+DEF_EXPORTS="bzip2"
 
-APP_AFTER_UNPACK_CALLBACK="patch_makefiles"
+DEF_AFTER_UNPACK_CALLBACK="patch_makefiles"
 patch_makefiles () {
     if [ "${SYSTEM_NAME}" != "Linux" ]; then # gcc is used on Linux only
         ${SED_BIN} -i -e 's/CC=.*$/CC=clang/' Makefile Makefile-libbz2_so

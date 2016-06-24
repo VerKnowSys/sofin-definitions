@@ -1,25 +1,25 @@
-APP_FULL_NAME="Berkley DB"
-APP_SHA="646c57b99799dc300207976e2270cdaca1a2f198"
-APP_NAME="db"
-APP_VERSION="6.2.23" # http://download.oracle.com/berkeley-db/db-6.2.23.tar.gz
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_SOURCE_DIR_POSTFIX="build_unix/"
-APP_CONFIGURE_SCRIPT="../dist/configure"
-APP_CONFIGURE_ARGS="--enable-compat185 --enable-dbm --enable-posixmutexes --with-cryptography=yes"
-APP_EXPORTS="db_archive db_checkpoint db_deadlock db_dump db_hotbackup db_load db_log_verify db_printlog db_recover db_replicate db_stat db_tuner db_upgrade db_verify"
-APP_MAKE_METHOD="docdir=/tmp gmake -j${CPUS}"
-APP_INSTALL_METHOD="gmake install"
-APP_REQUIREMENTS="gmake m4 libtool"
-APP_COMPILER_ARGS="-DCRYPTO=1 -DL10N=1"
+DEF_FULL_NAME="Berkley DB"
+DEF_SHA="646c57b99799dc300207976e2270cdaca1a2f198"
+DEF_NAME="db"
+DEF_VERSION="6.2.23" # http://download.oracle.com/berkeley-db/db-6.2.23.tar.gz
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_SOURCE_DIR_POSTFIX="build_unix/"
+DEF_CONFIGURE="../dist/configure"
+DEF_CONFIGURE_ARGS="--enable-compat185 --enable-dbm --enable-posixmutexes --with-cryptography=yes"
+DEF_EXPORTS="db_archive db_checkpoint db_deadlock db_dump db_hotbackup db_load db_log_verify db_printlog db_recover db_replicate db_stat db_tuner db_upgrade db_verify"
+DEF_MAKE_METHOD="docdir=/tmp gmake -j${CPUS}"
+DEF_INSTALL_METHOD="gmake install"
+DEF_REQUIREMENTS="gmake m4 libtool"
+DEF_COMPILER_ARGS="-DCRYPTO=1 -DL10N=1"
 
 case "${SYSTEM_NAME}" in
     Linux)
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-cxx"
+        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-cxx"
         ;;
 
     FreeBSD)
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --disable-cxx --disable-stl"
-        APP_AFTER_PATCH_CALLBACK="patch_db_files"
+        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --disable-cxx --disable-stl"
+        DEF_AFTER_PATCH_CALLBACK="patch_db_files"
         patch_db_files () {
             if [ "FreeBSD" = "${SYSTEM_NAME}" ]; then
                 ${SED_BIN} -i '' -e '/^DOCLIST/{s/csharp//;}' ../dist/Makefile.in

@@ -1,11 +1,11 @@
 inherit httpd
 
-APP_FULL_NAME="Apache Httpd server version 2.2"
-APP_POSTFIX="22"
-APP_SHA="e3b55387112206307ba76526820a2627472f3787"
-APP_VERSION="2.2.31"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/libressl/openssl/' 2>/dev/null)"
+DEF_FULL_NAME="Apache Httpd server version 2.2"
+DEF_POSTFIX="22"
+DEF_SHA="e3b55387112206307ba76526820a2627472f3787"
+DEF_VERSION="2.2.31"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/libressl/openssl/' 2>/dev/null)"
 
 build_evasive () {
     MOD_NAME="mod_evasive"

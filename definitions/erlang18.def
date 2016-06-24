@@ -1,18 +1,18 @@
-APP_FULL_NAME="Erlang OTP"
-APP_SHA="efc229b75e0b0614a187efe858faf33027bcf3d1"
-APP_NAME="erlang"
-APP_VERSION="18.3"
-APP_POSTFIX="18"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}otp_src_${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="gmake perl libressl"
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install -s && install_repl_history"
-APP_CONFIGURE_ARGS="--enable-threads --enable-kernel-poll --disable-silent-rules --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --without-javac --enable-native-libs --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib"
+DEF_FULL_NAME="Erlang OTP"
+DEF_SHA="efc229b75e0b0614a187efe858faf33027bcf3d1"
+DEF_NAME="erlang"
+DEF_VERSION="18.3"
+DEF_POSTFIX="18"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}otp_src_${APP_VERSION}.tar.gz"
+DEF_REQUIREMENTS="gmake perl libressl"
+DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="gmake install -s && install_repl_history"
+DEF_CONFIGURE_ARGS="--enable-threads --enable-kernel-poll --disable-silent-rules --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --without-javac --enable-native-libs --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib"
 if [ "${SYSTEM_NAME}" != "Linux" ]; then
-    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dynamic-trace=dtrace"
+    DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dynamic-trace=dtrace"
 fi
-APP_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
-APP_CONFLICTS_WITH="Erlang Elixir"
+DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
+DEF_CONFLICTS_WITH="Erlang Elixir"
 
 install_repl_history() {
     ${GIT_BIN} clone https://github.com/ferd/erlang-history.git

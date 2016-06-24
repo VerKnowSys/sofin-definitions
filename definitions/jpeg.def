@@ -1,10 +1,10 @@
-APP_FULL_NAME="JPEG Library"
-APP_SHA="15dd867617a88abd07573e06a86ace9bdb998ac2"
-APP_NAME="jpeg"
-APP_VERSION="v9b"
-APP_CONFIGURE_ARGS="--disable-static --enable-shared"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}src.${APP_VERSION}.tar.gz"
-APP_AFTER_INSTALL_CALLBACK="patch_header"
+DEF_FULL_NAME="JPEG Library"
+DEF_SHA="15dd867617a88abd07573e06a86ace9bdb998ac2"
+DEF_NAME="jpeg"
+DEF_VERSION="v9b"
+DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}src.${APP_VERSION}.tar.gz"
+DEF_AFTER_INSTALL_CALLBACK="patch_header"
 
 patch_header () {
     ${SED_BIN} -i '' -e 's#JCOPYRIGHT#"JCOPYRIGHT"#; s#JCOPYRIGHT_SHORT#"JCOPYRIGHT_SHORT"#; s#JVERSION#"v9b"#' ${PREFIX}/include/jerror.h || true

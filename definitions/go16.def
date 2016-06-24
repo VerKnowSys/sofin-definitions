@@ -1,18 +1,18 @@
-APP_FULL_NAME="Go Language"
-APP_NAME="go"
-APP_SHA="3282b6cb1e491662f7067544605d8cbf6f016553"
-APP_VERSION="1.6"
-APP_POSTFIX="16"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}${APP_VERSION}.src.tar.gz"
-APP_REQUIREMENTS="pkgconf pcre"
-APP_CONFIGURE_SCRIPT="ignore"
-APP_EXPORTS="go gofmt go-${APP_VERSION} gofmt-${APP_VERSION} godep"
-APP_USELESS="doc test include share"
-APP_CONFLICTS_WITH="Go"
+DEF_FULL_NAME="Go Language"
+DEF_NAME="go"
+DEF_SHA="3282b6cb1e491662f7067544605d8cbf6f016553"
+DEF_VERSION="1.6"
+DEF_POSTFIX="16"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}${APP_VERSION}.src.tar.gz"
+DEF_REQUIREMENTS="pkgconf pcre"
+DEF_CONFIGURE="ignore"
+DEF_EXPORTS="go gofmt go-${APP_VERSION} gofmt-${APP_VERSION} godep"
+DEF_USELESS="doc test include share"
+DEF_CONFLICTS_WITH="Go"
 
 origin="${CACHE_DIR}cache/${APP_NAME}${APP_POSTFIX}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}/"
 
-APP_MAKE_METHOD="make_script ${origin}"
+DEF_MAKE_METHOD="make_script ${origin}"
 make_script () {
     ${CP_BIN} -Rv ${1} ${PREFIX}/
     cd ${PREFIX}/src
@@ -30,7 +30,7 @@ make_script () {
     ${TEST_BIN} -L ${PREFIX}/bin/godep || ${LN_BIN} -s ${PREFIX}/local/bin/godep ${PREFIX}/bin/godep
 }
 
-APP_INSTALL_METHOD="install_wrappers ${APP_VERSION}"
+DEF_INSTALL_METHOD="install_wrappers ${APP_VERSION}"
 install_wrappers () {
     version="$1"
     if [ ! -x ${PREFIX}/bin/go-${version} ]; then

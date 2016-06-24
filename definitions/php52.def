@@ -1,19 +1,19 @@
 inherit php56
 
-DISABLE_ON="FreeBSD Darwin"
-APP_FULL_NAME="PHP 5.2"
-APP_SHA="d68f3b09f766990d815a3c4c63c157db8dab8095"
-APP_VERSION="5.2.17"
-APP_POSTFIX="52"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_CONFIGURE_SCRIPT="export FREETYPE2_DIR=${PREFIX} && export FREETYPE2_INC_DIR=${PREFIX}/include/freetype2 && ./configure"
-APP_CONFIGURE_ARGS="$(echo "${APP_CONFIGURE_ARGS}" | ${SED_BIN} -e "s/--with-kerberos/--without-kerberos/") --with-freetype-dir=${PREFIX} --enable-spl --with-mysql=${PREFIX} --with-mysqli=${PREFIX}/bin/mysql_config --with-pcre-regex --with-pcre-dir=${PREFIX} --with-gd"
-APP_COMPILER_ARGS="-I${PREFIX}/include -I${PREFIX}/include/freetype2 -I/usr/include"
-APP_LINKER_ARGS="-L${PREFIX}/lib"
-APP_REQUIREMENTS="$(echo "${APP_REQUIREMENTS} autoconf213 php52-cgi" | ${SED_BIN} -e 's/libressl/openssl/;s/ gd//')" # NOTE: this autoconf23 is required here, cause php 5.2 buildconf script requires that to generate configure script correctly. Also newer version is required earlier by gmp..
-APP_MAKE_METHOD="gmake -s"
-APP_INSTALL_METHOD="gmake install -s"
-APP_BUNDLED_EXTENSIONS="$(echo "${APP_BUNDLED_EXTENSIONS}" | ${SED_BIN} -e 's/phalcon2//;s/phalcon//') apc phar opcache" # XXX: +phalcon, which cannot be built here right away, cause of autoconf213 old mess..
+DEF_DISABLE_ON="FreeBSD Darwin"
+DEF_FULL_NAME="PHP 5.2"
+DEF_SHA="d68f3b09f766990d815a3c4c63c157db8dab8095"
+DEF_VERSION="5.2.17"
+DEF_POSTFIX="52"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_CONFIGURE="export FREETYPE2_DIR=${PREFIX} && export FREETYPE2_INC_DIR=${PREFIX}/include/freetype2 && ./configure"
+DEF_CONFIGURE_ARGS="$(echo "${APP_CONFIGURE_ARGS}" | ${SED_BIN} -e "s/--with-kerberos/--without-kerberos/") --with-freetype-dir=${PREFIX} --enable-spl --with-mysql=${PREFIX} --with-mysqli=${PREFIX}/bin/mysql_config --with-pcre-regex --with-pcre-dir=${PREFIX} --with-gd"
+DEF_COMPILER_ARGS="-I${PREFIX}/include -I${PREFIX}/include/freetype2 -I/usr/include"
+DEF_LINKER_ARGS="-L${PREFIX}/lib"
+DEF_REQUIREMENTS="$(echo "${APP_REQUIREMENTS} autoconf213 php52-cgi" | ${SED_BIN} -e 's/libressl/openssl/;s/ gd//')" # NOTE: this autoconf23 is required here, cause php 5.2 buildconf script requires that to generate configure script correctly. Also newer version is required earlier by gmp..
+DEF_MAKE_METHOD="gmake -s"
+DEF_INSTALL_METHOD="gmake install -s"
+DEF_BUNDLED_EXTENSIONS="$(echo "${APP_BUNDLED_EXTENSIONS}" | ${SED_BIN} -e 's/phalcon2//;s/phalcon//') apc phar opcache" # XXX: +phalcon, which cannot be built here right away, cause of autoconf213 old mess..
 
 hack_after_unpack () {
     ${MKDIR_BIN} -p ${PREFIX}/Software
@@ -31,7 +31,7 @@ hack_after_unpack () {
     touch ac*
     PATH=${PREFIX}/bin:/bin:/usr/bin:/usr/sbin:/sbin ./buildconf --force
 }
-APP_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
+DEF_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
 
 
 # Php 5.2-5.3 extension version:

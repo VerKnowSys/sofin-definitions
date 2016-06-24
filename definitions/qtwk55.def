@@ -1,11 +1,11 @@
 inherit qtbase55
 
-APP_NAME="qtwk"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebkit-opensource-src-${APP_VERSION}.tar.xz"
-APP_SHA="e1e16f3eb48c1ce863b9ab33364e4ac178ae51a7"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison icu gperf ruby22 python27 qtbase55"
-APP_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+DEF_NAME="qtwk"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebkit-opensource-src-${APP_VERSION}.tar.xz"
+DEF_SHA="e1e16f3eb48c1ce863b9ab33364e4ac178ae51a7"
+DEF_CONFIGURE="no-conf"
+DEF_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison icu gperf ruby22 python27 qtbase55"
+DEF_AFTER_UNPACK_CALLBACK="patch_n_prepare"
 
 patch_n_prepare () {
     ${PREFIX}/bin/qmake "WEBKIT_CONFIG -= use_glib use_gstreamer use_gstreamer010 use_native_fullscreen_video legacy_web_audio web_audio video gamepad" WebKit.pro

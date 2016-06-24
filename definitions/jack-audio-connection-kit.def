@@ -1,17 +1,17 @@
-DISABLE_ON="FreeBSD"
-APP_FULL_NAME="JackD"
-APP_SHA="e9ba4a4c754ec95fbe653dcf7344edd6cc47cd60"
-APP_NAME="jack-audio-connection-kit"
-APP_VERSION="0.124.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="pkgconf libsamplerate libsndfile db celt"
+DEF_DISABLE_ON="FreeBSD"
+DEF_FULL_NAME="JackD"
+DEF_SHA="e9ba4a4c754ec95fbe653dcf7344edd6cc47cd60"
+DEF_NAME="jack-audio-connection-kit"
+DEF_VERSION="0.124.1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pkgconf libsamplerate libsndfile db celt"
 # issue: configure script can't find "Carbon.h". solution:
-APP_COMPILER_ARGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
+DEF_COMPILER_ARGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
 # and one more patch for hardcoded absolute path to header in source code..
 patch_makefile () {
     for makefile in $(${FIND_BIN} . -name 'Makefile'); do
         ${SED_BIN} -i '' -e 's#/System/Library/Frameworks/Carbon.framework/Headers/Carbon.h#Carbon.h#g' ${makefile}
     done
 }
-APP_AFTER_CONFIGURE_CALLBACK="patch_makefile"
-APP_EXPORTS="jack_alias jack_bufsize jack_connect jack_disconnect jack_evmon jack_freewheel jack_impulse_grabber jack_iodelay jack_latent_client jack_load jack_load_test jack_lsp jack_metro jack_midi_dump jack_midiseq jack_midisine jack_monitor_client jack_netsource jack_property jack_rec jack_samplerate jack_server_control jack_session_notify jack_showtime jack_simple_client jack_simple_session_client jack_transport_client jack_unload jack_wait jackd sndfile-cmp sndfile-concat sndfile-convert sndfile-deinterleave sndfile-info sndfile-interleave sndfile-metadata-get sndfile-metadata-set sndfile-play sndfile-regtest sndfile-resample sndfile-salvage"
+DEF_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+DEF_EXPORTS="jack_alias jack_bufsize jack_connect jack_disconnect jack_evmon jack_freewheel jack_impulse_grabber jack_iodelay jack_latent_client jack_load jack_load_test jack_lsp jack_metro jack_midi_dump jack_midiseq jack_midisine jack_monitor_client jack_netsource jack_property jack_rec jack_samplerate jack_server_control jack_session_notify jack_showtime jack_simple_client jack_simple_session_client jack_transport_client jack_unload jack_wait jackd sndfile-cmp sndfile-concat sndfile-convert sndfile-deinterleave sndfile-info sndfile-interleave sndfile-metadata-get sndfile-metadata-set sndfile-play sndfile-regtest sndfile-resample sndfile-salvage"

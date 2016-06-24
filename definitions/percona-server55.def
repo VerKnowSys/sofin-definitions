@@ -1,18 +1,18 @@
-APP_FULL_NAME="Percona Server 5.5"
-APP_SHA="cc5b97fb2c1d0e89032204bf9820ebea8fc6eb32"
-APP_NAME="percona-server"
-APP_VERSION="5.5.46-37.6"
-APP_POSTFIX="55"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgconf libffi gettext python27 libtool15 glib libiconv libevent flex"
-APP_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR} -DWITH_SSL=bundled -DWITH_ZLIB=yes"
+DEF_FULL_NAME="Percona Server 5.5"
+DEF_SHA="cc5b97fb2c1d0e89032204bf9820ebea8fc6eb32"
+DEF_NAME="percona-server"
+DEF_VERSION="5.5.46-37.6"
+DEF_POSTFIX="55"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgconf libffi gettext python27 libtool15 glib libiconv libevent flex"
+DEF_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR} -DWITH_SSL=bundled -DWITH_ZLIB=yes"
 case "${SYSTEM_NAME}" in
     Darwin)
-        export APP_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
+        export DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
         ;;
     Linux)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
-        APP_AFTER_INSTALL_CALLBACK="after_build"
+        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
+        DEF_AFTER_INSTALL_CALLBACK="after_build"
         after_build () {
             mysql_proxy_name="mysql-proxy"
             mysql_proxy_version="0.8.5"
@@ -25,12 +25,12 @@ case "${SYSTEM_NAME}" in
         }
         ;;
     FreeBSD)
-        export APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
+        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         ;;
 esac
 
-APP_CONFIGURE_SCRIPT="cmake"
-APP_EXPORTS="mysql mysqlaccess mysqlaccess.conf mysqladmin mysqlbinlog mysql-binlog-dump mysqlbug mysqlcheck mysql_client_test mysql_config mysql_convert_table_format mysqld mysqld_multi mysqld_safe mysqldump mysqldumpslow mysql_find_rows mysql_fix_extensions mysqlhotcopy mysqlimport mysql-myisam-dump mysql_plugin mysql_secure_installation mysql_setpermission mysqlshow mysqlslap mysqltest mysql_tzinfo_to_sql mysql_upgrade mysql_waitpid mysql_zap msql2mysql my_print_defaults myisam_ftdump myisamchk myisamlog myisampack recode-sr-latin replace resolve_stack_dump innochecksum mysql-proxy"
-APP_CONFLICTS_WITH="Percona Mysql"
-APP_USELESS="man lib/perl5 lib/python2.7 doc docs sql-bench mysql-test share/cmake* share/gtk* share/glib* share/man"
-APP_NO_CCACHE="true"
+DEF_CONFIGURE="cmake"
+DEF_EXPORTS="mysql mysqlaccess mysqlaccess.conf mysqladmin mysqlbinlog mysql-binlog-dump mysqlbug mysqlcheck mysql_client_test mysql_config mysql_convert_table_format mysqld mysqld_multi mysqld_safe mysqldump mysqldumpslow mysql_find_rows mysql_fix_extensions mysqlhotcopy mysqlimport mysql-myisam-dump mysql_plugin mysql_secure_installation mysql_setpermission mysqlshow mysqlslap mysqltest mysql_tzinfo_to_sql mysql_upgrade mysql_waitpid mysql_zap msql2mysql my_print_defaults myisam_ftdump myisamchk myisamlog myisampack recode-sr-latin replace resolve_stack_dump innochecksum mysql-proxy"
+DEF_CONFLICTS_WITH="Percona Mysql"
+DEF_USELESS="man lib/perl5 lib/python2.7 doc docs sql-bench mysql-test share/cmake* share/gtk* share/glib* share/man"
+DEF_NO_CCACHE="true"

@@ -1,10 +1,10 @@
-APP_FULL_NAME="Squid proxy"
-APP_NAME="squid"
-APP_SHA="da5c117c4431b2a9fb743466078c4d7e1be8a1f4"
-APP_VERSION="4.0.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
-APP_REQUIREMENTS="pkgconf bzip2 zlib libiconv gmake m4 gmp51 expat nettle libressl perl"
-APP_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
+DEF_FULL_NAME="Squid proxy"
+DEF_NAME="squid"
+DEF_SHA="da5c117c4431b2a9fb743466078c4d7e1be8a1f4"
+DEF_VERSION="4.0.1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+DEF_REQUIREMENTS="pkgconf bzip2 zlib libiconv gmake m4 gmp51 expat nettle libressl perl"
+DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --disable-select \
 --disable-poll \
 --disable-epoll \
@@ -34,6 +34,6 @@ APP_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --enable-build-info \
 --enable-loadable-modules \
 --enable-removal-policies=\"lru heap\""
-APP_USEFUL="bin/perl bin/openssl"
-APP_EXPORTS="squid squidclient purge cachemgr.cgi cert_tool cert_valid.pl diskd ext_delayer_acl ext_file_userip_acl ext_kerberos_ldap_group_acl ext_sql_session_acl ext_time_quota_acl ext_unix_group_acl ext_wbinfo_group_acl helper-mux log_db_daemon log_file_daemon storeid_file_rewrite unlinkd url_fake_rewrite url_fake_rewrite.sh url_lfs_rewrite"
-APP_LINKER_ARGS="-lpthread"
+DEF_USEFUL="bin/perl bin/openssl"
+DEF_EXPORTS="squid squidclient purge cachemgr.cgi cert_tool cert_valid.pl diskd ext_delayer_acl ext_file_userip_acl ext_kerberos_ldap_group_acl ext_sql_session_acl ext_time_quota_acl ext_unix_group_acl ext_wbinfo_group_acl helper-mux log_db_daemon log_file_daemon storeid_file_rewrite unlinkd url_fake_rewrite url_fake_rewrite.sh url_lfs_rewrite"
+DEF_LINKER_ARGS="-lpthread"

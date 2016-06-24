@@ -1,56 +1,66 @@
-DEFAULTS_VERSION="1.0.0ßo1"
 
-# DEFAULT VALUES
-DISABLE_ON="" # defines list of unames. For example DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
-APP_EXPORTS="" # defines list of binaries to be exported to user env into PATH
-APP_FULL_NAME=""
-APP_HTTP_PATH=""
-APP_GIT_MODE="" # when set to true, APP_HTTP_PATH becomes source of git repository (http/https/git/dir are all supported)
-APP_GIT_CHECKOUT="" # git branch name used when in git mode
-APP_NAME="" # this is software name, but also folder name in /Software or ~/Apps with app root directory.
-APP_VERSION=""
-APP_POSTFIX="" # a postfix added to APP_NAME if defined. Used in Sofin to do legacy versions of software.
-APP_CONFIGURE_ARGS="" # additional arguments to configuration script of software
-APP_REQUIREMENTS="" # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
-APP_COMPILER_ARGS="" # additional special arguments to compiler used to build software
-APP_LINKER_ARGS="" # additional arguments to linker
-APP_CONFIGURE_SCRIPT="./configure" # default configure script name
-APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
-APP_TEST_METHOD="true" # define to enable software internal testing
-APP_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
-APP_SOURCE_DIR_POSTFIX="" # special value required for software which delivers software sources in custom non standard directory.
-APP_AFTER_UNPACK_CALLBACK=""
-APP_AFTER_CONFIGURE_CALLBACK=""
-APP_AFTER_MAKE_CALLBACK=""
-APP_AFTER_INSTALL_CALLBACK=""
-APP_AFTER_PATCH_CALLBACK=""
-APP_AFTER_EXPORT_CALLBACK=""
-APP_SHA="" # sha1 of archive source, used to check file checksum after archive download
-APP_USER_INFO="" # additional optional information from definition to user displayed after installation
-APP_CONFLICTS_WITH="" # defines list of definitions which are in conflict with software.
+################################################################################
+# SIMPLE SOFIN DEFINITION RULESET:
+#
+#  Every definition file name must be a lowercase name. An example:
+#     Problem: Software name contains capital letters (f.i. "ImageMagick")
+#     Solution: Use "ImageMagick" as value of DEF_NAME, and definition
+#       file will be called "imagemagick.def".
+#
+################################################################################
+
+
+DEF_COMPLIANCE="1.0.*" # defines version of Sofin required for this defaults (egrep format)
+DEF_DISABLE_ON="" # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
+DEF_EXPORTS="" # defines list of binaries to be exported to user env into PATH
+DEF_FULL_NAME=""
+DEF_HTTP_PATH=""
+DEF_GIT_MODE="" # when set to true, APP_HTTP_PATH becomes source of git repository (http/https/git/dir are all supported)
+DEF_GIT_CHECKOUT="" # git branch name used when in git mode
+DEF_NAME="" # this is software name, but also folder name in /Software or ~/Apps with app root directory.
+DEF_VERSION=""
+DEF_POSTFIX="" # a postfix added to APP_NAME if defined. Used in Sofin to do legacy versions of software.
+DEF_CONFIGURE_ARGS="" # additional arguments to configuration script of software
+DEF_REQUIREMENTS="" # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
+DEF_COMPILER_ARGS="" # additional special arguments to compiler used to build software
+DEF_LINKER_ARGS="" # additional arguments to linker
+DEF_CONFIGURE="./configure" # default configure script name
+DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
+DEF_TEST_METHOD="true" # define to enable software internal testing NIY
+DEF_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
+DEF_SOURCE_DIR_POSTFIX="" # special value required for software which delivers software sources in custom non standard directory.
+DEF_AFTER_UNPACK_CALLBACK=""
+DEF_AFTER_CONFIGURE_CALLBACK=""
+DEF_AFTER_MAKE_CALLBACK=""
+DEF_AFTER_INSTALL_CALLBACK=""
+DEF_AFTER_PATCH_CALLBACK=""
+DEF_AFTER_EXPORT_CALLBACK=""
+DEF_SHA="" # sha1 of archive source, used to check file checksum after archive download
+DEF_USER_INFO="" # additional optional information from definition to user displayed after installation
+DEF_CONFLICTS_WITH="" # defines list of definitions which are in conflict with software.
 REQUIRE_ROOT_ACCESS="" # set to true, to disallow definition to be built as non root users.
-APP_APPLE_BUNDLE="" # set to true, to enable .app bundling for default (first) export.
-APP_ORIGIN="" # app origin location, to gather newer software version if available
-APP_STANDALONE="" # TODO: it's currently only a marker for standalone bundles
-APP_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
-APP_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
-APP_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
-APP_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/common-lisp share/bison"
-APP_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
+DEF_APPLE_BUNDLE="" # set to true, to enable .app bundling for default (first) export.
+DEF_ORIGIN="" # app origin location, to gather newer software version if available
+DEF_STANDALONE="" # TODO: it's currently only a marker for standalone bundles
+DEF_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
+DEF_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
+DEF_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
+DEF_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/common-lisp share/bison"
+DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
 case "${SYSTEM_NAME}" in
     Linux)
-        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
+        DEF_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
         ;;
 
     Darwin)
-        APP_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
+        DEF_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
         ;;
 esac
 
-APP_NO_CCACHE="" # any value disables ccache usage for current definition
-APP_LINKER_NO_DTAGS="" # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
+DEF_NO_CCACHE="" # any value disables ccache usage for current definition
+DEF_LINKER_NO_DTAGS="" # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
 #APP_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
-APP_NO_GOLDEN_LINKER="" # any value disables golden linker flags for configuration stage for current definition
-APP_NO_FAST_MATH="" # any value disables "-ffast-math" compiler option for current definition
-APP_CMAKE_BUILD_DIR="." # default build dir when cmake is used
+DEF_NO_GOLDEN_LINKER="" # any value disables golden linker flags for configuration stage for current definition
+DEF_NO_FAST_MATH="" # any value disables "-ffast-math" compiler option for current definition
+DEF_CMAKE_BUILD_DIR="." # default build dir when cmake is used

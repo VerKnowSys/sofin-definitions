@@ -1,30 +1,30 @@
-APP_FULL_NAME="Lua"
-APP_SHA="b3882111ad02ecc6b972f8c1241647905cb2e3fc"
-APP_NAME="lua"
-APP_VERSION="5.1.5"
-APP_POSTFIX="51"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_EXPORTS="lua luac"
-APP_CONFIGURE_SCRIPT="ignore"
+DEF_FULL_NAME="Lua"
+DEF_SHA="b3882111ad02ecc6b972f8c1241647905cb2e3fc"
+DEF_NAME="lua"
+DEF_VERSION="5.1.5"
+DEF_POSTFIX="51"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_EXPORTS="lua luac"
+DEF_CONFIGURE="ignore"
 case "${SYSTEM_NAME}" in
     Linux)
-        APP_MAKE_METHOD="make linux"
+        DEF_MAKE_METHOD="make linux"
         ;;
 
     FreeBSD)
-        APP_MAKE_METHOD="make freebsd"
+        DEF_MAKE_METHOD="make freebsd"
         ;;
 
     Darwin)
-        APP_MAKE_METHOD="make macosx"
+        DEF_MAKE_METHOD="make macosx"
         ;;
 
     *)
-        APP_MAKE_METHOD="make posix"
+        DEF_MAKE_METHOD="make posix"
         ;;
 esac
 
-APP_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+DEF_AFTER_CONFIGURE_CALLBACK="patch_makefile"
 patch_makefile () {
     ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile || true # Linux..
     ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= -O2 -Wall -mno-avx -fPIC -I${PREFIX}/include \$(MYCFLAGS)#" src/Makefile || true # Linux..
@@ -35,10 +35,10 @@ patch_makefile () {
 }
 
 # because Lua guys possibly don't know how to do things correctly:
-APP_AFTER_MAKE_CALLBACK="create_pc"
+DEF_AFTER_MAKE_CALLBACK="create_pc"
 create_pc () {
     ${MKDIR_BIN} -p ${PREFIX}/lib/pkgconfig
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#" etc/lua.pc
     ${INSTALL_BIN} -v etc/lua.pc ${PREFIX}/lib/pkgconfig/
 }
-APP_INSTALL_METHOD="make -s install"
+DEF_INSTALL_METHOD="make -s install"

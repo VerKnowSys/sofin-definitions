@@ -1,14 +1,14 @@
-APP_FULL_NAME="Mobile shell"
-APP_NAME="mosh"
-APP_SHA="b1dffe8562d7b2f4956699849fbe5d18bfd7749e"
-APP_VERSION="1.2.4"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="pkgconf libiconv zlib protobuf bzip2 perl libressl ncurses"
-APP_CONFIGURE_ARGS="--enable-hardening"
-APP_USEFUL="bin/perl*"
-APP_EXPORTS="mosh-client mosh-server mosh"
+DEF_FULL_NAME="Mobile shell"
+DEF_NAME="mosh"
+DEF_SHA="b1dffe8562d7b2f4956699849fbe5d18bfd7749e"
+DEF_VERSION="1.2.4"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pkgconf libiconv zlib protobuf bzip2 perl libressl ncurses"
+DEF_CONFIGURE_ARGS="--enable-hardening"
+DEF_USEFUL="bin/perl*"
+DEF_EXPORTS="mosh-client mosh-server mosh"
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    APP_AFTER_INSTALL_CALLBACK="patch_mosh_bin"
+    DEF_AFTER_INSTALL_CALLBACK="patch_mosh_bin"
 fi
 
 patch_mosh_bin () {

@@ -1,2 +1,2 @@
 inherit audacious
-APP_CLEAN_USELESS=NO
+DEF_CLEAN_USELESS=NO

@@ -1,15 +1,15 @@
-APP_FULL_NAME="Qt 5.5 Base Library + QtWebsockets"
-APP_NAME="qtws55"
-APP_SHA="215f4e8d8170933d68e9395d966ecf6213fc0a74"
-APP_VERSION="5.5.0"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebsockets-opensource-src-${APP_VERSION}.tar.xz"
-APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
-APP_REQUIREMENTS="pkgconf gmake qtbase55"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_CONFLICTS_WITH="Qt55 Qtbase55"
+DEF_FULL_NAME="Qt 5.5 Base Library + QtWebsockets"
+DEF_NAME="qtws55"
+DEF_SHA="215f4e8d8170933d68e9395d966ecf6213fc0a74"
+DEF_VERSION="5.5.0"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtwebsockets-opensource-src-${APP_VERSION}.tar.xz"
+DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
+DEF_REQUIREMENTS="pkgconf gmake qtbase55"
+DEF_CONFIGURE="no-conf"
+DEF_CONFLICTS_WITH="Qt55 Qtbase55"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake -spec freebsd-clang qtwebsockets.pro"
+    DEF_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake -spec freebsd-clang qtwebsockets.pro"
 else
-    APP_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtwebsockets.pro"
+    DEF_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtwebsockets.pro"
 fi

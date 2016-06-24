@@ -1,31 +1,31 @@
-APP_FULL_NAME="PostgreSQL 9"
-APP_STANDALONE="true"
-APP_SHA="4e119e2667c8c4c3b35544dfefd7a4d9aaac3eef"
-APP_NAME="postgresql"
-APP_POSTFIX="94"
-APP_VERSION="9.4.8"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
-APP_REQUIREMENTS="gmake zlib libiconv libressl readline-dynamic m4 libtool"
-APP_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
-APP_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog pg_archivecleanup pg_basebackup pg_isready pg_receivexlog pg_recvlogical pg_resetxlog postmaster reindexdb vacuumdb createlang droplang dropuser ecpg clusterdb"
-APP_ORIGIN="http://www.postgresql.org"
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
-APP_CONFLICTS_WITH="Postgresql"
-APP_STRIP="exports"
-APP_NO_FAST_MATH=YES
+DEF_FULL_NAME="PostgreSQL 9"
+DEF_STANDALONE="true"
+DEF_SHA="4e119e2667c8c4c3b35544dfefd7a4d9aaac3eef"
+DEF_NAME="postgresql"
+DEF_POSTFIX="94"
+DEF_VERSION="9.4.8"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
+DEF_REQUIREMENTS="gmake zlib libiconv libressl readline-dynamic m4 libtool"
+DEF_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
+DEF_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog pg_archivecleanup pg_basebackup pg_isready pg_receivexlog pg_recvlogical pg_resetxlog postmaster reindexdb vacuumdb createlang droplang dropuser ecpg clusterdb"
+DEF_ORIGIN="http://www.postgresql.org"
+DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+DEF_CONFLICTS_WITH="Postgresql"
+DEF_STRIP="exports"
+DEF_NO_FAST_MATH=YES
 
 case "${SYSTEM_NAME}" in
     Linux)
-        APP_NO_GOLDEN_LINKER=YES
+        DEF_NO_GOLDEN_LINKER=YES
         ;;
 
     Darwin)
         # Do not strip binaries on OS X, due to:
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
-        APP_STRIP="no"
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace"
+        DEF_STRIP="no"
+        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace"
         ;;
 
     FreeBSD)
@@ -33,8 +33,8 @@ case "${SYSTEM_NAME}" in
         # <RhodiumToad> anyway, the main issue I know of is that freebsd's threading libs mess up the concept of RLIMIT_STACK for the initial thread of the process that breaks pg's stack limit checking, meaning that you can crash the backend in situations that ought to just produce an error message
         # <RhodiumToad> --enable-thread-safety only affects libpq, yes
         # <RhodiumToad> the problem is that dblink and postgres_fdw end up dynamically linking libpq into the backend
-        APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace"
-        APP_LINKER_ARGS="-lelf"
+        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace"
+        DEF_LINKER_ARGS="-lelf"
         ;;
 
 esac

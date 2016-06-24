@@ -1,10 +1,10 @@
-DISABLE_ON="Minix"
-APP_FULL_NAME="LibreSSL Library"
-APP_SHA="87e9d5589a1e4f29e3417fcde28fe01a7783eb2c"
-APP_NAME="libressl"
-APP_VERSION="2.3.6"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_EXPORTS="openssl"
+DEF_DISABLE_ON="Minix"
+DEF_FULL_NAME="LibreSSL Library"
+DEF_SHA="87e9d5589a1e4f29e3417fcde28fe01a7783eb2c"
+DEF_NAME="libressl"
+DEF_VERSION="2.3.6"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_EXPORTS="openssl"
 
 cacert_source="http://curl.haxx.se/ca/cacert.pem"
 cacert_source_alt="http://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt"
@@ -21,7 +21,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-APP_AFTER_INSTALL_CALLBACK="create_cert_file"
+DEF_AFTER_INSTALL_CALLBACK="create_cert_file"
 create_cert_file () {
     ${MKDIR_BIN} -p ${os_specific}/etc/ssl
     cd ${os_specific}/etc/ssl

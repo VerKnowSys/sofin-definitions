@@ -1,11 +1,11 @@
-DISABLE_ON="Darwin"
-APP_STANDALONE="true"
-APP_FULL_NAME="OpenSSH server (built with HPN support)"
-APP_NAME="openssh"
-APP_SHA="9202f5a2a50c8a55ecfb830609df1e1fde97f758"
-APP_VERSION="7.1p2"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="--without-shadow --without-pam --disable-utmp \
+DEF_DISABLE_ON="Darwin"
+DEF_STANDALONE="true"
+DEF_FULL_NAME="OpenSSH server (built with HPN support)"
+DEF_NAME="openssh"
+DEF_SHA="9202f5a2a50c8a55ecfb830609df1e1fde97f758"
+DEF_VERSION="7.1p2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--without-shadow --without-pam --disable-utmp \
     --disable-wtmp --disable-wtmpx --without-lastlog --without-ssh1 \
     --without-xauth --disable-static \
     --with-audit=bsm --with-libedit --enable-shared --with-ssl-engine \
@@ -14,11 +14,11 @@ APP_CONFIGURE_ARGS="--without-shadow --without-pam --disable-utmp \
     --with-ssl-dir=${PREFIX} --with-zlib=${PREFIX} \
     --with-pid-dir=${SERVICE_DIR}/var/run/openssh.pid \
 "
-APP_REQUIREMENTS="pkgconf gmake m4 yasm libtool zlib bzip2 libressl libnet db perl krb"
-APP_EXPORTS="ssh sshd scp sftp ssh-add ssh-agent ssh-keygen ssh-keyscan sftp-server ssh-keysign ssh-pkcs11-helper"
-APP_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'Host *.verknowsys.com verknowsys.com\nPort 60022\n' >> ${SERVICE_DIR}/etc/ssh_config"
-APP_INSTALL_METHOD="gmake -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="gmake -s install"
-APP_USELESS="lib/*perl* docs share/examples share/aclocal"
-APP_COMPILER_ARGS="-DHPN -DLIBEDIT -DBSM"
-APP_NO_GOLDEN_LINKER=YES
+DEF_REQUIREMENTS="pkgconf gmake m4 yasm libtool zlib bzip2 libressl libnet db perl krb"
+DEF_EXPORTS="ssh sshd scp sftp ssh-add ssh-agent ssh-keygen ssh-keyscan sftp-server ssh-keysign ssh-pkcs11-helper"
+DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'Host *.verknowsys.com verknowsys.com\nPort 60022\n' >> ${SERVICE_DIR}/etc/ssh_config"
+DEF_INSTALL_METHOD="gmake -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="gmake -s install"
+DEF_USELESS="lib/*perl* docs share/examples share/aclocal"
+DEF_COMPILER_ARGS="-DHPN -DLIBEDIT -DBSM"
+DEF_NO_GOLDEN_LINKER=YES

@@ -1,14 +1,14 @@
-APP_FULL_NAME="Jam build tool from Preforce workshop"
-APP_NAME="jam"
-APP_SHA="4bed1d529d4e742a607f462f4eb1ada32c2923a8"
-APP_VERSION="2.6"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_MAKE_METHOD="make -s ${MAKE_OPTS}"
-APP_INSTALL_METHOD="install_jam"
+DEF_FULL_NAME="Jam build tool from Preforce workshop"
+DEF_NAME="jam"
+DEF_SHA="4bed1d529d4e742a607f462f4eb1ada32c2923a8"
+DEF_VERSION="2.6"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE="no-conf"
+DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="install_jam"
 install_jam () {
     ${MKDIR_BIN} -p ${PREFIX}/bin
     ${INSTALL_BIN} -v bin/jam ${PREFIX}/bin/
     ${INSTALL_BIN} -v bin/mkjambase ${PREFIX}/bin/
 }
-APP_EXPORTS="jam mkjambase"
+DEF_EXPORTS="jam mkjambase"

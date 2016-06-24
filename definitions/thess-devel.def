@@ -1,15 +1,15 @@
-APP_FULL_NAME="The Service Spawner - devel"
-APP_NAME="thess"
-APP_HTTP_PATH="https://github.com/VerKnowSys/TheSS.git"
-APP_VERSION="0.97.x"
-APP_GIT_MODE="true"
-APP_GIT_CHECKOUT="develop"
-APP_CONFIGURE_SCRIPT="ignore"
-APP_REQUIREMENTS="gmake" # XXX: Requires /Software/Qt, /Software/Ccache and /Software/Pkgconf.
-APP_MAKE_METHOD="bin/build && ${MKDIR_BIN} -p ${PREFIX}"
-APP_INSTALL_METHOD="install_thess_fun"
-APP_AFTER_EXPORT_CALLBACK="igniters_install"
-APP_EXPORTS="svdpanel svdshell svdss svddw ignitersinstall svdirc_notify svddeployer svdply svdcoreginx_helper ttys_updater svdadduser"
+DEF_FULL_NAME="The Service Spawner - devel"
+DEF_NAME="thess"
+DEF_HTTP_PATH="https://github.com/VerKnowSys/TheSS.git"
+DEF_VERSION="0.97.x"
+DEF_GIT_MODE="true"
+DEF_GIT_CHECKOUT="develop"
+DEF_CONFIGURE="ignore"
+DEF_REQUIREMENTS="gmake" # XXX: Requires /Software/Qt, /Software/Ccache and /Software/Pkgconf.
+DEF_MAKE_METHOD="bin/build && ${MKDIR_BIN} -p ${PREFIX}"
+DEF_INSTALL_METHOD="install_thess_fun"
+DEF_AFTER_EXPORT_CALLBACK="igniters_install"
+DEF_EXPORTS="svdpanel svdshell svdss svddw ignitersinstall svdirc_notify svddeployer svdply svdcoreginx_helper ttys_updater svdadduser"
 
 install_thess_fun () {
     if [ "${SYSTEM_NAME}" = "Linux" ]; then

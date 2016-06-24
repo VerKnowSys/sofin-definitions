@@ -1,9 +1,9 @@
 inherit gnupg
 
-APP_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
-APP_NAME="gpgme"
-APP_SHA="21510323495f6220f8f67610c3c27a23d761d43d"
-APP_VERSION="1.6.0"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="--disable-nls"
-APP_USELESS="lib/*perl* share/readline share/common-lisp"
+DEF_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
+DEF_NAME="gpgme"
+DEF_SHA="21510323495f6220f8f67610c3c27a23d761d43d"
+DEF_VERSION="1.6.0"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-nls"
+DEF_USELESS="lib/*perl* share/readline share/common-lisp"

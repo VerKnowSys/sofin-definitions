@@ -1,17 +1,17 @@
-APP_FULL_NAME="Qt 5.5 Base Library"
-APP_NAME="qtbase"
-APP_POSTFIX="55"
-APP_SHA="0b651543fa013ae151b7a11f0d0dee092050aa3f"
-APP_VERSION="5.5.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtbase-opensource-src-${APP_VERSION}.tar.xz"
-APP_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -nomake examples -nomake tests -L${PREFIX}/lib -no-qpa-platform-guard -continue"
-APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
-APP_CONFLICTS_WITH="Qt Qt55 Qt55 Qtws55 Qtwk55 Qtme55"
-APP_REQUIREMENTS="pkgconf gmake"
-APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-APP_COMPILER_ARGS="-D__BSD_VISIBLE"
-APP_INSTALL_METHOD="gmake install -s"
-APP_NO_GOLDEN_LINKER="YES"
+DEF_FULL_NAME="Qt 5.5 Base Library"
+DEF_NAME="qtbase"
+DEF_POSTFIX="55"
+DEF_SHA="0b651543fa013ae151b7a11f0d0dee092050aa3f"
+DEF_VERSION="5.5.1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtbase-opensource-src-${APP_VERSION}.tar.xz"
+DEF_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -nomake examples -nomake tests -L${PREFIX}/lib -no-qpa-platform-guard -continue"
+DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
+DEF_CONFLICTS_WITH="Qt Qt55 Qt55 Qtws55 Qtwk55 Qtme55"
+DEF_REQUIREMENTS="pkgconf gmake"
+DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+DEF_COMPILER_ARGS="-D__BSD_VISIBLE"
+DEF_INSTALL_METHOD="gmake install -s"
+DEF_NO_GOLDEN_LINKER="YES"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     create_freebsd_clang_spec () {
@@ -46,8 +46,8 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
             create_freebsd_clang_spec
         fi
     }
-    APP_AFTER_UNPACK_CALLBACK="create_freebsd_clang_spec_on_sources"
-    APP_AFTER_INSTALL_CALLBACK="create_dest_freebsd_clang_spec"
+    DEF_AFTER_UNPACK_CALLBACK="create_freebsd_clang_spec_on_sources"
+    DEF_AFTER_INSTALL_CALLBACK="create_dest_freebsd_clang_spec"
 fi
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
@@ -56,6 +56,6 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
             ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
         done
     }
-    APP_AFTER_INSTALL_CALLBACK="makeSymlinks"
-    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -no-rpath"
+    DEF_AFTER_INSTALL_CALLBACK="makeSymlinks"
+    DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -no-rpath"
 fi

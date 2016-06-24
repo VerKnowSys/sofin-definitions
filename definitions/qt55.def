@@ -1,15 +1,15 @@
-DISABLE_ON="Linux FreeBSD"
-APP_FULL_NAME="Qt 5.5 Library"
-APP_NAME="qt55"
-APP_SHA="3d7e7805d849bcf6cf88788bc83aeb334e1cd875"
-APP_VERSION="5.5.1"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qt-everywhere-opensource-src-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_ARGS="-prefix ${PREFIX} -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -no-xcb -nomake examples -nomake tests -L${PREFIX}/lib -no-rpath"
-APP_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
-APP_REQUIREMENTS="pkgconf gmake"
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Qt 5.5 Library"
+DEF_NAME="qt55"
+DEF_SHA="3d7e7805d849bcf6cf88788bc83aeb334e1cd875"
+DEF_VERSION="5.5.1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qt-everywhere-opensource-src-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="-prefix ${PREFIX} -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -no-xcb -nomake examples -nomake tests -L${PREFIX}/lib -no-rpath"
+DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
+DEF_REQUIREMENTS="pkgconf gmake"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export APP_COMPILER_ARGS="-mmacosx-version-min=10.8"
-    export APP_AFTER_INSTALL_CALLBACK="makeSymlinks"
+    export DEF_COMPILER_ARGS="-mmacosx-version-min=10.8"
+    export DEF_AFTER_INSTALL_CALLBACK="makeSymlinks"
 
     makeSymlinks () {
         for lib in QtCore QtGui QtMacExtras QtWidgets QtOpenGL; do

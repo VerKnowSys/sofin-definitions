@@ -1,16 +1,16 @@
-APP_FULL_NAME="Cclient Library"
-APP_SHA="7a82ebd5aae57a5dede96ac4923b63f850ff4fa7"
-APP_NAME="cclient"
-APP_VERSION="2007f"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}imap-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_SCRIPT="ignore"
+DEF_FULL_NAME="Cclient Library"
+DEF_SHA="7a82ebd5aae57a5dede96ac4923b63f850ff4fa7"
+DEF_NAME="cclient"
+DEF_VERSION="2007f"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}imap-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE="ignore"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     a_sys="lnp"
 else
     a_sys="bsf"
 fi
-APP_MAKE_METHOD="make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS=-fPIC"
-APP_INSTALL_METHOD="install_files"
+DEF_MAKE_METHOD="make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS=-fPIC"
+DEF_INSTALL_METHOD="install_files"
 
 install_files () {
     ${MKDIR_BIN} -p ${PREFIX}/include ${PREFIX}/lib

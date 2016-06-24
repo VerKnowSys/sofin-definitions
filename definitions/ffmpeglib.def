@@ -1,5 +1,5 @@
 inherit ffmpeg
 
-APP_POSTFIX="lib"
-APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS} \
+DEF_POSTFIX="lib"
+DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS} \
     --disable-programs --disable-devices --enable-shared --enable-static"

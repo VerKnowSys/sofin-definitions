@@ -1,14 +1,14 @@
 inherit qtbase55
 
-APP_NAME="qtphantomwk"
-APP_HTTP_PATH="https://github.com/VerKnowSys/qtwebkit.git"
-APP_GIT_MODE="true"
-APP_GIT_CHECKOUT="phantomjs"
-APP_VERSION="${APP_GIT_CHECKOUT}"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib bzip2 python27 cmake qtbase55"
-APP_AFTER_UNPACK_CALLBACK="patch_n_prepare"
-APP_EXPORTS="jsc"
+DEF_NAME="qtphantomwk"
+DEF_HTTP_PATH="https://github.com/VerKnowSys/qtwebkit.git"
+DEF_GIT_MODE="true"
+DEF_GIT_CHECKOUT="phantomjs"
+DEF_VERSION="${APP_GIT_CHECKOUT}"
+DEF_CONFIGURE="no-conf"
+DEF_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib bzip2 python27 cmake qtbase55"
+DEF_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+DEF_EXPORTS="jsc"
 
 patch_n_prepare () {
     ${PREFIX}/bin/qmake "WEBKIT_CONFIG -= use_glib use_gstreamer use_gstreamer010 use_native_fullscreen_video legacy_web_audio web_audio video gamepad" WebKit.pro
@@ -16,7 +16,7 @@ patch_n_prepare () {
     ${MKDIR_BIN} -p tests/auto/cmake
 }
 
-APP_AFTER_MAKE_CALLBACK="after_build_patch"
+DEF_AFTER_MAKE_CALLBACK="after_build_patch"
 after_build_patch () {
     ${CP_BIN} bin/jsc ${PREFIX}/bin/
 }

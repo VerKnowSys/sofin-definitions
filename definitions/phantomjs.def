@@ -1,21 +1,21 @@
-APP_FULL_NAME="Phantomjs"
-APP_NAME="phantomjs"
-APP_VERSION="2.0-master"
-APP_HTTP_PATH="git://github.com/VerKnowSys/phantomjs.git"
-APP_GIT_MODE="true"
-APP_GIT_CHECKOUT="master"
-APP_REQUIREMENTS="pkgconf gmake sqlite python27 m4 libtool libxml2 libgpg-error libgcrypt libxslt xproto libpthread-stubs libxau perl bison autoconf automake gperf icu ruby22 freetype fontconfig qtphantom55 qtwk55"
-APP_CONFIGURE_SCRIPT="no-conf"
-APP_USELESS="lib/perl5 lib/python2.7 lib/ruby"
-APP_COMPILER_ARGS="-DJSC_TAINTED_32 -D__BSD_VISIBLE"
-APP_EXPORTS="phantomjs"
+DEF_FULL_NAME="Phantomjs"
+DEF_NAME="phantomjs"
+DEF_VERSION="2.0-master"
+DEF_HTTP_PATH="git://github.com/VerKnowSys/phantomjs.git"
+DEF_GIT_MODE="true"
+DEF_GIT_CHECKOUT="master"
+DEF_REQUIREMENTS="pkgconf gmake sqlite python27 m4 libtool libxml2 libgpg-error libgcrypt libxslt xproto libpthread-stubs libxau perl bison autoconf automake gperf icu ruby22 freetype fontconfig qtphantom55 qtwk55"
+DEF_CONFIGURE="no-conf"
+DEF_USELESS="lib/perl5 lib/python2.7 lib/ruby"
+DEF_COMPILER_ARGS="-DJSC_TAINTED_32 -D__BSD_VISIBLE"
+DEF_EXPORTS="phantomjs"
 
-APP_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+DEF_AFTER_UNPACK_CALLBACK="patch_n_prepare"
 patch_n_prepare () {
     ${PREFIX}/bin/qmake -config release
 }
 
-APP_INSTALL_METHOD="install_phantomjs"
+DEF_INSTALL_METHOD="install_phantomjs"
 install_phantomjs () {
     ${CP_BIN} bin/phantomjs ${PREFIX}/bin/phantomjs
 }

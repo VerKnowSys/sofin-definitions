@@ -1,5 +1,5 @@
 inherit boost
 
-APP_FULL_NAME="Boost - C++ Libraries - minimal configuration"
-APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --without-icu --with-libraries=system,thread"
-APP_MAKE_METHOD="./b2 -j${CPUS} variant=release link=static runtime-link=static threading=multi install"
+DEF_FULL_NAME="Boost - C++ Libraries - minimal configuration"
+DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --without-icu --with-libraries=system,thread"
+DEF_MAKE_METHOD="./b2 -j${CPUS} variant=release link=static runtime-link=static threading=multi install"

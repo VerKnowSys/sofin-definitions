@@ -1,9 +1,9 @@
-APP_FULL_NAME="DMI Decode hardware reporting utility"
-APP_SHA="d190f1333e8a217cf02d2a6c98795dc5ced97ddc"
-APP_NAME="dmidecode"
-APP_VERSION="2.12"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_CONFIGURE_SCRIPT="no-conf" # no configure script for this package
-APP_MAKE_METHOD="make prefix=${PREFIX}"
-APP_INSTALL_METHOD="make install prefix=${PREFIX} || true" # not my fault. blame Dmidecode team.
-APP_EXPORTS="dmidecode biosdecode vpddecode"
+DEF_FULL_NAME="DMI Decode hardware reporting utility"
+DEF_SHA="d190f1333e8a217cf02d2a6c98795dc5ced97ddc"
+DEF_NAME="dmidecode"
+DEF_VERSION="2.12"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_CONFIGURE="no-conf" # no configure script for this package
+DEF_MAKE_METHOD="make prefix=${PREFIX}"
+DEF_INSTALL_METHOD="make install prefix=${PREFIX} || true" # not my fault. blame Dmidecode team.
+DEF_EXPORTS="dmidecode biosdecode vpddecode"
