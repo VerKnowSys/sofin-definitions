@@ -6,7 +6,7 @@ APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     APP_CONFIGURE_ARGS="x86_64-apple-darwin"
 fi
-APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso"
+APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso --with-pic"
 APP_AFTER_CONFIGURE_CALLBACK="fix_makefile"
 fix_makefile () {
     # Options unsupported under FreeBSD:
