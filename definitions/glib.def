@@ -1,10 +1,14 @@
 APP_FULL_NAME="GNU Lib"
 APP_NAME="glib"
-APP_SHA="20cd63705a8805260da0320c65b979233f2e3c18"
-APP_VERSION="2.28.8"
-APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
-APP_REQUIREMENTS="gmake zlib pcre pkgconf libffi gettext python27 m4 libtool libiconv"
-APP_CONFIGURE_ARGS="--disable-dependency-tracking --enable-gc-friendly --disable-fam --disable-gtk-doc --disable-gtk-doc-html --disable-dtrace --without-xml-catalog --with-pcre=internal --disable-largefile --enable-static"
-FORCE_GNU_COMPILER="true"
+APP_SHA="906720f36c4c16829485610eabefb39cf933fc59"
+APP_VERSION="2.49.2"
+APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+APP_REQUIREMENTS="pkgconf gmake zlib pcre libffi gettext python27 m4 libtool"
+APP_CONFIGURE_ARGS="--disable-dependency-tracking  --disable-fam --disable-gtk-doc --disable-gtk-doc-html --without-xml-catalog --with-pcre=internal --disable-maintainer-mode --disable-silent-rules --disable-modular-tests --disable-libelf"
 APP_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
 APP_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+APP_NO_CCACHE="YES"
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    # No probes provided for fbsd? sad panda
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --disable-dtrace"
+fi
