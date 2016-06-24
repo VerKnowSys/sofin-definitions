@@ -1,0 +1,6 @@
+DEF_FULL_NAME="C library for asynchronous DNS requests (including name resolves)"
+DEF_SHA="8c20b2680099ac73861a780c731edd59e010383a"
+DEF_NAME="c-ares"
+DEF_VERSION="1.11.0"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE="export CFLAGS= && ./configure"
