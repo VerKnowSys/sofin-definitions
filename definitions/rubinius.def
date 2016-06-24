@@ -1,29 +1,29 @@
-DISABLE_ON="FreeBSD"
+DISABLE_ON="FreeBSD Linux"
 APP_FULL_NAME="Rubinius Ruby VM"
-APP_SHA="92630c7ebb11ccd0bed980447004881f71f6529c"
+APP_SHA="acf2c4862be061568dc96d65c2b872ad1eb2efc9"
 APP_NAME="rubinius"
-APP_VERSION="2.5.7"
-APP_POSTFIX="25"
+APP_VERSION="3.41"
 APP_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-APP_REQUIREMENTS="zlib bzip2 libxml2 libiconv gmake python27 llvm m4 libtool libgpg-error libgcrypt libxslt yaml sqlite perl bison libressl ruby21"
+APP_REQUIREMENTS="zlib bzip2 gmake m4 libtool libxml2 python27 xz libffi ccache cmake llvm libgpg-error libgcrypt libxslt yaml sqlite perl bison openssl ruby23"
 APP_EXPORTS="ruby rbx gem irb ri rdoc erb rake bundle"
 APP_MAKE_METHOD="rake install"
 APP_INSTALL_METHOD="true"
 APP_NO_CCACHE="YES"
 APP_AFTER_UNPACK_CALLBACK="bundle install"
 APP_AFTER_INSTALL_CALLBACK="afterInstall"
-APP_CONFIGURE_ARGS="--release-build --preserve-prefix --with-rpath"
+APP_CONFIGURE_ARGS="--release-build --preserve-prefix --llvm-path=${PREFIX} --llvm-shared"
 case "${SYSTEM_NAME}" in
   FreeBSD)
     APP_REQUIREMENTS="libexecinfo ${APP_REQUIREMENTS}"
-    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dtrace --with-execinfo"
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dtrace --with-execinfo --with-rpath"
     ;;
   Darwin)
+    APP_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --without-rpath"
     APP_STRIP="no"
     ;;
 esac
 APP_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
-APP_USELESS="lib/libperl.so lib/perl5 include/python2.7 lib/python2.7 man share"
+APP_USELESS="lib/*perl* include/python* lib/python* man share"
 
 afterInstall () {
     # remove old, unnecessary and unused stuff from base, fixing paths
