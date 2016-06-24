@@ -1,6 +1,7 @@
 APP_FULL_NAME="MPD Scribble"
 APP_NAME="mpdscribble"
 APP_GIT_MODE="true"
+APP_VERSION="master"
 APP_HTTP_PATH="git://git.musicpd.org/master/mpdscribble.git/"
 APP_CONFIGURE_SCRIPT="./autogen.sh ; ./configure"
 APP_REQUIREMENTS="gmake perl texinfo libidn libressl libmpdclient libffi gettext glib curl"
