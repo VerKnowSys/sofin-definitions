@@ -8,8 +8,8 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="./config"
 DEF_CONFIGURE_ARGS="shared -L${PREFIX}/lib -I${PREFIX}/include"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export DEF_CONFIGURE="./Configure"
-    export DEF_CONFIGURE_ARGS="darwin64-x86_64-cc -shared"
+    DEF_CONFIGURE="./Configure"
+    DEF_CONFIGURE_ARGS="darwin64-x86_64-cc -shared"
 fi
 DEF_REQUIREMENTS="perl"
 DEF_NO_CCACHE="true"
