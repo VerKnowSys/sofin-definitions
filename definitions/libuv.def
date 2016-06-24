@@ -1,0 +1,5 @@
+DEF_FULL_NAME="multi-platform support library with a focus on asynchronous I/O"
+DEF_SHA="668d636372e3276aecc6082082a86f86ddb67877"
+DEF_NAME="libuv"
+DEF_VERSION="1.9.1"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
