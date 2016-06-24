@@ -3,7 +3,7 @@ DEF_FULL_NAME="Git SCM"
 DEF_SHA="28840754d49b58cbaa152eab17acc9498bd224cd"
 DEF_NAME="git"
 DEF_VERSION="2.8.2"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 if [ "${SYSTEM_NAME}" != "Minix" ]; then
     DEF_CONFIGURE_ARGS="--with-iconv=${PREFIX} --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --without-python --with-perl=${PREFIX}/bin/perl --with-zlib=${PREFIX} --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"
 else

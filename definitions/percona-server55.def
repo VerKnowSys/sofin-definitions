@@ -3,7 +3,7 @@ DEF_SHA="cc5b97fb2c1d0e89032204bf9820ebea8fc6eb32"
 DEF_NAME="percona-server"
 DEF_VERSION="5.5.46-37.6"
 DEF_POSTFIX="55"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgconf libffi gettext python27 libtool15 glib libiconv libevent flex"
 DEF_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR} -DWITH_SSL=bundled -DWITH_ZLIB=yes"
 case "${SYSTEM_NAME}" in
@@ -11,7 +11,7 @@ case "${SYSTEM_NAME}" in
         export DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
         ;;
     Linux)
-        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
+        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         DEF_AFTER_INSTALL_CALLBACK="after_build"
         after_build () {
             mysql_proxy_name="mysql-proxy"
@@ -25,7 +25,7 @@ case "${SYSTEM_NAME}" in
         }
         ;;
     FreeBSD)
-        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
+        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         ;;
 esac
 

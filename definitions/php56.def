@@ -3,7 +3,7 @@ DEF_SHA="9c0314e3d2203e15b7e2c54ad680dd462f1de8e9"
 DEF_NAME="php"
 DEF_VERSION="5.6.22"
 DEF_POSTFIX="56"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.xz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --without-apache --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-mssql=${PREFIX} --with-xmlrpc --with-kerberos --with-iconv --disable-maintainer-zts --enable-cgi --disable-roxen-zts --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --enable-sqlite-utf8 --with-sqlite=${PREFIX} --with-pdo-sqlite=${PREFIX} --with-sqlite3=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --with-litespeed --enable-fastcgi --enable-cgi --enable-opcache --enable-phar"
 DEF_REQUIREMENTS="gmake ccache perl libiconv pkgconf zlib nasm m4 libtool lzma lzo xz db libpng jpeg libressl cclient gettext bzip2 gmp51 autoconf bison27 flex readline postgresql94 python27 libxml2 icu libgpg-error libgcrypt libxslt pcre libexif freetype expat fontconfig tiff jasper jbig2dec jbigkit libjpeg-turbo gd cmake ncurses mysql libmcrypt texinfo libidn curl imagemagick freetds sqlite2 sqlite cyrus-sasl openldap geoip libnet krb re2c"
 DEF_INSTALL_METHOD="gmake install -s"
@@ -11,20 +11,20 @@ DEF_BUNDLED_EXTENSIONS="phalcon2 phalcon xdebug imagick rar geoip dbase"
 DEF_EXPORTS="php php-cgi php-fpm php-config phpize pecl pear lsphp"
 DEF_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/cmake* lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    DEF_BUNDLED_EXTENSIONS="oci8 ${APP_BUNDLED_EXTENSIONS}"
+    DEF_BUNDLED_EXTENSIONS="oci8 ${DEF_BUNDLED_EXTENSIONS}"
     # Under Linux, we don't need these libs after oci extension is built, cause
     # we use ld cache to specify system wide place for Oracle libs.
     # We remove those cause they add redundant 160+MiB to bundle size:
-    DEF_USELESS="${APP_USELESS} lib/libociei.so lib/libclntsh* lib/libocci.so.* lib/libnnz*.so lib/libocijdbc*.so lib/liboramysql*.so lib/libipc*.so lib/libmql*.so lib/libons.so lib/liboramysql*.so"
+    DEF_USELESS="${DEF_USELESS} lib/libociei.so lib/libclntsh* lib/libocci.so.* lib/libnnz*.so lib/libocijdbc*.so lib/liboramysql*.so lib/libipc*.so lib/libmql*.so lib/libons.so lib/liboramysql*.so"
 fi
 
 case "${SYSTEM_NAME}" in
     Linux)
-        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-config-file-path=${PREFIX}"
+        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${PREFIX}"
         ;;
 
     FreeBSD)
-        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-config-file-path=${SERVICE_DIR}/etc"
+        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${SERVICE_DIR}/etc"
         ;;
 esac
 
@@ -200,7 +200,7 @@ install_extensions () {
     # update pecl protocols before installing extensions
     PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
     extensions_dir="${PREFIX}/lib/php/extensions"
-    for name in ${APP_BUNDLED_EXTENSIONS}; do
+    for name in ${DEF_BUNDLED_EXTENSIONS}; do
         test -f "${extensions_dir}/${name}.so" || install_and_move "${name}" || error "Failed to install PECL extension: ${name}"
     done
     name="opcache"

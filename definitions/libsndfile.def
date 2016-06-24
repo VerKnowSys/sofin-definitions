@@ -2,7 +2,7 @@ DEF_FULL_NAME="Lib sndfile"
 DEF_SHA="e95d9fca57f7ddace9f197071cbcfb92fa16748e"
 DEF_NAME="libsndfile"
 DEF_VERSION="1.0.25"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--disable-alsa --disable-static --disable-sqlite"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # issue: configure script can't find "Carbon.h"

@@ -4,7 +4,7 @@ DEF_FULL_NAME="OpenSSH server (built with HPN support)"
 DEF_NAME="openssh"
 DEF_SHA="9202f5a2a50c8a55ecfb830609df1e1fde97f758"
 DEF_VERSION="7.1p2"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--without-shadow --without-pam --disable-utmp \
     --disable-wtmp --disable-wtmpx --without-lastlog --without-ssh1 \
     --without-xauth --disable-static \

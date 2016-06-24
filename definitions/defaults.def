@@ -15,11 +15,11 @@ DEF_DISABLE_ON="" # defines list of unames. For example DEF_DISABLE_ON="Linux Da
 DEF_EXPORTS="" # defines list of binaries to be exported to user env into PATH
 DEF_FULL_NAME=""
 DEF_HTTP_PATH=""
-DEF_GIT_MODE="" # when set to true, APP_HTTP_PATH becomes source of git repository (http/https/git/dir are all supported)
+DEF_GIT_MODE="" # when set to true, DEF_HTTP_PATH becomes source of git repository (http/https/git/dir are all supported)
 DEF_GIT_CHECKOUT="" # git branch name used when in git mode
 DEF_NAME="" # this is software name, but also folder name in /Software or ~/Apps with app root directory.
 DEF_VERSION=""
-DEF_POSTFIX="" # a postfix added to APP_NAME if defined. Used in Sofin to do legacy versions of software.
+DEF_POSTFIX="" # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
 DEF_CONFIGURE_ARGS="" # additional arguments to configuration script of software
 DEF_REQUIREMENTS="" # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
 DEF_COMPILER_ARGS="" # additional special arguments to compiler used to build software
@@ -44,23 +44,23 @@ DEF_ORIGIN="" # app origin location, to gather newer software version if availab
 DEF_STANDALONE="" # TODO: it's currently only a marker for standalone bundles
 DEF_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
 DEF_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
-DEF_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on APP_USELESS list
+DEF_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
 DEF_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/common-lisp share/bison"
 DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
+        DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
         ;;
 
     Darwin)
-        DEF_DEFAULT_USELESS="${APP_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
+        DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
         ;;
 esac
 
 DEF_NO_CCACHE="" # any value disables ccache usage for current definition
 DEF_LINKER_NO_DTAGS="" # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
-#APP_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
+#DEF_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
 DEF_NO_GOLDEN_LINKER="" # any value disables golden linker flags for configuration stage for current definition
 DEF_NO_FAST_MATH="" # any value disables "-ffast-math" compiler option for current definition
 DEF_CMAKE_BUILD_DIR="." # default build dir when cmake is used

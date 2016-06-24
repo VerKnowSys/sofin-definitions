@@ -4,10 +4,10 @@ DEF_FULL_NAME="GNU Compiler 5.4 (with langs: ${langs})"
 DEF_VERSION="5.4.0"
 DEF_NAME="gcc"
 DEF_SHA="0612270b103941da08376df4d0ef4e5662a2e9eb"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE="../configure"
 
-suffix="$(echo "${APP_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
+suffix="$(echo "${DEF_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
 targlib="${PREFIX}/lib"
 libexec="${PREFIX}/libexec"
 DEF_CONFIGURE_ARGS="--enable-gnu-indirect-function --disable-libgcj \
@@ -29,7 +29,7 @@ CROSS_PLATFORM_COMPILER_FLAGS="-w -O2 -fPIC -fPIE -fno-strict-overflow -fno-stac
 DEFAULT_COMPILER_FLAGS="${CROSS_PLATFORM_COMPILER_FLAGS} -Wl,-fuse-ld=gold"
 DEF_LINKER_ARGS="-lssp"
 
-common_opts="LANG=C LC_ALL=C SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${APP_VERSION}"
+common_opts="LANG=C LC_ALL=C SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
 DEF_MAKE_METHOD="${common_opts} gmake -s ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="${common_opts} gmake install -s ${MAKE_OPTS}"
 DEF_DEFAULT_USELESS="" # we do static build, hence we need to leave lib/*.a intact
@@ -46,7 +46,7 @@ make_and_enter_builddir () {
 DEF_AFTER_INSTALL_CALLBACK="strip_libexec_and_go_up"
 strip_libexec_and_go_up () {
     for to_str in cc1 cc1obj cc1plus collect2 f951 lto1 lto-wrapper liblto_plugin.so.0; do
-        ${STRIP_BIN} ${PREFIX}/libexec/gcc/x86_64-unknown-freebsd11.0/${APP_VERSION}/${to_str}
+        ${STRIP_BIN} ${PREFIX}/libexec/gcc/x86_64-unknown-freebsd11.0/${DEF_VERSION}/${to_str}
     done
     cd ..
 }

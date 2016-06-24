@@ -3,4 +3,4 @@ inherit libgs
 DEF_NAME="ghostscript"
 DEF_MAKE_METHOD="make_stuff"
 DEF_INSTALL_METHOD="make_stuff install"
-DEF_EXPORTS="gs ${APP_EXPORTS}"
+DEF_EXPORTS="gs ${DEF_EXPORTS}"

@@ -3,7 +3,7 @@ DEF_NAME="grafana"
 DEF_VERSION="2.6.0"
 DEF_HTTP_PATH="git://github.com/OliverLetterer/dummy-repo.git"
 DEF_GIT_MODE="true"
-DEF_GIT_CHECKOUT="v${APP_VERSION}"
+DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_REQUIREMENTS="pkgconf pcre go15 zlib bzip2 gmake yaml libiconv readline-dynamic python27 node42"
 DEF_CONFIGURE="ignore"
 DEF_USELESS="etc doc test include share src local/src misc pkg api man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
@@ -23,20 +23,20 @@ make_action () {
     ${PREFIX}/bin/go get github.com/grafana/grafana
     cd "${GOPATH}/src/github.com/grafana/grafana"
 
-    debug "Checking out v${APP_VERSION}" && \
-    ${GIT_BIN} checkout -b "v${APP_VERSION}" && \
+    debug "Checking out v${DEF_VERSION}" && \
+    ${GIT_BIN} checkout -b "v${DEF_VERSION}" && \
     debug "Fetching dependencies of Grafana" && \
     ${PREFIX}/bin/go run build.go setup && \
     ${GOPATH}/bin/godep restore && \
     debug "Building Grafana" && \
     ${PREFIX}/bin/go clean ./... && \
-    debug "Installing ${APP_NAME}" && \
+    debug "Installing ${DEF_NAME}" && \
     ${PREFIX}/bin/go install ./... && \
     debug "Installing node modules" && \
     cd ${PREFIX} && \
     ${GIT_BIN} clone https://github.com/grafana/grafana.git grafana-github && \
     cd grafana-github && \
-    ${GIT_BIN} checkout -b "v${APP_VERSION}" && \
+    ${GIT_BIN} checkout -b "v${DEF_VERSION}" && \
     ${PREFIX}/bin/npm install && \
     ${PREFIX}/bin/npm install -g grunt-cli && \
     ${PREFIX}/bin/grunt && \

@@ -1,7 +1,7 @@
 inherit qtbase55
 
 DEF_NAME="qtme"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${APP_VERSION}.tar.xz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${DEF_VERSION}.tar.xz"
 DEF_SHA="bd42e329ae70585e746edff70ce594ca486fc8d3"
 DEF_CONFIGURE="no-conf"
 DEF_REQUIREMENTS="pkgconf gmake qtbase55"

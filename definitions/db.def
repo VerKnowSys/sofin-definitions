@@ -2,7 +2,7 @@ DEF_FULL_NAME="Berkley DB"
 DEF_SHA="646c57b99799dc300207976e2270cdaca1a2f198"
 DEF_NAME="db"
 DEF_VERSION="6.2.23" # http://download.oracle.com/berkeley-db/db-6.2.23.tar.gz
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_DIR_POSTFIX="build_unix/"
 DEF_CONFIGURE="../dist/configure"
 DEF_CONFIGURE_ARGS="--enable-compat185 --enable-dbm --enable-posixmutexes --with-cryptography=yes"
@@ -14,11 +14,11 @@ DEF_COMPILER_ARGS="-DCRYPTO=1 -DL10N=1"
 
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-cxx"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-cxx"
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --disable-cxx --disable-stl"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cxx --disable-stl"
         DEF_AFTER_PATCH_CALLBACK="patch_db_files"
         patch_db_files () {
             if [ "FreeBSD" = "${SYSTEM_NAME}" ]; then

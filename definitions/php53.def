@@ -5,16 +5,16 @@ DEF_FULL_NAME="PHP 5.3"
 DEF_SHA="6e9e492c6d5853d063ddb9a4dbef60b8e5d87444"
 DEF_VERSION="5.3.29"
 DEF_POSTFIX="53"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="$(echo "${APP_REQUIREMENTS}" | ${SED_BIN} -e 's/php52-cgi/php53-cgi/')"
-DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --without-cgi --without-apxs2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_REQUIREMENTS="$(echo "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/php52-cgi/php53-cgi/')"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-openssl=${PREFIX} --disable-fpm --without-cgi --without-apxs2"
 
 # on the fly patch for stdc++
 add_libstdc_to_makefile () {
     ${SED_BIN} -i '' -e 's:^EXTRA_LIBS = :EXTRA_LIBS = -lstdc++ :' Makefile
     true
 }
-DEF_AFTER_CONFIGURE_CALLBACK="${APP_AFTER_CONFIGURE_CALLBACK}; add_libstdc_to_makefile"
+DEF_AFTER_CONFIGURE_CALLBACK="${DEF_AFTER_CONFIGURE_CALLBACK}; add_libstdc_to_makefile"
 
 install_rar () {
     arch_name="rar-3.0.2"

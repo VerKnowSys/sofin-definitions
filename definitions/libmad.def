@@ -2,11 +2,11 @@ DEF_FULL_NAME="Mad MPEG decoder"
 DEF_SHA="cac19cd00e1a907f3150cc040ccc077783496d76"
 DEF_NAME="libmad"
 DEF_VERSION="0.15.1b"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_CONFIGURE_ARGS="x86_64-apple-darwin"
 fi
-DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso"
 DEF_AFTER_CONFIGURE_CALLBACK="fix_makefile"
 fix_makefile () {
     # Options unsupported under FreeBSD:

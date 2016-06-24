@@ -2,16 +2,16 @@ DEF_FULL_NAME="Freetype 2 Library"
 DEF_SHA="29c22b85b77cb22cf95c13e7062e21f39fe6b17a"
 DEF_NAME="freetype"
 DEF_VERSION="2.6.2"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf zlib bzip2 gmake perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake"
 DEF_CONFIGURE="no-conf"
 DEF_CONFIGURE_OPTS="--prefix=${PREFIX} --enable-shared --enable-static --with-pic"
 DEF_MAKE_METHOD="setup_and_make"
 setup_and_make () {
     cd builds/unix
-    ./configure ${APP_CONFIGURE_OPTS}
+    ./configure ${DEF_CONFIGURE_OPTS}
     cd ../..
-    ${PREFIX}/bin/gmake setup CFG="${APP_CONFIGURE_OPTS}"
+    ${PREFIX}/bin/gmake setup CFG="${DEF_CONFIGURE_OPTS}"
     ${PREFIX}/bin/gmake ${MAKE_OPTS}
 }
 DEF_INSTALL_METHOD="gmake -s install"

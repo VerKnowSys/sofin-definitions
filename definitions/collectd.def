@@ -3,11 +3,11 @@ DEF_FULL_NAME="CollectD"
 DEF_NAME="collectd"
 DEF_SHA="ef97838e249814ad96a2edc0410326efbb4f3d08"
 DEF_VERSION="5.5.0"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf ccache zlib bzip2 perl expat protobuf cmake gmake m4 libtool autoconf automake libstatgrab pcre libffi gettext curl libpcap liboping libressl python27 libxml2 glib libiconv readline postgresql94 libgpg-error libgcrypt mysql geoip bind yajl net-snmp"
 case ${SYSTEM_NAME} in
     FreeBSD)
-        DEF_REQUIREMENTS="${APP_REQUIREMENTS} nginx"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} nginx"
         PLATFORM_SPECIFIC_OPTIONS="--enable-pf --enable-nginx"
         ;;
 

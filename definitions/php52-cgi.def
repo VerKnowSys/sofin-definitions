@@ -1,6 +1,6 @@
 inherit php52
 
-DEF_CONFIGURE_ARGS="$(echo "${APP_CONFIGURE_ARGS}" | ${SED_BIN} -e 's/--with-litespeed/--enable-cli --without-apxs2 --enable-cgi --enable-fastcgi --enable-spl/')"
+DEF_CONFIGURE_ARGS="$(echo "${DEF_CONFIGURE_ARGS}" | ${SED_BIN} -e 's/--with-litespeed/--enable-cli --without-apxs2 --enable-cgi --enable-fastcgi --enable-spl/')"
 
 install_pear_modules () {
     echo "NOOP"

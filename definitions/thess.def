@@ -3,7 +3,7 @@ DEF_STANDALONE="true"
 DEF_SHA="b857f365d6ba7d8c89d98e6e80b0540d9eb3f940"
 DEF_NAME="thess"
 DEF_VERSION="0.100.5"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE="ignore"
 DEF_REQUIREMENTS="gmake qtbase55 qtws55"
 DEF_MAKE_METHOD="QT=${PREFIX} bin/build && ${MKDIR_BIN} -p ${PREFIX}"
@@ -16,9 +16,9 @@ DEF_USEFUL="bin/qmake bin/build bin/moc"
 
 install_thess_fun () {
     if [ "${SYSTEM_NAME}" = "Linux" ]; then
-        ${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}/${APP_NAME}-${APP_VERSION}/* ${PREFIX}
+        ${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}/* ${PREFIX}
     else
-        ${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}/* ${PREFIX}
+        ${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}-${DEF_VERSION}/* ${PREFIX}
     fi
 }
 

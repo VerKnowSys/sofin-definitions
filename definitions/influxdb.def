@@ -3,7 +3,7 @@ DEF_NAME="influxdb"
 DEF_HTTP_PATH="git://github.com/OliverLetterer/dummy-repo.git"
 DEF_GIT_MODE="true"
 DEF_VERSION="0.10.0"
-DEF_GIT_CHECKOUT="v${APP_VERSION}"
+DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_REQUIREMENTS="pkgconf pcre go15 protobuf"
 DEF_CONFIGURE="ignore"
 DEF_MAKE_METHOD="make_action"
@@ -23,13 +23,13 @@ make_action () {
     debug "Cloning ${influxdb_git_repo}" && \
     ${GIT_BIN} clone ${influxdb_git_repo} && \
     cd $GOPATH/src/github.com/influxdata/influxdb && \
-    debug "Checking out branch: v${APP_VERSION}" && \
-    ${GIT_BIN} checkout -b "v${APP_VERSION}" && \
-    debug "Getting ${APP_NAME}" && \
+    debug "Checking out branch: v${DEF_VERSION}" && \
+    ${GIT_BIN} checkout -b "v${DEF_VERSION}" && \
+    debug "Getting ${DEF_NAME}" && \
     ${PREFIX}/bin/go get -v -t ./... && \
-    debug "Building ${APP_NAME}" && \
+    debug "Building ${DEF_NAME}" && \
     ${PREFIX}/bin/go clean ./... && \
-    debug "Installing ${APP_NAME}" && \
+    debug "Installing ${DEF_NAME}" && \
     ${PREFIX}/bin/go install ./... && \
     debug "Done."
 }

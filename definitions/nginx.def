@@ -3,7 +3,7 @@ DEF_STANDALONE="true"
 DEF_NAME="nginx"
 DEF_SHA="b7ddb8bb55ad20c336c94526cd2c26b5699caeb5"
 DEF_VERSION="1.9.10"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="gmake pkgconf m4 libtool jemalloc libiconv zlib bzip2 xz pcre libressl libxml2 libevent spdylay perl texinfo geoip autoconf automake nghttp2"
 DEF_CONFIGURE_ARGS="--with-pcre --with-threads --with-ipv6 --with-poll_module --without-select_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-http_realip_module --with-stream --with-stream_ssl_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module"
 DEF_MAKE_METHOD="OPENSSL=${PREFIX} && gmake -s ${MAKE_OPTS}"
@@ -25,15 +25,15 @@ svd_args="--error-log-path=${SERVICE_DIR}/var/log --http-log-path=${SERVICE_DIR}
 common_args="--with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib -R${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=nobody --group=nogroup ${svd_args}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=nobody --group=nogroup ${svd_args}"
         ;;
 
     Linux)
-        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --user=www-data --group=www-data --with-file-aio --with-openssl=${PREFIX} --with-zlib=${PREFIX} ${common_args}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=www-data --group=www-data --with-file-aio --with-openssl=${PREFIX} --with-zlib=${PREFIX} ${common_args}"
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-file-aio --user=worker --group=staff --build=ServeD ${common_args} ${svd_args}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-file-aio --user=worker --group=staff --build=ServeD ${common_args} ${svd_args}"
         ;;
 esac
 DEF_EXPORTS="nginx"

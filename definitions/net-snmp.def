@@ -2,9 +2,9 @@ DEF_FULL_NAME="Net-SNMP library"
 DEF_NAME="net-snmp"
 DEF_SHA="97dc25077257680815de44e34128d365c76bd839"
 DEF_VERSION="5.7.3"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 gmake perl autoconf libtool automake"
-DEF_CONFIGURE_ARGS="--srcdir=\"${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}\" --enable-internal-md5 --with-default-snmp-version=3 --with-sys-contact=\"admin@verknowsys.com\" --with-sys-location=/Services/Net-snmp --with-logfile=/Services/Net-snmp/log/snmpd.log --with-persistent-directory=/Services/Net-snmp/var --with-gnu-ld --without-libwrap ${ADDITIONAL} --disable-embedded-perl --without-perl-modules --without-dmalloc --disable-manuals"
+DEF_CONFIGURE_ARGS="--srcdir=\"${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}-${DEF_VERSION}\" --enable-internal-md5 --with-default-snmp-version=3 --with-sys-contact=\"admin@verknowsys.com\" --with-sys-location=/Services/Net-snmp --with-logfile=/Services/Net-snmp/log/snmpd.log --with-persistent-directory=/Services/Net-snmp/var --with-gnu-ld --without-libwrap ${ADDITIONAL} --disable-embedded-perl --without-perl-modules --without-dmalloc --disable-manuals"
 DEF_MAKE_METHOD="gmake -s"
 DEF_INSTALL_METHOD="gmake install"
 DEF_NO_CCACHE="YES"
@@ -12,7 +12,7 @@ DEF_EXPORTS="agentxtrap encode_keychange net-snmp-config net-snmp-create-v3-user
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_AFTER_UNPACK_CALLBACK="patch_sources"
-    DEF_LINKER_ARGS="-L${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}-${APP_VERSION}/snmplib/.libs -L/lib -L/usr/lib -L${PREFIX}/lib -lm -lcrypto -lkvm -ldevstat"
+    DEF_LINKER_ARGS="-L${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}-${DEF_VERSION}/snmplib/.libs -L/lib -L/usr/lib -L${PREFIX}/lib -lm -lcrypto -lkvm -ldevstat"
 fi
 
 patch_sources () {

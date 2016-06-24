@@ -2,4 +2,4 @@ inherit binutils
 
 DEF_FULL_NAME="Gold Linker"
 DEF_NAME="binutils-gold"
-DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-gold --enable-plugins --enable-lto"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-gold --enable-plugins --enable-lto"

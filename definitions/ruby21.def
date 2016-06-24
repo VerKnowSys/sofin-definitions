@@ -3,15 +3,15 @@ DEF_SHA="dd68afc652fe542f83a9a709a74f4da2662054bf"
 DEF_NAME="ruby"
 DEF_POSTFIX="21"
 DEF_VERSION="2.1.9"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX} --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS="
 case "${SYSTEM_NAME}" in
     Linux)
-        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
+        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
         ;;
 
     FreeBSD|Darwin)
-        export DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
+        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
         ;;
 esac
 DEF_REQUIREMENTS="pkgconf gmake libiconv m4 expat zlib bzip2 lzma xz perl openssl python27 libxml2 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline-dynamic gmp51"

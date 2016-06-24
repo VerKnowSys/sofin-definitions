@@ -13,9 +13,9 @@ DEF_EXPORTS="svdpanel svdshell svdss svddw ignitersinstall svdirc_notify svddepl
 
 install_thess_fun () {
     if [ "${SYSTEM_NAME}" = "Linux" ]; then
-        ${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}/${APP_NAME}-${APP_VERSION}/* ${PREFIX}
+        ${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}/* ${PREFIX}
     else
-        ${CP_BIN} -fR ${CACHE_DIR}cache/${APP_NAME}-${APP_VERSION}-${RUNTIME_SHA}/${APP_NAME}${APP_VERSION}/* ${PREFIX}
+        ${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}${DEF_VERSION}/* ${PREFIX}
     fi
 }
 

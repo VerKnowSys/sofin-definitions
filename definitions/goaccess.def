@@ -2,10 +2,10 @@ DEF_FULL_NAME="Goaccess log utility"
 DEF_SHA="1a887dc7182c91726137aaf6a4627efdd82d988e"
 DEF_NAME="goaccess"
 DEF_VERSION="0.7"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="gmake libiconv expat zlib pcre pkgconf libffi gettext python27 m4 libtool libiconv glib"
 DEF_CONFIGURE_ARGS="--enable-utf8"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    unset APP_CONFIGURE_ARGS
+    unset DEF_CONFIGURE_ARGS
 fi
 DEF_EXPORTS="goaccess"

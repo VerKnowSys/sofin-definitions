@@ -3,7 +3,7 @@ DEF_FULL_NAME="Rubinius Ruby VM"
 DEF_SHA="acf2c4862be061568dc96d65c2b872ad1eb2efc9"
 DEF_NAME="rubinius"
 DEF_VERSION="3.41"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${APP_NAME}-${APP_VERSION}.tar.bz2"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="zlib bzip2 gmake m4 libtool libxml2 python27 xz libffi ccache cmake llvm libgpg-error libgcrypt libxslt yaml sqlite perl bison openssl ruby23"
 DEF_EXPORTS="ruby rbx gem irb ri rdoc erb rake bundle bundle rackup"
 DEF_MAKE_METHOD="rake install"
@@ -14,11 +14,11 @@ DEF_AFTER_INSTALL_CALLBACK="afterInstall"
 DEF_CONFIGURE_ARGS="--release-build --preserve-prefix --llvm-path=${PREFIX} --llvm-shared"
 case "${SYSTEM_NAME}" in
   FreeBSD)
-    DEF_REQUIREMENTS="libexecinfo ${APP_REQUIREMENTS}"
-    DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --with-dtrace --with-execinfo --with-rpath"
+    DEF_REQUIREMENTS="libexecinfo ${DEF_REQUIREMENTS}"
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-dtrace --with-execinfo --with-rpath"
     ;;
   Darwin)
-    DEF_CONFIGURE_ARGS="${APP_CONFIGURE_ARGS} --without-rpath"
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-rpath"
     DEF_STRIP="no"
     ;;
 esac
