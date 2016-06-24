@@ -6,7 +6,7 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="gmake zlib pkgconf libiconv bzip2 ncurses m4 flex bison perl openssl pcre libnet libtool libpcap"
 DEF_CONFIGURE_ARGS="--with-libnet=${PREFIX} --with-libpcap=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --disable-gtk --disable-plugins"
 if [ "${SYSTEM_NAME}" != "Linux" ]; then
-    export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-iconv=${PREFIX}"
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-iconv=${PREFIX}"
 fi
 DEF_EXPORTS="ettercap etterfilter etterlog"
 FORCE_GNU_COMPILER="true"

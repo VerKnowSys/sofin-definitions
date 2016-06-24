@@ -7,11 +7,11 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX} --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS="
 case "${SYSTEM_NAME}" in
     Linux)
-        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
         ;;
 
     FreeBSD|Darwin)
-        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
         ;;
 esac
 DEF_REQUIREMENTS="pkgconf gmake libiconv m4 expat zlib bzip2 lzma xz perl openssl python27 libxml2 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline-dynamic gmp51"

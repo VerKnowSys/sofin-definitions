@@ -7,7 +7,7 @@ DEF_REQUIREMENTS="libiconv"
 DEF_CONFIGURE_ARGS="--disable-xmms-plugin --with-ogg=${PREFIX} --with-libiconv-prefix=${PREFIX} --disable-doxygen-docs --disable-thorough-tests --disable-largefile"
 DEF_EXPORTS="flac metaflac"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-  export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-static"
+  DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-static"
 else
-  export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-static"
+  DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-static"
 fi

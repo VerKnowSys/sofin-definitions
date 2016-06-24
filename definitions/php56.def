@@ -20,11 +20,11 @@ fi
 
 case "${SYSTEM_NAME}" in
     Linux)
-        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${PREFIX}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${PREFIX}"
         ;;
 
     FreeBSD)
-        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${SERVICE_DIR}/etc"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${SERVICE_DIR}/etc"
         ;;
 esac
 

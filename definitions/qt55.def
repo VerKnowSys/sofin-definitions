@@ -8,9 +8,7 @@ DEF_CONFIGURE_ARGS="-prefix ${PREFIX} -c++11 -opensource -confirm-license -relea
 DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 DEF_REQUIREMENTS="pkgconf gmake"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    export DEF_COMPILER_ARGS="-mmacosx-version-min=10.8"
-    export DEF_AFTER_INSTALL_CALLBACK="makeSymlinks"
-
+    DEF_AFTER_INSTALL_CALLBACK="makeSymlinks"
     makeSymlinks () {
         for lib in QtCore QtGui QtMacExtras QtWidgets QtOpenGL; do
             ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"

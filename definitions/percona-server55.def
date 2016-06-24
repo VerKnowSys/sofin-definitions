@@ -8,10 +8,10 @@ DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgcon
 DEF_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR} -DWITH_SSL=bundled -DWITH_ZLIB=yes"
 case "${SYSTEM_NAME}" in
     Darwin)
-        export DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
+        DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses"
         ;;
     Linux)
-        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         DEF_AFTER_INSTALL_CALLBACK="after_build"
         after_build () {
             mysql_proxy_name="mysql-proxy"
@@ -25,7 +25,7 @@ case "${SYSTEM_NAME}" in
         }
         ;;
     FreeBSD)
-        export DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
         ;;
 esac
 

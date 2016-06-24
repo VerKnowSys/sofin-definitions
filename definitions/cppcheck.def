@@ -6,7 +6,7 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE="no-conf"
 DEF_EXPORTS="cppcheck"
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    export DEF_REQUIREMENTS="gmake"
-    export DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-    export DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
+    DEF_REQUIREMENTS="gmake"
+    DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
+    DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 fi

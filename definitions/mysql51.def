@@ -9,7 +9,7 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="zlib bzip2 expat libiconv ncurses m4 libtool"
 case "${SYSTEM_NAME}" in
     Darwin)
-        export DEF_REQUIREMENTS="zlib bzip2 expat ncurses libtool"
+        DEF_REQUIREMENTS="zlib bzip2 expat ncurses libtool"
         ;;
 esac
 
