@@ -4,7 +4,7 @@ DEF_NAME="percona-server"
 DEF_VERSION="5.5.46-37.6"
 DEF_POSTFIX="55"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgconf libffi gettext python27 libtool15 glib libiconv libevent flex"
+DEF_REQUIREMENTS="ccache zlib bzip2 expat cmake ncurses m4 perl bison gmake pcre pkgconf libffi gettext python27 libtool15 glib libiconv libevent flex"
 DEF_CONFIGURE_ARGS="-DMYSQL_DATADIR=${SOFTWARE_DATA_DIR} -DWITH_SSL=bundled -DWITH_ZLIB=yes"
 case "${SYSTEM_NAME}" in
     Darwin)
