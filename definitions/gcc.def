@@ -3,7 +3,7 @@ langs="c,c++,objc,fortran"
 DEF_FULL_NAME="GNU Compiler 5.4 (with langs: ${langs})"
 DEF_VERSION="5.4.0"
 DEF_NAME="gcc"
-DEF_SHA="0612270b103941da08376df4d0ef4e5662a2e9eb"
+DEF_SHA="07524df2b4ab9070bad9c49ab668da72237b8115"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE="../configure"
 
