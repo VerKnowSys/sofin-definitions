@@ -1,5 +1,6 @@
 inherit ruby21
 
+DEF_DISABLE_ON="FreeBSD" # build issues and weird behaviours there
 DEF_FULL_NAME="Ruby YARV 2.3"
 DEF_SHA="c39b4001f7acb4e334cb60a0f4df72d434bef711"
 DEF_NAME="ruby"
