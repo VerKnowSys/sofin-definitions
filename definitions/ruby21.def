@@ -14,7 +14,7 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
         ;;
 esac
-DEF_REQUIREMENTS="pkgconf gmake libiconv m4 expat zlib bzip2 lzma xz perl openssl python27 libxml2 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline-dynamic gmp51"
+DEF_REQUIREMENTS="pkgconf gmake readline-dynamic perl pth libiconv m4 zlib bzip2 lzma xz libxml2 python27 libxslt yaml libffi sqlite gmp51 openssl libtool libgpg-error libgcrypt"
 DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler rack"
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
