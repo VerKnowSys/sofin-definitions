@@ -8,10 +8,10 @@ DEF_CONFIGURE="ignore"
 DEF_REQUIREMENTS="libiconv gmake popt"
 DEF_MAKE_METHOD="gmake CFLAGS='${CFLAGS} -I${PREFIX}/include -D_GNU_SOURCE -Wall -DVERSION=\\\"${DEF_VERSION}\\\"' POPT_DIR=${PREFIX}/lib LOADLIBES='-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib -lpopt'"
 DEF_INSTALL_METHOD="
-${CP_BIN} ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}-${DEF_VERSION}/logrotate ${PREFIX}/bin
+${CP_BIN} ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}-${DEF_VERSION}/logrotate ${PREFIX}/bin
 ${MKDIR_BIN} -p ${PREFIX}/share/man/man5
 ${MKDIR_BIN} -p ${PREFIX}/share/man/man8
-${CP_BIN} ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}-${DEF_VERSION}/logrotate.conf.5 ${PREFIX}/share/man/man5/
-${CP_BIN} ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_SHA}/${DEF_NAME}-${DEF_VERSION}/logrotate.8 ${PREFIX}/share/man/man8/
+${CP_BIN} ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}-${DEF_VERSION}/logrotate.conf.5 ${PREFIX}/share/man/man5/
+${CP_BIN} ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}-${DEF_VERSION}/logrotate.8 ${PREFIX}/share/man/man8/
 "
 DEF_EXPORTS="logrotate"
