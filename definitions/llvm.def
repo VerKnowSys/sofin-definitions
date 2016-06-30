@@ -9,6 +9,7 @@ DEF_CONFIGURE_ARGS="-DLLVM_INCLUDE_EXAMPLES=off -DLLVM_INCLUDE_TESTS=off -DLLVM_
 DEF_CONFIGURE="cmake"
 DEF_CMAKE_BUILD_DIR="../"
 DEF_EXPORTS="bugpoint c-index-test clang clang++ clang-cpp clang-tblgen idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-link llvm-mc llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt lldb"
+DEF_USEFUL="bin/llvm*"
 DEF_USELESS="lib/perl* include/python* lib/python* share man"
 
 DEF_AFTER_UNPACK_CALLBACK="make_builddir"
