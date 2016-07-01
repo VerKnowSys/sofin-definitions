@@ -24,7 +24,6 @@ create_mpdconf () {
 prepare_lazily () {
     case "${SYSTEM_NAME}" in
         Darwin)
-            DEF_COMPILER_ARGS="-mmacosx-version-min=10.11 -arch=x86_64"
             DEF_CONFIGURE_ARGS="--enable-osx --enable-eventfd ${DEF_CONFIGURE_ARGS}"
             ;;
 
