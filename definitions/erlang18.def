@@ -4,9 +4,8 @@ DEF_NAME="erlang"
 DEF_VERSION="18.3"
 DEF_POSTFIX="18"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}otp_src_${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="gmake perl libressl"
-DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="gmake install -s && install_repl_history"
+DEF_REQUIREMENTS="make perl libressl"
+DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_CONFIGURE_ARGS="--enable-threads --enable-kernel-poll --disable-silent-rules --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --without-javac --enable-native-libs --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib"
 if [ "${SYSTEM_NAME}" != "Linux" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-dynamic-trace=dtrace"
@@ -17,5 +16,5 @@ DEF_CONFLICTS_WITH="Erlang Elixir"
 install_repl_history() {
     ${GIT_BIN} clone https://github.com/ferd/erlang-history.git
     cd erlang-history
-    PATH=$PATH:${PREFIX}/bin:/bin gmake install
+    PATH=$PATH:${PREFIX}/bin:/bin make install
 }

@@ -3,12 +3,12 @@ DEF_NAME="nettle"
 DEF_SHA="1836601393522124787e029466935408e22dd204"
 DEF_VERSION="3.1.1"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="bzip2 zlib libiconv gmake m4 gmp"
+DEF_REQUIREMENTS="bzip2 zlib libiconv make m4 gmp"
 if [ "${SYSTEM_ARCH}" = "arm" ]; then
     DEF_CONFIGURE_ARGS="--enable-shared --disable-assembler"
 else
     DEF_CONFIGURE_ARGS="--enable-shared"
 fi
 DEF_EXPORTS="nettle-hash nettle-lfib-stream"
-DEF_MAKE_METHOD="gmake -s"
-DEF_INSTALL_METHOD="gmake install"
+DEF_MAKE_METHOD="make -s"
+DEF_INSTALL_METHOD="make -s install"

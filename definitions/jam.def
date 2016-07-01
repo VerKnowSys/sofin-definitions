@@ -4,7 +4,6 @@ DEF_SHA="4bed1d529d4e742a607f462f4eb1ada32c2923a8"
 DEF_VERSION="2.6"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="no-conf"
-DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="install_jam"
 install_jam () {
     ${MKDIR_BIN} -p ${PREFIX}/bin

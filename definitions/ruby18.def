@@ -6,13 +6,12 @@ DEF_POSTFIX="18"
 DEF_VERSION="1.8.7-p374"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--enable-pthread --disable-install-doc --disable-install-rdoc"
-DEF_REQUIREMENTS="zlib bzip2 libiconv libxml2 gmake m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline"
-DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; install_rubygems ; ${PREFIX}/bin/gem install bundler rack"
+DEF_REQUIREMENTS="zlib bzip2 libiconv libxml2 make m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite readline"
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
-DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
-FORCE_GNU_COMPILER="YES"
 DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
+FORCE_GNU_COMPILER=YES
+
+DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; install_rubygems ; ${PREFIX}/bin/gem install bundler rack"
 install_rubygems () {
     # it's specific version of rubygems for compatibility with ruby 1.8.7. Don't trust rubygems.org about this compatibility, with newest version expect problems under OSX 10.8
     RUBYGEMS_VERSION="1.8.15"

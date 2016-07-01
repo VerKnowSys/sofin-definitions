@@ -3,10 +3,8 @@ DEF_NAME="glib"
 DEF_SHA="906720f36c4c16829485610eabefb39cf933fc59"
 DEF_VERSION="2.49.2"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf gmake zlib pcre libffi gettext python27 m4 libtool"
+DEF_REQUIREMENTS="pkgconf make zlib pcre libffi gettext python27 m4 libtool"
 DEF_CONFIGURE_ARGS="--disable-dependency-tracking  --disable-fam --disable-gtk-doc --disable-gtk-doc-html --without-xml-catalog --with-pcre=internal --disable-maintainer-mode --disable-silent-rules --disable-modular-tests --disable-libelf"
-DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 DEF_NO_CCACHE="YES"
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     # No probes provided for fbsd? sad panda

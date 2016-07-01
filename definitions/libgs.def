@@ -10,7 +10,7 @@ DEF_CONFIGURE_ARGS="--with-libiconv=native --disable-dbus \
     --enable-threadsafe --enable-threading --disable-fapi --with-system-libtiff \
     --enable-freetype --enable-fontconfig --with-fontconfig=${PREFIX} \
 "
-DEF_REQUIREMENTS="gmake pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper"
+DEF_REQUIREMENTS="make pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper"
 DEF_COMPILER_ARGS="-DA4 -DUPD_SIGNAL=0 -DOPJ_STATIC"
 DEF_CONFIGURE="./autogen.sh"
 DEF_MAKE_METHOD="make_stuff so"
@@ -24,7 +24,7 @@ make_stuff () {
     XCFLAGS="${DEF_COMPILER_ARGS} ${CFLAGS}" \
     XLDFLAGS="${DEF_LINKER_ARGS} ${LDFLAGS}" \
     SOC_LOADER="dxmainc.c" \
-        ${PREFIX}/bin/gmake ${compile_mode} ${MAKE_OPTS} \
+        ${PREFIX}/bin/make ${compile_mode} ${MAKE_OPTS} \
         AUXEXTRALIBS="-pthread -L${PREFIX}/lib -I${PREFIX}/include" && \
         debug "Done build"
 }

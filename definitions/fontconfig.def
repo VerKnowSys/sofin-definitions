@@ -3,7 +3,7 @@ DEF_NAME="fontconfig"
 DEF_SHA="5eb9b1fe8c3f9e0447b1238ade3c7af15b671a4d"
 DEF_VERSION="2.11.94"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf zlib bzip2 gmake perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake freetype"
+DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake freetype"
 DEF_CONFIGURE_ARGS="--disable-docs --enable-iconv \
     --with-configdir=${SERVICE_DIR}/etc/fonts/conf.d \
     --with-templatedir=${SERVICE_DIR}/etc/fonts/conf.avail \
@@ -15,8 +15,8 @@ DEF_CONFIGURE_ARGS="--disable-docs --enable-iconv \
     --with-cache-dir=${SERVICE_DIR}/var/db/fontconfig \
     --with-pkgconfigdir=${PREFIX}/lib/pkgconfig \
 "
-DEF_MAKE_METHOD="LC_ALL=C gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="LC_ALL=C gmake install -s ${MAKE_OPTS}"
+DEF_MAKE_METHOD="LC_ALL=C make -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS}"
 DEF_EXPORTS="fc-cache fc-cat fc-list fc-match fc-pattern fc-query fc-scan fc-validate"
 DEF_USELESS="include/python* lib/python* lib/perl*"
 

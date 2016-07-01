@@ -3,18 +3,18 @@ DEF_NAME="vitunes"
 DEF_SHA="3e62aad57d48ac6bc37d4fee1804b6053fdd30a3"
 DEF_VERSION="2.3"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="cmake taglib gmake"
+DEF_REQUIREMENTS="cmake taglib make"
 DEF_CONFIGURE="no-conf"
 DEF_MAKE_METHOD="make_vitunes"
 make_vitunes () {
     ${SED_BIN} -i '' -e 's/-lncursesw/-lncurses/' Makefile
     cc players/mplayer.c -o mplayer.o -fPIC -c && \
     cc players/player_utils.c -o player_utils.o -fPIC -c && \
-    ${PREFIX}/bin/gmake PREFIX=${PREFIX} ${MAKE_OPTS}
+    ${PREFIX}/bin/make PREFIX=${PREFIX} ${MAKE_OPTS}
 }
 DEF_INSTALL_METHOD="install_vitunes"
 install_vitunes () {
     ${MKDIR_BIN} -p ${PREFIX}/man/man1
-    ${PREFIX}/bin/gmake install PREFIX=${PREFIX}
+    ${PREFIX}/bin/make install PREFIX=${PREFIX}
 }
 DEF_EXPORTS="vitunes"

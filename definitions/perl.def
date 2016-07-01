@@ -7,7 +7,6 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="./Configure"
 DEF_CONFIGURE_ARGS="-des -Duseshrplib -DEBUGGING=none -Dprefix=${PREFIX}"
 DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
-DEF_MAKE_METHOD="make ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make -s install"
 DEF_AFTER_INSTALL_CALLBACK="link_shared_lib"
 

@@ -21,7 +21,7 @@ DEF_CONFIGURE_ARGS="--enable-gnu-indirect-function --disable-libgcj \
 "
 # ^ we don't do shared build because each binary built with shared gcc compiler
 # ^ will result with a dependency to libstdcxx from Gcc bundle..
-DEF_REQUIREMENTS="pkgconf bzip2 gmake m4 perl gmp4 mpfr libmpc isl012 zip autoconf libtool automake bison gmp51 texinfo binutils-gold"
+DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp4 mpfr libmpc isl012 zip autoconf libtool automake bison gmp51 texinfo binutils-gold"
 
 # We have to override CROSS_PLATFORM_COMPILER_FLAGS to disable stack protector.
 # This feature requires Sofin 0.98.x to work:
@@ -30,8 +30,8 @@ DEFAULT_COMPILER_FLAGS="${CROSS_PLATFORM_COMPILER_FLAGS} -Wl,-fuse-ld=gold"
 DEF_LINKER_ARGS="-lssp"
 
 common_opts="LANG=C LC_ALL=C SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
-DEF_MAKE_METHOD="${common_opts} gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="${common_opts} gmake install -s ${MAKE_OPTS}"
+DEF_MAKE_METHOD="${common_opts} make -s ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="${common_opts} make -s install ${MAKE_OPTS}"
 DEF_DEFAULT_USELESS="" # we do static build, hence we need to leave lib/*.a intact
 DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
 DEF_USEFUL="bin/ld* bin/x86_64-unknown-freebsd*"

@@ -11,8 +11,8 @@ DEF_CONFIGURE_ARGS="$(echo "${DEF_CONFIGURE_ARGS}" | ${SED_BIN} -e "s/--with-ker
 DEF_COMPILER_ARGS="-I${PREFIX}/include -I${PREFIX}/include/freetype2 -I/usr/include"
 DEF_LINKER_ARGS="-L${PREFIX}/lib"
 DEF_REQUIREMENTS="$(echo "${DEF_REQUIREMENTS} autoconf213 php52-cgi" | ${SED_BIN} -e 's/libressl/openssl/;s/ gd//')" # NOTE: this autoconf23 is required here, cause php 5.2 buildconf script requires that to generate configure script correctly. Also newer version is required earlier by gmp..
-DEF_MAKE_METHOD="gmake -s"
-DEF_INSTALL_METHOD="gmake install -s"
+DEF_MAKE_METHOD="make -s"
+DEF_INSTALL_METHOD="make -s install"
 DEF_BUNDLED_EXTENSIONS="$(echo "${DEF_BUNDLED_EXTENSIONS}" | ${SED_BIN} -e 's/phalcon2//;s/phalcon//') apc phar opcache" # XXX: +phalcon, which cannot be built here right away, cause of autoconf213 old mess..
 
 hack_after_unpack () {

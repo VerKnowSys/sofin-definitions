@@ -8,4 +8,4 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-gssapi"
 fi
 DEF_MAKE_METHOD="make -s"
-DEF_INSTALL_METHOD="make install -s"
+DEF_INSTALL_METHOD="make -s install"

@@ -3,10 +3,10 @@ DEF_NAME="gnutls"
 DEF_SHA="b4f4d182a64a863ccbf1943bf7f3536b89397fa1"
 DEF_VERSION="3.4.13"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="gmake bzip2 libiconv perl zlib m4 pkgconf libtool libgpg-error gmp51 nettle libtasn1 libffi p11-kit"
+DEF_REQUIREMENTS="make bzip2 libiconv perl zlib m4 pkgconf libtool libgpg-error gmp51 nettle libtasn1 libffi p11-kit"
 DEF_CONFIGURE_ARGS="--disable-guile --disable-nls --enable-local-libopts --disable-docs"
-DEF_MAKE_METHOD="gmake"
-DEF_INSTALL_METHOD="gmake install"
+DEF_MAKE_METHOD="make"
+DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="gnutls-cli gnutls-serv"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then

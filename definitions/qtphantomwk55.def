@@ -6,7 +6,7 @@ DEF_GIT_MODE="true"
 DEF_GIT_CHECKOUT="phantomjs"
 DEF_VERSION="${DEF_GIT_CHECKOUT}"
 DEF_CONFIGURE="no-conf"
-DEF_REQUIREMENTS="pkgconf gmake sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib bzip2 python27 cmake qtbase55"
+DEF_REQUIREMENTS="pkgconf make sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib bzip2 python27 cmake qtbase55"
 DEF_AFTER_UNPACK_CALLBACK="patch_n_prepare"
 DEF_EXPORTS="jsc"
 

@@ -4,11 +4,11 @@ DEF_NAME="rust"
 DEF_VERSION="1.9.0"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}c-${DEF_VERSION}-src.tar.gz"
 CARGO_REPOSITORY="https://github.com/rust-lang/cargo"
-DEF_REQUIREMENTS="pkgconf ccache gmake readline zlib xz lzma sqlite bzip2 yaml perl libffi openssl libiconv python27 libxml2 cmake libssh2 texinfo libidn curl" # libunwind
+DEF_REQUIREMENTS="pkgconf ccache make readline zlib xz lzma sqlite bzip2 yaml perl libffi openssl libiconv python27 libxml2 cmake libssh2 texinfo libidn curl" # libunwind
 DEF_CONFIGURE_ARGS="--disable-rustbuild --enable-jemalloc --disable-stage0-landing-pads --disable-manage-submodules --release-channel=stable --enable-optimize --disable-optimize-tests --enable-optimize-cxx --enable-optimize-llvm --disable-valgrind --disable-valgrind-rpass --enable-clang --disable-docs --enable-rpath --python=${PREFIX}/bin/python --enable-ccache --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --default-linker=ld.gold" # --enable-local-rust --llvm-root=${PREFIX}
 DEF_CONFIGURE="./configure"
-DEF_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=8 gmake ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="PREFIX=${PREFIX} gmake install ${MAKE_OPTS}"
+DEF_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=8 make ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="PREFIX=${PREFIX} make install ${MAKE_OPTS}"
 DEF_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
 DEF_COMPILER_ARGS="-I${PREFIX}/include"
 DEF_LINKER_ARGS="-L${PREFIX}/lib"
@@ -65,9 +65,9 @@ install_cargo () {
     ./configure --prefix=${PREFIX} --local-rust-root=${PREFIX} && \
     unset CC && \
     debug "Building Cargo using 8 parallel units.." && \
-    RUSTFLAGS=-Ccodegen_units=8 ${PREFIX}/bin/gmake && \
+    RUSTFLAGS=-Ccodegen_units=8 ${PREFIX}/bin/make && \
     debug "Installing Cargo" && \
-    ${PREFIX}/bin/gmake install
+    ${PREFIX}/bin/make install
     ret="$?"
 
     # make wrapper for cargo which does not include rpath information in binary:

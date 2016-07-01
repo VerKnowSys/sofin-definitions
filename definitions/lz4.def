@@ -5,9 +5,9 @@ DEF_VERSION="r131"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="no-conf"
 DEF_EXPORTS="lz4 lz4c lz4cat"
-DEF_REQUIREMENTS="gmake"
-DEF_MAKE_METHOD="gmake -s"
-DEF_INSTALL_METHOD="gmake install -s"
+DEF_REQUIREMENTS="make"
+DEF_MAKE_METHOD="make -s"
+DEF_INSTALL_METHOD="make -s install"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_COMPILER_ARGS="-std=c99 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -pedantic -DXXH_NAMESPACE=LZ4_"

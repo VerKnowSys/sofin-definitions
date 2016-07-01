@@ -6,12 +6,10 @@ DEF_POSTFIX="94"
 DEF_VERSION="9.4.8"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
-DEF_REQUIREMENTS="gmake zlib libiconv libressl readline-dynamic m4 libtool"
+DEF_REQUIREMENTS="make zlib libiconv libressl readline-dynamic m4 libtool"
 DEF_AFTER_INSTALL_CALLBACK="build_addons_and_extensions"
 DEF_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog pg_archivecleanup pg_basebackup pg_isready pg_receivexlog pg_recvlogical pg_resetxlog postmaster reindexdb vacuumdb createlang droplang dropuser ecpg clusterdb"
 DEF_ORIGIN="http://www.postgresql.org"
-DEF_MAKE_METHOD="gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="gmake install -s ${MAKE_OPTS}"
 DEF_CONFLICTS_WITH="Postgresql"
 DEF_STRIP="exports"
 DEF_NO_FAST_MATH=YES
@@ -42,7 +40,7 @@ esac
 
 build_addons_and_extensions () {
     base_dir="${CACHE_DIR}cache/${DEF_NAME}${DEF_POSTFIX}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}-${DEF_VERSION}/contrib"
-    cd ${base_dir}/pg_archivecleanup && gmake install
-    cd ${base_dir}/hstore && gmake install
-    cd ${base_dir}/pg_trgm && gmake install
+    cd ${base_dir}/pg_archivecleanup && make install
+    cd ${base_dir}/hstore && make install
+    cd ${base_dir}/pg_trgm && make install
 }

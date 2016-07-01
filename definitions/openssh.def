@@ -14,11 +14,10 @@ DEF_CONFIGURE_ARGS="--without-shadow --without-pam --disable-utmp \
     --with-ssl-dir=${PREFIX} --with-zlib=${PREFIX} \
     --with-pid-dir=${SERVICE_DIR}/var/run/openssh.pid \
 "
-DEF_REQUIREMENTS="pkgconf gmake m4 yasm libtool zlib bzip2 libressl libnet db perl krb"
+DEF_REQUIREMENTS="pkgconf make m4 yasm libtool zlib bzip2 libressl libnet db perl krb"
 DEF_EXPORTS="ssh sshd scp sftp ssh-add ssh-agent ssh-keygen ssh-keyscan sftp-server ssh-keysign ssh-pkcs11-helper"
 DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'Host *.verknowsys.com verknowsys.com\nPort 60022\n' >> ${SERVICE_DIR}/etc/ssh_config"
-DEF_INSTALL_METHOD="gmake -s ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="gmake -s install"
+DEF_INSTALL_METHOD="make -s install"
 DEF_USELESS="lib/*perl* docs share/examples share/aclocal"
 DEF_COMPILER_ARGS="-DHPN -DLIBEDIT -DBSM"
 DEF_NO_GOLDEN_LINKER=YES

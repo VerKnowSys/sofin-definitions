@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Linux FreeBSD Darwin Minix"
+DEF_DISABLE_ON="Linux Darwin Minix"
 DEF_FULL_NAME="Iconv Library"
 DEF_SHA="be7d67e50d72ff067b2c0291311bc283add36965"
 DEF_NAME="libiconv"
