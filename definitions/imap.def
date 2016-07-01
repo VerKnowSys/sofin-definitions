@@ -9,7 +9,7 @@ if [ "${SYSTEM_NAME}" = "Linux" ]; then
 else
     a_sys="bsf"
 fi
-DEF_MAKE_METHOD="make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS=-fPIC"
+DEF_MAKE_METHOD="yes | make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS=-fPIC"
 DEF_INSTALL_METHOD="install_files"
 
 install_files () {
