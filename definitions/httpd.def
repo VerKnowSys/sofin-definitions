@@ -13,7 +13,7 @@ DEF_USEFUL="bin/perl* bin/ap[[:alpha:]]-1-config bin/curl*"
 
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=apache --with-suexec-logfile=/var/log/httpd/suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/local/bin:/usr/bin:/bin'"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=apache --with-suexec-logfile=/var/log/httpd/suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/local/bin:/usr/bin:/bin' --sysconfdir=/etc/${DEF_NAME}/conf"
         ;;
 
     *)
