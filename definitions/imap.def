@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Cclient Library"
 DEF_SHA="7a82ebd5aae57a5dede96ac4923b63f850ff4fa7"
-DEF_NAME="cclient"
+DEF_NAME="imap"
 DEF_VERSION="2007f"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}imap-${DEF_VERSION}.tar.gz"
+DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="ignore"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     a_sys="lnp"
