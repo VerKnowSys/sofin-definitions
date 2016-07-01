@@ -6,6 +6,6 @@ DEF_POSTFIX="15"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.src.tar.gz"
 DEF_EXPORTS="go gofmt go-${DEF_VERSION} gofmt-${DEF_VERSION} godep"
 
-origin="${CACHE_DIR}cache/${DEF_NAME}${DEF_POSTFIX}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}/"
+origin="${BUILD_DIR_ROOT}/${DEF_NAME}/"
 DEF_MAKE_METHOD="make_script ${origin}"
 DEF_INSTALL_METHOD="install_wrappers ${DEF_VERSION}"
