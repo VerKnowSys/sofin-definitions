@@ -7,7 +7,7 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make zlib libiconv perl openssl nagios-plugins"
 DEF_CONFIGURE_ARGS="--enable-ssl --with-ssl=${PREFIX} --with-ssl-inc=${PREFIX}/include --with-ssl-lib=${PREFIX}/lib --disable-command-args --disable-bash-command-substitution"
 DEF_MAKE_METHOD="make all"
-DEF_INSTALL_METHOD="${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}-${DEF_VERSION}/src/nrpe ${PREFIX}/bin ; ${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}-${RUNTIME_ID}/${DEF_NAME}-${DEF_VERSION}/src/check_nrpe ${PREFIX}/libexec"
+DEF_INSTALL_METHOD="${CP_BIN} -fR ${BUILD_DIR_ROOT}/${DEF_NAME}-${DEF_VERSION}/src/nrpe ${PREFIX}/bin ; ${CP_BIN} -fR ${BUILD_DIR_ROOT}/${DEF_NAME}-${DEF_VERSION}/src/check_nrpe ${PREFIX}/libexec"
 DEF_EXPORTS="nrpe check_apt check_dig check_file_age check_ifstatus check_log check_nntp check_ntp_peer check_ping check_sensors check_ssmtp check_ups check_breeze check_disk check_flexlm check_imap check_mailq check_nntps check_ntp_time check_pop check_simap check_swap check_users check_by_ssh check_disk_smb check_ftp check_ircd check_mrtg check_nrpe check_nwstat check_procs check_smtp check_tcp check_wave check_clamd check_dns check_http check_jabber check_mrtgtraf check_nt check_oracle check_real check_spop check_time check_cluster check_dummy check_ifoperstatus check_load check_nagios check_ntp check_overcr check_rpc check_ssh check_udp"
 
 # 2014-05-27 19:44:19 - dmilith:
