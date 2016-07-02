@@ -10,5 +10,5 @@ DEF_CONFIGURE="./autogen.sh ; ./configure PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfi
 DEF_CONFIGURE_ARGS="--disable-gtk --disable-dbus --enable-qt --enable-chardet"
 DEF_AFTER_INSTALL_CALLBACK="${CP_BIN} -r contrib/macpack/Audacious.app ${PREFIX}/"
 DEF_NO_CCACHE="YES"
-DEF_COMPILER_ARGS="-mmacosx-version-min=10.9"
+DEF_COMPILER_ARGS="-mmacosx-version-min=10.11"
 DEF_AFTER_EXPORT_CALLBACK="${CP_BIN} -r ${PREFIX}/Audacious.app ${PREFIX}/../"
