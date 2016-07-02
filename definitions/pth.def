@@ -1,4 +1,4 @@
-DISABLE_ON="FreeBSD"
+DEF_DISABLE_ON="FreeBSD"
 DEF_FULL_NAME="Portable Threads library"
 DEF_NAME="pth"
 DEF_SHA="9a71915c89ff2414de69fe104ae1016d513afeee"
