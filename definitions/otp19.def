@@ -4,14 +4,21 @@ DEF_NAME="otp"
 DEF_VERSION="19.0"
 DEF_POSTFIX="19"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make perl libressl"
+DEF_REQUIREMENTS="pkgconf make m4 libtool db zlib lzma xz libunwind libatomic_ops perl libressl unixodbc"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
-DEF_CONFIGURE_ARGS="--enable-threads --enable-kernel-poll --disable-silent-rules --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --without-javac --enable-native-libs --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib"
-if [ "${SYSTEM_NAME}" != "Linux" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-dynamic-trace=dtrace"
-fi
+DEF_CONFIGURE_ARGS="--enable-m64-build --enable-threads --with-dynamic-trace=dtrace --enable-fp-exceptions --enable-hipe --enable-kernel-poll --enable-smp-support --enable-sctp --with-ssl=${PREFIX} --without-javac --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib --enable-vm-probes --with-odbc=${PREFIX} --disable-native-libs --disable-silent-rules" # --with-libatomic_ops=${PREFIX}
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
-DEF_CONFLICTS_WITH="Erlang Elixir"
+DEF_CONFLICTS_WITH="Otp Elixir"
+
+case "${SYSTEM_NAME}" in
+    FreeBSD)
+        DEF_COMPILER_ARGS="-DMAP_NORESERVE=0"
+        DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
+        ;;
+
+    *)
+        ;;
+esac
 
 install_repl_history() {
     ${GIT_BIN} clone https://github.com/ferd/erlang-history.git
