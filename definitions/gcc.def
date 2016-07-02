@@ -21,7 +21,7 @@ DEF_CONFIGURE_ARGS="--enable-gnu-indirect-function --disable-libgcj \
 "
 # ^ we don't do shared build because each binary built with shared gcc compiler
 # ^ will result with a dependency to libstdcxx from Gcc bundle..
-DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp4 mpfr libmpc isl012 zip autoconf libtool automake bison gmp51 texinfo binutils-gold"
+DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp4 mpfr libmpc isl012 zip autoconf libtool automake bison gmp texinfo binutils-gold"
 
 # We have to override CROSS_PLATFORM_COMPILER_FLAGS to disable stack protector.
 # This feature requires Sofin 0.98.x to work:

@@ -3,7 +3,7 @@ DEF_NAME="squid"
 DEF_SHA="da5c117c4431b2a9fb743466078c4d7e1be8a1f4"
 DEF_VERSION="4.0.1"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf bzip2 zlib libiconv make m4 gmp51 expat nettle libressl perl"
+DEF_REQUIREMENTS="pkgconf bzip2 zlib libiconv make m4 gmp expat nettle libressl perl"
 DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --disable-select \
 --disable-poll \
