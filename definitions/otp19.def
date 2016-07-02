@@ -6,7 +6,7 @@ DEF_POSTFIX="19"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make m4 libtool db zlib lzma xz libunwind libatomic_ops perl libressl unixodbc"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
-DEF_CONFIGURE_ARGS="--enable-m64-build --enable-threads --with-dynamic-trace=dtrace --enable-fp-exceptions --enable-hipe --enable-kernel-poll --enable-smp-support --enable-sctp --with-ssl=${PREFIX} --without-javac --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib --enable-vm-probes --with-odbc=${PREFIX} --disable-native-libs --disable-silent-rules" # --with-libatomic_ops=${PREFIX}
+DEF_CONFIGURE_ARGS="--enable-m64-build --enable-threads --with-dynamic-trace=dtrace --enable-fp-exceptions --enable-hipe --enable-kernel-poll --enable-smp-support --enable-sctp --with-ssl=${PREFIX} --without-javac --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib --enable-vm-probes --with-odbc=${PREFIX} --disable-native-libs --with-libatomic_ops=${PREFIX} --disable-silent-rules"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 
