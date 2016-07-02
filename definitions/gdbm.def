@@ -1,4 +1,4 @@
-DEF_FULL_NAME="GNU dbm"
+DEF_FULL_NAME="Library of database functions that use extensible hashing and work similar to the standard UNIX dbm."
 DEF_SHA="ce433d0f192c21d41089458ca5c8294efe9806b4"
 DEF_NAME="gdbm"
 DEF_VERSION="1.11"
