@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Darwin"
+DEF_DISABLE_ON="Darwin FreeBSD"
 DEF_FULL_NAME="Unwind Library"
 DEF_SHA="aa04e6a7164aef754415b3b5e9453985741dd99e"
 DEF_NAME="libunwind"
