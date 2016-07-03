@@ -11,7 +11,7 @@ DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
 FORCE_GNU_COMPILER=YES
 
-DEF_AFTER_INSTALL_CALLBACK="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; install_rubygems ; ${PREFIX}/bin/gem install bundler rack"
+DEF_AFTER_INSTALL_METHOD="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; install_rubygems ; ${PREFIX}/bin/gem install bundler rack"
 install_rubygems () {
     # it's specific version of rubygems for compatibility with ruby 1.8.7. Don't trust rubygems.org about this compatibility, with newest version expect problems under OSX 10.8
     RUBYGEMS_VERSION="1.8.15"

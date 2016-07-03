@@ -6,7 +6,7 @@ DEF_REQUIREMENTS="make ncurses"
 DEF_CONFIGURE_ARGS="--disable-desktop-files --without-X11 --without-gtk --enable-extended-keys"
 DEF_EXPORTS="vifm vifm-pause vifmrc-converter"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_AFTER_EXPORT_CALLBACK="update_vifm_default_config"
+DEF_AFTER_EXPORT_METHOD="update_vifm_default_config"
 DEF_CONFLICTS_WITH="vifm-devel"
 
 update_vifm_default_config () {

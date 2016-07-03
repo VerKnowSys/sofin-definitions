@@ -11,7 +11,7 @@ DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="syslog-ng syslog-ng-ctl"
 DEF_USELESS="lib/python* lib/libffi* lib/glib* share/aclocal* share/doc lib/*perl* share/bison share/autoconf* share/automake* share/gettext* share/libtool"
-DEF_AFTER_PATCH_CALLBACK="patch_libnet_detect"
+DEF_AFTER_PATCH_METHOD="patch_libnet_detect"
 patch_libnet_detect () {
     ${SED_BIN} -i '' -e 's:libnet-config:libnet11-config:g' ./configure
 }

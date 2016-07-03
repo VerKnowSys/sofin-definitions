@@ -8,7 +8,7 @@ DEF_CONFIGURE="ignore"
 DEF_REQUIREMENTS="make" # XXX: Requires /Software/Qt, /Software/Ccache and /Software/Pkgconf.
 DEF_MAKE_METHOD="bin/build && ${MKDIR_BIN} -p ${PREFIX}"
 DEF_INSTALL_METHOD="install_thess_fun"
-DEF_AFTER_EXPORT_CALLBACK="igniters_install"
+DEF_AFTER_EXPORT_METHOD="igniters_install"
 DEF_EXPORTS="svdpanel svdshell svdss svddw ignitersinstall svdirc_notify svddeployer svdply svdcoreginx_helper ttys_updater svdadduser"
 
 install_thess_fun () {

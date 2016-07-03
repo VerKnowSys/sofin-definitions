@@ -16,7 +16,7 @@ DEF_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
 # DEF_LINKER_ARGS="-L${PREFIX}/lib"
 DEF_USELESS="doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
 DEF_CONFLICTS_WITH="Rust"
-DEF_AFTER_UNPACK_CALLBACK="disable_aslr" # ; patch_snapshots_txt"
+DEF_AFTER_UNPACK_METHOD="disable_aslr" # ; patch_snapshots_txt"
 disable_aslr () {
     sysctl hardening.pax.aslr.status=1
 }
@@ -34,7 +34,7 @@ disable_aslr () {
 # " > src/snapshots.txt
 # }
 
-DEF_AFTER_INSTALL_CALLBACK="install_cargo"
+DEF_AFTER_INSTALL_METHOD="install_cargo"
 install_cargo () {
     export CFLAGS="-I/usr/include -I${PREFIX}/include"
     export CXXFLAGS="-I/usr/include -I${PREFIX}/include"

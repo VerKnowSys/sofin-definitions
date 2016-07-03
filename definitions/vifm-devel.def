@@ -9,7 +9,7 @@ DEF_INSTALL_METHOD="${PREFIX}/bin/make -s ${MAKE_OPTS} install; true"
 DEF_HTTP_PATH="https://github.com/xaizek/vifm.git"
 DEF_GIT_MODE="true"
 DEF_GIT_CHECKOUT="master"
-DEF_AFTER_INSTALL_CALLBACK="update_vifm_default_config"
+DEF_AFTER_INSTALL_METHOD="update_vifm_default_config"
 DEF_CONFLICTS_WITH="vifm"
 
 update_vifm_default_config () {

@@ -15,4 +15,4 @@ patch_configure () {
     ${SED_BIN} -i '' -e 's#if test $ol_cv_bdb_compat != yes ; then#if test $ol_cv_bdb_compat != no ; then#g' ./configure
     true
 }
-DEF_AFTER_UNPACK_CALLBACK="patch_configure"
+DEF_AFTER_UNPACK_METHOD="patch_configure"
