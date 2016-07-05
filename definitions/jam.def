@@ -7,7 +7,12 @@ DEF_CONFIGURE="no-conf"
 DEF_INSTALL_METHOD="install_jam"
 install_jam () {
     ${MKDIR_BIN} -p ${PREFIX}/bin
-    ${INSTALL_BIN} -v bin/jam ${PREFIX}/bin/
-    ${INSTALL_BIN} -v bin/mkjambase ${PREFIX}/bin/
+    if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+        ${INSTALL_BIN} -v bin.macosxx86_64/jam ${PREFIX}/bin/
+        ${INSTALL_BIN} -v bin.macosxx86_64/mkjambase ${PREFIX}/bin/
+    else
+        ${INSTALL_BIN} -v bin/jam ${PREFIX}/bin/
+        ${INSTALL_BIN} -v bin/mkjambase ${PREFIX}/bin/
+    fi
 }
 DEF_EXPORTS="jam mkjambase"

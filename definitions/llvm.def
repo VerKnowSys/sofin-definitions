@@ -12,12 +12,12 @@ DEF_EXPORTS="bugpoint c-index-test clang clang++ clang-cpp clang-tblgen idle llc
 DEF_USEFUL="bin/llvm*"
 DEF_USELESS="lib/perl* include/python* lib/python* share man"
 
-DEF_AFTER_UNPACK_CALLBACK="make_builddir"
+DEF_AFTER_UNPACK_METHOD="make_builddir"
 make_builddir () {
     ${MKDIR_BIN} -p build
     cd build
 }
-DEF_AFTER_INSTALL_CALLBACK="go_up"
+DEF_AFTER_INSTALL_METHOD="go_up"
 go_up () {
     cd ..
 }

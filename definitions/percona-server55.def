@@ -12,7 +12,7 @@ case "${SYSTEM_NAME}" in
         ;;
     Linux)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_DTRACE=OFF"
-        DEF_AFTER_INSTALL_CALLBACK="after_build"
+        DEF_AFTER_INSTALL_METHOD="after_build"
         after_build () {
             mysql_proxy_name="mysql-proxy"
             mysql_proxy_version="0.8.5"

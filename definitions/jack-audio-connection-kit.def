@@ -13,5 +13,5 @@ patch_makefile () {
         ${SED_BIN} -i '' -e 's#/System/Library/Frameworks/Carbon.framework/Headers/Carbon.h#Carbon.h#g' ${makefile}
     done
 }
-DEF_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+DEF_AFTER_CONFIGURE_METHOD="patch_makefile"
 DEF_EXPORTS="jack_alias jack_bufsize jack_connect jack_disconnect jack_evmon jack_freewheel jack_impulse_grabber jack_iodelay jack_latent_client jack_load jack_load_test jack_lsp jack_metro jack_midi_dump jack_midiseq jack_midisine jack_monitor_client jack_netsource jack_property jack_rec jack_samplerate jack_server_control jack_session_notify jack_showtime jack_simple_client jack_simple_session_client jack_transport_client jack_unload jack_wait jackd sndfile-cmp sndfile-concat sndfile-convert sndfile-deinterleave sndfile-info sndfile-interleave sndfile-metadata-get sndfile-metadata-set sndfile-play sndfile-regtest sndfile-resample sndfile-salvage"

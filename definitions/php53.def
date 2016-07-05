@@ -14,7 +14,7 @@ add_libstdc_to_makefile () {
     ${SED_BIN} -i '' -e 's:^EXTRA_LIBS = :EXTRA_LIBS = -lstdc++ :' Makefile
     true
 }
-DEF_AFTER_CONFIGURE_CALLBACK="${DEF_AFTER_CONFIGURE_CALLBACK}; add_libstdc_to_makefile"
+DEF_AFTER_CONFIGURE_METHOD="${DEF_AFTER_CONFIGURE_METHOD}; add_libstdc_to_makefile"
 
 install_rar () {
     arch_name="rar-3.0.2"

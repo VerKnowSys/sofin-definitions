@@ -10,7 +10,7 @@ DEF_CONFIGURE="no-conf"
 DEF_MAKE_METHOD="make"
 DEF_INSTALL_METHOD="make -s install"
 
-DEF_AFTER_UNPACK_CALLBACK="install_perl_modules"
+DEF_AFTER_UNPACK_METHOD="install_perl_modules"
 install_perl_modules () {
     ${SED_BIN} -i '' -e "s/PREFIX.*$/PREFIX = ${PREFIX}/" Makefile.config
     echo "yes\n" | cpan install inc::latest Time::HiRes Digest::MD5 Digest::SHA1 Crypt::Rijndael Crypt::DES Crypt::CBC Net::SSLeay Storable HTML::Template Text::Balanced Params::Validate Getopt::Long File::Copy::Recursive CGI::Fast IO::Socket::INET6 Log::Log4perl IPC::Shareable Log::Dispatch Log::Dispatch::FileRotate MIME::Lite Mail::Sender Mail::Sendmail Net::Server Net::SNMP

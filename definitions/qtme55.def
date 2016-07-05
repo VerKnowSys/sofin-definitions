@@ -5,4 +5,4 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}qtmacextras-opensource-src-${DEF_VERSION
 DEF_SHA="bd42e329ae70585e746edff70ce594ca486fc8d3"
 DEF_CONFIGURE="no-conf"
 DEF_REQUIREMENTS="pkgconf make qtbase55"
-DEF_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtmacextras.pro"
+DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake qtmacextras.pro"

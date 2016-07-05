@@ -49,11 +49,11 @@ hack_after_unpack () {
     ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
 }
 
-DEF_AFTER_UNPACK_CALLBACK="install_oci8_libs ; hack_after_unpack"
-DEF_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
+DEF_AFTER_UNPACK_METHOD="install_oci8_libs ; hack_after_unpack"
+DEF_AFTER_CONFIGURE_METHOD="${RM_BIN} -rf ${PREFIX}/Software || true"
 
 # install extensions
-DEF_AFTER_INSTALL_CALLBACK="install_extensions ; cleanup_oci8_headers"
+DEF_AFTER_INSTALL_METHOD="install_extensions ; cleanup_oci8_headers"
 cleanup_oci8_headers () {
     ${RM_BIN} -f ${PREFIX}/lib/*.h
 }

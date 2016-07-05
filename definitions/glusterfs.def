@@ -12,7 +12,7 @@ DEF_EXPORTS="gfind_missing_files gcron.py gluster glusterd glusterfs glusterfsd 
 DEF_USEFUL="bin/python* bin/rsync bin/sqlite3"
 DEF_USELESS="include/python* lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/bison share/readline"
 
-DEF_AFTER_INSTALL_CALLBACK="after_install"
+DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
     ${SED_BIN} -i '' -e "s#/usr/bin/env python#${PREFIX}/bin/python#" ${PREFIX}/bin/glusterfind ${PREFIX}/sbin/gcron.py ${PREFIX}/sbin/snap_scheduler.py
     ${TEST_BIN} -f /sbin/mount_glusterfs && \

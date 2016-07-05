@@ -21,7 +21,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-DEF_AFTER_INSTALL_CALLBACK="create_cert_file"
+DEF_AFTER_INSTALL_METHOD="create_cert_file"
 create_cert_file () {
     ${MKDIR_BIN} -p ${os_specific}/etc/ssl
     cd ${os_specific}/etc/ssl

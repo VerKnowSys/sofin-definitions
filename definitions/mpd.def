@@ -8,8 +8,8 @@ DEF_REQUIREMENTS="pkgconf make ccache jemalloc sqlite pcre libiconv libatomic_op
 DEF_CONFIGURE_ARGS="--with-boost=${PREFIX} --enable-zzip --enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-nfs --disable-icu --disable-inotify --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-epoll --enable-glib --enable-zlib --enable-openal --enable-opus --enable-sqlite --enable-httpd-output"
 DEF_EXPORTS="mpd mpc mpdscribble"
 DEF_USELESS="ssl doc* share man include/boost include/python* lib/python* include/perl* lib/perl*"
-DEF_AFTER_UNPACK_CALLBACK="prepare_lazily ; ./autogen.sh"
-DEF_AFTER_INSTALL_CALLBACK="create_mpdconf ; make_dirs"
+DEF_AFTER_UNPACK_METHOD="prepare_lazily ; ./autogen.sh"
+DEF_AFTER_INSTALL_METHOD="create_mpdconf ; make_dirs"
 
 make_dirs () {
     ${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db

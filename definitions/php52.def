@@ -31,7 +31,7 @@ hack_after_unpack () {
     touch ac*
     PATH=${PREFIX}/bin:/bin:/usr/bin:/usr/sbin:/sbin ./buildconf --force
 }
-DEF_AFTER_CONFIGURE_CALLBACK="${RM_BIN} -rf ${PREFIX}/Software || true"
+DEF_AFTER_CONFIGURE_METHOD="${RM_BIN} -rf ${PREFIX}/Software || true"
 
 
 # Php 5.2-5.3 extension version:

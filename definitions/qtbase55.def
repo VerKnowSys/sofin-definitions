@@ -45,8 +45,8 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
             create_freebsd_clang_spec
         fi
     }
-    DEF_AFTER_UNPACK_CALLBACK="create_freebsd_clang_spec_on_sources"
-    DEF_AFTER_INSTALL_CALLBACK="create_dest_freebsd_clang_spec"
+    DEF_AFTER_UNPACK_METHOD="create_freebsd_clang_spec_on_sources"
+    DEF_AFTER_INSTALL_METHOD="create_dest_freebsd_clang_spec"
 fi
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
@@ -55,6 +55,6 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
             ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
         done
     }
-    DEF_AFTER_INSTALL_CALLBACK="makeSymlinks"
+    DEF_AFTER_INSTALL_METHOD="makeSymlinks"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath"
 fi

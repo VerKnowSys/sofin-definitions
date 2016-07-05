@@ -19,7 +19,7 @@ case "${SYSTEM_NAME}" in
 
     FreeBSD)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cxx --disable-stl"
-        DEF_AFTER_PATCH_CALLBACK="patch_db_files"
+        DEF_AFTER_PATCH_METHOD="patch_db_files"
         patch_db_files () {
             if [ "FreeBSD" = "${SYSTEM_NAME}" ]; then
                 ${SED_BIN} -i '' -e '/^DOCLIST/{s/csharp//;}' ../dist/Makefile.in

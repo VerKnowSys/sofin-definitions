@@ -7,7 +7,7 @@ DEF_REQUIREMENTS="perl"
 DEF_CONFIGURE_ARGS="--disable-ipv6 --disable-debug --enable-acl-support --enable-xattr-support --enable-iconv --enable-locale"
 DEF_EXPORTS="rsync"
 DEF_USELESS="lib/*perl* man share/man"
-DEF_AFTER_UNPACK_CALLBACK="patch_max_path_length"
+DEF_AFTER_UNPACK_METHOD="patch_max_path_length"
 DEF_CONFLICTS_WITH="Rsync"
 patch_max_path_length () {
     note "Increasing default MAXPATHLEN from 1024 to 8194"

@@ -17,6 +17,6 @@ DEF_EXPORTS="nrpe check_apt check_dig check_file_age check_ifstatus check_log ch
 # case "${SYSTEM_NAME}" in
 #     FreeBSD)
 #         # if installing as root, we can add default user/ group for nrpe
-#         DEF_AFTER_MAKE_CALLBACK="pw groupadd nagios ; pw useradd nagios -s /sbin/nologin || true"
+#         DEF_AFTER_MAKE_METHOD="pw groupadd nagios ; pw useradd nagios -s /sbin/nologin || true"
 #         ;;
 # esac

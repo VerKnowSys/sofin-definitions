@@ -9,7 +9,7 @@ DEF_CONFIGURE_ARGS="--enable-nls --with-includes=${PREFIX}/include --with-librar
 DEF_EXPORTS="ftpscrub ftpshut in.proftpd proftpd ftpasswd ftpcount ftpdctl ftpmail ftpquota ftptop ftpwho prxs"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USELESS="share/aclocal*"
-DEF_AFTER_UNPACK_CALLBACK="fetch_geoip"
+DEF_AFTER_UNPACK_METHOD="fetch_geoip"
 
 fetch_geoip () {
     cd contrib

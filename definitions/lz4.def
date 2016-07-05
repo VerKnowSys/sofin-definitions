@@ -11,7 +11,7 @@ DEF_INSTALL_METHOD="make -s install"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_COMPILER_ARGS="-std=c99 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -pedantic -DXXH_NAMESPACE=LZ4_"
-    DEF_AFTER_UNPACK_CALLBACK="fix_makefile"
+    DEF_AFTER_UNPACK_METHOD="fix_makefile"
     fix_makefile () {
         for f in $(${FIND_BIN} ./ -name Makefile -type f -print 2>/dev/null); do
             note "Hacking file: $f"

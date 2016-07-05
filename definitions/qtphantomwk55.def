@@ -7,7 +7,7 @@ DEF_GIT_CHECKOUT="phantomjs"
 DEF_VERSION="${DEF_GIT_CHECKOUT}"
 DEF_CONFIGURE="no-conf"
 DEF_REQUIREMENTS="pkgconf make sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib bzip2 python27 cmake qtbase55"
-DEF_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+DEF_AFTER_UNPACK_METHOD="patch_n_prepare"
 DEF_EXPORTS="jsc"
 
 patch_n_prepare () {
@@ -16,7 +16,7 @@ patch_n_prepare () {
     ${MKDIR_BIN} -p tests/auto/cmake
 }
 
-DEF_AFTER_MAKE_CALLBACK="after_build_patch"
+DEF_AFTER_MAKE_METHOD="after_build_patch"
 after_build_patch () {
     ${CP_BIN} bin/jsc ${PREFIX}/bin/
 }

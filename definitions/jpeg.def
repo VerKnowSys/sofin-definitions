@@ -4,7 +4,7 @@ DEF_NAME="jpeg"
 DEF_VERSION="v9b"
 DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}src.${DEF_VERSION}.tar.gz"
-DEF_AFTER_INSTALL_CALLBACK="patch_header"
+DEF_AFTER_INSTALL_METHOD="patch_header"
 
 patch_header () {
     ${SED_BIN} -i '' -e 's#JCOPYRIGHT#"JCOPYRIGHT"#; s#JCOPYRIGHT_SHORT#"JCOPYRIGHT_SHORT"#; s#JVERSION#"v9b"#' ${PREFIX}/include/jerror.h || true

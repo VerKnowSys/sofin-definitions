@@ -24,7 +24,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-DEF_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+DEF_AFTER_CONFIGURE_METHOD="patch_makefile"
 patch_makefile () {
     ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile || true # Linux..
     ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= -O2 -Wall -mno-avx -fPIC -I${PREFIX}/include \$(MYCFLAGS)#" src/Makefile || true # Linux..
@@ -35,7 +35,7 @@ patch_makefile () {
 }
 
 # because Lua guys possibly don't know how to do things correctly:
-DEF_AFTER_MAKE_CALLBACK="create_pc"
+DEF_AFTER_MAKE_METHOD="create_pc"
 create_pc () {
     ${MKDIR_BIN} -p ${PREFIX}/lib/pkgconfig
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#" etc/lua.pc

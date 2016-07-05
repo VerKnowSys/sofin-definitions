@@ -6,19 +6,19 @@ DEF_VERSION="0.8.2"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="libiconv"
 DEF_CONFIGURE_ARGS="--enable-ipv6 --disable-adminport --enable-stats --enable-dpd --enable-natt=kernel --enable-security-context=kernel --enable-frag --enable-hybrid --without-libpam --disable-gssapi --sysconfdir=${SERVICE_DIR}/etc/racoon --localstatedir=${SERVICE_DIR}/var --with-libradius --without-libldap --with-openssl --with-libiconv"
-DEF_AFTER_UNPACK_CALLBACK="unpack_callback"
-DEF_AFTER_CONFIGURE_CALLBACK="afterconfig_callback"
+DEF_AFTER_UNPACK_METHOD="unpack_METHOD"
+DEF_AFTER_CONFIGURE_METHOD="afterconfig_METHOD"
 DEF_EXPORTS="plainrsa-gen racoon racoonctl setkey"
 FORCE_GNU_COMPILER="true"
 
-unpack_callback () {
+unpack_METHOD () {
     note "$(pwd)"
     ${SED_BIN} -i '' -e 's#-Werror##g' configure
     ${SED_BIN} -i '' -e 's#-R$libdir#-Wl,-rpath=$libdir#g' configure
     ${SED_BIN} -i '' -e "s#yes/lib#${PREFIX}/lib#g" configure
 }
 
-afterconfig_callback () {
+afterconfig_METHOD () {
     for makefile in $(${FIND_BIN} . -name 'Makefile'); do
         ${SED_BIN} -i '' -e 's#-R$libdir#-Wl,-rpath=$libdir#g' ${makefile}
         ${SED_BIN} -i '' -e "s#-Lyes/lib#-L${PREFIX}/lib#g" ${makefile}

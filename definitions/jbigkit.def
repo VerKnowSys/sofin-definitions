@@ -6,7 +6,7 @@ DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="ignore"
 DEF_INSTALL_METHOD="install_compiled_stuff"
 DEF_REQUIREMENTS="make"
-DEF_AFTER_UNPACK_CALLBACK="fix_makefile"
+DEF_AFTER_UNPACK_METHOD="fix_makefile"
 
 fix_makefile () {
     if [ -x "/usr/bin/clang" ]; then

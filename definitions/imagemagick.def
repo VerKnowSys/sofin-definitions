@@ -12,7 +12,7 @@ DEF_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share
 DEF_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
 DEF_CONFLICTS_WITH="GraphicsMagick"
 
-DEF_AFTER_CONFIGURE_CALLBACK="fix_makefile"
+DEF_AFTER_CONFIGURE_METHOD="fix_makefile"
 fix_makefile () {
     ${SED_BIN} -i '' -e \
         '/7.Q16HDRI.pc/d ; /cp -f\ \$\^\ \$\@/d' \
@@ -20,7 +20,7 @@ fix_makefile () {
     true
 }
 
-DEF_AFTER_INSTALL_CALLBACK="use_bundled_pkgconf"
+DEF_AFTER_INSTALL_METHOD="use_bundled_pkgconf"
 use_bundled_pkgconf () {
     ${SED_BIN} -i '' -e \
         "s:pkg-config:${PREFIX}/bin/pkgconf:g" \

@@ -9,7 +9,7 @@ DEF_CONFIGURE="no-conf"
 DEF_CONFLICTS_WITH="Qt55 Qtbase55"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    DEF_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake -spec freebsd-clang qtwebsockets.pro"
+    DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake -spec freebsd-clang qtwebsockets.pro"
 else
-    DEF_AFTER_UNPACK_CALLBACK="${PREFIX}/bin/qmake qtwebsockets.pro"
+    DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake qtwebsockets.pro"
 fi

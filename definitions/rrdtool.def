@@ -11,7 +11,7 @@ DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USELESS="include lib/python*"
 DEF_NO_FAST_MATH=YES
-DEF_AFTER_UNPACK_CALLBACK="fetch_vera_font"
+DEF_AFTER_UNPACK_METHOD="fetch_vera_font"
 
 fetch_vera_font () {
     ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}VeraMono.ttf

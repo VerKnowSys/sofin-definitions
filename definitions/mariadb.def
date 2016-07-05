@@ -14,7 +14,7 @@ DEF_CONFLICTS_WITH="Percona Mysql"
 
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_AFTER_INSTALL_CALLBACK="after_build"
+        DEF_AFTER_INSTALL_METHOD="after_build"
         after_build () {
             mysql_proxy_name="mysql-proxy"
             mysql_proxy_version="0.8.5"
@@ -28,7 +28,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     FreeBSD)
-        DEF_AFTER_PATCH_CALLBACK="sed_stuff"
+        DEF_AFTER_PATCH_METHOD="sed_stuff"
         sed_stuff () {
             ${SED_BIN} -i '' -e 's|%%LOCALBASE%%|${LOCALBASE}|g' scripts/mysql_config.sh
             ${SED_BIN} -i '' -e 's|%%PREFIX%%|${PREFIX}|g' mysys/my_default.c

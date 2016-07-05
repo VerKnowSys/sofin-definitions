@@ -13,5 +13,5 @@ if [ "${SYSTEM_NAME}" = "Linux" ]; then
         ${SED_BIN} -i 's#@REPOSITORY@#dev#g' Makefile
         ${SED_BIN} -i 's#http://github.com/VerKnowSys/sofin-definitions.git#dev#g' Makefile
     }
-    DEF_AFTER_CONFIGURE_CALLBACK="patch_makefile"
+    DEF_AFTER_CONFIGURE_METHOD="patch_makefile"
 fi

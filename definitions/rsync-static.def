@@ -2,4 +2,4 @@ inherit rsync
 
 DEF_POSTFIX="-static"
 DEF_REQUIREMENTS="perl zlib popt libiconv"
-DEF_AFTER_MAKE_CALLBACK="rm -v rsync && make CFLAGS=\"-static\""
+DEF_AFTER_MAKE_METHOD="rm -v rsync && make CFLAGS=\"-static\""

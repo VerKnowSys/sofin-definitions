@@ -9,7 +9,7 @@ DEF_REQUIREMENTS="make bzip2 zlib xz libressl"
 DEF_CONFIGURE_ARGS="--sysconfdir=/etc --localstatedir=/var --without-gssapi --with-ssl=openssl --without-docs --with-zlib --with-lzma --with-bzlib --with-pic --without-icu --without-gc --without-libcap --without-solr --without-lz4"
 DEF_USEFUL="libexec/dovecot"
 DEF_USELESS="man share/doc share/info share/man"
-DEF_AFTER_INSTALL_CALLBACK="make_libexec_symlinks && install_pigeonhole"
+DEF_AFTER_INSTALL_METHOD="make_libexec_symlinks && install_pigeonhole"
 
 make_libexec_symlinks () {
     for a_file in aggregator anvil auth checkpassword-reply config deliver dict decode2text.sh director dns-client doveadm-server dovecot-lda gdbhelper imap imap-login imap-urlauth imap-urlauth-login imap-urlauth-worker indexer indexer-worker ipc lmtp log maildirlock pop3 pop3-login quota-status rawlog replicator script script-login ssl-params stats xml2text; do

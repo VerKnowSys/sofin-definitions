@@ -38,12 +38,12 @@ DEF_USEFUL="bin/ld* bin/x86_64-unknown-freebsd*"
 DEF_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp"
 DEF_CONFLICTS_WITH="Binutils"
 
-DEF_AFTER_UNPACK_CALLBACK="make_and_enter_builddir"
+DEF_AFTER_UNPACK_METHOD="make_and_enter_builddir"
 make_and_enter_builddir () {
     ${MKDIR_BIN} -p gcc-build
     cd gcc-build
 }
-DEF_AFTER_INSTALL_CALLBACK="strip_libexec_and_go_up"
+DEF_AFTER_INSTALL_METHOD="strip_libexec_and_go_up"
 strip_libexec_and_go_up () {
     for to_str in cc1 cc1obj cc1plus collect2 f951 lto1 lto-wrapper liblto_plugin.so.0; do
         ${STRIP_BIN} ${PREFIX}/libexec/gcc/x86_64-unknown-freebsd11.0/${DEF_VERSION}/${to_str}

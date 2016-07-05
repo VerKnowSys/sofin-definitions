@@ -9,7 +9,7 @@ DEF_CONFIGURE_ARGS="--enable-shared --with-threads --with-fpectl --without-pydeb
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-universalsdk --with-universal-archs=64-bit"
 fi
-DEF_AFTER_INSTALL_CALLBACK="${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip ; ${PREFIX}/bin/pip install --upgrade pip ; ${PREFIX}/bin/pip install pytoml dulwich sqlalchemy; install_mysql_connector"
+DEF_AFTER_INSTALL_METHOD="${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip ; ${PREFIX}/bin/pip install --upgrade pip ; ${PREFIX}/bin/pip install pytoml dulwich sqlalchemy; install_mysql_connector"
 DEF_EXPORTS="python3 python3-config easy_install pip dulwich pytoml pip pip3"
 DEF_USEFUL="bin/python*"
 DEF_CONFLICTS_WITH="Python"

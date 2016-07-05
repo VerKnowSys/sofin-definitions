@@ -9,7 +9,7 @@ DEF_CONFIGURE_ARGS="CC=${PREFIX}/bin/gcc LEX=${PREFIX}/bin/flex --with-platform=
 DEF_REQUIREMENTS="make m4 perl bison flex libressl python27 gmp mpfr libmpc expat libiconv gettext zip isl012 autoconf libtool automake binutils-gold gcc"
 DEF_USELESS="include/python* lib/*perl* lib/*python* lib/gcc lib/gettext lib/include libexec sbin share/gettext* share/libtool share/bison x86_64-unknown-freebsd* include lib/*.la lib/*.py share/man/man3 share/auto* share/aclocal*"
 DEF_EXPORTS="grub-bhyve grub-editenv grub-emu grub-emu-lite grub-fstest grub-kbdcomp grub-menulst2cfg grub-mkimage grub-mklayout grub-mkpasswd-pbkdf2 grub-mkrelpath grub-mkstandalone grub-script-check"
-DEF_AFTER_UNPACK_CALLBACK="prepare_lazily"
+DEF_AFTER_UNPACK_METHOD="prepare_lazily"
 prepare_lazily () {
     # Gcc panics when trying to pass -fPIC to build, but we can't set it globally
     # because by design it will also affect all dependencies
@@ -22,7 +22,7 @@ prepare_lazily () {
 }
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
-DEF_AFTER_INSTALL_CALLBACK="make_link_and_service_dirs"
+DEF_AFTER_INSTALL_METHOD="make_link_and_service_dirs"
 make_link_and_service_dirs () {
     ${LN_BIN} -s ${PREFIX}/bin/grub-emu ${PREFIX}/bin/grub-bhyve
     ${MKDIR_BIN} -p ${SERVICE_DIR}/boot/grub ${PREFIX}/sbin

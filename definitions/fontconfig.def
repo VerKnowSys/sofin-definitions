@@ -20,7 +20,7 @@ DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS}"
 DEF_EXPORTS="fc-cache fc-cat fc-list fc-match fc-pattern fc-query fc-scan fc-validate"
 DEF_USELESS="include/python* lib/python* lib/perl*"
 
-DEF_AFTER_MAKE_CALLBACK="make_destdirs"
+DEF_AFTER_MAKE_METHOD="make_destdirs"
 make_destdirs () {
     ${MKDIR_BIN} -p \
         ${SERVICE_DIR}/etc/fonts/conf.d \

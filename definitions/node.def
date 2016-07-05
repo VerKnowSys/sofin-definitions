@@ -16,7 +16,7 @@ DEF_USEFUL="bin/node*"
 DEF_EXPORTS="node npm node-waf node-gyp coffee lessc uglifyjs cake"
 DEF_NO_CCACHE=YES
 
-DEF_AFTER_INSTALL_CALLBACK="install_default_npm_modules"
+DEF_AFTER_INSTALL_METHOD="install_default_npm_modules"
 install_default_npm_modules () {
     ${PREFIX}/bin/npm install -g coffee-script less uglify-js
     true # Node throws "npm ERR! code -2147483648" on success ;)

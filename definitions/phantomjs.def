@@ -10,7 +10,7 @@ DEF_USELESS="lib/perl5 lib/python2.7 lib/ruby"
 DEF_COMPILER_ARGS="-DJSC_TAINTED_32 -D__BSD_VISIBLE"
 DEF_EXPORTS="phantomjs"
 
-DEF_AFTER_UNPACK_CALLBACK="patch_n_prepare"
+DEF_AFTER_UNPACK_METHOD="patch_n_prepare"
 patch_n_prepare () {
     ${PREFIX}/bin/qmake -config release
 }
