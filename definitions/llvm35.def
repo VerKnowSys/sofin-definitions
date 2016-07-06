@@ -1,7 +1,5 @@
 inherit llvm
 
 DEF_SHA="85faf7cbd518dabeafc4d3f7e909338fc1dab3c4"
-DEF_NAME="llvm"
-DEF_POSTFIX="35"
 DEF_VERSION="3.5.2"
 DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
