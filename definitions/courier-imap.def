@@ -1,4 +1,4 @@
-REQUIRE_ROOT_ACCESS="true"
+DEF_REQUIRE_ROOT_ACCESS="true"
 DEF_FULL_NAME="Courier Mail IMAP Server"
 DATA_DIR="/SystemUsers/SoftwareData/Courier/"
 DEF_SHA="9c42a2a4e6f68eb233a573b63ce6a3931072be58"

@@ -13,7 +13,7 @@ DEF_EXPORTS="nrpe check_apt check_dig check_file_age check_ifstatus check_log ch
 # 2014-05-27 19:44:19 - dmilith:
 # NOTE: might be used, but it's not necessary:
 #
-# REQUIRE_ROOT_ACCESS="true"
+# DEF_REQUIRE_ROOT_ACCESS="true"
 # case "${SYSTEM_NAME}" in
 #     FreeBSD)
 #         # if installing as root, we can add default user/ group for nrpe

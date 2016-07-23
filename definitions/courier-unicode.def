@@ -1,4 +1,4 @@
-REQUIRE_ROOT_ACCESS="true"
+DEF_REQUIRE_ROOT_ACCESS="true"
 DEF_FULL_NAME="Courier Unicode Lib"
 DATA_DIR="/SystemUsers/SoftwareData/Courier/"
 DEF_SHA="4591c88785ed0aa7277a9ba13604ed585b8aa194"

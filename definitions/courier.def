@@ -1,4 +1,4 @@
-REQUIRE_ROOT_ACCESS="true"
+DEF_REQUIRE_ROOT_ACCESS="true"
 DEF_STANDALONE="true"
 DEF_DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Courier Mail Server"

@@ -1,4 +1,4 @@
-REQUIRE_ROOT_ACCESS="true"
+DEF_REQUIRE_ROOT_ACCESS="true"
 DEF_DISABLE_ON="Darwin FreeBSD Linux" # temporary
 DEF_FULL_NAME="Open Andrew File System"
 DEF_NAME="openafs"

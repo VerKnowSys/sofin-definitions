@@ -1,4 +1,4 @@
-REQUIRE_ROOT_ACCESS="true"
+DEF_REQUIRE_ROOT_ACCESS="true"
 DEF_FULL_NAME="Courier Mail Server Auth Lib"
 DATA_DIR="/SystemUsers/SoftwareData/Courier/"
 DEF_SHA="c4e5fcf746da4104156c59c6d56fbfbf82f544ba"
