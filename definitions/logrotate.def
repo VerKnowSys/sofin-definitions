@@ -8,10 +8,10 @@ DEF_CONFIGURE="ignore"
 DEF_REQUIREMENTS="libiconv make popt"
 DEF_MAKE_METHOD="make CFLAGS='${CFLAGS} -I${PREFIX}/include -D_GNU_SOURCE -Wall -DVERSION=\\\"${DEF_VERSION}\\\"' POPT_DIR=${PREFIX}/lib LOADLIBES='-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib -lpopt'"
 DEF_INSTALL_METHOD="
-${CP_BIN} ${BUILD_DIR_ROOT}/${DEF_NAME}-${DEF_VERSION}/logrotate ${PREFIX}/bin
+${CP_BIN} ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/logrotate ${PREFIX}/bin
 ${MKDIR_BIN} -p ${PREFIX}/share/man/man5
 ${MKDIR_BIN} -p ${PREFIX}/share/man/man8
-${CP_BIN} ${BUILD_DIR_ROOT}/${DEF_NAME}-${DEF_VERSION}/logrotate.conf.5 ${PREFIX}/share/man/man5/
-${CP_BIN} ${BUILD_DIR_ROOT}/${DEF_NAME}-${DEF_VERSION}/logrotate.8 ${PREFIX}/share/man/man8/
+${CP_BIN} ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/logrotate.conf.5 ${PREFIX}/share/man/man5/
+${CP_BIN} ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/logrotate.8 ${PREFIX}/share/man/man8/
 "
 DEF_EXPORTS="logrotate"
