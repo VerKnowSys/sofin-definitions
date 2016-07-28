@@ -20,7 +20,7 @@ unset   DEF_GIT_MODE # set to use git repository as code source
         DEF_GIT_CHECKOUT="master" # default git branch name if in git mode
 unset   DEF_NAME # this is software name, but also folder name in /Software or ~/Apps with app root directory.
 unset   DEF_POSTFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
-unset   DEF_VERSION # defines software version. If unset in git mode, value of DEF_GIT_CHECKOUT will be used
+unset   DEF_VERSION # defines software version
 unset   DEF_REQUIREMENTS # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
 unset   DEF_COMPILER_ARGS # additional special arguments to compiler used to build software
 unset   DEF_LINKER_ARGS # additional arguments to linker
