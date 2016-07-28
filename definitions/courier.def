@@ -1,11 +1,11 @@
-DEF_REQUIRE_ROOT_ACCESS="true"
-DEF_STANDALONE="true"
+DEF_REQUIRE_ROOT_ACCESS=YES
+DEF_STANDALONE=YES
 DEF_DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Courier Mail Server"
 DEF_SHA="6e6f279530bcca09090cd9f6a47003a7421ba3ef"
 DEF_NAME="courier"
 DEF_VERSION="0.75.0"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf libiconv perl pcre m4 libtool openssl make db expat gettext courier-unicode courier-authlib courier-imap"
 DEF_LINKER_ARGS="-lpthread"
 DEF_CONFIGURE_ARGS="--enable-mimetypes=/etc/mime.types --disable-silent-rules --disable-root-check --enable-syslog=1 --enable-use-flock --enable-unicode --enable-workarounds-for-imap-client-bugs --enable-mimecharset=UTF-8 --without-ipv6 --without-ispell --with-db=db --disable-static" # NOTE: this mime.types file exists in ServeD system by default, same with /etc/ssl

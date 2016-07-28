@@ -3,7 +3,7 @@ DEF_DISABLED_ON="Darwin"
 DEF_NAME="ncurses"
 DEF_SHA="3e042e5f2c7223bffdaac9646a533b8c758b65b5"
 DEF_VERSION="5.9"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-ext-colors --with-termlib --sysconfdir=/etc --enable-getcap --enable-getcap-cache --with-rcs-ids --enable-rpath --enable-widec --enable-bsdpad --without-debug --without-tests --with-manpages --without-ada --enable-termcap --without-cxx --without-cxx-binding --without-ada" # --datadir=/usr/share
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"

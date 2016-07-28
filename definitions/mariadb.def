@@ -1,9 +1,9 @@
 DEF_FULL_NAME="MariaDB 10.1"
-DEF_STANDALONE="true"
+DEF_STANDALONE=YES
 DEF_SHA="dcf46d638cd33032117a9f0d89e8650aa1309e74"
 DEF_NAME="mariadb"
 DEF_VERSION="10.1.14"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make db libnet readline readline-dynamic pcre libiconv ccache zlib bzip2 xz lzma lzo lzop lz4 m4 perl yasm autoconf texinfo automake bison libtool cmake msgpack kytea libsodium zeromq4 expat ncurses libressl python27 lua51 libffi gettext glib libevent flex boost-minimal libxml2 mariadb-client"
 DEF_CONFIGURE="cmake"
 DEF_CONFIGURE_ARGS="-DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=off -DWITH_LIBWRAP=1 -DPLUGIN_AUTH_GSSAPI_CLIENT=NO -DPLUGIN_TOKUDB=NO -DDISABLE_LIBMYSQLCLIENT_SYMBOL_VERSIONING=TRUE"

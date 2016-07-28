@@ -2,7 +2,7 @@ DEF_FULL_NAME="Julius is a high-performance, two-pass large vocabulary continuou
 DEF_SHA="88f64ae9ed00b6ab5a2d4fe07e3ced141a46c196"
 DEF_NAME="julius"
 DEF_VERSION="4.3.1"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="libiconv perl libsndfile"
 DEF_COMPILER_ARGS="-Wno-return-type -I${PREFIX}/include"
 DEF_LINKER_ARGS="-L${PREFIX}/lib -liconv"
@@ -14,7 +14,7 @@ case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_VERSION="4.1.2"
         DEF_SHA="5b08a207c642aaeeb33c6ef9524ccd1b8aa3f09d"
-        DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ac_cv_path_PERL=${PREFIX}/bin/perl --with-mictype=freebsd"
         ;;
 esac

@@ -3,7 +3,7 @@ DEF_SHA="dd68afc652fe542f83a9a709a74f4da2662054bf"
 DEF_NAME="ruby"
 DEF_POSTFIX="21"
 DEF_VERSION="2.1.9"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX}/lib:${PREFIX}/include:/usr/lib:/usr/include --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS= "
 case "${SYSTEM_NAME}" in
     Linux)

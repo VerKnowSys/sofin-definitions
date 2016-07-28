@@ -1,10 +1,10 @@
 DEF_DISABLE_ON="FreeBSD Linux"
 DEF_FULL_NAME="Dylib bundler"
 DEF_NAME="dylibbundler"
-DEF_GIT_MODE="true"
+DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="master"
 DEF_VERSION="master"
-DEF_HTTP_PATH="https://github.com/auriamg/macdylibbundler.git"
+DEF_SOURCE_PATH="https://github.com/auriamg/macdylibbundler.git"
 DEF_CONFIGURE="ignore"
 DEF_AFTER_CONFIGURE_METHOD="${MKDIR_BIN} -p ${PREFIX}/bin"
 DEF_MAKE_METHOD="make"

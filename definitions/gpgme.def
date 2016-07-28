@@ -4,6 +4,6 @@ DEF_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signat
 DEF_NAME="gpgme"
 DEF_SHA="21510323495f6220f8f67610c3c27a23d761d43d"
 DEF_VERSION="1.6.0"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-nls"
 DEF_USELESS="lib/*perl* share/readline share/common-lisp"

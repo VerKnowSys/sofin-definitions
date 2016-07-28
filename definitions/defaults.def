@@ -27,9 +27,9 @@ unset   DEF_LINKER_ARGS # additional arguments to linker
         DEF_CONFIGURE="./configure" # default configure script name
 unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of software
         DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
-        DEF_TEST_METHOD="true" # define to enable software internal testing NIY
+        DEF_TEST_METHOD=YES # define to enable software internal testing NIY
         DEF_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
-unset   DEF_SOURCE_DIR_POSTFIX # special value required for software which delivers software sources in custom non standard directory.
+unset   DEF_BUILD_DIR_POSTFIX # special value required for software which delivers software sources in custom non standard directory.
 unset   DEF_AFTER_UNPACK_METHOD
 unset   DEF_AFTER_CONFIGURE_METHOD
 unset   DEF_AFTER_MAKE_METHOD

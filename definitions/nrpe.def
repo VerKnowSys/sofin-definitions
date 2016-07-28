@@ -1,9 +1,9 @@
 DEF_FULL_NAME="NRPE nagios client"
-DEF_STANDALONE="true"
+DEF_STANDALONE=YES
 DEF_NAME="nrpe"
 DEF_SHA="45f434758c547c0af516e8b3324717f8dcd100a3"
 DEF_VERSION="2.15"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make zlib libiconv perl openssl nagios-plugins"
 DEF_CONFIGURE_ARGS="--enable-ssl --with-ssl=${PREFIX} --with-ssl-inc=${PREFIX}/include --with-ssl-lib=${PREFIX}/lib --disable-command-args --disable-bash-command-substitution"
 DEF_MAKE_METHOD="make all"
@@ -13,7 +13,7 @@ DEF_EXPORTS="nrpe check_apt check_dig check_file_age check_ifstatus check_log ch
 # 2014-05-27 19:44:19 - dmilith:
 # NOTE: might be used, but it's not necessary:
 #
-# DEF_REQUIRE_ROOT_ACCESS="true"
+# DEF_REQUIRE_ROOT_ACCESS=YES
 # case "${SYSTEM_NAME}" in
 #     FreeBSD)
 #         # if installing as root, we can add default user/ group for nrpe

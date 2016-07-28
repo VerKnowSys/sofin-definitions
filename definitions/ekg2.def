@@ -3,7 +3,7 @@ DEF_FULL_NAME="EKG2 - Multiplatform, multiprotocol, plugin-based instant messang
 DEF_NAME="ekg2"
 DEF_GIT_MODE=YES
 DEF_VERSION="master"
-DEF_HTTP_PATH="https://github.com/ekg2/ekg2.git"
+DEF_SOURCE_PATH="https://github.com/ekg2/ekg2.git"
 DEF_REQUIREMENTS="pkgconf zlib lzma xz make libiconv perl sqlite expat libgpg-error libgcrypt libassuan libksba pth npth gnupg gpgme pcre libffi gettext python27 m4 libtool glib autoconf texinfo automake libgpg-error gmp nettle libtasn1 p11-kit gnutls"
 DEF_CONFIGURE="./autogen.sh ; ./configure"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking --enable-unicode --without-readline --without-gtk --enable-rpath --with-ncurses=/usr --with-openssl=${PREFIX}"

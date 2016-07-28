@@ -3,7 +3,7 @@ DEF_FULL_NAME="LibreSSL Library"
 DEF_SHA="87e9d5589a1e4f29e3417fcde28fe01a7783eb2c"
 DEF_NAME="libressl"
 DEF_VERSION="2.3.6"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="openssl"
 
 cacert_source="http://curl.haxx.se/ca/cacert.pem"

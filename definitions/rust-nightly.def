@@ -3,8 +3,8 @@ DEF_SHA="a698496c5244bbb5b2332b70f239f5af93752cce"
 DEF_NAME="rust"
 DEF_POSTFIX="-nightly"
 DEF_VERSION="1.11-nightly-master"
-DEF_GIT_MODE="true"
-DEF_HTTP_PATH="https://github.com/rust-lang/rust.git"
+DEF_GIT_MODE=YES
+DEF_SOURCE_PATH="https://github.com/rust-lang/rust.git"
 CARGO_REPOSITORY="https://github.com/rust-lang/cargo"
 DEF_REQUIREMENTS="pkgconf ccache make readline zlib xz lzma sqlite bzip2 yaml perl libffi openssl libiconv python27 libxml2 cmake libssh2 texinfo libidn curl pcre git" # llvm
 DEF_CONFIGURE_ARGS="--enable-orbit --disable-rustbuild --disable-stage0-landing-pads --release-channel=nightly --enable-optimize --disable-optimize-tests --enable-optimize-cxx --enable-optimize-llvm --disable-valgrind --disable-valgrind-rpass --enable-clang --disable-docs --enable-rpath --python=${PREFIX}/bin/python --enable-ccache --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --default-linker=ld.gold --enable-jemalloc --default-linker=ld.gold --disable-elf-tls --disable-codegen-tests --enable-fast-make --libdir=${PREFIX}/lib" # --llvm-root=${PREFIX}  --enable-local-rust --local-rust-root=/Software/Rust --disable-manage-submodules

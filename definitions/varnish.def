@@ -1,9 +1,9 @@
 DEF_FULL_NAME="Varnish cache"
-DEF_STANDALONE="true"
+DEF_STANDALONE=YES
 DEF_SHA="efe52b76aa09ac38f92d2b18931aa2f033baf02c"
 DEF_NAME="varnish"
 DEF_VERSION="4.1.2"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-cache-${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-cache-${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="./autogen.sh ; ./configure"
 DEF_CONFIGURE_ARGS="--with-sysroot=${SOFTWARE_DATA_DIR}"
 DEF_REQUIREMENTS="pkgconf ncurses zlib pcre libressl python27 libexecinfo m4 make perl autoconf libtool texinfo automake groff"

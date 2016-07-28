@@ -1,9 +1,9 @@
 DEF_FULL_NAME="ClamAV"
-DEF_STANDALONE="true"
+DEF_STANDALONE=YES
 DEF_NAME="clamav"
 DEF_SHA="c1a47411834d8527f7b40727aebee63f01d488af"
 DEF_VERSION="0.99.2"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make zlib xz pcre perl openssl python27 libxml2 texinfo libidn curl"
 DEF_CONFIGURE_ARGS="--with-zlib=${PREFIX} --with-libcurl=${PREFIX} --with-pcre=${PREFIX} --with-xml=${PREFIX} --with-openssl=${PREFIX} --enable-llvm --enable-bigstack --enable-clamdtop"
 DEF_EXPORTS="clamav-config clamconf clamdtop clamsubmit clambc clamd freshclam clamdscan clamscan sigtool"

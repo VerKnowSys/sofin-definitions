@@ -1,10 +1,10 @@
 DEF_FULL_NAME="PostgreSQL 9"
-DEF_STANDALONE="true"
+DEF_STANDALONE=YES
 DEF_SHA="4e119e2667c8c4c3b35544dfefd7a4d9aaac3eef"
 DEF_NAME="postgresql"
 DEF_POSTFIX="94"
 DEF_VERSION="9.4.8"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
 DEF_REQUIREMENTS="make zlib libiconv libressl readline-dynamic m4 libtool"
 DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"

@@ -2,5 +2,5 @@ DEF_FULL_NAME="GeoIP library (premade, modified, launched ./bootstrap by hand be
 DEF_SHA="f09bb649b810dc59425bddfebc413322752e2a13"
 DEF_NAME="GeoIP"
 DEF_VERSION="1.6.4"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="geoiplookup geoiplookup6 geoipupdate"

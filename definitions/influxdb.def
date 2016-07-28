@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Influxb database"
 DEF_NAME="influxdb"
-DEF_HTTP_PATH="git://github.com/OliverLetterer/dummy-repo.git"
-DEF_GIT_MODE="true"
+DEF_SOURCE_PATH="git://github.com/OliverLetterer/dummy-repo.git"
+DEF_GIT_MODE=YES
 DEF_VERSION="0.10.0"
 DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_REQUIREMENTS="pkgconf pcre go15 protobuf"
