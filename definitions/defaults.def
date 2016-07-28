@@ -10,7 +10,7 @@
 ################################################################################
 
 
-DEF_COMPLIANCE='^1.[0-2]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
+DEF_COMPLIANCE='^1.[1-2]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 DEF_DISABLE_ON="" # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
 DEF_EXPORTS="" # defines list of binaries to be exported to user env into PATH
 DEF_FULL_NAME=""
