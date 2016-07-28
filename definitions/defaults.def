@@ -10,57 +10,57 @@
 ################################################################################
 
 
-DEF_COMPLIANCE='^1.[1-2]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
-DEF_DISABLE_ON="" # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
-DEF_EXPORTS="" # defines list of binaries to be exported to user env into PATH
-DEF_FULL_NAME=""
-DEF_HTTP_PATH=""
-DEF_GIT_MODE="" # when set to true, DEF_HTTP_PATH becomes source of git repository (http/https/git/dir are all supported)
-DEF_GIT_CHECKOUT="master" # git branch name used when in git mode
-DEF_NAME="" # this is software name, but also folder name in /Software or ~/Apps with app root directory.
-DEF_VERSION=""
-DEF_POSTFIX="" # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
-DEF_CONFIGURE_ARGS="" # additional arguments to configuration script of software
-DEF_REQUIREMENTS="" # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
-DEF_COMPILER_ARGS="" # additional special arguments to compiler used to build software
-DEF_LINKER_ARGS="" # additional arguments to linker
-DEF_CONFIGURE="./configure" # default configure script name
-DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
-DEF_TEST_METHOD="true" # define to enable software internal testing NIY
-DEF_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
-DEF_SOURCE_DIR_POSTFIX="" # special value required for software which delivers software sources in custom non standard directory.
-DEF_AFTER_UNPACK_METHOD=""
-DEF_AFTER_CONFIGURE_METHOD=""
-DEF_AFTER_MAKE_METHOD=""
-DEF_AFTER_INSTALL_METHOD=""
-DEF_AFTER_PATCH_METHOD=""
-DEF_AFTER_EXPORT_METHOD=""
-DEF_SHA="" # sha1 of archive source, used to check file checksum after archive download
-DEF_USER_INFO="" # additional optional information from definition to user displayed after installation
-DEF_CONFLICTS_WITH="" # defines list of definitions which are in conflict with software.
-DEF_REQUIRE_ROOT_ACCESS="" # set to true, to disallow definition to be built as non root users.
-DEF_APPLE_BUNDLE="" # set to true, to enable .app bundling for default (first) export.
-DEF_ORIGIN="" # app origin location, to gather newer software version if available
-DEF_STANDALONE="" # TODO: it's currently only a marker for standalone bundles
-DEF_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
-DEF_USELESS="" # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
-DEF_USEFUL="" # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
-DEF_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/common-lisp share/bison"
-DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
+        DEF_COMPLIANCE='^1.[1-2]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
-case "${SYSTEM_NAME}" in
-    Linux)
-        DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
-        ;;
+unset   DEF_DISABLE_ON # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
+unset   DEF_EXPORTS # defines list of binaries to be exported to user env into PATH
+unset   DEF_FULL_NAME
+unset   DEF_SOURCE_PATH # defines a path to source file (http, git, or any other supported by curl)
+unset   DEF_GIT_MODE # set to use git repository as code source
+        DEF_GIT_CHECKOUT="master" # default git branch name if in git mode
+unset   DEF_NAME # this is software name, but also folder name in /Software or ~/Apps with app root directory.
+unset   DEF_POSTFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
+unset   DEF_VERSION # defines software version. If unset in git mode, value of DEF_GIT_CHECKOUT will be used
+unset   DEF_REQUIREMENTS # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
+unset   DEF_COMPILER_ARGS # additional special arguments to compiler used to build software
+unset   DEF_LINKER_ARGS # additional arguments to linker
+        DEF_CONFIGURE="./configure" # default configure script name
+unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of software
+        DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
+        DEF_TEST_METHOD="true" # define to enable software internal testing NIY
+        DEF_INSTALL_METHOD="make install -s ${MAKE_OPTS}"
+unset   DEF_SOURCE_DIR_POSTFIX # special value required for software which delivers software sources in custom non standard directory.
+unset   DEF_AFTER_UNPACK_METHOD
+unset   DEF_AFTER_CONFIGURE_METHOD
+unset   DEF_AFTER_MAKE_METHOD
+unset   DEF_AFTER_INSTALL_METHOD
+unset   DEF_AFTER_PATCH_METHOD
+unset   DEF_AFTER_EXPORT_METHOD
+unset   DEF_SHA # sha1 of archive source, used to check file checksum after archive download. May be skipped when in git mode
+unset   DEF_USER_INFO # additional optional information from definition to user displayed after installation
+unset   DEF_CONFLICTS_WITH # defines list of definitions which are in conflict with software.
+unset   DEF_REQUIRE_ROOT_ACCESS # set, to disallow definition to be built as non root users.
+unset   DEF_APPLE_BUNDLE # set, to enable .app bundling for default (first) export.
+unset   DEF_ORIGIN # app origin location, to gather newer software version if available
+unset   DEF_STANDALONE # TODO: it's currently only a marker for standalone bundles
+        DEF_STRIP="all" # set to "all" to strip bins and libs; set to "exports", to strip binaries only; set to "libs", to strip libs only, "no" to skip strip
+        #DEF_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
+unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
+unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
+unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
+        DEF_CMAKE_BUILD_DIR="." # default build dir when cmake is used
+unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
+        DEF_DEFAULT_USELESS="lib/*.a share/gtk-doc share/emacs share/common-lisp share/bison"
+unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
+unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
+        DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
-    Darwin)
-        DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
-        ;;
-esac
+        case "${SYSTEM_NAME}" in
+            Linux)
+                DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa*" # include
+                ;;
 
-DEF_NO_CCACHE="" # any value disables ccache usage for current definition
-DEF_LINKER_NO_DTAGS="" # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
-#DEF_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
-DEF_NO_GOLDEN_LINKER="" # any value disables golden linker flags for configuration stage for current definition
-DEF_NO_FAST_MATH="" # any value disables "-ffast-math" compiler option for current definition
-DEF_CMAKE_BUILD_DIR="." # default build dir when cmake is used
+            Darwin)
+                DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} doc docs share/doc share/docs share/info share/acloc* share/automa* share/libtool share/bison share/readline" # include
+                ;;
+        esac
