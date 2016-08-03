@@ -1,14 +1,14 @@
 DEF_FULL_NAME="Erlang OTP"
 DEF_SHA="433bafe9bb16a2230830de93985c1d6e02ec1c4e"
-DEF_NAME="erlang"
+DEF_NAME="otp"
 DEF_VERSION="17.5"
 DEF_POSTFIX="17"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}otp_src_${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make perl libressl"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_CONFIGURE_ARGS="--enable-threads --enable-kernel-poll --disable-silent-rules --enable-smp-support --enable-sctp --enable-hipe --with-ssl=${PREFIX} --without-javac --enable-native-libs --disable-debug --enable-dynamic-ssl-lib --enable-shared-zlib"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
-DEF_CONFLICTS_WITH="Erlang"
+DEF_CONFLICTS_WITH="Otp Elixir"
 
 install_repl_history() {
     ${GIT_BIN} clone https://github.com/ferd/erlang-history.git
