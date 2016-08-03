@@ -1,22 +1,33 @@
 DEF_FULL_NAME="Ruby YARV 2.1"
-DEF_SHA="dd68afc652fe542f83a9a709a74f4da2662054bf"
+DEF_SHA="adcc9e10b8f7add0e19f8c70afc134c069a862ca"
 DEF_NAME="ruby"
-DEF_POSTFIX="21"
-DEF_VERSION="2.1.9"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-shared --with-opt-dir=${PREFIX}/lib:${PREFIX}/include:/usr/lib:/usr/include --disable-install-doc --disable-install-rdoc --enable-load-relative --with-openssl=${PREFIX} --with-gmp=${PREFIX} CFLAGS= "
+DEF_VERSION="2.1.10"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_SCRIPT="LC_ALL=C debugflags= ./configure"
+DEF_CONFIGURE_ARGS="--enable-shared --with-search-path=${PREFIX} --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include  --with-readline=${PREFIX} --disable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-dbm=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man CFLAGS='-I${PREFIX}/include' CPPFLAGS='-I${PREFIX}/include'"
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-gcc=/usr/bin/gcc"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --with-gcc=/usr/bin/gcc"
         ;;
 
-    FreeBSD|Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-gcc=/usr/bin/clang"
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-jemalloc=${PREFIX} --enable-dtrace --without-gcc --with-gcc=/usr/bin/clang"
+        ;;
+
+    FreeBSD)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-jemalloc=${PREFIX} --enable-rpath --enable-dtrace --without-gcc --with-gcc=/usr/bin/clang LIBS='-ljemalloc -L${PREFIX}/lib'" # --enable-libedit --with-libedit-dir=/usr
         ;;
 esac
-DEF_REQUIREMENTS="pkgconf make readline-dynamic perl pth libiconv m4 zlib bzip2 lzma xz libxml2 python27 libxslt yaml libffi sqlite gmp openssl libtool libgpg-error libgcrypt autoconf texinfo automake"
-DEF_AFTER_INSTALL_METHOD="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ${PREFIX}/bin/gem install bundler"
+DEF_COMPILER_ARGS="-DDHAVE_GMP_H=1 -DHAVE_LIBGMP=1 -DHAVE_RB_RATIONAL_NUM=1 -DHAVE_RB_RATIONAL_DEN=1"
+DEF_REQUIREMENTS="pkgconf make jemalloc readline-dynamic m4 libtool libiconv zlib bzip2 lzma xz gmp libxml2 libxslt libffi gettext ccache gdbm db sqlite flex perl bison unixodbc openssl python27 yaml libgpg-error libgcrypt autoconf texinfo automake"
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
 DEF_USELESS="lib/*perl* include/python* lib/python* man share"
+
+DEF_AFTER_INSTALL_METHOD="after_install"
+after_install () {
+    ${TEST_BIN} -f ${HOME}/.gemrc || ${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc
+    ${PREFIX}/bin/bundle clean --force
+    ${PREFIX}/bin/gem install bundler
+}
