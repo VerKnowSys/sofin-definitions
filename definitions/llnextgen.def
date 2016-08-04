@@ -1,0 +1,5 @@
+DEF_FULL_NAME="LLnextgen, an Extended LL(1) parser generator"
+DEF_SHA="288c994f15d3882e1fbf9f443c837dd7a069b3df"
+DEF_NAME="LLnextgen"
+DEF_VERSION="0.5.5"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
