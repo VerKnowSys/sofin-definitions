@@ -1,0 +1,20 @@
+DEF_FULL_NAME="Rustc - Rust-lang compiler"
+DEF_SHA="00decaac673be3daa672bf8452b44f2de40a7c95"
+DEF_NAME="rustc"
+DEF_VERSION="1.10.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-src.tar.gz"
+DEF_REQUIREMENTS="pkgconf make ccache jemalloc readline-dynamic m4 libtool libiconv gettext zlib bzip2 lzma xz pcre cmake libssh2 perl texinfo libidn gmp libxml2 libxslt gdbm db sqlite flex bison unixodbc libressl python27 yaml libgpg-error libgcrypt curl autoconf automake llnextgen git" # libffi llvm
+DEF_CONFIGURE_ARGS="--disable-rustbuild --enable-rpath --enable-clang --enable-orbit --enable-jemalloc --release-channel=stable --enable-optimize --enable-optimize-cxx --disable-valgrind --disable-valgrind-rpass --default-linker=clang++ --python=${PREFIX}/bin/python --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --enable-manage-submodules --enable-optimize-llvm --disable-docs" # --llvm-root=${PREFIX}
+DEF_NO_CCACHE=YES
+DEF_MAKE_METHOD="VERBOSE=1 make"
+DEF_INSTALL_METHOD="VERBOSE=1 make install"
+DEF_USEFUL="rust*"
+DEF_EXPORTS="rustc rustdoc cargo cargo.bin"
+DEF_USELESS="doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
+DEF_CONFLICTS_WITH="Rustc"
+
+DEF_AFTER_PATCH_METHOD="set_localbase"
+set_localbase () {
+    note "Patching main.mk.."
+    ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|" mk/main.mk
+}
