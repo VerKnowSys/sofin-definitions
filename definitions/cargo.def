@@ -1,0 +1,7 @@
+DEF_FULL_NAME="Cargo - Rust crate manager"
+DEF_NAME="cargo"
+DEF_GIT_MODE=YES
+DEF_VERSION="1.x-master"
+DEF_SOURCE_PATH="https://github.com/rust-lang/cargo.git"
+DEF_REQUIREMENTS="pkgconf make ccache jemalloc readline-dynamic m4 libtool libiconv gettext zlib bzip2 lzma xz pcre cmake libssh2 perl texinfo libidn gmp libxml2 libxslt gdbm db sqlite flex bison unixodbc libressl python27 yaml libgpg-error libgcrypt curl autoconf automake llnextgen git rustc"
+DEF_NO_CCACHE=YES
