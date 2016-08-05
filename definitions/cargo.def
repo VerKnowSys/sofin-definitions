@@ -12,10 +12,11 @@ DEF_EXPORTS="cargo cargo.bin"
 DEF_AFTER_INSTALL_METHOD="make_wrapper"
 make_wrapper () {
     # make wrapper for cargo which does not include rpath information in binary:
-    ${MV_BIN} ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin
     if [ "Darwin" = "${SYSTEM_NAME}" ]; then
         _addon="DY"
     fi
-    ${PRINTF_BIN} "#\!/bin/sh\n${_addon}LD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo
-    ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo
+    ${MV_BIN} -v ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin && \
+        ${PRINTF_BIN} "#\!/bin/sh\n${_addon}LD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo && \
+            ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo && \
+                note "Cargo wrapper is ready" >> ${LOG}-${DEF_NAME}
 }
