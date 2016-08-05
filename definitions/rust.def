@@ -1,81 +1,9 @@
-DEF_FULL_NAME="Rust Language"
-DEF_SHA="a698496c5244bbb5b2332b70f239f5af93752cce"
+inherit rustc
+
 DEF_NAME="rust"
-DEF_VERSION="1.9.0"
-DEF_HTTP_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}c-${DEF_VERSION}-src.tar.gz"
-CARGO_REPOSITORY="https://github.com/rust-lang/cargo"
-DEF_REQUIREMENTS="pkgconf ccache make readline zlib xz lzma sqlite bzip2 yaml perl libffi openssl libiconv python27 libxml2 cmake libssh2 texinfo libidn curl" # libunwind
-DEF_CONFIGURE_ARGS="--disable-rustbuild --enable-jemalloc --disable-stage0-landing-pads --disable-manage-submodules --release-channel=stable --enable-optimize --disable-optimize-tests --enable-optimize-cxx --enable-optimize-llvm --disable-valgrind --disable-valgrind-rpass --enable-clang --disable-docs --enable-rpath --python=${PREFIX}/bin/python --enable-ccache --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --default-linker=ld.gold" # --enable-local-rust --llvm-root=${PREFIX}
-DEF_CONFIGURE="./configure"
-DEF_MAKE_METHOD="RUSTFLAGS=-Ccodegen_units=8 make ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="PREFIX=${PREFIX} make install ${MAKE_OPTS}"
-DEF_EXPORTS="rustc rust-gdb rustdoc cargo cargo.bin"
-DEF_COMPILER_ARGS="-I${PREFIX}/include"
-DEF_LINKER_ARGS="-L${PREFIX}/lib"
-DEF_USELESS="doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
-DEF_CONFLICTS_WITH="Rust"
-DEF_AFTER_UNPACK_METHOD="disable_aslr ; patch_snapshots_txt"
-disable_aslr () {
-    sysctl hardening.pax.aslr.status=1
-}
-
-patch_snapshots_txt () {
-    ${PRINTF_BIN} "S 2016-03-18 235d774
-  linux-i386 0e0e4448b80d0a12b75485795244bb3857a0a7ef
-  linux-x86_64 1273b6b6aed421c9e40c59f366d0df6092ec0397
-  macos-i386 9f9c0b4a2db09acbce54b792fb8839a735585565
-  macos-x86_64 52570f6fd915b0210a9be98cfc933148e16a75f8
-  winnt-i386 7703869608cc4192b8f1943e51b19ba1a03c0110
-  winnt-x86_64 8512b5ecc0c53a2cd3552e4f5688577de95cd978
-  openbsd-x86_64 c5b6feda38138a12cd5c05574b585dadebbb5e87
-  freebsd-x86_64 390b9a9f60f3d0d6a52c04d939a0355f572d03b3
-" > src/snapshots.txt
-}
-
-DEF_AFTER_INSTALL_METHOD="install_cargo"
-install_cargo () {
-    export CFLAGS="-I/usr/include -I${PREFIX}/include"
-    export CXXFLAGS="-I/usr/include -I${PREFIX}/include"
-    export LDFLAGS="-L/usr/lib -L${PREFIX}/lib"
-    export PATH="${PREFIX}/bin:/usr/bin:/bin:$(${DIRNAME_BIN} ${GIT_BIN})"
-    export PKG_CONFIG_EXECUTABLE="${PREFIX}/bin/pkgconf"
-    export CARGO_SNAPSHOT="${MAIN_SOURCE_REPOSITORY}cargo-nightly-x86_64-unknown-freebsd.tar.gz"
-    export CARGO_FBSD_PATCH="${MAIN_SOURCE_REPOSITORY}cargo_freebsd_support_patch.patch"
-
-    debug "Cloning Cargo from remote repository.."
-    ${GIT_BIN} clone ${CARGO_REPOSITORY}
-    cd cargo
-    ${GIT_BIN} submodule update --init
-
-    debug "Patching Cargo for FreeBSD"
-    ${FETCH_BIN} "${CARGO_FBSD_PATCH}"
-    ${PATCH_BIN} -p0 < cargo_freebsd_support_patch.patch
-
-    debug "Downloading Cargo snapshot from: ${CARGO_SNAPSHOT}"
-    ${MKDIR_BIN} -p target/dl
-    cd target/dl
-    ${FETCH_BIN} "${CARGO_SNAPSHOT}"
-    cd ../..
-
-    ${PRINTF_BIN} "2016-03-29
-  freebsd-x86_64 dc83f32512e60cfd72df7012de80af324116977e
-" > src/snapshots.txt
-
-    debug "Configuring Cargo.." && \
-    ./configure --prefix=${PREFIX} --local-rust-root=${PREFIX} && \
-    unset CC && \
-    debug "Building Cargo using 8 parallel units.." && \
-    RUSTFLAGS=-Ccodegen_units=8 ${PREFIX}/bin/make && \
-    debug "Installing Cargo" && \
-    ${PREFIX}/bin/make install
-    ret="$?"
-
-    # make wrapper for cargo which does not include rpath information in binary:
-    ${MV_BIN} ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin
-    ${PRINTF_BIN} "#\!/bin/sh\nLD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo
-    ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo
-    # NOTE: ^ can be also solved by: patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/bin/cargo
-
-    return ${ret}
-}
-
+DEF_SHA="meta"
+DEF_FULL_NAME="${DEF_FULL_NAME} + Cargo"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc cargo"
+# XXX:
+DEF_CONFIGURE="meta"
+DEF_SOURCE_PATH="meta"
