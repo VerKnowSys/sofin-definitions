@@ -4,7 +4,6 @@ DEF_GIT_MODE=YES
 DEF_VERSION="2.1.1"
 DEF_GIT_CHECKOUT="${DEF_NAME}-${DEF_VERSION}"
 DEF_SOURCE_PATH="https://github.com/jonas/${DEF_NAME}.git"
-DEF_CONFIGURE_ARGS="--with-ncurses --includedir=${PREFIX}include/ncursesw"
-DEF_REQUIREMENTS="make ncurses m4 perl autoconf libtool texinfo automake"
+DEF_REQUIREMENTS="make m4 perl autoconf libtool texinfo automake"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_AFTER_UNPACK_METHOD="./autogen.sh"
