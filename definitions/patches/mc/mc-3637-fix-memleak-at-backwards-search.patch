@@ -1,0 +1,96 @@
+From aad93d02d3c152ae7751bb10f82799d88028d9f5 Mon Sep 17 00:00:00 2001
+From: Andreas Mohr <and@gmx.li>
+Date: Sun, 24 Apr 2016 17:11:52 +0000
+Subject: [PATCH] Fix memleak at backwards search
+
+Fix memleak at backwards search when not found result happen.
+
+Found by clang LeakSanitizer
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x4d4570 in __interceptor_malloc (/usr/bin/mc+0x4d4570)
+    #1 0x7fc03abd1077 in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4a077)
+    #2 0x7fc03ac65231 in g_strdup (/usr/lib64/libglib-2.0.so.0+0xde231)
+    #3 0x7fc03b04f6e9 in mc_search__run_regex /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/search/regex.c:981:35
+    #4 0x762ff2 in mcview_find /tmp/portage/app-misc/mc-9999/work/mc-9999/src/viewer/search.c:139:17
+    #5 0x760760 in mcview_do_search /tmp/portage/app-misc/mc-9999/work/mc-9999/src/viewer/search.c:330:13
+    #6 0x7320d9 in mcview_execute_cmd /tmp/portage/app-misc/mc-9999/work/mc-9999/src/viewer/actions_cmd.c:429:9
+    #7 0x731196 in mcview_callback /tmp/portage/app-misc/mc-9999/work/mc-9999/src/viewer/actions_cmd.c:681:13
+    #8 0x7fc03b0bb2f7 in buttonbar_callback /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/buttonbar.c:174:42
+    #9 0x7fc03b0c98d2 in dlg_try_hotkey /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:480:23
+    #10 0x7fc03b0c7e0e in dlg_key_event /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:525:19
+    #11 0x7fc03b0c86f0 in frontend_dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:586:9
+    #12 0x7fc03b0c8305 in dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:1300:5
+    #13 0x5e500b in mcview_viewer /tmp/portage/app-misc/mc-9999/work/mc-9999/src/viewer/mcviewer.c:250:9
+    #14 0x6cdde5 in view_file_at_line /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/cmd.c:589:19
+    #15 0x6ce61b in do_view_cmd /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/cmd.c:155:9
+    #16 0x555f78 in midnight_execute_cmd /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/midnight.c:1376:9
+    #17 0x7fc03b0bb2f7 in buttonbar_callback /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/buttonbar.c:174:42
+    #18 0x7fc03b0c98d2 in dlg_try_hotkey /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:480:23
+    #19 0x7fc03b0c7e0e in dlg_key_event /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:525:19
+    #20 0x7fc03b0c86f0 in frontend_dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:586:9
+    #21 0x7fc03b0c8305 in dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:1300:5
+    #22 0x553d07 in do_nc /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/midnight.c:1776:9
+    #23 0x50b705 in main /tmp/portage/app-misc/mc-9999/work/mc-9999/src/main.c:403:21
+    #24 0x7fc039ee165b in __libc_start_main (/lib64/libc.so.6+0x2065b)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x4d4570 in __interceptor_malloc (/tmp/portage/app-misc/mc-9999/work/mc-9999/src/.libs/mc+0x4d4570)
+    #1 0x7f30a963b077 in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4a077)
+    #2 0x7f30a96cf231 in g_strdup (/usr/lib64/libglib-2.0.so.0+0xde231)
+    #3 0x7f30a9ab96e9 in mc_search__run_regex /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/search/regex.c:981:35
+    #4 0x6597bc in editcmd_find /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/editcmd.c:882:17
+    #5 0x65bb19 in edit_do_search /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/editcmd.c:1007:13
+    #6 0x62b9c5 in edit_execute_cmd /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/edit.c:3812:9
+    #7 0x62a241 in edit_execute_key_command /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/edit.c:3218:5
+    #8 0x6846cf in edit_callback /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/editwidget.c:965:17
+    #9 0x7f30a9b252f7 in buttonbar_callback /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/buttonbar.c:174:42
+    #10 0x7f30a9b338d2 in dlg_try_hotkey /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:480:23
+    #11 0x7f30a9b31e0e in dlg_key_event /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:525:19
+    #12 0x7f30a9b326f0 in frontend_dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:586:9
+    #13 0x7f30a9b32305 in dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:1300:5
+    #14 0x6823b8 in edit_files /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/editwidget.c:1250:9
+    #15 0x68199f in edit_file /tmp/portage/app-misc/mc-9999/work/mc-9999/src/editor/editwidget.c:1189:10
+    #16 0x6cf07b in edit_file_at_line /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/cmd.c:703:9
+    #17 0x6cf26d in edit_cmd /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/cmd.c:741:9
+    #18 0x556115 in midnight_execute_cmd /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/midnight.c:1173:9
+    #19 0x7f30a9b252f7 in buttonbar_callback /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/buttonbar.c:174:42
+    #20 0x7f30a9b338d2 in dlg_try_hotkey /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:480:23
+    #21 0x7f30a9b31e0e in dlg_key_event /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:525:19
+    #22 0x7f30a9b326f0 in frontend_dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:586:9
+    #23 0x7f30a9b32305 in dlg_run /tmp/portage/app-misc/mc-9999/work/mc-9999/lib/widget/dialog.c:1300:5
+    #24 0x553d07 in do_nc /tmp/portage/app-misc/mc-9999/work/mc-9999/src/filemanager/midnight.c:1776:9
+    #25 0x50b705 in main /tmp/portage/app-misc/mc-9999/work/mc-9999/src/main.c:403:21
+    #26 0x7f30a894b65b in __libc_start_main (/lib64/libc.so.6+0x2065b)
+
+
+Signed-off-by: Andreas Mohr <and@gmx.li>
+---
+ src/editor/editcmd.c | 1 +
+ src/viewer/search.c  | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/src/editor/editcmd.c b/src/editor/editcmd.c
+index b33d662..f03f842 100644
+--- a/src/editor/editcmd.c
++++ b/src/editor/editcmd.c
+@@ -893,6 +893,7 @@ editcmd_find (edit_search_status_msg_t * esm, gsize * len)
+             else
+                 search_start--;
+         }
++        g_free (edit->search->error_str);
+         edit->search->error_str = g_strdup (_(STR_E_NOTFOUND));
+     }
+     else
+diff --git a/src/viewer/search.c b/src/viewer/search.c
+index 34ecfba..e4e4b0e 100644
+--- a/src/viewer/search.c
++++ b/src/viewer/search.c
+@@ -146,6 +146,7 @@ mcview_find (mcview_search_status_msg_t * ssm, off_t search_start, off_t search_
+ 
+             search_start--;
+         }
++        g_free (view->search->error_str);
+         view->search->error_str = g_strdup (_(STR_E_NOTFOUND));
+         return FALSE;
+     }
