@@ -12,6 +12,7 @@
 
         DEF_COMPLIANCE='^1.[1-2]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
+unset   DEF_TYPE # Set it to "meta" for meta bundles
 unset   DEF_DISABLE_ON # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
 unset   DEF_EXPORTS # defines list of binaries to be exported to user env into PATH
 unset   DEF_FULL_NAME
