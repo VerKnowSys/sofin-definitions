@@ -1,9 +1,8 @@
 inherit rustc
 
+DEF_TYPE="meta"
 DEF_NAME="rust"
-DEF_SHA="meta"
 DEF_FULL_NAME="${DEF_FULL_NAME} + Cargo"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc cargo"
-# XXX:
-DEF_CONFIGURE="meta"
-DEF_SOURCE_PATH="meta"
+DEF_USABLE="rust*"
+DEF_EXPORTS="rustc rustdoc cargo cargo.bin"
