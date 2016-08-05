@@ -12,8 +12,8 @@ DEF_CONFLICTS_WITH="Node"
 DEF_COMPILER_ARGS="-Wno-unused-private-field -Wno-nested-anon-types -Wno-unused-function -Wno-unused-const-variable"
 DEF_CONFIGURE_ARGS="--with-dtrace --shared-zlib --shared-openssl --with-intl=system-icu --shared-libuv --shared-cares  --without-npm"
 DEF_USELESS="include/python* lib/python* lib/*perl* include/perl* share/texinfo share/ac* share/auto* share/gtk-doc share/libtool"
-DEF_USEFUL="bin/bash bin/node*"
-DEF_EXPORTS="node npm node-waf node-gyp coffee lessc uglifyjs cake"
+DEF_USEFUL="bin/bash bin/node* bin/gettext*"
+DEF_EXPORTS="node ngettext npm node-waf node-gyp coffee lessc uglifyjs cake"
 DEF_NO_CCACHE=YES
 
 NPM_SOURCE_REPOSITORY="https://github.com/npm/npm.git"
@@ -21,17 +21,16 @@ DEF_AFTER_INSTALL_METHOD="install_npm"
 install_npm () {
     ${GIT_BIN} clone ${NPM_SOURCE_REPOSITORY} npm-master
     cd npm-master
+    for _filetopatch in ./configure ./scripts/release.sh ./scripts/relocate.sh ./scripts/clean-old.sh ./lib/utils/completion.sh; do
+        ${SED_BIN} -i '' -e "s|!\/bin\/bash|!${PREFIX}/bin/bash|" "${_filetopatch}"
+    done
     ./configure --prefix="${PREFIX}" && \
-        ${PREFIX}/bin/make -v && \
+        ${PREFIX}/bin/make && \
             ${PREFIX}/bin/make install
 
-    note "Cleaning npm caches"
-    npm cache clean -verbose
-    note "Updating npm to: @lts"
-    npm install -g npm@lts -verbose
     for mod in "coffee-script" "less" "uglify-js"; do
         note "Installing ${mod}"
-        npm install -g ${mod} -verbose
+        ${PREFIX}/bin/npm install -g ${mod} -verbose
     done
     return 0 # Node throws "npm ERR! code -2147483648" on success ;)
 }
