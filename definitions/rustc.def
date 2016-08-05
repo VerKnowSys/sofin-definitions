@@ -4,15 +4,12 @@ DEF_NAME="rustc"
 DEF_VERSION="1.10.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-src.tar.gz"
 DEF_REQUIREMENTS="pkgconf make ccache jemalloc readline-dynamic m4 libtool libiconv gettext zlib bzip2 lzma xz pcre cmake perl texinfo libidn gmp libxml2 libxslt gdbm db sqlite flex bison unixodbc libressl python27 yaml libgpg-error libgcrypt libssh2 curl autoconf automake llnextgen git"
-DEF_CONFIGURE_ARGS="--disable-rustbuild --enable-clang --enable-orbit --enable-jemalloc --release-channel=stable --enable-optimize --enable-optimize-cxx --disable-valgrind --disable-valgrind-rpass --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --enable-manage-submodules --enable-optimize-llvm --disable-docs"
-if [ "Darwin" != "${SYSTEM_NAME}" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python --default-linker=clang++ --enable-rpath"
-fi
+DEF_CONFIGURE_ARGS="--disable-rustbuild --enable-clang --enable-orbit --enable-jemalloc --release-channel=stable --enable-optimize --enable-optimize-cxx --disable-valgrind --disable-valgrind-rpass --datadir=${SERVICE_DIR}/share --infodir=${SERVICE_DIR}/share/info --enable-manage-submodules --enable-optimize-llvm --disable-docs --enable-rpath --default-linker=clang++"
 DEF_NO_CCACHE=YES # it's used internally anyway, but controlled by Rust build system
 DEF_MAKE_METHOD="VERBOSE=1 make"
 DEF_INSTALL_METHOD="VERBOSE=1 make install"
 DEF_USEFUL="rust*"
-DEF_EXPORTS="rustc rustdoc"
+DEF_EXPORTS="rustc rustdoc rust-lldb rust-gdb"
 DEF_USELESS="doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc share/man share/cmake* include/perl* lib/*perl* etc"
 DEF_CONFLICTS_WITH="Rustc"
 
@@ -20,3 +17,12 @@ DEF_AFTER_PATCH_METHOD="set_localbase"
 set_localbase () {
     ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|" mk/main.mk || true
 }
+
+if [ "Darwin" = "${SYSTEM_NAME}" ]; then
+    DEF_INSTALL_METHOD="VERBOSE=1 make install ; install_manually"
+    install_manually () {
+        ${CP_BIN} -rv tmp/dist/${DEF_NAME}-${DEF_VERSION}-x86_64-apple-darwin/${DEF_NAME}/ ${PREFIX}
+    }
+else # for non Darwin, use python from PREFIX:
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python"
+fi
