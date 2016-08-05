@@ -7,18 +7,19 @@ DEF_SHA="8938cfafa786c6e74b957ec62985ea307c006653"
 DEF_ORIGIN="http://nodejs.org/download/"
 DEF_MAKE_METHOD="LINK=clang++ strictaliasing=off make -s ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="LINK=clang++ make -s install"
-DEF_REQUIREMENTS="pkgconf m4 libtool libexecinfo c-ares readline-dynamic zlib bzip2 lzma xz make perl openssl autoconf texinfo automake libuv libxml2 libgpg-error libgcrypt libxslt sqlite yaml libffi python27 icu bash" # bash is required by npm..
+DEF_REQUIREMENTS="pkgconf make m4 libtool libexecinfo c-ares gettext readline-dynamic zlib bzip2 lzma xz perl openssl autoconf texinfo automake libuv libxml2 libgpg-error libgcrypt libxslt sqlite yaml libffi python27 icu bash" # bash is required by npm..
 DEF_CONFLICTS_WITH="Node"
 DEF_COMPILER_ARGS="-Wno-unused-private-field -Wno-nested-anon-types -Wno-unused-function -Wno-unused-const-variable"
 DEF_CONFIGURE_ARGS="--with-dtrace --shared-zlib --shared-openssl --with-intl=system-icu --shared-libuv --shared-cares  --without-npm"
 DEF_USELESS="include/python* lib/python* lib/*perl* include/perl* share/texinfo share/ac* share/auto* share/gtk-doc share/libtool"
-DEF_USEFUL="bin/node*"
+DEF_USEFUL="bin/bash bin/node*"
 DEF_EXPORTS="node npm node-waf node-gyp coffee lessc uglifyjs cake"
 DEF_NO_CCACHE=YES
 
+NPM_SOURCE_REPOSITORY="https://github.com/npm/npm.git"
 DEF_AFTER_INSTALL_METHOD="install_npm"
 install_npm () {
-    ${GIT_BIN} clone https://github.com/npm/npm.git npm-master
+    ${GIT_BIN} clone ${NPM_SOURCE_REPOSITORY} npm-master
     cd npm-master
     ./configure --prefix="${PREFIX}" && \
         ${PREFIX}/bin/make -v && \
