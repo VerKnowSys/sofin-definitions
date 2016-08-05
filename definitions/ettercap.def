@@ -1,13 +1,24 @@
 DEF_FULL_NAME="Ettercap"
-DEF_SHA="f4263230a6065af96b33093f39ed9a387453e3b2"
+DEF_SHA="04f50925a5f3b2555371075a048ab7bfe3892976"
 DEF_NAME="ettercap"
-DEF_VERSION="0.7.4.1"
+DEF_VERSION="0.8.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make zlib pkgconf libiconv bzip2 ncurses m4 flex bison perl openssl pcre libnet libtool libpcap"
-DEF_CONFIGURE_ARGS="--with-libnet=${PREFIX} --with-libpcap=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --disable-gtk --disable-plugins"
-if [ "${SYSTEM_NAME}" != "Linux" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-iconv=${PREFIX}"
-fi
+DEF_REQUIREMENTS="pkgconf make ccache zlib xz bzip2 m4 flex perl bison libressl pcre libnet libtool libpcap cmake"
+DEF_USEFUL="etter*"
 DEF_EXPORTS="ettercap etterfilter etterlog"
-DEF_MAKE_METHOD="make -s"
-DEF_INSTALL_METHOD="make -s install"
+DEF_CONFIGURE="cmake"
+DEF_CONFIGURE_ARGS="-DBUNDLED_LIBS=OFF -DHAVE_DLOPEN=ON -DHAVE_PCAP=${PREFIX}/lib -DHAVE_RESOLV=${PREFIX}/lib -DHAVE_ICONV=/usr -DENABLE_IPV6=ON -DINSTALL_DESKTOP=OFF -DENABLE_CURSES=ON -DHAVE_UTF8=ON -DENABLE_SSL=ON -DENABLE_PLUGINS=OFF -DHAVE_PCRE=ON -DENABLE_GTK=OFF"
+DEF_LINKER_ARGS="-L${PREFIX}/lib -lpcap -lnet"
+
+DEF_NO_CCACHE=YES
+DEF_CMAKE_BUILD_DIR="../"
+DEF_AFTER_UNPACK_METHOD="make_builddir"
+make_builddir () {
+    ${TEST_BIN} -d build && ${RM_BIN} -rf build
+    ${MKDIR_BIN} -p build
+    cd build
+}
+DEF_AFTER_INSTALL_METHOD="go_up"
+go_up () {
+    cd ..
+}
