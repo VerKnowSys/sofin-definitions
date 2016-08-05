@@ -10,7 +10,6 @@ DEF_CONFIGURE_ARGS="--enable-m64-build --enable-threads --with-dynamic-trace=dtr
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USELESS="lib/*perl* docs share"
-
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_COMPILER_ARGS="-DMAP_NORESERVE=0"
@@ -21,8 +20,9 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-install_repl_history() {
-    ${GIT_BIN} clone https://github.com/ferd/erlang-history.git
+HISTORY_PLUGIN_SOURCE="https://github.com/ferd/erlang-history.git"
+install_repl_history () {
+    ${GIT_BIN} clone "${HISTORY_PLUGIN_SOURCE}"
     cd erlang-history
     PATH=$PATH:${PREFIX}/bin:/bin make install
 }
