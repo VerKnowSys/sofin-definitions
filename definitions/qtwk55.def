@@ -5,9 +5,9 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}qtwebkit-opensource-src-${DEF_VERSION}
 DEF_SHA="e1e16f3eb48c1ce863b9ab33364e4ac178ae51a7"
 DEF_CONFIGURE="no-conf"
 DEF_REQUIREMENTS="pkgconf make sqlite m4 perl autoconf automake libtool flex bison icu gperf ruby22 python27 qtbase55"
-DEF_AFTER_UNPACK_METHOD="patch_n_prepare"
 
-patch_n_prepare () {
+DEF_AFTER_UNPACK_METHOD="after_unpack"
+after_unpack () {
     ${PREFIX}/bin/qmake "WEBKIT_CONFIG -= use_glib use_gstreamer use_gstreamer010 use_native_fullscreen_video legacy_web_audio web_audio video gamepad" WebKit.pro
     ${RM_BIN} Source/WebCore/DerivedSources.cpp # bizarre, but this hack works: https://bugreports.qt.io/browse/QTBUG-41743
 }
