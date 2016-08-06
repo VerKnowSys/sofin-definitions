@@ -22,7 +22,7 @@ patch_modules () {
 }
 
 svd_args="--error-log-path=${SERVICE_DIR}/var/log --http-log-path=${SERVICE_DIR}/var/log --pid-path=${SERVICE_DIR}/var/run --lock-path=${SERVICE_DIR}/var/lock --conf-path=${SERVICE_DIR}/etc/conf --pid-path=${SERVICE_DIR}/var/run --http-proxy-temp-path=${SERVICE_DIR}/var/proxy --http-client-body-temp-path=${SERVICE_DIR}/var/body --http-fastcgi-temp-path=${SERVICE_DIR}/var/fcgi"
-common_args="--with-cc-opt='-I${PREFIX}/include' --with-ld-opt='-L${PREFIX}/lib -R${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
+common_args="--with-cc-opt='${DEFAULT_COMPILER_FLAGS} -fPIE' --with-ld-opt='${LDFLAGS} -R${PREFIX}/lib ${DEFAULT_LDFLAGS} -pie'"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=nobody --group=nogroup ${svd_args}"
