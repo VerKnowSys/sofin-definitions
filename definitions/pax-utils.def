@@ -1,0 +1,7 @@
+DEF_FULL_NAME="PAX Utils from Gentoo"
+DEF_NAME="pax-utils"
+DEF_SHA="8cde770d675f1a846fc385d67569c8e89d3207a0"
+DEF_VERSION="1.1.6"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="make"
+DEF_EXPORTS="scanmacho pspax dumpelf scanelf"
