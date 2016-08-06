@@ -10,7 +10,7 @@ DEF_CONFIGURE="cmake"
 DEF_CMAKE_BUILD_DIR="../"
 DEF_EXPORTS="FileCheck not lli-child-target bugpoint c-index-test clang clang++ clang-cpp clang-tblgen idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-lto llvm-link llvm-mc llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt llvm-symbolizer llvm-split llvm-profdata llvm-PerfectShuffle llvm-pdbdump llvm-mcmarkup llvm-lib llvm-dwp llvm-dsymutil llvm-cxxdump llvm-c-test yaml-bench"
 DEF_USEFUL="bin/llvm*"
-DEF_USELESS="lib/perl* include/python* lib/python* share man"
+DEF_USELESS="lib/perl* include/python* lib/python* share man doc"
 
 DEF_AFTER_UNPACK_METHOD="make_builddir"
 make_builddir () {
