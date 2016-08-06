@@ -8,7 +8,8 @@ DEF_SOURCE_PATH="https://github.com/rust-lang/cargo.git"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc"
 DEF_CONFIGURE_ARGS="--local-rust-root=${PREFIX} --enable-optimize"
 DEF_EXPORTS="cargo cargo.bin"
-
+DEF_MAKE_METHOD="NO_REBUILD=1 TIME_LLVM_PASSES=1 VERBOSE=1 make -j${CPUS}"
+DEF_INSTALL_METHOD="NO_REBUILD=1 TIME_LLVM_PASSES=1 VERBOSE=0 make install"
 DEF_AFTER_INSTALL_METHOD="make_wrapper"
 make_wrapper () {
     # make wrapper for cargo which does not include rpath information in binary:
