@@ -1,7 +1,7 @@
 inherit llvm
 
-DEF_FULL_NAME="LLVM + Gold Linker"
+DEF_FULL_NAME="${DEF_FULL_NAME} + GNU Golden Linker"
 DEF_NAME="gold"
 DEF_REQUIREMENTS="pkgconf make ccache pcre bzip2 lzma xz m4 perl autoconf libtool automake bison gmp mpfr libmpc texinfo isl012 binutils-gold libressl python27 cmake"
-DEF_CONFIGURE_ARGS="-DLLVM_BINUTILS_INCDIR=${PREFIX}/include"
-DEF_EXPORTS="ld ld.bfd ld.gold addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres bugpoint c-index-test clang clang++ clang-cpp clang-tblgen llc lli macho-dump opt llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-cxxdump llvm-diff llvm-dis llvm-dsymutil llvm-dwarfdump llvm-extract llvm-link llvm-mc llvm-mcmarkup llvm-nm llvm-objdump llvm-pdbdump llvm-profdata llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-symbolizer llvm-tblgen"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_BINUTILS_INCDIR=${PREFIX}/include"
+DEF_EXPORTS="gold ld ld.bfd ld.gold ${DEF_EXPORTS}"
