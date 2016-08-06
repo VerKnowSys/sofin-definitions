@@ -27,9 +27,14 @@ esac
 
 DEF_AFTER_CONFIGURE_METHOD="patch_makefile"
 patch_makefile () {
-    ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile || true # Linux..
-    ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= -O2 -Wall -mno-avx -fPIC -I${PREFIX}/include \$(MYCFLAGS)#" src/Makefile || true # Linux..
-    ${SED_BIN} -i '' -e "s#LIBS= -lm#LIBS= -L${PREFIX}/lib -lm -lncursesw #" src/Makefile || true # Linux..
+    # if [ "${SYSTEM_NAME}" != "Darwin" ]; then
+    #     _addon="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-fuse-ld=gold"
+    # fi
+    ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile
+    ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= ${CFLAGS} \$(MYCFLAGS)#" src/Makefile
+    ${SED_BIN} -i '' -e "s#LIBS= -lm#LIBS= ${LDFLAGS} -lm -lncursesw #" src/Makefile
+    # unset _addon
+
     if [ "${SYSTEM_NAME}" != "Linux" ]; then
         ${SED_BIN} -i '' -e "s/CC= gcc/CC= clang/" src/Makefile
     fi
