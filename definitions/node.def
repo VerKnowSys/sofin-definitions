@@ -17,7 +17,7 @@ DEF_EXPORTS="node ngettext npm node-waf node-gyp coffee lessc uglifyjs cake"
 DEF_NO_CCACHE=YES
 
 NPM_SOURCE_REPOSITORY="https://github.com/npm/npm.git"
-DEF_AFTER_INSTALL_METHOD="install_npm"
+# DEF_AFTER_INSTALL_METHOD="install_npm"
 install_npm () {
     ${GIT_BIN} clone ${NPM_SOURCE_REPOSITORY} npm-master
     cd npm-master
