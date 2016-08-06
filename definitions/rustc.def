@@ -6,8 +6,8 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-src.tar.gz"
 DEF_REQUIREMENTS="pkgconf make ccache jemalloc readline-dynamic m4 libtool gettext zlib bzip2 lzma xz pcre cmake perl texinfo libidn gmp libxml2 libxslt gdbm db sqlite flex bison unixodbc libressl yaml libgpg-error libgcrypt libssh2 curl autoconf automake llnextgen python27 git"
 DEF_CONFIGURE_ARGS="--disable-rustbuild --enable-clang --enable-orbit --enable-jemalloc --release-channel=stable --enable-optimize --enable-optimize-cxx --disable-valgrind --disable-valgrind-rpass --datadir=${PREFIX}/share --infodir=${PREFIX}/share/info --enable-manage-submodules --enable-optimize-llvm --disable-docs --default-linker=clang++"
 DEF_NO_CCACHE=YES # it's used internally anyway, but controlled by Rust build system
-DEF_MAKE_METHOD="VERBOSE=0 make"
-DEF_INSTALL_METHOD="VERBOSE=0 make install"
+DEF_MAKE_METHOD="NO_REBUILD=1 TIME_LLVM_PASSES=1 VERBOSE=0 make install"
+DEF_INSTALL_METHOD="true"
 DEF_USEFUL="rust*"
 DEF_EXPORTS="rustc rustdoc rust-lldb rust-gdb"
 DEF_USABLE="bin/rust*"
@@ -22,7 +22,8 @@ set_localbase () {
 
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-rpath"
-    DEF_INSTALL_METHOD="VERBOSE=1 make install ; install_manually"
+    DEF_MAKE_METHOD="NO_REBUILD=1 VERBOSE=1 make"
+    DEF_INSTALL_METHOD="NO_REBUILD=1 VERBOSE=1 make install ; install_manually"
     install_manually () {
         try "${CP_BIN} -rv tmp/dist/${DEF_NAME}-${DEF_VERSION}-${SYSTEM_ARCH}-apple-$(lowercase "${SYSTEM_NAME}")/${DEF_NAME}/ ${PREFIX}"
     }
