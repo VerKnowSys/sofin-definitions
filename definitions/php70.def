@@ -14,7 +14,7 @@ fi
 # install_imagick () {
 #     arch_name="imagick-3.4.1"
 #     archive="${arch_name}.tgz"
-#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
 #     ${TAR_BIN} xf "${archive}" && \
 #     cd "${arch_name}" && \
 #     ${PREFIX}/bin/phpize && \
@@ -28,7 +28,7 @@ fi
 install_oci8 () {
     arch_name="oci8-2.1.1"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \
@@ -42,7 +42,7 @@ install_oci8 () {
 # install_xdebug () {
 #     arch_name="xdebug-2.4.0"
 #     archive="${arch_name}.tgz"
-#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
 #     ${TAR_BIN} xf "${archive}" && \
 #     cd "xdebug-2.4.0" && \
 #     ${PREFIX}/bin/phpize && \
@@ -56,7 +56,7 @@ install_oci8 () {
 # install_rar () {
 #     arch_name="rar-3.0.2"
 #     archive="${arch_name}.tgz"
-#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
 #     ${TAR_BIN} xf "${archive}" && \
 #     cd "${arch_name}" && \
 #     ${PREFIX}/bin/phpize && \

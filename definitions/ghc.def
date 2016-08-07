@@ -28,7 +28,7 @@ DEF_AFTER_INSTALL_METHOD="after_build"
 after_build () {
     cabal_version="1.22.0.0"
     cabal_install="cabal-install-${cabal_version}.tar.gz"
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${cabal_install}
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${cabal_install} ${FETCH_OPTS}
     tar xf ${cabal_install}
     cd cabal-install-${cabal_version}
     ${SED_BIN} -i '' -e 's#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---user}"#SCOPE_OF_INSTALLATION="${SCOPE_OF_INSTALLATION:---global}"#' ./bootstrap.sh

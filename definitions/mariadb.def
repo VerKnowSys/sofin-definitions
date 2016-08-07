@@ -19,7 +19,7 @@ case "${SYSTEM_NAME}" in
             mysql_proxy_name="mysql-proxy"
             mysql_proxy_version="0.8.5"
             mysql_proxy_archive="${mysql_proxy_name}-${mysql_proxy_version}.tar.gz"
-            ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${mysql_proxy_archive}
+            ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${mysql_proxy_archive} ${FETCH_OPTS}
             ${TAR_BIN} xf ${mysql_proxy_archive}
             cd ${mysql_proxy_name}-${mysql_proxy_version}
             PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX}

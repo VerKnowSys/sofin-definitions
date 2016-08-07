@@ -33,7 +33,7 @@ install_oci8_libs () {
         warn "OCI8 not supported under FreeBSD hosts!" && \
         return 0
     fi
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}oci8-12.1.tar.xz" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}oci8-12.1.tar.xz" ${FETCH_OPTS} && \
     ${TAR_BIN} xf oci8-12.1.tar.xz && \
     ${CP_BIN} oci8/*.h ${PREFIX}/include/ && \
     ${MV_BIN} oci8/*.h ${PREFIX}/lib/ && \
@@ -61,7 +61,7 @@ cleanup_oci8_headers () {
 install_geoip () {
     geoip_name="geoip-1.0.8"
     geoip_archive="${geoip_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${geoip_archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${geoip_archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf ${geoip_archive} && \
     cd ${geoip_name} && \
     ${PREFIX}/bin/phpize && \
@@ -89,7 +89,7 @@ install_imagick () {
 install_rar () {
     arch_name="rar-3.0.2"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \
@@ -140,7 +140,7 @@ install_pear_modules () {
 install_dbase () {
     arch_name="dbase-5.1.0"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \
@@ -155,7 +155,7 @@ install_dbase () {
 install_xdebug () {
     arch_name="xdebug-2.4.0"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "xdebug-2.4.0" && \
     ${PREFIX}/bin/phpize && \
@@ -174,7 +174,7 @@ install_oci8 () {
     fi
     arch_name="oci8-2.0.10"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \

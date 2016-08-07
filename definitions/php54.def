@@ -12,7 +12,7 @@ DEF_BUNDLED_EXTENSIONS="${DEF_BUNDLED_EXTENSIONS} apc opcache"
 install_rar () {
     arch_name="rar-3.0.2"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \

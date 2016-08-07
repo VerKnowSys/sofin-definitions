@@ -19,7 +19,7 @@ DEF_AFTER_CONFIGURE_METHOD="${DEF_AFTER_CONFIGURE_METHOD}; add_libstdc_to_makefi
 install_rar () {
     arch_name="rar-3.0.2"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     export PATH=${PREFIX}/bin:/bin:/usr/bin:/sbin:/usr/sbin && \
@@ -37,7 +37,7 @@ hack_after_unpack () {
     test -d /tmp/pear && ${RM_BIN} -fr /tmp/pear
 
     debug "Fetching Litespeed SAPI" && \
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}php-litespeed-6.7.tgz && \
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}php-litespeed-6.7.tgz ${FETCH_OPTS} && \
     ${TAR_BIN} xf php-litespeed-6.7.tgz --directory sapi/
 
     debug "Regenerating configure script"

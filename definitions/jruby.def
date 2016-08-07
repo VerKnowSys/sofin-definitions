@@ -16,7 +16,7 @@ DEF_USELESS="demo sample samples src.zip THIRD_PARTY_* COPYING"
 
 create_jruby_script () {
     cd ${PREFIX}/bin
-    ${FETCH_BIN} https://raw.githubusercontent.com/jruby/jruby/master/bin/jruby.sh
+    ${FETCH_BIN} https://raw.githubusercontent.com/jruby/jruby/master/bin/jruby.sh ${FETCH_OPTS}
     ${MV_BIN} -f jruby jruby.bash
     ${MV_BIN} jruby.sh jruby
     ${CHMOD_BIN} +x jruby

@@ -13,6 +13,6 @@ DEF_AFTER_UNPACK_METHOD="fetch_geoip"
 
 fetch_geoip () {
     cd contrib
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/mod_geoip.c
+    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/mod_geoip.c ${FETCH_OPTS}
     cd ..
 }

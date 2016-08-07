@@ -26,9 +26,9 @@ create_cert_file () {
     ${MKDIR_BIN} -p ${os_specific}/etc/ssl
     cd ${os_specific}/etc/ssl
     # 1st try:
-    ${FETCH_BIN} ${safety_opts} ${cacert_source} -o ${os_specific}/etc/ssl/cert.pem || \
+    ${FETCH_BIN} ${safety_opts} ${cacert_source} -o ${os_specific}/etc/ssl/cert.pem ${FETCH_OPTS} || \
     # 2nd try:
-    ${FETCH_BIN} ${safety_opts} ${cacert_source_alt} -o ${os_specific}/etc/ssl/cert.pem || \
+    ${FETCH_BIN} ${safety_opts} ${cacert_source_alt} -o ${os_specific}/etc/ssl/cert.pem ${FETCH_OPTS} || \
     ${TEST_BIN} -f /etc/ssl/cert.pem || \
     error "Couldn't fetch recent cert.pem"
 }
