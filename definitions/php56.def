@@ -75,7 +75,7 @@ install_geoip () {
 install_imagick () {
     arch_name="imagick-3.4.1"
     archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" && \
+    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
     cd "${arch_name}" && \
     ${PREFIX}/bin/phpize && \
