@@ -1,33 +1,4 @@
-DEF_FULL_NAME="Ghostscript library"
-DEF_NAME="libgs"
-DEF_SHA="761c9c25b9f5fe01197bd1510f527b3c1b6eb9de"
-DEF_VERSION="9.18"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}ghostscript-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--with-libiconv=native --disable-dbus \
-    --disable-compile-inits --with-ijs --with-libidn=${PREFIX} --disable-gtk \
-    --with-memory-alignment=8 --enable-contrib --without-luratech --without-x \
-    --enable-cups --with-drivers=BMP,JPEG,PNG,PS,TIFF --enable-dynamic \
-    --enable-threadsafe --enable-threading --disable-fapi --with-system-libtiff \
-    --enable-freetype --enable-fontconfig --with-fontconfig=${PREFIX} \
-"
-DEF_REQUIREMENTS="make pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit libiconv nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper"
-DEF_COMPILER_ARGS="-DA4 -DUPD_SIGNAL=0 -DOPJ_STATIC"
-DEF_CONFIGURE="./autogen.sh"
+inherit ghostscript
+
 DEF_MAKE_METHOD="make_stuff so"
-make_stuff () {
-    compile_mode="$1"
-    SHARE_JPEG=1 SHARE_LIBPNG=1 LIBPNG_NAME=png \
-    SHARE_LIBTIFF=1 SHARE_ZLIB=1 SYNC=posync \
-    SHARE_JBIG2=1 JPX_LIB=jasper SHARE_JPX=0 \
-    JPXSRCDIR=jasper JPX_CFLAGS=-DJAS_CONFIGURE \
-    CFLAGS_STANDARD="${DEF_COMPILER_ARGS} ${CFLAGS}" \
-    XCFLAGS="${DEF_COMPILER_ARGS} ${CFLAGS}" \
-    XLDFLAGS="${DEF_LINKER_ARGS} ${LDFLAGS}" \
-    SOC_LOADER="dxmainc.c" \
-        ${PREFIX}/bin/make ${compile_mode} ${MAKE_OPTS} \
-        AUXEXTRALIBS="-pthread -L${PREFIX}/lib -I${PREFIX}/include" && \
-        debug "Done build"
-}
 DEF_INSTALL_METHOD="make_stuff soinstall"
-DEF_USELESS="include/python* lib/*perl* lib/python* man libexec share/aclocal* share/auto* share/cups share/bison share/doc share/examples share/texinfo share/info share/libtool share/ghostscript/${DEF_VERSION}/doc share/ghostscript/${DEF_VERSION}/examples"
-DEF_EXPORTS="gs gsbj gsdj gsdj500 gslj gslp gsnd"
