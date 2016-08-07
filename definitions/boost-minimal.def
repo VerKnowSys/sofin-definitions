@@ -1,5 +1,6 @@
 inherit boost
 
-DEF_FULL_NAME="Boost - C++ Libraries - minimal configuration"
+DEF_FULL_NAME="${DEF_FULL_NAME} - minimal configuration"
+DEF_REQUIREMENTS="make python27"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-icu --with-libraries=system,thread"
-DEF_MAKE_METHOD="./b2 -j${CPUS} variant=release link=static runtime-link=static threading=multi install"
+DEF_INSTALL_METHOD="./b2 -j${CPUS} variant=release link=static runtime-link=static threading=multi install"
