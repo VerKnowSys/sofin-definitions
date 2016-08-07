@@ -4,6 +4,7 @@ DEF_NAME="dmidecode"
 DEF_VERSION="2.12"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE="no-conf" # no configure script for this package
+DEF_AFTER_UNPACK_METHOD="${SED_BIN} -i '' -e 's/gcc/clang/' Makefile"
 DEF_MAKE_METHOD="make prefix=${PREFIX}"
-DEF_INSTALL_METHOD="make install prefix=${PREFIX} || true" # not my fault. blame Dmidecode team.
+DEF_INSTALL_METHOD="make install prefix=${PREFIX}"
 DEF_EXPORTS="dmidecode biosdecode vpddecode"
