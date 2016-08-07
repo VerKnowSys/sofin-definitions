@@ -2,6 +2,6 @@ DEF_FULL_NAME="GNU Make"
 DEF_SHA="7d9d11eb36cfb752da1fb11bb3e521d2a3cc8830"
 DEF_NAME="make"
 DEF_VERSION="4.2.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}make-${DEF_VERSION}.tar.bz2"
-DEF_EXPORTS="make"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_EXPORTS="${DEF_NAME}"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking" # NO: --program-prefix=g
