@@ -19,7 +19,7 @@ case "${SYSTEM_NAME}" in
     ;;
   Darwin)
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-rpath"
-    DEF_STRIP="no"
+    DEF_STRIP=NO
     ;;
 esac
 DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
