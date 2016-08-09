@@ -12,9 +12,9 @@ make_method () {
     RUSTFLAGS="-Cdebuginfo=0 ${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 TIME_LLVM_PASSES=0 VERBOSE=1 make all rustc-stage3 install || install_stage3_manually
 }
 DEF_INSTALL_METHOD="true"
-DEF_USEFUL="bin/rust* bin/*config bin/je* bin/*cfg bin/*make bin/pkgconf bin/gettext* bin/libtool* bin/llvm* bin/ccache"
+DEF_USEFUL="bin/rust* bin/*conf* bin/*.*sh bin/*cfg bin/*make bin/gettext* bin/libtool* bin/llvm* bin/*cache"
 DEF_EXPORTS="rustc rustdoc rust-lldb rust-gdb"
-DEF_USELESS="docs doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc include/perl* lib/*perl* share/common-lisp share/emacs share/examples share/git-core share/texinfo"
+DEF_USELESS="docs doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc include/perl* lib/*perl* share/common-lisp share/emacs share/examples share/git-core share/texinfo share/libxslt-plugins etc"
 DEF_CONFLICTS_WITH="Rustc"
 
 DEF_AFTER_PATCH_METHOD="set_localbase"
