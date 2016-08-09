@@ -1,8 +1,9 @@
 DEF_FULL_NAME="MySQL 5"
+DEF_ORIGIN="http://dev.mysql.com/downloads/mysql/"
 DEF_STANDALONE=YES
-DEF_SHA="9c687f4766bb0085b3d9e518b3a356879b230e58"
+DEF_SHA="8a36b375389fedc691eba2ef6905a95c94f30d4c"
 DEF_NAME="mysql"
-DEF_VERSION="5.6.31"
+DEF_VERSION="5.6.32"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="ccache zlib bzip2 xz bzip2 perl expat libiconv cmake"
 DEF_CONFIGURE="cmake"
