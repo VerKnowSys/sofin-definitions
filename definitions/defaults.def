@@ -18,7 +18,7 @@ unset   DEF_EXPORTS # defines list of binaries to be exported to user env into P
 unset   DEF_FULL_NAME
 unset   DEF_SOURCE_PATH # defines a path to source file (http, git, or any other supported by curl)
 unset   DEF_GIT_MODE # set to use git repository as code source
-        DEF_GIT_CHECKOUT="master" # default git branch name if in git mode
+unset   DEF_GIT_CHECKOUT # default git branch name if in git mode (master) or fallback to DEF_VERSION
 unset   DEF_NAME # this is software name, but also part of source dir name - used to determine build directory after unpack
 unset   DEF_POSTFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
 unset   DEF_VERSION # defines software version
