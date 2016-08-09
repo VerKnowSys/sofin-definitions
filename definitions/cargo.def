@@ -3,14 +3,15 @@ inherit rustc
 DEF_FULL_NAME="Cargo - Rust crate manager"
 DEF_NAME="cargo"
 DEF_GIT_MODE=YES
-DEF_VERSION="1.x-master"
+DEF_VERSION="0.11.0"
 DEF_SOURCE_PATH="https://github.com/rust-lang/cargo.git"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc"
 DEF_CONFIGURE_ARGS="--local-rust-root=${PREFIX} --enable-optimize"
-DEF_EXPORTS="cargo cargo.bin"
-DEF_MAKE_METHOD="NO_REBUILD=1 TIME_LLVM_PASSES=1 VERBOSE=1 make -j${CPUS}"
-DEF_INSTALL_METHOD="NO_REBUILD=1 TIME_LLVM_PASSES=1 VERBOSE=0 make install"
-DEF_AFTER_INSTALL_METHOD="make_wrapper"
+DEF_MAKE_METHOD="make_method"
+DEF_INSTALL_METHOD="make_method install"
+make_method () {
+    RUSTFLAGS="${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 VERBOSE=1 RUST_BACKTRACE=1 make -j${CPUS} ${@}
+}
 make_wrapper () {
     # make wrapper for cargo which does not include rpath information in binary:
     if [ "Darwin" = "${SYSTEM_NAME}" ]; then
