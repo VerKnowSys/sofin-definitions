@@ -12,13 +12,22 @@ DEF_INSTALL_METHOD="make_method install"
 make_method () {
     RUSTFLAGS="${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 VERBOSE=1 RUST_BACKTRACE=1 make -j${CPUS} ${@}
 }
+DEF_AFTER_INSTALL_METHOD="make_wrapper ; install_utils"
 make_wrapper () {
     # make wrapper for cargo which does not include rpath information in binary:
     if [ "Darwin" = "${SYSTEM_NAME}" ]; then
         _addon="DY"
     fi
     ${MV_BIN} -v ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin && \
-        ${PRINTF_BIN} "#\!/bin/sh\n${_addon}LD_LIBRARY_PATH=${PREFIX}/lib ${PREFIX}/bin/cargo.bin \$*\n" > ${PREFIX}/bin/cargo && \
-            ${CHMOD_BIN} 755 ${PREFIX}/bin/cargo && \
-                note "Cargo wrapper is ready" >> ${LOG}-${DEF_NAME}
+        ${PRINTF_BIN} "#\!/bin/sh\n${ENV_BIN} ${_addon}LD_LIBRARY_PATH=${PREFIX}/lib RUST_BACKTRACE=${RUST_BACKTRACE:-1} RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" ${PREFIX}/bin/cargo.bin \${@}\n" > "${PREFIX}/bin/cargo" && \
+            ${CHMOD_BIN} -v 755 "${PREFIX}/bin/cargo" && \
+                note "Cargo wrapper of prefix: $(distn "${PREFIX}") is ready" >> "${LOG}-${DEF_NAME}"
+    unset _addon
+    ${TEST_BIN} -x "${PREFIX}/bin/cargo"
+}
+install_utils () {
+    for crate in cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt; do
+        note "Installing crate: ${crate}"
+        ${PREFIX}/bin/cargo install --root ${PREFIX} ${crate}
+    done
 }
