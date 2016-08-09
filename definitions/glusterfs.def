@@ -1,21 +1,21 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Glusterfs"
+DEF_ORIGIN="http://www.gluster.org/download/"
 DEF_SHA="a4bee1fc980ae803cdcb3d5f9a254511927ee8b2"
 DEF_NAME="glusterfs"
 DEF_VERSION="3.7.14"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make zlib libiconv readline-dynamic m4 perl libxml2 libressl bison autoconf libtool automake sqlite userspace-rcu rsync python27"
-DEF_CONFIGURE="./autogen.sh ; ./configure"
-DEF_CONFIGURE_ARGS="--disable-cmocka --disable-epoll --disable-bd-xlator --disable-ibverbs --disable-qemu-block --disable-firewalld --disable-systemtap --enable-georeplication"
-DEF_MAKE_COMMAND="make -D__STDC__ -DHAVE_LIB_XML ${MAKE_OPTS}"
-DEF_EXPORTS="gfind_missing_files gcron.py gluster glusterd glusterfs glusterfsd snap_scheduler.py umountd glusterfind mount_glusterfs"
+DEF_REQUIREMENTS="pkgconf m4 libtool make zlib gettext xz bzip2 readline perl libffi glib texinfo libxml2 libressl bison autoconf automake sqlite userspace-rcu rsync python27 argp-standalone"
+DEF_AFTER_UNPACK_METHOD="./autogen.sh"
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --enable-fuse-client --enable-qemu-block --with-mountutildir=${PREFIX}/sbin --with-xml-prefix=${PREFIX} --with-initdir=${SERVICE_DIR}/etc/rc.d --disable-cmocka --disable-epoll --disable-bd-xlator --disable-ibverbs --disable-firewalld --disable-systemtap --disable-georeplication"
+DEF_COMPILER_ARGS="-I${PREFIX}/include"
+DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib"
+DEF_EXPORTS="gobject-query gresource gsettings gtester gtester-report gfind_missing_files gcron.py gluster glusterd glusterfs glusterfsd snap_scheduler.py umountd glusterfind mount_glusterfs"
 DEF_USEFUL="bin/python* bin/rsync bin/sqlite3"
-DEF_USELESS="include/python* lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/bison share/readline"
-
+DEF_USELESS="include/python* lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/bison"
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
     ${SED_BIN} -i '' -e "s#/usr/bin/env python#${PREFIX}/bin/python#" ${PREFIX}/bin/glusterfind ${PREFIX}/sbin/gcron.py ${PREFIX}/sbin/snap_scheduler.py
-    ${TEST_BIN} -f /sbin/mount_glusterfs && \
-        ${MV_BIN} /sbin/mount_glusterfs ${PREFIX}/sbin/mount_glusterfs
     return 0
 }
+DEF_NO_CCACHE=YES
