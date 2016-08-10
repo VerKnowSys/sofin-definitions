@@ -9,7 +9,7 @@ DEF_EXPORTS="openssl"
 cacert_source="http://curl.haxx.se/ca/cacert.pem"
 cacert_source_alt="http://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt"
 os_specific="${SERVICE_DIR}"
-safety_opts="--no-verify-peer"
+unset safety_opts
 case "${SYSTEM_NAME}" in
     Linux)
         os_specific="${PREFIX}"
@@ -30,5 +30,5 @@ create_cert_file () {
     # 2nd try:
     ${FETCH_BIN} ${safety_opts} ${cacert_source_alt} -o ${os_specific}/etc/ssl/cert.pem ${FETCH_OPTS} || \
     ${TEST_BIN} -f /etc/ssl/cert.pem || \
-    error "Couldn't fetch recent cert.pem"
+        error "Couldn't fetch recent cert.pem"
 }
