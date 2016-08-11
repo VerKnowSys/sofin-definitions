@@ -18,10 +18,10 @@ case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS}"
         DEF_LINKER_ARGS="${DEF_LINKER_ARGS}"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-libedit --with-libedit-dir=/usr --disable-rpath --enable-dtrace --with-gcc=/usr/bin/clang LIBS='-ldtrace -L${PREFIX}/lib -L/usr/lib'" # --with-jemalloc=${PREFIX} -ljemalloc
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-jemalloc --enable-libedit --with-libedit-dir=/usr --disable-rpath --enable-dtrace --with-gcc=/usr/bin/clang LIBS='-ldtrace -L${PREFIX}/lib -L/usr/lib'" # --with-jemalloc=${PREFIX} -ljemalloc
         ;;
 esac
-DEF_REQUIREMENTS="pkgconf make m4 libtool zlib bzip2 lzma xz gmp libxml2 libxslt libffi gettext ccache gdbm db sqlite flex perl bison unixodbc openssl python27 yaml libgpg-error libgcrypt autoconf texinfo automake" # jemalloc
+DEF_REQUIREMENTS="pkgconf make jemalloc m4 libtool zlib bzip2 lzma xz gmp libxml2 libxslt libffi gettext ccache gdbm db sqlite flex perl bison unixodbc openssl python27 yaml libgpg-error libgcrypt autoconf texinfo automake"
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
