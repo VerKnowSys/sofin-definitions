@@ -5,5 +5,6 @@ DEF_VERSION="2.9.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make"
 DEF_LINKER_ARGS="-L${PREFIX}/lib -lz"
-DEF_INSTALL_METHOD="make -s install ${MAKE_OPTS} ; true" # HACK: xml2 team really wants to make a mess in your Darwin system, by doing install to: /Library/Python/2.7/site-packages/drv_libxml2.py . It's of course denied by definition
+DEF_CONFIGURE_ARGS="--without-python --without-debug --without-docbook --without-ftp"
+DEF_INSTALL_METHOD="make -s install ${MAKE_OPTS}"
 DEF_EXPORTS="xml2-config xmlcatalog xmllint"
