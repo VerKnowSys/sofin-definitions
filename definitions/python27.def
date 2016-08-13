@@ -1,6 +1,5 @@
 inherit python35
 
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Python 2"
 DEF_POSTFIX="27"
 DEF_VERSION="2.7.12"

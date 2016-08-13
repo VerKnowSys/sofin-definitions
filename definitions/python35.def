@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Python 3"
 DEF_SHA="4843aabacec5bc0cdd3e1f778faa926e532794d2"
 DEF_NAME="Python"
@@ -5,10 +6,7 @@ DEF_POSTFIX="35"
 DEF_VERSION="3.5.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf make zlib xz lzma gdbm db sqlite bzip2 yaml libffi readline libressl"
-DEF_CONFIGURE_ARGS="--enable-shared --with-threads --with-fpectl --without-pydebug --enable-ipv6 --with-doc-strings --with-ensurepip=upgrade ac_cv_posix_semaphores_enabled=yes ac_cv_opt_olimit_ok=no OPT="
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-universalsdk --with-universal-archs=64-bit"
-fi
+DEF_CONFIGURE_ARGS="--enable-shared --with-threads --with-fpectl --without-pydebug --with-doc-strings --with-ensurepip=upgrade --enable-ipv6 ac_cv_posix_semaphores_enabled=yes ac_cv_opt_olimit_ok=no OPT="
 DEF_EXPORTS="python3 python3-config easy_install pip dulwich pytoml pip pip3"
 DEF_USEFUL="bin/python*"
 DEF_CONFLICTS_WITH="Python"
