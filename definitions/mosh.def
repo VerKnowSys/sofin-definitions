@@ -1,16 +1,17 @@
 DEF_FULL_NAME="Mobile shell"
 DEF_NAME="mosh"
-DEF_SHA="4f73698ebc14efb163fcb9cb0c9e4c3ed3623bb3"
-DEF_VERSION="1.2.5"
+DEF_SHA="421c28210b9e8834c91589421a1a686575258afa"
+DEF_VERSION="1.2.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf libiconv zlib lzma xz protobuf bzip2 perl libressl"
-DEF_CONFIGURE_ARGS="--enable-hardening"
+DEF_REQUIREMENTS="pkgconf libressl protobuf perl"
+DEF_CONFIGURE_ARGS="--enable-hardening --without-ncurses"
 DEF_USEFUL="bin/perl*"
 DEF_EXPORTS="mosh-client mosh-server mosh"
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    DEF_AFTER_INSTALL_METHOD="patch_mosh_bin"
-fi
 
-patch_mosh_bin () {
-    ${SED_BIN} -i -e "s#\#\!\/.*\$#\#\!${PREFIX}/bin/perl#" ${PREFIX}/bin/mosh
-}
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-utempter"
+    DEF_AFTER_INSTALL_METHOD="patch_mosh_bin"
+    patch_mosh_bin () {
+        ${SED_BIN} -i -e "s#\#\!\/.*\$#\#\!${PREFIX}/bin/perl#" ${PREFIX}/bin/mosh
+    }
+fi
