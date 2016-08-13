@@ -1,0 +1,6 @@
+DEF_DISABLE_ON="Darwin"
+DEF_FULL_NAME="VDE is an ethernet compliant virtual network"
+DEF_SHA="604c46e1c784bda2fc365d61e9a5cc2780df8edd"
+DEF_NAME="vdetelweb"
+DEF_VERSION="1.2.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
