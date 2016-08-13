@@ -3,6 +3,3 @@ DEF_NAME="protobuf"
 DEF_SHA="375765455ad49e45e4e10364f91aaf2831d3e905"
 DEF_VERSION="2.6.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    DEF_CONFIGURE_ARGS="CC=clang CXX=clang++ CXXFLAGS='-std=c++11 -stdlib=libc++ -O3 -g' LDFLAGS='-stdlib=libc++' LIBS=\"-lc++ -lc++abi\""
-fi
