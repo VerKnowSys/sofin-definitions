@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Userspace RCU"
 DEF_SHA="a3305af57e6fbbe4448c5ffec19be25b85d5b515"
 DEF_NAME="userspace-rcu"
