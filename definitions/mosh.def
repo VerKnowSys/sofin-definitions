@@ -12,6 +12,6 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-utempter"
     DEF_AFTER_INSTALL_METHOD="patch_mosh_bin"
     patch_mosh_bin () {
-        ${SED_BIN} -i -e "s#\#\!\/.*\$#\#\!${PREFIX}/bin/perl#" ${PREFIX}/bin/mosh
+        ${SED_BIN} -i '' -e "s|#\!/usr/bin/env |#\!${PREFIX}/bin/|" ${PREFIX}/bin/mosh
     }
 fi
