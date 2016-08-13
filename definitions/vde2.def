@@ -1,0 +1,8 @@
+DEF_DISABLE_ON="Darwin"
+DEF_FULL_NAME="VDE2"
+DEF_SHA="034aa28adab822cc314244b54155ffc998e068b9"
+DEF_NAME="vde2"
+DEF_VERSION="2.3.2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_CONFIGURE_ARGS="--disable-python --disable-kernel-switch --enable-tuntap"
+# DEF_INSTALL_METHOD="make install"
