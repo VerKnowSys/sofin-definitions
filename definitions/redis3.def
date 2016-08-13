@@ -11,3 +11,8 @@ DEF_CONFIGURE="ignore"
 DEF_MAKE_METHOD="MALLOC=jemalloc CC=${C_COMPILER_NAME} CXX=${CXX_COMPILER_NAME} PREFIX=${PREFIX} make -s"
 DEF_INSTALL_METHOD="MALLOC=jemalloc CC=${C_COMPILER_NAME} CXX=${CXX_COMPILER_NAME} PREFIX=${PREFIX} make -s install"
 DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof"
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    # under Darwin "leaks" is used .... so this crap is calling sudo N times one by one,
+    # causing flood of "ask for root password" prompts... I have no further comments...
+    DEF_TEST_METHOD="false"
+fi
