@@ -14,6 +14,7 @@ DEF_USELESS="lib/perl* include/python* lib/python* share man doc"
 
 DEF_AFTER_UNPACK_METHOD="make_builddir"
 make_builddir () {
+    ${RM_BIN} -rf build
     ${MKDIR_BIN} -p build
     cd build
 }
