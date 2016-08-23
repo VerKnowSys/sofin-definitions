@@ -4,19 +4,30 @@ DEF_SHA="35770ea5cf49a1082852c2300ccc3cbbc58b70fd"
 DEF_NAME="perl"
 DEF_VERSION="5.24.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pkgconf zlib xz gdbm"
 DEF_CONFIGURE="./Configure"
-DEF_CONFIGURE_ARGS="-des -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Doptimize='-O2' -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=y"
+DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS}' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=n -Ui_malloc -Di_gdbm -Ui_iconv -Dscriptdir=${PREFIX}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
 DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
-DEF_INSTALL_METHOD="make -s install"
-DEF_AFTER_INSTALL_METHOD="link_shared_lib"
+# DEF_AFTER_UNPACK_METHOD="${MKDIR_BIN} -p ${PREFIX}/lib ${PREFIX}/include ${PREFIX}/bin || true"
+DEF_MAKE_METHOD="make_method"
+make_method () {
+    locale_cleanup
+    note "Make!"
+    make
+}
+DEF_INSTALL_METHOD="install_method"
+install_method () {
+    locale_cleanup
+    make -s install
+}
 
-link_shared_lib () {
-    case ${SYSTEM_NAME} in
-        FreeBSD)
-            ${LN_BIN} -s ${PREFIX}/lib/perl5/${DEF_VERSION}/amd64-freebsd/CORE/libperl.so ${PREFIX}/lib/libperl.so
-            ;;
-        Linux)
-            ${LN_BIN} -s ${PREFIX}/lib/perl5/${DEF_VERSION}/x86_64-linux/CORE/libperl.so ${PREFIX}/lib/libperl.so
-            ;;
-    esac
+locale_cleanup () {
+    LANG=""
+    LC_ALL=""
+    LC_COLLATE=""
+    LC_CTYPE=""
+    LC_MESSAGES=""
+    LC_MONETARY=""
+    LC_NUMERIC=""
+    LC_TIME=""
 }
