@@ -19,7 +19,10 @@ DEF_CONFLICTS_WITH="Rustc"
 
 DEF_AFTER_PATCH_METHOD="set_localbase"
 set_localbase () {
-    ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|" mk/main.mk || true
+    ${SED_BIN} -i '' -e "s|-g||g;s|-lrt|-lrt -pie|" mk/cfg/x86_64-unknown-freebsd.mk
+    ${SED_BIN} -i '' -e "s|/usr/local|${PREFIX}|g" mk/cfg/x86_64-unknown-freebsd.mk src/rt/hoedown/Makefile src/jemalloc/configure src/jemalloc/configure.ac configure src/rust-installer/install-template.sh
+    ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|" mk/main.mk
+    return 0
 }
 
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
