@@ -19,7 +19,7 @@ make_wrapper () {
         _addon="DY"
     fi
     ${MV_BIN} -v ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin && \
-        ${PRINTF_BIN} "#\!/bin/sh\n${ENV_BIN} ${_addon}LD_LIBRARY_PATH=${PREFIX}/lib RUST_BACKTRACE=${RUST_BACKTRACE:-1} RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" ${PREFIX}/bin/cargo.bin \${@}\n" > "${PREFIX}/bin/cargo" && \
+        ${PRINTF_BIN} "#\!/bin/sh\n${ENV_BIN} ${_addon}LD_LIBRARY_PATH=${PREFIX}/lib RUST_BACKTRACE=${RUST_BACKTRACE:-1} RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" CARGO_INSTALL_ROOT=\"${CARGO_INSTALL_ROOT:-${PREFIX}}\" ${PREFIX}/bin/cargo.bin \${@}\n" > "${PREFIX}/bin/cargo" && \
             ${CHMOD_BIN} -v 755 "${PREFIX}/bin/cargo" && \
                 note "Cargo wrapper of prefix: $(distn "${PREFIX}") is ready" >> "${LOG}-${DEF_NAME}"
     unset _addon
