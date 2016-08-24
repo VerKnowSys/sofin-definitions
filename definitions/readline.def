@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Linux"
+DEF_DISABLE_ON="Linux FreeBSD"
 DEF_FULL_NAME="Readline Library"
 DEF_NAME="readline"
 DEF_SHA="017b92dc7fd4e636a2b5c9265a77ccc05798c9e1"
