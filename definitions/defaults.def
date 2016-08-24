@@ -49,6 +49,7 @@ unset   DEF_STANDALONE # TODO: it's currently only a marker for standalone bundl
         DEF_STRIP=ALL # set to "ALL" to strip bins and libs; set to "BINS", to strip binaries only; set to "LIBS", to strip libs only, "NO" to skip strip
         #DEF_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
 unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
+unset   DEF_NO_LLVM_LINKER
 unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
 unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
 unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
