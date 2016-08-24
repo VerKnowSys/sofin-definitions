@@ -9,7 +9,7 @@ DEF_NO_CCACHE=YES # it's used internally anyway, but controlled by Rust build sy
 DEFAULT_RUSTFLAGS="-Ccodegen-units=${CPUS} -Cinline-threshold=275 -Clink-args=-fuse-ld=gold"
 DEF_MAKE_METHOD="make_method"
 make_method () {
-    RUSTFLAGS="-Cdebuginfo=0 ${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 TIME_LLVM_PASSES=0 VERBOSE=1 make all rustc-stage3 install || install_stage3_manually
+    RUSTFLAGS="-Cdebuginfo=0 ${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 TIME_LLVM_PASSES=0 VERBOSE=1 make -j${CPUS} all install
 }
 DEF_INSTALL_METHOD="true"
 DEF_USEFUL="bin/rust* bin/*conf* bin/*.*sh bin/*cfg bin/*make bin/gettext* bin/libtool* bin/llvm* bin/*cache"
@@ -31,9 +31,3 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
 else # for non Darwin, use python from PREFIX:
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python --enable-rpath --disable-rustbuild"
 fi
-install_stage3_manually () {
-    try "${CP_BIN} -rv ${SYSTEM_ARCH}-apple-$(lowercase "${SYSTEM_NAME}")/stage3/bin/ ${PREFIX}/bin/"
-    try "${CP_BIN} -rv ${SYSTEM_ARCH}-apple-$(lowercase "${SYSTEM_NAME}")/stage3/lib/ ${PREFIX}/lib/"
-    try "${MKDIR_BIN} -p ${PREFIX}/test"
-    try "${RM_BIN} -f ${PREFIX}/lib/stamp.*"
-}
