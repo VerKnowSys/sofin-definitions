@@ -13,6 +13,7 @@ DEF_ORIGIN="http://www.postgresql.org"
 DEF_CONFLICTS_WITH="Postgresql"
 DEF_STRIP=BIN
 DEF_NO_FAST_MATH=YES
+DEF_NO_LLVM_LINKER=YES
 
 case "${SYSTEM_NAME}" in
     Linux)
