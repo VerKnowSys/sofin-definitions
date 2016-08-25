@@ -12,3 +12,4 @@ DEF_MAKE_METHOD="make"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="gss-server kadmin.local kadmind kdb5_util kprop kpropd kproplog krb5-send-pr krb5kdc sim_server sserver uuserver k5srvutil kadmin kdestroy kinit klist kpasswd krb5-config ksu kswitch ktutil kvno"
 DEF_USELESS="docs lib/perl5"
+DEF_NO_LLVM_LINKER=YES

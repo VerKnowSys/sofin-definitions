@@ -6,6 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf make zlib pcre libffi gettext python27 m4 libtool"
 DEF_CONFIGURE_ARGS="--disable-dependency-tracking  --disable-fam --disable-gtk-doc --disable-gtk-doc-html --without-xml-catalog --with-pcre=internal --disable-maintainer-mode --disable-silent-rules --disable-modular-tests --disable-libelf"
 DEF_NO_CCACHE="YES"
+DEF_NO_LLVM_LINKER=YES
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     # No probes provided for fbsd? sad panda
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace"
