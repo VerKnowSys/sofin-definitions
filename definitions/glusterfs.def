@@ -1,13 +1,13 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Glusterfs"
 DEF_ORIGIN="http://www.gluster.org/download/"
-DEF_SHA="a4bee1fc980ae803cdcb3d5f9a254511927ee8b2"
+DEF_SHA="ed3184e2bc66dfb87417ec50bfea72c3bf8ddc9b"
 DEF_NAME="glusterfs"
-DEF_VERSION="3.7.14"
+DEF_VERSION="3.8.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf m4 libtool make zlib gettext xz bzip2 readline perl libffi libressl python27 glib texinfo libxml2 bison autoconf automake sqlite userspace-rcu"
+DEF_REQUIREMENTS="pkgconf m4 libtool make zlib gettext xz bzip2 libedit perl libffi libressl python27 glib texinfo libxml2 bison autoconf automake sqlite userspace-rcu"
 DEF_AFTER_UNPACK_METHOD="./autogen.sh"
-DEF_CONFIGURE_ARGS="--enable-shared --disable-static --enable-fuse-client --enable-qemu-block --with-mountutildir=${PREFIX}/sbin --with-xml-prefix=${PREFIX} --with-initdir=${SERVICE_DIR}/etc/rc.d --disable-cmocka --disable-epoll --disable-bd-xlator --disable-ibverbs --disable-firewalld --disable-systemtap --disable-georeplication ac_cv_lib_aio_io_setup=no ac_cv_func_fallocate=no ac_cv_func_setfsuid=no ac_cv_func_fdatasync=no ac_cv_func_llistxattr=no ac_cv_func_malloc_stats=no"
+DEF_CONFIGURE_ARGS="--enable-shared --enable-static --enable-fuse-client --enable-qemu-block --with-mountutildir=${PREFIX}/sbin --with-xml-prefix=${PREFIX} --with-initdir=${SERVICE_DIR}/etc/rc.d --disable-cmocka --disable-epoll --disable-bd-xlator --disable-ibverbs --disable-firewalld --disable-systemtap --disable-georeplication"
 DEF_COMPILER_ARGS="-I${PREFIX}/include"
 DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib"
 DEF_EXPORTS="gobject-query gresource gsettings gtester gtester-report gfind_missing_files gcron.py gluster glusterd glusterfs glusterfsd snap_scheduler.py umountd glusterfind mount_glusterfs"
@@ -19,3 +19,4 @@ after_install () {
     return 0
 }
 DEF_NO_CCACHE=YES
+DEF_NO_LLVM_LINKER=YES
