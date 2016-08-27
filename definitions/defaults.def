@@ -29,7 +29,7 @@ unset   DEF_LINKER_ARGS # additional arguments to linker
 unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of software
         DEF_MAKE_METHOD="make ${MAKE_OPTS}"
         DEF_TEST_ENV="test_harness" # default TEST_ENV passed to test
-        DEF_TEST_METHOD="make test" # define to enable software internal testing, by default it is: make check/ test
+        DEF_TEST_METHOD="make test check" # define to enable software internal testing, by default it is: make check/ test
         DEF_SKIPPED_DEFINITION_TEST="python27 perl cmake curl php"
         DEF_INSTALL_METHOD="make ${MAKE_OPTS} install"
 unset   DEF_BUILD_DIR_POSTFIX # special value required for software which delivers software sources in custom non standard directory.
