@@ -3,7 +3,7 @@ DEF_NAME="nettle"
 DEF_SHA="b2eb5b36e65a8d3ed60ff81ec897044dead6dae0"
 DEF_VERSION="3.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="bzip2 zlib libiconv make m4 gmp"
+DEF_REQUIREMENTS="bzip2 zlib make m4 gmp"
 if [ "${SYSTEM_ARCH}" = "arm" ]; then
     DEF_CONFIGURE_ARGS="--enable-shared --disable-assembler"
 else

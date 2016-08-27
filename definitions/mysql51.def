@@ -6,7 +6,7 @@ DEF_NAME="mysql"
 DEF_POSTFIX="51"
 DEF_VERSION="5.1.69"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="zlib bzip2 expat libiconv ncurses m4 libtool"
+DEF_REQUIREMENTS="zlib bzip2 expat ncurses m4 libtool"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_REQUIREMENTS="zlib bzip2 expat ncurses libtool"

@@ -4,7 +4,7 @@ DEF_SHA="725739d36e24bfa1156f92b0c5a57fcc379f4e91"
 DEF_NAME="mariadb"
 DEF_VERSION="10.1.16"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make db libnet libedit lua51 pcre libiconv ccache zlib bzip2 xz lzma lzo lzop lz4 m4 perl yasm autoconf texinfo automake bison libtool cmake msgpack kytea libsodium zeromq4 expat libressl python27 libffi gettext glib libevent flex boost-minimal libxml2 mariadb-client" # ncurses
+DEF_REQUIREMENTS="pkgconf make db libnet libedit lua51 pcre ccache zlib bzip2 xz lzma lzo lzop lz4 m4 perl yasm autoconf texinfo automake bison libtool cmake msgpack kytea libsodium zeromq4 expat libressl python27 libffi gettext glib libevent flex boost-minimal libxml2 mariadb-client" # ncurses
 DEF_CONFIGURE="cmake"
 DEF_CONFIGURE_ARGS="-DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=off -DWITH_LIBWRAP=1 -DPLUGIN_AUTH_GSSAPI_CLIENT=NO -DPLUGIN_TOKUDB=NO -DDISABLE_LIBMYSQLCLIENT_SYMBOL_VERSIONING=TRUE"
 DEF_EXPORTS="mysql mysqld_multi mysqld mysqld_safe mysql_config mysqladmin mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysqlshow mysql-proxy"

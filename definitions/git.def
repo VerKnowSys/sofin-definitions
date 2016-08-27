@@ -10,7 +10,7 @@ else
     DEF_CONFIGURE_ARGS="--with-openssl=/usr/lib --with-expat=${PREFIX} --with-curl=${PREFIX} --with-zlib=${PREFIX} --with-libpcre=${PREFIX} --with-iconv=/usr/lib --without-tcltk --without-python --with-shell=/bin/sh --with-perl=/usr/pkg/bin/perl --enable-pthreads=-pthread ac_cv_search_clock_gettime=no git_cv_ld_dashr=no gitexecdir=${PREFIX}/bin TAR=${TAR_BIN} INSTALL=${INSTALL_BIN}"
     DEF_COMPILER_ARGS="-D_NETBSD_SOURCE"
 fi
-DEF_REQUIREMENTS="pkgconf make zlib xz pcre libiconv expat perl bzip2 m4 libtool libressl texinfo libidn curl pth"
+DEF_REQUIREMENTS="pkgconf make zlib xz pcre expat perl bzip2 m4 libtool libressl texinfo libidn curl pth"
 DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
 DEF_USEFUL="bin/perl*"
 DEF_USELESS="share/examples share/texinfo"
