@@ -1,3 +1,0 @@
-inherit readline
-
-DEF_CONFIGURE_ARGS="--enable-shared"
