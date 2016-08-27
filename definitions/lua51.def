@@ -30,9 +30,10 @@ patch_makefile () {
     # if [ "${SYSTEM_NAME}" != "Darwin" ]; then
     #     _addon="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-fuse-ld=gold"
     # fi
+    ${SED_BIN} -i '' -e "s#readline/readline.h#editline/readline.h#g" src/luaconf.h
     ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile
-    ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= ${CFLAGS} \$(MYCFLAGS)#" src/Makefile
-    ${SED_BIN} -i '' -e "s#LIBS= -lm#LIBS= ${LDFLAGS} -lm -lncursesw #" src/Makefile
+    ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= ${CFLAGS} -I${PREFIX}/include -I/usr/include/edit/ \$(MYCFLAGS)#;s#-lreadline#-ledit#g;" src/Makefile
+    ${SED_BIN} -i '' -e "s#LIBS= -lm#LIBS= ${LDFLAGS} -L${PREFIX}/lib -lm#" src/Makefile
     # unset _addon
 
     if [ "${SYSTEM_NAME}" != "Linux" ]; then
