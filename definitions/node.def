@@ -7,7 +7,7 @@ DEF_SHA="8938cfafa786c6e74b957ec62985ea307c006653"
 DEF_ORIGIN="http://nodejs.org/download/"
 DEF_MAKE_METHOD="LINK=clang++ strictaliasing=off make -s ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="LINK=clang++ make -s install"
-DEF_REQUIREMENTS="pkgconf make m4 libtool libexecinfo c-ares gettext readline-dynamic zlib bzip2 lzma xz perl openssl autoconf texinfo automake libuv libxml2 libgpg-error libgcrypt libxslt sqlite yaml libffi python27 icu bash" # bash is required by npm..
+DEF_REQUIREMENTS="pkgconf make m4 libtool libexecinfo c-ares gettext libedit zlib bzip2 lzma xz perl openssl autoconf texinfo automake libuv libxml2 libgpg-error libgcrypt libxslt sqlite yaml libffi python27 icu bash" # bash is required by npm..
 DEF_CONFLICTS_WITH="Node"
 DEF_COMPILER_ARGS="-Wno-unused-private-field -Wno-nested-anon-types -Wno-unused-function -Wno-unused-const-variable"
 DEF_CONFIGURE_ARGS="--with-dtrace --shared-zlib --shared-openssl --with-intl=system-icu --shared-libuv --shared-cares  --without-npm"
