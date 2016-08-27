@@ -1,9 +1,0 @@
-DEF_DISABLE_ON="Darwin Linux"
-DEF_FULL_NAME="libexecinfo" # NOTE: this library is now part of ServeD base system
-DEF_NAME="libexecinfo"
-DEF_SHA="64134ae780c029712862aa4e12f0566e14c65c55"
-DEF_VERSION="1.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE="ignore"
-DEF_MAKE_METHOD="/usr/bin/make -s"
-DEF_INSTALL_METHOD="mkdir -p ${PREFIX}/lib ${PREFIX}/include; cp libexecinfo.so libexecinfo.so.1 libexecinfo.a execinfo.So stacktraverse.So ${PREFIX}/lib ; cp execinfo.h ${PREFIX}/include"
