@@ -8,3 +8,4 @@ DEF_CONFIGURE_ARGS="--with-ca-bundle=/etc/ssl/cert.pem --disable-debug"
 DEF_REQUIREMENTS="pkgconf make jemalloc zlib bzip2 lzma xz expat libressl perl texinfo libidn python27 libevent libevent spdylay nghttp2 libssh2"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USELESS="lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
+DEF_NO_LLVM_LINKER=YES
