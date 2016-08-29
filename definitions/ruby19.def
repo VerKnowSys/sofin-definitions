@@ -1,9 +1,0 @@
-inherit ruby21
-
-DEF_FULL_NAME="Ruby YARV 1.9"
-DEF_SHA="35600f4e2ac98653fa8a634104cb6ab3d47a1535"
-DEF_POSTFIX="19"
-DEF_VERSION="1.9.3-p551"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-search-path=${PREFIX}/lib"
