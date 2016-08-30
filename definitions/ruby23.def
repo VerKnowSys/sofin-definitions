@@ -1,4 +1,4 @@
-inherit ruby21
+inherit ruby22
 
 DEF_DISABLE_ON="FreeBSD" # https://github.com/ruby/bugs.ruby-lang.org/issues/65
 DEF_FULL_NAME="Ruby YARV 2.3"
