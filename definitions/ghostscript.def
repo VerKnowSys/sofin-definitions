@@ -12,7 +12,7 @@
     "
     DEF_REQUIREMENTS="make pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper"
     DEF_COMPILER_ARGS="-DA4 -DUPD_SIGNAL=0 -DOPJ_STATIC"
-    DEF_CONFIGURE="./autogen.sh"
+    DEF_CONFIGURE_METHOD="./autogen.sh"
     DEF_MAKE_METHOD="make_stuff"
     make_stuff () {
         compile_mode="$1"

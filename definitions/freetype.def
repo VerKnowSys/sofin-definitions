@@ -4,7 +4,7 @@ DEF_NAME="freetype"
 DEF_VERSION="2.6.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake"
-DEF_CONFIGURE="no-conf"
+DEF_CONFIGURE_METHOD="no-conf"
 DEF_CONFIGURE_OPTS="--prefix=${PREFIX} --enable-shared --enable-static"
 DEF_MAKE_METHOD="setup_and_make"
 setup_and_make () {

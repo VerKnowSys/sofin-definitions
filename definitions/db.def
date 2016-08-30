@@ -4,7 +4,7 @@ DEF_NAME="db"
 DEF_VERSION="6.2.23" # http://download.oracle.com/berkeley-db/db-6.2.23.tar.gz
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_BUILD_DIR_POSTFIX="build_unix/"
-DEF_CONFIGURE="../dist/configure"
+DEF_CONFIGURE_METHOD="../dist/configure"
 DEF_CONFIGURE_ARGS="--enable-compat185 --enable-dbm --enable-posixmutexes --with-cryptography=yes"
 DEF_EXPORTS="db_archive db_checkpoint db_deadlock db_dump db_hotbackup db_load db_log_verify db_printlog db_recover db_replicate db_stat db_tuner db_upgrade db_verify"
 DEF_MAKE_METHOD="docdir=/tmp make -j${CPUS}"

@@ -6,4 +6,4 @@ DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="master"
 DEF_SOURCE_PATH="git@github.com:tallica/libguess.git"
 DEF_REQUIREMENTS="m4 make perl autoconf automake"
-DEF_CONFIGURE="./autogen.sh ; ./configure"
+DEF_CONFIGURE_METHOD="./autogen.sh ; ./configure"

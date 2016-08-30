@@ -6,7 +6,7 @@ DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="master"
 DEF_SOURCE_PATH="git@github.com:audacious-media-player/audacious.git"
 DEF_REQUIREMENTS="m4 make perl autoconf automake zlib pcre pkgconf libffi gettext python27 libtool glib"
-DEF_CONFIGURE="./autogen.sh ; ./configure PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig"
+DEF_CONFIGURE_METHOD="./autogen.sh ; ./configure PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig"
 DEF_CONFIGURE_ARGS="--disable-gtk --disable-dbus --enable-qt --enable-chardet"
 DEF_AFTER_INSTALL_METHOD="${CP_BIN} -r contrib/macpack/Audacious.app ${PREFIX}/"
 DEF_NO_CCACHE="YES"

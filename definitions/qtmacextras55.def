@@ -5,7 +5,7 @@ DEF_NAME="qtmacextras"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-opensource-src-${DEF_VERSION}.tar.xz"
 DEF_SHA="bd42e329ae70585e746edff70ce594ca486fc8d3"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} qtbase55"
-DEF_CONFIGURE="no-conf"
+DEF_CONFIGURE_METHOD="no-conf"
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake -spec freebsd-clang ${DEF_NAME}.pro"

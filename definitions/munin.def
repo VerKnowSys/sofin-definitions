@@ -6,7 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make perl openssl"
 DEF_USEFUL="bin/munin* bin/perl"
 DEF_EXPORTS="munin munin-node munin-node-configure munin-run munindoc"
-DEF_CONFIGURE="no-conf"
+DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD="make"
 DEF_INSTALL_METHOD="make -s install"
 

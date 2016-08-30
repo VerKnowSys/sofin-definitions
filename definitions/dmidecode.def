@@ -3,7 +3,7 @@ DEF_SHA="d190f1333e8a217cf02d2a6c98795dc5ced97ddc"
 DEF_NAME="dmidecode"
 DEF_VERSION="2.12"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE="no-conf" # no configure script for this package
+DEF_CONFIGURE_METHOD="no-conf" # no configure script for this package
 DEF_AFTER_UNPACK_METHOD="${SED_BIN} -i '' -e 's/gcc/clang/' Makefile"
 DEF_MAKE_METHOD="make prefix=${PREFIX}"
 DEF_INSTALL_METHOD="make install prefix=${PREFIX}"

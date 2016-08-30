@@ -25,7 +25,7 @@ unset   DEF_VERSION # defines software version
 unset   DEF_REQUIREMENTS # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
 unset   DEF_COMPILER_ARGS # additional special arguments to compiler used to build software
 unset   DEF_LINKER_ARGS # additional arguments to linker
-        DEF_CONFIGURE="./configure" # default configure script name
+        DEF_CONFIGURE_METHOD="./configure" # default configure script name
 unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of software
         DEF_MAKE_METHOD="make ${MAKE_OPTS}"
         DEF_TEST_ENV="test_harness" # default TEST_ENV passed to test
