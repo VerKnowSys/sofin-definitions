@@ -1,0 +1,12 @@
+--- Makefile.in.orig	2015-06-23 18:56:21 UTC
++++ Makefile.in
+ 
+@@ -1013,7 +1013,7 @@ $(TEST_DIRS):
+ #
+ # Order is important here, don't change it!
+ #
+-INST_DEP += install.dirs install.emulator install.libs install.Install install.otp_version install.bin
++INST_DEP += install.dirs install.emulator install.libs install.Install install.otp_version
+ 
+ install: $(INST_DEP)
+ 
