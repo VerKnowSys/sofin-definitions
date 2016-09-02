@@ -11,7 +11,6 @@ DEF_GIT_CHECKOUT="release_39"
 DEF_SOURCE_PATH="https://github.com/llvm-mirror/llvm"
 
 prepare_lld () {
-    note "JESTEM TU: $(pwd)"
     cd tools
     ${GIT_BIN} clone -b ${DEF_GIT_CHECKOUT} "https://github.com/llvm-mirror/lld"
     cd ..
