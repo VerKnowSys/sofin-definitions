@@ -1,9 +1,10 @@
-DEF_FULL_NAME="Elixir Lang"
+inherit otp19
+
+DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
 DEF_NAME="elixir"
 DEF_VERSION="1.3.2"
 DEF_SHA="52ad748b6debed964496bb099b74adeeb3d1240c"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make db zlib lzma xz libunwind libatomic_ops perl expat gettext libressl unixodbc otp19"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
 DEF_CONFLICTS_WITH="Otp"
