@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Linux"
 DEF_FULL_NAME="FFMPEG"
-DEF_SHA="c40731a221fbfaa50671d69fe894bedd664f91e2"
+DEF_SHA="8a698b61ee42fb159ecc8808ea226d1cd0712a0b"
 DEF_NAME="ffmpeg"
-DEF_VERSION="3.0.2"
+DEF_VERSION="3.1.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 FFMPEG_DEFAULT_CONFIGURE_FLAGS="--cc=cc --cxx=c++ --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --enable-openssl --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-sdl --disable-xlib --enable-ftrapv --enable-libfaac --enable-nonfree --enable-libmp3lame --enable-libopus --enable-libsoxr --enable-libspeex --enable-libtwolame --enable-libvorbis --enable-libwavpack --disable-libtheora --enable-lzma --disable-stripping --disable-videotoolbox --enable-lzo --enable-libbs2b --enable-pic"
 DEF_REQUIREMENTS="pkgconf ccache make libatomic_ops m4 zlib lzma lzo xz bzip2 nasm pcre perl python27 autoconf automake libtool libressl icu boost-minimal libffi gettext glib libmpdclient mpc db sqlite yasm fftw expat lame libid3tag mpg123 libcue cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn curl libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr" # libaacplus
