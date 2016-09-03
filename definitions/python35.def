@@ -13,7 +13,7 @@ DEF_CONFLICTS_WITH="Python"
 
 DEF_AFTER_INSTALL_METHOD="install_additional_goodies"
 install_additional_goodies () {
-    ${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip
+    ${TEST_BIN} -L ${PREFIX}/bin/pip || ${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip
 
     pip install --upgrade pip
     pip install pytoml dulwich sqlalchemy
