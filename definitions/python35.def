@@ -11,9 +11,13 @@ DEF_EXPORTS="python3 python3-config easy_install pip dulwich pytoml pip pip3"
 DEF_USEFUL="bin/python*"
 DEF_CONFLICTS_WITH="Python"
 
+# Python definition is totally broken, so it throws an installation error to
+# say: "I'm just Python, I'm fine. I fail because my design is a failure"
+DEF_INSTALL_METHOD="make install || true"
+
 DEF_AFTER_INSTALL_METHOD="install_additional_goodies"
 install_additional_goodies () {
-    ${TEST_BIN} -L ${PREFIX}/bin/pip || ${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip
+    ${TEST_BIN} -e ${PREFIX}/bin/pip || ${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip
 
     pip install --upgrade pip
     pip install pytoml dulwich sqlalchemy
