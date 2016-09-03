@@ -1,17 +1,32 @@
 inherit llvm
 
 DEF_FULL_NAME="${DEF_FULL_NAME} + LLVM Linker"
-DEF_EXPORTS="${DEF_EXPORTS} lld lldb"
+DEF_EXPORTS="${DEF_EXPORTS} ld lld ld.lld lldb"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LIBCXX=on -DLLVM_TOOL_LLDB_BUILD=on -DLLVM_TOOL_LLD_BUILD=on -DLLVM_ENABLE_CXX1Y=on"
-DEF_AFTER_UNPACK_METHOD="prepare_lld"
-
 DEF_VERSION="3.9.0"
 DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="release_39"
 DEF_SOURCE_PATH="https://github.com/llvm-mirror/llvm"
 
+DEF_AFTER_UNPACK_METHOD="prepare_lld"
 prepare_lld () {
     cd tools
     ${GIT_BIN} clone -b ${DEF_GIT_CHECKOUT} "https://github.com/llvm-mirror/lld"
     cd ..
+}
+
+DEF_AFTER_INSTALL_METHOD="symlink_names"
+symlink_names () {
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            ;;
+            # Darwin name:
+            ${LN_BIN} -vs ${PREFIX}/bin/lld ${PREFIX}/bin/ld
+
+        *)
+            # UNIX name:
+            ${LN_BIN} -vs ${PREFIX}/bin/lld ${PREFIX}/bin/ld.lld
+            ;;
+    esac
+    return 0
 }
