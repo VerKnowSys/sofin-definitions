@@ -19,9 +19,9 @@ DEF_AFTER_INSTALL_METHOD="symlink_names"
 symlink_names () {
     case "${SYSTEM_NAME}" in
         Darwin)
-            ;;
             # Darwin name:
             ${LN_BIN} -vs ${PREFIX}/bin/lld ${PREFIX}/bin/ld
+            ;;
 
         *)
             # UNIX name:
