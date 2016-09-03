@@ -7,6 +7,7 @@ DEF_VERSION="3.9.0"
 DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="release_39"
 DEF_SOURCE_PATH="https://github.com/llvm-mirror/llvm"
+DEF_USELESS="share doc lib/python* lib/cmake"
 
 DEF_AFTER_UNPACK_METHOD="prepare_lld"
 prepare_lld () {
