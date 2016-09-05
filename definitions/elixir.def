@@ -1,5 +1,6 @@
 inherit otp19
 
+unset DEF_POSTFIX
 DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
 DEF_NAME="elixir"
 DEF_VERSION="1.3.2"
