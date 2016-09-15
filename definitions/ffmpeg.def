@@ -15,4 +15,5 @@ elif [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_CONFIGURE_ARGS="--enable-rpath --disable-lto"
 fi
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS}"
+DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STRIP=NO
