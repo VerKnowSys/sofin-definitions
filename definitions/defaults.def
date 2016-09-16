@@ -59,12 +59,27 @@ unset   DEF_USELESS # list of patterns of files to be removed after build proces
 unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
+unset   DEF_SYSTEM_SPECIFIC_CFLAGS # usually not necessary to set this
+unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
         case "${SYSTEM_NAME}" in
-            Linux)
-                DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa*" # include
+            FreeBSD)
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-fPIE"
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie -z relro"
+                ;;
+
+            Minix)
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-I/usr/pkg/include"
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/pkg/lib"
                 ;;
 
             Darwin)
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=x86_64 -mmacosx-version-min=10.11" # default mode
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-arch=x86_64"
+                ;;
+
+            Linux)
+                DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa*" # include
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx"
                 ;;
         esac
