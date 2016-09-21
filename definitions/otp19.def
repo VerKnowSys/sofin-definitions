@@ -1,9 +1,9 @@
 DEF_FULL_NAME="Erlang OTP"
-DEF_SHA="3be958b529de4be19d77eb77f587a76210b43bfd"
+DEF_SHA="9f83a442de96c075a7cd1c42ceae9e3ce44b8f76"
 DEF_NAME="otp"
 PATCHES_SITE="https://olgeni.olgeni.com/~olgeni/distfiles/"
-MAJOR="19.0"
-DEF_VERSION="${MAJOR}.5"
+MAJOR="19.1"
+DEF_VERSION="${MAJOR}.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make m4 libtool gdbm db zlib lzma lzo xz libunwind libatomic_ops libressl unixodbc perl"
 # NOTE: For non-tarball versions use: "./otp_build autoconf" to gen configure
