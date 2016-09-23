@@ -17,8 +17,14 @@ DEF_USELESS="lib/*perl* docs share"
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_COMPILER_ARGS="-DMAP_NORESERVE=0"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-m64-build"
+        # NOTE: this causes a hickup for HIPE:
+        # erl_prettypr.erl: internal error in native_compile;
+        # crash reason: undef
+        # (...)
+        #
+        # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-m64-build"
         DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
+        DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/lib -ldtrace"
         ;;
 
     # Darwin)
