@@ -3,5 +3,10 @@ DEF_SHA="668d636372e3276aecc6082082a86f86ddb67877"
 DEF_NAME="libuv"
 DEF_VERSION="1.9.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf libedit zlib bzip2 lzma xz make m4 perl autoconf libtool texinfo automake"
-DEF_CONFIGURE_METHOD="/bin/sh autogen.sh ; ./configure"
+DEF_REQUIREMENTS="pkgconf libedit zlib perl autoconf libtool texinfo automake"
+DEF_AFTER_UNPACK_METHOD="aconf"
+aconf () {
+    echo "m4_define([UV_EXTRA_AUTOMAKE_FLAGS], [ serial-tests])" > m4/libuv-extra-automake-flags.m4
+    ./autogen.sh
+    return 0
+}
