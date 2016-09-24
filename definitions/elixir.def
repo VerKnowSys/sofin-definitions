@@ -11,3 +11,4 @@ DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elix
 DEF_CONFLICTS_WITH="Otp"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp19"
 DEF_USELESS="share lib/*perl*"
+DEF_TEST_METHOD="LANG=en_US.UTF-8 make test"
