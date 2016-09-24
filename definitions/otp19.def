@@ -10,19 +10,19 @@ DEF_REQUIREMENTS="pkgconf make m4 libtool gdbm db zlib lzma lzo xz libunwind lib
 DEF_AFTER_UNPACK_METHOD="./otp_build remove_prebuilt_files || :"
 DEF_CONFIGURE_ARGS="--enable-threads --with-dynamic-trace=dtrace --enable-fp-exceptions --enable-hipe --enable-kernel-poll --enable-smp-support --enable-sctp --with-ssl=${PREFIX} --disable-debug --enable-vm-probes --with-odbc=${PREFIX} --enable-native-libs --with-libatomic_ops=${PREFIX}"
 DEF_INSTALL_METHOD="LANG=C make -s install && install_repl_history"
-# --enable-dynamic-ssl-lib --enable-shared-zlib
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USELESS="lib/*perl* docs share"
 case "${SYSTEM_NAME}" in
     FreeBSD)
-        DEF_COMPILER_ARGS="-DMAP_NORESERVE=0"
+        DEF_COMPILER_ARGS="-DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         # NOTE: this causes a hickup for HIPE:
         # erl_prettypr.erl: internal error in native_compile;
         # crash reason: undef
         # (...)
         #
         # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-m64-build"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --exec-prefix=${PREFIX}"
         DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
         DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/lib -ldtrace"
         ;;
@@ -32,6 +32,7 @@ case "${SYSTEM_NAME}" in
     #     ;;
 
     *)
+        DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -fno-omit-frame-pointer"
         ;;
 esac
 
