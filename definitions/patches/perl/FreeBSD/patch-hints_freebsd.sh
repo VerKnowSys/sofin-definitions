@@ -22,19 +22,19 @@
 
 @@ -126,7 +132,7 @@ case "$osvers" in
          else
-             libpth="/usr/lib /usr/local/lib"
-             glibpth="/usr/lib /usr/local/lib"
+             libpth="/usr/lib ${PREFIX}/lib"
+             glibpth="/usr/lib ${PREFIX}/lib"
 -            ldflags="-Wl,-E "
-+            ldflags="-lpthread -Wl,-E "
++            ldflags="-static -lpthread -Wl,-E "
              lddlflags="-shared "
          fi
          cccdlflags='-DPIC -fPIC'
 @@ -134,7 +140,7 @@ case "$osvers" in
  *)
-        libpth="/usr/lib /usr/local/lib"
-        glibpth="/usr/lib /usr/local/lib"
+        libpth="/usr/lib ${PREFIX}/lib"
+        glibpth="/usr/lib ${PREFIX}/lib"
 -       ldflags="-Wl,-E "
-+       ldflags="-lpthread -Wl,-E "
++       ldflags="-static -lpthread -Wl,-E "
          lddlflags="-shared "
          cccdlflags='-DPIC -fPIC'
         ;;
