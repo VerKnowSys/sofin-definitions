@@ -7,6 +7,8 @@ DEF_SOURCE_PATH="https://github.com/MidnightCommander/${DEF_NAME}.git"
 DEF_REQUIREMENTS="pkgconf make m4 libtool zlib bzip2 lzma xz pcre perl gettext autoconf automake libffi libressl python27 glib ncurses slang"
 DEF_AFTER_PATCH_METHOD="autoconf; sh ./autogen.sh"
 DEF_CONFIGURE_ARGS="--with-screen=ncurses --with-slang-includes=${PREFIX}/include --with-slang-libs=${PREFIX}/lib --with-pcre=${PREFIX} --disable-doxygen-man --disable-doxygen-html --disable-doxygen-doc --disable-doxygen-dot --enable-charset --disable-aspell --with-subshell --disable-assert --without-internal-edit --with-diff-viewer --without-x --without-nls --disable-nls" # NOTE: disabled NLS cause of: http://ół.pl/e1e0a93dc4f23580ad67a362cad7438c.png
+DEF_SYSTEM_SPECIFIC_CFLAGS="-ltinfow"
+DEF_LINKER_ARGS="-ltinfow"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view ${DEF_NAME}edit ${DEF_NAME}diff"
 DEF_USELESS="lib/*perl* include/*python* lib/*python* share/bash-completion share/gdb share/gettext* share/glib* share/*doc* share/info share/slsh share/libtool man"
 DEF_NO_LLVM_LINKER=YES
