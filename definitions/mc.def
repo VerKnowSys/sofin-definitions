@@ -1,9 +1,11 @@
 DEF_FULL_NAME="GNU Midnight Commander File Manager"
 DEF_NAME="mc"
-DEF_SHA="f6a080a6ce6523f308e2530e839e0156be70cdc6"
-DEF_VERSION="4.8.17"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 libtool perl pcre gettext zlib bzip2 xz libffi libressl python27 glib slang"
-DEF_CONFIGURE_ARGS="--with-pcre=${PREFIX} --with-slang-libs=${PREFIX}/lib --disable-doxygen-man --disable-doxygen-html --disable-doxygen-doc --disable-doxygen-dot --enable-charset --disable-background --disable-aspell --with-subshell --disable-assert --without-internal-edit --with-diff-viewer --without-x"
-DEF_EXPORTS="mc mcview mcedit mcdiff"
+DEF_GIT_MODE=YES
+DEF_GIT_CHECKOUT="master"
+DEF_VERSION="4.8.18-${DEF_GIT_CHECKOUT}"
+DEF_SOURCE_PATH="https://github.com/MidnightCommander/${DEF_NAME}.git"
+DEF_REQUIREMENTS="pkgconf make m4 libtool zlib bzip2 lzma xz pcre perl gettext autoconf automake libffi libressl python27 glib ncurses slang"
+DEF_AFTER_PATCH_METHOD="autoconf; sh ./autogen.sh"
+DEF_CONFIGURE_ARGS="--with-screen=ncurses --with-slang-includes=${PREFIX}/include --with-slang-libs=${PREFIX}/lib --with-pcre=${PREFIX} --disable-doxygen-man --disable-doxygen-html --disable-doxygen-doc --disable-doxygen-dot --enable-charset --disable-aspell --with-subshell --disable-assert --without-internal-edit --with-diff-viewer --without-x --without-nls --disable-nls" # NOTE: disabled NLS cause of: http://ół.pl/e1e0a93dc4f23580ad67a362cad7438c.png
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view ${DEF_NAME}edit ${DEF_NAME}diff"
 DEF_USELESS="lib/*perl* include/*python* lib/*python* share/bash-completion share/gdb share/gettext* share/glib* share/*doc* share/info share/slsh share/libtool man"
