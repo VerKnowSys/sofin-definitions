@@ -7,3 +7,4 @@ DEF_CONFIGURE_ARGS="--enable-ext-colors --with-termlib --sysconfdir=/etc --enabl
 DEF_REQUIREMENTS="pkgconf"
 DEF_EXPORTS="tput tset tic toe reset infocmp clear infotocap ncursesw6-config tabs captoinfo"
 DEF_CLEAN_USELESS=NO
+DEF_NO_LLVM_LINKER=YES
