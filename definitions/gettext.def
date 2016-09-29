@@ -6,3 +6,4 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-c++ --without-emacs --disable-openmp --enable-threads --disable-native-java --disable-java --disable-csharp --with-included-glib --with-included-libcroco --with-included-libunistring --with-included-gettext --without-git --without-bzip2 ac_cv_lib_rt_sched_yield=no --with-tools"
 DEF_REQUIREMENTS="pkgconf make zlib"
 DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh msgcmp msgexec msginit msgcomm msguniq msgen msgconv xgettext msgfilter ngettext gettextize msgcat msgmerge envsubst recode-sr-latin"
+DEF_NO_LLVM_LINKER=YES
