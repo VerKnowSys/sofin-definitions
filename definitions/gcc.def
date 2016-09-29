@@ -1,43 +1,32 @@
-DISABLE_ON="Linux Darwin"
 langs="c,c++"
-DEF_FULL_NAME="GNU Compiler 5.4 (with langs: ${langs})"
+suffix="$(echo "${DEF_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
+targlib="${PREFIX}/lib"
+libexec="${PREFIX}/libexec"
+common_shared_env="LANG=C LC_ALL=C gcc_gxx_include_dir=\"/usr/include/c++/v1\""
+common_opts="${common_shared_env} SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
+
+DEF_DISABLE_ON="Linux Darwin"
 DEF_VERSION="5.4.0"
 DEF_NAME="gcc"
 DEF_SHA="07524df2b4ab9070bad9c49ab668da72237b8115"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-
-suffix="$(echo "${DEF_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
-targlib="${PREFIX}/lib"
-libexec="${PREFIX}/libexec"
-DEF_CONFIGURE_METHOD="env LC_ALL=C gcc_gxx_include_dir=\"/usr/include/c++/v1\" ./configure"
+DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
+DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
 DEF_CONFIGURE_ARGS="--without-headers --disable-libgcj \
-    --enable-libstdcxx --disable-multilib --disable-nls --with-system-zlib \
-    --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} \
-    --with-isl=${PREFIX} --with-gxx-include-dir=${PREFIX}/include/c++/ \
-    --libexecdir=${libexec} --libdir=${targlib} --with-as=${PREFIX}/bin/as \
-    --disable-bootstrap --with-pkgversion=\"ServeD\" \
-    --enable-languages=${langs} --disable-shared \
-" # --enable-gnu-indirect-function
-# we don't do shared build because each binary built with shared gcc compiler
-# will result with a dependency to libstdcxx from Gcc bundle..
-DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp51 mpfr libmpc isl zip autoconf automake bison texinfo binutils"
+--disable-multilib --disable-nls --with-system-zlib \
+--with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} \
+--with-isl=${PREFIX} --with-gxx-include-dir=${PREFIX}/include/c++/ \
+--libexecdir=${libexec} --libdir=${targlib} --with-as=${PREFIX}/bin/as \
+--disable-bootstrap --with-pkgversion=\"ServeD\" \
+--enable-languages=${langs} --disable-shared --disable-libstdcxx \
+--enable-gnu-indirect-function"
+DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp mpfr libmpc isl zip autoconf automake bison texinfo binutils-gold"
 DEF_COMPILER_ARGS="-Wno-error"
-
-common_opts="LANG=C LC_ALL=C SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
 DEF_MAKE_METHOD="env ${common_opts} make -s all-gcc ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="env ${common_opts} make install-gcc"
-DEF_DEFAULT_USELESS="" # we do static build, hence we need to leave lib/*.a intact
 DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
 DEF_USEFUL="bin/ld* bin/x86_64-unknown-freebsd*"
 DEF_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp"
 DEF_CONFLICTS_WITH="Binutils"
 DEF_NO_LLVM_LINKER=YES
-DEF_NO_GOLDEN_LINKER=YES
 DEF_NO_FAST_MATH=YES
-DEF_NO_CCACHE=YES
-
-DEF_AFTER_PATCH_CALLBACK="hack_gnu_crap"
-hack_gnu_crap () {
-    ${SED_BIN} -i '' -e '/LIBSTDCXX/ s/stdc\+\+/c\+\+/g ' gcc/cp/g++spec.c
-    return 0
-}
