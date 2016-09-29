@@ -54,6 +54,7 @@ unset   DEF_NO_LLVM_LINKER
 unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
 unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
 unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
+unset   DEF_USE_ALT_COMPILER # if set to YES, Sofin will try gcc/g++ from local PREFIX to build definition(s)
         DEF_DEFAULT_USELESS="info doc docs share/*-doc share/gtk-doc share/emacs share/common-lisp share/bison share/doc share/docs share/info"
         DEF_DEFAULT_USEFUL="bin/*-config bin/*cfg" # TODO:
 unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
