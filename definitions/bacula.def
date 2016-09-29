@@ -5,8 +5,8 @@ DEF_NAME="bacula"
 DEF_SHA="6c7e152d665837b736cca69a72108a5aa21fc4c3"
 DEF_VERSION="7.4.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make zlib libressl libedit postgresql94 lzma lzo lz4 xz"
-DEF_CONFIGURE_ARGS="--enable-smartalloc --disable-nls --with-postgresql=${PREFIX} --with-openssl=${PREFIX} --disable-conio --with-scriptdir=${PREFIX}/share/${DEF_NAME} --enable-batch-insert --with-plugindir=${PREFIX}/lib --with-dump-email=root@localhost --with-job-email=root@localhost --with-sbin-perm=755 --with-baseport=9101 --with-sd-group=operator --disable-libtool DEBUG="
+DEF_REQUIREMENTS="make m4 libtool zlib bzip2 lzma lzo lz4 xz zip libressl readline postgresql94"
+DEF_CONFIGURE_ARGS="--enable-smartalloc --with-readline=${PREFIX} --disable-nls --with-postgresql=${PREFIX} --with-openssl=${PREFIX} --disable-conio --with-scriptdir=${PREFIX}/share/${DEF_NAME} --enable-batch-insert --with-plugindir=${PREFIX}/lib/plugins --with-dump-email=root@localhost --with-job-email=root@localhost --with-sbin-perm=755 --with-baseport=9101 --with-sd-group=operator DEBUG="
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-tcp-wrappers"
@@ -15,7 +15,9 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-tcp-wrappers=/usr/lib"
         ;;
 esac
-DEF_MAKE_METHOD="make"
+DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="bacula bacula-dir bacula-fd bacula-sd bconsole bcopy bextract bls bpluginfo bregex bscan bsmtp btape btraceback bwild dbcheck"
-DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib"
+DEF_COMPILER_ARGS="-I/usr/include/readline -lz"
+DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -lz"
+DEF_NO_LLVM_LINKER=YES
