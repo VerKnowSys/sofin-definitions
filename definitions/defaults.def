@@ -65,8 +65,8 @@ unset   DEF_SYSTEM_SPECIFIC_CFLAGS # usually not necessary to set this
 unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-fPIE"
-                DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie -z relro"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch x86_64"
+                # DEF_SYSTEM_SPECIFIC_LDFLAGS=""
                 ;;
 
             Minix)
