@@ -6,6 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="pkgconf pkg-config"
 DEF_CONFIGURE_ARGS="--with-pkg-config-dir=${PREFIX}/lib/pkgconfig:/usr/libdata/pkgconfig --with-system-libdir=/usr/lib --with-system-includedir=/usr/include"
 
+DEF_NO_LLVM_LINKER=YES
 DEF_AFTER_MAKE_METHOD="patch_tests"
 patch_tests () {
     ${SED_BIN} -i '' -e "s|\$(SHELL) tests/run.sh ./\$(PROG)|\$(SHELL) tests/run.sh ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/${DEF_NAME}|" Makefile
