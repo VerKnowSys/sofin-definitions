@@ -14,6 +14,9 @@ make_method () {
 }
 DEF_AFTER_INSTALL_METHOD="make_wrapper ; install_utils"
 make_wrapper () {
+    # remove stub file, replace it with useful content from system:
+    ${MV_BIN} -fv /etc/ssl/cert.pem ${SERVICE_DIR}/etc/ssl/cert.pem
+
     # make wrapper for cargo which does not include rpath information in binary:
     if [ "Darwin" = "${SYSTEM_NAME}" ]; then
         _addon="DY"
