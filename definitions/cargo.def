@@ -26,9 +26,9 @@ make_wrapper () {
     ${PRINTF_BIN} '%s\n' "#!/bin/sh \
 exec env \
  ${_addon}LD_LIBRARY_PATH=\"${PREFIX}/lib:/usr/lib\" \
- CFLAGS=\"${CFLAGS}\" \
- CXXFLAGS=\"${CXXFLAGS}\" \
- LDFLAGS=\"${LDFLAGS}\" \
+ CFLAGS=\"${COMMON_COMPILER_FLAGS}\" \
+ CXXFLAGS=\"${COMMON_COMPILER_FLAGS}\" \
+ LDFLAGS=\"${COMMON_LDFLAGS}\" \
  RUST_BACKTRACE=\"${RUST_BACKTRACE:-1}\" \
  RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" \
  CARGO_INSTALL_ROOT=\"${CARGO_INSTALL_ROOT:-${PREFIX}}\" \
