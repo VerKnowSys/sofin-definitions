@@ -18,19 +18,29 @@ make_wrapper () {
     ${MV_BIN} -fv /etc/ssl/cert.pem ${SERVICE_DIR}/etc/ssl/cert.pem
 
     # make wrapper for cargo which does not include rpath information in binary:
+    unset _addon
     if [ "Darwin" = "${SYSTEM_NAME}" ]; then
         _addon="DY"
     fi
     ${MV_BIN} -v ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin && \
-        ${PRINTF_BIN} "#\!/bin/sh\n${ENV_BIN} ${_addon}LD_LIBRARY_PATH=${PREFIX}/lib RUST_BACKTRACE=${RUST_BACKTRACE:-1} RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" CARGO_INSTALL_ROOT=\"${CARGO_INSTALL_ROOT:-${PREFIX}}\" ${PREFIX}/bin/cargo.bin \${@}\n" > "${PREFIX}/bin/cargo" && \
-            ${CHMOD_BIN} -v 755 "${PREFIX}/bin/cargo" && \
-                note "Cargo wrapper of prefix: $(distn "${PREFIX}") is ready" >> "${LOG}-${DEF_NAME}"
-    unset _addon
+    ${PRINTF_BIN} '%s\n' "#!/bin/sh \
+exec env \
+ ${_addon}LD_LIBRARY_PATH=\"${PREFIX}/lib:/usr/lib\" \
+ CFLAGS=\"${CFLAGS}\" \
+ CXXFLAGS=\"${CXXFLAGS}\" \
+ LDFLAGS=\"${LDFLAGS}\" \
+ RUST_BACKTRACE=\"${RUST_BACKTRACE:-1}\" \
+ RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" \
+ CARGO_INSTALL_ROOT=\"${CARGO_INSTALL_ROOT:-${PREFIX}}\" \
+ ${PREFIX}/bin/cargo.bin \${@} \
+ " > "${PREFIX}/bin/cargo" && \
+    ${CHMOD_BIN} -v 755 "${PREFIX}/bin/cargo" && \
+        debug "Cargo wrapper of prefix: $(distn "${PREFIX}") is ready" >> "${LOG}-${DEF_NAME}"
     ${TEST_BIN} -x "${PREFIX}/bin/cargo"
 }
 install_utils () {
     for crate in cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt; do
         note "Installing crate: ${crate}"
-        ${PREFIX}/bin/cargo install --root ${PREFIX} ${crate}
+        cargo install ${crate}
     done
 }
