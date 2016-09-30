@@ -1,10 +1,9 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="ImageMagick Graphics Library"
 DEF_SHA="88603e8cdf03d448033370344847fafacdda9dd9"
 DEF_NAME="ImageMagick"
 DEF_VERSION="7.0.3-1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make zlib pcre libffi gettext python27 m4 libtool glib bzip2 lzma xz lzo libressl perl autoconf automake bison util-macros cups expat libpaper texinfo libidn ghostscript libpng jbig2dec jbigkit nasm libjpeg-turbo jpeg tiff lcms2 krb freetype fontconfig jasper fftw pixman cairo pango"
+DEF_REQUIREMENTS="pkgconf make zlib pcre libffi gettext python27 m4 libtool glib bzip2 lzma xz lzo libressl perl autoconf automake bison util-macros cups expat libpaper texinfo libidn ghostscript libpng libjpeg-turbo nasm jpeg jbig2dec jbigkit nasm tiff lcms2 freetype fontconfig jasper fftw pixman cairo pango" # krb
 DEF_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
