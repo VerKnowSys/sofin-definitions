@@ -1,14 +1,19 @@
-DEF_FULL_NAME="pkgconf replacement for pkg-config"
+DEF_FULL_NAME="Pkg-Config"
 DEF_NAME="pkgconf"
-DEF_SHA="9f99afd100c3a42ae996a782ea46978d2877f891"
-DEF_VERSION="0.9.12"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SHA="9b274d5f5f61ec4ef68c6c548f5e3f29e506584f"
+DEF_VERSION="1.0.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="pkgconf pkg-config"
-DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -e ${PREFIX}/bin/pkg-config || ${LN_BIN} -s ${PREFIX}/bin/pkgconf ${PREFIX}/bin/pkg-config"
 DEF_CONFIGURE_ARGS="--with-pkg-config-dir=${PREFIX}/lib/pkgconfig:/usr/libdata/pkgconfig --with-system-libdir=/usr/lib --with-system-includedir=/usr/include"
 
 DEF_AFTER_MAKE_METHOD="patch_tests"
 patch_tests () {
     ${SED_BIN} -i '' -e "s|\$(SHELL) tests/run.sh ./\$(PROG)|\$(SHELL) tests/run.sh ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/${DEF_NAME}|" Makefile
+    return 0
+}
+DEF_AFTER_INSTALL_METHOD="hack_symlink"
+hack_symlink () {
+    try "${TEST_BIN} -x ${PREFIX}/bin/pkg-config" || \
+        try "${LN_BIN} -s ${PREFIX}/bin/pkgconf ${PREFIX}/bin/pkg-config"
     return 0
 }
