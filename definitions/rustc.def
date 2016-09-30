@@ -1,33 +1,37 @@
 DEF_FULL_NAME="Rustc - Rust-lang compiler"
-DEF_SHA="00decaac673be3daa672bf8452b44f2de40a7c95"
+DEF_SHA="e496d028fee5df7e38d40ac5f572cee9264f7277"
 DEF_NAME="rustc"
-DEF_VERSION="1.10.0"
+DEF_VERSION="1.12.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-src.tar.gz"
-DEF_REQUIREMENTS="pkgconf make ccache jemalloc m4 libtool gettext zlib bzip2 lzma xz pcre cmake perl texinfo libidn gmp libxml2 libxslt gdbm db sqlite flex bison unixodbc libressl yaml libgpg-error libgcrypt libssh2 curl autoconf automake llnextgen python27 git"
-DEF_CONFIGURE_ARGS="--enable-clang --enable-orbit --enable-jemalloc --release-channel=stable --enable-optimize --enable-optimize-cxx --disable-valgrind --disable-valgrind-rpass --datadir=${PREFIX}/share --infodir=${PREFIX}/share/info --enable-manage-submodules --enable-optimize-llvm --disable-docs --default-linker=clang++ "
-DEF_NO_CCACHE=YES # it's used internally anyway, but controlled by Rust build system
-DEFAULT_RUSTFLAGS="-Ccodegen-units=${CPUS} -Cinline-threshold=275 -Clink-args=-fuse-ld=gold"
-DEF_MAKE_METHOD="make_method"
-make_method () {
-    RUSTFLAGS="-Cdebuginfo=0 ${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 TIME_LLVM_PASSES=0 VERBOSE=1 make -j${CPUS} all install
+DEF_REQUIREMENTS="pkgconf make m4 libtool ccache libedit zlib bzip2 lzma xz pcre gettext perl texinfo libidn gmp libxml2 libxslt gdbm db sqlite flex bison re2c mpfr libmpc isl zip python27 ninja cmake unixodbc libressl yaml libgpg-error libgcrypt libssh2 curl autoconf automake llnextgen git llvm jemalloc libunwind"
+DEF_CONFIGURE_ARGS="--release-channel=stable --enable-clang --enable-ninja --enable-orbit --enable-jemalloc --default-linker=/usr/bin/clang++ --default-ar=${PREFIX}/bin/llvm-ar --enable-ccache --llvm-root=${PREFIX} --datadir=${PREFIX}/share --infodir=${PREFIX}/share/info --mandir=${PREFIX}/share/man --disable-valgrind --disable-valgrind-rpass --disable-docs --disable-codegen-tests --target=x86_64-unknown-$(lowercase "${SYSTEM_NAME}") --enable-optimize --enable-optimize-cxx --enable-optimize-llvm"
+DEFAULT_RUSTFLAGS="-Cinline-threshold=269" # -Ccodegen-units=${CPUS}
+DEF_MAKE_METHOD="makeit"
+makeit () {
+    env RUSTFLAGS="${DEFAULT_RUSTFLAGS}" NO_REBUILD=0 VERBOSE=1 ${PREFIX}/bin/make -j${CPUS} all
 }
-DEF_INSTALL_METHOD="true"
+DEF_INSTALL_METHOD="installit"
+installit () {
+    env RUSTFLAGS="${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 VERBOSE=1 make install
+}
 DEF_USEFUL="bin/rust* bin/*conf* bin/*.*sh bin/*cfg bin/*make bin/gettext* bin/libtool* bin/llvm* bin/*cache"
 DEF_EXPORTS="rustc rustdoc rust-lldb rust-gdb"
 DEF_USELESS="docs doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc include/perl* lib/*perl* share/common-lisp share/emacs share/examples share/git-core share/texinfo share/libxslt-plugins etc"
 DEF_CONFLICTS_WITH="Rustc"
+DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -lc++"
+DEF_NO_CCACHE=YES # it's used internally anyway, but controlled by Rust build system
 
-DEF_AFTER_PATCH_METHOD="set_localbase"
-set_localbase () {
-    ${SED_BIN} -i '' -e "s|-g||g;s|-lrt|-lrt -pie|" mk/cfg/x86_64-unknown-freebsd.mk
+DEF_AFTER_PATCH_METHOD="sed_fixes"
+sed_fixes () {
+    # ${SED_BIN} -i '' -e "s|-g||g" mk/cfg/x86_64-unknown-freebsd.mk
+    ${SED_BIN} -i '' -e "s|stdc++|c++|g" configure
     ${SED_BIN} -i '' -e "s|/usr/local|${PREFIX}|g" mk/cfg/x86_64-unknown-freebsd.mk src/rt/hoedown/Makefile src/jemalloc/configure src/jemalloc/configure.ac configure src/rust-installer/install-template.sh
-    ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|" mk/main.mk
+    ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|g" mk/main.mk
     return 0
 }
 
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-rpath --enable-rustbuild"
-    DEF_MAKE_METHOD="make_method"
 else # for non Darwin, use python from PREFIX:
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python --enable-rpath --disable-rustbuild"
 fi
