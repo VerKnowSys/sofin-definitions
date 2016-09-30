@@ -3,7 +3,7 @@ inherit rustc
 DEF_FULL_NAME="Cargo - Rust crate manager"
 DEF_NAME="cargo"
 DEF_GIT_MODE=YES
-DEF_VERSION="0.12.0"
+DEF_VERSION="0.13.0"
 DEF_SOURCE_PATH="https://github.com/rust-lang/cargo.git"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc"
 DEF_CONFIGURE_ARGS="--local-rust-root=${PREFIX} --enable-optimize"
