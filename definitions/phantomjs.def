@@ -2,7 +2,6 @@ DEF_FULL_NAME="Phantomjs"
 DEF_NAME="phantomjs"
 DEF_VERSION="2.0-master"
 DEF_SOURCE_PATH="git://github.com/VerKnowSys/phantomjs.git"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="master"
 DEF_REQUIREMENTS="pkgconf make sqlite python27 m4 libtool libxml2 libgpg-error libgcrypt libxslt xproto libpthread-stubs libxau perl bison autoconf automake gperf icu ruby22 freetype fontconfig qtbase55 qtwebkit55 qtphantom55"
 DEF_CONFIGURE_METHOD="no-conf"
