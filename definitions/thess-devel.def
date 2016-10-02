@@ -2,7 +2,6 @@ DEF_FULL_NAME="The Service Spawner - devel"
 DEF_NAME="thess"
 DEF_SOURCE_PATH="https://github.com/VerKnowSys/TheSS.git"
 DEF_VERSION="0.97.x"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="develop"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_REQUIREMENTS="make" # XXX: Requires /Software/Qt, /Software/Ccache and /Software/Pkgconf.

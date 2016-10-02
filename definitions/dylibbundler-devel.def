@@ -1,7 +1,6 @@
 DEF_DISABLE_ON="FreeBSD Linux"
 DEF_FULL_NAME="Dylib bundler"
 DEF_NAME="dylibbundler"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="master"
 DEF_VERSION="master"
 DEF_SOURCE_PATH="https://github.com/auriamg/macdylibbundler.git"

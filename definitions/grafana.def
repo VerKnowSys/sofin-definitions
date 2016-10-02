@@ -2,7 +2,6 @@ DEF_FULL_NAME="Grafana"
 DEF_NAME="grafana"
 DEF_VERSION="2.6.0"
 DEF_SOURCE_PATH="git://github.com/OliverLetterer/dummy-repo.git"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_REQUIREMENTS="pkgconf pcre go15 zlib bzip2 make yaml libedit python27 node42"
 DEF_CONFIGURE_METHOD="ignore"

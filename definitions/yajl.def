@@ -3,7 +3,6 @@ DEF_NAME="yajl"
 DEF_VERSION="2.1.0"
 DEF_REQUIREMENTS="cmake"
 DEF_SOURCE_PATH="https://github.com/lloyd/yajl.git"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="${DEF_VERSION}"
 DEF_COMPILER_ARGS="-Wno-error"
 DEF_CONFIGURE_METHOD="cmake"

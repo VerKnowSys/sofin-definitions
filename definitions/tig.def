@@ -1,6 +1,5 @@
 DEF_FULL_NAME="Tig commit viewer"
 DEF_NAME="tig"
-DEF_GIT_MODE=YES
 DEF_VERSION="2.1.1"
 DEF_GIT_CHECKOUT="${DEF_NAME}-${DEF_VERSION}"
 DEF_SOURCE_PATH="https://github.com/jonas/${DEF_NAME}.git"

@@ -1,7 +1,6 @@
 DISABLED_ON="Darwin Linux"
 DEF_FULL_NAME="Grub2 for BHYVE"
 DEF_NAME="grub2-bhyve"
-DEF_GIT_MODE=YES
 DEF_VERSION="0.40"
 DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_SOURCE_PATH="https://github.com/grehan-freebsd/${DEF_NAME}.git"

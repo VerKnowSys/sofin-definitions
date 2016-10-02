@@ -2,7 +2,6 @@ DEF_FULL_NAME="Character set guessing library"
 DEF_SHA="a4d316c404ff54ca545ea71a27af7dbc29817088"
 DEF_NAME="libguess"
 DEF_VERSION="1.3"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="master"
 DEF_SOURCE_PATH="git@github.com:tallica/libguess.git"
 DEF_REQUIREMENTS="m4 make perl autoconf automake"

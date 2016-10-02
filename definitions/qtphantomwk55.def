@@ -2,7 +2,6 @@ inherit qtbase55
 
 DEF_NAME="qtphantomwk"
 DEF_SOURCE_PATH="https://github.com/VerKnowSys/qtwebkit.git"
-DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="phantomjs"
 DEF_VERSION="${DEF_GIT_CHECKOUT}"
 DEF_CONFIGURE_METHOD="no-conf"
