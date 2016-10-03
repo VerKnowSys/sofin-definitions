@@ -55,7 +55,7 @@ ${PREFIX}/bin/${DEF_NAME}.bin \${@} \\
 }
 
 install_base_crates () {
-    for _crte in ${DEF_EXPORTS}; do
+    for _crte in cargo-count cargo-do cargo-check cargo-modules cargo-watch rustfmt racer; do
         try "${TEST_BIN} -x ${PREFIX}/bin/${_crte}" || \
             ${PREFIX}/bin/${DEF_NAME} install ${_crte} --force || \
                 error "Failed to install binary crate: $(diste "${_crte}")"
