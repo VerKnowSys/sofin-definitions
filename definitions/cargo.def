@@ -1,45 +1,64 @@
-inherit rustc
-
 DEF_FULL_NAME="Cargo - Rust crate manager"
 DEF_NAME="cargo"
-DEF_VERSION="0.13.0"
-DEF_SOURCE_PATH="https://github.com/rust-lang/cargo.git"
+DEF_GIT_CHECKOUT="master"
+DEF_VERSION="0.14.0-${DEF_GIT_CHECKOUT}"
+DEF_SOURCE_PATH="https://github.com/rust-lang/${DEF_NAME}.git"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc"
-DEF_CONFIGURE_ARGS="--local-rust-root=${PREFIX} --enable-optimize"
+DEF_CONFIGURE_ARGS="--enable-optimize --disable-option-checking --prefix=${PREFIX} --local-rust-root=${PREFIX} --libdir=${PREFIX}/lib --sysconfdir=${SERVICE_DIR}/etc --datadir=${PREFIX}/share --infodir=${PREFIX}/share/info --mandir=${PREFIX}/share/man"
+DEF_COMPILER_ARGS="${DEFAULT_COMPILER_FLAGS}"
+DEF_LINKER_ARGS="${HARDEN_LDFLAGS_PRODUCTION} -R${PREFIX}/lib -L${PREFIX}/lib"
 DEF_MAKE_METHOD="make_method"
 DEF_INSTALL_METHOD="make_method install"
+_codegen_units_amount="$(echo "${CPUS}+(${CPUS}/2)" 2>/dev/null | ${BC_BIN} 2>/dev/null)"
+DEFAULT_RUSTFLAGS="-Ccodegen-units=${_codegen_units_amount:-6} -Copt-level=3 -Crpath"
+_cargo_static_build_link_reqs="-L${PREFIX}/lib -lstatic=crypto -lstatic=ssl -lstatic=idn -lstatic=nghttp2 -lstatic=ssh2 -lstatic=curl -lstatic=tls"
 make_method () {
-    RUSTFLAGS="${DEFAULT_RUSTFLAGS}" NO_REBUILD=1 VERBOSE=1 RUST_BACKTRACE=1 make -j${CPUS} ${@}
+    run "CC=cc CPP=cpp CXX=c++ CFLAGS=\"${DEF_COMPILER_ARGS}\" CXXFLAGS=\"${DEF_COMPILER_ARGS}\" LDFLAGS=\"${DEF_LINKER_ARGS}\" RUSTFLAGS=\"${DEFAULT_RUSTFLAGS} ${_cargo_static_build_link_reqs}\" NO_REBUILD=1 VERBOSE=0 RUST_BACKTRACE=0 make ${@}"
 }
-DEF_AFTER_INSTALL_METHOD="make_wrapper ; install_utils"
-make_wrapper () {
-    # remove stub file, replace it with useful content from system:
-    ${MV_BIN} -fv /etc/ssl/cert.pem ${SERVICE_DIR}/etc/ssl/cert.pem
+DEF_NO_CCACHE=YES
+DEF_AFTER_PATCH_METHOD="setup_snapshots && cp_sys_ca_cert_to_service_dir"
+setup_snapshots () {
+    ${CAT_BIN} > src/snapshots.txt <<EE
+2016-07-05
+  freebsd-x86_64 4630444c0eca5e01aa576e196d260d6ebf0dd197
+EE
+}
+cp_sys_ca_cert_to_service_dir () {
+    # replace stub file with useful root CA certa from base system:
+    ${MKDIR_BIN} -p "${SERVICE_DIR}/etc/ssl"
+    ${CP_BIN} -fv "/etc/ssl/cert.pem" "${SERVICE_DIR}/etc/ssl/cert.pem"
+}
 
-    # make wrapper for cargo which does not include rpath information in binary:
-    unset _addon
-    if [ "Darwin" = "${SYSTEM_NAME}" ]; then
-        _addon="DY"
-    fi
-    ${MV_BIN} -v ${PREFIX}/bin/cargo ${PREFIX}/bin/cargo.bin && \
-    ${PRINTF_BIN} '%s\n' "#!/bin/sh \
-exec env \
- ${_addon}LD_LIBRARY_PATH=\"${PREFIX}/lib:/usr/lib\" \
- CFLAGS=\"${COMMON_COMPILER_FLAGS}\" \
- CXXFLAGS=\"${COMMON_COMPILER_FLAGS}\" \
- LDFLAGS=\"${COMMON_LDFLAGS}\" \
- RUST_BACKTRACE=\"${RUST_BACKTRACE:-1}\" \
- RUSTFLAGS=\"${RUSTFLAGS:-${DEFAULT_RUSTFLAGS}}\" \
- CARGO_INSTALL_ROOT=\"${CARGO_INSTALL_ROOT:-${PREFIX}}\" \
- ${PREFIX}/bin/cargo.bin \${@} \
- " > "${PREFIX}/bin/cargo" && \
-    ${CHMOD_BIN} -v 755 "${PREFIX}/bin/cargo" && \
-        debug "Cargo wrapper of prefix: $(distn "${PREFIX}") is ready" >> "${LOG}-${DEF_NAME}"
-    ${TEST_BIN} -x "${PREFIX}/bin/cargo"
+DEF_AFTER_INSTALL_METHOD="cargo_bin_wrapper && install_base_crates"
+cargo_bin_wrapper () {
+    ${MV_BIN} -fv ${PREFIX}/bin/${DEF_NAME} ${PREFIX}/bin/${DEF_NAME}.bin && \
+    ${PRINTF_BIN} "#!/usr/bin/env sh \\
+# \\
+# Cargo - Rust Package Manager. \\
+# This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \\
+# \\
+CFLAGS=\\\"${DEF_COMPILER_ARGS}\\\" \\\\
+CXXFLAGS=\\\"${DEF_COMPILER_ARGS}\\\" \\\\
+LDFLAGS=\\\"${DEF_LINKER_ARGS}\\\" \\\\
+RUST_BACKTRACE=\\\"\${RUST_BACKTRACE:-1}\\\" \\\\
+RUSTFLAGS=\\\"\${RUSTFLAGS:-\\\"${DEFAULT_RUSTFLAGS}\\\"}\\\" \\\\
+CARGO_BUILD_JOBS=\\\"\${CARGO_BUILD_JOBS:-\\\"${CPUS}\\\"}\\\" \\\\
+CARGO_INSTALL_ROOT=\\\"\${CARGO_INSTALL_ROOT:-\\\"${PREFIX}\\\"}\\\" \\\\
+${PREFIX}/bin/${DEF_NAME}.bin \${@} \\
+" > "${PREFIX}/bin/${DEF_NAME}" && \
+    ${CHMOD_BIN} -v 755 "${PREFIX}/bin/${DEF_NAME}" && \
+        debug "Cargo wrapper of prefix: $(distn "${PREFIX}") is ready"
+    ${TEST_BIN} -x "${PREFIX}/bin/${DEF_NAME}.bin" || error "No build product file found: $(diste "${PREFIX}/exports/${DEF_NAME}.bin")!"
 }
-install_utils () {
-    for crate in cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt; do
-        note "Installing crate: ${crate}"
-        cargo install ${crate}
+
+install_base_crates () {
+    for _crte in ${DEF_EXPORTS}; do
+        try "${TEST_BIN} -x ${PREFIX}/bin/${_crte}" || \
+            ${PREFIX}/bin/${DEF_NAME} install ${_crte} --force || \
+                error "Failed to install binary crate: $(diste "${_crte}")"
+
+        note "Utility crate installed: $(distn "${_crte}")" && \
+            try "${STRIP_BIN} ${PREFIX}/bin/${_crte}" && \
+                debug "Utility crate stripped: $(distd "${PREFIX}/bin/${_crte}")"
     done
 }
