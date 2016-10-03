@@ -37,6 +37,9 @@ cargo_bin_wrapper () {
 # Cargo - Rust Package Manager. \\
 # This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \\
 # \\
+CC=cc \\\\
+CPP=cpp \\\\
+CXX=c++ \\\\
 CFLAGS=\\\"${DEF_COMPILER_ARGS}\\\" \\\\
 CXXFLAGS=\\\"${DEF_COMPILER_ARGS}\\\" \\\\
 LDFLAGS=\\\"${DEF_LINKER_ARGS}\\\" \\\\
