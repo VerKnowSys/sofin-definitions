@@ -3,7 +3,7 @@ DEF_SHA="e496d028fee5df7e38d40ac5f572cee9264f7277"
 DEF_NAME="rustc"
 DEF_VERSION="1.12.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-src.tar.gz"
-DEF_REQUIREMENTS="pkgconf make m4 ccache libedit bzip2 yaml lzma xz pcre gettext perl texinfo libidn gmp expat gdbm db sqlite re2c python27 ninja cmake unixodbc libressl libssh2 libevent spdylay nghttp2 curl llnextgen llvm git bison libunwind"
+DEF_REQUIREMENTS="pkgconf make m4 ccache libedit zlib bzip2 yaml lzma xz pcre gettext perl texinfo libidn gmp expat gdbm db sqlite re2c python27 ninja cmake unixodbc libressl libssh2 libevent spdylay nghttp2 curl llnextgen llvm git bison libunwind"
 DEF_CONFIGURE_ARGS="--release-channel=stable --enable-clang --enable-ninja --enable-orbit --enable-jemalloc --default-linker=/usr/bin/clang --default-ar=${PREFIX}/bin/llvm-ar --enable-ccache --llvm-root=${PREFIX} --datadir=${PREFIX}/share --infodir=${PREFIX}/share/info --mandir=${PREFIX}/share/man --libdir=${PREFIX}/lib --disable-valgrind --disable-valgrind-rpass --disable-docs --enable-optimize --enable-optimize-cxx --enable-optimize-llvm --enable-dist-host-only --disable-optimize-tests"
 unset DEFAULT_RUSTFLAGS
 DEF_MAKE_METHOD="makeit"
@@ -12,7 +12,7 @@ makeit () {
 }
 DEF_INSTALL_METHOD="installit"
 installit () {
-    run "RUSTFLAGS=\"${DEFAULT_RUSTFLAGS}\" VERBOSE=0 make install"
+    run "RUSTFLAGS=\"${DEFAULT_RUSTFLAGS}\" CC=cc CPP=cpp CXX=c++ NO_REBUILD=1 VERBOSE=0 make install"
 }
 DEF_USEFUL="bin/rust* bin/*conf* bin/*.*sh bin/*cfg bin/*make bin/gettext* bin/libtool* bin/llvm* bin/*cache bin/git* bin/ninja bin/make bin/*cmake"
 DEF_EXPORTS="rustc rustdoc rust-lldb rust-gdb"
