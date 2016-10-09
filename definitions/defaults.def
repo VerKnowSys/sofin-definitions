@@ -62,28 +62,31 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
-unset   DEF_SYSTEM_SPECIFIC_CFLAGS # usually not necessary to set this
 unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
         case "${SYSTEM_NAME}" in
             FreeBSD)
+                # NOTE: alternate: -std=gnu++11:
                 DEF_SYSTEM_SPECIFIC_CFLAGS="-arch x86_64 -DHAVE_LIBRESSL"
-                # DEF_SYSTEM_SPECIFIC_LDFLAGS=""
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch x86_64 -std=c++11 -stdlib=libc++"
                 ;;
 
             Minix)
                 DEF_SYSTEM_SPECIFIC_CFLAGS="-I/usr/pkg/include"
                 DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/pkg/lib"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-std=c++11 -stdlib=libc++"
                 ;;
 
             Darwin)
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
                 DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=x86_64 -mmacosx-version-min=10.11" # default mode
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=x86_64 -std=c++11 -stdlib=libc++"
                 DEF_SYSTEM_SPECIFIC_LDFLAGS="-arch=x86_64"
                 ;;
 
             Linux)
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa*" # include
                 DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-mno-avx -std=c++11 -stdlib=libc++"
                 ;;
         esac
 
