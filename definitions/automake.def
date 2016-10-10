@@ -6,11 +6,3 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="m4 make perl autoconf libtool texinfo"
 DEF_EXPORTS="automake aclocal autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames libtool libtoolize glibtoolize makeinfo texi2any texi2dvi texi2pdf texindex"
 DEF_CLEAN_USELESS=NO
-DEF_AFTER_INSTALL_METHOD="i_am_gnu"
-i_am_gnu () {
-    ${MKDIR_BIN} -p ${PREFIX}/share/aclocal-${DEF_VERSION}
-    ${CP_BIN} -r ${PREFIX}/share/aclocal/*.m4 ${PREFIX}/share/aclocal-${DEF_VERSION}/
-    ${RM_BIN} -rf ${PREFIX}/share/aclocal
-    ${LN_BIN} -s ${PREFIX}/share/aclocal-${DEF_VERSION} ${PREFIX}/share/aclocal
-    return 0
-}
