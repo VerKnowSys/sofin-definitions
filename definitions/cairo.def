@@ -4,7 +4,7 @@ DEF_SHA="1948129ea5047332d79141a9de10558b9705583e"
 DEF_NAME="cairo"
 DEF_VERSION="1.15.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--disable-directfb --disable-valgrind --enable-full-testing=no --enable-trace=no --enable-interpreter=yes --enable-gobject --disable-gl --disable-xlib --enable-symbol-lookup=no"
+DEF_CONFIGURE_ARGS="--disable-directfb --disable-valgrind --enable-full-testing=no --enable-trace=no --enable-interpreter=yes --enable-gobject --disable-gl --disable-xlib --enable-symbol-lookup=no --enable-script=yes --enable-ft=yes --enable-fc=yes"
 DEF_REQUIREMENTS="make pkgconf zlib bzip2 m4 lzma lzo xz pcre libressl python27 perl autoconf automake bison cups libxml2 libxslt icu jbig2dec jbigkit nasm libjpeg-turbo freetype libpaper libpthread-stubs util-macros xcb-proto xproto libxau inputproto kbproto libxcb xtrans xextproto libx11 libice libsm libxext libxt texinfo libidn jpeg tiff lcms2 libtool krb pixman libffi libgs libpng gettext glib"
 DEF_USEFUL="bin/pkgconf bin/pkg-config" # XXX: pkg-config is required to let 3rd party apps know about library location
 DEF_USELESS="include/python* lib/*perl* lib/python* lib/libxslt-plugins libexec ssl man share/man share/bash* share/aclocal* share/auto* share/cups share/bison share/doc share/examples share/texinfo share/info share/libtool share/ghostscript/${DEF_VERSION}/doc share/ghostscript/${DEF_VERSION}/examples share/gettext share/icu share/util-macros"
