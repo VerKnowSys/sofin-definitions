@@ -23,8 +23,8 @@ unset   DEF_NAME # this is software name, but also part of source dir name - use
 unset   DEF_POSTFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
 unset   DEF_VERSION # defines software version
 unset   DEF_REQUIREMENTS # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
-unset   DEF_COMPILER_ARGS # additional special arguments to compiler used to build software
-unset   DEF_LINKER_ARGS # additional arguments to linker
+unset   DEF_COMPILER_ARGS # additional special arguments for compiler(s) and preprocessor
+unset   DEF_LINKER_ARGS # additional direct arguments to linker
         DEF_CONFIGURE_METHOD="./configure" # default configure script name
 unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of software
         DEF_MAKE_METHOD="make ${MAKE_OPTS}"
