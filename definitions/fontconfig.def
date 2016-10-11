@@ -29,3 +29,8 @@ make_destdirs () {
         ${SERVICE_DIR}/var/db/fontconfig \
         ${PREFIX}/lib/X11/fonts
 }
+DEF_AFTER_INSTALL_METHOD="install_default_fonts_conf"
+install_default_fonts_conf () {
+    ${INSTALL_BIN} -v fonts.conf ${SERVICE_DIR}/etc/fonts/fonts.conf
+}
+
