@@ -12,16 +12,13 @@ DEF_SHA="07524df2b4ab9070bad9c49ab668da72237b8115"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
 DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
-DEF_CONFIGURE_ARGS="--without-headers --disable-libgcj \
---disable-multilib --disable-nls --with-system-zlib \
---with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} \
---with-isl=${PREFIX} --with-gxx-include-dir=${PREFIX}/include/c++/ \
+DEF_CONFIGURE_ARGS="--enable-shared --enable-threads --without-headers --disable-libgcj \
+--disable-multilib --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} \
+--with-isl=${PREFIX} --with-gxx-include-dir=/usr/include/c++/v1 \
 --libexecdir=${libexec} --libdir=${targlib} --with-as=${PREFIX}/bin/as \
---disable-bootstrap --with-pkgversion=\"ServeD\" \
---enable-languages=${langs} --disable-shared --disable-libstdcxx \
---enable-gnu-indirect-function"
+--disable-bootstrap --with-pkgversion=\"ServeD\" --enable-languages=${langs} --disable-nls --with-newlib"
 DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp mpfr libmpc isl zip autoconf automake bison texinfo binutils-gold"
-DEF_COMPILER_ARGS="-Wno-error"
+DEF_COMPILER_ARGS="-Wno-error -Wno-reserved-user-defined-literal"
 DEF_MAKE_METHOD="env ${common_opts} make -s all-gcc ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="env ${common_opts} make install-gcc"
 DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
