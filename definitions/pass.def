@@ -1,0 +1,23 @@
+DEF_FULL_NAME="Pass"
+DEF_NAME="pass"
+DEF_SHA="7590bee627bc9d617cdaf901544996cde54f5a12"
+DEF_VERSION="1.6.5"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}word-store-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_REQUIREMENTS="pkgconf make gettext getopt bash tree"
+DEF_TEST_METHOD=":"
+DEF_USEFUL="bin/pass* bin/getopt bin/bash bin/tree bin/gpg*"
+DEF_EXPORTS="pass"
+DEF_AFTER_INSTALL_METHOD="patch_hardcodes"
+patch_hardcodes () {
+    ${SED_BIN} -i '' -e "s#GETOPT.*\$#GETOPT=${PREFIX}/bin/getopt#" ${PREFIX}/lib/password-store/platform.sh
+    ${SED_BIN} -i '' -e "s#tree -C -l#${PREFIX}/bin/tree -C -l#g" ${PREFIX}/bin/pass
+    # XXX: hacky:
+    if [ -x "${PREFIX}/bin/gpg2" ]; then
+        ${SED_BIN} -i '' -e "s#GPG=\"gpg\"#GPG=\"${PREFIX}/bin/gpg2\"#" ${PREFIX}/bin/pass
+    elif [ -x "/usr/bin/gpg2" ]; then
+        ${SED_BIN} -i '' -e "s#GPG=\"gpg\"#GPG=\"/usr/bin/gpg2\"#" ${PREFIX}/bin/pass
+    elif [ -x "/usr/local/bin/gpg2" ]; then
+        ${SED_BIN} -i '' -e "s#GPG=\"gpg\"#GPG=\"/usr/local/bin/gpg2\"#" ${PREFIX}/bin/pass
+    fi
+}
