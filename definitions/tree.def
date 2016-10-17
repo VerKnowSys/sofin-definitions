@@ -1,0 +1,15 @@
+DEF_FULL_NAME="GNU tree"
+DEF_NAME="tree"
+DEF_SHA="35bd212606e6c5d60f4d5062f4a59bb7b7b25949"
+DEF_VERSION="1.7.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
+DEF_MAKE_METHOD="make"
+DEF_INSTALL_METHOD="make install"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_AFTER_PATCH_METHOD="hack_gnu_crap"
+DEF_EXPORTS="tree"
+hack_gnu_crap () {
+    ${SED_BIN} -i '' -e "s#prefix = /usr#prefix = ${PREFIX}#" Makefile
+    ${SED_BIN} -i '' -e "s#gcc#clang#g" Makefile
+    ${SED_BIN} -i '' -e "s|OBJS=tree.o unix.o html.o xml.o json.o hash.o color.o|OBJS=tree.o unix.o html.o xml.o json.o hash.o color.o strverscmp.o|" Makefile
+}
