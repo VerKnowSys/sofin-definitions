@@ -6,12 +6,16 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     a_sys="lnp"
+elif [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    a_sys="osx"
+elif [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    a_sys="bsf"
 else
+    # fallback.. use fbsd makefile part:
     a_sys="bsf"
 fi
-DEF_MAKE_METHOD="yes | make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS=-fPIC"
+DEF_MAKE_METHOD="yes | make ${a_sys} OPENSSL=yes SSLTYPE=unix SSLDIR=${PREFIX} EXTRACFLAGS='-I${PREFIX}/include -I${PREFIX}/include/openssl -Wno-pointer-sign -Wno-parentheses -fPIC'"
 DEF_INSTALL_METHOD="install_files"
-
 install_files () {
     ${MKDIR_BIN} -p ${PREFIX}/include ${PREFIX}/lib
     ${CP_BIN} c-client/c-client.a ${PREFIX}/lib/libc-client.a
