@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Linux"
+DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Kerberos 5"
 DEF_NAME="krb"
 DEF_SHA="35b8447aa04ebfd7e22bc22fa49b3bb4a858ac9a"
