@@ -3,9 +3,6 @@ DEF_SHA="d6669fb91434192529bd13ee95737a8a5040241c"
 DEF_NAME="cyrus-sasl"
 DEF_VERSION="2.1.26"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX}"
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-gssapi"
-fi
+DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} --disable-gssapi --with-mysql=${PREFIX} --with-pgsql=${PREFIX} --with-sqlite3=${PREFIX} --with-gdbm=${PREFIX} --without-pam --disable-macos-framework --with-plugindir=${PREFIX}/lib/sasl2 --with-configdir=${PREFIX}/lib/sasl2 --with-dbpath=${PREFIX} --with-bdb-libdir=${PREFIX} --with-saslauthd=${PREFIX}/var/run/saslauthd"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
