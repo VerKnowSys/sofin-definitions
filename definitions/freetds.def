@@ -1,6 +1,12 @@
 DEF_FULL_NAME="FreeTDS library"
 DEF_NAME="freetds"
-DEF_SHA="a72422d70d9a21e2a6b986bf2f9807c4b7bc0b72"
-DEF_VERSION="0.91.103"
+DEF_SHA="bd4723104e5a631e36cc9bdf06f95836df7e9888"
+DEF_VERSION="R1_00"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-sybase-compat --enable-msdblib --with-tdsver=5.0 --with-openssl=${PREFIX}"
+DEF_AFTER_PATCH_METHOD="fix_stuff"
+fix_stuff () {
+    autoreconf
+    ./autogen.sh
+    return 0
+}
