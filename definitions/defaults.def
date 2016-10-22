@@ -63,30 +63,37 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
 
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
+
+        DEF_DEFAULT_USED_ARCHITECTURE="x86_64" # deduplicated value of mainly used hw architecture
+        DEF_WORKSTATION_VERSION_FLAGS="-mmacosx-version-min=10.11" # default major workstation system version used
+        DEF_EXPLICIT_STDCXX_FLAGS="-std=c++11 -stdlib=libc++"
+        DEF_VISIBILITY_FLAGS="-fvisibility=default -fvisibility-inlines-hidden" # explicit symbol visibility
+
         case "${SYSTEM_NAME}" in
             FreeBSD)
                 # NOTE: alternate: -std=gnu++11:
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch x86_64 -DHAVE_LIBRESSL"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch x86_64 -std=c++11 -stdlib=libc++"
-                ;;
-
-            Minix)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-I/usr/pkg/include"
-                DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/pkg/lib"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-std=c++11 -stdlib=libc++"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL -arch ${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL -arch ${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/lib"
                 ;;
 
             Darwin)
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/lib"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=x86_64 -mmacosx-version-min=10.11" # default mode
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=x86_64 -std=c++11 -stdlib=libc++"
-                DEF_SYSTEM_SPECIFIC_LDFLAGS="-arch=x86_64"
+                ;;
+
+            Minix)
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=i686 -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=i686 ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/pkg/lib"
                 ;;
 
             Linux)
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-mno-avx ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa*" # include
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-mno-avx -std=c++11 -stdlib=libc++"
                 ;;
         esac
 
