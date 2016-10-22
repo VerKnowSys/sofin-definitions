@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="GNU Libtool - The GNU Portable Library Tool"
 DEF_SHA="25b6931265230a06f0fc2146df64c04e5ae6ec33"
 DEF_NAME="libtool"
