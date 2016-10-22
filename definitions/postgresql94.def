@@ -25,6 +25,7 @@ case "${SYSTEM_NAME}" in
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
         DEF_STRIP=NO
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace"
+        # NOTE: postgresql has to be built BEFORE unixodbc (id present on DEF_REQUIREMENTS list)
         ;;
 
     FreeBSD)
