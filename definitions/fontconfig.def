@@ -29,8 +29,18 @@ make_destdirs () {
         ${SERVICE_DIR}/var/db/fontconfig \
         ${PREFIX}/lib/X11/fonts
 }
-DEF_AFTER_INSTALL_METHOD="install_default_fonts_conf"
-install_default_fonts_conf () {
-    ${INSTALL_BIN} -v fonts.conf ${SERVICE_DIR}/etc/fonts/fonts.conf
+DEF_AFTER_MAKE_METHOD="install_vera_font_and_default_fonts_conf"
+install_vera_font_and_default_fonts_conf () {
+    _conf_filename="fonts.conf"
+    _font_filename="VeraMono.ttf"
+    _remote_source="${MAIN_SOURCE_REPOSITORY}${_font_filename}"
+    ${MKDIR_BIN} -p ${SERVICE_DIR}/etc/fonts ${PREFIX}/lib/X11/fonts
+    ${TEST_BIN} -f ${SERVICE_DIR}/etc/fonts/${_conf_filename} || \
+        ${INSTALL_BIN} -v ${_conf_filename} ${SERVICE_DIR}/etc/fonts/${_conf_filename}
+    ${TEST_BIN} -f ${PREFIX}/lib/X11/fonts/${_font_filename} || \
+        ${FETCH_BIN} -o ${PREFIX}/lib/X11/fonts/${_font_filename} ${FETCH_OPTS} ${_remote_source}
+    ${CHMOD_BIN} -v 640 \
+        ${PREFIX}/lib/X11/fonts/${_font_filename} \
+        ${SERVICE_DIR}/etc/fonts/${_conf_filename}
+    return 0
 }
-
