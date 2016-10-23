@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Cairo graphics library (with PDF, PNG, JPEG support)"
 DEF_SHA="1948129ea5047332d79141a9de10558b9705583e"
 DEF_NAME="cairo"
