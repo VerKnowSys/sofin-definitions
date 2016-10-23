@@ -10,9 +10,9 @@ DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -I${PREFIX}/include/
 DEF_MAKE_METHOD="setup_and_make"
 setup_and_make () {
     cd builds/unix
-    ./configure ${DEF_CONFIGURE_OPTS} CFLAGS="${DEF_COMPILER_ARGS}" CXXFLAGS="${DEF_COMPILER_ARGS}"
+    ./configure ${DEF_CONFIGURE_ARGS} CFLAGS="${DEF_COMPILER_ARGS}" CXXFLAGS="${DEF_COMPILER_ARGS}"
     cd ../..
-    make setup CFG="${DEF_CONFIGURE_OPTS}"
+    make setup CFG="${DEF_CONFIGURE_ARGS}"
     make -j${CPUS}
 }
 DEF_INSTALL_METHOD="make -s install"
