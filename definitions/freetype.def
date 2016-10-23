@@ -1,17 +1,18 @@
-DEF_FULL_NAME="Freetype 2 Library"
-DEF_SHA="6c98bd5d0be313207c37ca23d25faf983486aee5"
+DEF_FULL_NAME="Freetype - library to render fonts"
+DEF_SHA="5db38ae2308c5a2c519c8e071e98b70d61585201"
 DEF_NAME="freetype"
-DEF_VERSION="2.6.3"
+DEF_VERSION="2.6.5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake"
 DEF_CONFIGURE_METHOD="no-conf"
-DEF_CONFIGURE_OPTS="--prefix=${PREFIX} --enable-shared --enable-static"
+DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --with-pic --with-png=auto --with-bzip2=auto --with-zlib=auto --with-harfbuzz=no"
+DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -I${PREFIX}/include/harfbuzz -std=c99"
 DEF_MAKE_METHOD="setup_and_make"
 setup_and_make () {
     cd builds/unix
-    ./configure ${DEF_CONFIGURE_OPTS}
+    ./configure ${DEF_CONFIGURE_OPTS} CFLAGS="${DEF_COMPILER_ARGS}" CXXFLAGS="${DEF_COMPILER_ARGS}"
     cd ../..
-    ${PREFIX}/bin/make setup CFG="${DEF_CONFIGURE_OPTS}"
-    ${PREFIX}/bin/make ${MAKE_OPTS}
+    make setup CFG="${DEF_CONFIGURE_OPTS}"
+    make -j${CPUS}
 }
 DEF_INSTALL_METHOD="make -s install"
