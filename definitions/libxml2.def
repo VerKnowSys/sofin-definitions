@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="LibXML2 Library"
 DEF_SHA="958ae70baf186263a4bd801a81dd5d682aedd1db"
 DEF_NAME="libxml2"
