@@ -12,4 +12,6 @@ make_dirs_fetch_archive () {
 DEF_INSTALL_METHOD="install_font_files_in_prefix"
 install_font_files_in_prefix () {
     ${TAR_BIN} xfv ${PREFIX}/lib/X11/fonts/archive.tar.gz --directory ${PREFIX}/lib/X11/fonts/
+    ${MV_BIN} -vf ${PREFIX}/lib/X11/fonts/${DEF_NAME}/* ${PREFIX}/lib/X11/fonts/
+    ${RM_BIN} -rvf ${PREFIX}/lib/X11/fonts/${DEF_NAME} ${PREFIX}/lib/X11/fonts/archive.tar.gz
 }
