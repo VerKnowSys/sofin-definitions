@@ -1,0 +1,15 @@
+DEF_FULL_NAME="Free fonts set (taken from gimp site - http://download.gimp.org/pub/gimp/fonts/)"
+DEF_SHA="9521b10068649db2140ea80e33145bcd6e368704"
+DEF_NAME="freefont"
+DEF_VERSION="0.10"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}s-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_MAKE_METHOD="make_dirs_fetch_archive"
+make_dirs_fetch_archive () {
+    ${MKDIR_BIN} -p ${PREFIX}/lib/X11/fonts
+    ${FETCH_BIN} -o ${PREFIX}/lib/X11/fonts/archive.tar.gz ${FETCH_OPTS} ${DEF_SOURCE_PATH}
+}
+DEF_INSTALL_METHOD="install_font_files_in_prefix"
+install_font_files_in_prefix () {
+    ${TAR_BIN} xfv ${PREFIX}/lib/X11/fonts/archive.tar.gz --directory ${PREFIX}/lib/X11/fonts/
+}
