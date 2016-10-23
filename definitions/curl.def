@@ -13,6 +13,7 @@ after_installation () {
     ${TEST_BIN} ! -f ${SERVICE_DIR}/etc/ssl/cert.pem && \
         create_service_dirs_and_get_latest_ca_rootcert && \
             return 0
+    return 0
 }
 create_service_dirs_and_get_latest_ca_rootcert () {
     ${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl
