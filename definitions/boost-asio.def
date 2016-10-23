@@ -1,0 +1,4 @@
+inherit boost
+
+DEF_FULL_NAME="${DEF_FULL_NAME} - asio + system + thread configuration"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-libraries=python,mpi,wave,graph,graph_parallel,locale,type_erasure,test --with-libraries=all"
