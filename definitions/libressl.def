@@ -26,5 +26,5 @@ fetch_ca_cert () {
     ${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl
     ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem
     ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${cacert_source} || \
-        ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${cacert_source_alt} || \
+        ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${cacert_source_alt}
 }
