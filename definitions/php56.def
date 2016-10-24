@@ -1,61 +1,54 @@
-DEF_FULL_NAME="PHP"
+DEF_FULL_NAME="PHP 7.0.x"
 DEF_SHA="07af4fc90186df900f70ce4e8bbb2fabb941b0c2"
 DEF_NAME="php"
 DEF_VERSION="5.6.27"
 DEF_POSTFIX="56"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--disable-all --with-libdir=${PREFIX}/lib --with-layout=PHP --with-libxml-dir=${PREFIX} --with-pcre-dir=${PREFIX} --with-zlib-dir=${PREFIX} --with-gettext=${PREFIX} --with-gd --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --enable-zip --enable-mysqlnd --without-apache --disable-debug --enable-fpm --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --enable-dom --enable-cli --enable-session --enable-hash --enable-simplexml --enable-filter --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl --enable-intl --with-mcrypt=${PREFIX} --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-openssl-dir=${PREFIX} --with-pgsql=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --with-xsl=${PREFIX} --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --enable-zip --enable-intl --with-mssql=${PREFIX} --with-xmlrpc --with-kerberos --with-iconv --disable-maintainer-zts --enable-cgi --disable-roxen-zts --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --enable-sqlite-utf8 --with-sqlite=${PREFIX} --with-pdo-sqlite=${PREFIX} --with-sqlite3=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-imap-ssl=${PREFIX} --with-imap=${PREFIX} --with-litespeed --enable-fastcgi --enable-cgi --enable-opcache --enable-phar"
-DEF_REQUIREMENTS="make ccache perl pkgconf libedit zlib nasm m4 libtool lzma lzo xz db libpng jpeg openssl imap krb gettext bzip2 gmp autoconf bison27 flex postgresql94 python27 libxml2 icu libgpg-error libgcrypt libxslt pcre libexif freetype expat fontconfig tiff jasper jbig2dec jbigkit libjpeg-turbo gd ninja cmake mysql libmcrypt texinfo libidn curl imagemagick freetds sqlite2 sqlite openldap geoip libnet re2c bash cyrus-sasl"
+DEF_CONFIGURE_ARGS="--disable-option-checking --disable-cgi --disable-all --disable-phpdbg --disable-phpdbg-webhelper --disable-phpdbg-debug --with-pic --with-iconv --with-layout=PHP --with-zlib --with-zlib-dir=/usr --with-gettext=${PREFIX} --enable-zip --enable-mysqlnd --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --with-xsl=${PREFIX} --with-libxml-dir=${PREFIX} --enable-dom --enable-session --enable-hash --enable-simplexml --enable-filter --with-unixODBC=${PREFIX} --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --with-pdo-sqlite=${PREFIX} --with-pdo-odbc=unixODBC,${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl=${PREFIX} --with-openssl-dir=${PREFIX} --enable-intl --with-mcrypt=${PREFIX} --with-mysqli=mysqlnd --with-pgsql=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --with-xmlrpc --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --with-sqlite3=${PREFIX} --with-imap=${PREFIX} --with-imap-ssl=${PREFIX} --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --with-libedit=${PREFIX} --with-pcre-dir=${PREFIX} --with-libexpat-dir=${PREFIX} --without-pcre-jit --with-gdbm=${PREFIX} --with-gd=${PREFIX} --enable-gd-native-ttf --with-litespeed --enable-opcache --enable-phar --enable-cli --enable-fpm --enable-sysvshm --enable-sysvsem --enable-sysvmsg --enable-shmop ac_cv_sizeof_off_t=8 LDFLAGS='-L${PREFIX}/lib'"
+DEF_REQUIREMENTS="pkgconf m4 gmp make jemalloc libedit ccache zip zlib bzip2 lzma lzo xz icu gettext openssl libevent openldap expat geoip pcre sqlite gdbm db bash nasm libnet re2c libxml2 libgpg-error libgcrypt libxslt perl bison27 flex postgresql94 unixodbc python27 ninja cmake mysql-lib autoconf jbig2dec jbigkit libjpeg-turbo jpeg lcms2 tiff jasper libmcrypt texinfo automake libidn spdylay nghttp2 curl freefont sharefont t1lib graphite2 freetype libffi glib harfbuzz fontconfig libpaper libgs libpng gd pixman cairo imagemagick cyrus-sasl krb imap"
 DEF_INSTALL_METHOD="make -s install"
-DEF_BUNDLED_EXTENSIONS="phalcon2 phalcon xdebug imagick rar geoip dbase"
-DEF_EXPORTS="php php-cgi php-fpm php-config phpize pecl pear lsphp"
+DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip dbase"
+DEF_EXPORTS="php php-fpm php-config phpize pecl pear lsphp"
 DEF_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/cmake* lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    DEF_BUNDLED_EXTENSIONS="oci8 ${DEF_BUNDLED_EXTENSIONS}"
-    # Under Linux, we don't need these libs after oci extension is built, cause
-    # we use ld cache to specify system wide place for Oracle libs.
-    # We remove those cause they add redundant 160+MiB to bundle size:
-    DEF_USELESS="${DEF_USELESS} lib/libociei.so lib/libclntsh* lib/libocci.so.* lib/libnnz*.so lib/libocijdbc*.so lib/liboramysql*.so lib/libipc*.so lib/libmql*.so lib/libons.so lib/liboramysql*.so"
-fi
+
+DEF_NO_CCACHE=YES # causes random crashes and other issues
+DEF_NO_FAST_MATH=YES # casuses sqlite3 failures
+DEF_NO_TRAP_INT_OVERFLOW=YES # causes pecl to overflow on any command ;)
 
 case "${SYSTEM_NAME}" in
-    Linux)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${PREFIX}"
+    FreeBSD)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --with-iconv-dir=/usr --with-kerberos=${PREFIX} --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-fpm-acl --with-fpm-user=worker --with-fpm-group=wheel LIBS='-lpthread -ldtrace -lresolv -lc++'"
         ;;
 
-    FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-config-file-path=${SERVICE_DIR}/etc"
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --with-iconv-dir=/usr --with-kerberos=/usr --without-ldap --with-fpm-user=_www --with-fpm-group=_www LIBS='-lgpg-error -lpthread -ldtrace -lresolv -lc++'"
+        DEF_MAKE_METHOD="make -j${CPUS}"
         ;;
 esac
-
-install_oci8_libs () {
-    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        warn "OCI8 not supported under FreeBSD hosts!" && \
-        return 0
-    fi
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}oci8-12.1.tar.xz" ${FETCH_OPTS} && \
-    ${TAR_BIN} xf oci8-12.1.tar.xz && \
-    ${CP_BIN} oci8/*.h ${PREFIX}/include/ && \
-    ${MV_BIN} oci8/*.h ${PREFIX}/lib/ && \
-    ${MV_BIN} oci8/*.so* ${PREFIX}/lib/ && \
-    note "OCI8 libraries installed"
-}
-
+DEF_AFTER_UNPACK_METHOD="hack_after_unpack"
 hack_after_unpack () {
-    ${RM_BIN} -f /root/.pearrc
+    ${TEST_BIN} -f "${HOME}/.pearrc" && \
+        ${MV_BIN} -vf "${HOME}/.pearrc" "${HOME}/.pearrc.old.${TIMESTAMP}"
 
-    # HACK: Required to detect freetds (don't blame me, but Php/TDS guys for messed up library detection)
-    ${MKDIR_BIN} -p ${PREFIX}/Software
-    ${LN_BIN} -s ${PREFIX} ${PREFIX}/Software || true
+    # I have no idea wtf is this... hack on hack after hack..
+    ${MV_BIN} -v ext/sqlite3/config0.m4 ext/sqlite3/config.m4
+    ${MV_BIN} -v ext/openssl/config0.m4 ext/openssl/config.m4
+    ${MV_BIN} -v ext/zlib/config0.m4 ext/zlib/config.m4
+
+    ./buildconf --force --prefix="${PREFIX}"
 }
 
-DEF_AFTER_UNPACK_METHOD="install_oci8_libs ; hack_after_unpack"
-DEF_AFTER_CONFIGURE_METHOD="${RM_BIN} -rf ${PREFIX}/Software || true"
+DEF_AFTER_CONFIGURE_METHOD="hack_phpisms"
+hack_phpisms () {
+    ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" Makefile configure *.m4 main/build-defs.h main/php_config.h
+    ${SED_BIN} -i '' -e "s#HAVE_GD_XPM#NO_I_DONT_YOU_STUPID#g" ext/gd/gd.c
+    return 0
+}
 
 # install extensions
-DEF_AFTER_INSTALL_METHOD="install_extensions ; cleanup_oci8_headers"
-cleanup_oci8_headers () {
-    ${RM_BIN} -f ${PREFIX}/lib/*.h
+DEF_AFTER_INSTALL_METHOD="hack_prefix_hardcode_after_install; install_extensions"
+hack_prefix_hardcode_after_install () {
+    ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ${PREFIX}/bin/php-config ${PREFIX}/bin/pecl ${PREFIX}/bin/pear ${PREFIX}/bin/phpize
 }
 
 install_geoip () {
@@ -100,40 +93,12 @@ install_rar () {
     return 1
 }
 
-install_phalcon_common () {
-    p_version="${1}"
-    current_builddir="$(${PWD_BIN} 2>/dev/null)"
-    export PATH=${PREFIX}/bin:/bin:/usr/bin:/sbin:/usr/sbin && \
-    ${GIT_BIN} clone --depth=1 git://github.com/phalcon/cphalcon.git cph${p_version} && \
-    cd cph${p_version} && \
-    ${GIT_BIN} checkout -b "v${p_version}" && \
-    cd build
-    ${SED_BIN} -i '' -e "s/32bits/64bits/g; s#--enable-phalcon#--enable-phalcon --enable-shared --disable-static --with-php-config=${PREFIX}/bin/php-config#g; s#gcc #cc #g; s#\"gcc\"#\"cc\"#g;
-    s#export CFLAGS=\"#export CFLAGS=\"-I${PREFIX}/include -fPIC -mno-avx -fvisibility=hidden #" ./install
-    PATH=$PATH ${PREFIX}/bin/bash ./install && \
-    note "Installed PECL: phalcon" && \
-    cd "${current_builddir}" && \
-    return 0
-    return 1
-}
-
-install_phalcon () {
-    install_phalcon_common "1.3.6"
-}
-
-install_phalcon2 () {
-    current_builddir="$(${PWD_BIN} 2>/dev/null)"
-    install_phalcon_common "2.0.0" && \
-    cd ${PREFIX}/lib/php/extensions/no-debug-non-zts-* && \
-    ${MV_BIN} phalcon.so phalcon2.so && \
-    cd "${current_builddir}"
-}
-
 install_pear_modules () {
     for mod in Archive_Tar Auth Auth_HTTP Auth_SASL Benchmark Cache Cache_Lite Config Date DB DB_DataObject DB_DataObject_FormBuilder File HTML_Common HTML_Form HTML_QuickForm HTML_QuickForm_Controller HTML_Table HTML_Template_Flexy HTML_Template_IT HTML_Template_Sigma HTML_TreeMenu HTTP HTTP_Client HTTP_Download HTTP_Header HTTP_Request HTTP_Upload Image_Canvas Image_Color Image_Graph Log Mail Mail_Mime Mail_mimeDecode MDB MDB2 MDB2_Driver_mysql MIME_Type Net_DNS Net_FTP Net_IMAP Net_IPv4 Net_IPv6 Net_Ping Net_POP3 Net_SMTP Net_Socket Net_URL2 Net_URL Net_UserAgent_Detect Numbers_Roman Numbers_Words OLE Pager PHP_Compat PhpDocumentor PHPUnit Services_Weather SOAP Spreadsheet_Excel_Writer Structures_Graph Text_Password Validate XML_Beautifier XML_Parser XML_RPC XML_Serializer XML_Tree XML_Util mdb OLE-beta Spreadsheet_Excel_Writer-beta Crypt_CHAP Numbers_Words-beta File_Passwd HTTP_WebDAV_Server xml_rpc2;
     do
         ${PREFIX}/bin/pear install $mod
     done
+    return 0
 }
 
 
@@ -153,11 +118,11 @@ install_dbase () {
 
 
 install_xdebug () {
-    arch_name="xdebug-2.4.0"
+    arch_name="xdebug-2.4.1"
     archive="${arch_name}.tgz"
     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
     ${TAR_BIN} xf "${archive}" && \
-    cd "xdebug-2.4.0" && \
+    cd "xdebug-2.4.1" && \
     ${PREFIX}/bin/phpize && \
     ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
     PATH=${PREFIX}/bin:$PATH make install && \
@@ -167,23 +132,23 @@ install_xdebug () {
 }
 
 
-install_oci8 () {
-    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        warn "OCI8 not supported under FreeBSD hosts!" && \
-        return 0
-    fi
-    arch_name="oci8-2.0.10"
-    archive="${arch_name}.tgz"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
-    ${TAR_BIN} xf "${archive}" && \
-    cd "${arch_name}" && \
-    ${PREFIX}/bin/phpize && \
-    ./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-oci8=instantclient,${PREFIX}/lib && \
-    PATH=${PREFIX}/bin:$PATH make install && \
-    note "Installed PECL extension: ${arch_name}" && \
-    return 0
-    return 1
-}
+# install_oci8 () {
+#     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+#         warn "OCI8 not supported under FreeBSD hosts!" && \
+#         return 0
+#     fi
+#     arch_name="oci8-2.0.10"
+#     archive="${arch_name}.tgz"
+#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
+#     ${TAR_BIN} xf "${archive}" && \
+#     cd "${arch_name}" && \
+#     ${PREFIX}/bin/phpize && \
+#     ./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-oci8=instantclient,${PREFIX}/lib && \
+#     PATH=${PREFIX}/bin:$PATH make install && \
+#     note "Installed PECL extension: ${arch_name}" && \
+#     return 0
+#     return 1
+# }
 
 
 install_and_move () {
