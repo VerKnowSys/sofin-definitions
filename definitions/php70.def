@@ -5,32 +5,4 @@ DEF_SHA="4319808cefadbf812acbc830cfe8ca9967c712ac"
 DEF_VERSION="7.0.12"
 DEF_POSTFIX="70"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_BUNDLED_EXTENSIONS="xdebug imagick" # rar geoip dbase
-
-# install_xdebug () {
-#     arch_name="xdebug-2.4.0"
-#     archive="${arch_name}.tgz"
-#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
-#     ${TAR_BIN} xf "${archive}" && \
-#     cd "xdebug-2.4.0" && \
-#     ${PREFIX}/bin/phpize && \
-#     ./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config && \
-#     PATH=${PREFIX}/bin:$PATH make install && \
-#     note "Installed Xdebug pecl module: ${arch_name}" && \
-#     return 0
-#     return 1
-# }
-
-# install_rar () {
-#     arch_name="rar-3.0.2"
-#     archive="${arch_name}.tgz"
-#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
-#     ${TAR_BIN} xf "${archive}" && \
-#     cd "${arch_name}" && \
-#     ${PREFIX}/bin/phpize && \
-#     ./configure --prefix=${PREFIX} --enable-rar --with-php-config=${PREFIX}/bin/php-config CFLAGS="-I${PREFIX}/include" && \
-#     CFLAGS="-I${PREFIX}/include" PATH=${PREFIX}/bin:$PATH make install && \
-#     note "Installed Rar pecl module: ${arch_name}" && \
-#     return 0
-#     return 1
-# }
+DEF_BUNDLED_EXTENSIONS="xdebug imagick"
