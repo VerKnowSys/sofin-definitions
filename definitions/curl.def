@@ -11,6 +11,7 @@ DEF_INSTALL_METHOD="make -s install"
 DEF_AFTER_INSTALL_METHOD="after_installation"
 after_installation () {
     ${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl
+    ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem
     ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_CA_ROOTCERT_ORIGIN}
 }
 DEF_USELESS="lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
