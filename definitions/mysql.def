@@ -13,4 +13,10 @@ DEF_EXPORTS="mysql mysql_config mysql_config_editor mysql_convert_table_format m
 DEF_CONFLICTS_WITH="Mysql Percona-server Mariadb"
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
     DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=x86_64"
+    DEF_AFTER_INSTALL_METHOD="fix_no_rpath"
+    fix_no_rpath () {
+        install_name_tool -id \
+           ${PREFIX}/lib/libmysqlclient.18.dylib \
+           ${PREFIX}/lib/libmysqlclient.18.dylib
+    }
 fi
