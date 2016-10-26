@@ -5,4 +5,16 @@ DEF_SHA="4319808cefadbf812acbc830cfe8ca9967c712ac"
 DEF_VERSION="7.0.12"
 DEF_POSTFIX="70"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_BUNDLED_EXTENSIONS="xdebug imagick"
+DEF_BUNDLED_EXTENSIONS="xdebug imagick memcached"
+
+install_memcached () {
+    ${GIT_BIN} clone https://github.com/php-memcached-dev/php-memcached.git
+    cd php-memcached
+    ${GIT_BIN} checkout php7
+    ${PREFIX}/bin/phpize
+    ./configure --prefix=${PREFIX} --disable-memcached-sasl --with-php-config=${PREFIX}/bin/php-config
+    PATH=${PREFIX}/bin:$PATH make install && \
+    note "Installed PECL extension: ${geoip_name}" && \
+    return 0
+    return 1
+}
