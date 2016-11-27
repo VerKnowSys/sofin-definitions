@@ -1,0 +1,8 @@
+DEF_FULL_NAME="GNU Sed"
+DEF_SHA="f17ab6b1a7bcb2ad4ed125ef78948092d070de8f"
+DEF_NAME="sed"
+DEF_VERSION="4.2.2"
+DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking" # NO: --program-prefix=g
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -x ${PREFIX}/bin/gsed || ${LN_BIN} -s ${PREFIX}/bin/sed ${PREFIX}/bin/gsed"
+DEF_EXPORTS="${DEF_NAME} g${DEF_NAME}"
