@@ -1,0 +1,7 @@
+DEF_FULL_NAME="GNU Awk"
+DEF_SHA="d67e00e2f6178e9cbd2c0ba923ae157bc0b3b570"
+DEF_NAME="gawk"
+DEF_VERSION="4.1.4"
+DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking" # NO: --program-prefix=g
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_EXPORTS="${DEF_NAME}"
