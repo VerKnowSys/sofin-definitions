@@ -1,48 +1,43 @@
 DEF_FULL_NAME="NodeJS - asynchronous event driven JavaScript runtime"
 DEF_NAME="node"
-DEF_VERSION="6.6.0"
-DEF_SHA="29e6ff3702c60c99330989007ea084e5360d4106"
+DEF_VERSION="7.4.0"
+DEF_SHA="55edffc3aab410b5ff6ed1a7bd5d5991edbb669a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_COMPILER_ARGS="-Wno-unused-private-field -Wno-nested-anon-types -Wno-unused-function -Wno-unused-const-variable"
-DEF_CONFIGURE_METHOD="pkgconf --modversion icu-i18n && ./configure"
-DEF_LINKER_ARGS="-L${PREFIX}/lib -lc++ -ldtrace" # -L/usr/lib
-DEF_CONFIGURE_ARGS="--with-dtrace --shared-cares --shared-zlib --shared-openssl --with-intl=full-icu --with-intl=system-icu"
+DEF_REQUIREMENTS="pkgconf ccache m4 make libressl python27 libedit xz zip pcre gdbm db sqlite yaml ninja bash"
+DEF_CONFIGURE_ARGS="--tag=ServeD --with-dtrace --shared-openssl --without-npm --dest-cpu=x64 --ninja"
+
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_SYSTEM_SPECIFIC_CFLAGS="-R${PREFIX}/lib -mmacosx-version-min=10.11"
-        DEF_SYSTEM_SPECIFIC_LDFLAGS="${DEF_SYSTEM_SPECIFIC_LDFLAGS} -lSystem"
-        DEF_STRIP=NO # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --dest-os=mac"
+        DEF_STRIP=LIBS # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
         ;;
-    *)
-        DEF_SYSTEM_SPECIFIC_LDFLAGS="${DEF_SYSTEM_SPECIFIC_LDFLAGS} -lutil -lelf"
+
+    FreeBSD)
+        # DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -lc++ -lcxxrt"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --dest-os=freebsd"
         ;;
 esac
-DEF_MAKE_METHOD="strictaliasing=off make ${MAKE_OPTS}"
-DEF_TEST_METHOD="make test"
-DEF_INSTALL_METHOD="strictaliasing=off make install"
-DEF_REQUIREMENTS="pkgconf make m4 libedit zlib bzip2 lzma xz gdbm db sqlite yaml perl openssl texinfo libxml2 libgpg-error libxslt libffi python27 gettext c-ares icu bash" # bash is required by npm..
-DEF_USELESS="include/python* lib/python* lib/*perl* include/perl* share/texinfo share/ac* share/auto* share/gtk-doc share/libtool"
-DEF_USEFUL="bin/bash bin/node* bin/gettext*"
-DEF_EXPORTS="node ngettext npm node-waf node-gyp coffee lessc uglifyjs cake"
+DEF_MAKE_METHOD="LINK=clang++ make -s ${MAKE_OPTS}"
+DEF_TEST_METHOD=":"
+DEF_INSTALL_METHOD="LINK=clang++ make -s install"
+DEF_USEFUL="bin/bash bin/node* bin/*zip* bin/xz bin/ninja bin/bash bin/make bin/*ssl*"
+DEF_EXPORTS="node yarn node-waf node-gyp coffee lessc uglifyjs cake"
 DEF_CONFLICTS_WITH="Node"
+DEF_NO_FAST_MATH=YES
+# DEF_NO_TRAP_INT_OVERFLOW=YES
 
-NPM_SOURCE_REPOSITORY="https://github.com/npm/npm.git"
-DEF_AFTER_INSTALL_METHOD="install_npm"
-install_npm () {
-    # rm -rf npm-master
-    # ${GIT_BIN} clone ${NPM_SOURCE_REPOSITORY} npm-master
-    # cd npm-master
-    # for _filetopatch in ./configure ./scripts/release.sh ./scripts/relocate.sh ./scripts/clean-old.sh ./lib/utils/completion.sh; do
-    #     ${SED_BIN} -i '' -e "s|!\/bin\/bash|!${PREFIX}/bin/bash|" "${_filetopatch}"
-    # done
-    # ./configure --prefix="${PREFIX}" && \
-    #     make install || return 1 # hangs on OSX
-    # note "Updating: $(distn "npm")"
-    # npm install --global --verbose npm@next
+DEF_AFTER_INSTALL_METHOD="install_global_modules"
+install_global_modules () {
+    _yarn_ver_str="v0.20.0-20170126.2327"
+    ${FETCH_BIN} -o ./yarn-${_yarn_ver_str}.tar.gz ${MAIN_SOURCE_REPOSITORY}yarn-${_yarn_ver_str}.tar.gz
+
+    # NOTE: # package has "dist/" path as root prefix. it's component to strip:
+    ${TAR_BIN} xf yarn-${_yarn_ver_str}.tar.gz --directory "${PREFIX}" --strip-components 1
+
     for mod in "coffee-script" "less" "uglify-js"; do
         note "Installing: $(distn "${mod}")"
-        npm install ${mod} --global --verbose
+        ${PREFIX}/bin/yarn global add ${mod}
     done
     return 0 # Node throws "npm ERR! code -2147483648" on success ;)
 }
