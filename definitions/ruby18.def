@@ -8,7 +8,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--enable-pthread --disable-install-doc --disable-install-rdoc"
 DEF_REQUIREMENTS="zlib bzip2 libxml2 make m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite libedit"
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
-DEF_CONFLICTS_WITH="Rubinius Jruby Passenger Ruby"
+DEF_CONFLICTS_WITH="Jruby Ruby22 Ruby23 Ruby24"
 
 DEF_AFTER_INSTALL_METHOD="${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; install_rubygems ; ${PREFIX}/bin/gem install bundler rack"
 install_rubygems () {
