@@ -25,4 +25,6 @@ install_additional_goodies () {
 
     echo "https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.3.tar.gz" >> requirements.txt
     ${PREFIX}/bin/pip install --egg -r requirements.txt
+
+    true
 }
