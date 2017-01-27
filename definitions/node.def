@@ -5,7 +5,7 @@ DEF_SHA="55edffc3aab410b5ff6ed1a7bd5d5991edbb669a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nodejs.org/download/"
 DEF_REQUIREMENTS="pkgconf ccache m4 make libressl python27 libedit xz zip pcre gdbm db sqlite yaml ninja bash"
-DEF_CONFIGURE_ARGS="--tag=ServeD --with-dtrace --shared-openssl --without-npm --dest-cpu=x64 --ninja"
+DEF_CONFIGURE_ARGS="--tag=ServeD --with-dtrace --without-npm --dest-cpu=x64 --ninja"
 
 case "${SYSTEM_NAME}" in
     Darwin)
@@ -30,7 +30,7 @@ DEF_NO_FAST_MATH=YES
 DEF_AFTER_INSTALL_METHOD="install_global_modules"
 install_global_modules () {
     _yarn_ver_str="v0.20.0-20170126.2327"
-    ${FETCH_BIN} -o ./yarn-${_yarn_ver_str}.tar.gz ${MAIN_SOURCE_REPOSITORY}yarn-${_yarn_ver_str}.tar.gz
+    ${FETCH_BIN} -o ./yarn-${_yarn_ver_str}.tar.gz "${MAIN_SOURCE_REPOSITORY}yarn-${_yarn_ver_str}.tar.gz"
 
     # NOTE: # package has "dist/" path as root prefix. it's component to strip:
     ${TAR_BIN} xf yarn-${_yarn_ver_str}.tar.gz --directory "${PREFIX}" --strip-components 1
