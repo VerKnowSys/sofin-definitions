@@ -1,8 +1,9 @@
 inherit python35
 
+unset DEF_AFTER_INSTALL_METHOD
 DEF_FULL_NAME="Python 2"
 DEF_POSTFIX="27"
-DEF_VERSION="2.7.12"
-DEF_SHA="05360b8ade117b35e266b2004a7f1f11250c6dcd"
+DEF_VERSION="2.7.13"
+DEF_SHA="18a8f30a0356c751b8d0ea6f76e764cab13ee046"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="python python2 python2-config easy_install pip dulwich pytoml"
