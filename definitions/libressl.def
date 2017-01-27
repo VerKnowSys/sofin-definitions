@@ -1,10 +1,11 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="LibreSSL Library"
-DEF_SHA="c0e35dfd83983a717a95b8e415686a88da4dc854"
+DEF_SHA="5daaf33f5cc382e1c9dd7375a67e26aad1d0b2ed"
 DEF_NAME="libressl"
-DEF_VERSION="2.4.3"
+DEF_VERSION="2.4.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="openssl"
+DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL"
 
 cacert_source="http://curl.haxx.se/ca/cacert.pem"
 cacert_source_alt="http://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt"
