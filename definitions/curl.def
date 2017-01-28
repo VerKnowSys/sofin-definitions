@@ -1,7 +1,7 @@
 DEF_FULL_NAME="cURL"
-DEF_SHA="18ae1e5429d5bcf9a35832eda5b4762a1041f715"
+DEF_SHA="aa9f2300096d806c68c7ba8c50771853d1b43eb4"
 DEF_NAME="curl"
-DEF_VERSION="7.50.3"
+DEF_VERSION="7.52.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_EXPORTS="curl curl-config"
 DEF_CA_ROOTCERT_ORIGIN="https://curl.haxx.se/ca/cacert.pem"
@@ -15,4 +15,3 @@ after_installation () {
     ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_CA_ROOTCERT_ORIGIN}
 }
 DEF_USELESS="lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
-DEF_NO_LLVM_LINKER=YES
