@@ -3,6 +3,7 @@ DEF_STANDALONE=YES
 DEF_NAME="nginx"
 DEF_SHA="9c5d4e06d309bbe2efa41f09dd53912e3c3d3a75"
 DEF_VERSION="1.10.1"
+DEF_ORIGIN="http://nginx.org/download/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make pkgconf m4 libtool jemalloc zlib bzip2 xz pcre libressl libxml2 libevent spdylay perl texinfo geoip autoconf automake nghttp2"
 DEF_CONFIGURE_ARGS="--with-pcre --with-threads --with-ipv6 --with-poll_module --without-select_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-http_realip_module --with-stream --with-stream_ssl_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module"

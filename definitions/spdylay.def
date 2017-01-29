@@ -1,6 +1,7 @@
 DEF_FULL_NAME="Spdy Library"
 DEF_NAME="spdylay"
 DEF_SHA="b9b1b0a36e746c4b794fb50adc2449f4eb4c79c5"
+DEF_ORIGIN="https://github.com/tatsuhiro-t/spdylay/releases"
 DEF_VERSION="1.4.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc"

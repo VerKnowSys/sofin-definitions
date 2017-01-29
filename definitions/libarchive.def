@@ -1,5 +1,6 @@
 DEF_FULL_NAME="Archive Library"
 DEF_SHA="ccf14e3b4ec7c6b242cf07062dd40e82a17485a5"
+DEF_ORIGIN="https://github.com/libarchive/libarchive/releases"
 DEF_NAME="libarchive"
 DEF_VERSION="3.2.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
