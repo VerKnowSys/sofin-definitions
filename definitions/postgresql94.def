@@ -1,9 +1,10 @@
 DEF_FULL_NAME="PostgreSQL 9"
 DEF_STANDALONE=YES
-DEF_SHA="a8e6130576ff7b8876e71497f18cdfeb89bb6fc0"
+DEF_SHA="d1ebec7f076a6b9de29d7f726b0932ac542f2bd1"
+DEF_ORIGIN="https://www.postgresql.org/ftp/source/"
 DEF_NAME="postgresql"
 DEF_POSTFIX="94"
-DEF_VERSION="9.4.9"
+DEF_VERSION="9.4.10"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
 DEF_REQUIREMENTS="pkgconf make m4 libtool libedit zlib libressl"
