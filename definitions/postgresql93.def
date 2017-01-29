@@ -1,7 +1,0 @@
-inherit postgresql94
-
-DEF_SHA="a07cc4d1fd0fdd5ced85b75d821e1eec8eb9cb55"
-DEF_NAME="postgresql"
-DEF_POSTFIX="93"
-DEF_VERSION="9.3.14"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
