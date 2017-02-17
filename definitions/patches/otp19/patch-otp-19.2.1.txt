@@ -1,0 +1,218 @@
+diff --git OTP_VERSION OTP_VERSION
+index a824897d2..34716091d 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-19.2
++19.2.1
+diff --git erts/doc/src/notes.xml erts/doc/src/notes.xml
+index da6190b68..d4bc81912 100644
+--- erts/doc/src/notes.xml
++++ erts/doc/src/notes.xml
+@@ -32,6 +32,26 @@
+   <p>This document describes the changes made to the ERTS application.</p>
+ 
+ 
++<section><title>Erts 8.2.1</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    Fix a quite rare bug causing VM crash during code loading
++	    and the use of export funs (fun M:F/A) of not yet loaded
++	    modules. Requires a very specfic timing of concurrent
++	    scheduler threads. Has been seen on ARM but can probably
++	    also occure on other architectures. Bug has existed since
++	    OTP R16.</p>
++          <p>
++	    Own Id: OTP-14144 Aux Id: seq13242 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Erts 8.2</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git erts/emulator/beam/beam_bif_load.c erts/emulator/beam/beam_bif_load.c
+index ea1323d65..dbff00532 100644
+--- erts/emulator/beam/beam_bif_load.c
++++ erts/emulator/beam/beam_bif_load.c
+@@ -786,7 +786,7 @@ BIF_RETTYPE finish_after_on_load_2(BIF_ALIST_2)
+     }
+ 
+     if (BIF_ARG_2 == am_true) {
+-	int i;
++	int i, num_exps;
+ 
+ 	/*
+ 	 * Make the code with the on_load function current.
+@@ -802,7 +802,8 @@ BIF_RETTYPE finish_after_on_load_2(BIF_ALIST_2)
+ 	/*
+ 	 * The on_load function succeded. Fix up export entries.
+ 	 */
+-	for (i = 0; i < export_list_size(code_ix); i++) {
++	num_exps = export_list_size(code_ix);
++	for (i = 0; i < num_exps; i++) {
+ 	    Export *ep = export_list(i,code_ix);
+ 	    if (ep == NULL || ep->code[0] != BIF_ARG_1) {
+ 		continue;
+@@ -822,14 +823,15 @@ BIF_RETTYPE finish_after_on_load_2(BIF_ALIST_2)
+ 	modp->curr.code_hdr->on_load_function_ptr = NULL;
+ 	set_default_trace_pattern(BIF_ARG_1);
+     } else if (BIF_ARG_2 == am_false) {
+-	int i;
++	int i, num_exps;
+ 
+ 	/*
+ 	 * The on_load function failed. Remove references to the
+ 	 * code that is about to be purged from the export entries.
+ 	 */
+ 
+-	for (i = 0; i < export_list_size(code_ix); i++) {
++	num_exps = export_list_size(code_ix);
++	for (i = 0; i < num_exps; i++) {
+ 	    Export *ep = export_list(i,code_ix);
+ 	    if (ep == NULL || ep->code[0] != BIF_ARG_1) {
+ 		continue;
+@@ -2022,9 +2024,9 @@ delete_code(Module* modp)
+ {
+     ErtsCodeIndex code_ix = erts_staging_code_ix();
+     Eterm module = make_atom(modp->module);
+-    int i;
++    int i, num_exps = export_list_size(code_ix);
+ 
+-    for (i = 0; i < export_list_size(code_ix); i++) {
++    for (i = 0; i < num_exps; i++) {
+ 	Export *ep = export_list(i, code_ix);
+         if (ep != NULL && (ep->code[0] == module)) {
+ 	    if (ep->addressv[code_ix] == ep->code+3) {
+diff --git erts/emulator/beam/beam_load.c erts/emulator/beam/beam_load.c
+index 0afdedf6c..3f2bdf3f9 100644
+--- erts/emulator/beam/beam_load.c
++++ erts/emulator/beam/beam_load.c
+@@ -797,14 +797,14 @@ erts_finish_loading(Binary* magic, Process* c_p,
+     } else {
+ 	ErtsCodeIndex code_ix = erts_staging_code_ix();
+ 	Eterm module = stp->module;
+-	int i;
++	int i, num_exps;
+ 
+ 	/*
+ 	 * There is an -on_load() function. We will keep the current
+ 	 * code, but we must turn off any tracing.
+ 	 */
+-
+-	for (i = 0; i < export_list_size(code_ix); i++) {
++        num_exps = export_list_size(code_ix);
++	for (i = 0; i < num_exps; i++) {
+ 	    Export *ep = export_list(i, code_ix);
+ 	    if (ep == NULL || ep->code[0] != module) {
+ 		continue;
+@@ -5754,12 +5754,13 @@ exported_from_module(Process* p, /* Process whose heap to use. */
+                      ErtsCodeIndex code_ix,
+ 		     Eterm mod) /* Tagged atom for module. */
+ {
+-    int i;
++    int i, num_exps;
+     Eterm* hp = NULL;
+     Eterm* hend = NULL;
+     Eterm result = NIL;
+ 
+-    for (i = 0; i < export_list_size(code_ix); i++) {
++    num_exps = export_list_size(code_ix);
++    for (i = 0; i < num_exps; i++) {
+ 	Export* ep = export_list(i,code_ix);
+ 	
+ 	if (ep->code[0] == mod) {
+diff --git erts/emulator/beam/export.c erts/emulator/beam/export.c
+index 7f043e191..00fa452f7 100644
+--- erts/emulator/beam/export.c
++++ erts/emulator/beam/export.c
+@@ -348,7 +348,7 @@ Export *export_list(int i, ErtsCodeIndex code_ix)
+ 
+ int export_list_size(ErtsCodeIndex code_ix)
+ {
+-    return export_tables[code_ix].entries;
++    return erts_index_num_entries(&export_tables[code_ix]);
+ }
+ 
+ int export_table_sz(void)
+diff --git erts/emulator/beam/index.c erts/emulator/beam/index.c
+index c86a2122f..cd834e2c1 100644
+--- erts/emulator/beam/index.c
++++ erts/emulator/beam/index.c
+@@ -91,9 +91,16 @@ index_put_entry(IndexTable* t, void* tmpl)
+ 	t->seg_table[ix>>INDEX_PAGE_SHIFT] = erts_alloc(t->type, sz);
+ 	t->size += INDEX_PAGE_SIZE;
+     }
+-    t->entries++;
+     p->index = ix;
+     t->seg_table[ix>>INDEX_PAGE_SHIFT][ix&INDEX_PAGE_MASK] = p;
++
++    /*
++     * Do a write barrier here to allow readers to do lock free iteration.
++     * erts_index_num_entries() does matching read barrier.
++     */
++    ERTS_SMP_WRITE_MEMORY_BARRIER;
++    t->entries++;
++
+     return p;
+ }
+ 
+diff --git erts/emulator/beam/index.h erts/emulator/beam/index.h
+index b2e3c0eab..10f5d1eb3 100644
+--- erts/emulator/beam/index.h
++++ erts/emulator/beam/index.h
+@@ -65,6 +65,7 @@ void index_erase_latest_from(IndexTable*, Uint ix);
+ 
+ ERTS_GLB_INLINE int index_put(IndexTable*, void*);
+ ERTS_GLB_INLINE IndexSlot* erts_index_lookup(IndexTable*, Uint);
++ERTS_GLB_INLINE int erts_index_num_entries(IndexTable* t);
+ 
+ #if ERTS_GLB_INLINE_INCL_FUNC_DEF
+ 
+@@ -78,6 +79,19 @@ erts_index_lookup(IndexTable* t, Uint ix)
+ {
+     return t->seg_table[ix>>INDEX_PAGE_SHIFT][ix&INDEX_PAGE_MASK];
+ }
++
++ERTS_GLB_INLINE int erts_index_num_entries(IndexTable* t)
++{
++    int ret = t->entries;
++    /*
++     * Do a read barrier here to allow lock free iteration
++     * on tables where entries are never erased.
++     * index_put_entry() does matching write barrier.
++     */
++    ERTS_SMP_READ_MEMORY_BARRIER;
++    return ret;
++}
++
+ #endif
+ 
+ #endif
+diff --git erts/vsn.mk erts/vsn.mk
+index af0be8506..028b11406 100644
+--- erts/vsn.mk
++++ erts/vsn.mk
+@@ -18,7 +18,7 @@
+ # %CopyrightEnd%
+ # 
+ 
+-VSN = 8.2
++VSN = 8.2.1
+ 
+ # Port number 4365 in 4.2
+ # Port number 4366 in 4.3
+diff --git otp_versions.table otp_versions.table
+index e21ca7fdf..575a35801 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-19.2.1 : erts-8.2.1 # asn1-4.0.4 common_test-1.13 compiler-7.0.3 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.2 debugger-4.2.1 dialyzer-3.0.3 diameter-1.12.1 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.2 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.3 ic-4.4.2 inets-6.3.4 jinterface-1.7.1 kernel-5.1.1 megaco-3.18.1 mnesia-4.14.2 observer-2.3 odbc-2.12 orber-3.8.2 os_mon-2.4.1 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.3 reltool-0.7.2 runtime_tools-1.11 sasl-3.0.2 snmp-5.2.4 ssh-4.4 ssl-8.1 stdlib-3.2 syntax_tools-2.1.1 tools-2.9 typer-0.9.11 wx-1.8 xmerl-1.3.12 :
+ OTP-19.2 : common_test-1.13 compiler-7.0.3 crypto-3.7.2 dialyzer-3.0.3 edoc-0.8.1 erl_docgen-0.6.1 erl_interface-3.9.2 erts-8.2 eunit-2.3.2 hipe-3.15.3 inets-6.3.4 kernel-5.1.1 mnesia-4.14.2 observer-2.3 odbc-2.12 parsetools-2.1.4 public_key-1.3 runtime_tools-1.11 sasl-3.0.2 ssh-4.4 ssl-8.1 stdlib-3.2 syntax_tools-2.1.1 tools-2.9 wx-1.8 # asn1-4.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 debugger-4.2.1 diameter-1.12.1 eldap-1.2.2 et-1.6 gs-1.6.2 ic-4.4.2 jinterface-1.7.1 megaco-3.18.1 orber-3.8.2 os_mon-2.4.1 otp_mibs-1.1.1 percept-0.9 reltool-0.7.2 snmp-5.2.4 typer-0.9.11 xmerl-1.3.12 :
+ OTP-19.1.6 : erts-8.1.1 # asn1-4.0.4 common_test-1.12.3 compiler-7.0.2 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.1 debugger-4.2.1 dialyzer-3.0.2 diameter-1.12.1 edoc-0.8 eldap-1.2.2 erl_docgen-0.6 erl_interface-3.9.1 et-1.6 eunit-2.3.1 gs-1.6.2 hipe-3.15.2 ic-4.4.2 inets-6.3.3 jinterface-1.7.1 kernel-5.1 megaco-3.18.1 mnesia-4.14.1 observer-2.2.2 odbc-2.11.3 orber-3.8.2 os_mon-2.4.1 otp_mibs-1.1.1 parsetools-2.1.3 percept-0.9 public_key-1.2 reltool-0.7.2 runtime_tools-1.10.1 sasl-3.0.1 snmp-5.2.4 ssh-4.3.6 ssl-8.0.3 stdlib-3.1 syntax_tools-2.1 tools-2.8.6 typer-0.9.11 wx-1.7.1 xmerl-1.3.12 :
+ OTP-19.1.5 : ssh-4.3.6 # asn1-4.0.4 common_test-1.12.3 compiler-7.0.2 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.1 debugger-4.2.1 dialyzer-3.0.2 diameter-1.12.1 edoc-0.8 eldap-1.2.2 erl_docgen-0.6 erl_interface-3.9.1 erts-8.1 et-1.6 eunit-2.3.1 gs-1.6.2 hipe-3.15.2 ic-4.4.2 inets-6.3.3 jinterface-1.7.1 kernel-5.1 megaco-3.18.1 mnesia-4.14.1 observer-2.2.2 odbc-2.11.3 orber-3.8.2 os_mon-2.4.1 otp_mibs-1.1.1 parsetools-2.1.3 percept-0.9 public_key-1.2 reltool-0.7.2 runtime_tools-1.10.1 sasl-3.0.1 snmp-5.2.4 ssl-8.0.3 stdlib-3.1 syntax_tools-2.1 tools-2.8.6 typer-0.9.11 wx-1.7.1 xmerl-1.3.12 :
