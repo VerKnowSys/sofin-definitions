@@ -1,15 +1,22 @@
-DEF_FULL_NAME="EKG2 - Multiplatform, multiprotocol, plugin-based modular instant messanger"
+DEF_FULL_NAME="EKG2 - Multiplatform, multiprotocol, modular, plugin-based, instant messanger"
 DEF_NAME="ekg2"
 DEF_GIT_CHECKOUT="master"
-DEF_VERSION="${DEF_GIT_CHECKOUT}-${TIMESTAMP}"
+DEF_VERSION="${DEF_GIT_CHECKOUT}-v0.3.a"
 DEF_SOURCE_PATH="https://github.com/ekg2/ekg2.git"
-DEF_REQUIREMENTS="pkgconf m4 libtool make pcre libunistring zlib lzma xz perl sqlite expat libgpg-error libgcrypt libassuan libksba pth npth gnupg gpgme libffi libressl python27 autoconf texinfo automake14 gmp nettle libtasn1 gettext glib libidn2 p11-kit gnutls"
+DEF_REQUIREMENTS="pkgconf m4 libtool make pcre libunistring zlib lzma xz perl sqlite expat libgpg-error libgcrypt libassuan libksba pth npth gnupg gpgme libffi libressl python27 autoconf texinfo automake14 gmp nettle libtasn1 gettext glib libidn libidn2 p11-kit gnutls"
 DEF_CONFIGURE_METHOD="./autogen.sh"
-if [ "Darwin" = "${SYSTEM_NAME}" ]; then
-    _common="-framework System"
-    DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} ${_common}"
-    DEF_LINKER_ARGS="${DEF_LINKER_ARGS} ${_common}"
-fi
-DEF_CONFIGURE_ARGS="--enable-shared --enable-rpath --enable-ncurses --with-ncurses=/usr --with-glib=${PREFIX} --with-gnutls=${PREFIX} --with-openssl=${PREFIX} --with-expat=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-static --disable-readline --without-gtk --disable-perl --disable-perl-modules --disable-polchat --disable-python"
-DEF_USELESS="lib/perl* lib/python* include/python* share/libtool share/texinfo share/gdb share/a*"
+case ${SYSTEM_NAME} in
+    Darwin)
+        _common="-framework System"
+        DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${_common}"
+        DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_SYSTEM_SPECIFIC_CFLAGS}"
+        DEF_LINKER_ARGS="${DEF_LINKER_ARGS} ${_common}"
+        ;;
+
+    *)
+        ;;
+esac
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --enable-rpath --disable-readline --without-gtk --enable-ncurses --with-ncurses=/usr --with-glib=${PREFIX} --with-gnutls=${PREFIX} --with-openssl=${PREFIX} --with-expat=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-perl --disable-perl-modules --disable-polchat --disable-python"
+DEF_USELESS="include lib/*.la lib/*.a lib/perl* lib/python* include/python* share/libtool share/texinfo share/gdb share/a* share/gettext* share/glib*"
 DEF_EXPORTS="ekg2"
+DEF_STRIP=LIBS # NOTE: binary cannot be stripped from symbols, they're required by dyld
