@@ -4,7 +4,7 @@ DEF_NAME="ruby"
 DEF_VERSION="2.2.5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
-DEF_CONFIGURE_SCRIPT="debugflags= ./configure" # LC_ALL=${LANG}
+DEF_CONFIGURE_METHOD="debugflags= ./configure" # LC_ALL=${LANG}
 DEF_REQUIREMENTS="pkgconf make ccache libedit m4 libtool zlib bzip2 lzma xz gmp libxml2 libxslt libffi gdbm db sqlite flex perl bison unixodbc libressl python27 libgpg-error libgcrypt autoconf texinfo automake gettext curl readline yaml"
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --disable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-dbm=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_COMPILER_ARGS="-DDHAVE_GMP_H=1 -DJEMALLOC_MANGLE=1 -DHAVE_LIBGMP=1 -DHAVE_LIBGMP=1 -DHAVE_RB_RATIONAL_NUM=1 -DHAVE_RB_RATIONAL_DEN=1"
