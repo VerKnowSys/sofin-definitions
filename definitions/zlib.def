@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Z Library"
 DEF_SHA="a4d316c404ff54ca545ea71a27af7dbc29817088"
 DEF_NAME="zlib"
