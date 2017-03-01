@@ -1,16 +1,15 @@
-DEF_FULL_NAME="cURL"
-DEF_SHA="aa9f2300096d806c68c7ba8c50771853d1b43eb4"
+DEF_SHA="ae4a14778ef9ac3aaeaa022243d6e26c0bf1362b"
 DEF_NAME="curl"
-DEF_VERSION="7.52.1"
+DEF_VERSION="7.53.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_EXPORTS="curl curl-config"
-DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --disable-debug"
-DEF_REQUIREMENTS="pkgconf make jemalloc zlib bzip2 lzma xz expat libressl perl texinfo libidn python27 libevent spdylay nghttp2 libssh2"
+DEF_REQUIREMENTS="pkgconf m4 make jemalloc zlib bzip2 lzma xz expat libressl perl autoconf texinfo automake14 icu libunistring libffi gettext glib libiconv libtool libidn2 python27 libevent spdylay nghttp2 libssh2"
+DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --disable-debug --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --without-polarssl --without-mbedtls --without-cyassl --without-nss --without-axtls"
 DEF_INSTALL_METHOD="make -s install"
 DEF_AFTER_INSTALL_METHOD="after_installation"
 after_installation () {
-    ${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl
-    ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem
-    ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_CA_ROOTCERT_ORIGIN}
+    run "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl"
+    run "${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem"
+    run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_CA_ROOTCERT_ORIGIN}"
 }
-DEF_USELESS="lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
+DEF_USELESS="lib/*python* include/*python* lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
