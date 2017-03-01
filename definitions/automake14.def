@@ -1,0 +1,10 @@
+DEF_FULL_NAME="GNU Automake 1.14.1"
+DEF_NAME="automake"
+DEF_SHA="2ced676f6b792a95c5919243f81790b1172c7f5b"
+DEF_VERSION="1.14.1"
+DEF_POSTFIX="14"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="m4 make perl autoconf libtool texinfo"
+DEF_EXPORTS="automake aclocal autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames libtool libtoolize glibtoolize makeinfo texi2any texi2dvi texi2pdf texindex"
+DEF_CLEAN_USELESS=NO
+DEF_NO_TRAP_INT_OVERFLOW=YES
