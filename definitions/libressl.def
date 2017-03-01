@@ -1,13 +1,12 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="LibreSSL Library"
-DEF_SHA="5daaf33f5cc382e1c9dd7375a67e26aad1d0b2ed"
+DEF_SHA="b3e8b7b8d70aa27459add8ee4ab5078b366923d2"
 DEF_NAME="libressl"
-DEF_VERSION="2.4.4"
+DEF_VERSION="2.5.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="openssl"
 DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL"
 
-cacert_source="http://curl.haxx.se/ca/cacert.pem"
 cacert_source_alt="http://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt"
 os_specific="${SERVICE_DIR}"
 unset safety_opts
@@ -26,6 +25,6 @@ DEF_AFTER_INSTALL_METHOD="fetch_ca_cert"
 fetch_ca_cert () {
     ${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl
     ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem
-    ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${cacert_source} || \
+    ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_CA_ROOTCERT_ORIGIN} || \
         ${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${cacert_source_alt}
 }
