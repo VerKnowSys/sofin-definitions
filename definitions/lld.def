@@ -26,6 +26,7 @@ symlink_names () {
         *)
             # UNIX name:
             ${LN_BIN} -vs "${PREFIX}/bin/lld" "${PREFIX}/bin/ld.lld"
+            ${LN_BIN} -vs "${PREFIX}/bin/lld" "${PREFIX}/bin/ld"
             ;;
     esac
     return 0
