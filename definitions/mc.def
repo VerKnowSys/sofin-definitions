@@ -3,7 +3,7 @@ DEF_NAME="mc"
 DEF_GIT_CHECKOUT="master"
 DEF_VERSION="4.8.18-${DEF_GIT_CHECKOUT}"
 DEF_SOURCE_PATH="https://github.com/MidnightCommander/${DEF_NAME}.git"
-DEF_REQUIREMENTS="pkgconf make m4 libtool zlib bzip2 lzma xz pcre perl gettext autoconf automake libffi libressl python27 glib slang" # ncurses
+DEF_REQUIREMENTS="pkgconf make m4 libtool zlib bzip2 lzma xz pcre perl gettext autoconf automake libffi libressl python27 glib slang libssh2" # ncurses
 DEF_AFTER_PATCH_METHOD="autoconf; sh ./autogen.sh"
 DEF_CONFIGURE_ARGS="--with-screen=ncurses --with-slang-includes=${PREFIX}/include --with-slang-libs=${PREFIX}/lib --with-pcre=${PREFIX} --disable-doxygen-man --disable-doxygen-html --disable-doxygen-doc --disable-doxygen-dot --enable-charset --disable-aspell --with-subshell --disable-assert --without-internal-edit --with-diff-viewer --without-x --without-nls --disable-nls" # NOTE: disabled NLS cause of: http://ół.pl/e1e0a93dc4f23580ad67a362cad7438c.png
 DEF_SYSTEM_SPECIFIC_CFLAGS="-ltinfow"
