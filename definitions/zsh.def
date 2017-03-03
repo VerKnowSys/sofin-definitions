@@ -10,19 +10,7 @@ DEF_USELESS="share/aclocal share/libtool share/readline"
 DEF_EXPORTS="zsh sh"
 
 case "${SYSTEM_NAME}" in
-    FreeBSD)
-        DEF_COMPILER_ARGS="-Wl,-static -I${PREFIX}/include"
-        DEF_LINKER_ARGS="-static -L${PREFIX}/lib"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-term-lib=\"tinfow tinfo\" --disable-dynamic --disable-dynamic-nss"
-        DEF_USELESS="${DEF_USELESS} include lib" # not required for static build
-        DEF_INSTALL_METHOD="install_method"
-        install_method () {
-            make -s install
-            ${TEST_BIN} -L "${PREFIX}/bin/sh" || ${LN_BIN} -s "${PREFIX}/bin/zsh" "${PREFIX}/bin/sh"
-        }
-        ;;
-
-    Darwin)
+    Darwin|FreeBSD)
         DEF_COMPILER_ARGS="-Wl,-L${PREFIX}/lib"
         ;;
 esac
