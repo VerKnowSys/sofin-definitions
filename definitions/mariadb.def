@@ -1,8 +1,8 @@
 DEF_FULL_NAME="MariaDB 10.1"
 DEF_STANDALONE=YES
-DEF_SHA="345a108fd92474abc760ca803c121f76c8abef3c"
+DEF_SHA="f9ccaa9881b98eeef68f4dbcf5ab9653c903819f"
 DEF_NAME="mariadb"
-DEF_VERSION="10.1.18"
+DEF_VERSION="10.1.21"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make db libnet libedit lua51 pcre ccache zlib bzip2 xz lzma lzo lzop lz4 m4 perl yasm autoconf texinfo automake bison libtool cmake msgpack kytea libsodium zeromq4 expat libressl python27 libffi gettext glib libevent flex boost-minimal libxml2 mariadb-client" # ncurses
 DEF_CONFIGURE_METHOD="cmake"
