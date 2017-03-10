@@ -70,17 +70,16 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
         DEF_DEFAULT_USED_ARCHITECTURE="x86_64" # deduplicated value of mainly used hw architecture
         DEF_WORKSTATION_VERSION_FLAGS="-mmacosx-version-min=10.11" # default major workstation system version used
         DEF_EXPLICIT_STDCXX_FLAGS="-std=c++11 -stdlib=libc++"
-        DEF_VISIBILITY_FLAGS="-fvisibility=default -fvisibility-inlines-hidden" # explicit symbol visibility
+        DEF_VISIBILITY_FLAGS="-fvisibility=default"
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                # NOTE: alternate: -std=gnu++11:
-                DEF_VISIBILITY_FLAGS="-fvisibility=default"
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL -arch ${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL -arch ${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 ;;
 
             Darwin)
+                DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
                 DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
