@@ -36,7 +36,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-HISTORY_PLUGIN_SOURCE="https://github.com/ferd/erlang-history.git"
+HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
 install_repl_history () {
     ${GIT_BIN} clone "${HISTORY_PLUGIN_SOURCE}"
     cd erlang-history
