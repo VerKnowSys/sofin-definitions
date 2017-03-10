@@ -5,5 +5,9 @@ DEF_GIT_CHECKOUT="master"
 DEF_VERSION="1.0-${DEF_GIT_CHECKOUT}"
 DEF_SOURCE_PATH="https://github.com/ggreer/the_silver_searcher.git"
 DEF_REQUIREMENTS="pkgconf m4 pcre make lzma perl autoconf automake texinfo"
-DEF_CONFIGURE_METHOD="./autogen.sh; ./configure LZMA_CFLAGS=-I${PREFIX}/include LZMA_LIBS=-L${PREFIX}/lib"
 DEF_EXPORTS="ag"
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    DEF_CONFIGURE_METHOD="./autogen.sh; ./configure LZMA_CFLAGS=-I${PREFIX}/include LZMA_LIBS=-L${PREFIX}/lib"
+else
+    DEF_CONFIGURE_METHOD="./autogen.sh; ./configure"
+fi
