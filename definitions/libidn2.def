@@ -3,7 +3,8 @@ DEF_NAME="libidn2"
 DEF_SHA="26311b538897a8ed0569922132f2139ee3ec6a28"
 DEF_VERSION="0.16"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -L${PREFIX}/lib"
+DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -L${PREFIX}/lib -lunistring"
+DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/unistring"
 DEF_AFTER_UNPACK_METHOD="prepare_gnu_stuff"
 prepare_gnu_stuff () {
     try "${PREFIX}/bin/aclocal"
@@ -12,12 +13,13 @@ prepare_gnu_stuff () {
 }
 DEF_AFTER_CONFIGURE_METHOD="hack_gnu_makefile"
 hack_gnu_makefile () {
-    run "${SED_BIN} -i '' -e 's|-I${PREFIX}/include |-I${PREFIX}/include -I${PREFIX}/include/unicode -L${PREFIX}/lib -L/usr/lib |g; s|-std=c++11|-std=gnu++11 -Wno-c++11-narrowing -w|g;' Makefile"
-    run "${SED_BIN} -i '' -e 's|uint8_t *data = calloc|uint8_t *data = (uint8_t*) calloc|g;' gentr46map.c"
-    run "${SED_BIN} -i '' -e 's|return rawmemchr|return (char*)rawmemchr|g;' lib/strchrnul.c"
-
-    run "${SED_BIN} -i '' -e 's|uint32_t *tmp = malloc ((len2 + 1)|uint32_t *tmp = (uint32_t*) malloc ((len2 + 1)|g; s|uint8_t *tmp = malloc (lookupnamelen + 1)|uint8_t *tmp = (uint8_t*) malloc (lookupnamelen + 1)|g' lookup.c"
-    run "${SED_BIN} -i '' -e 's|#include \"error.h\"|#define error printf|g; s|#include <glib/gquark.h>||g;' src/idn2.c"
+    if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+        ${SED_BIN} -i '' -e "s|uint8_t *data = calloc|uint8_t *data = (uint8_t*) calloc|g;" gentr46map.c
+        ${SED_BIN} -i '' -e "s|return rawmemchr|return (char*)rawmemchr|g;" lib/strchrnul.c
+        ${SED_BIN} -i '' -e 's|uint32_t *tmp = malloc ((len2 + 1)|uint32_t *tmp = (uint32_t*) malloc ((len2 + 1)|g; s|uint8_t *tmp = malloc (lookupnamelen + 1)|uint8_t *tmp = (uint8_t*) malloc (lookupnamelen + 1)|g' lookup.c
+    fi
+    ${SED_BIN} -i '' -e "s|-I${PREFIX}/include |-I${PREFIX}/include -I${PREFIX}/include/unicode -L${PREFIX}/lib -L/usr/lib |g; s|-std=c++11|-std=gnu++11 -Wno-c++11-narrowing -w|g;" Makefile
+    ${SED_BIN} -i '' -e 's|#include \"error.h\"|#define error printf|g; s|#include <glib/gquark.h>||g;' src/idn2.c
 }
 DEF_REQUIREMENTS="autoconf texinfo libunistring automake14"
 DEF_CONFIGURE_ARGS="--with-libunistring-prefix=${PREFIX} --with-libintl-prefix=${PREFIX} --with-libiconv-prefix=${PREFIX} --disable-valgrind-tests --disable-gtk-doc-html --disable-dependency-tracking --disable-silent-rules"
