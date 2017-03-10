@@ -10,5 +10,5 @@ DEF_INSTALL_METHOD="make -s install"
 DEF_NO_LLVM_LINKER=YES
 
 patch_header () {
-    ${SED_BIN} -i '' -e 's#JCOPYRIGHT#"JCOPYRIGHT"#; s#JCOPYRIGHT_SHORT#"JCOPYRIGHT_SHORT"#; s#JVERSION#"v9b"#' ${PREFIX}/include/jerror.h || true
+    ${SED_BIN} -i '' -e 's#JCOPYRIGHT_SHORT#"JCOPYRIGHT_SHORT"#; s#JCOPYRIGHT#"JCOPYRIGHT"#; s#JVERSION#"v9b"#' ${PREFIX}/include/jerror.h || true
 }
