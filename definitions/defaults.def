@@ -62,6 +62,7 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
 unset   DEF_NO_LTO
+unset   DEF_NO_SAFE_STACK
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
