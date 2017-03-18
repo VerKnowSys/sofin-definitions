@@ -10,6 +10,7 @@ DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS}' -Dprefix=${P
 DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
 # DEF_AFTER_UNPACK_METHOD="${MKDIR_BIN} -p ${PREFIX}/lib ${PREFIX}/include ${PREFIX}/bin || true"
 DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_NO_SAFE_STACK=YES
 DEF_NO_LTO=YES
 DEF_MAKE_METHOD="make_method"
 make_method () {
