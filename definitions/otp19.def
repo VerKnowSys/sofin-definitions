@@ -9,22 +9,25 @@ DEF_REQUIREMENTS="pkgconf make m4 libtool gdbm db zlib lzma lzo xz libunwind lib
 # NOTE: For non-tarball versions use: "./otp_build autoconf" to gen configure
 DEF_AFTER_UNPACK_METHOD="./otp_build remove_prebuilt_files || :"
 DEF_CONFIGURE_ARGS="--enable-threads --with-dynamic-trace=dtrace --enable-fp-exceptions --enable-hipe --enable-kernel-poll --enable-smp-support --enable-sctp --with-ssl=${PREFIX} --disable-debug --enable-vm-probes --with-odbc=${PREFIX} --enable-native-libs --with-libatomic_ops=${PREFIX}"
-DEF_INSTALL_METHOD="LANG=C make -s install && install_repl_history"
+DEF_INSTALL_METHOD="LANG=en_GB.UTF-8 make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USELESS="lib/*perl* docs share"
+DEF_NO_SAFE_STACK=YES
+DEF_NO_CCACHE=YES
 case "${SYSTEM_NAME}" in
     FreeBSD)
-        DEF_COMPILER_ARGS="-DMAP_NORESERVE=0 -fno-omit-frame-pointer"
+        DEF_COMPILER_ARGS="-DMAP_FIXED -DMAP_NORESERVE"
+        # DEF_COMPILER_ARGS="-DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         # NOTE: this causes a hickup for HIPE:
         # erl_prettypr.erl: internal error in native_compile;
         # crash reason: undef
         # (...)
         #
         # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-m64-build"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --exec-prefix=${PREFIX}"
-        DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
-        DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/lib -ldtrace"
+        # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --exec-prefix=${PREFIX}"
+        # DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
+        # DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/lib -ldtrace"
         ;;
 
     # Darwin)
@@ -33,6 +36,7 @@ case "${SYSTEM_NAME}" in
 
     *)
         DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -fno-omit-frame-pointer"
+        DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
         ;;
 esac
 
