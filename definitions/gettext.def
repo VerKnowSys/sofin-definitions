@@ -7,3 +7,4 @@ DEF_CONFIGURE_ARGS="--enable-c++ --without-emacs --disable-openmp --enable-threa
 DEF_REQUIREMENTS="pkgconf make zlib"
 DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh msgcmp msgexec msginit msgcomm msguniq msgen msgconv xgettext msgfilter ngettext gettextize msgcat msgmerge envsubst recode-sr-latin"
 DEF_NO_LLVM_LINKER=YES
+DEF_NO_SAFE_STACK=YES
