@@ -5,7 +5,7 @@ DEF_VERSION="1.0.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="pkgconf pkg-config"
 DEF_CONFIGURE_ARGS="--with-pkg-config-dir=${PREFIX}/lib/pkgconfig:/usr/libdata/pkgconfig --with-system-libdir=/usr/lib --with-system-includedir=/usr/include"
-
+DEF_NO_SAFE_STACK=YES
 DEF_NO_LLVM_LINKER=YES
 DEF_AFTER_MAKE_METHOD="patch_tests"
 patch_tests () {
