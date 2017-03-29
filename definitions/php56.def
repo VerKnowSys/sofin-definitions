@@ -15,6 +15,7 @@ DEF_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data 
 DEF_NO_CCACHE=YES # causes random crashes and other issues
 DEF_NO_FAST_MATH=YES # casuses sqlite3 failures
 DEF_NO_TRAP_INT_OVERFLOW=YES # causes pecl to overflow on any command ;)
+DEF_NO_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}" in
     FreeBSD)

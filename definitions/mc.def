@@ -10,4 +10,5 @@ DEF_SYSTEM_SPECIFIC_CFLAGS="-ltinfow"
 DEF_LINKER_ARGS="-ltinfow"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view ${DEF_NAME}edit ${DEF_NAME}diff"
 DEF_USELESS="lib/*perl* include/*python* lib/*python* share/bash-completion share/gdb share/gettext* share/glib* share/*doc* share/info share/slsh share/libtool man"
+DEF_NO_SAFE_STACK=YES
 DEF_NO_LLVM_LINKER=YES
