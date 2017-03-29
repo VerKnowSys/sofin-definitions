@@ -17,7 +17,7 @@ DEF_NO_SAFE_STACK=YES
 DEF_NO_CCACHE=YES
 case "${SYSTEM_NAME}" in
     FreeBSD)
-        DEF_COMPILER_ARGS="-DMAP_FIXED -DMAP_NORESERVE"
+        DEF_COMPILER_ARGS="-DMAP_FIXED -DMAP_NORESERVE -fno-omit-frame-pointer"
         # DEF_COMPILER_ARGS="-DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         # NOTE: this causes a hickup for HIPE:
         # erl_prettypr.erl: internal error in native_compile;
