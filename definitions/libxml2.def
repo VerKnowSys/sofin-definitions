@@ -8,4 +8,3 @@ DEF_LINKER_ARGS="-L${PREFIX}/lib -lz"
 DEF_CONFIGURE_ARGS="--without-python --without-debug --without-docbook --without-ftp"
 DEF_INSTALL_METHOD="make -s install ${MAKE_OPTS}"
 DEF_EXPORTS="xml2-config xmlcatalog xmllint"
-DEF_NO_SAFE_STACK=YES
