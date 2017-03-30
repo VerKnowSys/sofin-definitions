@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Ruby MRI (YARV)"
-DEF_SHA="457707459827bd527347a5cee7b4dc509b486713"
+DEF_SHA="8b811b08c1ba790949fa67c6856c9b3ba3f12691"
 DEF_NAME="ruby"
-DEF_VERSION="2.2.5"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_VERSION="2.2.7"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFIGURE_METHOD="debugflags= ./configure" # LC_ALL=${LANG}
 DEF_REQUIREMENTS="make yaml libedit m4 libtool zlib bzip2 lzma xz gmp libxml2 libxslt libffi gdbm db sqlite flex perl bison unixodbc libressl python35 libgpg-error libgcrypt autoconf texinfo automake14 gettext libunistring libffi glib libidn2 spdylay nghttp2 libssh2 curl"
