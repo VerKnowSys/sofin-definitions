@@ -2,10 +2,10 @@ inherit ruby22
 
 DEF_DISABLE_ON="FreeBSD" # https://github.com/ruby/bugs.ruby-lang.org/issues/65
 DEF_FULL_NAME="Ruby YARV 2.3"
-DEF_SHA="1014ee699071aa2ddd501907d18cbe15399c997d"
+DEF_SHA="8ee952fa7c2466d53868143e867dc08a153e20df"
 DEF_NAME="ruby"
-DEF_VERSION="2.3.3"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_VERSION="2.3.4"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 # DEF_CONFLICTS_WITH="Jruby Ruby18 Ruby22 Ruby24"
 DEF_CONFLICTS_WITH="Ruby"
