@@ -5,27 +5,28 @@ DEF_VERSION="2.2.7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFIGURE_METHOD="debugflags= ./configure" # LC_ALL=${LANG}
-DEF_REQUIREMENTS="make yaml libedit m4 libtool zlib bzip2 lzma xz gmp libxml2 libxslt libffi gdbm db sqlite flex perl bison unixodbc libressl python35 libgpg-error libgcrypt autoconf texinfo automake14 gettext libunistring libffi glib libidn2 spdylay nghttp2 libssh2 curl"
+DEF_REQUIREMENTS="pkgconf make yaml libedit bzip2 lzma xz lz4 gmp libxml2 libxslt libffi gdbm db sqlite flex perl bison unixodbc libressl python35 libgpg-error libgcrypt autoconf texinfo automake14 gettext libunistring glib libidn2 spdylay nghttp2 libssh2 curl postgresql94"
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --disable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-dbm=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_COMPILER_ARGS="-DDHAVE_GMP_H=1 -DJEMALLOC_MANGLE=1 -DHAVE_LIBGMP=1 -DHAVE_LIBGMP=1 -DHAVE_RB_RATIONAL_NUM=1 -DHAVE_RB_RATIONAL_DEN=1"
 DEF_LINKER_ARGS="-L/usr/lib -ldtrace"
+DEF_CONFIGURE_ARGS="--with-gcc=cc"
 
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --with-gcc=/usr/bin/gcc"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath"
         ;;
 
     Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-rpath --enable-dtrace --with-gcc=/usr/bin/clang"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-rpath --enable-dtrace"
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-libedit --with-libedit-dir=${PREFIX} --enable-dtrace --with-gcc=/usr/bin/clang"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-libedit --with-libedit-dir=${PREFIX} --enable-dtrace"
         ;;
 esac
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
-DEF_CONFLICTS_WITH="Jruby Ruby18 Ruby23 Ruby24"
+DEF_CONFLICTS_WITH="Jruby Ruby"
 DEF_USELESS="lib/*perl* include/python* lib/python* man share"
 
 DEF_AFTER_INSTALL_METHOD="after_install"
