@@ -1,11 +1,12 @@
-DEF_FULL_NAME="NodeJS - asynchronous event driven JavaScript runtime"
+DEF_FULL_NAME="NodeJS - asynchronous, event driven, V8 runtime"
 DEF_NAME="node"
-DEF_VERSION="7.5.0"
-DEF_SHA="453b9d2475632b16c758cae8d9a0f17300a30054"
+DEF_VERSION="7.8.0"
+DEF_SHA="0b4eacf209a840d622dc5565a1bdace18038c6ca"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nodejs.org/download/"
 DEF_REQUIREMENTS="pkgconf ccache m4 make python27 libedit xz zip pcre gdbm db sqlite yaml ninja bash c-ares"
 DEF_CONFIGURE_ARGS="--tag=ServeD --shared --with-dtrace --dest-cpu=x64 --ninja --shared-zlib --shared-cares" # --without-npm
+DEF_STRIP=NO
 
 case "${SYSTEM_NAME}" in
     Darwin)
