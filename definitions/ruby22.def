@@ -35,3 +35,4 @@ after_install () {
     ${PREFIX}/bin/gem install bundler
 }
 DEF_NO_LLVM_LINKER=YES
+DEF_NO_SAFE_STACK=YES
