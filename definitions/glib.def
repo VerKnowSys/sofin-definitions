@@ -4,12 +4,6 @@ DEF_SHA="80273046f083d5a057f4f411a4c54202fe9bae9f"
 DEF_VERSION="2.52.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnome.org/pub/gnome/sources/glib/"
-DEF_REQUIREMENTS="pkgconf make zlib pcre libffi gettext python27 m4 libtool"
-DEF_CONFIGURE_ARGS="--disable-dependency-tracking  --disable-fam --disable-gtk-doc --disable-gtk-doc-html --without-xml-catalog --with-pcre=internal --disable-maintainer-mode --disable-silent-rules --disable-modular-tests --disable-libelf"
-DEF_NO_CCACHE=YES
-DEF_NO_LLVM_LINKER=YES
+DEF_REQUIREMENTS="pkgconf make pcre libffi gettext python35 m4 libtool"
+DEF_CONFIGURE_ARGS="--disable-fam --disable-gtk-doc --disable-gtk-doc-html --without-xml-catalog --with-pcre=internal --disable-maintainer-mode --disable-silent-rules --disable-libelf --disable-systemtap --disable-dtrace"
 DEF_NO_SAFE_STACK=YES
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    # No probes provided for fbsd? sad panda
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace"
-fi
