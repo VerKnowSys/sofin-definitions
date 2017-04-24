@@ -7,3 +7,4 @@ DEF_REQUIREMENTS="m4 make perl"
 DEF_EXPORTS="autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames"
 DEF_CLEAN_USELESS=NO
 DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_NO_SAFE_STACK=YES
