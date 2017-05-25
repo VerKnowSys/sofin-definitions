@@ -8,4 +8,5 @@ DEF_LINKER_ARGS="-L${PREFIX}/lib -liconv -lc -lintl"
 DEF_AFTER_PATCH_METHOD="hack_gnu_crap"
 hack_gnu_crap () {
     ${SED_BIN} -i '' -e "s#prefix=/usr/local#prefix=${PREFIX}#" Makefile
+    ${SED_BIN} -i '' -e "s/gcc/clang/g" Makefile
 }
