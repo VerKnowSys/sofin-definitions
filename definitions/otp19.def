@@ -13,6 +13,7 @@ DEF_INSTALL_METHOD="LANG=en_GB.UTF-8 make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USELESS="lib/*perl* docs share"
+DEF_NO_LTO=YES
 DEF_NO_SAFE_STACK=YES
 DEF_NO_CCACHE=YES
 case "${SYSTEM_NAME}" in
