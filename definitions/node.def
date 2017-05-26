@@ -1,17 +1,20 @@
 DEF_FULL_NAME="NodeJS - asynchronous, event driven, V8 runtime"
 DEF_NAME="node"
-DEF_VERSION="7.8.0"
-DEF_SHA="0b4eacf209a840d622dc5565a1bdace18038c6ca"
+DEF_VERSION="7.10.0"
+DEF_SHA="2a32c82256effb991c59a1b37b5c1d0beffe9c2d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf ccache m4 make python27 libedit xz zip pcre gdbm db sqlite yaml ninja bash c-ares"
-DEF_CONFIGURE_ARGS="--tag=ServeD --shared --with-dtrace --dest-cpu=x64 --ninja --shared-zlib --shared-cares" # --without-npm
+DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake python27 bash ninja c-ares"
+DEF_CONFIGURE_ARGS="--tag=ServeD --shared --with-dtrace --dest-cpu=x64 --ninja --shared-zlib --shared-cares"
 DEF_STRIP=NO
+DEF_NO_FAST_MATH=YES
+DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_NO_CCACHE=YES
 
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --dest-os=mac"
-        DEF_STRIP=LIBS # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
+        # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
         ;;
 
     FreeBSD)
@@ -25,9 +28,6 @@ DEF_INSTALL_METHOD="LINK=clang++ make -s install"
 DEF_USEFUL="bin/bash bin/node* bin/*zip* bin/xz bin/ninja bin/bash bin/make bin/*ssl*"
 DEF_EXPORTS="node npm node-waf node-gyp coffee lessc uglifyjs cake brunch"
 DEF_CONFLICTS_WITH="Node"
-DEF_NO_FAST_MATH=YES
-DEF_NO_TRAP_INT_OVERFLOW=YES
-
 DEF_AFTER_INSTALL_METHOD="install_global_modules"
 install_global_modules () {
     for mod in "coffee-script" "less" "uglify-js"; do
