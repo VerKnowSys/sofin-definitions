@@ -38,14 +38,14 @@ install_method () {
     && make -s altinstall
 }
 locale_cleanup () {
-    CC="cc"
-    CXX="c++"
-    LD="ld.lld"
-    LANG="C"
-    LC_ALL="${LANG}"
-    LC_COLLATE="${LANG}"
-    LC_CTYPE="${LANG}"
-    LC_MESSAGES="${LANG}"
+    export CC="cc"
+    export CXX="c++"
+    export LD="ld.lld"
+    export LANG="en_GB.UTF-8"
+    export LC_ALL="${LANG}"
+    export LC_COLLATE="${LANG}"
+    export LC_CTYPE="${LANG}"
+    export LC_MESSAGES="${LANG}"
     unset LC_MONETARY
     unset LC_NUMERIC
     unset LC_TIME
