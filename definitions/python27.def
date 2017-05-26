@@ -5,40 +5,43 @@ DEF_VERSION="2.7.13"
 DEF_SHA="18a8f30a0356c751b8d0ea6f76e764cab13ee046"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf make m4 gmp zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi libressl perl autoconf texinfo automake"
-DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include "
-DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -L${PREFIX}/lib -DPY_FORMAT_LONG_LONG=ll"
-DEF_CONFIGURE_ARGS="--with-libs='-lexpat -lpcre -lsqlite3 -lreadline -lyaml -lssl -ltls -lcrypto -lgdbm -lm -lc -lc++ -lz -llzo2 -lbz2 -llzma -lffi -ldl -lgmp' --enable-unicode --enable-shared --without-threads --with-tsc --without-suffix --without-gcc --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} --with-fpectl --with-doc-strings --with-ensurepip=install --without-pth --disable-ipv6 --without-pymalloc PKG_CONFIG=${PREFIX}/bin/pkgconf" # ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no ac_cv_opt_olimit_ok=no
+DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -fPIC"
+DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -L${PREFIX}/lib -fPIC"
+DEF_CONFIGURE_ARGS="--with-libs='-lexpat -lpcre -lsqlite3 -lreadline -lyaml -lssl -ltls -lcrypto -lgdbm -lm -lc -lc++ -lz -llzo2 -lbz2 -llzma -lffi -lncurses' --enable-unicode --with-threads --with-tsc --with-suffix= --without-gcc --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc PKG_CONFIG=${PREFIX}/bin/pkgconf ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no ac_cv_have_long_long_format=yes --with-ensurepip=install"
 # -lc -lc++ -llzma -lbz2 -llzo2 -lz -lm -lpcre -lgdbm -lssl -ltls -lcrypto -lyaml -lreadline -lsqlite3 -lexpat -lffi -ldl
 DEF_AFTER_PATCH_METHOD="patch_configure"
 patch_configure () {
+    ${SED_BIN} -i '' -e "s#\" PY_FORMAT_LONG_LONG \"#ll#g" ./Objects/stringobject.c
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./configure
 }
 DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
 patch_Makefile () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./Makefile
+    ${SED_BIN} -i '' -e "s#MKDIR_P=.*\$#MKDIR_P=mkdir -p #g" ./Makefile
+
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        ${SED_BIN} -i '' -e "s#-fno-strict-aliasing #-fno-strict-aliasing ${DEFAULT_COMPILER_FLAGS} #g" ./Makefile
+        ${SED_BIN} -i '' -e "s#-fno-strict-aliasing #-fno-strict-aliasing -fPIC #g" ./Makefile
         ${SED_BIN} -i '' -e \
-            "s# -c # -c ${HARDEN_CFLAGS} ${HARDEN_CFLAGS_PRODUCTION} ${HARDEN_SAFE_STACK_FLAGS} #g; s#LDLAST=.*\$#LDLAST=${HARDEN_CFLAGS} ${HARDEN_CFLAGS_PRODUCTION} ${HARDEN_SAFE_STACK_FLAGS} -ldl #g" \
+            "s# -c # -c -fPIC ${HARDEN_SAFE_STACK_FLAGS} #g; s#LDLAST=.*\$#LDLAST=-fPIC ${HARDEN_SAFE_STACK_FLAGS} #g" \
                 ./Makefile
     fi
 }
 DEF_MAKE_METHOD="make_method"
 make_method () {
-    locale_cleanup
-    make
+    locale_cleanup \
+    && make
     #-s -j"${CPUS}"
 }
 DEF_INSTALL_METHOD="install_method"
 install_method () {
-    locale_cleanup
-    make -s altinstall
+    locale_cleanup \
+    && make -s altinstall
 }
 locale_cleanup () {
     CC="cc"
     CXX="c++"
     LD="ld.lld"
-    LANG="en_GB.UTF-8"
+    LANG="C"
     LC_ALL="${LANG}"
     LC_COLLATE="${LANG}"
     LC_CTYPE="${LANG}"
@@ -62,8 +65,8 @@ DEF_NO_LLVM_LINKER=YES
 
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-lto"
-        DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -lncurses -fPIC -framework System -framework CoreFoundation -framework Foundation -framework Python"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-lto --enable-optimizations"
+        DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -lncurses -fPIC -framework System -framework CoreFoundation -framework Foundation"
         ;;
 
     FreeBSD)
@@ -73,17 +76,14 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-DEF_AFTER_INSTALL_METHOD="install_additional_goodies"
-install_additional_goodies () {
-    ${PREFIX}/bin/pip install --upgrade pip || error "Failed to finish pip upgrade task!"
-
-    # try "${LN_BIN} -vsf ${PREFIX}/bin/python2.7-config ${PREFIX}/bin/python-config"
-    # try "${LN_BIN} -vsf ${PREFIX}/bin/python2.7-config ${PREFIX}/bin/python2-config"
-    # for binfile in ${DEF_USEFUL}; do
-    #     try "${LN_BIN} -vsf ${PREFIX}/bin/${binfile} ${PREFIX}/bin/${binfile%2.7}" && \
-    #         note "Forced symlink: $(distd "${PREFIX}/bin/${binfile}") => $(distd "${PREFIX}/bin/${binfile%2.7}")"
-    # done
-
-    read dfsdfd
+DEF_AFTER_EXPORT_METHOD="link_regular_names"
+link_regular_names () {
+    try "${LN_BIN} -vsf ${PREFIX}/bin/python2.7-config ${PREFIX}/bin/python-config"
+    try "${LN_BIN} -vsf ${PREFIX}/bin/python2.7-config ${PREFIX}/bin/python2-config"
+    try "${LN_BIN} -vsf ${PREFIX}/bin/easy_install-2.7 ${PREFIX}/bin/easy_install"
+    for binfile in python2.7 pip2.7; do
+        try "${LN_BIN} -vsf ${PREFIX}/bin/${binfile} ${PREFIX}/bin/${binfile%2.7}" && \
+            note "Forced symlink: $(distd "${PREFIX}/bin/${binfile}") => $(distd "${PREFIX}/bin/${binfile%2.7}")"
+    done
     return 0
 }
