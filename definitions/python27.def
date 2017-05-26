@@ -4,7 +4,7 @@ DEF_POSTFIX="27"
 DEF_VERSION="2.7.13"
 DEF_SHA="18a8f30a0356c751b8d0ea6f76e764cab13ee046"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 gmp zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi libressl perl autoconf texinfo automake"
+DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi libressl perl autoconf texinfo automake"
 DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -fPIC"
 DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -L${PREFIX}/lib -fPIC"
 DEF_CONFIGURE_ARGS="--with-libs='-lexpat -lpcre -lsqlite3 -lreadline -lyaml -lssl -ltls -lcrypto -lgdbm -lm -lc -lc++ -lz -llzo2 -lbz2 -llzma -lffi -lncurses' --enable-unicode --with-threads --with-tsc --with-suffix= --without-gcc --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc PKG_CONFIG=${PREFIX}/bin/pkgconf ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no ac_cv_have_long_long_format=yes --with-ensurepip=install"
@@ -76,6 +76,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
+DEF_AFTER_INSTALL_METHOD="link_regular_names"
 DEF_AFTER_EXPORT_METHOD="link_regular_names"
 link_regular_names () {
     try "${LN_BIN} -vsf ${PREFIX}/bin/python2.7-config ${PREFIX}/bin/python-config"
