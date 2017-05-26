@@ -3,8 +3,33 @@ DEF_NAME="ncurses"
 DEF_SHA="acd606135a5124905da770803c05f1f20dd3b21c"
 DEF_VERSION="6.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-ext-colors --with-termlib --sysconfdir=/etc --enable-getcap --enable-getcap-cache --with-rcs-ids --enable-rpath --enable-widec --enable-bsdpad --without-debug --without-tests --with-manpages --without-ada --enable-termcap --without-ada --disable-overwrite --with-pkg-config=yes --enable-pc-files --with-shared --disable-root-environ --with-manpage-format=gzip --without-manpage-renames --with-hashed-db"
+DEF_CONFIGURE_ARGS="--enable-relink --enable-pc-files --with-pkg-config=${PREFIX}/bin/pkgconf --sysconfdir=${SERVICE_DIR}/etc --without-ada --with-shared --with-cxx-shared --disable-static --enable-sigwinch --enable-tcap-names --without-develop --enable-wgetch-events --without-debug --disable-big-core --enable-ext-colors --enable-getcap --enable-symlinks --enable-getcap-cache --with-rcs-ids --enable-rpath --enable-widec --enable-bsdpad --disable-termcap --without-termlib --disable-overwrite --disable-root-environ --with-manpages --with-manpage-format=normal --without-manpage-renames --with-hashed-db --without-tests CC= CXX= LD=" # --enable-ext-colors
 DEF_REQUIREMENTS="pkgconf"
+DEF_MAKE_METHOD="locale_cleanup_and_build"
+locale_cleanup_and_build () {
+    env  \
+        CC="cc" \
+        LD="ld.lld" \
+        CXX="c++" \
+        LANG="en_GB.UTF-8" \
+        LC_ALL="${LANG}" \
+        LC_COLLATE="${LANG}" \
+        LC_CTYPE="${LANG}" \
+        LC_MESSAGES="${LANG}" \
+        LC_MONETARY="" \
+        LC_NUMERIC="" \
+        LC_TIME="" \
+        make -s -j${CPUS}
+}
+
+DEF_INSTALL_METHOD="install_ncurses_lib"
+install_ncurses_lib () {
+    env \
+        LANG="en_GB.UTF-8" \
+        make install.libs install.includes install.man
+}
 DEF_EXPORTS="tput tset tic toe reset infocmp clear infotocap ncursesw6-config tabs captoinfo"
-DEF_CLEAN_USELESS=NO
-DEF_NO_LLVM_LINKER=YES
+unset DEF_CLEAN_USELESS
+unset DEF_NO_FAST_MATH
+unset DEF_NO_TRAP_INT_OVERFLOW
+unset DEF_NO_LLVM_LINKER
