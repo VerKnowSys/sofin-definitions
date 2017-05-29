@@ -8,4 +8,5 @@ DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jso
 DEF_REQUIREMENTS="pkgconf make jemalloc ccache zlib bzip2 lzma lz4 lzo xz expat libressl python35 ninja curl libevent spdylay nghttp2"
 DEF_USEFUL="bin/ccache bin/ninja"
 DEF_EXPORTS="cmake ccmake"
-DEF_NO_LTO=YES
+DEF_NO_FAST_MATH=YES
+DEF_NO_CCACHE=YES
