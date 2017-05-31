@@ -10,7 +10,7 @@
 ################################################################################
 
 
-        DEF_COMPLIANCE='^1.[1-2]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
+        DEF_COMPLIANCE='^1.[1-4]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
         DEF_LANG="pl_PL.UTF-8"
 unset   DEF_TYPE # Set it to "meta" for meta bundles
