@@ -75,7 +75,7 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
         DEF_VISIBILITY_FLAGS="-fvisibility=default"
 
         # Explicit compiler optimisation options:
-        DEF_OPTFLAGS="-march=sandybridge -fno-signed-zeros -freciprocal-math -ffp-contract=fast -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx"
+        DEF_OPTFLAGS="-march=sandybridge -mtune=sandybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
