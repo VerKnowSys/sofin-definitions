@@ -76,8 +76,9 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_OPTFLAGS="-march=sandybridge -fno-signed-zeros -freciprocal-math -ffp-contract=fast -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 ;;
 
             Darwin)
