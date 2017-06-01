@@ -1,6 +1,6 @@
 DEF_FULL_NAME="Arithmetic without limitations v4"
 DEF_NAME="gmp"
-DEF_POSTFIX="4"
+DEF_SUFFIX="4"
 DEF_SHA="c011e8feaf1bb89158bd55eaabd7ef8fdd101a2c"
 DEF_VERSION="4.3.2"
 DEF_REQUIREMENTS="m4"

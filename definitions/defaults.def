@@ -21,7 +21,7 @@ unset   DEF_SOURCE_PATH # defines a path to source file (http, git, or any other
 unset   DEF_GIT_MODE # set to use git repository as code source
 unset   DEF_GIT_CHECKOUT # default git branch name if in git mode (master) or fallback to DEF_VERSION
 unset   DEF_NAME # this is software name, but also part of source dir name - used to determine build directory after unpack
-unset   DEF_POSTFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
+unset   DEF_SUFFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
 unset   DEF_VERSION # defines software version
 unset   DEF_REQUIREMENTS # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
 unset   DEF_COMPILER_ARGS # additional special arguments for compiler(s) and preprocessor
