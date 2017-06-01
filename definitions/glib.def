@@ -4,10 +4,7 @@ DEF_SHA="50a5af7569af1a489e17f207142cd5a4cdefbf68"
 DEF_VERSION="2.52.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnome.org/pub/gnome/sources/glib/"
-DEF_REQUIREMENTS="pkgconf make m4 libtool pcre libffi gettext python35"
-DEF_CONFIGURE_ARGS="--disable-fam --disable-gtk-doc --disable-gtk-doc-html --without-xml-catalog --with-pcre=${PREFIX} --disable-maintainer-mode --disable-silent-rules --disable-libelf --disable-systemtap --disable-dtrace --disable-installed-tests --disable-always-build-tests --disable-selinux --disable-compile-warnings --enable-debug=no"
-DEF_MAKE_METHOD="make || :"
-DEF_INSTALL_METHOD="make install || :"
-DEF_NO_SAFE_STACK=YES
-DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_NO_FAST_MATH=YES
+DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre readline yaml libffi perl openssl autoconf texinfo automake gettext python27"
+DEF_CONFIGURE_ARGS="--disable-dtrace --disable-fam --disable-gtk-doc --disable-gtk-doc-html --disable-maintainer-mode --disable-silent-rules --disable-systemtap --disable-installed-tests --disable-always-build-tests --disable-selinux --disable-compile-warnings --without-xml-catalog --disable-dependency-tracking"
+DEF_EXPORTS="psktool certtool srptool ocsptool gnutls-cli p11tool systemkey"
+DEF_USEFUL="bin/g* bin/*-config bin/pkgconf"
