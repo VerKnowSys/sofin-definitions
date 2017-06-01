@@ -6,9 +6,9 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake python27"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD=":"
-DEF_INSTALL_METHOD="${PREFIX}/bin/python ./configure.py --bootstrap && ${INSTALL_BIN} -v ./ninja ${PREFIX}/bin/ninja"
+DEF_INSTALL_METHOD="./configure.py --bootstrap && ${INSTALL_BIN} -v ./ninja ${PREFIX}/bin/ninja"
 DEF_EXPORTS="ninja"
 DEF_AFTER_PATCH_METHOD="patch_hardcodes"
 patch_hardcodes () {
-    ${SED_BIN} -i '' -e "s|g++|${CXX_COMPILER_NAME}|g; s|\$cxx|${CXX_COMPILER_NAME}|g;" configure.py
+    ${SED_BIN} -i '' -e "s|g++|c++|g; s|\$cxx|clang++|g;" configure.py
 }
