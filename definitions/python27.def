@@ -3,7 +3,7 @@ DEF_NAME="Python"
 DEF_VERSION="2.7.13"
 DEF_SHA="18a8f30a0356c751b8d0ea6f76e764cab13ee046"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 libtool lzo lz4 zip expat pcre libffi libressl perl autoconf texinfo automake"
+DEF_REQUIREMENTS="pkgconf make m4 libtool lzo lz4 zip expat pcre libffi libressl" # perl autoconf texinfo automake"
 DEF_CONFIGURE_ARGS="--with-libs='-lssl -ltls -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --without-pymalloc --with-ensurepip=install --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT=-fPIC"
 DEF_AFTER_PATCH_METHOD="patch_configure"
 patch_configure () {
@@ -45,7 +45,7 @@ locale_cleanup () {
     unset LC_MONETARY
     unset LC_NUMERIC
     unset LC_TIME
-    autoreconf
+    # autoreconf
 
     return 0
 }
