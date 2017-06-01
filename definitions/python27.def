@@ -3,13 +3,10 @@ DEF_NAME="Python"
 DEF_VERSION="2.7.13"
 DEF_SHA="18a8f30a0356c751b8d0ea6f76e764cab13ee046"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake"
-DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -fPIC"
-DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -L${PREFIX}/lib -fPIC"
-DEF_CONFIGURE_ARGS="--with-libs='-lssl -ltls -lcrypto -lm -lc -lz -lncurses -lutil' --enable-unicode --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc --with-ensurepip=install ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no ac_cv_have_long_long_format=yes"
+DEF_REQUIREMENTS="pkgconf make m4 libtool lzo lz4 zip expat pcre libffi libressl perl autoconf texinfo automake"
+DEF_CONFIGURE_ARGS="--with-libs='-lssl -ltls -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --without-pymalloc --with-ensurepip=install --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT=-fPIC"
 DEF_AFTER_PATCH_METHOD="patch_configure"
 patch_configure () {
-    ${SED_BIN} -i '' -e "s#\" PY_FORMAT_LONG_LONG \"#ll#g" ./Objects/stringobject.c
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./configure
 }
 DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
@@ -26,15 +23,15 @@ patch_Makefile () {
 }
 DEF_MAKE_METHOD="make_method"
 make_method () {
-    locale_cleanup \
-    && make
-    ${TOUCH_BIN} ./pybuilddir.txt
+    locale_cleanup && \
+    ${TOUCH_BIN} ./pybuilddir.txt && \
+    make ; make all || error "MAKE FAILURE"
 }
 DEF_INSTALL_METHOD="install_method"
 install_method () {
-    locale_cleanup \
-    && make altinstall
-    ${TOUCH_BIN} ./pybuilddir.txt
+    locale_cleanup && \
+    ${TOUCH_BIN} ./pybuilddir.txt && \
+    make altinstall || error "MAKE INSTALL FAILURE"
 }
 locale_cleanup () {
     export CC="cc"
@@ -48,6 +45,9 @@ locale_cleanup () {
     unset LC_MONETARY
     unset LC_NUMERIC
     unset LC_TIME
+    autoreconf
+
+    return 0
 }
 DEF_EXPORTS="python python2 python-config python2-config pip easy_install pydoc"
 DEF_USEFUL="bin/python* bin/easy_install* bin/pip* bin/pcre* bin/gdbm* bin/gettext* bin/recode*"
@@ -67,7 +67,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-shared --enable-static"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-shared"
         ;;
 esac
 
