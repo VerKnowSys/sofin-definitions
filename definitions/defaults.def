@@ -81,6 +81,9 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
             FreeBSD)
                 DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS}"
                 DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+
+                # NOTE: not in 11:
+                DEF_NO_LTO=YES
                 ;;
 
             Darwin)
