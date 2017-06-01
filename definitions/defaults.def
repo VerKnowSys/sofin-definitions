@@ -75,7 +75,13 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
         DEF_VISIBILITY_FLAGS="-fvisibility=default"
 
         # Explicit compiler optimisation options:
-        DEF_OPTFLAGS="-march=sandybridge -mtune=sandybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx
+        if [ -n "${DEBUGBUILD}" ]; then
+            debug "DEBUGBUILD defined! Appending compiler flags with: $(distd "-O0 -ggdb")"
+            BUILD_OPT_FLAGS="-O0 -ggdb"
+        else
+            BUILD_OPT_FLAGS="-O2"
+        fi
+        DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=sandybridge -mtune=sandybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
@@ -94,14 +100,14 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
                 ;;
 
             Minix)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=i686 -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=i686 ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=i686 ${DEF_OPTFLAGS} -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=i686 ${DEF_OPTFLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/pkg/lib"
                 ;;
 
             Linux)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-mno-avx ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-mno-avx ${DEF_OPTFLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa*" # include
                 ;;
         esac
