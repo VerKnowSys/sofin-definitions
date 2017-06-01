@@ -8,7 +8,8 @@ DEF_EXPORTS="openssl"
 DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL"
 DEF_AFTER_INSTALL_METHOD="fetch_ca_cert"
 fetch_ca_cert () {
-    ${MKDIR_BIN} -p "${SERVICE_DIR}/etc/ssl"
-    ${RM_BIN} -vf "${SERVICE_DIR}/etc/ssl/cert.pem"
-    ${FETCH_BIN} -o "${SERVICE_DIR}/etc/ssl/cert.pem" ${FETCH_OPTS} "${MAIN_SOURCE_REPOSITORY}cacert.pem"
+    if [ ! -f "${SERVICE_DIR}/etc/ssl/cert.pem" ]; then
+        run "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl" && \
+        run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${MAIN_SOURCE_REPOSITORY}cacert.pem"
+    fi
 }
