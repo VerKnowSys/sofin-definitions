@@ -1,6 +1,6 @@
 DEF_FULL_NAME="SUdo utility (separate static bundle)"
 DEF_NAME="sudo"
-DEF_POSTFIX="-static"
+DEF_SUFFIX="-static"
 DEF_SHA="1fb7cff2b7ed67ba98b1518f6cb0dd80dbcc2c48"
 DEF_VERSION="1.8.11p2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
