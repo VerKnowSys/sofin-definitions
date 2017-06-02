@@ -8,11 +8,9 @@ DEF_CONFIGURE_ARGS="--disable-alsa"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # issue: configure script can't find "Carbon.h"
     # solution:
-    for ver in 11 10 9; do
-        if [ -d "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.${ver}.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers" ]; then
-            DEF_COMPILER_ARGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.${ver}.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
-            DEF_LINKER_ARGS="-L${PREFIX}/lib -lvorbis -logg"
-            break
-        fi
-    done
+    DEF_COMPILER_ARGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
+    DEF_LINKER_ARGS="-L${PREFIX}/lib -lvorbis -logg"
+    DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_COMPILER_ARGS} -framework Carbon"
+    DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_SYSTEM_SPECIFIC_CFLAGS}"
+    DEF_SYSTEM_SPECIFIC_LDFLAGS="${DEF_LINKER_ARGS} -framework Carbon"
 fi
