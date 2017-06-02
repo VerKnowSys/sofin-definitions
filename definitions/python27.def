@@ -1,7 +1,3 @@
-DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS}"
-DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS}"
-DEF_SYSTEM_SPECIFIC_LDFLAGS=""
-
 DEF_FULL_NAME="Python 2.7"
 DEF_NAME="Python"
 DEF_VERSION="2.7.13"
@@ -19,6 +15,11 @@ patch_Makefile () {
     ${SED_BIN} -i '' -e "s#MKDIR_P=.*\$#MKDIR_P=mkdir -p #g" ./Makefile
 
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+
+        DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fsanitize=safe-stack"
+        DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fsanitize=safe-stack"
+        DEF_SYSTEM_SPECIFIC_LDFLAGS="-fsanitize=safe-stack"
+
         ${SED_BIN} -i '' -e "s#-fno-strict-aliasing #-fno-strict-aliasing -fPIC #g" ./Makefile
         ${SED_BIN} -i '' -e \
             "s# -c # -c -fPIC ${HARDEN_SAFE_STACK_FLAGS} #g; s#LDLAST=.*\$#LDLAST=-fPIC ${HARDEN_SAFE_STACK_FLAGS} #g" \
