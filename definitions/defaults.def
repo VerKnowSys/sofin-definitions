@@ -85,8 +85,9 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now -DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS} -fsanitize=safe-stack -fuse-ld=lld"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now -DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS} -fsanitize=safe-stack -fuse-ld=lld"
+                DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie -z relro -z now -fsanitize=safe-stack"
 
                 # NOTE: not in 11:
                 DEF_NO_LTO=YES
