@@ -6,11 +6,15 @@ _dest_ver="$(echo "${DEF_VERSION}" | ${SED_BIN} 's/\./_/g')"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_dest_ver}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf make icu zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    DEF_CONFIGURE_ARGS="--with-toolset=darwin"
-else
-    DEF_CONFIGURE_ARGS="--with-toolset=clang"
-fi
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="--with-toolset=darwin"
+        ;;
+
+    FreeBSD)
+        DEF_CONFIGURE_ARGS="--with-toolset=clang"
+        ;;
+esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python-root=${PREFIX} --with-python=${PREFIX} --with-icu=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,mpi"
 DEF_MAKE_METHOD="true"
 DEF_INSTALL_METHOD="./b2 -j${CPUS} variant=release threading=multi link=static runtime-link=static install"
