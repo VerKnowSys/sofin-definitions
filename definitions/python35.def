@@ -5,27 +5,14 @@ DEF_NAME="Python"
 DEF_SUFFIX="35"
 DEF_VERSION="3.5.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make yaml zlib bzip2 lzma xz gdbm db sqlite libffi libedit libressl"
-DEF_CONFIGURE_ARGS="--enable-optimizations --with-fpectl --without-pydebug --with-doc-strings --with-ensurepip=upgrade --enable-ipv6 ac_cv_posix_semaphores_enabled=yes ac_cv_opt_olimit_ok=no OPT="
-DEF_EXPORTS="python3 python3-config easy_install pip dulwich pytoml pip pip3"
-DEF_USEFUL="bin/python*"
+DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi libressl"
+DEF_CONFIGURE_ARGS="--disable-ipv6 --with-fpectl --without-pydebug --with-doc-strings --with-ensurepip=install ac_cv_header_libintl_h=no ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no"
+DEF_EXPORTS="python3 python3-config python3.5 python3.5-config easy_install3 pip3"
+DEF_USEFUL="bin/pyth* bin/pip* bin/*config bin/easy_install*"
 DEF_CONFLICTS_WITH="Python"
+
+DEF_NO_FAST_MATH=YES
+DEF_NO_CCACHE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_NO_SAFE_STACK=YES
-
-# Python definition is totally broken, so it throws an installation error to
-# say: "I'm just Python, I'm fine. I fail because my design is a failure"
-DEF_INSTALL_METHOD="make install || true"
-
-DEF_AFTER_INSTALL_METHOD="install_additional_goodies"
-install_additional_goodies () {
-    ${TEST_BIN} -e ${PREFIX}/bin/pip || ${LN_BIN} -s ${PREFIX}/bin/pip3 ${PREFIX}/bin/pip
-
-    ${PREFIX}/bin/pip install --upgrade pip
-    ${PREFIX}/bin/pip install pytoml dulwich sqlalchemy
-
-    echo "https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.3.tar.gz" >> requirements.txt
-    ${PREFIX}/bin/pip install --egg -r requirements.txt
-
-    true
-}
+DEF_NO_LTO=YES
+DEF_STRIP=exports
