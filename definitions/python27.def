@@ -4,7 +4,7 @@ DEF_VERSION="2.7.13"
 DEF_SHA="18a8f30a0356c751b8d0ea6f76e764cab13ee046"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf make m4 libtool lzo lz4 zip expat pcre libffi libressl"
-DEF_CONFIGURE_ARGS="--with-libs='-lssl -ltls -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc --with-ensurepip=install --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT=-fPIC"
+DEF_CONFIGURE_ARGS="--with-libs='-lssl -ltls -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc --without-lto --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT="
 DEF_AFTER_PATCH_METHOD="patch_configure"
 patch_configure () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./configure
@@ -13,45 +13,25 @@ DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
 patch_Makefile () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./Makefile
     ${SED_BIN} -i '' -e "s#MKDIR_P=.*\$#MKDIR_P=mkdir -p #g" ./Makefile
-
-    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-
-        DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fsanitize=safe-stack"
-        DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fsanitize=safe-stack"
-        DEF_SYSTEM_SPECIFIC_LDFLAGS="-fsanitize=safe-stack"
-
-        ${SED_BIN} -i '' -e "s#-fno-strict-aliasing #-fno-strict-aliasing -fPIC #g" ./Makefile
-        ${SED_BIN} -i '' -e \
-            "s# -c # -c -fPIC ${HARDEN_SAFE_STACK_FLAGS} #g; s#LDLAST=.*\$#LDLAST=-fPIC ${HARDEN_SAFE_STACK_FLAGS} #g" \
-                ./Makefile
-    fi
 }
 DEF_MAKE_METHOD="make_method"
 make_method () {
     locale_cleanup && \
-    ${TOUCH_BIN} ./pybuilddir.txt && \
+    try "${TOUCH_BIN} ./pybuilddir.txt" && \
     make ; make all || error "MAKE FAILURE"
 }
 DEF_INSTALL_METHOD="install_method"
 install_method () {
     locale_cleanup && \
-    ${TOUCH_BIN} ./pybuilddir.txt && \
+    try "${TOUCH_BIN} ./pybuilddir.txt" && \
     make altinstall || error "MAKE INSTALL FAILURE"
 }
 locale_cleanup () {
-    export CC="cc"
-    export CXX="c++"
-    export LD="ld"
     export LANG="en_GB.UTF-8"
     export LC_ALL="${LANG}"
     export LC_COLLATE="${LANG}"
     export LC_CTYPE="${LANG}"
     export LC_MESSAGES="${LANG}"
-    unset LC_MONETARY
-    unset LC_NUMERIC
-    unset LC_TIME
-    # autoreconf
-
     return 0
 }
 DEF_EXPORTS="python python2 python-config python2-config pip easy_install pydoc"
@@ -67,12 +47,17 @@ DEF_STRIP=exports
 
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-lto --enable-optimizations"
-        DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -lncurses -fPIC -framework System -framework CoreFoundation -framework Foundation"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-shared"
+        DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS}"
+        DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS}"
+        DEF_SYSTEM_SPECIFIC_LDFLAGS=""
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-shared"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-shared --with-ensurepip=install"
+        DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fsanitize=safe-stack -fPIE"
+        DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fsanitize=safe-stack -fPIE"
+        DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie -fsanitize=safe-stack"
         ;;
 esac
 
