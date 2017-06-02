@@ -18,5 +18,5 @@ fi
 # Cmake build can.. skip FileCheck installation, just because
 DEF_AFTER_INSTALL_METHOD="fix_cmake_mess"
 fix_cmake_mess () {
-    ${INSTALL_BIN} -v bin/FileCheck ${PREFIX}/bin/FileCheck
+    run "${INSTALL_BIN} -v bin/FileCheck ${PREFIX}/bin/FileCheck"
 }

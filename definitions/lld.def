@@ -1,8 +1,8 @@
 inherit llvm
 
 DEF_FULL_NAME="${DEF_FULL_NAME} + LLVM Linker"
-DEF_EXPORTS="${DEF_EXPORTS} ld lld ld.lld lldb"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LIBCXX=on -DLLVM_TOOL_LLDB_BUILD=on -DLLVM_TOOL_LLD_BUILD=on -DLLVM_ENABLE_CXX1Y=on"
+DEF_EXPORTS="${DEF_EXPORTS} ld lld ld.lld lldb clang clang++"
 DEF_VERSION="4.0.0"
 DEF_GIT_CHECKOUT="release_40"
 DEF_SOURCE_PATH="https://github.com/llvm-mirror/llvm"
@@ -11,7 +11,7 @@ DEF_USELESS="share doc lib/python* lib/cmake"
 DEF_AFTER_UNPACK_METHOD="prepare_lld"
 prepare_lld () {
     cd tools
-    ${GIT_BIN} clone -b ${DEF_GIT_CHECKOUT} "https://github.com/llvm-mirror/lld"
+    run "${GIT_BIN} clone -b ${DEF_GIT_CHECKOUT} https://github.com/llvm-mirror/lld"
     cd ..
 }
 
@@ -20,13 +20,13 @@ symlink_names () {
     case "${SYSTEM_NAME}" in
         Darwin)
             # Darwin name:
-            ${LN_BIN} -vs "${PREFIX}/bin/lld" "${PREFIX}/bin/ld"
+            try "${LN_BIN} -vs \"${PREFIX}/bin/lld\" \"${PREFIX}/bin/ld\""
             ;;
 
         *)
             # UNIX name:
-            ${LN_BIN} -vs "${PREFIX}/bin/lld" "${PREFIX}/bin/ld.lld"
-            ${LN_BIN} -vs "${PREFIX}/bin/lld" "${PREFIX}/bin/ld"
+            try "${LN_BIN} -vs \"${PREFIX}/bin/lld\" \"${PREFIX}/bin/ld.lld\""
+            try "${LN_BIN} -vs \"${PREFIX}/bin/lld\" \"${PREFIX}/bin/ld\""
             ;;
     esac
     return 0
