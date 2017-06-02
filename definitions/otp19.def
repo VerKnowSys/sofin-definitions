@@ -43,7 +43,7 @@ esac
 
 HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
 install_repl_history () {
-    ${GIT_BIN} clone "${HISTORY_PLUGIN_SOURCE}"
+    try "${GIT_BIN} clone ${HISTORY_PLUGIN_SOURCE}"
     cd erlang-history
-    PATH=$PATH:${PREFIX}/bin:/bin make install
+    try "PATH=$PATH:${PREFIX}/bin:/bin make install"
 }

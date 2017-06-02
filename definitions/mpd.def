@@ -12,12 +12,12 @@ DEF_AFTER_UNPACK_METHOD="prepare_lazily ; ./autogen.sh"
 DEF_AFTER_INSTALL_METHOD="create_mpdconf ; make_dirs"
 
 make_dirs () {
-    ${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db
+    try "${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db"
 }
 
 create_mpdconf () {
     if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
-        ${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example
+        run "${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example"
     fi
 }
 
