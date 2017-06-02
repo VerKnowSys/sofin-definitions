@@ -12,7 +12,7 @@
 
         DEF_COMPLIANCE='^1.[1-4]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
-        DEF_LANG="pl_PL.UTF-8"
+        DEF_LANG="en_US.UTF-8"
 unset   DEF_TYPE # Set it to "meta" for meta bundles
 unset   DEF_DISABLE_ON # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
 unset   DEF_EXPORTS # defines list of binaries to be exported to user env into PATH
@@ -85,8 +85,8 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now -DHAVE_LIBRESSL ${DEF_VISIBILITY_FLAGS} -fsanitize=safe-stack -fuse-ld=lld"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now -DHAVE_LIBRESSL ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS} -fsanitize=safe-stack -fuse-ld=lld"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -fuse-ld=lld -Wl,-z,relro,-z,now -fsanitize=safe-stack ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -fuse-ld=lld -Wl,-z,relro,-z,now ${DEF_EXPLICIT_STDCXX_FLAGS} -fsanitize=safe-stack ${DEF_VISIBILITY_FLAGS}"
                 DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie -z relro -z now -fsanitize=safe-stack"
 
                 # NOTE: not in 11:
@@ -95,8 +95,8 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
             Darwin)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
-                DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS} -DHAVE_LIBRESSL -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
                 ;;
 
