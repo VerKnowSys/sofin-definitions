@@ -120,3 +120,14 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
 # DEF_REQUIREMENTS=""
 # DEF_REQUIREMENTS_IMPORT="perl cmake" # => read perl.def, and include whole DEF_REQUIREMENTS value at once from each definition
+
+
+# Common fixes and hacks:
+
+# NOTE: to fix LIBTOOL missing --tag= when using custom ld configurations
+fix_makefile_libtool_tag () {
+    for _makefile in $(${FIND_BIN} . -type f -name 'Makefile' 2>/dev/null); do
+        ${SED_BIN} -i '' -e 's#LIBTOOL = .*$#LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag=CC#' "${_makefile}"
+    done
+    return 0
+}
