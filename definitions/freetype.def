@@ -1,18 +1,19 @@
 DEF_FULL_NAME="Freetype - library to render fonts"
-DEF_SHA="5db38ae2308c5a2c519c8e071e98b70d61585201"
+DEF_SHA="4d08a9a6567c6332d58e9a5f9a7e9e3fbce66789"
 DEF_NAME="freetype"
-DEF_VERSION="2.6.5"
+DEF_VERSION="2.7.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake"
+DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl m4 libtool libressl python27 libpng expat autoconf texinfo automake"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --with-pic --with-png=auto --with-bzip2=auto --with-zlib=auto --with-harfbuzz=no"
-DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -I${PREFIX}/include/harfbuzz -std=c99"
-DEF_MAKE_METHOD="setup_and_make"
+DEF_COMPILER_ARGS="${DEF_COMPILER_ARGS} -I${PREFIX}/include -std=c99"
+DEF_MAKE_METHOD=":"
+DEF_INSTALL_METHOD="setup_and_make" # CFLAGS=\"${DEF_COMPILER_ARGS}\" CXXFLAGS=\"${DEF_COMPILER_ARGS}\" make -s install
 setup_and_make () {
     cd builds/unix
-    ./configure ${DEF_CONFIGURE_ARGS} CFLAGS="${DEF_COMPILER_ARGS}" CXXFLAGS="${DEF_COMPILER_ARGS}"
+    run "./configure ${DEF_CONFIGURE_ARGS} CFLAGS=\"${DEF_COMPILER_ARGS}\" CXXFLAGS=\"${DEF_COMPILER_ARGS}\""
     cd ../..
-    make setup CFG="${DEF_CONFIGURE_ARGS}"
-    make -j${CPUS}
+    run "make setup CFG=\"${DEF_CONFIGURE_ARGS}\""
+    make -j "${CPUS}" && \
+        make install
 }
-DEF_INSTALL_METHOD="make -s install"
