@@ -4,12 +4,11 @@ DEF_NAME="ruby"
 DEF_VERSION="2.2.7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
-DEF_CONFIGURE_METHOD="debugflags= ./configure" # LC_ALL=${LANG}
-DEF_REQUIREMENTS="pkgconf make yaml libedit bzip2 lzma xz lz4 gmp libxml2 libxslt libffi gdbm db sqlite flex perl bison unixodbc libressl python35 libgpg-error libgcrypt autoconf texinfo automake14 gettext libunistring glib libidn2 spdylay nghttp2 libssh2 curl postgresql94"
+DEF_CONFIGURE_METHOD="debugflags= ./configure"
+DEF_REQUIREMENTS="pkgconf make m4 libtool libedit zlib bzip2 lzma xz lzo lz4 gmp yaml libffi sqlite db gdbm flex libgpg-error libgcrypt gettext libxml2 libxslt perl openssl python27 postgresql95 unixodbc libunistring libssh2 curl-minimal cmake mysql-lib texinfo autoconf automake14"
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --disable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-dbm=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
-DEF_COMPILER_ARGS="-DDHAVE_GMP_H=1 -DJEMALLOC_MANGLE=1 -DHAVE_LIBGMP=1 -DHAVE_LIBGMP=1 -DHAVE_RB_RATIONAL_NUM=1 -DHAVE_RB_RATIONAL_DEN=1"
-DEF_LINKER_ARGS="-L/usr/lib -ldtrace"
-DEF_CONFIGURE_ARGS="--with-gcc=cc"
+DEF_NO_CCACHE=YES
+DEF_NO_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}" in
     Linux)
@@ -21,7 +20,10 @@ case "${SYSTEM_NAME}" in
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-libedit --with-libedit-dir=${PREFIX} --enable-dtrace"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-libedit --enable-dtrace"
+        DEF_SYSTEM_SPECIFIC_CFLAGS="${DEF_OPTFLAGS}"
+        DEF_SYSTEM_SPECIFIC_CXXFLAGS="${DEF_OPTFLAGS}"
+        DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie"
         ;;
 esac
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
@@ -31,8 +33,7 @@ DEF_USELESS="lib/*perl* include/python* lib/python* man share"
 
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
-    ${TEST_BIN} -f ${HOME}/.gemrc || ${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc
-    ${PREFIX}/bin/gem install bundler
+    try "${TEST_BIN} -f ${HOME}/.gemrc" || \
+        run "${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
+    run "${PREFIX}/bin/gem install bundler"
 }
-DEF_NO_LLVM_LINKER=YES
-DEF_NO_SAFE_STACK=YES
