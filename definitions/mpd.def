@@ -28,8 +28,8 @@ prepare_lazily () {
             ;;
 
         FreeBSD)
-            DEF_LINKER_ARGS="-L${PREFIX}/lib -lm -lavutil"
-            DEF_COMPILER_ARGS="-I${PREFIX}/include -lm -arch=x86_64 -lavutil"
+            DEF_LINKER_FLAGS="-L${PREFIX}/lib -lm -lavutil"
+            DEF_COMPILER_FLAGS="-I${PREFIX}/include -lm -arch=x86_64 -lavutil"
             ;;
     esac
 }

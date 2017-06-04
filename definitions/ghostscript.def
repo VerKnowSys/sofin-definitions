@@ -11,7 +11,7 @@
         --enable-fontconfig --with-fontconfig=${PREFIX} --with-fontpath=${PREFIX}/lib/X11/fonts \
     "
     DEF_REQUIREMENTS="make pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper"
-    DEF_COMPILER_ARGS="-DA4 -DUPD_SIGNAL=0 -DOPJ_STATIC"
+    DEF_COMPILER_FLAGS="-DA4 -DUPD_SIGNAL=0 -DOPJ_STATIC"
     DEF_CONFIGURE_METHOD="./autogen.sh"
     DEF_MAKE_METHOD="make_stuff"
     make_stuff () {
@@ -21,9 +21,9 @@
         SHARE_LIBTIFF=1 SHARE_ZLIB=1 SYNC=posync \
         SHARE_JBIG2=1 JPX_LIB=jasper SHARE_JPX=0 \
         JPXSRCDIR=jasper JPX_CFLAGS=-DJAS_CONFIGURE \
-        CFLAGS_STANDARD="${DEF_COMPILER_ARGS} ${CFLAGS}" \
-        XCFLAGS="${DEF_COMPILER_ARGS} ${CFLAGS}" \
-        XLDFLAGS="${DEF_LINKER_ARGS} ${LDFLAGS} -L/usr/lib -lz" \
+        CFLAGS_STANDARD="${DEF_COMPILER_FLAGS} ${CFLAGS}" \
+        XCFLAGS="${DEF_COMPILER_FLAGS} ${CFLAGS}" \
+        XLDFLAGS="${DEF_LINKER_FLAGS} ${LDFLAGS} -L/usr/lib -lz" \
         SOC_LOADER="dxmainc.c" \
             ${PREFIX}/bin/make ${compile_mode} ${MAKE_OPTS} \
             AUXEXTRALIBS="-pthread -L${PREFIX}/lib -I${PREFIX}/include" && \

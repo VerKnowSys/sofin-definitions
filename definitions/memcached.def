@@ -9,4 +9,4 @@ if [ "${SYSTEM_NAME}" != "Minix" ]; then
 fi
 DEF_CONFIGURE_ARGS="--with-libevent=${PREFIX} ${_addon} --disable-docs"
 DEF_EXPORTS="memcached"
-DEF_COMPILER_ARGS="-Wno-error -w"
+DEF_COMPILER_FLAGS="-Wno-error -w"

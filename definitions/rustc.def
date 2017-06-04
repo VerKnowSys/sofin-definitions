@@ -18,7 +18,7 @@ DEF_USEFUL="bin/rust* bin/*conf* bin/*.*sh bin/*cfg bin/*make bin/gettext* bin/l
 DEF_EXPORTS="rustc rustdoc rust-lldb rust-gdb"
 DEF_USELESS="docs doc man include/python* lib/python* share/au* share/bison share/ac* share/info share/*doc include/perl* lib/*perl* share/common-lisp share/emacs share/examples share/git-core share/texinfo share/libxslt-plugins etc Services"
 DEF_CONFLICTS_WITH="Rustc"
-DEF_LINKER_ARGS="-L${PREFIX}/lib -L/usr/lib -lc++"
+DEF_LINKER_FLAGS="-L${PREFIX}/lib -L/usr/lib -lc++ -ldtrace"
 DEF_NO_CCACHE=YES # it's used internally anyway, but controlled by Rust build system
 
 DEF_AFTER_PATCH_METHOD="sed_fixes"

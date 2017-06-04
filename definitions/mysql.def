@@ -12,7 +12,7 @@ DEF_USEFUL="bin/mysql*"
 DEF_EXPORTS="mysql mysql_config mysql_config_editor mysql_convert_table_format mysql_find_rows mysql_fix_extensions mysql_plugin mysql_secure_installation mysql_setpermission mysql_waitpid mysql_zap mysqlaccess.conf mysqlbug mysqld mysqld_multi mysqld_safe mysqladmin mysqlshow mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db mysqldumpslow mysqlslap mysqltest msql2mysql my_print_defaults"
 DEF_CONFLICTS_WITH="Mysql Percona-server Mariadb"
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
-    DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=x86_64"
+    DEF_COMPILER_FLAGS="-arch=x86_64"
     DEF_AFTER_INSTALL_METHOD="fix_no_rpath"
     fix_no_rpath () {
         run "install_name_tool -id ${PREFIX}/lib/libmysqlclient.18.dylib ${PREFIX}/lib/libmysqlclient.18.dylib"

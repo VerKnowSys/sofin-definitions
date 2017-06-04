@@ -23,7 +23,7 @@ common_options="--disable-all-plugins --localstatedir=/var --disable-static --wi
 enabled_plugins_no_deps="--enable-aggregation --enable-apcups --enable-contextswitch --enable-cpu --enable-csv --enable-df --enable-disk --enable-email --enable-exec --enable-fhcount --enable-filecount --enable-load --enable-logfile --enable-match_empty_counter --enable-match_hashed --enable-match_regex --enable-match_timediff --enable-match_value --enable-mbmon  --enable-memory --enable-network --enable-ntpd --enable-openvpn --enable-powerdns --enable-processes --enable-statsd --enable-swap --enable-syslog --enable-table --enable-tail --enable-tail_csv --enable-target_notification --enable-target_replace --enable-target_scale --enable-target_set --enable-target_v5upgrade --enable-tcpconns --enable-ted --enable-threshold --enable-teamspeak2 --enable-unixsock --enable-uptime --enable-uuid --enable-write_log --enable-zfs_arc --enable-olsrd --enable-users ${PLATFORM_SPECIFIC_OPTIONS}"
 enabled_plugins_with_deps="--enable-write_http --enable-curl --with-libcurl=${PREFIX} --with-libgcrypt=${PREFIX} --with-libmysql=${PREFIX} --enable-mysql --with-postgresql=${PREFIX} --enable-postgresql --with-libpq --with-libstatgrab=${PREFIX} --enable-dns --with-libpcap=${PREFIX} --with-liboping=${PREFIX} --enable-ping --enable-interface --with-bind=${PREFIX} --enable-bind --with-libyajl=${PREFIX} --enable-curl_json --enable-curl_xml --with-libnetsnmp=${PREFIX} --enable-snmp"
 DEF_CONFIGURE_ARGS="${common_options} ${enabled_plugins_no_deps} ${enabled_plugins_with_deps}"
-DEF_COMPILER_ARGS="-Wno-error"
+DEF_COMPILER_FLAGS="-Wno-error"
 DEF_MAKE_METHOD="make -s"
 
 prepare_automake_local () {

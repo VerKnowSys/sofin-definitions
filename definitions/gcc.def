@@ -18,7 +18,7 @@ DEF_CONFIGURE_ARGS="--enable-shared --enable-threads --without-headers --disable
 --libexecdir=${libexec} --libdir=${targlib} --with-as=${PREFIX}/bin/as \
 --disable-bootstrap --with-pkgversion=\"ServeD\" --enable-languages=${langs} --disable-nls --with-newlib"
 DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp mpfr libmpc isl zip autoconf automake bison texinfo binutils-gold"
-DEF_COMPILER_ARGS="-Wno-error -Wno-reserved-user-defined-literal"
+DEF_COMPILER_FLAGS="-Wno-error -Wno-reserved-user-defined-literal"
 DEF_MAKE_METHOD="env ${common_opts} make -s all-gcc ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="env ${common_opts} make install-gcc"
 DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"

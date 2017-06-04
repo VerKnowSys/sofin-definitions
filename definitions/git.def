@@ -15,7 +15,7 @@ case "${SYSTEM_NAME}" in
 
     Minix)
         DEF_CONFIGURE_ARGS="--with-openssl=/usr/lib --with-expat=${PREFIX} --with-curl=${PREFIX} --with-zlib=${PREFIX} --with-libpcre=${PREFIX} --with-iconv=/usr/lib --without-tcltk --without-python --with-shell=/bin/sh --with-perl=/usr/pkg/bin/perl --enable-pthreads=-pthread ac_cv_search_clock_gettime=no git_cv_ld_dashr=no gitexecdir=${PREFIX}/bin TAR=${TAR_BIN} INSTALL=${INSTALL_BIN}"
-        DEF_COMPILER_ARGS="-D_NETBSD_SOURCE"
+        DEF_COMPILER_FLAGS="-D_NETBSD_SOURCE"
         ;;
 
     *)

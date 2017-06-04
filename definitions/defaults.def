@@ -24,8 +24,8 @@ unset   DEF_NAME # this is software name, but also part of source dir name - use
 unset   DEF_SUFFIX # a postfix added to DEF_NAME if defined. Used in Sofin to do legacy versions of software.
 unset   DEF_VERSION # defines software version
 unset   DEF_REQUIREMENTS # list of definitions that given package is dependant on. Order is significant. Note that this is flat list.
-unset   DEF_COMPILER_ARGS # additional special arguments for compiler(s) and preprocessor
-unset   DEF_LINKER_ARGS # additional direct arguments to linker
+unset   DEF_COMPILER_FLAGS # additional special arguments for compiler(s) and preprocessor
+unset   DEF_LINKER_FLAGS # additional direct arguments to linker
         DEF_CONFIGURE_METHOD="./configure" # default configure script name
 unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of software
         DEF_MAKE_METHOD="make ${MAKE_OPTS}"
@@ -61,11 +61,9 @@ unset   DEF_USE_ALT_COMPILER # if set to YES, Sofin will try gcc/g++ from local 
 unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
-
 unset   DEF_NO_LTO
 unset   DEF_NO_SAFE_STACK
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
-unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
         DEF_CA_ROOTCERT_ORIGIN="${DEF_CA_ROOTCERT_ORIGIN:-"https://curl.haxx.se/ca/cacert.pem"}" # default source of ROOT-CA
 
@@ -85,9 +83,8 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -fuse-ld=lld -Wl,-z,relro,-z,now -fsanitize=safe-stack ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -fuse-ld=lld -Wl,-z,relro,-z,now ${DEF_EXPLICIT_STDCXX_FLAGS} -fsanitize=safe-stack ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_LDFLAGS="-pie -z relro -z now -fsanitize=safe-stack"
+                DEF_COMPILER_FLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -fuse-ld=lld -Wl,-z,relro,-z,now -fsanitize=safe-stack ${DEF_VISIBILITY_FLAGS}"
+                DEF_LINKER_FLAGS="-pie -z relro -z now -fsanitize=safe-stack"
 
                 # NOTE: not in 11:
                 DEF_NO_LTO=YES
@@ -95,20 +92,17 @@ unset   DEF_SYSTEM_SPECIFIC_LDFLAGS # usually not necessary to set this
 
             Darwin)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_COMPILER_FLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
                 ;;
 
             Minix)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-arch=i686 ${DEF_OPTFLAGS} -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-arch=i686 ${DEF_OPTFLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_LDFLAGS="-L/usr/pkg/lib"
+                DEF_COMPILER_FLAGS="-arch=i686 ${DEF_OPTFLAGS} -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
+                DEF_LINKER_FLAGS="-L/usr/pkg/lib"
                 ;;
 
             Linux)
-                DEF_SYSTEM_SPECIFIC_CFLAGS="-mno-avx ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
-                DEF_SYSTEM_SPECIFIC_CXXFLAGS="-mno-avx ${DEF_OPTFLAGS} ${DEF_EXPLICIT_STDCXX_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_COMPILER_FLAGS="-mno-avx ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa*" # include
                 ;;
         esac

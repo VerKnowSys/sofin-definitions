@@ -12,7 +12,7 @@ DEF_EXPORTS="agentxtrap encode_keychange net-snmp-config net-snmp-create-v3-user
 
 if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
     DEF_AFTER_UNPACK_METHOD="patch_sources"
-    DEF_LINKER_ARGS="-L${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/snmplib/.libs -L/lib -L/usr/lib -L${PREFIX}/lib -lm -lcrypto -lkvm -ldevstat"
+    DEF_LINKER_FLAGS="-L${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/snmplib/.libs -L/lib -L/usr/lib -L${PREFIX}/lib -lm -lcrypto -lkvm -ldevstat"
 fi
 
 patch_sources () {

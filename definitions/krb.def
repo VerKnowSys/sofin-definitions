@@ -7,7 +7,7 @@ DEF_CONFIGURE_ARGS="--disable-static --enable-shared --with-pkinit-crypto-impl=o
 DEF_REQUIREMENTS="make pkgconf libnet libressl perl db m4 libtool bison yasm"
 DEF_BUILD_DIR_POSTFIX="src"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}5-${DEF_VERSION}.tar.gz"
-DEF_LINKER_ARGS="-L${PREFIX}/lib"
+DEF_LINKER_FLAGS="-L${PREFIX}/lib"
 DEF_MAKE_METHOD="make"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="gss-server kadmin.local kadmind kdb5_util kprop kpropd kproplog krb5-send-pr krb5kdc sim_server sserver uuserver k5srvutil kadmin kdestroy kinit klist kpasswd krb5-config ksu kswitch ktutil kvno"

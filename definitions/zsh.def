@@ -11,6 +11,6 @@ DEF_EXPORTS="zsh sh"
 
 case "${SYSTEM_NAME}" in
     Darwin|FreeBSD)
-        DEF_COMPILER_ARGS="-Wl,-L${PREFIX}/lib"
+        DEF_COMPILER_FLAGS="-Wl,-L${PREFIX}/lib"
         ;;
 esac
