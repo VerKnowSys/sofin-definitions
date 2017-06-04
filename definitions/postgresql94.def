@@ -47,7 +47,7 @@ esac
 
 build_addons_and_extensions () {
     base_dir="${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/contrib"
-    run "cd ${base_dir}/pg_archivecleanup && make install"
+    try "cd ${base_dir}/pg_archivecleanup && make install"
     run "cd ${base_dir}/hstore && make install"
     run "cd ${base_dir}/pg_trgm && make install"
 }
