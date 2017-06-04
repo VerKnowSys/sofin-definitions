@@ -68,7 +68,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
         DEF_CA_ROOTCERT_ORIGIN="${DEF_CA_ROOTCERT_ORIGIN:-"https://curl.haxx.se/ca/cacert.pem"}" # default source of ROOT-CA
 
         DEF_DEFAULT_USED_ARCHITECTURE="x86_64" # deduplicated value of mainly used hw architecture
-        DEF_WORKSTATION_VERSION_FLAGS="-mmacosx-version-min=10.11" # default major workstation system version used
+        DEF_WORKSTATION_VERSION_FLAGS="-mmacosx-version-min=${MINIMAL_MAJOR_OS_VERSION}" # default major workstation system version used
         # DEF_EXPLICIT_STDCXX_FLAGS="-std=c++11 -stdlib=libc++"
         DEF_VISIBILITY_FLAGS="-fvisibility=default"
 
@@ -83,8 +83,8 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_COMPILER_FLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -fuse-ld=lld -Wl,-z,relro,-z,now -fsanitize=safe-stack ${DEF_VISIBILITY_FLAGS}"
-                DEF_LINKER_FLAGS="-pie -z relro -z now -fsanitize=safe-stack"
+                DEF_COMPILER_FLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now ${HARDEN_SAFE_STACK_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_LINKER_FLAGS="-pie -z relro -z now ${HARDEN_SAFE_STACK_FLAGS}"
 
                 # NOTE: not in 11:
                 DEF_NO_LTO=YES
