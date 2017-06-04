@@ -1,10 +1,10 @@
 DEF_FULL_NAME="Apache Httpd server"
 DEF_STANDALONE=YES
 DEF_NAME="httpd"
-DEF_SHA="5101be34ac4a509b245adb70a56690a84fcc4e7f"
-DEF_VERSION="2.4.23"
+DEF_SHA="bd6d138c31c109297da2346c6e7b93b9283993d2"
+DEF_VERSION="2.4.25"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="make pkgconf m4 libtool expat jemalloc zlib xz lzma pcre perl openssl texinfo libidn python27 libxml2 db libevent spdylay nghttp2 apr apr-util curl libedit lua51"
+DEF_REQUIREMENTS="make pkgconf m4 libtool expat jemalloc zlib xz lzma pcre perl openssl texinfo libidn python27 libxml2 db libevent spdylay nghttp2 apr apr-util libssh2 curl libedit lua51"
 DEF_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-proxy-balancer --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-static-htdbm --enable-static-httxt2dbm --enable-http --enable-http2 --with-nghttp2=${PREFIX} --enable-logio"
 DEF_EXPORTS="httpd htdigest httxt2dbm htdbm fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve dbmmanage rotatelogs h2ph h2xs a2p"
 DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
@@ -24,10 +24,10 @@ esac
 build_limitipconn () {
     MOD_NAME="mod_limitipconn"
     MOD_VERSION="0.24"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2" ${FETCH_OPTS}
-    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.bz2" && \
+    run "${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2" ${FETCH_OPTS}"
+    run "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.bz2" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin make install && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin make install" && \
     note "Installed: mod_limitipconn" && \
     return 0
 }
@@ -35,11 +35,11 @@ build_limitipconn () {
 build_fcgid () {
     MOD_NAME="mod_fcgid"
     MOD_VERSION="2.3.9"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz" ${FETCH_OPTS}
-    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
+    run "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz\" ${FETCH_OPTS}"
+    run "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure.apxs && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin make install && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin ./configure.apxs" && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin make install" && \
     note "Installed: mod_fcgid" && \
     return 0
 }
@@ -47,10 +47,10 @@ build_fcgid () {
 build_useragent2 () {
     MOD_NAME="mod_auth_useragent2"
     MOD_VERSION="0.9.1"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz" ${FETCH_OPTS}
-    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz ${FETCH_OPTS}"
+    run "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_auth_useragent2.c && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_auth_useragent2.c" && \
     note "Installed: mod_useragent2" && \
     return 0
 }
@@ -58,11 +58,11 @@ build_useragent2 () {
 build_security () {
     MOD_NAME="modsecurity"
     MOD_VERSION="2.9.1"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz" ${FETCH_OPTS}
-    ${TAR_BIN} xf "${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz ${FETCH_OPTS}"
+    run "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-libxml="${PREFIX}" --with-apxs="${PREFIX}/bin/apxs" --with-pcre="${PREFIX}" --with-apr="${PREFIX}" --with-apu="${PREFIX}" --with-curl="${PREFIX}" --enable-htaccess-config && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin make install && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-libxml=${PREFIX} --with-apxs=${PREFIX}/bin/apxs --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-apu=${PREFIX} --with-curl=${PREFIX} --enable-htaccess-config" && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin make install" && \
     note "Installed: mod_security" && \
     return 0
 }
@@ -70,10 +70,10 @@ build_security () {
 build_evasive () {
     MOD_NAME="mod_evasive"
     MOD_VERSION="1.10.1"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz" ${FETCH_OPTS}
-    ${TAR_BIN} xf "${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz" && \
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz" ${FETCH_OPTS}
+    run "${TAR_BIN} xf ${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz" && \
     cd "${MOD_NAME}" && \
-    PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_evasive24.c && \
+    run "PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_evasive24.c" && \
     note "Installed: mod_evasive" && \
     return 0
 }
