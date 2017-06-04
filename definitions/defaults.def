@@ -33,7 +33,7 @@ unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of sof
         DEF_TEST_METHOD=":" # define to enable software internal testing, by default it is: make check/ test
         DEF_SKIPPED_DEFINITION_TEST="neon lzo bash python27 python35 perl cmake curl php70 php56 php55 lz4"
         DEF_INSTALL_METHOD="make ${MAKE_OPTS} install"
-unset   DEF_BUILD_DIR_POSTFIX # special value required for software which delivers software sources in custom non standard directory.
+unset   DEF_BUILD_DIR_SUFFIX # special value required for software which delivers software sources in custom non standard directory.
 unset   DEF_AFTER_UNPACK_METHOD
 unset   DEF_AFTER_CONFIGURE_METHOD
 unset   DEF_AFTER_MAKE_METHOD
