@@ -9,11 +9,10 @@ DEF_CLEAN_USELESS=NO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
-    ${LN_BIN} -s ${PREFIX}/bin/aclocal ${PREFIX}/bin/aclocal-1.11
-    ${LN_BIN} -s ${PREFIX}/bin/autoconf ${PREFIX}/bin/autoconf-1.11
-    ${LN_BIN} -s ${PREFIX}/bin/automake ${PREFIX}/bin/automake-1.11
-    ${CP_BIN} -r ${PREFIX}/share/aclocal/*.m4 ${PREFIX}/share/aclocal-1.11/
-    ${RM_BIN} -rf ${PREFIX}/share/aclocal
-    ${LN_BIN} -s ${PREFIX}/share/aclocal-1.11 ${PREFIX}/share/aclocal
-    true
+    try "${LN_BIN} -s ${PREFIX}/bin/aclocal ${PREFIX}/bin/aclocal-1.11"
+    try "${LN_BIN} -s ${PREFIX}/bin/autoconf ${PREFIX}/bin/autoconf-1.11"
+    try "${LN_BIN} -s ${PREFIX}/bin/automake ${PREFIX}/bin/automake-1.11"
+    try "${CP_BIN} -r ${PREFIX}/share/aclocal/*.m4 ${PREFIX}/share/aclocal-1.11/"
+    try "${RM_BIN} -rf ${PREFIX}/share/aclocal"
+    try "${LN_BIN} -s ${PREFIX}/share/aclocal-1.11 ${PREFIX}/share/aclocal"
 }
