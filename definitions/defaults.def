@@ -83,8 +83,8 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                # DEF_LINKER_FLAGS="-pie -z relro -z now"
                 DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS} -DHAVE_LIBRESSL"
+                DEF_LINKER_FLAGS="-fPIC"
 
                 # NOTE: not in 11:
                 DEF_NO_LTO=YES
