@@ -83,8 +83,8 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_COMPILER_FLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
                 # DEF_LINKER_FLAGS="-pie -z relro -z now"
+                DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS} -DHAVE_LIBRESSL"
 
                 # NOTE: not in 11:
                 DEF_NO_LTO=YES
@@ -92,7 +92,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
             Darwin)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
-                DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 # DEF_LINKER_FLAGS="-arch=${DEF_DEFAULT_USED_ARCHITECTURE}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
 
