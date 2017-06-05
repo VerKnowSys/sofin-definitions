@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Git SCM"
-DEF_SHA="2e55f6cc053aa3c19418ac3b8afea6fdd1f970c8"
+DEF_SHA="fe18ede3b2071293bbfa47d54ca6220cfdad8de3"
 DEF_NAME="git"
-DEF_VERSION="2.13.1"
+DEF_VERSION="2.12.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf m4 libtool make pth libunistring zlib bzip2 lzma xz pcre icu expat gmp perl autoconf texinfo automake14 libressl libffi gettext python27 spdylay nghttp2 libssh2 curl-minimal"
 case "${SYSTEM_NAME}" in
