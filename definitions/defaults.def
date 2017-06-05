@@ -75,9 +75,9 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
         # Explicit compiler optimisation options:
         if [ -n "${DEBUGBUILD}" ]; then
             debug "DEBUGBUILD defined! Appending compiler flags with: $(distd "-O0 -ggdb")"
-            BUILD_OPT_FLAGS="-O0 -ggdb"
+            BUILD_OPT_FLAGS="-W -O0 -ggdb"
         else
-            BUILD_OPT_FLAGS="-O2"
+            BUILD_OPT_FLAGS="-w -O2"
         fi
         DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=sandybridge -mtune=sandybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx
 
@@ -92,11 +92,14 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
             Darwin)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
-                DEF_COMPILER_FLAGS="-DHAVE_LIBRESSL ${DEF_OPTFLAGS} -fPIC -arch=${DEF_DEFAULT_USED_ARCHITECTURE} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
+                # DEF_LINKER_FLAGS="-arch=${DEF_DEFAULT_USED_ARCHITECTURE}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
 
                 # NOTE: no safe-stack for Darwin:
                 DEF_NO_SAFE_STACK=YES
+                DEF_NO_LLVM_LINKER=YES
+                DEF_LINKER_NO_DTAGS=YES
                 ;;
 
             Minix)
