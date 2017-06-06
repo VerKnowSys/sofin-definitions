@@ -13,9 +13,9 @@
    if (use_lock)
      mysql_mutex_lock(&LOCK_global_user_client_stats);
 
-+  size_t username_length = strlen(user_string2) + strlen("@") + strlen(thd->security_ctx->priv_host) + 1;
-+  char user_string[username_length];
-+  strxnmov(user_string, username_length, user_string2, "@", thd->security_ctx->priv_host, NullS);
++  size_t username_length_userstats = strlen(user_string2) + strlen("@") + strlen(thd->security_ctx->priv_host) + 1;
++  char user_string[username_length_userstats];
++  strxnmov(user_string, username_length_userstats, user_string2, "@", thd->security_ctx->priv_host, NullS);
 +
    if (increment_count_by_name(user_string, strlen(user_string), user_string,
                                &global_user_stats, thd))
