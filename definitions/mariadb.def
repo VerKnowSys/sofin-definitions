@@ -1,41 +1,32 @@
 DEF_FULL_NAME="MariaDB 10.1"
 DEF_STANDALONE=YES
-DEF_SHA="f736be3025a80cf1bb44a54cab057c6deeb6960f"
+DEF_SHA="77bf12f253bc4397fa0379dcdba81ae8f6f03d17"
 DEF_NAME="mariadb"
-DEF_VERSION="10.1.22"
+DEF_VERSION="10.1.24"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make db libnet libedit lua51 pcre ccache zlib bzip2 xz lzma lzo lzop lz4 m4 perl yasm autoconf texinfo automake bison libtool cmake msgpack kytea libsodium zeromq4 expat libressl python27 libffi gettext glib libevent flex boost-minimal libxml2 mariadb-client" # ncurses
+DEF_REQUIREMENTS="pkgconf m4 make libtool db zlib bzip2 lzma lzo lzop lz4 xz gettext libedit libnet lua51 pcre libressl perl yasm autoconf texinfo automake14 expat python27 ninja curl-minimal cmake msgpack kytea libsodium zeromq4 boost bison libxml2 libevent mariadb-client"
 DEF_CONFIGURE_METHOD="cmake"
-DEF_CONFIGURE_ARGS="-DBUILD_CONFIG=mysql_release -DINSTALL_INCLUDEDIR=include/mysql -DINSTALL_INFODIR=share/info -DINSTALL_MYSQLSHAREDIR=share/mysql -DWITH_JEMALLOC=NO -DMYSQL_MAINTAINER_MODE=OFF -DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=1 -DENABLE_DEBUG_SYNC=off -DPLUGIN_TOKUDB=OFF -DWITH_SAFEMALLOC=OFF -DWITH_UNIT_TESTS=OFF -DWITH_VALGRIND=OFF -DWITH_LIBWRAP=OFF -DWITH_INNODB_LZ4=ON -DGRN_WITH_LZ4=YES -DWITH_INNODB_BZIP2=ON -DWITH_INNODB_LZMA=ON -DWITH_INNODB_LZO=ON -DWITH_SYSTEMD=off -DWITH_READLINE=OFF -DINSTALL_SYSCONFDIR=${SERVICE_DIR}/etc -DTMPDIR=${SERVICE_DIR}/tmp -DMYSQL_DATADIR=${SERVICE_DIR}/data -DWITH_SSL=yes -DDISABLE_LIBMYSQLCLIENT_SYMBOL_VERSIONING=NO -DWITH_INNODB_DISALLOW_WRITES=ON -DCOMPILATION_COMMENT=ServeD -DWITH_EMBEDDED_SERVER=ON -DPLUGIN_ARCHIVE=YES -DPLUGIN_BLACKHOLE=YES"
+DEF_CONFIGURE_ARGS="-DBUILD_CONFIG=mysql_release -DINSTALL_INCLUDEDIR=include/mysql -DINSTALL_INFODIR=share/info -DINSTALL_MYSQLSHAREDIR=share/mysql -DWITH_JEMALLOC=ON -DMYSQL_MAINTAINER_MODE=OFF -DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=ON -DENABLE_DEBUG_SYNC=OFF -DWITH_PCRE=system -DWITH_SYSTEMD=OFF -DWITH_SAFEMALLOC=OFF -DWITH_UNIT_TESTS=OFF -DWITH_VALGRIND=OFF -DWITH_LIBWRAP=OFF -DWITH_INNODB_LZ4=ON -DGRN_WITH_LZ4=ON -DWITH_INNODB_BZIP2=ON -DWITH_INNODB_LZMA=ON -DWITH_INNODB_LZO=ON -DINSTALL_SYSCONFDIR=${SERVICE_DIR}/etc -DTMPDIR=/tmp -DMYSQL_DATADIR=${SERVICE_DIR}/data -DWITH_SSL=yes -DWITH_INNODB_DISALLOW_WRITES=ON -DENABLED_PROFILING=OFF -DCOMPILATION_COMMENT=VerKnowSys -DSECURITY_HARDENED=ON -DPLUGIN_MROONGA=NO -DPLUGIN_TOKUDB=NO"
 DEF_EXPORTS="mysql mysqld_multi mysqld mysqld_safe mysql_config mysqladmin mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysqlshow mysql-proxy"
 DEF_USELESS="share/bison share/gdb share/libtool doc sql-bench support-files data share/cmake* man lib/*perl* include/python* lib/python* doc docs sql-bench share/cmake* share/gtk* share/glib* share/man INSTALL-BINARY README COPYING share/gettext share/*.sql share/lua COPYING.LESSER COPYING.thirdparty CREDITS EXCEPTIONS-CLIENT README-wsrep scripts libexec lib/lua mysql-test include/boost"
 DEF_USEFUL="bin/my*" # always be prepared for more ;)
+DEF_NO_CCACHE=YES
 DEF_CONFLICTS_WITH="Percona Mysql"
+DEF_AFTER_BUILD_METHOD="make_sure_data_dir_exists_or_create_it"
+make_sure_data_dir_exists_or_create_it () {
+    for _dir in etc tmp data var/log; do
+        try "${MKDIR_BIN} -p ${SERVICE_DIR}/${_dir}"
+    done
+}
 
 case "${SYSTEM_NAME}" in
-    Linux)
-        DEF_AFTER_INSTALL_METHOD="after_build"
-        after_build () {
-            mysql_proxy_name="mysql-proxy"
-            mysql_proxy_version="0.8.5"
-            mysql_proxy_archive="${mysql_proxy_name}-${mysql_proxy_version}.tar.gz"
-            ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${mysql_proxy_archive} ${FETCH_OPTS}
-            ${TAR_BIN} xf ${mysql_proxy_archive}
-            cd ${mysql_proxy_name}-${mysql_proxy_version}
-            PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:/usr/lib/pkgconfig PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX}
-            make install
-        }
-        ;;
-
-    FreeBSD)
+    FreeBSD|Darwin)
         DEF_AFTER_PATCH_METHOD="sed_stuff"
         sed_stuff () {
-            ${SED_BIN} -i '' -e 's|%%LOCALBASE%%|${LOCALBASE}|g' scripts/mysql_config.sh
-            ${SED_BIN} -i '' -e 's|%%PREFIX%%|${PREFIX}|g' mysys/my_default.c
-            ${SED_BIN} -i '' -e 's/*.1/${MAN1}/' man/CMakeLists.txt
+            ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|g" scripts/mysql_config.sh
+            ${SED_BIN} -i '' -e "s|%%PREFIX%%|${PREFIX}|g" mysys/my_default.c
+            return 0
         }
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DHAVE_STDCXX11=on"
-        DEF_MAKE_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s ${MAKE_OPTS}"
-        DEF_INSTALL_METHOD="LD_LIBRARY_PATH=${PREFIX}/lib:/lib:/usr/lib make -s install ${MAKE_OPTS}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DCMAKE_OSX_ARCHITECTURES=x86_64 -DHAVE_STDCXX11=on"
         ;;
 esac
