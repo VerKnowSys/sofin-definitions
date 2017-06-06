@@ -3,7 +3,7 @@ DEF_SHA="04f50925a5f3b2555371075a048ab7bfe3892976"
 DEF_NAME="ettercap"
 DEF_VERSION="0.8.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make ccache zlib xz bzip2 m4 flex perl bison libressl pcre libnet libtool libpcap cmake"
+DEF_REQUIREMENTS="pkgconf make ccache zlib xz bzip2 m4 flex perl bison libressl pcre libnet libtool libpcap expat curl-minimal cmake"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS="-DBUNDLED_LIBS=OFF -DHAVE_DLOPEN=ON -DHAVE_PCAP=${PREFIX}/lib -DHAVE_RESOLV=${PREFIX}/lib -DHAVE_ICONV=/usr -DENABLE_IPV6=ON -DINSTALL_DESKTOP=OFF -DENABLE_CURSES=ON -DHAVE_UTF8=ON -DENABLE_SSL=ON -DENABLE_PLUGINS=OFF -DHAVE_PCRE=ON -DENABLE_GTK=OFF"
 DEF_LINKER_FLAGS="-L${PREFIX}/lib -lpcap -lnet"
@@ -11,14 +11,9 @@ DEF_EXPORTS="ettercap etterfilter etterlog"
 DEF_USELESS="share/libtool share/cmake* share/aclocal share/bison lib/*perl* doc"
 
 DEF_NO_CCACHE=YES
-DEF_CMAKE_BUILD_DIR="../"
-DEF_AFTER_UNPACK_METHOD="make_builddir"
-make_builddir () {
-    ${TEST_BIN} -d build && ${RM_BIN} -rf build
-    ${MKDIR_BIN} -p build
-    cd build
-}
-DEF_AFTER_INSTALL_METHOD="go_up"
-go_up () {
-    cd ..
+DEF_AFTER_PATCH_METHOD="fix_sysconf_dir"
+fix_sysconf_dir () {
+    for _f in $(${FIND_BIN} . -type f -name 'CMakeLists.txt'); do
+        ${SED_BIN} -i '' -e "s#INSTALL_SYSCONFDIR /etc#INSTALL_SYSCONFDIR ${SERVICE_DIR}/etc#" "${_f}"
+    done
 }
