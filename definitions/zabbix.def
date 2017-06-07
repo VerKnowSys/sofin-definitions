@@ -10,6 +10,6 @@ DEF_CONFIGURE_ARGS="--enable-proxy --enable-server ${COMMON_ZABBIX_CONF_ARGS}"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --sysconfdir=/etc"
 fi
-DEF_REQUIREMENTS="pkgconf make sqlite libedit perl m4 libtool texinfo libidn curl openssl"
+DEF_REQUIREMENTS="pkgconf m4 libtool make sqlite libedit perl openssl curl-minimal"
 DEF_EXPORTS="zabbix_get zabbix_sender zabbix_agent zabbix_agentd zabbix_proxy zabbix_server"
 DEF_USELESS="include share/texinfo lib/*perl*"
