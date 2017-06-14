@@ -9,6 +9,7 @@ DEF_TEST_METHOD=":"
 DEF_USEFUL="bin/*pass* bin/*opt bin/bash bin/tree bin/*gpg* bin/*sed bin/*awk"
 DEF_USELESS="include share/gtk-doc share/emacs share/common-lisp share/aclocal sbin lib/perl* lib/*.*a"
 DEF_EXPORTS="pass"
+DEF_STANDALONE=YES
 DEF_AFTER_INSTALL_METHOD="patch_hardcodes"
 patch_hardcodes () {
     ${SED_BIN} -i '' -e "s#GPG=\"gpg\"#GPG=\"${PREFIX}/bin/gpg2\"#" "${PREFIX}/bin/pass"

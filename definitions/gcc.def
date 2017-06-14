@@ -6,6 +6,7 @@ common_shared_env="LANG=C LC_ALL=C gcc_gxx_include_dir=\"/usr/include/c++/v1\""
 common_opts="${common_shared_env} SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
 
 DEF_DISABLE_ON="Linux Darwin"
+DEF_STANDALONE=YES
 DEF_VERSION="5.4.0"
 DEF_NAME="gcc"
 DEF_SHA="07524df2b4ab9070bad9c49ab668da72237b8115"

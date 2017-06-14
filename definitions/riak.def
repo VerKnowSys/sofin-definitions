@@ -7,6 +7,7 @@ DEF_MAKE_METHOD="make rel"
 DEF_INSTALL_METHOD="install_riak"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_REQUIREMENTS="make perl libressl libedit otp17"
+DEF_STANDALONE=YES
 DEF_EXPORTS="riak riak-admin riak-debug search-cmd"
 DEF_LINKER_NO_DTAGS=YES # requires sofin v0.84+
 DEF_NO_GOLDEN_LINKER="YES"

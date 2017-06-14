@@ -5,6 +5,7 @@ DEF_VERSION="5.3.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-dynamic --disable-dynamic-nss --enable-pcre --enable-cap --enable-multibyte --with-tcsetpgrp --enable-multibyte --enable-stack-allocation --disable-maildir-support --enable-zsh-secure-free --enable-gdbm --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${PREFIX}/share/zsh/site-functions --enable-site-scriptdir=${PREFIX}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help"
 DEF_REQUIREMENTS="pkgconf make m4 libedit zlib bzip2 pcre libtool gdbm db"
+DEF_STANDALONE=YES
 DEF_TEST_METHOD="make ${MAKE_OPTS} -s check"
 DEF_USELESS="share/aclocal share/libtool share/readline"
 DEF_EXPORTS="zsh sh"

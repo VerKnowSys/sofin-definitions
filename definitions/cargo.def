@@ -7,6 +7,7 @@ DEF_REQUIREMENTS="${DEF_REQUIREMENTS} rustc"
 DEF_CONFIGURE_ARGS="--enable-optimize --disable-option-checking --prefix=${PREFIX} --local-rust-root=${PREFIX} --libdir=${PREFIX}/lib --sysconfdir=${SERVICE_DIR}/etc --datadir=${PREFIX}/share --infodir=${PREFIX}/share/info --mandir=${PREFIX}/share/man"
 DEF_COMPILER_FLAGS="${DEFAULT_COMPILER_FLAGS}"
 DEF_LINKER_FLAGS="${HARDEN_LDFLAGS_PRODUCTION} -R${PREFIX}/lib -L${PREFIX}/lib"
+DEF_STANDALONE=YES
 DEF_MAKE_METHOD="make_method"
 DEF_INSTALL_METHOD="make_method install"
 _codegen_units_amount="$(echo "${CPUS}+(${CPUS}/2)" 2>/dev/null | ${BC_BIN} 2>/dev/null)"

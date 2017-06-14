@@ -8,5 +8,6 @@ DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jso
 DEF_REQUIREMENTS="pkgconf make jemalloc expat libressl curl-minimal"
 DEF_USEFUL="bin/ccache"
 DEF_EXPORTS="cmake ccmake"
+DEF_STANDALONE=YES
 DEF_NO_FAST_MATH=YES
 DEF_NO_CCACHE=YES

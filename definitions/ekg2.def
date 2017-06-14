@@ -18,5 +18,6 @@ esac
 DEF_CONFIGURE_ARGS="--enable-shared --disable-static --enable-rpath --disable-readline --without-gtk --enable-ncurses --with-ncurses=/usr --with-glib=${PREFIX} --with-gnutls=${PREFIX} --with-openssl=${PREFIX} --with-expat=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-perl --disable-perl-modules --disable-polchat --disable-python"
 DEF_USELESS="include lib/*.la lib/*.a lib/perl* lib/python* include/python* share/libtool share/texinfo share/gdb share/a* share/gettext* share/glib*"
 DEF_EXPORTS="ekg2"
+DEF_STANDALONE=YES
 DEF_STRIP=LIBS # NOTE: binary cannot be stripped from symbols, they're required by dyld
 DEF_NO_SAFE_STACK=YES

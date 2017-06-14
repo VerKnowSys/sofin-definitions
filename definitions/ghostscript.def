@@ -11,6 +11,7 @@
         --enable-fontconfig --with-fontconfig=${PREFIX} --with-fontpath=${PREFIX}/lib/X11/fonts \
     "
     DEF_REQUIREMENTS="make pkgconf zlib bzip2 pth lzma xz lzo m4 libtool libressl python27 perl autoconf automake bison util-macros cups expat jbig2dec jbigkit nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 krb freetype fontconfig jasper"
+    DEF_STANDALONE=YES
     DEF_COMPILER_FLAGS="-DA4 -DUPD_SIGNAL=0 -DOPJ_STATIC"
     DEF_CONFIGURE_METHOD="./autogen.sh"
     DEF_MAKE_METHOD="make_stuff"

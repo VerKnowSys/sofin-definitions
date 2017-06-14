@@ -3,6 +3,7 @@ DEF_NAME="influxdb"
 DEF_SOURCE_PATH="git://github.com/OliverLetterer/dummy-repo.git"
 DEF_VERSION="0.10.0"
 DEF_GIT_CHECKOUT="v${DEF_VERSION}"
+DEF_STANDALONE=YES
 DEF_REQUIREMENTS="pkgconf pcre go15 protobuf"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="make_action"

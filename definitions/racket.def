@@ -12,3 +12,4 @@ DEF_EXPORTS="racket raco raco drracket plt-games mzc setup-plt mzpp mztext plt-r
 DEF_BUILD_DIR_SUFFIX="src"
 DEF_USEFUL="bin/racket* bin/gracket* bin/raco*"
 DEF_USELESS="lib/*python* lib/perl* docs share/gtk-doc"
+DEF_STANDALONE=YES

@@ -9,6 +9,7 @@ DEF_EXPORTS="vifm vifm-pause vifmrc-converter"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_AFTER_EXPORT_METHOD="update_vifm_default_config"
 DEF_CONFLICTS_WITH="vifm-devel"
+DEF_STANDALONE=YES
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 
