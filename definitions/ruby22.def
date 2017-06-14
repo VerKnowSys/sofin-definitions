@@ -10,6 +10,7 @@ DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-pat
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
 DEF_NO_SAFE_STACK=YES
+DEF_NO_LLVM_LINKER=YES
 
 case "${SYSTEM_NAME}" in
     Linux)
@@ -21,9 +22,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-libedit --enable-dtrace"
-        DEF_COMPILER_FLAGS="${DEF_OPTFLAGS}"
-        DEF_LINKER_FLAGS="-pie"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-dtrace"
         ;;
 esac
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
