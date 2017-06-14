@@ -4,6 +4,7 @@ DEF_ORIGIN="http://www.gluster.org/download/"
 DEF_SHA="119801a22b097356b8cf5ff73d39c44904a07757"
 DEF_NAME="glusterfs"
 DEF_VERSION="3.8.12"
+DEF_STANDALONE=YES
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make m4 libtool lzo lz4 zip expat pcre libffi perl openssl python27 gettext glib userspace-rcu bison autoconf automake sqlite libxml2 readline"
 DEF_AFTER_UNPACK_METHOD="./autogen.sh"
@@ -13,7 +14,7 @@ DEF_USEFUL="bin/python* bin/sqlite*"
 DEF_USELESS="include/python* lib/*perl* lib/*.sh share/aclocal* share/auto* share/libtool share/bison"
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
-    ${SED_BIN} -i '' -e "s#/usr/bin/env python#${PREFIX}/bin/python#" ${PREFIX}/bin/glusterfind ${PREFIX}/sbin/gcron.py ${PREFIX}/sbin/snap_scheduler.py
+    ${SED_BIN} -i '' -e "s#/usr/bin/env python#${PREFIX}/bin/python#" "${PREFIX}/bin/glusterfind" "${PREFIX}/sbin/gcron.py" "${PREFIX}/sbin/snap_scheduler.py"
     return 0
 }
 DEF_NO_CCACHE=YES

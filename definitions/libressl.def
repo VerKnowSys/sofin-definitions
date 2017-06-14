@@ -6,6 +6,7 @@ DEF_VERSION="2.5.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="openssl"
 DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL"
+DEF_STANDALONE=YES
 DEF_AFTER_INSTALL_METHOD="fetch_ca_cert"
 fetch_ca_cert () {
     if [ ! -f "${SERVICE_DIR}/etc/ssl/cert.pem" ]; then
