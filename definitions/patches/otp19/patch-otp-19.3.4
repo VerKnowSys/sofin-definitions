@@ -1,0 +1,284 @@
+diff --git OTP_VERSION OTP_VERSION
+index 6f5c2854b..277d51d25 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-19.3.3
++19.3.4
+diff --git lib/inets/doc/src/notes.xml lib/inets/doc/src/notes.xml
+index 6b6aca6ce..a3e4893ae 100644
+--- lib/inets/doc/src/notes.xml
++++ lib/inets/doc/src/notes.xml
+@@ -33,7 +33,23 @@
+     <file>notes.xml</file>
+   </header>
+   
+-  <section><title>Inets 6.3.8</title>
++  <section><title>Inets 6.3.9</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    The close of a chunked file reception crashed in a
++	    certain timing sequence.</p>
++          <p>
++	    Own Id: OTP-14391 Aux Id: seq13306 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
++<section><title>Inets 6.3.8</title>
+ 
+     <section><title>Improvements and New Features</title>
+       <list>
+diff --git lib/inets/src/ftp/ftp.erl lib/inets/src/ftp/ftp.erl
+index 2a225e930..e0430654e 100644
+--- lib/inets/src/ftp/ftp.erl
++++ lib/inets/src/ftp/ftp.erl
+@@ -100,6 +100,12 @@
+ 	  ftp_extension = ?FTP_EXT_DEFAULT
+ 	 }).
+ 
++-record(recv_chunk_closing, {
++          dconn_closed = false,
++          pos_compl_received = false,
++          client_called_us = false
++         }).
++
+ 
+ -type shortage_reason()  :: 'etnospc' | 'epnospc'.
+ -type restriction_reason() :: 'epath' | 'efnamena' | 'elogin' | 'enotbinary'.
+@@ -1343,6 +1349,25 @@ handle_call({_,{recv_chunk_start, RemoteFile}}, From, #state{chunk = false}
+ handle_call({_, recv_chunk}, _, #state{chunk = false} = State) ->
+     {reply, {error, "ftp:recv_chunk_start/2 not called"}, State}; 
+ 
++handle_call({_, recv_chunk}, _From, #state{chunk = true,
++                                           caller = #recv_chunk_closing{dconn_closed       = true,
++                                                                        pos_compl_received = true
++                                                                       }
++                                          } = State0) ->
++    %% The ftp:recv_chunk call was the last event we waited for, finnish and clean up
++    ?DBG("recv_chunk_closing ftp:recv_chunk, last event",[]),
++    activate_ctrl_connection(State0),
++    {reply, ok, State0#state{caller = undefined,
++                             chunk = false,
++                             client = undefined}};
++    
++handle_call({_, recv_chunk}, From, #state{chunk = true,
++                                          caller = #recv_chunk_closing{} = R
++                                         } = State) ->
++    %% Waiting for more, don't care what
++    ?DBG("recv_chunk_closing ftp:recv_chunk, get more",[]),
++    {noreply, State#state{client = From, caller = R#recv_chunk_closing{client_called_us=true}}};
++
+ handle_call({_, recv_chunk}, From, #state{chunk = true} = State0) ->
+     State = activate_data_connection(State0),
+     {noreply, State#state{client = From, caller = recv_chunk}};
+@@ -1480,19 +1505,24 @@ handle_info({Cls, Socket}, #state{dsock = {Trpt,Socket},
+     file_close(Fd),
+     progress_report({transfer_size, 0}, State),
+     activate_ctrl_connection(State),
++    ?DBG("Data channel close",[]),
+     {noreply, State#state{dsock = undefined, data = <<>>}};
+ 
+ handle_info({Cls, Socket}, #state{dsock = {Trpt,Socket},
++                                  client = Client,
+ 				  caller = recv_chunk} = State)
+   when {Cls,Trpt}=={tcp_closed,tcp} ; {Cls,Trpt}=={ssl_closed,ssl} ->
++    ?DBG("Data channel close recv_chunk",[]),
+     activate_ctrl_connection(State),
+-    {noreply, State#state{dsock = undefined, data = <<>>, 
+-                          caller = recv_chunk_closed
++    {noreply, State#state{dsock = undefined,
++                          caller = #recv_chunk_closing{dconn_closed     =  true,
++                                                       client_called_us =  Client =/= undefined}
+                          }};
+ 
+ handle_info({Cls, Socket}, #state{dsock = {Trpt,Socket}, caller = recv_bin, 
+ 					 data = Data} = State)
+   when {Cls,Trpt}=={tcp_closed,tcp} ; {Cls,Trpt}=={ssl_closed,ssl} ->
++    ?DBG("Data channel close",[]),
+     activate_ctrl_connection(State),
+     {noreply, State#state{dsock = undefined, data = <<>>, 
+ 			  caller = {recv_bin, Data}}};
+@@ -1500,6 +1530,7 @@ handle_info({Cls, Socket}, #state{dsock = {Trpt,Socket}, caller = recv_bin,
+ handle_info({Cls, Socket}, #state{dsock = {Trpt,Socket}, data = Data,
+ 					 caller = {handle_dir_result, Dir}} 
+ 	    = State) when {Cls,Trpt}=={tcp_closed,tcp} ; {Cls,Trpt}=={ssl_closed,ssl} ->
++    ?DBG("Data channel close",[]),
+     activate_ctrl_connection(State),
+     {noreply, State#state{dsock = undefined, 
+ 			  caller = {handle_dir_result, Dir, Data},
+@@ -2047,14 +2078,28 @@ handle_ctrl_result({pos_prel, _}, #state{client = From,
+ 
+ %%--------------------------------------------------------------------------
+ %% File handling - chunk_transfer complete
++
+ handle_ctrl_result({pos_compl, _}, #state{client = From,
+-                                          caller = recv_chunk_closed}
+-		   = State0) ->
++                                          caller = #recv_chunk_closing{dconn_closed       = true,
++                                                                       client_called_us   = true,
++                                                                       pos_compl_received = false
++                                                                      }}
++		   = State0) when From =/= undefined ->
++    %% The pos_compl was the last event we waited for, finnish and clean up
++    ?DBG("recv_chunk_closing pos_compl, last event",[]),
+     gen_server:reply(From, ok),
++    activate_ctrl_connection(State0),
+     {noreply, State0#state{caller = undefined,
+                            chunk = false,
+                            client = undefined}};
+ 
++handle_ctrl_result({pos_compl, _}, #state{caller = #recv_chunk_closing{}=R}
++		   = State0) ->
++    %% Waiting for more, don't care what
++    ?DBG("recv_chunk_closing pos_compl, wait more",[]),
++    {noreply, State0#state{caller = R#recv_chunk_closing{pos_compl_received=true}}};
++
++
+ %%--------------------------------------------------------------------------
+ %% File handling - recv_file
+ handle_ctrl_result({pos_prel, _}, #state{caller = {recv_file, _}} = State0) ->
+diff --git lib/inets/test/ftp_SUITE.erl lib/inets/test/ftp_SUITE.erl
+index d37f2feb7..1a79cb58e 100644
+--- lib/inets/test/ftp_SUITE.erl
++++ lib/inets/test/ftp_SUITE.erl
+@@ -97,6 +97,7 @@ ftp_tests()->
+      recv_bin_twice,
+      recv_chunk, 
+      recv_chunk_twice,
++     recv_chunk_three_times,
+      type, 
+      quote, 
+      error_elogin,
+@@ -626,13 +627,57 @@ recv_chunk_twice(Config0) ->
+     find_diff(ReceivedContents1, Contents1),
+     find_diff(ReceivedContents2, Contents2).
+ 
++recv_chunk_three_times() ->
++    [{doc, "Receive two files using chunk-wise."},
++     {timetrap,{seconds,120}}].
++recv_chunk_three_times(Config0) ->
++    File1 = "big_file1.txt",
++    File2 = "big_file2.txt",
++    File3 = "big_file3.txt",
++    Contents1 = list_to_binary( lists:duplicate(1000, lists:seq(0,255)) ),
++    Contents2 = crypto:strong_rand_bytes(1200),
++    Contents3 = list_to_binary( lists:duplicate(1000, lists:seq(255,0,-1)) ),
++
++    Config = set_state([reset, {mkfile,File1,Contents1}, {mkfile,File2,Contents2}, {mkfile,File3,Contents3}], Config0),
++    Pid = proplists:get_value(ftp, Config),
++    {{error, "ftp:recv_chunk_start/2 not called"},_} = recv_chunk(Pid, <<>>),
++
++    ok = ftp:recv_chunk_start(Pid, id2ftp(File1,Config)),
++    {ok, ReceivedContents1, Nchunks1} = recv_chunk(Pid, <<>>),
++
++    ok = ftp:recv_chunk_start(Pid, id2ftp(File2,Config)),
++    {ok, ReceivedContents2, _Nchunks2} = recv_chunk(Pid, <<>>),
++
++    ok = ftp:recv_chunk_start(Pid, id2ftp(File3,Config)),
++    {ok, ReceivedContents3, _Nchunks3} = recv_chunk(Pid, <<>>, 10000, 0, Nchunks1),
++
++    find_diff(ReceivedContents1, Contents1),
++    find_diff(ReceivedContents2, Contents2),
++    find_diff(ReceivedContents3, Contents3).
++
++
++
+ recv_chunk(Pid, Acc) -> 
+-    recv_chunk(Pid, Acc, 0).
++    recv_chunk(Pid, Acc, 0, 0, undefined).
+ 
+-recv_chunk(Pid, Acc, N) ->
++
++
++%% ExpectNchunks :: integer() | undefined
++recv_chunk(Pid, Acc, DelayMilliSec, N, ExpectNchunks) when N+1 < ExpectNchunks ->
++    %% for all I in integer(), I < undefined
++    recv_chunk1(Pid, Acc, DelayMilliSec, N, ExpectNchunks);
++
++recv_chunk(Pid, Acc, DelayMilliSec, N, ExpectNchunks) ->
++    %% N >= ExpectNchunks-1
++    timer:sleep(DelayMilliSec),
++    recv_chunk1(Pid, Acc, DelayMilliSec, N, ExpectNchunks).
++
++
++recv_chunk1(Pid, Acc, DelayMilliSec, N, ExpectNchunks) ->
++    ct:log("Call ftp:recv_chunk",[]),
+     case ftp:recv_chunk(Pid) of
+ 	ok -> {ok, Acc, N};
+-	{ok, Bin} -> recv_chunk(Pid, <<Acc/binary, Bin/binary>>, N+1);
++	{ok, Bin} -> recv_chunk(Pid, <<Acc/binary, Bin/binary>>, DelayMilliSec, N+1, ExpectNchunks);
+ 	Error -> {Error, N}
+     end.
+ 
+diff --git lib/inets/vsn.mk lib/inets/vsn.mk
+index b3dec0cb5..758cef7ac 100644
+--- lib/inets/vsn.mk
++++ lib/inets/vsn.mk
+@@ -19,6 +19,6 @@
+ # %CopyrightEnd%
+ 
+ APPLICATION = inets
+-INETS_VSN   = 6.3.8
++INETS_VSN   = 6.3.9
+ PRE_VSN     =
+ APP_VSN     = "$(APPLICATION)-$(INETS_VSN)$(PRE_VSN)"
+diff --git lib/ssl/doc/src/notes.xml lib/ssl/doc/src/notes.xml
+index 7ffb9c0e8..d13ad0947 100644
+--- lib/ssl/doc/src/notes.xml
++++ lib/ssl/doc/src/notes.xml
+@@ -28,6 +28,21 @@
+   <p>This document describes the changes made to the SSL application.</p>
+ 
+ 
++<section><title>SSL 8.1.3</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    Remove debug printout</p>
++          <p>
++	    Own Id: OTP-14396</p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>SSL 8.1.2</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git lib/ssl/src/ssl_connection.erl lib/ssl/src/ssl_connection.erl
+index a5569460d..ad220ae9d 100644
+--- lib/ssl/src/ssl_connection.erl
++++ lib/ssl/src/ssl_connection.erl
+@@ -858,7 +858,6 @@ handle_common_event(internal, #change_cipher_spec{type = <<1>>}, StateName,
+ 				StateName, State);
+ handle_common_event(_Type, Msg, StateName, #state{negotiated_version = Version} = State, 
+ 		    _) ->
+-    ct:pal("Unexpected msg ~p", [Msg]),
+     Alert =  ?ALERT_REC(?FATAL,?UNEXPECTED_MESSAGE),
+     handle_own_alert(Alert, Version, {StateName, Msg}, State).
+ 
+diff --git lib/ssl/vsn.mk lib/ssl/vsn.mk
+index 82184f5c7..7c2d9bec4 100644
+--- lib/ssl/vsn.mk
++++ lib/ssl/vsn.mk
+@@ -1 +1 @@
+-SSL_VSN = 8.1.2
++SSL_VSN = 8.1.3
+diff --git otp_versions.table otp_versions.table
+index ea9eb7388..4d3d61417 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-19.3.4 : inets-6.3.9 ssl-8.1.3 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 erts-8.3.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3.3 : dialyzer-3.1.1 erts-8.3.3 inets-6.3.8 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3.2 : erts-8.3.2 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.7 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3.1 : crypto-3.7.4 erts-8.3.1 inets-6.3.7 ssh-4.4.2 ssl-8.1.2 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 debugger-4.2.1 dialyzer-3.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :

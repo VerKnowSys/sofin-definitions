@@ -1,0 +1,1002 @@
+diff --git OTP_VERSION OTP_VERSION
+index 277d51d25..3e6b5caa8 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-19.3.4
++19.3.5
+diff --git erts/doc/src/notes.xml erts/doc/src/notes.xml
+index 11206d43e..35d7381cf 100644
+--- erts/doc/src/notes.xml
++++ erts/doc/src/notes.xml
+@@ -32,6 +32,26 @@
+   <p>This document describes the changes made to the ERTS application.</p>
+ 
+ 
++<section><title>Erts 8.3.4</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    Add option to make SIGTERM trigger the OS default
++	    behaviour instead of doing a gracefull shutdown. To
++	    activate this bahviour the environment variable
++	    ERL_ZZ_SIGTERM_KILL should be set to "true". This option
++	    only works in OTP 19 as OTP 20 will have a different way
++	    to deal with SIGTERM.</p>
++          <p>
++	    Own Id: OTP-14418 Aux Id: ERIERL-15 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Erts 8.3.3</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git erts/emulator/sys/unix/sys.c erts/emulator/sys/unix/sys.c
+index 3010af44b..de8481b20 100644
+--- erts/emulator/sys/unix/sys.c
++++ erts/emulator/sys/unix/sys.c
+@@ -838,6 +838,11 @@ void sys_init_suspend_handler(void)
+ void
+ erts_sys_unix_later_init(void)
+ {
++    char env[4];
++    size_t envsz = sizeof(env);
++    if (erts_sys_getenv_raw("ERL_ZZ_SIGTERM_KILL", env, &envsz) == 0)
++        if (envsz == 4 && sys_strncmp("true",env,4) == 0)
++            return;
+     sys_signal(SIGTERM, request_stop);
+ }
+ 
+diff --git erts/vsn.mk erts/vsn.mk
+index a83c1ab76..dc17ed8b3 100644
+--- erts/vsn.mk
++++ erts/vsn.mk
+@@ -18,7 +18,7 @@
+ # %CopyrightEnd%
+ # 
+ 
+-VSN = 8.3.3
++VSN = 8.3.4
+ 
+ # Port number 4365 in 4.2
+ # Port number 4366 in 4.3
+diff --git lib/xmerl/doc/src/notes.xml lib/xmerl/doc/src/notes.xml
+index 652560f60..0c8931157 100644
+--- lib/xmerl/doc/src/notes.xml
++++ lib/xmerl/doc/src/notes.xml
+@@ -32,6 +32,27 @@
+   <p>This document describes the changes made to the Xmerl application.</p>
+ 
+ 
++<section><title>Xmerl 1.3.14</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++	    <p> A couple of bugs are fixed in the sax parser
++	    (xmerl_sax_parser). </p> <list> <item>The continuation
++	    function was not called correctly when the XML directive
++	    was fragmented. </item> <item>When the event callback
++	    modules (xmerl_sax_old_dom and xmerl_sax_simple) got an
++	    endDocument event at certain conditions the parser
++	    crashed.</item> <item>Replaced internal ets table with
++	    map to avoid table leakage.</item> </list>
++          <p>
++	    Own Id: OTP-14430</p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Xmerl 1.3.13</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git lib/xmerl/src/xmerl_sax_old_dom.erl lib/xmerl/src/xmerl_sax_old_dom.erl
+index fefcf03fc..411121370 100644
+--- lib/xmerl/src/xmerl_sax_old_dom.erl
++++ lib/xmerl/src/xmerl_sax_old_dom.erl
+@@ -127,9 +127,10 @@ build_dom(endDocument,
+ 	    State#xmerl_sax_old_dom_state{dom=[Decl, Current#xmlElement{
+ 						 content=lists:reverse(C)
+ 						}]};
+-	_ ->
+-	    %%?dbg("~p\n", [D]),
+-	    ?error("we're not at end the document when endDocument event is encountered.")
++	_ -> 
++            %% endDocument is also sent by the parser when a fault occur to tell 
++            %% the event receiver that no more input will be sent
++	    State
+     end;
+ 
+ %% Element
+diff --git lib/xmerl/src/xmerl_sax_parser.erl lib/xmerl/src/xmerl_sax_parser.erl
+index 1aef6c58c..e383c4c34 100644
+--- lib/xmerl/src/xmerl_sax_parser.erl
++++ lib/xmerl/src/xmerl_sax_parser.erl
+@@ -64,7 +64,7 @@
+ %% Description: Parse file containing an XML document.
+ %%----------------------------------------------------------------------
+ file(Name,Options) ->
+-    case file:open(Name, [raw, read,binary])  of
++    case file:open(Name, [raw, read_ahead, read,binary])  of
+         {error, Reason} ->
+             {error,{Name, file:format_error(Reason)}};
+         {ok, FD} ->
+@@ -120,21 +120,22 @@ stream(Xml, Options, InputType) when is_binary(Xml), is_list(Options) ->
+ 		    normal ->
+ 			parse
+ 		end,
+-	    case detect_charset(Xml, State) of
+-		{error, Reason} -> {fatal_error, 
+-				    {
+-				      State#xmerl_sax_parser_state.current_location,
+-				      State#xmerl_sax_parser_state.entity, 
+-				      1
+-				     },
+-				    Reason, 
+-				    [], 
+-				    State#xmerl_sax_parser_state.event_state};
+-		{Xml1, State1} ->
+-		    parse_binary(Xml1, 
+-				 State1#xmerl_sax_parser_state{input_type = InputType},
+-				 ParseFunction)
+-	    end
++                try 
++                    {Xml1, State1} = detect_charset(Xml, State),
++                     parse_binary(Xml1,
++                                  State1#xmerl_sax_parser_state{input_type = InputType},
++                                  ParseFunction)
++                catch
++                    throw:{fatal_error, {State2, Reason}} ->
++                      {fatal_error, 
++                       {
++                         State2#xmerl_sax_parser_state.current_location,
++                         State2#xmerl_sax_parser_state.entity, 
++                         1
++                        },
++                       Reason, [], 
++                       State2#xmerl_sax_parser_state.event_state}
++              end
+     end.
+ 
+ %%----------------------------------------------------------------------
+@@ -156,8 +157,8 @@ parse_binary(Xml, #xmerl_sax_parser_state{encoding={utf16,big}}=State, F) ->
+     xmerl_sax_parser_utf16be:F(Xml, State);
+ parse_binary(Xml, #xmerl_sax_parser_state{encoding=latin1}=State, F) ->
+     xmerl_sax_parser_latin1:F(Xml, State);
+-parse_binary(_, #xmerl_sax_parser_state{encoding=Enc}, _) -> 
+-    {error, lists:flatten(io_lib:format("Charcter set ~p not supported", [Enc]))}.
++parse_binary(_, #xmerl_sax_parser_state{encoding=Enc}, State) -> 
++    ?fatal_error(State, lists:flatten(io_lib:format("Charcter set ~p not supported", [Enc]))).
+ 
+ %%----------------------------------------------------------------------
+ %% Function: initial_state/0
+@@ -211,8 +212,7 @@ parse_options([{entity, Entity} |Options], State) ->
+ parse_options([skip_external_dtd |Options], State) ->
+     parse_options(Options, State#xmerl_sax_parser_state{skip_external_dtd = true});
+ parse_options([O |_], _State) ->
+-     {error, 
+-	    lists:flatten(io_lib:format("Option: ~p not supported", [O]))}.
++     {error, lists:flatten(io_lib:format("Option: ~p not supported", [O]))}.
+ 
+ 
+ check_encoding_option(E) when E==utf8; E=={utf16,little}; E=={utf16,big};
+@@ -230,16 +230,10 @@ check_encoding_option(E) ->
+ %% Output:  {utf8|utf16le|utf16be|iso8859, Xml, State}
+ %% Description: Detects which character set is used in a binary stream.
+ %%----------------------------------------------------------------------
+-detect_charset(<<>>, #xmerl_sax_parser_state{continuation_fun = undefined} = _) ->
+-    {error, "Can't detect character encoding due to no indata"};
+-detect_charset(<<>>, #xmerl_sax_parser_state{continuation_fun = CFun, 
+-				      continuation_state = CState} = State) ->
+-    case CFun(CState) of
+-	{<<>>,  _} ->
+-	    {error, "Can't detect character encoding due to lack of indata"};
+-	{NewBytes, NewContState} ->
+-	    detect_charset(NewBytes, State#xmerl_sax_parser_state{continuation_state = NewContState})
+-    end;
++detect_charset(<<>>, #xmerl_sax_parser_state{continuation_fun = undefined} = State) ->
++    ?fatal_error(State, "Can't detect character encoding due to lack of indata"); 
++detect_charset(<<>>, State) ->
++    cf(<<>>, State, fun detect_charset/2);
+ detect_charset(Bytes, State) ->
+     case unicode:bom_to_encoding(Bytes) of
+ 	{latin1, 0} ->
+@@ -249,25 +243,47 @@ detect_charset(Bytes, State) ->
+ 	    {RealBytes, State#xmerl_sax_parser_state{encoding=Enc}}
+     end.
+ 
++detect_charset_1(<<16#00>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#00, 16#3C>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#00, 16#3C, 16#00>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
+ detect_charset_1(<<16#00, 16#3C, 16#00, 16#3F, _/binary>> = Xml, State) ->
+     {Xml, State#xmerl_sax_parser_state{encoding={utf16, big}}};
++detect_charset_1(<<16#3C>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#3C, 16#00>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#3C, 16#00, 16#3F>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
+ detect_charset_1(<<16#3C, 16#00, 16#3F, 16#00, _/binary>> = Xml, State) ->
+     {Xml, State#xmerl_sax_parser_state{encoding={utf16, little}}};
+-detect_charset_1(<<16#3C, 16#3F, 16#78, 16#6D, 16#6C, Xml2/binary>> = Xml, State) ->
+-    case parse_xml_directive(Xml2) of
++detect_charset_1(<<16#3C>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#3C, 16#3F>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#3C, 16#3F, 16#78>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#3C, 16#3F, 16#78, 16#6D>> = Xml, State) ->
++    cf(Xml, State, fun detect_charset_1/2);
++detect_charset_1(<<16#3C, 16#3F, 16#78, 16#6D, 16#6C, Xml2/binary>>, State) ->
++    {Xml3, State1} = read_until_end_of_xml_directive(Xml2, State),
++    case parse_xml_directive(Xml3) of
+ 	{error, Reason} ->
+-	    {error, Reason};
++	    ?fatal_error(State, Reason);
+ 	AttrList ->
+ 	    case lists:keysearch("encoding", 1, AttrList) of
+ 		{value, {_, E}} ->
+ 		    case convert_encoding(E) of
+ 			{error, Reason} ->
+-			    {error, Reason};
++			    ?fatal_error(State, Reason);
+ 			Enc ->
+-			    {Xml, State#xmerl_sax_parser_state{encoding=Enc}}
++			    {<<16#3C, 16#3F, 16#78, 16#6D, 16#6C, Xml3/binary>>, 
++                             State1#xmerl_sax_parser_state{encoding=Enc}}
+ 		    end;
+ 		_ ->
+-		    {Xml, State}
++		    {<<16#3C, 16#3F, 16#78, 16#6D, 16#6C, Xml3/binary>>, State1}
+ 	    end
+     end;
+ detect_charset_1(Xml, State) ->
+@@ -377,7 +393,7 @@ parse_value_1(<<C, Rest/binary>>, Stop, Acc) ->
+     parse_value_1(Rest, Stop, [C |Acc]).
+ 
+ %%======================================================================
+-%%Default functions
++%% Default functions
+ %%======================================================================
+ %%----------------------------------------------------------------------
+ %% Function: default_event_cb(Event, LineNo, State) -> Result
+@@ -393,7 +409,7 @@ default_event_cb(_Event, _LineNo, State) ->
+ %%----------------------------------------------------------------------
+ %% Function: default_continuation_cb(IoDevice) -> Result
+ %%          IoDevice = iodevice()
+-%% Output:  Result = {[char()], State}
++%% Output:  Result = {binary(), IoDevice}
+ %% Description: Default continuation callback reading blocks.
+ %%----------------------------------------------------------------------
+ default_continuation_cb(IoDevice) ->
+@@ -403,3 +419,82 @@ default_continuation_cb(IoDevice) ->
+ 	{ok, FileBin} ->
+ 	    {FileBin, IoDevice}
+     end.
++
++%%----------------------------------------------------------------------
++%% Function: read_until_end_of_xml_directive(Rest, State) -> Result
++%%          Rest = binary()
++%% Output:  Result = {binary(), State}
++%% Description: Reads a utf8 or latin1 until it finds '?>'
++%%----------------------------------------------------------------------
++read_until_end_of_xml_directive(Rest, State) ->
++    case binary:match(Rest, <<"?>">>) of
++        nomatch ->
++            case cf(Rest, State) of
++                {<<>>, _} ->
++                    ?fatal_error(State, "Can't detect character encoding due to lack of indata"); 
++                {NewBytes, NewState} ->
++                    read_until_end_of_xml_directive(NewBytes, NewState)
++            end;
++        _ ->
++            {Rest, State}
++    end.
++
++
++%%----------------------------------------------------------------------
++%% Function  : cf(Rest, State) -> Result
++%% Parameters: Rest = binary()
++%%             State = #xmerl_sax_parser_state{}
++%%             NextCall = fun()
++%% Result    : {Rest, State}
++%% Description: Function that uses provided fun to read another chunk from
++%%              input stream and calls the fun in NextCall.
++%%----------------------------------------------------------------------
++cf(_Rest, #xmerl_sax_parser_state{continuation_fun = undefined} = State) ->
++    ?fatal_error(State, "Continuation function undefined"); 
++cf(Rest, #xmerl_sax_parser_state{continuation_fun = CFun, continuation_state = CState} = State) ->
++    Result = 
++	try
++	    CFun(CState)
++	catch
++	    throw:ErrorTerm ->
++		?fatal_error(State, ErrorTerm);
++            exit:Reason ->
++		?fatal_error(State, {'EXIT', Reason})
++	end,
++    case Result of
++	{<<>>, _} ->
++	    ?fatal_error(State, "Can't detect character encoding due to lack of indata"); 
++	{NewBytes, NewContState} ->
++            {<<Rest/binary, NewBytes/binary>>,  
++             State#xmerl_sax_parser_state{continuation_state = NewContState}}
++    end.
++
++%%----------------------------------------------------------------------
++%% Function  : cf(Rest, State, NextCall) -> Result
++%% Parameters: Rest = binary()
++%%             State = #xmerl_sax_parser_state{}
++%%             NextCall = fun()
++%% Result    : {Rest, State}
++%% Description: Function that uses provided fun to read another chunk from
++%%              input stream and calls the fun in NextCall.
++%%----------------------------------------------------------------------
++cf(_Rest, #xmerl_sax_parser_state{continuation_fun = undefined} = State, _) ->
++    ?fatal_error(State, "Continuation function undefined"); 
++cf(Rest, #xmerl_sax_parser_state{continuation_fun = CFun, continuation_state = CState} = State, 
++   NextCall) ->
++    Result = 
++	try
++	    CFun(CState)
++	catch
++	    throw:ErrorTerm ->
++		?fatal_error(State, ErrorTerm);
++            exit:Reason ->
++		?fatal_error(State, {'EXIT', Reason})
++	end,
++    case Result of
++	{<<>>, _} ->
++	    ?fatal_error(State, "Can't detect character encoding due to lack of indata"); 
++	{NewBytes, NewContState} ->
++	    NextCall(<<Rest/binary, NewBytes/binary>>,  
++		     State#xmerl_sax_parser_state{continuation_state = NewContState})
++    end.
+diff --git lib/xmerl/src/xmerl_sax_parser_base.erlsrc lib/xmerl/src/xmerl_sax_parser_base.erlsrc
+index f3470b280..1dca9608c 100644
+--- lib/xmerl/src/xmerl_sax_parser_base.erlsrc
++++ lib/xmerl/src/xmerl_sax_parser_base.erlsrc
+@@ -64,38 +64,42 @@
+ %% Description: Parsing XML from input stream.
+ %%----------------------------------------------------------------------
+ parse(Xml, State) ->
+-    RefTable = ets:new(xmerl_sax_entity_refs, [private]),
+-
+-    State1 =  event_callback(startDocument, State),
+-
+-    case catch parse_document(Xml, State1#xmerl_sax_parser_state{ref_table=RefTable}) of
+-	{ok, Rest, State2} ->
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-            case check_if_rest_ok(State3#xmerl_sax_parser_state.input_type, Rest) of
+-                true ->
+-                    {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
+-                false ->
+-                    format_error(fatal_error, State3, "Input found after legal document")
+-            end;
+-	{fatal_error, {State2, Reason}} ->
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-	    format_error(fatal_error, State3, Reason);
+-	{event_receiver_error, State2, {Tag, Reason}} -> 
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-	    format_error(Tag, State3, Reason);
+-	{endDocument, Rest, State2} ->
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-	    {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
+-	Other ->
+-	    _State2 = event_callback(endDocument, State1),
+-	    ets:delete(RefTable),
+-	    {fatal_error, Other}
++    RefTable = maps:new(),
++
++    try 
++        State1 =  event_callback(startDocument, State),
++        Result = parse_document(Xml, State1#xmerl_sax_parser_state{ref_table=RefTable}),
++        handle_end_document(Result)
++    catch
++        throw:Exception ->
++            handle_end_document(Exception);
++        _:OtherError ->
++            handle_end_document({other, OtherError, State})
+     end.
+ 
++    % case catch parse_document(Xml, State1#xmerl_sax_parser_state{ref_table=RefTable}) of
++    %     {ok, Rest, State2} ->
++    %         State3 =  event_callback(endDocument, State2),
++    %         case check_if_rest_ok(State3#xmerl_sax_parser_state.input_type, Rest) of
++    %             true ->
++    %                 {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
++    %             false ->
++    %                 format_error(fatal_error, State3, "Input found after legal document")
++    %         end;
++    %     {fatal_error, {State2, Reason}} ->
++    %         State3 =  event_callback(endDocument, State2),
++    %         format_error(fatal_error, State3, Reason);
++    %     {event_receiver_error, State2, {Tag, Reason}} -> 
++    %         State3 =  event_callback(endDocument, State2),
++    %         format_error(Tag, State3, Reason);
++    %     {endDocument, Rest, State2} ->
++    %         State3 =  event_callback(endDocument, State2),
++    %         {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
++    %     Other ->
++    %         _State2 = event_callback(endDocument, State1),
++    %         {fatal_error, Other}
++    % end.
++
+ %%----------------------------------------------------------------------
+ %% Function: parse_dtd(Xml, State) -> Result
+ %% Input:    Xml = string() | binary()
+@@ -105,38 +109,120 @@ parse(Xml, State) ->
+ %% Description: Parsing XML DTD from input stream.
+ %%----------------------------------------------------------------------
+ parse_dtd(Xml, State) ->
+-    RefTable = ets:new(xmerl_sax_entity_refs, [private]),
+-
+-    State1 =  event_callback(startDocument, State),
+-
+-    case catch parse_external_entity_1(Xml, State1#xmerl_sax_parser_state{ref_table=RefTable}) of
+-	{fatal_error, {State2, Reason}} ->
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-	    format_error(fatal_error, State3, Reason);
+-	{event_receiver_error, State2, {Tag, Reason}} -> 
+-	    State3 =  event_callback(endDocument, State2),
+-	    format_error(Tag, State3, Reason);
+-	{Rest, State2} when is_record(State2, xmerl_sax_parser_state) ->
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-            {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
+-	{endDocument, Rest, State2} when is_record(State2, xmerl_sax_parser_state) ->
+-	    State3 =  event_callback(endDocument, State2),
+-	    ets:delete(RefTable),
+-	    {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
+-	Other ->
+-	    _State2 = event_callback(endDocument, State1),
+-	    ets:delete(RefTable),
+-	    {fatal_error, Other}
++    RefTable = maps:new(),
++
++    try
++        State1 =  event_callback(startDocument, State),
++        Result = parse_external_entity_1(Xml, State1#xmerl_sax_parser_state{ref_table=RefTable}),
++        handle_end_document(Result)
++    catch
++        throw:Exception ->
++              handle_end_document(Exception);
++        _:OtherError ->
++             handle_end_document({other, OtherError, State})
+     end.
+ 
+ 
++    % case catch parse_external_entity_1(Xml, State1#xmerl_sax_parser_state{ref_table=RefTable}) of
++    %     {fatal_error, {State2, Reason}} ->
++    %         State3 =  event_callback(endDocument, State2),
++    %         format_error(fatal_error, State3, Reason);
++    %     {event_receiver_error, State2, {Tag, Reason}} -> 
++    %         State3 =  event_callback(endDocument, State2),
++    %         format_error(Tag, State3, Reason);
++    %     {Rest, State2} when is_record(State2, xmerl_sax_parser_state) ->
++    %         State3 =  event_callback(endDocument, State2),
++    %         {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
++    %     {endDocument, Rest, State2} when is_record(State2, xmerl_sax_parser_state) ->
++    %         State3 =  event_callback(endDocument, State2),
++    %         {ok, State3#xmerl_sax_parser_state.event_state, Rest}; 
++    %     Other ->
++    %         _State2 = event_callback(endDocument, State1),
++    %         {fatal_error, Other}
++    % end.
++
++
+ %%======================================================================
+ %% Internal functions
+ %%======================================================================
+ 
+ %%----------------------------------------------------------------------
++%% Function: handle_end_document(ParserResult) -> Result
++%% Input:    ParseResult = term()
++%% Output:   Result = {ok, Rest, EventState} |
++%%           EventState = term()
++%% Description: Ends the parsing and formats output
++%%----------------------------------------------------------------------
++handle_end_document({ok, Rest, State}) -> 
++    %%ok case from parse
++    try 
++        State1 = event_callback(endDocument, State),
++        case check_if_rest_ok(State1#xmerl_sax_parser_state.input_type, Rest) of
++            true ->
++                {ok, State1#xmerl_sax_parser_state.event_state, Rest}; 
++            false ->
++                format_error(fatal_error, State1, "Input found after legal document")
++        end
++     catch
++         throw:{event_receiver_error, State2, {Tag, Reason}} ->
++              format_error(Tag, State2, Reason); 
++          _:Other ->
++              {fatal_error, Other}
++     end;
++handle_end_document({endDocument, Rest, State}) ->  
++    %% ok case from parse and parse_dtd
++    try
++        State1 = event_callback(endDocument, State),
++        {ok, State1#xmerl_sax_parser_state.event_state, Rest}
++    catch 
++        throw:{event_receiver_error, State2, {Tag, Reason}} ->
++              format_error(Tag, State2, Reason); 
++          _:Other ->
++              {fatal_error, Other}
++     end;
++handle_end_document({fatal_error, {State, Reason}}) ->
++    try
++        State1 = event_callback(endDocument, State),
++        format_error(fatal_error, State1, Reason)
++    catch 
++        throw:{event_receiver_error, State2, {Tag, Reason}} ->
++              format_error(Tag, State2, Reason); 
++          _:Other ->
++              {fatal_error, Other}
++     end;
++handle_end_document({event_receiver_error, State, {Tag, Reason}}) ->
++    try
++        State1 =  event_callback(endDocument, State),
++        format_error(Tag, State1, Reason)
++    catch 
++        throw:{event_receiver_error, State2, {Tag, Reason}} ->
++              format_error(Tag, State2, Reason); 
++          _:Other ->
++              {fatal_error, Other}
++     end;
++handle_end_document({Rest, State}) when is_record(State, xmerl_sax_parser_state) -> 
++    %%ok case from parse_dtd
++    try
++        State1 =  event_callback(endDocument, State),
++        {ok, State1#xmerl_sax_parser_state.event_state, Rest}
++    catch 
++        throw:{event_receiver_error, State2, {Tag, Reason}} ->
++              format_error(Tag, State2, Reason); 
++          _:Other ->
++              {fatal_error, Other}
++     end;
++handle_end_document({other, Error, State}) ->
++    try
++        _State1 = event_callback(endDocument, State),
++        {fatal_error, Error}
++    catch 
++        throw:{event_receiver_error, State2, {Tag, Reason}} ->
++              format_error(Tag, State2, Reason); 
++          _:Other ->
++              {fatal_error, Other}
++     end.
++
++%%----------------------------------------------------------------------
+ %% Function: parse_document(Rest, State) -> Result
+ %% Input:    Rest = string() | binary()
+ %%           State = #xmerl_sax_parser_state{}
+@@ -439,6 +525,7 @@ check_if_rest_ok(stream, _) ->
+ check_if_rest_ok(_, _) ->
+     false.
+ 
++
+ %%----------------------------------------------------------------------
+ %% Function: parse_pi_1(Rest, State) -> Result
+ %% Input:    Rest = string() | binary()
+@@ -883,11 +970,11 @@ send_end_prefix_mapping_event([{Prefix, _Uri} |Ns], State) ->
+ parse_eq(?STRING_EMPTY, State) ->
+     cf(?STRING_EMPTY, State, fun parse_eq/2);
+ parse_eq(?STRING_REST("=", Rest), State) ->
+-	{Rest, State};
++    {Rest, State};
+ parse_eq(?STRING_UNBOUND_REST(C, _) = Bytes, State) when ?is_whitespace(C) ->	
+-	{_WS, Rest, State1} = 
+-		whitespace(Bytes, State, []),
+-	parse_eq(Rest, State1);
++    {_WS, Rest, State1} = 
++        whitespace(Bytes, State, []),
++    parse_eq(Rest, State1);
+ parse_eq(Bytes, State) ->	
+     unicode_incomplete_check([Bytes, State, fun parse_eq/2], 
+ 			     "expecting = or whitespace"). 
+@@ -905,11 +992,11 @@ parse_eq(Bytes, State) ->
+ parse_att_value(?STRING_EMPTY, State) ->
+     cf(?STRING_EMPTY, State, fun parse_att_value/2);
+ parse_att_value(?STRING_UNBOUND_REST(C, Rest), State)  when C == $'; C == $"  ->	
+-	parse_att_value(Rest, State, C, []);
++    parse_att_value(Rest, State, C, []);
+ parse_att_value(?STRING_UNBOUND_REST(C, _) = Bytes, State) when ?is_whitespace(C) ->	
+-	{_WS, Rest, State1} = 
+-		whitespace(Bytes, State, []),
+-	parse_att_value(Rest, State1);
++    {_WS, Rest, State1} = 
++        whitespace(Bytes, State, []),
++    parse_att_value(Rest, State1);
+ parse_att_value(Bytes, State) ->
+     unicode_incomplete_check([Bytes, State, fun parse_att_value/2], 
+ 			     "\', \" or whitespace expected"). 
+@@ -1360,17 +1447,20 @@ parse_pe_reference_1(Bytes, State, Name) ->
+ 
+ 
+ %%----------------------------------------------------------------------
+-%% Function: insert_reference(Reference, State) -> Result
+-%% Parameters: Reference = string()
++%% Function: insert_reference(Name, Ref, State) -> Result
++%% Parameters: Name = string()
++%%             Ref = {Type, Value}
++%%             Type = atom()
++%%             Value = term()
+ %%             State = #xmerl_sax_parser_state{}
+ %% Result    :
+ %%----------------------------------------------------------------------
+-insert_reference({Name, Type, Value}, Table) ->
+-    case ets:lookup(Table, Name) of
+-	[{Name, _, _}] ->
+-	    ok;
++insert_reference(Name, Value, #xmerl_sax_parser_state{ref_table = Map} = State) ->
++    case maps:find(Name, Map) of
++        error ->
++            State#xmerl_sax_parser_state{ref_table = maps:put(Name, Value, Map)};
+ 	_ ->
+-	    ets:insert(Table, {Name, Type, Value})
++	    State
+     end.
+ 	    
+ 
+@@ -1391,8 +1481,8 @@ look_up_reference("apos", _, _) ->
+ look_up_reference("quot", _, _) ->
+     {internal_general, "quot", "\""};
+ look_up_reference(Name, HaveToExist, State) ->
+-    case ets:lookup(State#xmerl_sax_parser_state.ref_table, Name) of
+-	[{Name, Type, Value}] ->
++    case maps:find(Name, State#xmerl_sax_parser_state.ref_table) of
++	{ok, {Type, Value}} ->
+ 	    {Type, Name, Value};
+ 	_ ->
+ 	    case HaveToExist of
+@@ -1474,7 +1564,7 @@ parse_system_litteral(?STRING_EMPTY, State, Stop, Acc) ->
+ parse_system_litteral(?STRING_UNBOUND_REST(Stop, Rest), State, Stop, Acc) ->
+     {lists:reverse(Acc), Rest, State};
+ parse_system_litteral(?STRING_UNBOUND_REST(C, Rest), State, Stop, Acc) ->
+-   parse_system_litteral(Rest, State, Stop, [C |Acc]);
++    parse_system_litteral(Rest, State, Stop, [C |Acc]);
+ parse_system_litteral(Bytes, State, Stop, Acc) ->
+     unicode_incomplete_check([Bytes, State, Stop, Acc, fun parse_system_litteral/4], 
+ 			     undefined).
+@@ -1646,9 +1736,11 @@ parse_external_entity(State, _PubId, SysId) ->
+ 					  end_tags = []},
+     
+     
+-    EventState = handle_external_entity(ExtRef, State1),
++    {EventState, RefTable} = handle_external_entity(ExtRef, State1),
+ 
+-    NewState =  event_callback({endEntity, SysId}, SaveState#xmerl_sax_parser_state{event_state=EventState}),
++    NewState =  event_callback({endEntity, SysId}, 
++                               SaveState#xmerl_sax_parser_state{event_state=EventState,
++                                                                ref_table=RefTable}),
+     NewState#xmerl_sax_parser_state{file_type=normal}.
+ 
+ 
+@@ -1675,7 +1767,8 @@ handle_external_entity({file, FileToOpen}, State) ->
+ 								     entity=filename:basename(FileToOpen),
+ 								     input_type=file}),
+ 	    ok = file:close(FD),
+-	    EntityState#xmerl_sax_parser_state.event_state
++	    {EntityState#xmerl_sax_parser_state.event_state, 
++             EntityState#xmerl_sax_parser_state.ref_table}
+     end;
+ handle_external_entity({http, Url}, State) ->
+ 
+@@ -1695,7 +1788,9 @@ handle_external_entity({http, Url}, State) ->
+ 									 input_type=file}),
+ 		ok = file:close(FD),
+ 		ok = file:delete(TmpFile),
+-		EntityState#xmerl_sax_parser_state.event_state
++		{EntityState#xmerl_sax_parser_state.event_state, 
++                 EntityState#xmerl_sax_parser_state.ref_table}
++                 
+ 	end
+     catch
+ 	throw:{error, Error} -> 	    
+@@ -1716,7 +1811,7 @@ handle_external_entity({Tag, _Url}, State) ->
+ parse_external_entity_1(?STRING_EMPTY, #xmerl_sax_parser_state{file_type=Type} = State) ->
+     case catch cf(?STRING_EMPTY, State, fun parse_external_entity_1/2) of
+ 	{Rest, State1} when is_record(State1, xmerl_sax_parser_state) ->
+-	    {Rest, State};
++	    {Rest, State1};
+ 	{fatal_error, {State1, "No more bytes"}} when Type == dtd; Type == entity ->
+ 	    {?STRING_EMPTY, State1};
+ 	Other ->
+@@ -2442,24 +2537,24 @@ parse_entity_def(?STRING_EMPTY, State, Name) ->
+     cf(?STRING_EMPTY, State, Name, fun parse_entity_def/3);
+ parse_entity_def(?STRING_UNBOUND_REST(C, Rest), State, Name) when C == $'; C == $" ->
+     {Value, Rest1, State1} = parse_entity_value(Rest, State, C, []),
+-    insert_reference({Name, internal_general, Value}, State1#xmerl_sax_parser_state.ref_table),
+-    State2 =  event_callback({internalEntityDecl, Name, Value}, State1),
+-    {_WS, Rest2, State3} = whitespace(Rest1, State2, []),
+-    parse_def_end(Rest2, State3);
++    State2 = insert_reference(Name, {internal_general, Value}, State1),
++    State3 =  event_callback({internalEntityDecl, Name, Value}, State2),
++    {_WS, Rest2, State4} = whitespace(Rest1, State3, []),
++    parse_def_end(Rest2, State4);
+ parse_entity_def(?STRING_UNBOUND_REST(C, _) = Rest, State, Name) when C == $S; C == $P  ->
+     {PubId, SysId, Rest1, State1} = parse_external_id(Rest, State, false),
+     {Ndata, Rest2, State2} = parse_ndata(Rest1, State1),
+     case Ndata of
+ 	undefined ->
+-	    insert_reference({Name, external_general, {PubId, SysId}},
+-			     State2#xmerl_sax_parser_state.ref_table),
+-	    State3 =  event_callback({externalEntityDecl, Name, PubId, SysId}, State2),
+-	    {Rest2, State3};
++	    State3 = insert_reference(Name, {external_general, {PubId, SysId}},
++                                      State2),
++	    State4 =  event_callback({externalEntityDecl, Name, PubId, SysId}, State3),
++	    {Rest2, State4};
+ 	_ ->
+-	    insert_reference({Name, unparsed, {PubId, SysId, Ndata}}, 
+-			     State2#xmerl_sax_parser_state.ref_table),
+-	    State3 =  event_callback({unparsedEntityDecl, Name, PubId, SysId, Ndata}, State2),
+-	    {Rest2, State3}
++	    State3 = insert_reference(Name, {unparsed, {PubId, SysId, Ndata}}, 
++                                      State2),
++	    State4 =  event_callback({unparsedEntityDecl, Name, PubId, SysId, Ndata}, State3),
++	    {Rest2, State4}
+     end;    
+ parse_entity_def(Bytes, State, Name) ->
+     unicode_incomplete_check([Bytes, State, Name, fun parse_entity_def/3], 
+@@ -2636,19 +2731,19 @@ parse_pe_def(?STRING_EMPTY, State, Name) ->
+ parse_pe_def(?STRING_UNBOUND_REST(C, Rest), State, Name) when C == $'; C == $" ->
+     {Value, Rest1, State1} = parse_entity_value(Rest, State, C, []), 
+     Name1 = "%" ++ Name,
+-    insert_reference({Name1, internal_parameter, Value},
+-                     State1#xmerl_sax_parser_state.ref_table),
+-    State2 =  event_callback({internalEntityDecl, Name1, Value}, State1),
+-    {_WS, Rest2, State3} = whitespace(Rest1, State2, []),
+-    parse_def_end(Rest2, State3);
++    State2 = insert_reference(Name1, {internal_parameter, Value},
++                              State1),
++    State3 =  event_callback({internalEntityDecl, Name1, Value}, State2),
++    {_WS, Rest2, State4} = whitespace(Rest1, State3, []),
++    parse_def_end(Rest2, State4);
+ parse_pe_def(?STRING_UNBOUND_REST(C, _) = Bytes, State, Name) when C == $S; C == $P  ->
+     {PubId, SysId, Rest1, State1} = parse_external_id(Bytes, State, false),
+     Name1 = "%" ++ Name,
+-    insert_reference({Name1, external_parameter, {PubId, SysId}}, 
+-		     State1#xmerl_sax_parser_state.ref_table),
+-    State2 =  event_callback({externalEntityDecl, Name1, PubId, SysId}, State1),
+-    {_WS, Rest2, State3} = whitespace(Rest1, State2, []),
+-    parse_def_end(Rest2, State3);
++    State2 = insert_reference(Name1, {external_parameter, {PubId, SysId}}, 
++                              State1),
++    State3 =  event_callback({externalEntityDecl, Name1, PubId, SysId}, State2),
++    {_WS, Rest2, State4} = whitespace(Rest1, State3, []),
++    parse_def_end(Rest2, State4);
+ parse_pe_def(Bytes, State, Name) ->
+     unicode_incomplete_check([Bytes, State, Name, fun parse_pe_def/3], 
+ 			     "\", \', SYSTEM or PUBLIC expected").
+diff --git lib/xmerl/src/xmerl_sax_simple_dom.erl lib/xmerl/src/xmerl_sax_simple_dom.erl
+index 7eb3afd49..d842bd982 100644
+--- lib/xmerl/src/xmerl_sax_simple_dom.erl
++++ lib/xmerl/src/xmerl_sax_simple_dom.erl
+@@ -129,8 +129,9 @@ build_dom(endDocument,
+ 	    State#xmerl_sax_simple_dom_state{dom=[Decl, {Tag, Attributes, 
+ 						   lists:reverse(Content)}]};
+ 	_ ->
+-	    ?dbg("~p\n", [D]),
+-	    ?error("we're not at end the document when endDocument event is encountered.")
++            %% endDocument is also sent by the parser when a fault occur to tell 
++            %% the event receiver that no more input will be sent
++	    State
+     end;
+ 
+ %% Element
+diff --git lib/xmerl/test/Makefile lib/xmerl/test/Makefile
+index e5c89f84b..3204f081b 100644
+--- lib/xmerl/test/Makefile
++++ lib/xmerl/test/Makefile
+@@ -126,5 +126,6 @@ release_tests_spec: opt
+ 	@tar cfh - xmerl_xsd_MS2002-01-16_SUITE_data | (cd "$(RELSYSDIR)"; tar xf -)
+ 	@tar cfh - xmerl_xsd_NIST2002-01-16_SUITE_data | (cd "$(RELSYSDIR)"; tar xf -)
+ 	@tar cfh - xmerl_xsd_Sun2002-01-16_SUITE_data | (cd "$(RELSYSDIR)"; tar xf -)
++	@tar cfh - xmerl_sax_SUITE_data | (cd "$(RELSYSDIR)"; tar xf -)
+ 	@tar cfh - xmerl_sax_stream_SUITE_data | (cd "$(RELSYSDIR)"; tar xf -)
+ 	chmod -R u+w "$(RELSYSDIR)"
+diff --git lib/xmerl/test/xmerl_sax_SUITE.erl lib/xmerl/test/xmerl_sax_SUITE.erl
+index eb9cefe0d..68b9bcc4a 100644
+--- lib/xmerl/test/xmerl_sax_SUITE.erl
++++ lib/xmerl/test/xmerl_sax_SUITE.erl
+@@ -33,7 +33,6 @@
+ %%======================================================================
+ %% External functions
+ %%======================================================================
+-
+ %%----------------------------------------------------------------------
+ %% Initializations
+ %%----------------------------------------------------------------------
+@@ -42,12 +41,15 @@ all() ->
+     [{group, bugs}].
+ 
+ groups() ->
+-    [{bugs, [], [ticket_8213, ticket_8214, ticket_11551]}].
++    [{bugs, [], [ticket_8213, ticket_8214, ticket_11551, 
++                 fragmented_xml_directive,
++                 old_dom_event_fun_endDocument_bug, 
++                 event_fun_endDocument_error_test,
++                 event_fun_startDocument_error_test]}].
+ 
+-%%----------------------------------------------------------------------
++%%======================================================================
+ %% Tests
+-%%----------------------------------------------------------------------
+-
++%%======================================================================
+ %%----------------------------------------------------------------------
+ %% Test Case 
+ %% ID: ticket_8213
+@@ -56,7 +58,6 @@ ticket_8213(_Config) ->
+     {ok,ok,[]} = xmerl_sax_parser:stream("<elem/>", [{event_fun, fun (_E,_,_) -> ok end}]),
+     ok.
+ 
+-
+ %%----------------------------------------------------------------------
+ %% Test Case 
+ %% ID: ticket_8214
+@@ -99,3 +100,66 @@ ticket_11551(_Config) ->
+ <a>hej</a>">>,
+     {ok, undefined, <<"\n\n<?xml",  _/binary>>} = xmerl_sax_parser:stream(Stream3, []),
+     ok.
++
++%%----------------------------------------------------------------------
++%% Test Case 
++%% ID: fragmented_xml_directive
++%% Test of fragmented xml directive by reading one byte per continuation ca
++fragmented_xml_directive(Config) ->
++    DataDir = proplists:get_value(data_dir, Config),
++    Name = filename:join(DataDir, "test_data_1.xml"),
++    {ok, Fd} =  file:open(Name, [raw, read,binary]),
++    Cf = fun cf_fragmented_xml_directive/1,
++    {ok, undefined, _} = xmerl_sax_parser:stream(<<>>, 
++                                                 [{continuation_fun, Cf}, 
++                                                  {continuation_state, Fd}]),
++    ok.
++
++%%----------------------------------------------------------------------
++%% Test Case 
++%% ID: old_dom_event_fun_endDocument_bug
++%%     The old_dom backend previous generateded an uncatched exception
++%%     instead of the correct fatal_error from the parser.
++old_dom_event_fun_endDocument_bug(_Config) ->
++    %% Stream contains bad characters, 
++    {fatal_error, _, _, _, _} = 
++        xmerl_sax_parser:stream([60,63,120,109,108,32,118,101,114,115,105,111,110,61,39,49,46,48,39,32,101,110,99,111,100,105,110,103,61,39,117,116,102,45,56,39,63,62,60,
++                                 99,111,109,109,97,110,100,62,60,104,101,97,100,101,114,62,60,116,114,97,110,115,97,99,116,105,111,110,73,100,62,49,60,47,116,114,97,110,
++                                 115,97,99,116,105,111,110,73,100,62,60,47,104,101,97,100,101,114,62,60,98,111,100,121,62,95,226,130,172,59,60,60,47,98,111,100,121,62,60,
++                                 47,99,111,109,109,97,110,100,62,60,47,120,49,95,49,62],
++                                [{event_fun,fun xmerl_sax_old_dom:event/3},
++                                 {event_state,xmerl_sax_old_dom:initial_state()}]),
++    ok.
++
++%%----------------------------------------------------------------------
++%% Test Case 
++%% ID: event_fun_endDocument_error_test
++event_fun_endDocument_error_test(_Config) ->
++    Stream = <<"<?xml version=\"1.0\" encoding=\"utf-8\"?><a>hej</a>">>,
++    Ef = fun(endDocument, _ , _) ->  throw({event_error, "endDocument error"});
++            (_, _, S) -> S
++         end,
++    {event_error, _, _, _, _} = xmerl_sax_parser:stream(Stream, [{event_fun, Ef}]),
++    ok.
++
++%%----------------------------------------------------------------------
++%% Test Case 
++%% ID: event_fun_startDocument_error_test
++event_fun_startDocument_error_test(_Config) ->
++    Stream = <<"<?xml version=\"1.0\" encoding=\"utf-8\"?><a>hej</a>">>,
++    Ef = fun(startDocument, _ , _) ->  throw({event_error, "endDocument error"});
++            (_, _, S) -> S
++         end,
++    {event_error, _, _, _, _} = xmerl_sax_parser:stream(Stream, [{event_fun, Ef}]),
++    ok.
++
++%%======================================================================
++%% Internal functions
++%%======================================================================
++cf_fragmented_xml_directive(IoDevice) ->
++    case file:read(IoDevice, 1) of
++	eof ->
++	    {<<>>, IoDevice};
++	{ok, FileBin} ->
++	    {FileBin, IoDevice}
++    end.
+diff --git lib/xmerl/test/xmerl_sax_SUITE_data/test_data_1.xml lib/xmerl/test/xmerl_sax_SUITE_data/test_data_1.xml
+new file mode 100644
+index 000000000..efbaee6b8
+--- /dev/null
++++ lib/xmerl/test/xmerl_sax_SUITE_data/test_data_1.xml
+@@ -0,0 +1,4 @@
++<?xml version="1.0"  encoding="utf-8"?>
++<a>
++Hej
++</a>
+diff --git lib/xmerl/test/xmerl_sax_stream_SUITE.erl lib/xmerl/test/xmerl_sax_stream_SUITE.erl
+index a306eb66a..7315f6737 100644
+--- lib/xmerl/test/xmerl_sax_stream_SUITE.erl
++++ lib/xmerl/test/xmerl_sax_stream_SUITE.erl
+@@ -40,7 +40,8 @@ all() ->
+     [
+      one_document,
+      two_documents,
+-     one_document_and_junk
++     one_document_and_junk,
++     end_of_stream
+     ].
+ 
+ %%----------------------------------------------------------------------
+@@ -62,6 +63,9 @@ end_per_testcase(_Func, _Config) ->
+ %%----------------------------------------------------------------------
+ %% Tests
+ %%----------------------------------------------------------------------
++
++%%----------------------------------------------------------------------
++%% Send One doc over stream
+ one_document(Config) ->
+     Port = 11111,
+ 
+@@ -107,6 +111,8 @@ one_document(Config) ->
+     end,
+     ok.
+     
++%%----------------------------------------------------------------------
++%% Send Two doc over stream
+ two_documents(Config) ->
+     Port = 11111,
+ 
+@@ -152,6 +158,8 @@ two_documents(Config) ->
+     end,
+     ok.
+     
++%%----------------------------------------------------------------------
++%% Send one doc and then junk on stream
+ one_document_and_junk(Config) ->
+     Port = 11111,
+ 
+@@ -196,6 +204,13 @@ one_document_and_junk(Config) ->
+                ct:fail("Timeout")
+     end,
+     ok.
++
++%%----------------------------------------------------------------------
++%% Test of continuation when end of stream
++end_of_stream(Config) ->
++    Stream = <<"<?xml version=\"1.0\" encoding=\"utf-8\"?><a>hej</a>">>,
++    {ok, undefined, <<>>} = xmerl_sax_parser:stream(Stream, []),
++    ok.
+     
+ %%----------------------------------------------------------------------
+ %% Utility functions
+diff --git lib/xmerl/vsn.mk lib/xmerl/vsn.mk
+index 1515a4e37..4e741d59a 100644
+--- lib/xmerl/vsn.mk
++++ lib/xmerl/vsn.mk
+@@ -1 +1 @@
+-XMERL_VSN = 1.3.13
++XMERL_VSN = 1.3.14
+diff --git otp_versions.table otp_versions.table
+index 4d3d61417..0d2f7491d 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-19.3.5 : erts-8.3.4 xmerl-1.3.14 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.3 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 :
+ OTP-19.3.4 : inets-6.3.9 ssl-8.1.3 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 erts-8.3.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3.3 : dialyzer-3.1.1 erts-8.3.3 inets-6.3.8 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3.2 : erts-8.3.2 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.7 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :

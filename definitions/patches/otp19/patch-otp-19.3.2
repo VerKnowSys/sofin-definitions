@@ -1,0 +1,126 @@
+diff --git OTP_VERSION OTP_VERSION
+index 4c800a9e0..3e3d3bacf 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-19.3.1
++19.3.2
+diff --git erts/doc/src/notes.xml erts/doc/src/notes.xml
+index d9c5f47a3..5d21b8fda 100644
+--- erts/doc/src/notes.xml
++++ erts/doc/src/notes.xml
+@@ -32,6 +32,24 @@
+   <p>This document describes the changes made to the ERTS application.</p>
+ 
+ 
++<section><title>Erts 8.3.2</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    The <c>+Bi</c> command line argument of <c>erl</c>
++	    erroneously caused <c>SIGTERM</c> to be ignored by the VM
++	    as well as of all its child processes. This bug was
++	    introduced in erts version 8.3.</p>
++          <p>
++	    Own Id: OTP-14358 Aux Id: OTP-14085 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Erts 8.3.1</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git erts/emulator/sys/unix/erl_unix_sys.h erts/emulator/sys/unix/erl_unix_sys.h
+index b64b0d87f..054a4678c 100644
+--- erts/emulator/sys/unix/erl_unix_sys.h
++++ erts/emulator/sys/unix/erl_unix_sys.h
+@@ -322,6 +322,7 @@ extern SIGFUNC sys_signal(int, SIGFUNC);
+ extern void sys_sigrelease(int);
+ extern void sys_sigblock(int);
+ extern void sys_init_suspend_handler(void);
++extern void erts_sys_unix_later_init(void);
+ 
+ /*
+  * Handling of floating point exceptions.
+diff --git erts/emulator/sys/unix/sys.c erts/emulator/sys/unix/sys.c
+index 55411f83d..3010af44b 100644
+--- erts/emulator/sys/unix/sys.c
++++ erts/emulator/sys/unix/sys.c
+@@ -791,10 +791,14 @@ static RETSIGTYPE do_quit(int signum)
+ 
+ /* Disable break */
+ void erts_set_ignore_break(void) {
+-    sys_signal(SIGINT,  SIG_IGN);
+-    sys_signal(SIGTERM, SIG_IGN);
+-    sys_signal(SIGQUIT, SIG_IGN);
+-    sys_signal(SIGTSTP, SIG_IGN);
++    /*
++     * Ignore signals that can be sent to the VM by
++     * typing certain key combinations at the
++     * controlling terminal...
++     */
++    sys_signal(SIGINT,  SIG_IGN);       /* Ctrl-C */
++    sys_signal(SIGQUIT, SIG_IGN);       /* Ctrl-\ */
++    sys_signal(SIGTSTP, SIG_IGN);       /* Ctrl-Z */
+ }
+ 
+ /* Don't use ctrl-c for break handler but let it be 
+@@ -818,7 +822,6 @@ void erts_replace_intr(void) {
+ void init_break_handler(void)
+ {
+    sys_signal(SIGINT, request_break);
+-   sys_signal(SIGTERM, request_stop);
+ #ifndef ETHR_UNUSABLE_SIGUSRX
+    sys_signal(SIGUSR1, user_signal1);
+ #endif /* #ifndef ETHR_UNUSABLE_SIGUSRX */
+@@ -832,6 +835,12 @@ void sys_init_suspend_handler(void)
+ #endif
+ }
+ 
++void
++erts_sys_unix_later_init(void)
++{
++    sys_signal(SIGTERM, request_stop);
++}
++
+ int sys_max_files(void)
+ {
+    return(max_files);
+diff --git erts/emulator/sys/unix/sys_drivers.c erts/emulator/sys/unix/sys_drivers.c
+index 400f16365..93cf64719 100644
+--- erts/emulator/sys/unix/sys_drivers.c
++++ erts/emulator/sys/unix/sys_drivers.c
+@@ -204,6 +204,7 @@ erl_sys_late_init(void)
+ #ifdef ERTS_SMP
+     erts_mtx_unlock(port->lock);
+ #endif
++    erts_sys_unix_later_init(); /* Need to be called after forker has been started */
+ }
+ 
+ /* II. Prototypes */
+diff --git erts/vsn.mk erts/vsn.mk
+index 7f880dba4..29323dd97 100644
+--- erts/vsn.mk
++++ erts/vsn.mk
+@@ -18,7 +18,7 @@
+ # %CopyrightEnd%
+ # 
+ 
+-VSN = 8.3.1
++VSN = 8.3.2
+ 
+ # Port number 4365 in 4.2
+ # Port number 4366 in 4.3
+diff --git otp_versions.table otp_versions.table
+index 8fb437bb9..f0aa904ca 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-19.3.2 : erts-8.3.2 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.7 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.2 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3.1 : crypto-3.7.4 erts-8.3.1 inets-6.3.7 ssh-4.4.2 ssl-8.1.2 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 debugger-4.2.1 dialyzer-3.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.13 :
+ OTP-19.3 : common_test-1.14 compiler-7.0.4 crypto-3.7.3 dialyzer-3.1 diameter-1.12.2 erl_interface-3.9.3 erts-8.3 hipe-3.15.4 inets-6.3.6 kernel-5.2 observer-2.3.1 os_mon-2.4.2 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.1 ssl-8.1.1 stdlib-3.3 tools-2.9.1 typer-0.9.12 xmerl-1.3.13 # asn1-4.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 debugger-4.2.1 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 et-1.6 eunit-2.3.2 gs-1.6.2 ic-4.4.2 jinterface-1.7.1 megaco-3.18.1 mnesia-4.14.3 odbc-2.12 orber-3.8.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 syntax_tools-2.1.1 wx-1.8 :
+ OTP-19.2.3 : erts-8.2.2 inets-6.3.5 # asn1-4.0.4 common_test-1.13 compiler-7.0.3 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.2 debugger-4.2.1 dialyzer-3.0.3 diameter-1.12.1 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.2 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.3 ic-4.4.2 jinterface-1.7.1 kernel-5.1.1 megaco-3.18.1 mnesia-4.14.3 observer-2.3 odbc-2.12 orber-3.8.2 os_mon-2.4.1 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.3 reltool-0.7.2 runtime_tools-1.11 sasl-3.0.2 snmp-5.2.4 ssh-4.4 ssl-8.1 stdlib-3.2 syntax_tools-2.1.1 tools-2.9 typer-0.9.11 wx-1.8 xmerl-1.3.12 :
