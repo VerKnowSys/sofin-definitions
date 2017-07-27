@@ -6,9 +6,9 @@ DEF_STANDALONE=YES
 MAJOR="19.3"
 DEF_VERSION="${MAJOR}.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz" # NOTE: For non-tarball versions use: "./otp_build autoconf" to gen configure
-DEF_REQUIREMENTS="pkgconf make m4 libtool zlib lzma lzo xz gettext db gdbm libunwind libatomic_ops libressl unixodbc perl libxml2 libgpg-error libgcrypt libxslt"
+DEF_REQUIREMENTS="pkgconf make m4 bison flex zlib gettext libtool lzma lzo xz db gdbm libunwind perl openssl libxml2 libgpg-error libgcrypt libxslt"
 DEF_AFTER_UNPACK_METHOD="./otp_build remove_prebuilt_files || :"
-DEF_CONFIGURE_ARGS="--enable-threads --with-dynamic-trace=dtrace --enable-fp-exceptions --enable-hipe --enable-kernel-poll --enable-smp-support --enable-sctp --with-ssl=${PREFIX} --disable-debug --enable-vm-probes --with-odbc=${PREFIX} --enable-native-libs --with-libatomic_ops=${PREFIX}"
+DEF_CONFIGURE_ARGS="--enable-threads --with-dynamic-trace=dtrace --enable-hipe --enable-kernel-poll --enable-smp-support --with-ssl=${PREFIX} --with-ssl-incl=${PREFIX}/include --disable-debug --enable-native-libs --without-odbc"
 DEF_INSTALL_METHOD="LANG=en_GB.UTF-8 make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
@@ -30,7 +30,7 @@ case "${SYSTEM_NAME}" in
 
     *)
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -fno-omit-frame-pointer"
-        DEF_LINKER_FLAGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
+        DEF_LINKER_FLAGS="-L${PREFIX}/lib -ldtrace -lpthread"
         ;;
 esac
 
