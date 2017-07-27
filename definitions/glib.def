@@ -8,3 +8,4 @@ DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqli
 DEF_CONFIGURE_ARGS="--disable-dtrace --disable-fam --disable-gtk-doc --disable-gtk-doc-html --disable-maintainer-mode --disable-silent-rules --disable-systemtap --disable-installed-tests --disable-always-build-tests --disable-selinux --disable-compile-warnings --without-xml-catalog --disable-dependency-tracking"
 DEF_EXPORTS="psktool certtool srptool ocsptool gnutls-cli p11tool systemkey"
 DEF_USEFUL="bin/g* bin/*-config bin/pkgconf"
+DEF_NO_SAFE_STACK=YES
