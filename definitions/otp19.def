@@ -7,7 +7,7 @@ MAJOR="19.3"
 MINOR="6.1"
 DEF_VERSION="${MAJOR}.${MINOR}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make m4 bison flex expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl libgpg-error libgcrypt autoconf texinfo automake18 jpeg jbig2dec jbigkit nasm libjpeg-turbo tiff libpng wxwidgets"
+DEF_REQUIREMENTS="pkgconf make m4 bison flex expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl libgpg-error libgcrypt autoconf texinfo automake18"
 
 DEF_AFTER_UNPACK_METHOD="post_unpack"
 post_unpack () {
@@ -18,7 +18,7 @@ post_unpack () {
     ./otp_build autoconf
 }
 
-DEF_CONFIGURE_ARGS="--enable-threads --enable-dynamic-ssl-lib --enable-shared-zlib --with-dynamic-trace=dtrace --enable-kernel-poll --enable-smp-support --with-ssl=${PREFIX} --disable-debug --enable-native-libs --without-odbc --enable-wx --with-dirty-schedulers --without-docs"
+DEF_CONFIGURE_ARGS="--enable-threads --enable-dynamic-ssl-lib --enable-shared-zlib --with-dynamic-trace=dtrace --enable-kernel-poll --enable-smp-support --with-ssl=${PREFIX} --disable-debug --enable-native-libs --without-odbc --with-dirty-schedulers --without-docs"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
@@ -37,11 +37,12 @@ case "${SYSTEM_NAME}" in
         # (...)
         #
         # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-m64-build"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-java --enable-hipe"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --enable-hipe"
         ;;
 
     Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-java --enable-darwin-64bit --enable-hipe"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} jpeg jbig2dec jbigkit nasm libjpeg-turbo tiff libpng wxwidgets"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --enable-java --enable-darwin-64bit --disable-hipe"
         ;;
 esac
 
