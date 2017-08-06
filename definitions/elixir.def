@@ -1,6 +1,6 @@
 inherit otp19
 
-unset DEF_SUFFIX
+unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD
 DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
 DEF_NAME="elixir"
 DEF_VERSION="1.5.1"
@@ -12,4 +12,5 @@ DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elix
 DEF_CONFLICTS_WITH="Otp"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp20"
 DEF_USELESS="share lib/*perl*"
-DEF_TEST_METHOD="LANG=en_US.UTF-8 make test"
+DEF_TEST_METHOD="make test"
+DEF_INSTALL_METHOD="make -s install"
