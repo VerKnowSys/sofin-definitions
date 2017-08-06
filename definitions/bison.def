@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="GNU Bison Library"
 DEF_SHA="8270497aad88c7dd4f2c317298c50513fb0c3c8e"
 DEF_NAME="bison"
