@@ -4,12 +4,22 @@ DEF_NAME="otp"
 PATCHES_SITE="https://olgeni.olgeni.com/~olgeni/distfiles/"
 DEF_STANDALONE=YES
 MAJOR="19.3"
-DEF_VERSION="${MAJOR}.0"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz" # NOTE: For non-tarball versions use: "./otp_build autoconf" to gen configure
-DEF_REQUIREMENTS="pkgconf make m4 bison flex expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl libgpg-error libgcrypt autoconf texinfo automake18 jpeg tiff libpng wxwidgets"
-DEF_AFTER_UNPACK_METHOD="./otp_build autoconf || :" # ./otp_build remove_prebuilt_files;
-DEF_CONFIGURE_ARGS="--enable-threads --enable-dynamic-ssl-lib --enable-shared-zlib --with-dynamic-trace=dtrace --enable-kernel-poll --enable-smp-support --with-ssl=${PREFIX} --disable-debug --enable-native-libs --without-odbc --enable-wx --with-dirty-schedulers --without-docs --enable-java"
-DEF_INSTALL_METHOD="LANG=en_US.UTF-8 make -s install && install_repl_history"
+MINOR="6.1"
+DEF_VERSION="${MAJOR}.${MINOR}"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
+DEF_REQUIREMENTS="pkgconf make m4 bison flex expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl libgpg-error libgcrypt autoconf texinfo automake18 jpeg jbig2dec jbigkit nasm libjpeg-turbo tiff libpng wxwidgets"
+
+DEF_AFTER_UNPACK_METHOD="post_unpack"
+post_unpack () {
+    note "Removing prebuilt files"
+    ./otp_build remove_prebuilt_files
+
+    note "Otp autoconf"
+    ./otp_build autoconf
+}
+
+DEF_CONFIGURE_ARGS="--enable-threads --enable-dynamic-ssl-lib --enable-shared-zlib --with-dynamic-trace=dtrace --enable-kernel-poll --enable-smp-support --with-ssl=${PREFIX} --disable-debug --enable-native-libs --without-odbc --enable-wx --with-dirty-schedulers --without-docs"
+DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USELESS="lib/*perl* docs share"
@@ -39,5 +49,6 @@ HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
 install_repl_history () {
     run "${GIT_BIN} clone ${HISTORY_PLUGIN_SOURCE}"
     cd erlang-history
+    note "Installing erlang-history plugin"
     run "PATH=$PATH:${PREFIX}/bin:/bin make install"
 }
