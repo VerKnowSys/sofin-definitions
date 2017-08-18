@@ -6,7 +6,6 @@ DEF_VERSION="${_build_version}.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 make perl autoconf libtool texinfo"
 DEF_EXPORTS="automake aclocal autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames libtool libtoolize glibtoolize makeinfo texi2any texi2dvi texi2pdf texindex"
-# DEF_CONFIGURE_ARGS="--program-suffix=-${_build_version}"
 DEF_CLEAN_USELESS=NO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_MAKE_METHOD="make -s"
