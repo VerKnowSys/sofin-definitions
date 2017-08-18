@@ -5,4 +5,9 @@ _version_base="1.14"
 DEF_VERSION="${_version_base}.1"
 DEF_SUFFIX="14"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--program-suffix=${_version_base}"
+DEF_CONFIGURE_ARGS="--program-suffix=-${_version_base}"
+DEF_AFTER_INSTALL_METHOD="make_default_symlinks"
+make_default_symlinks () {
+    try "${LN_BIN} -s ${PREFIX}/bin/automake-${_version_base} ${PREFIX}/bin/automake"
+    try "${LN_BIN} -s ${PREFIX}/bin/aclocal-${_version_base} ${PREFIX}/bin/aclocal"
+}
