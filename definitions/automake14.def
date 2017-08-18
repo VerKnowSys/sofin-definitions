@@ -5,13 +5,4 @@ _version_base="1.14"
 DEF_VERSION="${_version_base}.1"
 DEF_SUFFIX="14"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-
-after_install () {
-    ${LN_BIN} -s ${PREFIX}/bin/aclocal ${PREFIX}/bin/aclocal-${_version_base}
-    ${LN_BIN} -s ${PREFIX}/bin/autoconf ${PREFIX}/bin/autoconf-${_version_base}
-    ${LN_BIN} -s ${PREFIX}/bin/automake ${PREFIX}/bin/automake-${_version_base}
-    ${CP_BIN} -r ${PREFIX}/share/aclocal/*.m4 ${PREFIX}/share/aclocal-${_version_base}/
-    ${RM_BIN} -rf ${PREFIX}/share/aclocal
-    ${LN_BIN} -s ${PREFIX}/share/aclocal-${_version_base} ${PREFIX}/share/aclocal
-    true
-}
+DEF_CONFIGURE_ARGS="--program-suffix=${_version_base}"

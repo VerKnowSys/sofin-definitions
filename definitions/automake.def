@@ -1,18 +1,11 @@
 DEF_FULL_NAME="GNU Automake"
 DEF_NAME="automake"
 DEF_SHA="dc60b87d720cd2669f3e2e1659d904b383149c40"
-DEF_VERSION="1.11.1"
+_build_version="1.11"
+DEF_VERSION="${_build_version}.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 make perl autoconf libtool texinfo"
 DEF_EXPORTS="automake aclocal autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames libtool libtoolize glibtoolize makeinfo texi2any texi2dvi texi2pdf texindex"
+DEF_CONFIGURE_ARGS="--program-suffix=${_build_version}"
 DEF_CLEAN_USELESS=NO
 DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_AFTER_INSTALL_METHOD="after_install"
-after_install () {
-    try "${LN_BIN} -s ${PREFIX}/bin/aclocal ${PREFIX}/bin/aclocal-1.11"
-    try "${LN_BIN} -s ${PREFIX}/bin/autoconf ${PREFIX}/bin/autoconf-1.11"
-    try "${LN_BIN} -s ${PREFIX}/bin/automake ${PREFIX}/bin/automake-1.11"
-    try "${CP_BIN} -r ${PREFIX}/share/aclocal/*.m4 ${PREFIX}/share/aclocal-1.11/"
-    try "${RM_BIN} -rf ${PREFIX}/share/aclocal"
-    try "${LN_BIN} -s ${PREFIX}/share/aclocal-1.11 ${PREFIX}/share/aclocal"
-}
