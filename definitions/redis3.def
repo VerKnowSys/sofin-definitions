@@ -1,18 +1,5 @@
-DEF_DISABLE_ON="Linux"
-DEF_STANDALONE=YES
-DEF_FULL_NAME="Redis is in-memory data structure store, used as database, cache and message broker."
-DEF_NAME="redis"
+inherit redis
+
 DEF_VERSION="3.2.9"
 DEF_SHA="8fad759f28bcb14b94254124d824f1f3ed7b6aa6"
-DEF_ORIGIN="http://${DEF_NAME}.io"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make jemalloc"
-DEF_CONFIGURE_METHOD="ignore"
-DEF_MAKE_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s"
-DEF_INSTALL_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s install"
-DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    # under Darwin "leaks" is used .... so this crap is calling sudo N times one by one,
-    # causing flood of "ask for root password" prompts... I have no further comments...
-    DEF_TEST_METHOD="false"
-fi
