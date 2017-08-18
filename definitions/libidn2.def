@@ -6,7 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_AFTER_UNPACK_METHOD="prepare_gnu_stuff"
 prepare_gnu_stuff () {
     autoreconf
-    true
+    try "${LN_BIN} -s /usr/bin/true ${PREFIX}/bin/help2man"
 }
 DEF_AFTER_CONFIGURE_METHOD="hack_gnu_makefile"
 hack_gnu_makefile () {
