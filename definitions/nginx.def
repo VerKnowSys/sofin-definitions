@@ -6,11 +6,11 @@ DEF_ORIGIN="http://nginx.org/download/"
 DEF_VERSION="1.12.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make pkgconf m4 libtool jemalloc zlib bzip2 xz pcre libressl libxml2 libevent spdylay perl texinfo geoip autoconf automake nghttp2"
-DEF_CONFIGURE_ARGS="--with-pcre --with-threads --with-ipv6 --with-poll_module --without-select_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-http_realip_module --with-stream --with-stream_ssl_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module"
+DEF_CONFIGURE_ARGS="--with-pcre --with-threads --with-ipv6 --with-poll_module --without-select_module --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-http_realip_module --with-stream --with-stream_ssl_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_stub_status_module --with-stream_geoip_module --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module"
 DEF_MAKE_METHOD="OPENSSL=${PREFIX} && make -s ${MAKE_OPTS}"
 DEF_AFTER_MAKE_METHOD="after_make"
 after_make () {
-    for pref in /etc/conf /var/lock /var/log /var/proxy /var/body /var/run /var/body /var/fcgi; do
+    for pref in /proxy /body /body /fcgi; do
         ${MKDIR_BIN} -p "${SERVICE_DIR}${pref}"
     done
 }
@@ -22,7 +22,7 @@ patch_modules () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" auto/lib/zlib/conf
 }
 
-svd_args="--error-log-path=${SERVICE_DIR}/var/log --http-log-path=${SERVICE_DIR}/var/log --pid-path=${SERVICE_DIR}/var/run --lock-path=${SERVICE_DIR}/var/lock --conf-path=${SERVICE_DIR}/etc/conf --pid-path=${SERVICE_DIR}/var/run --http-proxy-temp-path=${SERVICE_DIR}/var/proxy --http-client-body-temp-path=${SERVICE_DIR}/var/body --http-fastcgi-temp-path=${SERVICE_DIR}/var/fcgi"
+svd_args="--error-log-path=${SERVICE_DIR}/error.log --http-log-path=${SERVICE_DIR}/http.log --pid-path=${SERVICE_DIR}/service.pid --lock-path=${SERVICE_DIR}/service.lock --conf-path=${SERVICE_DIR}/service.conf --http-proxy-temp-path=${SERVICE_DIR}/proxy --http-client-body-temp-path=${SERVICE_DIR}/body --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi"
 common_args="--with-cc-opt='${DEFAULT_COMPILER_FLAGS} -fPIE' --with-ld-opt='${LDFLAGS} -R${PREFIX}/lib ${DEFAULT_LDFLAGS} -pie'"
 case "${SYSTEM_NAME}" in
     Darwin)
