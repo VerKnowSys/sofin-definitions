@@ -7,7 +7,7 @@ MAJOR="19.3"
 MINOR="6.1"
 DEF_VERSION="${MAJOR}.${MINOR}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make m4 bison flex expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl libgpg-error libgcrypt autoconf texinfo automake18"
+DEF_REQUIREMENTS="pkgconf make m4 expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl bison flex libgpg-error libgcrypt autoconf texinfo automake18"
 
 DEF_AFTER_UNPACK_METHOD="post_unpack"
 post_unpack () {
