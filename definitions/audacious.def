@@ -1,5 +1,5 @@
 inherit audacious-core
 
 DEF_APPLE_BUNDLE=YES
-DEF_CONFIGURE_METHOD="meta"
+DEF_TYPE="meta"
 DEF_EXPORTS="audacious"
