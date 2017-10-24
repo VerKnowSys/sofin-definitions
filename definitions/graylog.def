@@ -4,7 +4,12 @@ DEF_SHA="abce34fea67cfb3eae38260e18470dac4f7494b3"
 DEF_VERSION="2.3.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
-DEF_AFTER_INSTALL_METHOD="${RM_BIN} -rf ${PREFIX}/sample ${PREFIX}/demo ${PREFIX}/include"
 DEF_REQUIREMENTS="bash openjdk8"
 DEF_EXPORTS="graylogctl"
+DEF_USEFUL="bin/bash"
+DEF_AFTER_UNPACK_METHOD="install_and_patch"
+install_and_patch () {
+    ${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}
+    ${RM_BIN} -rf "${PREFIX}/sample" "${PREFIX}/demo" "${PREFIX}/include"
+    ${SED_BIN} -i '' -e "s|#!/bin/bash|#!${PREFIX}/bin/bash|" "${PREFIX}/bin/graylogctl"
+}
