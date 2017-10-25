@@ -13,7 +13,6 @@ after_make () {
     for pref in /proxy /body /body /fcgi; do
         ${MKDIR_BIN} -p "${SERVICE_DIR}${pref}"
     done
-    read dfdsfsdf
 }
 
 DEF_AFTER_UNPACK_METHOD="patch_modules"
