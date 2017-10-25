@@ -2,8 +2,8 @@ DEF_DISABLE_ON="Linux"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Redis is in-memory data structure store, used as database, cache and message broker."
 DEF_NAME="redis"
-DEF_VERSION="4.0.1"
-DEF_SHA="73fe509956a732560c4f385465aa69d705ab5c43"
+DEF_VERSION="4.0.2"
+DEF_SHA="d2588569a35531fcdf03ff05cf0e16e381bc278f"
 DEF_ORIGIN="http://${DEF_NAME}.io"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make jemalloc libedit lua51"
@@ -11,7 +11,7 @@ DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s"
 DEF_INSTALL_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s install"
 DEF_CONFLICTS_WITH="Redis"
-DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof ${DEF_NAME}-server"
+DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof ${DEF_NAME}-server ${DEF_NAME}-sentinel"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # under Darwin "leaks" is used .... so this crap is calling sudo N times one by one,
     # causing flood of "ask for root password" prompts... I have no further comments...
