@@ -1,0 +1,549 @@
+diff --git OTP_VERSION OTP_VERSION
+index 204da679a1..a9ac8dacb0 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-20.0.2
++20.0.3
+diff --git erts/doc/src/notes.xml erts/doc/src/notes.xml
+index e134abb05d..008d43b51a 100644
+--- erts/doc/src/notes.xml
++++ erts/doc/src/notes.xml
+@@ -31,6 +31,22 @@
+   </header>
+   <p>This document describes the changes made to the ERTS application.</p>
+ 
++<section><title>Erts 9.0.3</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++	    <p>Binary append operations did not check for overflow,
++	    resulting in nonsensical results when huge binaries were
++	    appended.</p>
++          <p>
++	    Own Id: OTP-14524</p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Erts 9.0.2</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git erts/emulator/beam/erl_bits.c erts/emulator/beam/erl_bits.c
+index 71c64997c1..b4e611f01b 100644
+--- erts/emulator/beam/erl_bits.c
++++ erts/emulator/beam/erl_bits.c
+@@ -1321,7 +1321,14 @@ erts_bs_append(Process* c_p, Eterm* reg, Uint live, Eterm build_size_term,
+ 	    goto badarg;
+ 	}
+     }
++
++    if((ERTS_UINT_MAX - build_size_in_bits) < erts_bin_offset) {
++        c_p->freason = SYSTEM_LIMIT;
++        return THE_NON_VALUE;
++    }
++
+     used_size_in_bits = erts_bin_offset + build_size_in_bits;
++
+     sb->is_writable = 0;	/* Make sure that no one else can write. */
+     pb->size = NBYTES(used_size_in_bits);
+     pb->flags |= PB_ACTIVE_WRITER;
+@@ -1395,9 +1402,21 @@ erts_bs_append(Process* c_p, Eterm* reg, Uint live, Eterm build_size_term,
+ 		goto badarg;
+ 	    }
+ 	}
+-	used_size_in_bits = erts_bin_offset + build_size_in_bits;
+-	used_size_in_bytes = NBYTES(used_size_in_bits);
+-	bin_size = 2*used_size_in_bytes;
++
++        if((ERTS_UINT_MAX - build_size_in_bits) < erts_bin_offset) {
++            c_p->freason = SYSTEM_LIMIT;
++            return THE_NON_VALUE;
++        }
++
++        used_size_in_bits = erts_bin_offset + build_size_in_bits;
++        used_size_in_bytes = NBYTES(used_size_in_bits);
++
++        if(used_size_in_bits < (ERTS_UINT_MAX / 2)) {
++            bin_size = 2 * used_size_in_bytes;
++        } else {
++            bin_size = NBYTES(ERTS_UINT_MAX);
++        }
++
+ 	bin_size = (bin_size < 256) ? 256 : bin_size;
+ 
+ 	/*
+@@ -1487,6 +1506,12 @@ erts_bs_private_append(Process* p, Eterm bin, Eterm build_size_term, Uint unit)
+      * Calculate new size in bytes.
+      */
+     erts_bin_offset = 8*sb->size + sb->bitsize;
++
++    if((ERTS_UINT_MAX - build_size_in_bits) < erts_bin_offset) {
++        p->freason = SYSTEM_LIMIT;
++        return THE_NON_VALUE;
++    }
++
+     pos_in_bits_after_build = erts_bin_offset + build_size_in_bits;
+     pb->size = (pos_in_bits_after_build+7) >> 3;
+     pb->flags |= PB_ACTIVE_WRITER;
+diff --git erts/emulator/test/bs_construct_SUITE.erl erts/emulator/test/bs_construct_SUITE.erl
+index b79f4b995d..ce50bcdd86 100644
+--- erts/emulator/test/bs_construct_SUITE.erl
++++ erts/emulator/test/bs_construct_SUITE.erl
+@@ -905,14 +905,28 @@ bs_add_overflow(_Config) ->
+         _ when Memsize < (2 bsl 30) ->
+ 	    {skip, "Less then 2 GB of memory"};
+ 	4 ->
+-	    Large = <<0:((1 bsl 30)-1)>>,
+-	    {'EXIT',{system_limit,_}} =
+-		(catch <<Large/bits, Large/bits, Large/bits, Large/bits,
+-                         Large/bits, Large/bits, Large/bits, Large/bits,
+-                         Large/bits>>),
++            {'EXIT', {system_limit, _}} = (catch bs_add_overflow_signed()),
++            {'EXIT', {system_limit, _}} = (catch bs_add_overflow_unsigned()),
+ 	    ok
+     end.
+ 
++bs_add_overflow_signed() ->
++    %% Produce a large result of bs_add that, if cast to signed int, would
++    %% overflow into a negative number that fits a smallnum.
++    Large = <<0:((1 bsl 30)-1)>>,
++    <<Large/bits, Large/bits, Large/bits, Large/bits,
++      Large/bits, Large/bits, Large/bits, Large/bits,
++      Large/bits>>.
++
++bs_add_overflow_unsigned() ->
++    %% Produce a large result of bs_add that goes beyond the limit of an
++    %% unsigned word. This used to succeed but produced an incorrect result
++    %% where B =:= C!
++    A = <<0:((1 bsl 32)-8)>>,
++    B = <<2, 3>>,
++    C = <<A/binary,1,B/binary>>,
++    true = byte_size(B) < byte_size(C).
++
+ id(I) -> I.
+ 
+ memsize() ->
+diff --git erts/vsn.mk erts/vsn.mk
+index 59699c6505..f90870b7c8 100644
+--- erts/vsn.mk
++++ erts/vsn.mk
+@@ -18,7 +18,7 @@
+ # %CopyrightEnd%
+ # 
+ 
+-VSN = 9.0.2
++VSN = 9.0.3
+ 
+ # Port number 4365 in 4.2
+ # Port number 4366 in 4.3
+diff --git lib/asn1/doc/src/notes.xml lib/asn1/doc/src/notes.xml
+index 03452648bb..5399528271 100644
+--- lib/asn1/doc/src/notes.xml
++++ lib/asn1/doc/src/notes.xml
+@@ -32,6 +32,23 @@
+   <p>This document describes the changes made to the asn1 application.</p>
+ 
+ 
++<section><title>Asn1 5.0.2</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    Default values now work in extension for PER, so if you
++	    give the atom <c>asn1_DEFAULT</c> instead of a value it
++	    will become the default value.</p>
++          <p>
++	    Own Id: OTP-13011 Aux Id: ERIERL-60 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Asn1 5.0.1</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git lib/asn1/src/asn1ct_constructed_per.erl lib/asn1/src/asn1ct_constructed_per.erl
+index 3f1be4febb..aff383479b 100644
+--- lib/asn1/src/asn1ct_constructed_per.erl
++++ lib/asn1/src/asn1ct_constructed_per.erl
+@@ -985,9 +985,11 @@ gen_enc_components_call1(Gen, TopType, [C|Rest], DynamicEnc, Ext) ->
+ 		   Imm1;
+ 	       'OPTIONAL' ->
+ 		   enc_absent(Gen, Element, [asn1_NOVALUE], Imm1);
+-	       {'DEFAULT',Def} ->
++	       {'DEFAULT',Def} when Ext =:= noext ->
+ 		   DefValues = def_values(Type, Def),
+-		   enc_absent(Gen, Element, DefValues, Imm1)
++		   enc_absent(Gen, Element, DefValues, Imm1);
++               {'DEFAULT',_} ->
++		   enc_absent(Gen, Element, [asn1_DEFAULT], Imm1)
+ 	   end,
+     Imm = case Imm2 of
+ 	      [] -> [];
+diff --git lib/asn1/src/asn1rtt_per_common.erl lib/asn1/src/asn1rtt_per_common.erl
+index 2ecc9e4bc7..5b5f47dfee 100644
+--- lib/asn1/src/asn1rtt_per_common.erl
++++ lib/asn1/src/asn1rtt_per_common.erl
+@@ -542,6 +542,7 @@ extension_bitmap(_Val, Pos, Limit, Acc) when Pos >= Limit ->
+ extension_bitmap(Val, Pos, Limit, Acc) ->
+     Bit = case element(Pos, Val) of
+ 	      asn1_NOVALUE -> 0;
++	      asn1_DEFAULT -> 0;
+ 	      _ -> 1
+ 	  end,
+     extension_bitmap(Val, Pos+1, Limit, (Acc bsl 1) bor Bit).
+diff --git lib/asn1/test/Makefile lib/asn1/test/Makefile
+index f4041fa89b..c38d1c6ebd 100644
+--- lib/asn1/test/Makefile
++++ lib/asn1/test/Makefile
+@@ -43,6 +43,7 @@ MODULES= \
+ 	testChoTypeRefSet \
+ 	testConstraints \
+ 	testDef \
++	testExtensionDefault \
+ 	testOpt \
+ 	testSeqDefault \
+ 	testSeqExtension \
+diff --git lib/asn1/test/asn1_SUITE.erl lib/asn1/test/asn1_SUITE.erl
+index 5fe6945ff2..69f226bcc0 100644
+--- lib/asn1/test/asn1_SUITE.erl
++++ lib/asn1/test/asn1_SUITE.erl
+@@ -147,6 +147,7 @@ groups() ->
+        testImport,
+        testDER,
+        testDEFAULT,
++       testExtensionDefault,
+        testMvrasn6,
+        testContextSwitchingTypes,
+        testOpenTypeImplicitTag,
+@@ -444,6 +445,12 @@ testDEFAULT(Config, Rule, Opts) ->
+     testDef:main(Rule),
+     testSeqSetDefaultVal:main(Rule, Opts).
+ 
++testExtensionDefault(Config) ->
++    test(Config, fun testExtensionDefault/3).
++testExtensionDefault(Config, Rule, Opts) ->
++    asn1_test_lib:compile_all(["ExtensionDefault"], Config, [Rule|Opts]),
++    testExtensionDefault:main(Rule).
++
+ testMaps(Config) ->
+     test(Config, fun testMaps/3,
+          [{ber,[maps,no_ok_wrapper]},
+diff --git lib/asn1/test/asn1_SUITE_data/ExtensionDefault.asn1 lib/asn1/test/asn1_SUITE_data/ExtensionDefault.asn1
+new file mode 100644
+index 0000000000..67d9cb6312
+--- /dev/null
++++ lib/asn1/test/asn1_SUITE_data/ExtensionDefault.asn1
+@@ -0,0 +1,12 @@
++ExtensionDefault DEFINITIONS AUTOMATIC TAGS ::=
++
++BEGIN
++
++Message ::= SEQUENCE {
++    id INTEGER (0..5),
++    ...,
++    priority Priority DEFAULT low
++}
++Priority ::= ENUMERATED { low(0), high(1), ... }
++
++END
+diff --git lib/asn1/test/testExtensionDefault.erl lib/asn1/test/testExtensionDefault.erl
+new file mode 100644
+index 0000000000..cc50fa95b8
+--- /dev/null
++++ lib/asn1/test/testExtensionDefault.erl
+@@ -0,0 +1,53 @@
++%%
++%% %CopyrightBegin%
++%%
++%% Copyright Ericsson AB 2017. All Rights Reserved.
++%%
++%% Licensed under the Apache License, Version 2.0 (the "License");
++%% you may not use this file except in compliance with the License.
++%% You may obtain a copy of the License at
++%%
++%%     http://www.apache.org/licenses/LICENSE-2.0
++%%
++%% Unless required by applicable law or agreed to in writing, software
++%% distributed under the License is distributed on an "AS IS" BASIS,
++%% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++%% See the License for the specific language governing permissions and
++%% limitations under the License.
++%%
++%% %CopyrightEnd%
++%%
++%%
++-module(testExtensionDefault).
++
++-export([main/1]).
++
++main(_Erule) ->
++    roundtrip('Message', {'Message',1,low}),    %Will be explicitly encoded.
++    roundtrip('Message', {'Message',1,high}),
++    roundtrip('Message', {'Message',1,asn1_DEFAULT}, {'Message',1,low}),
++
++    map_roundtrip('Message', #{id=>1,priority=>low}), %Will be explicitly encoded.
++    map_roundtrip('Message', #{id=>1,priority=>high}),
++    map_roundtrip('Message', #{id=>1}, #{id=>1,priority=>low}),
++    ok.
++
++roundtrip(Type, Value) ->
++    asn1_test_lib:roundtrip('ExtensionDefault', Type, Value).
++
++roundtrip(Type, Value, Expected) ->
++    %% asn1_test_lib:roundtrip/3 will invoke map_roundtrip/3, which will
++    %% not work in this case. Therefore, implement the roundtrip ourselves.
++    M = 'ExtensionDefault',
++    {ok,Enc} = M:encode(Type, Value),
++    {ok,Expected} = M:decode(Type, Enc),
++    ok.
++
++map_roundtrip(Type, Value) ->
++    map_roundtrip(Type, Value, Value).
++
++map_roundtrip(Type, Value, Expected) ->
++    M = 'maps_ExtensionDefault',
++    Enc = M:encode(Type, Value),
++    Expected = M:decode(Type, Enc),
++    ok.
+diff --git lib/asn1/vsn.mk lib/asn1/vsn.mk
+index ec92d324eb..5900f3037e 100644
+--- lib/asn1/vsn.mk
++++ lib/asn1/vsn.mk
+@@ -1 +1 @@
+-ASN1_VSN = 5.0.1
++ASN1_VSN = 5.0.2
+diff --git lib/compiler/doc/src/notes.xml lib/compiler/doc/src/notes.xml
+index f3d42a909b..bc335a9eaa 100644
+--- lib/compiler/doc/src/notes.xml
++++ lib/compiler/doc/src/notes.xml
+@@ -32,6 +32,23 @@
+   <p>This document describes the changes made to the Compiler
+     application.</p>
+ 
++<section><title>Compiler 7.1.1</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++	    <p>Fail labels on guard BIFs weren't taken into account
++	    during an optimization pass, and a bug in the validation
++	    pass sometimes prevented this from being noticed when a
++	    fault occurred.</p>
++          <p>
++	    Own Id: OTP-14522 Aux Id: ERIERL-48 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Compiler 7.1</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git lib/compiler/src/beam_utils.erl lib/compiler/src/beam_utils.erl
+index cc6e54ca16..e39fbdc3b7 100644
+--- lib/compiler/src/beam_utils.erl
++++ lib/compiler/src/beam_utils.erl
+@@ -789,39 +789,48 @@ live_opt([{recv_mark,_}=I|Is], Regs, D, Acc) ->
+ 
+ live_opt([], _, _, Acc) -> Acc.
+ 
+-live_opt_block([{set,Ds,Ss,Op}=I0|Is], Regs0, D, Acc) ->
++live_opt_block([{set,Ds,Ss,Op0}|Is], Regs0, D, Acc) ->
+     Regs1 = x_live(Ss, x_dead(Ds, Regs0)),
+-    {I,Regs} = case Op of
+-		   {alloc,Live0,Alloc} ->
+-		       %% The life-time analysis used by the code generator
+-		       %% is sometimes too conservative, so it may be
+-		       %% possible to lower the number of live registers
+-		       %% based on the exact liveness information.
+-		       %% The main benefit is that more optimizations that
+-		       %% depend on liveness information (such as the
+-		       %% beam_bool and beam_dead passes) may be applied.
+-		       Live = live_regs(Regs1),
+-		       true = Live =< Live0,	%Assertion.
+-		       I1 = {set,Ds,Ss,{alloc,Live,Alloc}},
+-		       {I1,live_call(Live)};
+-		   _ ->
+-		       {I0,Regs1}
+-	       end,
++    {Op, Regs} = live_opt_block_op(Op0, Regs1, D),
++    I = {set, Ds, Ss, Op},
++
+     case Ds of
+-	[{x,X}] ->
+-	    case (not is_live(X, Regs0)) andalso Op =:= move of
+-		true ->
+-		    live_opt_block(Is, Regs0, D, Acc);
+-		false ->
+-		    live_opt_block(Is, Regs, D, [I|Acc])
+-	    end;
+-	_ ->
+-	    live_opt_block(Is, Regs, D, [I|Acc])
++        [{x,X}] ->
++            case (not is_live(X, Regs0)) andalso Op =:= move of
++                true ->
++                    live_opt_block(Is, Regs0, D, Acc);
++                false ->
++                    live_opt_block(Is, Regs, D, [I|Acc])
++            end;
++        _ ->
++            live_opt_block(Is, Regs, D, [I|Acc])
+     end;
+ live_opt_block([{'%live',_,_}|Is], Regs, D, Acc) ->
+     live_opt_block(Is, Regs, D, Acc);
+ live_opt_block([], Regs, _, Acc) -> {Acc,Regs}.
+ 
++live_opt_block_op({alloc,Live0,AllocOp}, Regs0, D) ->
++    Regs =
++        case AllocOp of
++            {Kind, _N, Fail} when Kind =:= gc_bif; Kind =:= put_map ->
++                live_join_label(Fail, D, Regs0);
++            _ ->
++                Regs0
++        end,
++
++    %% The life-time analysis used by the code generator is sometimes too
++    %% conservative, so it may be possible to lower the number of live
++    %% registers based on the exact liveness information. The main benefit is
++    %% that more optimizations that depend on liveness information (such as the
++    %% beam_bool and beam_dead passes) may be applied.
++    Live = live_regs(Regs),
++    true = Live =< Live0,
++    {{alloc,Live,AllocOp}, live_call(Live)};
++live_opt_block_op({bif,_N,Fail} = Op, Regs, D) ->
++    {Op, live_join_label(Fail, D, Regs)};
++live_opt_block_op(Op, Regs, _D) ->
++    {Op, Regs}.
++
+ live_join_labels([{f,L}|T], D, Regs0) when L =/= 0 ->
+     Regs = gb_trees:get(L, D) bor Regs0,
+     live_join_labels(T, D, Regs);
+diff --git lib/compiler/src/beam_validator.erl lib/compiler/src/beam_validator.erl
+index f726625510..622e00bb2b 100644
+--- lib/compiler/src/beam_validator.erl
++++ lib/compiler/src/beam_validator.erl
+@@ -928,9 +928,9 @@ verify_call_match_context(Lbl, Ctx, #vst{ft=Ft}) ->
+ 	    error({unsuitable_bs_start_match2,I})
+     end.
+ 
+-allocate(Zero, Stk, Heap, Live, #vst{current=#st{numy=none}=St}=Vst0) ->
++allocate(Zero, Stk, Heap, Live, #vst{current=#st{numy=none}}=Vst0) ->
+     verify_live(Live, Vst0),
+-    Vst = prune_x_regs(Live, Vst0),
++    Vst = #vst{current=St} = prune_x_regs(Live, Vst0),
+     Ys = init_regs(Stk, case Zero of 
+ 			    true -> initialized;
+ 			    false -> uninitialized
+diff --git lib/compiler/test/beam_utils_SUITE.erl lib/compiler/test/beam_utils_SUITE.erl
+index a3f1bb93fe..710cb050d4 100644
+--- lib/compiler/test/beam_utils_SUITE.erl
++++ lib/compiler/test/beam_utils_SUITE.erl
+@@ -260,6 +260,14 @@ otp_8949_b(A, B) ->
+ liveopt(_Config) ->
+     F = liveopt_fun(42, pebkac, user),
+     void = F(42, #alarmInfo{type=sctp,cause=pebkac,origin=user}),
++
++
++    A = {#alarmInfo{cause = {abc, def}}, ghi},
++    A = liveopt_guard_bif(A),
++
++    B = {#alarmInfo{cause = {abc}}, def},
++    {#alarmInfo{cause = {{abc}}}, def} = liveopt_guard_bif(B),
++
+     ok.
+ 
+ liveopt_fun(Peer, Cause, Origin) ->
+@@ -271,6 +279,15 @@ liveopt_fun(Peer, Cause, Origin) ->
+ 	    void
+     end.
+ 
++liveopt_guard_bif({#alarmInfo{cause=F}=R, X}=A) ->
++    %% ERIERL-48
++    if
++        is_tuple(F), tuple_size(F) == 2 -> A;
++        true ->
++            R2 = R#alarmInfo{cause={F}},
++            {R2,X}
++    end.
++
+ %% Thanks to QuickCheck.
+ coverage(_Config) ->
+     42+7 = merchant([[],7,false]),
+diff --git lib/compiler/vsn.mk lib/compiler/vsn.mk
+index 463c264a5f..27ee5a3fb7 100644
+--- lib/compiler/vsn.mk
++++ lib/compiler/vsn.mk
+@@ -1 +1 @@
+-COMPILER_VSN = 7.1
++COMPILER_VSN = 7.1.1
+diff --git lib/ssh/doc/src/notes.xml lib/ssh/doc/src/notes.xml
+index f93753f1d2..5826d14a4a 100644
+--- lib/ssh/doc/src/notes.xml
++++ lib/ssh/doc/src/notes.xml
+@@ -30,6 +30,22 @@
+     <file>notes.xml</file>
+   </header>
+ 
++<section><title>Ssh 4.5.1</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    All unknown options are sent to the transport handler
++	    regardless of type.</p>
++          <p>
++	    Own Id: OTP-14541 Aux Id: EIRERL-63 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Ssh 4.5</title>
+ 
+     <section><title>Improvements and New Features</title>
+diff --git lib/ssh/src/ssh_options.erl lib/ssh/src/ssh_options.erl
+index 7eeed70739..b41ad8b33b 100644
+--- lib/ssh/src/ssh_options.erl
++++ lib/ssh/src/ssh_options.erl
+@@ -236,7 +236,10 @@ save({Key,Value}, Defs, OptMap) when is_map(OptMap) ->
+         %% by the check fun will give an error exception:
+         error:{check,{BadValue,Extra}} ->
+             error({eoptions, {Key,BadValue}, Extra})
+-    end.
++    end;
++save(Opt, _Defs, OptMap) when is_map(OptMap) ->
++    OptMap#{socket_options := [Opt | maps:get(socket_options,OptMap)]}.
++
+ 
+ %%%================================================================
+ %%%
+diff --git lib/ssh/vsn.mk lib/ssh/vsn.mk
+index 7208baca6e..006228f8e7 100644
+--- lib/ssh/vsn.mk
++++ lib/ssh/vsn.mk
+@@ -1,5 +1,5 @@
+ #-*-makefile-*-   ; force emacs to enter makefile-mode
+ 
+-SSH_VSN = 4.5
++SSH_VSN = 4.5.1
+ 
+ APP_VSN    = "ssh-$(SSH_VSN)"
+diff --git otp_versions.table otp_versions.table
+index c5289a1ace..266bca1698 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-20.0.3 : asn1-5.0.2 compiler-7.1.1 erts-9.0.3 ssh-4.5.1 # common_test-1.15.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 crypto-4.0 debugger-4.2.2 dialyzer-3.2 diameter-2.0 edoc-0.9 eldap-1.2.2 erl_docgen-0.7 erl_interface-3.10 et-1.6 eunit-2.3.3 hipe-3.16 ic-4.4.2 inets-6.4 jinterface-1.8 kernel-5.3.1 megaco-3.18.2 mnesia-4.15 observer-2.4 odbc-2.12 orber-3.8.3 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.5 public_key-1.4.1 reltool-0.7.4 runtime_tools-1.12.1 sasl-3.0.4 snmp-5.2.6 ssl-8.2 stdlib-3.4.1 syntax_tools-2.1.2 tools-2.10.1 wx-1.8.1 xmerl-1.3.15 :
+ OTP-20.0.2 : asn1-5.0.1 erts-9.0.2 kernel-5.3.1 # common_test-1.15.1 compiler-7.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 crypto-4.0 debugger-4.2.2 dialyzer-3.2 diameter-2.0 edoc-0.9 eldap-1.2.2 erl_docgen-0.7 erl_interface-3.10 et-1.6 eunit-2.3.3 hipe-3.16 ic-4.4.2 inets-6.4 jinterface-1.8 megaco-3.18.2 mnesia-4.15 observer-2.4 odbc-2.12 orber-3.8.3 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.5 public_key-1.4.1 reltool-0.7.4 runtime_tools-1.12.1 sasl-3.0.4 snmp-5.2.6 ssh-4.5 ssl-8.2 stdlib-3.4.1 syntax_tools-2.1.2 tools-2.10.1 wx-1.8.1 xmerl-1.3.15 :
+ OTP-20.0.1 : common_test-1.15.1 erts-9.0.1 runtime_tools-1.12.1 stdlib-3.4.1 tools-2.10.1 # asn1-5.0 compiler-7.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 crypto-4.0 debugger-4.2.2 dialyzer-3.2 diameter-2.0 edoc-0.9 eldap-1.2.2 erl_docgen-0.7 erl_interface-3.10 et-1.6 eunit-2.3.3 hipe-3.16 ic-4.4.2 inets-6.4 jinterface-1.8 kernel-5.3 megaco-3.18.2 mnesia-4.15 observer-2.4 odbc-2.12 orber-3.8.3 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.5 public_key-1.4.1 reltool-0.7.4 sasl-3.0.4 snmp-5.2.6 ssh-4.5 ssl-8.2 syntax_tools-2.1.2 wx-1.8.1 xmerl-1.3.15 :
+ OTP-20.0 : asn1-5.0 common_test-1.15 compiler-7.1 cosProperty-1.2.2 crypto-4.0 debugger-4.2.2 dialyzer-3.2 diameter-2.0 edoc-0.9 erl_docgen-0.7 erl_interface-3.10 erts-9.0 eunit-2.3.3 hipe-3.16 inets-6.4 jinterface-1.8 kernel-5.3 megaco-3.18.2 mnesia-4.15 observer-2.4 orber-3.8.3 parsetools-2.1.5 public_key-1.4.1 reltool-0.7.4 runtime_tools-1.12 sasl-3.0.4 snmp-5.2.6 ssh-4.5 ssl-8.2 stdlib-3.4 syntax_tools-2.1.2 tools-2.10 wx-1.8.1 xmerl-1.3.15 # cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 eldap-1.2.2 et-1.6 ic-4.4.2 odbc-2.12 os_mon-2.4.2 otp_mibs-1.1.1 :
