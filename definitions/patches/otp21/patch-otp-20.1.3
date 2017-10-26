@@ -1,0 +1,607 @@
+diff --git OTP_VERSION OTP_VERSION
+index a9d0c61447..42ee6ac80e 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-20.1.2
++20.1.3
+diff --git erts/doc/src/notes.xml erts/doc/src/notes.xml
+index 14103cca28..2507451533 100644
+--- erts/doc/src/notes.xml
++++ erts/doc/src/notes.xml
+@@ -31,6 +31,29 @@
+   </header>
+   <p>This document describes the changes made to the ERTS application.</p>
+ 
++<section><title>Erts 9.1.3</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++	    <p>Added zlib:set_controlling_process/2 to move a
++	    zstream() between processes.</p>
++          <p>
++	    Own Id: OTP-14672 Aux Id: ERL-494 </p>
++        </item>
++        <item>
++          <p>
++	    Fix so that schedulers are bound correctly when the first
++	    available cpu is not the first detected cpu. e.g. when
++	    using "taskset -c X..Y" when X is not equal to 0.</p>
++          <p>
++	    Own Id: OTP-14694</p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Erts 9.1.2</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git erts/doc/src/zlib.xml erts/doc/src/zlib.xml
+index f5cc1b1e64..6f4c42da27 100644
+--- erts/doc/src/zlib.xml
++++ erts/doc/src/zlib.xml
+@@ -71,6 +71,11 @@ list_to_binary([Compressed|Last])</pre>
+       called prior to a call to
+       <seealso marker="#inflate/2"><c>inflate/2</c></seealso>.
+       </item>
++      <tag><c>not_on_controlling_process</c></tag>
++      <item>The stream was used by a process that doesn't control it. Use
++      <seealso marker="#set_controlling_process/2">
++      <c>set_controlling_process/2</c></seealso> if you need to transfer
++      a stream to a different process.</item>
+       <tag><c>data_error</c></tag>
+       <item>The data contains errors.
+       </item>
+@@ -739,6 +744,15 @@ loop(Z, Handler, {finished, Output}) ->
+       </desc>
+     </func>
+ 
++    <func>
++      <name name="set_controlling_process" arity="2"/>
++      <fsummary>Transfers ownership of a zlib stream.</fsummary>
++      <desc>
++        <p>Changes the controlling process of <c><anno>Z</anno></c> to
++           <c><anno>Pid</anno></c>, which must be a local process.</p>
++      </desc>
++    </func>
++
+     <func>
+       <name name="uncompress" arity="1"/>
+       <fsummary>Uncompress data with standard zlib functionality.</fsummary>
+diff --git erts/emulator/beam/erl_cpu_topology.c erts/emulator/beam/erl_cpu_topology.c
+index f8b2fa744f..dfe49ce382 100644
+--- erts/emulator/beam/erl_cpu_topology.c
++++ erts/emulator/beam/erl_cpu_topology.c
+@@ -608,7 +608,7 @@ write_schedulers_bind_change(erts_cpu_topology_t *cpudata, int size)
+ 
+ 	cpu_bind_order_sort(cpudata, size, cpu_bind_order, 1);
+ 
+-	for (cpu_ix = 0; cpu_ix < size && cpu_ix < erts_no_schedulers; cpu_ix++)
++	for (cpu_ix = 0; cpu_ix < size && s_ix <= erts_no_schedulers; cpu_ix++)
+ 	    if (erts_is_cpu_available(cpuinfo, cpudata[cpu_ix].logical))
+ 		scheduler2cpu_map[s_ix++].bind_id = cpudata[cpu_ix].logical;
+     }
+diff --git erts/emulator/nifs/common/zlib_nif.c erts/emulator/nifs/common/zlib_nif.c
+index a9c5b05e47..fa29b4fb71 100644
+--- erts/emulator/nifs/common/zlib_nif.c
++++ erts/emulator/nifs/common/zlib_nif.c
+@@ -106,6 +106,7 @@ typedef struct {
+     int inflateChunk_buffer_size;
+ 
+     ErlNifPid controlling_process;
++    ErlNifMutex *controller_lock;
+ 
+     ErlNifIOQueue *input_queue;
+ 
+@@ -117,6 +118,8 @@ typedef struct {
+ 
+ static ERL_NIF_TERM zlib_open(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
+ static ERL_NIF_TERM zlib_close(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
++static ERL_NIF_TERM zlib_set_controller(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
++
+ static ERL_NIF_TERM zlib_deflateInit(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
+ static ERL_NIF_TERM zlib_deflateSetDictionary(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
+ static ERL_NIF_TERM zlib_deflateReset(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
+@@ -143,6 +146,11 @@ static ERL_NIF_TERM zlib_setBufSize(ErlNifEnv *env, int argc, const ERL_NIF_TERM
+ static ERL_NIF_TERM zlib_enqueue_input(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]);
+ 
+ static ErlNifFunc nif_funcs[] = {
++    {"close_nif", 1, zlib_close},
++    {"open_nif", 0, zlib_open},
++
++    {"set_controller_nif", 2, zlib_set_controller},
++
+     /* deflate */
+     {"deflateInit_nif", 6, zlib_deflateInit},
+     {"deflateSetDictionary_nif", 2, zlib_deflateSetDictionary},
+@@ -162,10 +170,6 @@ static ErlNifFunc nif_funcs[] = {
+     /* running checksum */
+     {"crc32_nif", 1, zlib_crc32},
+ 
+-    /* open & close */
+-    {"close_nif", 1, zlib_close},
+-    {"open_nif", 0, zlib_open},
+-
+     /* The stash keeps a single term alive across calls, and is used in
+      * exception_on_need_dict/1 to retain the old error behavior, and for
+      * saving data flushed through deflateParams/3. */
+@@ -281,9 +285,7 @@ static ERL_NIF_TERM zlib_return(ErlNifEnv *env, int code) {
+     return reason;
+ }
+ 
+-static void gc_zlib(ErlNifEnv *env, void* data) {
+-    zlib_data_t *d = (zlib_data_t*)data;
+-
++static void zlib_internal_close(zlib_data_t *d) {
+     if(d->state == ST_DEFLATE) {
+         deflateEnd(&d->s);
+     } else if(d->state == ST_INFLATE) {
+@@ -291,8 +293,6 @@ static void gc_zlib(ErlNifEnv *env, void* data) {
+     }
+ 
+     if(d->state != ST_CLOSED) {
+-        enif_ioq_destroy(d->input_queue);
+-
+         if(d->stash_env != NULL) {
+             enif_free_env(d->stash_env);
+         }
+@@ -301,17 +301,36 @@ static void gc_zlib(ErlNifEnv *env, void* data) {
+     }
+ }
+ 
++static void gc_zlib(ErlNifEnv *env, void* data) {
++    zlib_data_t *d = (zlib_data_t*)data;
++
++    enif_mutex_destroy(d->controller_lock);
++    enif_ioq_destroy(d->input_queue);
++
++    zlib_internal_close(d);
++
++    (void)env;
++}
++
+ static int get_zlib_data(ErlNifEnv *env, ERL_NIF_TERM opaque, zlib_data_t **d) {
+     return enif_get_resource(env, opaque, rtype_zlib, (void **)d);
+ }
+ 
+ static int zlib_process_check(ErlNifEnv *env, zlib_data_t *d) {
++    int is_controlling_process;
+     ErlNifPid current_process;
+ 
+     enif_self(env, &current_process);
+ 
+-    return enif_is_identical(enif_make_pid(env, &current_process),
++    enif_mutex_lock(d->controller_lock);
++
++    is_controlling_process = enif_is_identical(
++        enif_make_pid(env, &current_process),
+         enif_make_pid(env, &d->controlling_process));
++
++    enif_mutex_unlock(d->controller_lock);
++
++    return is_controlling_process;
+ }
+ 
+ static void zlib_reset_input(zlib_data_t *d) {
+@@ -516,6 +535,8 @@ static ERL_NIF_TERM zlib_open(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[
+ 
+     d->input_queue = enif_ioq_create(ERL_NIF_IOQ_NORMAL);
+ 
++    d->controller_lock = enif_mutex_create("zlib_controller_lock");
++
+     d->s.zalloc = zlib_alloc;
+     d->s.zfree  = zlib_free;
+     d->s.opaque = d;
+@@ -556,7 +577,28 @@ static ERL_NIF_TERM zlib_close(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv
+         return enif_raise_exception(env, am_not_initialized);
+     }
+ 
+-    gc_zlib(env, d);
++    zlib_internal_close(d);
++
++    return am_ok;
++}
++
++static ERL_NIF_TERM zlib_set_controller(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]) {
++    zlib_data_t *d;
++
++    ErlNifPid new_owner;
++
++    if(argc != 2 || !get_zlib_data(env, argv[0], &d)
++                 || !enif_get_local_pid(env, argv[1], &new_owner)) {
++        return enif_make_badarg(env);
++    } else if(!zlib_process_check(env, d)) {
++        return enif_raise_exception(env, am_not_on_controlling_process);
++    }
++
++    enif_mutex_lock(d->controller_lock);
++
++    d->controlling_process = new_owner;
++
++    enif_mutex_unlock(d->controller_lock);
+ 
+     return am_ok;
+ }
+diff --git erts/preloaded/ebin/zlib.beam erts/preloaded/ebin/zlib.beam
+index 5048bdb846..f388bc723a 100644
+Binary files erts/preloaded/ebin/zlib.beam and erts/preloaded/ebin/zlib.beam differ
+diff --git erts/preloaded/src/zlib.erl erts/preloaded/src/zlib.erl
+index 3170ab6351..03c9ae38a1 100644
+--- erts/preloaded/src/zlib.erl
++++ erts/preloaded/src/zlib.erl
+@@ -20,7 +20,8 @@
+ 
+ -module(zlib).
+ 
+--export([open/0,close/1,deflateInit/1,deflateInit/2,deflateInit/6,
++-export([open/0,close/1,set_controlling_process/2,
++         deflateInit/1,deflateInit/2,deflateInit/6,
+          deflateSetDictionary/2,deflateReset/1,deflateParams/3,
+          deflate/2,deflate/3,deflateEnd/1,
+          inflateInit/1,inflateInit/2,inflateInit/3,
+@@ -128,6 +129,14 @@ close(Z) ->
+ close_nif(_Z) ->
+     erlang:nif_error(undef).
+ 
++-spec set_controlling_process(Z, Pid) -> 'ok' when
++      Z :: zstream(),
++      Pid :: pid().
++set_controlling_process(Z, Pid) ->
++    set_controller_nif(Z, Pid).
++set_controller_nif(_Z, _Pid) ->
++    erlang:nif_error(undef).
++
+ -spec deflateInit(Z) -> 'ok' when
+       Z :: zstream().
+ deflateInit(Z) ->
+diff --git erts/vsn.mk erts/vsn.mk
+index 3d7ff2db66..a788b2e491 100644
+--- erts/vsn.mk
++++ erts/vsn.mk
+@@ -18,7 +18,7 @@
+ # %CopyrightEnd%
+ # 
+ 
+-VSN = 9.1.2
++VSN = 9.1.3
+ 
+ # Port number 4365 in 4.2
+ # Port number 4366 in 4.3
+diff --git lib/diameter/doc/src/notes.xml lib/diameter/doc/src/notes.xml
+index 589e7d5145..eded788419 100644
+--- lib/diameter/doc/src/notes.xml
++++ lib/diameter/doc/src/notes.xml
+@@ -43,6 +43,23 @@ first.</p>
+ 
+ <!-- ===================================================================== -->
+ 
++<section><title>diameter 2.1.2</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    A fault introduced in diameter 2.1 could cause decode
++	    errors to be ignored in AVPs following the header of a
++	    Grouped AVP.</p>
++          <p>
++	    Own Id: OTP-14684 Aux Id: ERIERL-85 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>diameter 2.1.1</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git lib/diameter/src/base/diameter_gen.erl lib/diameter/src/base/diameter_gen.erl
+index d3b9f704fe..93ebe57685 100644
+--- lib/diameter/src/base/diameter_gen.erl
++++ lib/diameter/src/base/diameter_gen.erl
+@@ -320,8 +320,8 @@ decode(Bin, Code, Vid, DataLen, Pad, M, P, Name, Mod, Fmt, Strict, Opts0,
+                                 index = Idx},
+ 
+             Dec = dec(Data, Name, NameT, Mod, Fmt, Opts, Avp),
+-            Acc = decode(T, Name, Mod, Fmt, Strict, Opts, Idx+1, AM),%% recurse
+-            acc(Acc, Dec, I, Field, Arity, Strict, Mod, Opts);
++            Acc = decode(T, Name, Mod, Fmt, Strict, Opts0, Idx+1, AM),%% recurse
++            acc(Acc, Dec, I, Field, Arity, Strict, Mod);
+         _ ->
+             {NameT, _Field, _Arity, {_, AM}}
+                 = incr(Name, Code, Vid, M, Mod, Strict, Opts0, AM0),
+@@ -574,15 +574,17 @@ dec_AVP(Dicts, Data, Name, Mod, Fmt, Opts, #diameter_avp{code = Code,
+ %% Try to decode an AVP in the first alternate dictionary that defines
+ %% it.
+ 
+-dec_AVP([Dict | Rest], Data, Name, Mod, Fmt, Opts, Code, Vid, Avp) ->
++dec_AVP([Dict | Rest], Data, Name, Mod, Fmt, Opts0, Code, Vid, Avp) ->
+     case Dict:avp_name(Code, Vid) of
+-        {AvpName, Type} ->
++        {AvpName, Type} = NameT ->
+             A = Avp#diameter_avp{name = AvpName,
+                                  type = Type},
+-            #{failed_avp := Failed} = Opts,
++            #{failed_avp := Failed}
++                = Opts
++                = setopts(NameT, Name, Avp#diameter_avp.is_mandatory, Opts0),
+             dec(Data, Name, AvpName, Type, Mod, Dict, Fmt, Failed, Opts, A);
+         _ ->
+-            dec_AVP(Rest, Data, Name, Mod, Fmt, Opts, Code, Vid, Avp)
++            dec_AVP(Rest, Data, Name, Mod, Fmt, Opts0, Code, Vid, Avp)
+     end;
+ 
+ dec_AVP([], _, _, _, _, _, _, _, Avp) ->
+@@ -680,30 +682,30 @@ set_failed('Failed-AVP', #{failed_avp := false} = Opts) ->
+ set_failed(_, Opts) ->
+     Opts.
+ 
+-%% acc/8
++%% acc/7
+ 
+-acc([AM | Acc], As, I, Field, Arity, Strict, Mod, Opts) ->
+-    [AM | acc1(Acc, As, I, Field, Arity, Strict, Mod, Opts)].
++acc([AM | Acc], As, I, Field, Arity, Strict, Mod) ->
++    [AM | acc1(Acc, As, I, Field, Arity, Strict, Mod)].
+ 
+-%% acc1/8
++%% acc1/7
+ 
+ %% Faulty AVP, not grouped.
+-acc1(Acc, {_RC, Avp} = E, _, _, _, _, _, _) ->
++acc1(Acc, {_RC, Avp} = E, _, _, _, _, _) ->
+     [Avps, Failed | Rec] = Acc,
+     [[Avp | Avps], [E | Failed] | Rec];
+ 
+ %% Faulty component in grouped AVP.
+-acc1(Acc, {RC, As, Avp}, _, _, _, _, _, _) ->
++acc1(Acc, {RC, As, Avp}, _, _, _, _, _) ->
+     [Avps, Failed | Rec] = Acc,
+     [[As | Avps], [{RC, Avp} | Failed] | Rec];
+ 
+ %% Grouped AVP ...
+-acc1([Avps | Acc], [Avp|_] = As, I, Field, Arity, Strict, Mod, Opts) ->
+-    [[As|Avps] | acc2(Acc, Avp, I, Field, Arity, Strict, Mod, Opts)];
++acc1([Avps | Acc], [Avp|_] = As, I, Field, Arity, Strict, Mod) ->
++    [[As|Avps] | acc2(Acc, Avp, I, Field, Arity, Strict, Mod)];
+ 
+ %% ... or not.
+-acc1([Avps | Acc], Avp, I, Field, Arity, Strict, Mod, Opts) ->
+-    [[Avp|Avps] | acc2(Acc, Avp, I, Field, Arity, Strict, Mod, Opts)].
++acc1([Avps | Acc], Avp, I, Field, Arity, Strict, Mod) ->
++    [[Avp|Avps] | acc2(Acc, Avp, I, Field, Arity, Strict, Mod)].
+ 
+ %% The component list of a Grouped AVP is discarded when packing into
+ %% the record (or equivalent): the values in an 'AVP' field are
+@@ -713,24 +715,24 @@ acc1([Avps | Acc], Avp, I, Field, Arity, Strict, Mod, Opts) ->
+ %% retain the same structure as in diameter_packet.avps, but an 'AVP'
+ %% list has always been flat.
+ 
+-%% acc2/8
++%% acc2/7
+ 
+ %% No errors, but nowhere to pack.
+-acc2(Acc, Avp, _, 'AVP', 0, _, _, _) ->
++acc2(Acc, Avp, _, 'AVP', 0, _, _) ->
+     [Failed | Rec] = Acc,
+     [[{rc(Avp), Avp} | Failed] | Rec];
+ 
+ %% Relaxed arities.
+-acc2(Acc, Avp, _, Field, Arity, Strict, Mod, _)
++acc2(Acc, Avp, _, Field, Arity, Strict, Mod)
+   when Strict /= decode ->
+     pack(Arity, Field, Avp, Mod, Acc);
+ 
+ %% No maximum arity.
+-acc2(Acc, Avp, _, Field, {_,'*'} = Arity, _, Mod, _) ->
++acc2(Acc, Avp, _, Field, {_,'*'} = Arity, _, Mod) ->
+     pack(Arity, Field, Avp, Mod, Acc);
+ 
+ %% Or check.
+-acc2(Acc, Avp, I, Field, Arity, _, Mod, _) ->
++acc2(Acc, Avp, I, Field, Arity, _, Mod) ->
+     Mx = max_arity(Arity),
+     if Mx =< I ->
+             [Failed | Rec] = Acc,
+diff --git lib/diameter/src/diameter.appup.src lib/diameter/src/diameter.appup.src
+index c2198de9ea..d0e58e8410 100644
+--- lib/diameter/src/diameter.appup.src
++++ lib/diameter/src/diameter.appup.src
+@@ -54,7 +54,9 @@
+   {"1.12.1",  [{restart_application, diameter}]},  %% 19.1
+   {"1.12.2",  [{restart_application, diameter}]},  %% 19.3
+   {"2.0",     [{restart_application, diameter}]},  %% 20.0
+-  {"2.1",     [{update, diameter_reg, {advanced, "2.1"}}]} %% 20.1
++  {"2.1",     [{load_module, diameter_gen},        %% 20.1
++               {update, diameter_reg, {advanced, "2.1"}}]},
++  {"2.1.1",   [{load_module, diameter_gen}]}
+  ],
+  [
+   {"0.9",     [{restart_application, diameter}]},
+@@ -90,6 +92,7 @@
+   {"1.12.1",  [{restart_application, diameter}]},
+   {"1.12.2",  [{restart_application, diameter}]},
+   {"2.0",     [{restart_application, diameter}]},
+-  {"2.1",     [{restart_application, diameter}]}
++  {"2.1",     [{restart_application, diameter}]},
++  {"2.1.1",   [{load_module, diameter_gen}]}
+  ]
+ }.
+diff --git lib/diameter/vsn.mk lib/diameter/vsn.mk
+index f73f68da0b..bfb260ed8f 100644
+--- lib/diameter/vsn.mk
++++ lib/diameter/vsn.mk
+@@ -17,5 +17,5 @@
+ # %CopyrightEnd%
+ 
+ APPLICATION  = diameter
+-DIAMETER_VSN = 2.1.1
++DIAMETER_VSN = 2.1.2
+ APP_VSN      = $(APPLICATION)-$(DIAMETER_VSN)$(PRE_VSN)
+diff --git lib/kernel/test/zlib_SUITE.erl lib/kernel/test/zlib_SUITE.erl
+index d17eded811..1afcd155b3 100644
+--- lib/kernel/test/zlib_SUITE.erl
++++ lib/kernel/test/zlib_SUITE.erl
+@@ -978,23 +978,37 @@ split_bin(Last,Acc) ->
+ 
+ only_allow_owner(Config) when is_list(Config) ->
+     Z = zlib:open(),
++    Owner = self(),
+ 
+     ?m(ok, zlib:inflateInit(Z)),
+     ?m(ok, zlib:inflateReset(Z)),
+ 
+     {Pid, Ref} = spawn_monitor(
+         fun() ->
+-            ?m(?EXIT(not_on_controlling_process), zlib:inflateReset(Z))
++            ?m(?EXIT(not_on_controlling_process), zlib:inflateReset(Z)),
++            Owner ! '$transfer_ownership',
++            receive
++                '$ownership_transferred' ->
++                    ?m(ok, zlib:inflateReset(Z))
++            after 200 ->
++                ct:fail("Never received transfer signal.")
++            end
+         end),
++    ownership_transfer_check(Z, Pid, Ref).
+ 
++ownership_transfer_check(Z, WorkerPid, Ref) ->
+     receive
+-        {'DOWN', Ref, process, Pid, _Reason} ->
+-            ok
++        '$transfer_ownership' ->
++            zlib:set_controlling_process(Z, WorkerPid),
++            WorkerPid ! '$ownership_transferred',
++            ownership_transfer_check(Z, WorkerPid, Ref);
++        {'DOWN', Ref, process, WorkerPid, normal} ->
++            ok;
++        {'DOWN', Ref, process, WorkerPid, Reason} ->
++            ct:fail("Spawned worker crashed with reason ~p.", [Reason])
+     after 200 ->
+         ct:fail("Spawned worker timed out.")
+-    end,
+-
+-    ?m(ok, zlib:inflateReset(Z)).
++    end.
+ 
+ sub_heap_binaries(Config) when is_list(Config) ->
+     Compressed = zlib:compress(<<"gurka">>),
+diff --git lib/snmp/doc/src/notes.xml lib/snmp/doc/src/notes.xml
+index e8527ded93..5cd20bad87 100644
+--- lib/snmp/doc/src/notes.xml
++++ lib/snmp/doc/src/notes.xml
+@@ -34,7 +34,23 @@
+   </header>
+ 
+ 
+-  <section><title>SNMP 5.2.7</title>
++  <section><title>SNMP 5.2.8</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    The <c>recbuf</c> configuration option was not propagated
++	    correctly to the socket for the SNMP Manager.</p>
++          <p>
++	    Own Id: OTP-13372 Aux Id: ERIERL-73 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
++<section><title>SNMP 5.2.7</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+       <list>
+diff --git lib/snmp/src/app/snmp.appup.src lib/snmp/src/app/snmp.appup.src
+index bde637744c..ca61782639 100644
+--- lib/snmp/src/app/snmp.appup.src
++++ lib/snmp/src/app/snmp.appup.src
+@@ -8,19 +8,6 @@
+ %% {update, snmpa_local_db, soft, soft_purge, soft_purge, []}
+ %% {add_module,  snmpm_net_if_mt}
+  [
+-  {<<"5\\.2\\.6">>,
+-   [{load_module, snmpc, soft_purge, soft_purge, []},
+-    {load_module, snmpc_lib, soft_purge, soft_purge, []}]},
+-  {<<"5\\.2\\.5">>,
+-   [{load_module, snmpc, soft_purge, soft_purge, []},
+-    {load_module, snmpc_lib, soft_purge, soft_purge, []},
+-    {load_module, snmp_generic, soft_purge, soft_purge, []}]},
+-  {<<"5\\.2\\.4">>,
+-   [{load_module, snmpc, soft_purge, soft_purge, []},
+-    {load_module, snmp_generic, soft_purge, soft_purge, []},
+-    {load_module, snmp, soft_purge, soft_purge, []},
+-    {load_module, snmpc_lib, soft_purge, soft_purge, []},
+-    {load_module, snmpc_mib_gram, soft_purge, soft_purge, []}]},
+   {<<"5\\..*">>, [{restart_application, snmp}]},	
+   {<<"4\\..*">>, [{restart_application, snmp}]}
+  ],
+@@ -30,19 +17,6 @@
+ %% {remove, {snmpm_net_if_mt, soft_purge, soft_purge}}
+  
+  [
+-  {<<"5\\.2\\.6">>,
+-   [{load_module, snmpc, soft_purge, soft_purge, []},
+-    {load_module, snmpc_lib, soft_purge, soft_purge, []}]},
+-  {<<"5\\.2\\.5">>,
+-   [{load_module, snmpc, soft_purge, soft_purge, []},
+-    {load_module, snmpc_lib, soft_purge, soft_purge, []},
+-    {load_module, snmp_generic, soft_purge, soft_purge, []}]},
+-  {<<"5\\.2\\.4">>,
+-   [{load_module, snmpc, soft_purge, soft_purge, []},
+-    {load_module, snmp_generic, soft_purge, soft_purge, []},
+-    {load_module, snmp, soft_purge, soft_purge, []},
+-    {load_module, snmpc_lib, soft_purge, soft_purge, []},
+-    {load_module, snmpc_mib_gram, soft_purge, soft_purge, []}]},
+   {<<"5\\..*">>, [{restart_application, snmp}]},	
+   {<<"4\\..*">>, [{restart_application, snmp}]}
+  ]  	       
+diff --git lib/snmp/src/manager/snmpm_net_if.erl lib/snmp/src/manager/snmpm_net_if.erl
+index 93c987eb0f..29216f9d6a 100644
+--- lib/snmp/src/manager/snmpm_net_if.erl
++++ lib/snmp/src/manager/snmpm_net_if.erl
+@@ -1,7 +1,7 @@
+ %% 
+ %% %CopyrightBegin%
+ %%
+-%% Copyright Ericsson AB 2004-2015. All Rights Reserved.
++%% Copyright Ericsson AB 2004-2017. All Rights Reserved.
+ %%
+ %% Licensed under the Apache License, Version 2.0 (the "License");
+ %% you may not use this file except in compliance with the License.
+@@ -367,7 +367,7 @@ common_socket_opts(Opts) ->
+ 	     default ->
+ 		 [];
+ 	     Sz ->
+-		 [{sndbuf, Sz}]
++		 [{recbuf, Sz}]
+ 	 end ++
+ 	 case get_opt(Opts, no_reuse, false) of
+ 	     false ->
+diff --git lib/snmp/vsn.mk lib/snmp/vsn.mk
+index 207f0084d8..ef48608bda 100644
+--- lib/snmp/vsn.mk
++++ lib/snmp/vsn.mk
+@@ -19,6 +19,6 @@
+ # %CopyrightEnd%
+ 
+ APPLICATION = snmp
+-SNMP_VSN    = 5.2.7
++SNMP_VSN    = 5.2.8
+ PRE_VSN     =
+ APP_VSN     = "$(APPLICATION)-$(SNMP_VSN)$(PRE_VSN)"
+diff --git otp_versions.table otp_versions.table
+index 5db3575e19..6cd8e9a453 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-20.1.3 : diameter-2.1.2 erts-9.1.3 snmp-5.2.8 # asn1-5.0.3 common_test-1.15.2 compiler-7.1.3 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 crypto-4.1 debugger-4.2.3 dialyzer-3.2.2 edoc-0.9.1 eldap-1.2.2 erl_docgen-0.7.1 erl_interface-3.10 et-1.6.1 eunit-2.3.4 hipe-3.16.1 ic-4.4.2 inets-6.4.2 jinterface-1.8 kernel-5.4 megaco-3.18.2 mnesia-4.15.1 observer-2.5 odbc-2.12 orber-3.8.3 os_mon-2.4.3 otp_mibs-1.1.1 parsetools-2.1.5 public_key-1.5 reltool-0.7.5 runtime_tools-1.12.2 sasl-3.1 ssh-4.6.1 ssl-8.2.1 stdlib-3.4.2 syntax_tools-2.1.3 tools-2.11 wx-1.8.2 xmerl-1.3.15 :
+ OTP-20.1.2 : diameter-2.1.1 erts-9.1.2 # asn1-5.0.3 common_test-1.15.2 compiler-7.1.3 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 crypto-4.1 debugger-4.2.3 dialyzer-3.2.2 edoc-0.9.1 eldap-1.2.2 erl_docgen-0.7.1 erl_interface-3.10 et-1.6.1 eunit-2.3.4 hipe-3.16.1 ic-4.4.2 inets-6.4.2 jinterface-1.8 kernel-5.4 megaco-3.18.2 mnesia-4.15.1 observer-2.5 odbc-2.12 orber-3.8.3 os_mon-2.4.3 otp_mibs-1.1.1 parsetools-2.1.5 public_key-1.5 reltool-0.7.5 runtime_tools-1.12.2 sasl-3.1 snmp-5.2.7 ssh-4.6.1 ssl-8.2.1 stdlib-3.4.2 syntax_tools-2.1.3 tools-2.11 wx-1.8.2 xmerl-1.3.15 :
+ OTP-20.1.1 : compiler-7.1.3 erts-9.1.1 ssh-4.6.1 # asn1-5.0.3 common_test-1.15.2 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 crypto-4.1 debugger-4.2.3 dialyzer-3.2.2 diameter-2.1 edoc-0.9.1 eldap-1.2.2 erl_docgen-0.7.1 erl_interface-3.10 et-1.6.1 eunit-2.3.4 hipe-3.16.1 ic-4.4.2 inets-6.4.2 jinterface-1.8 kernel-5.4 megaco-3.18.2 mnesia-4.15.1 observer-2.5 odbc-2.12 orber-3.8.3 os_mon-2.4.3 otp_mibs-1.1.1 parsetools-2.1.5 public_key-1.5 reltool-0.7.5 runtime_tools-1.12.2 sasl-3.1 snmp-5.2.7 ssl-8.2.1 stdlib-3.4.2 syntax_tools-2.1.3 tools-2.11 wx-1.8.2 xmerl-1.3.15 :
+ OTP-20.1 : asn1-5.0.3 common_test-1.15.2 compiler-7.1.2 crypto-4.1 debugger-4.2.3 dialyzer-3.2.2 diameter-2.1 edoc-0.9.1 erl_docgen-0.7.1 erts-9.1 et-1.6.1 eunit-2.3.4 hipe-3.16.1 inets-6.4.2 kernel-5.4 mnesia-4.15.1 observer-2.5 os_mon-2.4.3 public_key-1.5 reltool-0.7.5 runtime_tools-1.12.2 sasl-3.1 snmp-5.2.7 ssh-4.6 ssl-8.2.1 stdlib-3.4.2 syntax_tools-2.1.3 tools-2.11 wx-1.8.2 # cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.2 cosTime-1.2.2 cosTransactions-1.3.2 eldap-1.2.2 erl_interface-3.10 ic-4.4.2 jinterface-1.8 megaco-3.18.2 odbc-2.12 orber-3.8.3 otp_mibs-1.1.1 parsetools-2.1.5 xmerl-1.3.15 :
