@@ -1,0 +1,28 @@
+DEF_FULL_NAME="Ruby version manager"
+DEF_SHA="1207daab13558ac66365f8b5333f6d5ea7f9ea0a"
+DEF_NAME="rbenv"
+DEF_VERSION="1.1.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="binary"
+DEF_EXPORTS="rbenv rbenv---version rbenv-commands rbenv-completions rbenv-exec rbenv-global rbenv-help rbenv-hooks rbenv-init rbenv-local rbenv-prefix rbenv-rehash rbenv-root rbenv-sh-rehash rbenv-sh-shell rbenv-shims rbenv-version rbenv-version-file rbenv-version-file-read rbenv-version-file-write rbenv-version-name rbenv-version-origin rbenv-versions rbenv-whence rbenv-which"
+DEF_AFTER_UNPACK_METHOD="install_and_patch"
+DEF_AFTER_INSTALL_METHOD="install_ruby_build_plugin"
+DEF_CLEAN_USELESS="NO"
+
+install_and_patch () {
+  ${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}
+  ${RM_BIN} -rf "${PREFIX}/bin"
+  ${MV_BIN} ${PREFIX}/libexec ${PREFIX}/bin
+}
+
+install_ruby_build_plugin () {
+  RBENV_ROOT="$(rbenv root)"
+  ${MKDIR_BIN} -p "${RBENV_ROOT}"/plugins
+
+  RUBY_BUILD_DIR="${RBENV_ROOT}"/plugins/ruby-build
+  if [ -d "${RUBY_BUILD_DIR}" ]; then
+    ${RM_BIN} -rf "${RUBY_BUILD_DIR}"
+  fi
+
+  ${GIT_BIN} clone https://github.com/rbenv/ruby-build.git "${RUBY_BUILD_DIR}"
+}
