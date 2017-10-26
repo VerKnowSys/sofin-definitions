@@ -1,39 +1,23 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="NodeJS - asynchronous, event driven, V8 runtime"
 DEF_NAME="node"
-DEF_VERSION="7.10.0"
-DEF_SHA="2a32c82256effb991c59a1b37b5c1d0beffe9c2d"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
+DEF_VERSION="8.6.0"
+YARN_VERSION="1.2.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-bin.tar.xz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake python27 bash ninja c-ares"
-DEF_CONFIGURE_ARGS="--tag=ServeD --shared --with-dtrace --dest-cpu=x64 --ninja --shared-zlib --shared-cares"
-DEF_STRIP=NO
-DEF_NO_FAST_MATH=YES
-DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_NO_CCACHE=YES
-DEF_STANDALONE=YES
+DEF_SHA="6ad5ed9bc4a4beaddc374318c0991749bcc3e943"
+DEF_CONFIGURE_METHOD="binary"
+DEF_CLEAN_USELESS=NO
+DEF_EXPORTS="node yarn"
+DEF_AFTER_UNPACK_METHOD="install_and_patch"
+install_and_patch () {
+    ${CP_BIN} -fR "${BUILD_DIR}/$(capitalize "${DEF_NAME}")/" "${PREFIX}"
+    ${SED_BIN} -i '' -e "s|./node.bin|${PREFIX}/bin/node.bin|" "${PREFIX}/bin/node"
+    ${SED_BIN} -i '' -e "s|../lib|${PREFIX}/lib|" "${PREFIX}/bin/node"
 
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --dest-os=mac"
-        # required to NOT strip _node_module_register from node binary. It will cause brunch crashes on OSX 10.10/10.11.
-        ;;
-
-    FreeBSD)
-        # DEF_LINKER_ARGS="${DEF_LINKER_ARGS} -lc++ -lcxxrt"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --dest-os=freebsd"
-        ;;
-esac
-DEF_MAKE_METHOD="LINK=clang++ make -s ${MAKE_OPTS}"
-DEF_TEST_METHOD=":"
-DEF_INSTALL_METHOD="LINK=clang++ make -s install"
-DEF_USEFUL="bin/bash bin/node* bin/*zip* bin/xz bin/ninja bin/bash bin/make bin/*ssl*"
-DEF_EXPORTS="node npm node-waf node-gyp coffee lessc uglifyjs cake brunch"
-DEF_CONFLICTS_WITH="Node"
-DEF_AFTER_INSTALL_METHOD="install_global_modules"
-install_global_modules () {
-    for mod in "coffee-script" "less" "uglify-js"; do
-        note "Installing: $(distn "${mod}")"
-        run "${PREFIX}/bin/npm -g install ${mod}"
-    done
-    return 0 # Node throws "npm ERR! code -2147483648" on success ;)
+    ${FETCH_BIN} "https://github.com/yarnpkg/yarn/releases/download/v${YARN_VERSION}/yarn-${YARN_VERSION}.js"
+    ${MV_BIN} -v "yarn-${YARN_VERSION}.js" "${PREFIX}/bin/yarn-${YARN_VERSION}.js"
+    ${RM_BIN} -f "${PREFIX}/bin/yarn"
+    ${LN_BIN} -s "${PREFIX}/bin/yarn-${YARN_VERSION}.js" "${PREFIX}/bin/yarn"
+    ${CHMOD_BIN} 775 "${PREFIX}/bin/yarn"
 }
