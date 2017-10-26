@@ -1,0 +1,627 @@
+diff --git OTP_VERSION OTP_VERSION
+index c997404b5f..8e1f9c8981 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-19.3.6.2
++19.3.6.3
+diff --git erts/doc/src/notes.xml erts/doc/src/notes.xml
+index 99736c1641..e1c8dbb501 100644
+--- erts/doc/src/notes.xml
++++ erts/doc/src/notes.xml
+@@ -31,6 +31,55 @@
+   </header>
+   <p>This document describes the changes made to the ERTS application.</p>
+ 
++<section><title>Erts 8.3.5.3</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    A timer internal bit-field used for storing scheduler id
++	    was too small. As a result, VM internal timer data
++	    structures could become inconsistent when using 1024
++	    schedulers on the system. Note that systems with less
++	    than 1024 schedulers are not effected by this bug.</p>
++          <p>
++	    This bug was introduced in ERTS version 7.0 (OTP 18.0).</p>
++          <p>
++	    Own Id: OTP-14548 Aux Id: OTP-11997, ERL-468 </p>
++        </item>
++        <item>
++          <p>
++	    Fixed bug in <c>binary_to_term</c> and
++	    <c>binary_to_atom</c> that could cause VM crash.
++	    Typically happens when the last character of an UTF8
++	    string is in the range 128 to 255, but truncated to only
++	    one byte. Bug exists in <c>binary_to_term</c> since ERTS
++	    version 5.10.2 (OTP_R16B01) and <c>binary_to_atom</c>
++	    since ERTS version 9.0 (OTP-20.0).</p>
++          <p>
++	    Own Id: OTP-14590 Aux Id: ERL-474 </p>
++        </item>
++        <item>
++          <p>
++	    Fix bug causing VM crash when a module with
++	    <c>-on_load</c> directive is loaded while
++	    <c>erlang:trace(on_load, ...)</c> is enabled.</p>
++          <p>
++	    Own Id: OTP-14612</p>
++        </item>
++        <item>
++          <p>
++	    Fixed bug that could cause a VM crash when a corrupt
++	    message is received on distribution channel from other
++	    node.</p>
++          <p>
++	    Own Id: OTP-14661 Aux Id: ERIERL-80 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Erts 8.3.5.2</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git erts/emulator/beam/atom.c erts/emulator/beam/atom.c
+index 2052afe52b..e7a655b60f 100644
+--- erts/emulator/beam/atom.c
++++ erts/emulator/beam/atom.c
+@@ -138,7 +138,7 @@ atom_hash(Atom* obj)
+     while(len--) {
+ 	v = *p++;
+ 	/* latin1 clutch for r16 */
+-	if ((v & 0xFE) == 0xC2 && (*p & 0xC0) == 0x80) {
++	if (len && (v & 0xFE) == 0xC2 && (*p & 0xC0) == 0x80) {
+ 	    v = (v << 6) | (*p & 0x3F);
+ 	    p++; len--;
+ 	}
+diff --git erts/emulator/beam/beam_bif_load.c erts/emulator/beam/beam_bif_load.c
+index b664532c1c..8fc8613c66 100644
+--- erts/emulator/beam/beam_bif_load.c
++++ erts/emulator/beam/beam_bif_load.c
+@@ -242,7 +242,7 @@ struct m {
+     Binary* code;
+     Eterm module;
+     Module* modp;
+-    Uint exception;
++    Eterm exception;
+ };
+ 
+ static Eterm staging_epilogue(Process* c_p, int, Eterm res, int, struct m*, int);
+@@ -263,7 +263,7 @@ exception_list(Process* p, Eterm tag, struct m* mp, Sint exceptions)
+     Eterm res = NIL;
+ 
+     while (exceptions > 0) {
+-	if (mp->exception) {
++	if (is_value(mp->exception)) {
+ 	    res = CONS(hp, mp->module, res);
+ 	    hp += 2;
+ 	    exceptions--;
+@@ -366,9 +366,9 @@ finish_loading_1(BIF_ALIST_1)
+ 
+     exceptions = 0;
+     for (i = 0; i < n; i++) {
+-	p[i].exception = 0;
++	p[i].exception = THE_NON_VALUE;
+ 	if (p[i].modp->seen) {
+-	    p[i].exception = 1;
++	    p[i].exception = am_duplicated;
+ 	    exceptions++;
+ 	}
+ 	p[i].modp->seen = 1;
+@@ -401,9 +401,9 @@ finish_loading_1(BIF_ALIST_1)
+ 
+     exceptions = 0;
+     for (i = 0; i < n; i++) {
+-	p[i].exception = 0;
++	p[i].exception = THE_NON_VALUE;
+ 	if (p[i].modp->curr.code_hdr && p[i].modp->old.code_hdr) {
+-	    p[i].exception = 1;
++	    p[i].exception = am_not_purged;
+ 	    exceptions++;
+ 	}
+     }
+@@ -424,7 +424,7 @@ finish_loading_1(BIF_ALIST_1)
+ 	    retval = erts_finish_loading(p[i].code, BIF_P, 0, &mod);
+ 	    ASSERT(retval == NIL || retval == am_on_load);
+ 	    if (retval == am_on_load) {
+-		p[i].exception = 1;
++		p[i].exception = am_on_load;
+ 		exceptions++;
+ 	    }
+ 	}
+@@ -456,8 +456,9 @@ staging_epilogue(Process* c_p, int commit, Eterm res, int is_blocking,
+ 	    erts_commit_staging_code_ix();
+ 	    if (loaded) {
+ 		int i;
+-		for (i=0; i < nloaded; i++) {		
+-		    set_default_trace_pattern(loaded[i].module);
++		for (i=0; i < nloaded; i++) {
++		    if (loaded[i].exception != am_on_load)
++			set_default_trace_pattern(loaded[i].module);
+ 		}
+ 	    }
+ 	}
+diff --git erts/emulator/beam/erl_hl_timer.c erts/emulator/beam/erl_hl_timer.c
+index a73f4ecfc7..e9e1e502aa 100644
+--- erts/emulator/beam/erl_hl_timer.c
++++ erts/emulator/beam/erl_hl_timer.c
+@@ -98,16 +98,16 @@ typedef enum {
+ #  define ERTS_HLT_SMP_MEMBAR_LoadLoad_LoadStore
+ #endif
+ 
+-/* Bit 0 to 9 contains scheduler id (see mask below) */
+-#define ERTS_TMR_ROFLG_HLT		(((Uint32) 1) << 10)
+-#define ERTS_TMR_ROFLG_BIF_TMR		(((Uint32) 1) << 11)
+-#define ERTS_TMR_ROFLG_PRE_ALC		(((Uint32) 1) << 12)
+-#define ERTS_TMR_ROFLG_REG_NAME		(((Uint32) 1) << 13)
+-#define ERTS_TMR_ROFLG_PROC		(((Uint32) 1) << 14)
+-#define ERTS_TMR_ROFLG_PORT		(((Uint32) 1) << 15)
+-#define ERTS_TMR_ROFLG_CALLBACK		(((Uint32) 1) << 16)
++/* Bit 0 to 10 contains scheduler id (see mask below) */
++#define ERTS_TMR_ROFLG_HLT		(((Uint32) 1) << 11)
++#define ERTS_TMR_ROFLG_BIF_TMR		(((Uint32) 1) << 12)
++#define ERTS_TMR_ROFLG_PRE_ALC		(((Uint32) 1) << 13)
++#define ERTS_TMR_ROFLG_REG_NAME		(((Uint32) 1) << 14)
++#define ERTS_TMR_ROFLG_PROC		(((Uint32) 1) << 15)
++#define ERTS_TMR_ROFLG_PORT		(((Uint32) 1) << 16)
++#define ERTS_TMR_ROFLG_CALLBACK		(((Uint32) 1) << 17)
+ #ifdef ERTS_BTM_ACCESSOR_SUPPORT
+-#define ERTS_TMR_ROFLG_ABIF_TMR		(((Uint32) 1) << 17)
++#define ERTS_TMR_ROFLG_ABIF_TMR		(((Uint32) 1) << 18)
+ #endif
+ 
+ #define ERTS_TMR_ROFLG_SID_MASK	\
+diff --git erts/emulator/beam/erl_message.c erts/emulator/beam/erl_message.c
+index cdd771ef7d..de9f16d088 100644
+--- erts/emulator/beam/erl_message.c
++++ erts/emulator/beam/erl_message.c
+@@ -564,14 +564,11 @@ erts_msg_attached_data_size_aux(ErtsMessage *msg)
+ 
+     sz = erts_decode_dist_ext_size(msg->data.dist_ext);
+     if (sz < 0) {
+-	/* Bad external; remove it */
+-	if (is_not_nil(ERL_MESSAGE_TOKEN(msg))) {
+-	    ErlHeapFragment *heap_frag;
+-	    heap_frag = erts_dist_ext_trailer(msg->data.dist_ext);
+-	    erts_cleanup_offheap(&heap_frag->off_heap);
+-	}
+-	erts_free_dist_ext_copy(msg->data.dist_ext);
+-	msg->data.dist_ext = NULL;
++	/* Bad external
++	 * We leave the message intact in this case as it's not worth the trouble
++	 * to make all callers remove it from queue. It will be detected again
++	 * and removed from message queue later anyway.
++	 */
+ 	return 0;
+     }
+ 
+diff --git erts/emulator/test/bif_SUITE.erl erts/emulator/test/bif_SUITE.erl
+index f70fb0e501..e795057918 100644
+--- erts/emulator/test/bif_SUITE.erl
++++ erts/emulator/test/bif_SUITE.erl
+@@ -464,6 +464,9 @@ binary_to_atom(Config) when is_list(Config) ->
+     ?BADARG(binary_to_atom(id(<<255>>), utf8)),
+     ?BADARG(binary_to_atom(id(<<255,0>>), utf8)),
+     ?BADARG(binary_to_atom(id(<<16#C0,16#80>>), utf8)), %Overlong 0.
++    <<B:1/binary, _/binary>> = id(<<194, 163>>), %Truncated character ERL-474
++    ?BADARG(binary_to_atom(B, utf8)),
++
+     [?BADARG(binary_to_atom(<<C/utf8>>, utf8)) || C <- lists:seq(256, 16#D7FF)],
+     [?BADARG(binary_to_atom(<<C/utf8>>, utf8)) || C <- lists:seq(16#E000, 16#FFFD)],
+     [?BADARG(binary_to_atom(<<C/utf8>>, utf8)) || C <- lists:seq(16#10000, 16#8FFFF)],
+diff --git erts/emulator/test/binary_SUITE.erl erts/emulator/test/binary_SUITE.erl
+index 1c7d278bb0..7a2503178a 100644
+--- erts/emulator/test/binary_SUITE.erl
++++ erts/emulator/test/binary_SUITE.erl
+@@ -601,6 +601,9 @@ bad_binary_to_term(Config) when is_list(Config) ->
+ 
+     %% Bad float.
+     bad_bin_to_term(<<131,70,-1:64>>),
++
++    %% Truncated UTF8 character (ERL-474)
++    bad_bin_to_term(<<131,119,1,194,163>>),
+     ok.
+ 
+ bad_bin_to_term(BadBin) ->
+diff --git erts/emulator/test/distribution_SUITE.erl erts/emulator/test/distribution_SUITE.erl
+index 6994bfef83..3a637b5682 100644
+--- erts/emulator/test/distribution_SUITE.erl
++++ erts/emulator/test/distribution_SUITE.erl
+@@ -56,6 +56,7 @@
+          bad_dist_ext_process_info/1,
+          bad_dist_ext_control/1,
+          bad_dist_ext_connection_id/1,
++         bad_dist_ext_size/1,
+ 	 start_epmd_false/1, epmd_module/1]).
+ 
+ %% Internal exports.
+@@ -92,6 +93,7 @@ groups() ->
+       [dist_auto_connect_never, dist_auto_connect_once]},
+      {bad_dist_ext, [],
+       [bad_dist_ext_receive, bad_dist_ext_process_info,
++       bad_dist_ext_size,
+        bad_dist_ext_control, bad_dist_ext_connection_id]}].
+ 
+ %% Tests pinging a node in different ways.
+@@ -1683,6 +1685,57 @@ bad_dist_ext_connection_id(Config) when is_list(Config) ->
+     stop_node(Offender),
+     stop_node(Victim).
+ 
++%% OTP-14661: Bad message is discovered by erts_msg_attached_data_size
++bad_dist_ext_size(Config) when is_list(Config) ->
++    {ok, Offender} = start_node(bad_dist_ext_process_info_offender),
++    %%Prog = "Prog=/home/uabseri/src/otp_new3/bin/cerl -rr -debug",
++    Prog = [],
++    {ok, Victim} = start_node(bad_dist_ext_process_info_victim, [], Prog),
++    start_node_monitors([Offender,Victim]),
++
++    Parent = self(),
++    P = spawn_link(Victim,
++                   fun () ->
++                           Parent ! {self(), started},
++                           receive check_msgs -> ok end,  %% DID CRASH HERE
++                           bad_dist_ext_check_msgs([one]),
++                           Parent ! {self(), messages_checked}
++                   end),
++
++    receive {P, started} -> ok end,
++    P ! one,
++
++    Suspended = make_ref(),
++    S = spawn(Victim,
++              fun () ->
++                      erlang:suspend_process(P),
++                      Parent ! Suspended,
++                      receive after infinity -> ok end
++              end),
++
++    receive Suspended -> ok end,
++    pong = rpc:call(Victim, net_adm, ping, [Offender]),
++    verify_up(Offender, Victim),
++    send_bad_msgs(Offender, P, 1, dmsg_bad_tag()),
++
++    %% Make sure bad msgs has reached Victim
++    rpc:call(Offender, rpc, call, [Victim, erlang, node, []]),
++
++    verify_still_up(Offender, Victim),
++
++    rpc:call(Victim, erlang, process_info, [P, total_heap_size]),
++
++    verify_down(Offender, connection_closed, Victim, killed),
++
++    P ! check_msgs,
++    exit(S, bang),  % resume Victim
++    receive {P, messages_checked} -> ok end,
++
++    unlink(P),
++    verify_no_down(Offender, Victim),
++    stop_node(Offender),
++    stop_node(Victim).
++
+ 
+ bad_dist_struct_check_msgs([]) ->
+     receive
+@@ -1786,9 +1839,12 @@ send_bad_structure(Offender,Victim,Bad,WhereToPutSelf,PayLoad) ->
+ send_bad_msg(BadNode, To) ->
+     send_bad_msgs(BadNode, To, 1).
+ 
+-send_bad_msgs(BadNode, To, Repeat) when is_atom(BadNode),
+-                                        is_pid(To),
+-                                        is_integer(Repeat) ->
++send_bad_msgs(BadNode, To, Repeat) ->
++    send_bad_msgs(BadNode, To, Repeat, dmsg_bad_atom_cache_ref()).
++
++send_bad_msgs(BadNode, To, Repeat, BadTerm) when is_atom(BadNode),
++                                                 is_pid(To),
++                                                 is_integer(Repeat) ->
+     Parent = self(),
+     Done = make_ref(),
+     spawn_link(BadNode,
+@@ -1798,7 +1854,7 @@ send_bad_msgs(BadNode, To, Repeat) when is_atom(BadNode),
+                        DPrt = dport(Node),
+                        DData = [dmsg_hdr(),
+                                 dmsg_ext({?DOP_SEND, ?COOKIE, To}),
+-                                dmsg_bad_atom_cache_ref()],
++                                BadTerm],
+                        repeat(fun () -> port_command(DPrt, DData) end, Repeat),
+                        Parent ! Done
+                end),
+@@ -1885,6 +1941,9 @@ dmsg_ext(Term) ->
+ dmsg_bad_atom_cache_ref() ->
+     [$R, 137].
+ 
++dmsg_bad_tag() ->  %% Will fail early at heap size calculation
++    [$?, 66].
++
+ start_epmd_false(Config) when is_list(Config) ->
+     %% Start a node with the option -start_epmd false.
+     {ok, OtherNode} = start_node(start_epmd_false, "-start_epmd false"),
+diff --git erts/vsn.mk erts/vsn.mk
+index 3df78351d7..e8fe09ad36 100644
+--- erts/vsn.mk
++++ erts/vsn.mk
+@@ -18,7 +18,7 @@
+ # %CopyrightEnd%
+ # 
+ 
+-VSN = 8.3.5.2
++VSN = 8.3.5.3
+ 
+ # Port number 4365 in 4.2
+ # Port number 4366 in 4.3
+diff --git lib/compiler/doc/src/notes.xml lib/compiler/doc/src/notes.xml
+index 449453bf88..db50cba094 100644
+--- lib/compiler/doc/src/notes.xml
++++ lib/compiler/doc/src/notes.xml
+@@ -32,6 +32,23 @@
+   <p>This document describes the changes made to the Compiler
+     application.</p>
+ 
++<section><title>Compiler 7.0.4.1</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++	    <p>Fail labels on guard BIFs weren't taken into account
++	    during an optimization pass, and a bug in the validation
++	    pass sometimes prevented this from being noticed when a
++	    fault occurred.</p>
++          <p>
++	    Own Id: OTP-14522 Aux Id: ERIERL-48 </p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Compiler 7.0.4</title>
+ 
+     <section><title>Fixed Bugs and Malfunctions</title>
+diff --git lib/compiler/src/beam_utils.erl lib/compiler/src/beam_utils.erl
+index 249d9395ca..e743abc773 100644
+--- lib/compiler/src/beam_utils.erl
++++ lib/compiler/src/beam_utils.erl
+@@ -783,37 +783,46 @@ live_opt([{recv_mark,_}=I|Is], Regs, D, Acc) ->
+ 
+ live_opt([], _, _, Acc) -> Acc.
+ 
+-live_opt_block([{set,Ds,Ss,Op}=I0|Is], Regs0, D, Acc) ->
++live_opt_block([{set,Ds,Ss,Op0}|Is], Regs0, D, Acc) ->
+     Regs1 = x_live(Ss, x_dead(Ds, Regs0)),
+-    {I,Regs} = case Op of
+-		   {alloc,Live0,Alloc} ->
+-		       %% The life-time analysis used by the code generator
+-		       %% is sometimes too conservative, so it may be
+-		       %% possible to lower the number of live registers
+-		       %% based on the exact liveness information.
+-		       %% The main benefit is that more optimizations that
+-		       %% depend on liveness information (such as the
+-		       %% beam_bool and beam_dead passes) may be applied.
+-		       Live = live_regs(Regs1),
+-		       true = Live =< Live0,	%Assertion.
+-		       I1 = {set,Ds,Ss,{alloc,Live,Alloc}},
+-		       {I1,live_call(Live)};
+-		   _ ->
+-		       {I0,Regs1}
+-	       end,
++    {Op, Regs} = live_opt_block_op(Op0, Regs1, D),
++    I = {set, Ds, Ss, Op},
++
+     case Ds of
+-	[{x,X}] ->
+-	    case (not is_live(X, Regs0)) andalso Op =:= move of
+-		true ->
+-		    live_opt_block(Is, Regs0, D, Acc);
+-		false ->
+-		    live_opt_block(Is, Regs, D, [I|Acc])
+-	    end;
+-	_ ->
+-	    live_opt_block(Is, Regs, D, [I|Acc])
++        [{x,X}] ->
++            case (not is_live(X, Regs0)) andalso Op =:= move of
++                true ->
++                    live_opt_block(Is, Regs0, D, Acc);
++                false ->
++                    live_opt_block(Is, Regs, D, [I|Acc])
++            end;
++        _ ->
++            live_opt_block(Is, Regs, D, [I|Acc])
+     end;
+ live_opt_block([], Regs, _, Acc) -> {Acc,Regs}.
+ 
++live_opt_block_op({alloc,Live0,AllocOp}, Regs0, D) ->
++    Regs =
++        case AllocOp of
++            {Kind, _N, Fail} when Kind =:= gc_bif; Kind =:= put_map ->
++                live_join_label(Fail, D, Regs0);
++            _ ->
++                Regs0
++        end,
++
++    %% The life-time analysis used by the code generator is sometimes too
++    %% conservative, so it may be possible to lower the number of live
++    %% registers based on the exact liveness information. The main benefit is
++    %% that more optimizations that depend on liveness information (such as the
++    %% beam_bool and beam_dead passes) may be applied.
++    Live = live_regs(Regs),
++    true = Live =< Live0,
++    {{alloc,Live,AllocOp}, live_call(Live)};
++live_opt_block_op({bif,_N,Fail} = Op, Regs, D) ->
++    {Op, live_join_label(Fail, D, Regs)};
++live_opt_block_op(Op, Regs, _D) ->
++    {Op, Regs}.
++
+ live_join_labels([{f,L}|T], D, Regs0) when L =/= 0 ->
+     Regs = gb_trees:get(L, D) bor Regs0,
+     live_join_labels(T, D, Regs);
+diff --git lib/compiler/src/beam_validator.erl lib/compiler/src/beam_validator.erl
+index 16dba35adc..69e34f76b0 100644
+--- lib/compiler/src/beam_validator.erl
++++ lib/compiler/src/beam_validator.erl
+@@ -921,9 +921,9 @@ verify_call_match_context(Lbl, Ctx, #vst{ft=Ft}) ->
+ 	    error({unsuitable_bs_start_match2,I})
+     end.
+ 
+-allocate(Zero, Stk, Heap, Live, #vst{current=#st{numy=none}=St}=Vst0) ->
++allocate(Zero, Stk, Heap, Live, #vst{current=#st{numy=none}}=Vst0) ->
+     verify_live(Live, Vst0),
+-    Vst = prune_x_regs(Live, Vst0),
++    Vst = #vst{current=St} = prune_x_regs(Live, Vst0),
+     Ys = init_regs(Stk, case Zero of 
+ 			    true -> initialized;
+ 			    false -> uninitialized
+diff --git lib/compiler/test/beam_utils_SUITE.erl lib/compiler/test/beam_utils_SUITE.erl
+index b76b4d17df..ac734a70be 100644
+--- lib/compiler/test/beam_utils_SUITE.erl
++++ lib/compiler/test/beam_utils_SUITE.erl
+@@ -260,6 +260,14 @@ otp_8949_b(A, B) ->
+ liveopt(_Config) ->
+     F = liveopt_fun(42, pebkac, user),
+     void = F(42, #alarmInfo{type=sctp,cause=pebkac,origin=user}),
++
++
++    A = {#alarmInfo{cause = {abc, def}}, ghi},
++    A = liveopt_guard_bif(A),
++
++    B = {#alarmInfo{cause = {abc}}, def},
++    {#alarmInfo{cause = {{abc}}}, def} = liveopt_guard_bif(B),
++
+     ok.
+ 
+ liveopt_fun(Peer, Cause, Origin) ->
+@@ -271,6 +279,15 @@ liveopt_fun(Peer, Cause, Origin) ->
+ 	    void
+     end.
+ 
++liveopt_guard_bif({#alarmInfo{cause=F}=R, X}=A) ->
++    %% ERIERL-48
++    if
++        is_tuple(F), tuple_size(F) == 2 -> A;
++        true ->
++            R2 = R#alarmInfo{cause={F}},
++            {R2,X}
++    end.
++
+ %% Thanks to QuickCheck.
+ coverage(_Config) ->
+     42+7 = merchant([[],7,false]),
+diff --git lib/compiler/vsn.mk lib/compiler/vsn.mk
+index 5c87304a01..f3b9d3e9fd 100644
+--- lib/compiler/vsn.mk
++++ lib/compiler/vsn.mk
+@@ -1 +1 @@
+-COMPILER_VSN = 7.0.4
++COMPILER_VSN = 7.0.4.1
+diff --git lib/kernel/test/code_SUITE.erl lib/kernel/test/code_SUITE.erl
+index 62ad7b6a27..a5a5da4684 100644
+--- lib/kernel/test/code_SUITE.erl
++++ lib/kernel/test/code_SUITE.erl
+@@ -35,6 +35,7 @@
+ 	 purge_stacktrace/1, mult_lib_roots/1, bad_erl_libs/1,
+ 	 code_archive/1, code_archive2/1, on_load/1, on_load_binary/1,
+ 	 on_load_embedded/1, on_load_errors/1, on_load_update/1,
++         on_load_trace_on_load/1,
+ 	 on_load_purge/1, on_load_self_call/1, on_load_pending/1,
+ 	 on_load_deleted/1,
+ 	 big_boot_embedded/1,
+@@ -65,13 +66,15 @@ all() ->
+      ext_mod_dep, clash, where_is_file,
+      purge_stacktrace, mult_lib_roots,
+      bad_erl_libs, code_archive, code_archive2, on_load,
+-     on_load_binary, on_load_embedded, on_load_errors, on_load_update,
++     on_load_binary, on_load_embedded, on_load_errors,
++     {group, sequence},
+      on_load_purge, on_load_self_call, on_load_pending,
+      on_load_deleted,
+      big_boot_embedded, native_early_modules, get_mode, normalized_paths].
+ 
+-groups() ->
+-    [].
++%% These need to run in order
++groups() -> [{sequence, [sequence], [on_load_update,
++                                     on_load_trace_on_load]}].
+ 
+ init_per_group(_GroupName, Config) ->
+ 	Config.
+@@ -1456,7 +1459,7 @@ do_on_load_error(ReturnValue) ->
+ 	    {undef,[{on_load_error,main,[],_}|_]} = Exit
+     end.
+ 
+-on_load_update(_Config) ->
++on_load_update(Config) ->
+     {Mod,Code1} = on_load_update_code(1),
+     {module,Mod} = code:load_binary(Mod, "", Code1),
+     42 = Mod:a(),
+@@ -1466,7 +1469,7 @@ on_load_update(_Config) ->
+     {Mod,Code2} = on_load_update_code(2),
+     {error,on_load_failure} = code:load_binary(Mod, "", Code2),
+     42 = Mod:a(),
+-    100 = Mod:b(99),
++    78 = Mod:b(77),
+     {'EXIT',{undef,_}} = (catch Mod:never()),
+     4 = erlang:trace_pattern({Mod,'_','_'}, false),
+ 
+@@ -1477,6 +1480,9 @@ on_load_update(_Config) ->
+     {'EXIT',{undef,_}} = (catch Mod:b(10)),
+     {'EXIT',{undef,_}} = (catch Mod:never()),
+ 
++    code:purge(Mod),
++    code:delete(Mod),
++    code:purge(Mod),
+     ok.
+ 
+ on_load_update_code(Version) ->
+@@ -1508,6 +1514,40 @@ on_load_update_code_1(3, Mod) ->
+ 	"f() -> ok.\n",
+ 	"c() -> 100.\n"]).
+ 
++%% Test -on_load while trace feature 'on_load' is enabled (OTP-14612)
++on_load_trace_on_load(Config) ->
++    Papa = self(),
++    Tracer = spawn_link(fun F() -> receive M -> Papa ! M end, F() end),
++    {tracer,[]} = erlang:trace_info(self(),tracer),
++    erlang:trace(self(), true, [call, {tracer, Tracer}]),
++    erlang:trace_pattern(on_load, true, []),
++    on_load_update(Config),
++    erlang:trace_pattern(on_load, false, []),
++    erlang:trace(self(), false, [call]),
++
++    %% WE GET TRACES FOR CALLS TO UNDEFINED FUNCTIONS ???
++    %% Remove filter when that is fixed.
++    Ms = lists:filter(fun({trace,Papa,call,
++                           {error_handler,undefined_function,
++                            [on_load_update_code,_,_]}})
++                         -> false;
++                         (_) -> true
++                      end,
++                      flush()),
++
++    [{trace, Papa, call, {on_load_update_code, a, []}},
++     {trace, Papa, call, {on_load_update_code, b, [99]}},
++     {trace, Papa, call, {on_load_update_code, c, []}}] = Ms,
++
++    exit(Tracer, normal),
++    ok.
++
++flush() ->
++    receive M -> [M | flush()]
++    after 100 -> []
++    end.
++
++
+ on_load_purge(_Config) ->
+     Mod = ?FUNCTION_NAME,
+     register(Mod, self()),
+diff --git otp_versions.table otp_versions.table
+index 3848ba4526..4b124668d1 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-19.3.6.3 : compiler-7.0.4.1 erts-8.3.5.3 # asn1-4.0.4 common_test-1.14 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.3 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
+ OTP-19.3.6.2 : erts-8.3.5.2 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.3 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
+ OTP-19.3.6.1 : erts-8.3.5.1 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.3 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
+ OTP-19.3.6 : erts-8.3.5 # asn1-4.0.4 common_test-1.14 compiler-7.0.4 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2 ssl-8.1.3 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
