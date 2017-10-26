@@ -18,7 +18,7 @@ post_unpack () {
     ./otp_build autoconf
 }
 
-DEF_CONFIGURE_ARGS="--enable-threads --with-dynamic-trace=dtrace --enable-smp-support --with-ssl=${PREFIX}  --enable-native-libs --without-odbc --without-docs --enable-sctp"
+DEF_CONFIGURE_ARGS="--enable-threads --with-dynamic-trace=dtrace --enable-smp-support --with-ssl=${PREFIX}  --enable-native-libs --without-odbc --without-docs --enable-sctp --enable-kernel-poll"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
