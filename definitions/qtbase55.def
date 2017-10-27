@@ -67,6 +67,3 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_AFTER_INSTALL_METHOD="make_symlinks"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath"
 fi
-
-
-DEF_MAKE_METHOD="make -s -j4"
