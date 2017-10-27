@@ -50,11 +50,23 @@ if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
 fi
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    makeSymlinks () {
+    make_symlinks () {
         for lib in QtCore QtGui QtWidgets QtOpenGL; do
             ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
         done
     }
-    DEF_AFTER_INSTALL_METHOD="makeSymlinks"
+
+    after_unpack () {
+        # https://stackoverflow.com/a/39494199
+        PATCH='s#/usr/bin/xcrun -find xcrun#/usr/bin/xcrun -find xcodebuild#g'
+        ${SED_BIN} -i '' -e ${PATCH} ./configure
+        ${SED_BIN} -i '' -e ${PATCH} ./mkspecs/features/mac/default_pre.prf
+    }
+
+    DEF_AFTER_UNPACK_METHOD="after_unpack"
+    DEF_AFTER_INSTALL_METHOD="make_symlinks"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath"
 fi
+
+
+DEF_MAKE_METHOD="make -s -j4"
