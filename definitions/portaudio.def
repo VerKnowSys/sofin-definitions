@@ -1,0 +1,7 @@
+DEF_FULL_NAME="PortAudio"
+DEF_SHA="56c596bba820d90df7d057d8f6a0ec6bf9ab82e8"
+DEF_NAME="portaudio"
+DEF_VERSION="19.6.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--enable-mac-universal=no --enable-cxx"
+DEF_REQUIREMENTS="pkgconf"
