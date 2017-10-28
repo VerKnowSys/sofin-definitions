@@ -1,10 +1,10 @@
 DEF_FULL_NAME="Boost - C++ Libraries"
 DEF_NAME="boost"
-DEF_SHA="f84b1a1ce764108ec3c2b7bd7704cf8dfd3c9d01"
-DEF_VERSION="1.61.0"
+DEF_SHA="51421ef259a4530edea0fbfc448460fcc5c64edb"
+DEF_VERSION="1.64.0"
 _dest_ver="$(echo "${DEF_VERSION}" | ${SED_BIN} 's/\./_/g')"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_dest_ver}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf make icu zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27"
+DEF_REQUIREMENTS="pkgconf make zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
 case "${SYSTEM_NAME}" in
     Darwin)
