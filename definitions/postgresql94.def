@@ -6,7 +6,6 @@ DEF_NAME="postgresql"
 DEF_SUFFIX="94"
 DEF_VERSION="9.4.14"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-CFLAGS="-O3 -funroll-loops"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
 DEF_REQUIREMENTS="pkgconf make m4 libtool libedit zlib libressl"
 DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
@@ -17,6 +16,8 @@ DEF_STRIP=BIN
 DEF_NO_FAST_MATH=YES
 DEF_NO_LLVM_LINKER=YES
 DEF_NO_LTO=YES
+DEF_NO_SSP_BUFFER_OVERRIDE=YES
+DEF_NO_FORTIFY_SOURCE=YES
 
 case "${SYSTEM_NAME}" in
     Linux)
@@ -27,6 +28,7 @@ case "${SYSTEM_NAME}" in
         # Do not strip binaries on OS X, due to:
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
         DEF_STRIP=NO
+        CFLAGS="-O3 -funroll-loops"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace"
         # NOTE: postgresql has to be built BEFORE unixodbc (id present on DEF_REQUIREMENTS list)
         ;;
@@ -36,9 +38,10 @@ case "${SYSTEM_NAME}" in
         # <RhodiumToad> anyway, the main issue I know of is that freebsd's threading libs mess up the concept of RLIMIT_STACK for the initial thread of the process that breaks pg's stack limit checking, meaning that you can crash the backend in situations that ought to just produce an error message
         # <RhodiumToad> --enable-thread-safety only affects libpq, yes
         # <RhodiumToad> the problem is that dblink and postgres_fdw end up dynamically linking libpq into the backend
+
+        CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -Wno-unused-command-line-argument -fstack-protector -fstack-protector-strong -fstack-protector-all -fno-strict-overflow -Wformat -Wformat-security -O3 -funroll-loops -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -w -march=sandybridge -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fsanitize=safe-stack"
+        LDFLAGS="-pie -z relro -z now -L${PREFIX}/lib -fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags  -L${PREFIX}/lib -Wl,--as-needed -fsanitize=safe-stack"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace"
-        DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} -fsanitize=safe-stack -fPIC -fPIE"
-        DEF_LINKER_FLAGS="-lelf -pie -fsanitize=safe-stack"
         ;;
 
 esac
