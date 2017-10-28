@@ -4,7 +4,7 @@ DEF_SHA="51421ef259a4530edea0fbfc448460fcc5c64edb"
 DEF_VERSION="1.64.0"
 _dest_ver="$(echo "${DEF_VERSION}" | ${SED_BIN} 's/\./_/g')"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_dest_ver}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf make zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27"
+DEF_REQUIREMENTS="pkgconf make zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27 icu"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
 case "${SYSTEM_NAME}" in
     Darwin)
@@ -17,5 +17,5 @@ case "${SYSTEM_NAME}" in
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python-root=${PREFIX} --with-python=${PREFIX} --with-icu=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,mpi"
 DEF_MAKE_METHOD="true"
-DEF_INSTALL_METHOD="./b2 -j${CPUS} variant=release threading=multi link=static runtime-link=static install"
+DEF_INSTALL_METHOD="cflags='${CFLAGS}' cxxflags='${CXXFLAGS}' ./b2 -j${CPUS} variant=release threading=multi link=shared runtime-link=shared optimization=speed inlining=full pch=off install"
 DEF_USELESS="include/python* lib/python*"
