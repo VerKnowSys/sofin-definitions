@@ -1,0 +1,4 @@
+inherit boost
+
+DEF_FULL_NAME="Boost - C++ Libraries, static build"
+DEF_INSTALL_METHOD="cflags='${CFLAGS}' cxxflags='${CXXFLAGS}' ./b2 -j${CPUS} variant=release threading=multi link=static runtime-link=static optimization=speed inlining=full pch=off install"
