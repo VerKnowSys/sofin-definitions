@@ -13,7 +13,7 @@ patch_configure () {
 DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
 patch_Makefile () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./Makefile
-    ${SED_BIN} -i '' -e "s#MKDIR_P=.*\$#MKDIR_P=mkdir -p #g" ./Makefile
+    ${SED_BIN} -i '' -e "s#MKDIR_P=.*\$#MKDIR_P=${MKDIR_BIN} -p #g" ./Makefile
 }
 DEF_MAKE_METHOD="make_method"
 make_method () {
