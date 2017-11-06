@@ -1,6 +1,7 @@
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
 DEF_VERSION="1.21.0"
+DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
 DEF_CLEAN_USELESS=NO
 DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc"
