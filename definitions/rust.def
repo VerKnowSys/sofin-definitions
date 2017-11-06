@@ -27,11 +27,12 @@ patch_prefix_and_install () {
 
 DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper; install_utils"
 create_cargo_bin_wrapper () {
-    ${MV_BIN} -fv "${PREFIX}/bin/cargo" "${PREFIX}/bin/cargo.bin" && \
-    ${PRINTF_BIN} "#!/usr/bin/env sh \\
+    try "${MV_BIN} -f \"${PREFIX}/bin/cargo\" \"${PREFIX}/bin/cargo.bin\"" \
+        && ${PRINTF_BIN} "#!/usr/bin/env sh \\
 # \\
 # Cargo - Rust Package Manager. \\
 # This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \\
+# Author: @dmilith
 # \\
 CC=cc \\\\
 CPP=cpp \\\\
@@ -42,10 +43,10 @@ LDFLAGS=\\\"${DEF_LINKER_FLAGS}\\\" \\\\
 RUST_BACKTRACE=\\\"\${RUST_BACKTRACE:-1}\\\" \\\\
 RUSTFLAGS=\\\"\${RUSTFLAGS:-\\\"${DEFAULT_RUSTFLAGS}\\\"}\\\" \\\\
 CARGO_BUILD_JOBS=\\\"\${CARGO_BUILD_JOBS:-\\\"${CPUS}\\\"}\\\" \\\\
-CARGO_INSTALL_ROOT=\\\"\${CARGO_INSTALL_ROOT:-\\\"${PREFIX}\\\"}\\\" \\\\
+CARGO_INSTALL_ROOT=\\\"\${CARGO_INSTALL_ROOT:-\\\"${SERVICE_DIR}\\\"}\\\" \\\\
 ${PREFIX}/bin/cargo.bin \${@} \\
-" > "${PREFIX}/bin/cargo" && \
-    ${CHMOD_BIN} -v 755 "${PREFIX}/bin/cargo"
+" > "${PREFIX}/bin/cargo" \
+    && try "${CHMOD_BIN} -v 755 \"${PREFIX}/bin/cargo\""
 }
 
 install_utils () {
