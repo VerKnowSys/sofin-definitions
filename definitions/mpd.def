@@ -1,21 +1,18 @@
 DEF_FULL_NAME="Music Player Daemon"
 DEF_STANDALONE=YES
 DEF_NAME="mpd"
-DEF_SHA="ab81e6f4aecf2c129cdb341a6ae4ccb9b9bf3f72"
-DEF_VERSION="0.20.8"
+DEF_SHA="6fb0e86a0d5cb7c0ec250a646dd11d42d4678c52"
+DEF_VERSION="0.20.11"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzma xz lzo lzop lz4 zip expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake14 python27 nasm yasm icu boost lame libatomic_ops libunistring zziplib libevent curl-minimal cmake libmpdclient mpc fftw openal faac libid3tag mpg123 libcue libdca taglib yajl faad neon libogg libvorbis flac opus opus-tools uriparser libxspf speex speexdsp libao wavpack twolame libmpcdec libmad libshout soxr sox ffmpeglib glib mpdscribble"
+DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzma xz lzo lzop lz4 zip expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake python27 nasm yasm icu boost lame libatomic_ops libunistring zziplib libevent curl-minimal cmake libmpdclient mpc fftw openal faac libid3tag mpg123 libcue libdca taglib yajl faad neon libogg libvorbis flac opus opus-tools uriparser libxspf speex speexdsp libao wavpack twolame libmpcdec libmad libshout soxr sox ffmpeglib glib mpdscribble"
 DEF_CONFIGURE_ARGS="--with-boost=${PREFIX} --enable-zzip --enable-database --enable-libmpdclient --enable-ffmpeg --enable-flac --enable-id3 --enable-wave-encoder --enable-lame-encoder --enable-mpg123 --disable-nfs --enable-icu --enable-curl --enable-soxr --enable-shout --enable-vorbis --enable-bzip2 --enable-wavpack --disable-inotify --disable-epoll --enable-zlib --enable-openal --enable-opus --enable-sqlite --enable-httpd-output"
 DEF_EXPORTS="mpd mpc mpdscribble"
 DEF_USELESS="ssl doc* share man include/boost include/python* lib/python* lib/perl*"
-DEF_AFTER_UNPACK_METHOD="prepare_lazily ; ./autogen.sh"
-DEF_AFTER_INSTALL_METHOD="create_mpdconf ; make_dirs"
-
-make_dirs () {
-    try "${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db"
-}
+DEF_AFTER_UNPACK_METHOD="prepare_lazily"
+DEF_AFTER_INSTALL_METHOD="create_mpdconf"
 
 create_mpdconf () {
+    try "${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db"
     if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
         run "${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example"
     fi
