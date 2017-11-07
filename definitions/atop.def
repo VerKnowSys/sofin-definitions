@@ -14,3 +14,4 @@ after_unpack () {
 DEF_MAKE_METHOD="make -fBSDmakefile"
 DEF_INSTALL_METHOD="${INSTALL_BIN} -v atop ${PREFIX}/bin/atop"
 DEF_EXPORTS="atop"
+DEF_USE_SAFE_STACK=YES
