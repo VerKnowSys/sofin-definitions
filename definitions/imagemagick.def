@@ -3,14 +3,13 @@ DEF_SHA="b48d5762ac52711607c574924674e1417ee5b770"
 DEF_NAME="ImageMagick"
 DEF_VERSION="7.0.6-7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf m4 make libunistring zlib bzip2 lzma xz lzo pcre libffi gettext python27 libtool glib libressl perl autoconf automake14 bison util-macros cups expat libpaper texinfo libidn libidn2 ghostscript libpng libjpeg-turbo nasm jpeg jbig2dec jbigkit nasm tiff lcms2 freetype fontconfig freefont sharefont jasper fftw pixman cairo pango"
+DEF_REQUIREMENTS="pkgconf m4 make libunistring zlib bzip2 lzma xz lzo pcre libffi gettext python27 libtool libressl perl autoconf texinfo automake14 bison util-macros cups expat libpaper libidn libidn2 ghostscript libpng libjpeg-turbo nasm jpeg jbig2dec jbigkit nasm tiff lcms2 freetype fontconfig freefont sharefont jasper fftw"
 DEF_CONFIGURE_ARGS="--with-lzma=${PREFIX} --without-perl --with-threads --with-fftw --with-pango"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
 DEF_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool man lib/cmake lib/*.sh share/texinfo share/util-macros"
 DEF_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
 DEF_CONFLICTS_WITH="GraphicsMagick"
-# DEF_NO_LLVM_LINKER=YES
 
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile"
 fix_makefile () {
@@ -24,10 +23,10 @@ DEF_AFTER_INSTALL_METHOD="use_bundled_pkgconf"
 use_bundled_pkgconf () {
     ${SED_BIN} -i '' -e \
         "s:pkg-config:${PREFIX}/bin/pkgconf:g" \
-        ${PREFIX}/bin/Magick++-config \
-        ${PREFIX}/bin/Magick-config \
-        ${PREFIX}/bin/MagickCore-config \
-        ${PREFIX}/bin/MagickWand-config \
-        ${PREFIX}/bin/Wand-config
+        "${PREFIX}/bin/Magick++-config" \
+        "${PREFIX}/bin/Magick-config" \
+        "${PREFIX}/bin/MagickCore-config" \
+        "${PREFIX}/bin/MagickWand-config" \
+        "${PREFIX}/bin/Wand-conf"ig
     true
 }
