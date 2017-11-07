@@ -14,3 +14,4 @@ after_installation () {
     run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${MAIN_SOURCE_REPOSITORY}cacert.pem"
 }
 DEF_USELESS="lib/*python* include/*python* lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
+DEF_USE_SAFE_STACK=YES
