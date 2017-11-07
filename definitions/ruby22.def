@@ -9,7 +9,7 @@ DEF_REQUIREMENTS="pkgconf make m4 libtool readline zlib bzip2 lzma xz lzo lz4 gm
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --disable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
-DEF_NO_SAFE_STACK=YES
+
 DEF_NO_LLVM_LINKER=YES
 
 case "${SYSTEM_NAME}" in

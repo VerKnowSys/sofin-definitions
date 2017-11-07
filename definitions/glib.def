@@ -8,4 +8,4 @@ DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqli
 DEF_CONFIGURE_ARGS="--enable-static=yes --disable-dtrace --disable-man --without-xml-catalog --disable-gtk-doc --with-pcre=system --disable-fam"
 DEF_EXPORTS="psktool certtool srptool ocsptool gnutls-cli p11tool systemkey"
 DEF_USEFUL="bin/g* bin/*-config bin/pkgconf"
-DEF_NO_SAFE_STACK=YES
+

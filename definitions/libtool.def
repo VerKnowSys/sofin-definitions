@@ -6,4 +6,4 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4"
 DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -L ${PREFIX}/bin/glibtoolize || ${LN_BIN} -s ${PREFIX}/bin/libtoolize ${PREFIX}/bin/glibtoolize"
 DEF_EXPORTS="libtool libtoolize glibtoolize"
-# DEF_NO_SAFE_STACK=YES
+#

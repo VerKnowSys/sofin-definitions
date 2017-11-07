@@ -20,4 +20,3 @@ DEF_USELESS="include lib/*.la lib/*.a lib/perl* lib/python* include/python* shar
 DEF_EXPORTS="ekg2"
 DEF_STANDALONE=YES
 DEF_STRIP=LIBS # NOTE: binary cannot be stripped from symbols, they're required by dyld
-DEF_NO_SAFE_STACK=YES
