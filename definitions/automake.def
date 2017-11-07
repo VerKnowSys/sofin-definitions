@@ -21,6 +21,5 @@ after_unpack () {
 }
 DEF_AFTER_CONFIGURE_METHOD="after_configure"
 after_configure () {
-    ${SED_BIN} -i '' -e 's#$(PERL) $(srcdir)/doc/help2man --output=$@#true#g' Makefile
-    true
+    try "${SED_BIN} -i '' -e 's#\$(PERL) $(srcdir)/doc/help2man --output=\$@#true#g' Makefile"
 }
