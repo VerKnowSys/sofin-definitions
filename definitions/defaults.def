@@ -53,18 +53,17 @@ unset   DEF_STANDALONE # TODO: it's currently only a marker for standalone bundl
 unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
 unset   DEF_NO_LLVM_LINKER
 unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
+unset   DEF_USE_SAFE_STACK
 unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
 unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
 unset   DEF_NO_SSP_BUFFER_OVERRIDE
 unset   DEF_NO_FORTIFY_SOURCE
-unset   DEF_USE_ALT_COMPILER # if set to YES, Sofin will try gcc/g++ from local PREFIX to build definition(s)
         DEF_DEFAULT_USELESS="info doc docs share/*-doc share/gtk-doc share/emacs share/common-lisp share/bison share/doc share/docs share/info"
         DEF_DEFAULT_USEFUL="bin/*-config bin/*cfg" # TODO:
 unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 unset   DEF_NO_LTO
-unset   DEF_NO_SAFE_STACK
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         DEF_CA_ROOTCERT_ORIGIN="${DEF_CA_ROOTCERT_ORIGIN:-"https://curl.haxx.se/ca/cacert.pem"}" # default source of ROOT-CA
@@ -87,19 +86,15 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
             FreeBSD)
                 DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS} -DHAVE_LIBRESSL"
                 DEF_LINKER_FLAGS="-fPIC"
-
-                # NOTE: not in 11:
                 DEF_NO_LTO=YES
                 ;;
+                # NOTE: not in 11:
 
             Darwin)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
                 DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
                 # DEF_LINKER_FLAGS="-arch=${DEF_DEFAULT_USED_ARCHITECTURE}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
-
-                # NOTE: no safe-stack for Darwin:
-                DEF_NO_SAFE_STACK=YES
                 DEF_NO_LLVM_LINKER=YES
                 DEF_LINKER_NO_DTAGS=YES
                 ;;
