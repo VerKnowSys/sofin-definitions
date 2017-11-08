@@ -7,3 +7,4 @@ DEF_REQUIREMENTS="pkgconf make m4 libtool libxml2 libgpg-error libgcrypt libxslt
 DEF_USELESS="share/libtool"
 DEF_EXPORTS="icecast"
 DEF_STANDALONE=YES
+DEF_USE_SAFE_STACK=YES

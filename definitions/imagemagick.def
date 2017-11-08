@@ -10,6 +10,7 @@ DEF_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500
 DEF_USELESS="lib/*perl* lib/*python* share/examples share/info share/bison share/info share/examples share/doc share/ac* share/auto* share/libtool man lib/cmake lib/*.sh share/texinfo share/util-macros"
 DEF_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
 DEF_CONFLICTS_WITH="GraphicsMagick"
+DEF_USE_SAFE_STACK=YES
 
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile"
 fix_makefile () {
