@@ -9,6 +9,7 @@ DEF_STANDALONE=YES
 DEF_TEST_METHOD="make ${MAKE_OPTS} -s check"
 DEF_USELESS="share/aclocal share/libtool share/readline"
 DEF_EXPORTS="zsh sh"
+DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}" in
     Darwin|FreeBSD)

@@ -10,6 +10,7 @@ DEF_EXPORTS="httpd htdigest httxt2dbm htdbm fcgistarter htpasswd apachectl ab ht
 DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
 DEF_USELESS="lib/cmake man manual share logs lib/*python* lib/lua docs include/python* lib/*.a"
 DEF_USEFUL="bin/perl* bin/ap[[:alpha:]]-1-config bin/curl*"
+DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}" in
     Linux)

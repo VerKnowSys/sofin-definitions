@@ -39,3 +39,4 @@ case "${SYSTEM_NAME}" in
 esac
 DEF_EXPORTS="nginx"
 DEF_CONFLICTS_WITH="Httpd"
+DEF_USE_SAFE_STACK=YES
