@@ -4,6 +4,7 @@ DEF_SHA="4bed1d529d4e742a607f462f4eb1ada32c2923a8"
 DEF_VERSION="2.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
+DEF_MAKE_METHOD="unset AR && make -s"
 DEF_INSTALL_METHOD="install_jam"
 install_jam () {
     try "${MKDIR_BIN} -p ${PREFIX}/bin"
@@ -16,3 +17,4 @@ install_jam () {
     fi
 }
 DEF_EXPORTS="jam mkjambase"
+DEF_NO_CCACHE=YES
