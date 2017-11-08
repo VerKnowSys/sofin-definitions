@@ -1,18 +1,13 @@
 DEF_FULL_NAME="Z Shell"
 DEF_NAME="zsh"
-DEF_SHA="ec2a98c080f213c1c6c465c0c64662b5eae6818f"
-DEF_VERSION="5.3.1"
+DEF_SHA="f6f8e699b956c8881444e597b1fc5af41fef456b"
+DEF_VERSION="5.4.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--disable-dynamic --disable-dynamic-nss --enable-pcre --enable-cap --enable-multibyte --with-tcsetpgrp --enable-multibyte --enable-stack-allocation --disable-maildir-support --enable-zsh-secure-free --enable-gdbm --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${PREFIX}/share/zsh/site-functions --enable-site-scriptdir=${PREFIX}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help"
-DEF_REQUIREMENTS="pkgconf make m4 libedit zlib bzip2 pcre libtool gdbm db"
-DEF_STANDALONE=YES
+DEF_CONFIGURE_ARGS="--disable-dynamic --disable-dynamic-nss --enable-pcre --enable-cap --enable-multibyte --enable-unicode9 --with-tcsetpgrp --disable-stack-allocation --disable-maildir-support --enable-zsh-mem --enable-zsh-secure-free --enable-gdbm --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions"
+DEF_REQUIREMENTS="pkgconf make libedit xz lzma db gdbm pcre"
 DEF_TEST_METHOD="make ${MAKE_OPTS} -s check"
-DEF_USELESS="share/aclocal share/libtool share/readline"
 DEF_EXPORTS="zsh sh"
+DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
-
-case "${SYSTEM_NAME}" in
-    Darwin|FreeBSD)
-        DEF_COMPILER_FLAGS="-Wl,-L${PREFIX}/lib"
-        ;;
-esac
+DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_NO_FAST_MATH=YES
