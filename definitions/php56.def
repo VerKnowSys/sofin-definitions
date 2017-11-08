@@ -13,6 +13,7 @@ DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip dbase"
 DEF_EXPORTS="php php-fpm php-config phpize pecl pear lsphp"
 DEF_USELESS="doc docs lib/perl* mysql-test scripts sql-bench support-files data Software man bin/DB lib/libperl.so share/*.sql share/man share/cmake* lib/python* include/python* lib/libxslt-plugins lib/libmcrypt lib/cmake lib/*.sh share/bison share/autoconf COPYING INSTALL-BINARY README"
 
+DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES # causes random crashes and other issues
 DEF_NO_FAST_MATH=YES # casuses sqlite3 failures
 DEF_NO_TRAP_INT_OVERFLOW=YES # causes pecl to overflow on any command ;)

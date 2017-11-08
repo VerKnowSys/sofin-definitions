@@ -26,6 +26,7 @@ DEF_USELESS="lib/*perl* docs share"
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_LTO=YES
 DEF_NO_CCACHE=YES
+DEF_USE_SAFE_STACK=YES
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} -fPIC -fPIE -DMAP_NORESERVE=0 -fno-omit-frame-pointer -fsanitize=safe-stack"

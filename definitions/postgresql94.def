@@ -13,6 +13,7 @@ DEF_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb c
 DEF_ORIGIN="http://www.postgresql.org"
 DEF_CONFLICTS_WITH="Postgresql"
 DEF_STRIP=BIN
+DEF_USE_SAFE_STACK=YES
 DEF_NO_FAST_MATH=YES
 DEF_NO_LLVM_LINKER=YES
 DEF_NO_LTO=YES
