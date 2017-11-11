@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Apache Httpd server"
 DEF_STANDALONE=YES
 DEF_NAME="httpd"
-DEF_SHA="bd6d138c31c109297da2346c6e7b93b9283993d2"
-DEF_VERSION="2.4.25"
+DEF_SHA="d99137fe45c6267653350f888bf745a3d242ddbe"
+DEF_VERSION="2.4.29"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="make pkgconf m4 libtool expat jemalloc zlib xz lzma pcre perl openssl texinfo libidn python27 libxml2 db libevent spdylay nghttp2 apr apr-util libssh2 curl libedit lua51"
 DEF_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-proxy-balancer --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-static-htdbm --enable-static-httxt2dbm --enable-http --enable-http2 --with-nghttp2=${PREFIX} --enable-logio"
