@@ -13,6 +13,7 @@
         DEF_COMPLIANCE='^1.[1-4]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
         DEF_LANG="en_US.UTF-8"
+unset   DEF_USE_TOOLS
 # unset   DEF_UTILITY_BUNDLE # if set, bundle will be built as Sofin utility
 unset   DEF_TYPE # Set it to "meta" for meta bundles
 unset   DEF_DISABLE_ON # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
