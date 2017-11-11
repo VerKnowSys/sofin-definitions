@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Darwin"
+DEF_DISABLE_ON="Darwin FreeBSD"
 DEF_FULL_NAME="VDE is an ethernet compliant virtual network"
 DEF_SHA="604c46e1c784bda2fc365d61e9a5cc2780df8edd"
 DEF_NAME="vdetelweb"
