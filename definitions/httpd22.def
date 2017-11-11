@@ -2,8 +2,8 @@ inherit httpd
 
 DEF_FULL_NAME="Apache Httpd server version 2.2"
 DEF_SUFFIX="22"
-DEF_SHA="36dc7f2ac97627192dcff0a121408b897f91b121"
-DEF_VERSION="2.2.32"
+DEF_SHA="829206394e238af0b800fc78d19c74ee466ecb23"
+DEF_VERSION="2.2.34"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="$(echo "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/libressl/openssl/' 2>/dev/null)"
 
