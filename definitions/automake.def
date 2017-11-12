@@ -15,9 +15,9 @@ after_unpack () {
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/Thread-Queue-3.12.tar.gz ${FETCH_OPTS}"
     try "${TAR_BIN} xf Thread-Queue-3.12.tar.gz"
     cd Thread-Queue-3.12
-    try "${PREFIX}/bin/perl Makefile.PL"
-    try "${PREFIX}/bin/make"
-    run "${PREFIX}/bin/make install"
+    try "perl Makefile.PL"
+    try "make"
+    run "make install"
 }
 DEF_AFTER_CONFIGURE_METHOD="after_configure"
 after_configure () {
