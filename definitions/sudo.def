@@ -1,7 +1,0 @@
-DEF_FULL_NAME="SUdo utility"
-DEF_NAME="sudo"
-DEF_SHA="3ac48ff09c127e1b7f53983ac167a14ad3448eff"
-DEF_VERSION="1.8.18"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--sysconfdir=/etc --with-ignore-dot --with-tty-tickets --with-env-editor --with-logincap --with-long-otp-prompt "
-DEF_EXPORTS="sudo sudoedit sudoreplay visudo"
