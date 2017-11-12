@@ -6,9 +6,6 @@ DEF_ORIGIN="https://cmake.org/download/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jsoncpp --no-system-libarchive --no-system-expat"
 DEF_REQUIREMENTS="pkgconf make jemalloc lzma xz expat libressl curl-minimal"
-if [ "Darwin" = "${SYSTEM_NAME}" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --no-system-lzma"
-fi
 DEF_EXPORTS="cmake ccmake"
 DEF_STANDALONE=YES
 DEF_NO_FAST_MATH=YES
