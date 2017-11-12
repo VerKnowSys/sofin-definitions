@@ -8,13 +8,7 @@ DEF_MAKE_METHOD="unset AR && make -s"
 DEF_INSTALL_METHOD="install_jam"
 install_jam () {
     try "${MKDIR_BIN} -p ${PREFIX}/bin"
-    if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-        run "${INSTALL_BIN} -v bin.macosxx86_64/jam ${PREFIX}/bin/"
-        run "${INSTALL_BIN} -v bin.macosxx86_64/mkjambase ${PREFIX}/bin/"
-    else
-        run "${INSTALL_BIN} -v bin/jam ${PREFIX}/bin/"
-        run "${INSTALL_BIN} -v bin/mkjambase ${PREFIX}/bin/"
-    fi
+    run "${INSTALL_BIN} -v ./jam0 ${PREFIX}/bin/jam"
 }
 DEF_EXPORTS="jam mkjambase"
 DEF_NO_CCACHE=YES
