@@ -2,14 +2,14 @@ DEF_DISABLE_ON="Darwin"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Zabbix monitoring system"
 DEF_NAME="zabbix"
-DEF_SHA="6ef79266e10f561801d4bf4895557c720cb5feb6"
-DEF_VERSION="3.0.4"
+DEF_SHA="da6053d84f7500b7f41eec3810fc43b54a4090d3"
+DEF_VERSION="3.0.13"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-COMMON_ZABBIX_CONF_ARGS="--enable-ipv6 --enable-agent --with-libcurl --with-sqlite3 --with-iconv=${PREFIX} --with-iconv-include=${PREFIX}/include --with-iconv-lib=${PREFIX}/lib --with-openssl=${PREFIX}"
+COMMON_ZABBIX_CONF_ARGS="--enable-ipv6 --enable-agent --with-libcurl --without-sqlite3 --with-postgresql=${PREFIX}/bin/pg_config --with-iconv=${PREFIX} --with-iconv-include=${PREFIX}/include --with-iconv-lib=${PREFIX}/lib --with-openssl=${PREFIX}"
 DEF_CONFIGURE_ARGS="--enable-proxy --enable-server ${COMMON_ZABBIX_CONF_ARGS}"
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --sysconfdir=/etc"
 fi
-DEF_REQUIREMENTS="pkgconf m4 libtool make sqlite libedit perl openssl curl-minimal"
+DEF_REQUIREMENTS="pkgconf m4 libedit zlib make sqlite perl openssl autoconf automake curl-minimal postgresql94"
 DEF_EXPORTS="zabbix_get zabbix_sender zabbix_agent zabbix_agentd zabbix_proxy zabbix_server"
 DEF_USELESS="include share/texinfo lib/*perl*"
