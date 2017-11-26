@@ -1,26 +1,27 @@
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.21.0"
+DEF_VERSION="1.22.1"
 DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
+DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
 DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc"
 
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_SHA="a605caf3f2f15259291fcc101c964d17b2f2d426"
+        DEF_SHA="0f373805daf012aa1559afc23600405823879ae6"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-apple-darwin.tar.gz"
         ;;
 
     FreeBSD)
-        DEF_SHA="f70e1900928c3608938fb014e282d7257b10fcdf"
+        DEF_SHA="9a41dc492512d93f8f3af1cc1a1753688dc6fe94"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
         ;;
 esac
 
 DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
 patch_prefix_and_install () {
-    ${SED_BIN} -i '' -e "s|/usr/local|${PREFIX}|g" install.sh
+    ${SED_BIN} -i '' -e "s|/bin/bash|/bin/sh|; s|/usr/local|${PREFIX}|g" install.sh
     note "Installing Rust v${DEF_VERSION}"
     run "./install.sh"
 }
