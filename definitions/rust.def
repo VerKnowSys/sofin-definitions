@@ -6,6 +6,7 @@ DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
 DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc"
+DEF_CONFLICTS_WITH="Rust"
 
 case "${SYSTEM_NAME}" in
     Darwin)
