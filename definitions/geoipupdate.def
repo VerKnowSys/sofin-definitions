@@ -1,0 +1,8 @@
+DEF_FULL_NAME="GeoIP commercial updater"
+DEF_SHA="79c5c9ba0f7a89d921b640f140ce0f5dc95bc8eb"
+DEF_NAME="geoipupdate"
+DEF_VERSION="2.5.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pkgconf make jemalloc expat libressl curl-minimal"
+DEF_EXPORTS="geoipupdate"
+DEF_STANDALONE=YES
