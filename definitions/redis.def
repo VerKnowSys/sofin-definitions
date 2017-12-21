@@ -11,6 +11,10 @@ DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s"
 DEF_INSTALL_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s install"
 DEF_CONFLICTS_WITH="Redis"
+DEF_USE_SAFE_STACK=YES
+DEF_NO_SSP_BUFFER_OVERRIDE=YES
+DEF_NO_FORTIFY_SOURCE=YES
+DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof ${DEF_NAME}-server ${DEF_NAME}-sentinel"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # under Darwin "leaks" is used .... so this crap is calling sudo N times one by one,
