@@ -10,7 +10,7 @@ DEF_CONFIGURE_ARGS="--modules-path=${PREFIX}/modules --with-compat --with-pcre -
 DEF_MAKE_METHOD="OPENSSL=${PREFIX} && make -s ${MAKE_OPTS}"
 DEF_AFTER_MAKE_METHOD="after_make"
 after_make () {
-    for pref in /proxy /body /body /fcgi; do
+    for pref in /proxy /body /body /fcgi /logs; do
         ${MKDIR_BIN} -p "${SERVICE_DIR}${pref}"
     done
 }
@@ -22,7 +22,7 @@ patch_modules () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" auto/lib/zlib/conf
 }
 
-svd_args="--error-log-path=${SERVICE_DIR}/error.log --http-log-path=${SERVICE_DIR}/http.log --pid-path=${SERVICE_DIR}/service.pid --lock-path=${SERVICE_DIR}/service.lock --conf-path=${SERVICE_DIR}/service.conf --http-proxy-temp-path=${SERVICE_DIR}/proxy --http-client-body-temp-path=${SERVICE_DIR}/body --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi"
+svd_args="--error-log-path=${SERVICE_DIR}/logs/error.log --http-log-path=${SERVICE_DIR}/logs/access.log --pid-path=${SERVICE_DIR}/service.pid --lock-path=${SERVICE_DIR}/service.lock --conf-path=${SERVICE_DIR}/service.conf --http-proxy-temp-path=${SERVICE_DIR}/proxy --http-client-body-temp-path=${SERVICE_DIR}/body --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi"
 common_args="--with-cc-opt='${DEFAULT_COMPILER_FLAGS} -fPIE' --with-ld-opt='${LDFLAGS} -R${PREFIX}/lib ${DEFAULT_LDFLAGS} -pie'"
 case "${SYSTEM_NAME}" in
     Darwin)
@@ -34,7 +34,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-file-aio --user=worker --group=staff --build=ServeD ${common_args} ${svd_args}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-file-aio --user=www --group=www --build=ServeD ${common_args} ${svd_args}"
         ;;
 esac
 DEF_EXPORTS="nginx"
