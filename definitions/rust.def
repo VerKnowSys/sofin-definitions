@@ -1,6 +1,6 @@
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.22.1"
+DEF_VERSION="1.23.0"
 DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
@@ -10,12 +10,12 @@ DEF_CONFLICTS_WITH="Rust"
 
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_SHA="0f373805daf012aa1559afc23600405823879ae6"
+        DEF_SHA="350fcae42dc1122e95165cedc282c4e6eb321c9f"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-apple-darwin.tar.gz"
         ;;
 
     FreeBSD)
-        DEF_SHA="9a41dc492512d93f8f3af1cc1a1753688dc6fe94"
+        DEF_SHA="4aa3acfce0e30b54a4d07444ef927cd5a983ac0f"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
         ;;
 esac
