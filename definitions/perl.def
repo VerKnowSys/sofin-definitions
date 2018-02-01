@@ -1,23 +1,24 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="Perl"
-DEF_SHA="e1abc572ef5bb69ebfa0f79a60a7eae753cc7b29"
+DEF_SHA="74a0822429508d593513a0dfd6f51a907bad68d0"
 DEF_NAME="perl"
-DEF_VERSION="5.26.0"
+DEF_VERSION="5.26.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make lzma xz lzo lz4 libressl"
+DEF_REQUIREMENTS="pkgconf make zlib lzma xz lzo lz4 libressl db gdbm gettext"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./Configure
+    mkdir -p "${SERVICE_DIR}/bin"
 }
 DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
 patch_Makefile () {
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        ${SED_BIN} -i '' -e "s#-lpthread -lm -lcrypt -lutil#-lpthread -lm -lcrypt -lutil -pie#g" ./Makefile
+        ${SED_BIN} -i '' -e "s#-lpthread -lm -lcrypt -lutil#-lpthread -lm -lcrypt -lutil -pie -fPIC#g" ./Makefile
     fi
 }
 DEF_CONFIGURE_METHOD="./Configure"
-DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS}' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=n -Ui_malloc -Ui_iconv -Dscriptdir=${PREFIX}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
+DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS} -L${PREFIX}/lib' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=n -Ui_malloc -Ui_iconv -Dscriptdir=${SERVICE_DIR}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
 DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
 
 DEF_NO_TRAP_INT_OVERFLOW=YES
