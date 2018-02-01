@@ -1,3 +1,0 @@
-inherit icu
-
-DEF_CONFIGURE_ARGS="--enable-release --enable-shared --disable-static --disable-samples --enable-rpath"
