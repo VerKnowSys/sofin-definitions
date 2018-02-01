@@ -14,5 +14,5 @@ DEF_NO_CCACHE=YES
 
 DEF_AFTER_UNPACK_METHOD="install_pyt_mods"
 install_pyt_mods () {
-    ${PREFIX}/bin/pip install docutils
+    try "${PREFIX}/bin/pip install docutils"
 }
