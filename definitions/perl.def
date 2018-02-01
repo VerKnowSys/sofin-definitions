@@ -4,7 +4,7 @@ DEF_SHA="74a0822429508d593513a0dfd6f51a907bad68d0"
 DEF_NAME="perl"
 DEF_VERSION="5.26.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make zlib lzma xz lzo lz4 libressl db gdbm gettext"
+DEF_REQUIREMENTS="pkgconf make zlib lzma xz lzo lz4 libressl gdbm db gettext"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {
@@ -23,7 +23,6 @@ DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct pta
 
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_FAST_MATH=YES
-DEF_NO_CCACHE=YES
 DEF_NO_LTO=YES
 DEF_MAKE_METHOD="make_method"
 make_method () {
