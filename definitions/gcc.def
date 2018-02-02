@@ -7,19 +7,20 @@ common_opts="${common_shared_env} SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DI
 
 DEF_DISABLE_ON="Linux Darwin"
 DEF_STANDALONE=YES
-DEF_VERSION="6.4.0"
+DEF_VERSION="7.2.0"
 DEF_NAME="gcc"
-DEF_SHA="f237974b2d3af0f60936ce6a2f35b912a91e0239"
+DEF_SHA="08a88199ed94fdf4940d118ba3c07028245cd5b7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
 DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
 DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgcj --disable-multilib  \
 --enable-languages=${langs} --libdir=${targlib} --libexecdir=${libexec} \
---with-ld=${PREFIX}/bin/ld.gold --with-as=${PREFIX}/bin/as --enable-libstdcxx \
+--with-ld=${PREFIX}/bin/ld.gold --with-as=${PREFIX}/bin/as --with-ar=${PREFIX}/bin/ar --with-nm=${PREFIX}/bin/nm \
 --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} --with-isl=${PREFIX} \
---with-pkgversion=\"ServeD\" --with-gxx-include-dir=/usr/include/c++/v1 \
+--enable-host-shared --enable-libstdcxx --with-gxx-include-dir=/usr/include/c++/v1 \
+--with-pkgversion=ServeD \
 "
-DEF_REQUIREMENTS="pkgconf make m4 lzo lz4 perl gmp mpfr libmpc isl zip binutils-gold libtool"
+DEF_REQUIREMENTS="pkgconf make m4 lzo lz4 perl gmp mpfr libmpc isl zip icu binutils-gold libtool"
 DEF_COMPILER_FLAGS="-Wno-error -Wno-reserved-user-defined-literal"
 DEF_MAKE_METHOD="env ${common_opts} make -s all-gcc ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="env ${common_opts} make install-gcc"
