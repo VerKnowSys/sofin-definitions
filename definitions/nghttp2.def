@@ -1,10 +1,10 @@
 DEF_FULL_NAME="Http2 Library"
 DEF_NAME="nghttp2"
-DEF_SHA="fa20d98e5837ec8323eacc5e5a5d9713c9ef8f91"
+DEF_SHA="f7d87c39a4d126b356f2a2152cb05aecc866ed5c"
 DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
-DEF_VERSION="1.29.0"
+DEF_VERSION="1.30.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-asio-lib --with-boost-libdir=${PREFIX}/lib --with-libxml2=${PREFIX} --with-jemalloc=${PREFIX} --with-spdylay=${PREFIX} --disable-hpack-tools --disable-debug --disable-python-bindings --disable-examples --disable-failmalloc"
-DEF_REQUIREMENTS="pkgconf make icu zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl jemalloc libxml2 libevent python27 spdylay boost"
+DEF_REQUIREMENTS="pkgconf make icu zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl jemalloc libxml2 libevent python27 boost"
 DEF_EXPORTS="nghttp nghttpd nghttpx h2load"
 DEF_NO_LLVM_LINKER=YES
