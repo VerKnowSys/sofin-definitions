@@ -7,18 +7,18 @@ common_opts="${common_shared_env} SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DI
 
 DEF_DISABLE_ON="Linux Darwin"
 DEF_STANDALONE=YES
-DEF_VERSION="5.4.0"
+DEF_VERSION="6.4.0"
 DEF_NAME="gcc"
-DEF_SHA="07524df2b4ab9070bad9c49ab668da72237b8115"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SHA="f237974b2d3af0f60936ce6a2f35b912a91e0239"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
 DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
-DEF_CONFIGURE_ARGS="--enable-shared --enable-threads --without-headers --disable-libgcj \
---disable-multilib --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} \
---with-isl=${PREFIX} --with-gxx-include-dir=/usr/include/c++/v1 \
---libexecdir=${libexec} --libdir=${targlib} --with-as=${PREFIX}/bin/as \
---disable-bootstrap --with-pkgversion=\"ServeD\" --enable-languages=${langs} --disable-nls --with-newlib"
-DEF_REQUIREMENTS="pkgconf bzip2 make m4 perl gmp mpfr libmpc isl zip autoconf automake bison texinfo binutils-gold"
+DEF_CONFIGURE_ARGS="--disable-nls --without-static --disable-static \
+--enable-gnu-indirect-function --disable-libgcj --disable-multilib --with-system-zlib \
+--with-ld=/usr/bin/${CXX_NAME} --libdir=${targlib} --libexecdir=${libexec} \
+--with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} --with-isl=${PREFIX} --with-as=${PREFIX}/bin/as \
+--with-pkgversion=\"ServeD\" --enable-languages=${langs}"
+DEF_REQUIREMENTS="pkgconf bzip2 make zlib lzo lz4 m4 perl gmp mpfr libmpc isl zip autoconf automake bison texinfo binutils-gold libtool"
 DEF_COMPILER_FLAGS="-Wno-error -Wno-reserved-user-defined-literal"
 DEF_MAKE_METHOD="env ${common_opts} make -s all-gcc ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="env ${common_opts} make install-gcc"
@@ -26,5 +26,6 @@ DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/t
 DEF_USEFUL="bin/ld* bin/x86_64-unknown-freebsd*"
 DEF_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp"
 DEF_CONFLICTS_WITH="Binutils"
-DEF_NO_LLVM_LINKER=YES
-DEF_NO_FAST_MATH=YES
+
+unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
+
