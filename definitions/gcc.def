@@ -2,7 +2,7 @@ langs="c,c++"
 suffix="$(echo "${DEF_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
 targlib="${PREFIX}/lib"
 libexec="${PREFIX}/libexec"
-common_shared_env="LANG=C LC_ALL=C gcc_gxx_include_dir=\"/usr/include/c++/v1\""
+common_shared_env="LANG=C LC_ALL=C" # gcc_gxx_include_dir=\"/usr/include/c++/v1\"
 common_opts="${common_shared_env} SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
 
 DEF_DISABLE_ON="Linux Darwin"
@@ -13,17 +13,17 @@ DEF_SHA="08a88199ed94fdf4940d118ba3c07028245cd5b7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
 DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
-DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgcj --disable-multilib  \
+DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgcj --disable-multilib \
 --enable-languages=${langs} --libdir=${targlib} --libexecdir=${libexec} \
 --with-ld=${PREFIX}/bin/ld.gold --with-as=${PREFIX}/bin/as --with-ar=${PREFIX}/bin/ar --with-nm=${PREFIX}/bin/nm \
 --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} --with-isl=${PREFIX} \
---enable-host-shared --enable-libstdcxx --with-gxx-include-dir=/usr/include/c++/v1 \
---with-pkgversion=ServeD \
+--enable-gold --enable-bootstrap --enable-shared --enable-host-shared --with-gxx-include-dir=/usr/include/c++/v1 \
+--disable-libstdcxx --enable-libgomp --enable-libgcc --enable-libssp --with-pkgversion=VerKnowSys \
 "
-DEF_REQUIREMENTS="pkgconf make m4 lzo lz4 perl gmp mpfr libmpc isl zip icu binutils-gold libtool"
+DEF_REQUIREMENTS="pkgconf make m4 lzo lz4 perl gmp mpfr libmpc isl zip icu libtool libunwind binutils-gold"
 DEF_COMPILER_FLAGS="-Wno-error -Wno-reserved-user-defined-literal"
-DEF_MAKE_METHOD="env ${common_opts} make -s all-gcc ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="env ${common_opts} make install-gcc"
+DEF_MAKE_METHOD="env ${common_opts} make ${MAKE_OPTS} all-gcc"
+DEF_INSTALL_METHOD="env ${common_opts} make install-strip-gcc"
 DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
 DEF_USEFUL="bin/g* bin/ld* bin/x86_64-unknown-freebsd*"
 DEF_EXPORTS="aot-compile c++ cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-tool gserialver gtnameserv jcf-dump jv-convert addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres gfortran dwp ld.bfd ld.gold ld"

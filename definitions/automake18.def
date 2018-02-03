@@ -7,6 +7,6 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--program-suffix=-${_version_base}"
 DEF_AFTER_INSTALL_METHOD="make_default_symlinks"
 make_default_symlinks () {
-    try "${LN_BIN} -s ${PREFIX}/bin/automake-${_version_base} ${PREFIX}/bin/automake"
-    try "${LN_BIN} -s ${PREFIX}/bin/aclocal-${_version_base} ${PREFIX}/bin/aclocal"
+    try "${RM_BIN} ${PREFIX}/bin/automake; ${LN_BIN} -s ${PREFIX}/bin/automake-${_version_base} ${PREFIX}/bin/automake"
+    try "${RM_BIN} ${PREFIX}/bin/aclocal; ${LN_BIN} -s ${PREFIX}/bin/aclocal-${_version_base} ${PREFIX}/bin/aclocal"
 }
