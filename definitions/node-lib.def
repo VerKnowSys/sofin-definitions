@@ -1,0 +1,3 @@
+inherit node
+
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --shared"
