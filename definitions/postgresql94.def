@@ -53,4 +53,5 @@ build_addons_and_extensions () {
     try "cd ${base_dir}/pg_archivecleanup && make install"
     run "cd ${base_dir}/hstore && make install"
     run "cd ${base_dir}/pg_trgm && make install"
+    run "cd ${base_dir}/pgcrypto && make install"
 }
