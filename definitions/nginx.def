@@ -34,7 +34,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-file-aio --user=www --group=www --build=ServeD ${common_args} ${svd_args}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-file-aio --user=www --group=www --build=VerKnowSys ${common_args} ${svd_args}"
         ;;
 esac
 DEF_EXPORTS="nginx"
