@@ -15,8 +15,10 @@ DEF_CONFIGURE_ARGS="--without-dtrace --tag=VerKnowSys \
 --with-intl=system-icu --without-inspector \
 "
 DEF_CONFLICTS_WITH="Node"
-DEF_USEFUL="bin/npm* bin/yar*"
-DEF_EXPORTS="node npm"
+DEF_STANDALONE=YES
+DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/g++ bin/gcc bin/c++ bin/ld* bin/as bin/nm bin/ar bin/pkgconf bin/*conf"
+DEF_EXPORTS="node npm npx"
+DEF_USELESS="*.a lib/perl* lib/python* include/python x86_64* etc sbin share/systemtap"
 DEF_STRIP=LIB
 
 # NOTE: override Sofin compiler setup:
@@ -26,10 +28,10 @@ CFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -I${PREFIX}/include -I/usr/i
 CXXFLAGS="${CFLAGS}"
 LDFLAGS="-L${PREFIX}/lib -L/usr/lib -fPIE"
 
-CC="ccache gcc -w -O2 -fpermissive ${CFLAGS}"
-CXX="ccache g++ -w -O2 -fpermissive ${CFLAGS}"
+CC="gcc -w -O2 -fpermissive ${CFLAGS}"
+CXX="g++ -w -O2 -fpermissive ${CFLAGS}"
 CPP="c++"
-LINK="g++ -lc++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${LDFLAGS}"
+LINK="g++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${LDFLAGS} -pie"
 LD="${LINK}"
 
 DEF_AFTER_CONFIGURE_METHOD="after_config"

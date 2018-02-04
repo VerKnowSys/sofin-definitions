@@ -1,3 +1,6 @@
 inherit node
 
+unset DEF_STANDALONE
+
+DEF_FULL_NAME="Lib-${DEF_FULL_NAME}"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --shared"
