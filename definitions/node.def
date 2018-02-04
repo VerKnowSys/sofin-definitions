@@ -40,7 +40,7 @@ after_config () {
 
     # yes, I know it's wrong ;) but Node is wrong and nobody cares :P
     if [ ! -f "${PREFIX}/lib/libstdc++.so" ]; then
-        ${INSTALL_BIN} -v "/usr/lib/libc++.so" "${PREFIX}/lib/libstdc++.so"
+        ${LN_BIN} -s "/usr/lib/libc++.so" "${PREFIX}/lib/libstdc++.so"
     fi
 }
 DEF_MAKE_METHOD="env CC.host=\"${CC}\" CXX.host=\"${CXX}\" LINK.host=\"${LINK}\" LINK.target=\"${LINK}\" make ${MAKE_OPTS}"
