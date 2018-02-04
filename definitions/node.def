@@ -46,4 +46,8 @@ after_config () {
 DEF_MAKE_METHOD="env CC.host=\"${CC}\" CXX.host=\"${CXX}\" LINK.host=\"${LINK}\" LINK.target=\"${LINK}\" make ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="env CC.host=\"${CC}\" CXX.host=\"${CXX}\" LINK.host=\"${LINK}\" LINK.target=\"${LINK}\" make ${MAKE_OPTS} install"
 
-DEF_AFTER_EXPORT_METHOD="npm config set cafile=${SERVICE_DIR}/etc/ssl/cert.pem"
+DEF_AFTER_EXPORT_METHOD="after_exports"
+after_exports () {
+    npm config set cafile="${SERVICE_DIR}/etc/ssl/cert.pem"
+    npm set prefix="${SERVICE_DIR}"
+}
