@@ -4,7 +4,7 @@ DEF_NAME="git"
 DEF_VERSION="2.12.3"
 DEF_STANDALONE=YES
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf m4 libtool make pth libunistring zlib bzip2 lzma xz pcre icu expat gmp perl autoconf texinfo automake14 libressl libffi gettext python27 spdylay nghttp2 libssh2 curl-minimal"
+DEF_REQUIREMENTS="pkgconf m4 libtool make pth libunistring zlib bzip2 lzma xz pcre icu expat gmp perl autoconf texinfo automake114 libressl libffi gettext python27 spdylay nghttp2 libssh2 curl-minimal"
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_CONFIGURE_ARGS="--with-iconv=/usr --with-zlib=/usr --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"
