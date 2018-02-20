@@ -24,31 +24,30 @@ DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
 patch_prefix_and_install () {
     ${SED_BIN} -i '' -e "s|/bin/bash|/bin/sh|; s|/usr/local|${PREFIX}|g" install.sh
     note "Installing Rust v${DEF_VERSION}"
-    run "./install.sh"
+    run "./install.sh >> ${LOG}-${DEF_NAME}"
 }
 
 
 DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper; install_utils"
 create_cargo_bin_wrapper () {
     try "${MV_BIN} -f \"${PREFIX}/bin/cargo\" \"${PREFIX}/bin/cargo.bin\"" \
-        && printf "#!/usr/bin/env sh \\
-# \\
-# Cargo - Rust Package Manager. \\
-# This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \\
-# Author: @dmilith \\
-# \\
-CC=cc \\\\
-CPP=cpp \\\\
-CXX=c++ \\\\
-CFLAGS=\\\"${DEF_COMPILER_FLAGS}\\\" \\\\
-CXXFLAGS=\\\"${DEF_COMPILER_FLAGS}\\\" \\\\
-LDFLAGS=\\\"${DEF_LINKER_FLAGS}\\\" \\\\
-RUST_BACKTRACE=\\\"\${RUST_BACKTRACE:-1}\\\" \\\\
-RUSTFLAGS=\\\"\${RUSTFLAGS:-\\\"${DEFAULT_RUSTFLAGS}\\\"}\\\" \\\\
-CARGO_BUILD_JOBS=\\\"\${CARGO_BUILD_JOBS:-\\\"${CPUS}\\\"}\\\" \\\\
-CARGO_INSTALL_ROOT=\\\"\${CARGO_INSTALL_ROOT:-\\\"${SERVICE_DIR}\\\"}\\\" \\\\
-${PREFIX}/bin/cargo.bin \${@} \\
-" > "${PREFIX}/bin/cargo"
+        && printf "#!/usr/bin/env sh \n\
+#\n\
+# Cargo - Rust Package Manager.\n\
+# This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \n\
+# Author: @dmilith \n\
+# \n\
+CC=cc \\
+CPP=cpp \\
+CXX=c++ \\
+CFLAGS=\"${DEF_COMPILER_FLAGS}\" \\
+CXXFLAGS=\"${DEF_COMPILER_FLAGS}\" \\
+LDFLAGS=\"${DEF_LINKER_FLAGS}\" \\
+RUST_BACKTRACE=\"\${RUST_BACKTRACE:-1}\" \\
+RUSTFLAGS=\"\${RUSTFLAGS:-\"${DEFAULT_RUSTFLAGS}\"}\" \\
+CARGO_BUILD_JOBS=\"\${CARGO_BUILD_JOBS:-\"${CPUS}\"}\" \\
+CARGO_INSTALL_ROOT=\"\${CARGO_INSTALL_ROOT:-\"${SERVICE_DIR}\"}\" \\
+${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
     run "${CHMOD_BIN} -v 755 \"${PREFIX}/bin/cargo\""
 }
 
@@ -57,7 +56,7 @@ install_utils () {
     for _add in racer cargo-watch cargo-do rustfmt cargo-count; do
         if [ ! -x "${SERVICE_DIR}/bin/${_add}" ]; then
             note "Building utility: $(distn "${_add}")"
-            PATH="${PREFIX}/bin:/bin:/usr/bin" cargo install --force "${_add}"
+            PATH="${PREFIX}/bin:/bin:/usr/bin" cargo install --force "${_add}" >> "${LOG}-${DEF_NAME}"
         fi
     done
 }
