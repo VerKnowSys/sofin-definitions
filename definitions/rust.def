@@ -31,7 +31,7 @@ patch_prefix_and_install () {
 DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper; install_utils"
 create_cargo_bin_wrapper () {
     try "${MV_BIN} -f \"${PREFIX}/bin/cargo\" \"${PREFIX}/bin/cargo.bin\"" \
-        && ${PRINTF_BIN} "#!/usr/bin/env sh \\
+        && printf "#!/usr/bin/env sh \\
 # \\
 # Cargo - Rust Package Manager. \\
 # This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \\

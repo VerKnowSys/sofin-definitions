@@ -26,7 +26,7 @@ create_makefile () {
         export ADDITIONAL="-L/usr/lib64/perl5/CORE -L/usr/lib64 -lperl"
     fi
 
-    ${PRINTF_BIN} "
+    printf "
 HAVE_IPV6=YES
 HAVE_ICONV=yes
 ALT_CONFIG_PREFIX=/etc/exim

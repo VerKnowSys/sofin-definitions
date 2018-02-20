@@ -7,7 +7,7 @@ PHANTOM_QPA_REPO="https://github.com/dmilith/qtphantomqpa.git"
 
 DEF_AFTER_UNPACK_METHOD="create_freebsd_clang_spec_on_sources; after_unpack_patch" # NOTE: create_freebsd_clang_spec_on_sources() from qtbase55.def
 after_unpack_patch () {
-    ${PRINTF_BIN} "TEMPLATE = subdirs\nSUBDIRS = phantom\n" > src/plugins/platforms/platforms.pro
+    printf "TEMPLATE = subdirs\nSUBDIRS = phantom\n" > src/plugins/platforms/platforms.pro
     cwd="$(pwd)"
     cd src/plugins/platforms
     ${GIT_BIN} clone ${PHANTOM_QPA_REPO} phantom

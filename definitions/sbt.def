@@ -18,7 +18,7 @@ after_jobs () {
 }
 
 createLaunchScript () {
-  ${PRINTF_BIN} "#!/bin/sh
+  printf "#!/bin/sh
 
 SBT_OPTS=\"-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled\"
 ${PREFIX}/bin/java \$SBT_OPTS -jar ${PREFIX}/lib/sbt-launch.jar \"\$\@\"

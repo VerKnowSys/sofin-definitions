@@ -35,12 +35,12 @@ install_wrappers () {
     version="$1"
     if [ ! -x ${PREFIX}/bin/go-${version} ]; then
         ${MV_BIN} ${PREFIX}/bin/go ${PREFIX}/bin/go-${version} && \
-        ${PRINTF_BIN} "#!/bin/sh\n\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${version} \$@\n" > ${PREFIX}/bin/go
+        printf "#!/bin/sh\n\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${version} \$@\n" > ${PREFIX}/bin/go
         ${CHMOD_BIN} a+x ${PREFIX}/bin/go
     fi
     if [ ! -x ${PREFIX}/bin/gofmt-${version} ]; then
         ${MV_BIN} ${PREFIX}/bin/gofmt ${PREFIX}/bin/gofmt-${version} && \
-        ${PRINTF_BIN} "#!/bin/sh\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${version} \$@\n" > ${PREFIX}/bin/gofmt
+        printf "#!/bin/sh\nexport GOPATH=${PREFIX}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${version} \$@\n" > ${PREFIX}/bin/gofmt
         ${CHMOD_BIN} a+x ${PREFIX}/bin/gofmt
     fi
 }

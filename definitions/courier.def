@@ -26,7 +26,7 @@ fix_fail_in_makefile () {
 
 
 create_authfile () {
-  ${PRINTF_BIN} "
+  printf "
 authmodulelist=\"authuserdb\"
 authmodulelistorig=\"authuserdb authcustom authpipe\"
 DEBUG_LOGIN=0

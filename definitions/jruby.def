@@ -36,6 +36,6 @@ create_jruby_script () {
     # make some post install magic:
     ${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm
     ${LN_BIN} -s ${PREFIX}/bin/jruby ${PREFIX}/bin/ruby
-    test ! -f ${HOME}/.gemrc && ${PRINTF_BIN} 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc
+    test ! -f ${HOME}/.gemrc && printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc
     gem install bundler
 }

@@ -11,7 +11,7 @@ DEF_EXPORTS="clj"
 
 createLaunchScript () {
   ${MKDIR_BIN} -p ${PREFIX}/bin
-  ${PRINTF_BIN} "#!/bin/sh
+  printf "#!/bin/sh
 java -cp ${PREFIX}/clojure-${DEF_VERSION}.jar clojure.main
 " > ${PREFIX}/bin/clj
   ${CHMOD_BIN} +x ${PREFIX}/bin/clj
