@@ -35,7 +35,7 @@ create_cargo_bin_wrapper () {
 # \\
 # Cargo - Rust Package Manager. \\
 # This is a wrapper for: ${PREFIX}/exports/${DEF_NAME}.bin - that lacks RPATH data in ELF header \\
-# Author: @dmilith
+# Author: @dmilith \\
 # \\
 CC=cc \\\\
 CPP=cpp \\\\
@@ -48,8 +48,8 @@ RUSTFLAGS=\\\"\${RUSTFLAGS:-\\\"${DEFAULT_RUSTFLAGS}\\\"}\\\" \\\\
 CARGO_BUILD_JOBS=\\\"\${CARGO_BUILD_JOBS:-\\\"${CPUS}\\\"}\\\" \\\\
 CARGO_INSTALL_ROOT=\\\"\${CARGO_INSTALL_ROOT:-\\\"${SERVICE_DIR}\\\"}\\\" \\\\
 ${PREFIX}/bin/cargo.bin \${@} \\
-" > "${PREFIX}/bin/cargo" \
-    && try "${CHMOD_BIN} -v 755 \"${PREFIX}/bin/cargo\""
+" > "${PREFIX}/bin/cargo"
+    run "${CHMOD_BIN} -v 755 \"${PREFIX}/bin/cargo\""
 }
 
 install_utils () {
