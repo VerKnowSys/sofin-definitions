@@ -10,6 +10,7 @@ DEF_EXPORTS="mpd mpc mpdscribble"
 DEF_USELESS="ssl doc* share man include/boost include/python* lib/python* lib/perl*"
 DEF_AFTER_UNPACK_METHOD="prepare_lazily"
 DEF_AFTER_INSTALL_METHOD="create_mpdconf"
+DEF_NO_CXX11=YES
 
 create_mpdconf () {
     try "${MKDIR_BIN} -p ${SERVICE_DIR}/var/run ${SERVICE_DIR}/var/log ${SERVICE_DIR}/var/db"
