@@ -3,10 +3,10 @@ inherit otp19
 unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD
 DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
 DEF_NAME="elixir"
-DEF_VERSION="1.6.2"
-DEF_SHA="5c758abec24ba68a2f87e734fa825223928aac78"
+DEF_VERSION="1.6.3"
+DEF_SHA="54b12efcedab679d424af1133d0e3e739fc25801"
 DEF_ORIGIN="https://github.com/elixir-lang/elixir/releases"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
 DEF_CONFLICTS_WITH="Otp"
