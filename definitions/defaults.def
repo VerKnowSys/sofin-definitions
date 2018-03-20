@@ -53,6 +53,7 @@ unset   DEF_STANDALONE # TODO: it's currently only a marker for standalone bundl
         DEF_STRIP=ALL # set to "ALL" to strip bins and libs; set to "BINS", to strip binaries only; set to "LIBS", to strip libs only, "NO" to skip strip
         #DEF_NO_GOLDEN_LINKER NOTE: since Sofin 0.92.x, golden linker is a default system linker. Unfortunatelly a few configuration scripts crases with explicit linker params set. In result - we explicitly unset golden linker specific arguments on configuration stage. Though under the hood - golden linker will be used anyway and will work just fine..
 unset   DEF_NO_CXX11 # don't use -std=c++11
+unset   DEF_NO_RETPOLINE # don't use -mretpoline
 unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
 unset   DEF_NO_LLVM_LINKER
 unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
@@ -91,7 +92,6 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 DEF_LINKER_FLAGS="-fPIC"
                 DEF_NO_LTO=YES
                 ;;
-                # NOTE: not in 11:
 
             Darwin)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
@@ -100,11 +100,13 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
                 DEF_NO_LLVM_LINKER=YES
                 DEF_LINKER_NO_DTAGS=YES
+                DEF_NO_RETPOLINE=YES
                 ;;
 
             Minix)
                 DEF_COMPILER_FLAGS="-arch=i686 ${DEF_OPTFLAGS} -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
                 DEF_LINKER_FLAGS="-L/usr/pkg/lib"
+                DEF_NO_RETPOLINE=YES
                 ;;
 
             Linux)
