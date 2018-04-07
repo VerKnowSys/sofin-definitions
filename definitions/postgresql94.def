@@ -43,6 +43,10 @@ case "${SYSTEM_NAME}" in
         CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -Wno-unused-command-line-argument -fstack-protector -fstack-protector-strong -fstack-protector-all -fno-strict-overflow -Wformat -Wformat-security -O3 -funroll-loops -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -w -march=sandybridge -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fsanitize=safe-stack"
         LDFLAGS="-pie -z relro -z now -L${PREFIX}/lib -fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags  -L/usr/lib -Wl,--as-needed -fsanitize=safe-stack"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace"
+
+        # NOTE: it's required for initdb to pass as regular user on hardened system:
+        #   sysctl security.bsd.hardlink_check_uid=0
+        #   sysctl security.bsd.hardlink_check_gid=0
         ;;
 
 esac
