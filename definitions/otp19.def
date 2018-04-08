@@ -38,7 +38,7 @@ case "${SYSTEM_NAME}" in
         # (...)
         #
         # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-m64-build"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --enable-hipe"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --enable-hipe --with-dynamic-trace=dtrace"
         ;;
 
     Darwin)
