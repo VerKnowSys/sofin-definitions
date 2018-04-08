@@ -22,8 +22,8 @@ DEF_NO_TRAP_INT_OVERFLOW=YES # causes pecl to overflow on any command ;)
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --with-iconv-dir=/usr --with-ldap=${PREFIX} --with-ldap-sasl=${PREFIX} --with-fpm-user=www --with-fpm-group=www"
-        CFLAGS="${CFLAGS} -D_DTRACE_VERSION -DHAVE_DTRACE -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -DPHP_ATOM_INC"
-        CXXFLAGS="${CXXFLAGS} -D_DTRACE_VERSION -DHAVE_DTRACE -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -DPHP_ATOM_INC"
+        CFLAGS="${CFLAGS} -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -DPHP_ATOM_INC"
+        CXXFLAGS="${CXXFLAGS} -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -DPHP_ATOM_INC"
         DEF_MAKE_METHOD="make -j${CPUS}"
         ;;
 
