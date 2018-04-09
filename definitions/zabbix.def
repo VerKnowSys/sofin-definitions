@@ -5,7 +5,7 @@ DEF_NAME="zabbix"
 DEF_SHA="d63c7100cfb06672bb2e390635133b4f7e071e0c"
 DEF_VERSION="3.4.8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf m4 libedit make perl openssl curl-minimal postgresql96 pcre libevent libssh2"
+DEF_REQUIREMENTS="pkgconf m4 libedit make perl openssl postgresql96 pcre libevent libssh2"
 DEF_CONFIGURE_ARGS="--enable-proxy --enable-server --with-postgresql=${PREFIX}/bin/pg_config ${COMMON_ZABBIX_CONF_ARGS}"
 COMMON_ZABBIX_CONF_ARGS="--enable-ipv6 --enable-agent --sysconfdir=${SERVICE_DIR}/etc \
     --with-iconv=/usr --with-iconv-include=/usr/include --with-iconv-lib=/usr/lib \
