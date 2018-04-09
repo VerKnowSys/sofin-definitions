@@ -3,6 +3,4 @@ inherit zabbix
 DEF_FULL_NAME="Zabbix agent"
 DEF_SUFFIX="-agent"
 DEF_CONFIGURE_ARGS="--disable-proxy --disable-server ${COMMON_ZABBIX_CONF_ARGS}"
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --sysconfdir=/etc"
-fi
+DEF_REQUIREMENTS="pkgconf m4 libedit make perl openssl pcre libevent libssh2"
