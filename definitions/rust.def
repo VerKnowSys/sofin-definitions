@@ -53,7 +53,7 @@ ${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
 
 install_utils () {
     note "Installing: $(distn "racer, cargo-watch, cargo-do, rustfmt, cargo-count")"
-    for _add in racer cargo-watch cargo-do rustfmt cargo-count; do
+    for _add in racer cargo-watch cargo-do rustfmt cargo-count ripgrep rusteve everustc; do
         if [ ! -x "${SERVICE_DIR}/bin/${_add}" ]; then
             note "Building utility: $(distn "${_add}")"
             PATH="${PREFIX}/bin:/bin:/usr/bin" cargo install --force "${_add}" >> "${LOG}-${DEF_NAME}"
