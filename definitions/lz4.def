@@ -1,24 +1,10 @@
 DEF_FULL_NAME="LZ4 is lossless compression algorithm"
 DEF_NAME="lz4"
-DEF_SHA="b6eab6461977dca11e7efc4ed79d59924b216c7e"
-DEF_VERSION="r131"
+DEF_SHA="d16dd5062b98a715d18e2b0f7d8e1a595272b8d6"
+DEF_VERSION="1.8.1.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="lz4 lz4c lz4cat"
 DEF_REQUIREMENTS="make"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
-
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    DEF_COMPILER_FLAGS="-std=c99 -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -pedantic -DXXH_NAMESPACE=LZ4_"
-    DEF_AFTER_UNPACK_METHOD="fix_makefile"
-    fix_makefile () {
-        for f in $(${FIND_BIN} ./ -name Makefile -type f -print 2>/dev/null); do
-            note "Hacking file: $f"
-            ${SED_BIN} -i '' -e 's/kFreeBSD/& FreeBSD/' "${f}"
-            ${SED_BIN} -i '' -e 's/sudo//' "${f}"
-        done
-        ${SED_BIN} -e '/^all:/s/$$/ liblz4.pc/' lib/Makefile
-        ${SED_BIN} -e '/^all:/s|fullbench.*||' programs/Makefile
-    }
-fi
