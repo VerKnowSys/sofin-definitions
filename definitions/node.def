@@ -4,7 +4,7 @@ DEF_FULL_NAME="Node.js ${DEF_VERSION} LTS (VerKnowSys build)"
 DEF_SHA="9144b4545885af5c806f7f68d814ffa6a8ed97bd"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf make gettext libtool c-ares lzo lz4 m4 expat pcre readline perl zip bison gmp mpfr libmpc isl binutils-gold gcc libffi libressl python27 nghttp2 icu libuv"
+DEF_REQUIREMENTS="pkgconf make gettext libtool c-ares lzo lz4 m4 expat pcre readline perl zip bison gmp mpfr libmpc isl binutils-gold gcc libffi openssl python27 nghttp2 icu libuv"
 DEF_CONFIGURE_ARGS="--with-dtrace --tag=VerKnowSys \
 --shared-openssl --shared-openssl-libpath=${PREFIX} --openssl-use-def-ca-store \
 --shared-cares --shared-cares-libpath=${PREFIX} \
