@@ -84,7 +84,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
         else
             BUILD_OPT_FLAGS="-w -O2"
         fi
-        DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=sandybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx -mtune=sandybridge
+        DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=ivybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx -mtune=ivybridge
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
