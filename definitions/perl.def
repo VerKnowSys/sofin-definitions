@@ -1,10 +1,10 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="Perl"
-DEF_SHA="74a0822429508d593513a0dfd6f51a907bad68d0"
+DEF_SHA="5dc74e667250a663d8f3114869e13ba2869bf6a9"
 DEF_NAME="perl"
-DEF_VERSION="5.26.1"
+DEF_VERSION="5.26.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make zlib lzma xz lzo lz4 libressl gdbm db gettext"
+DEF_REQUIREMENTS="pkgconf make libtool lzo libressl gdbm db gettext"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {
