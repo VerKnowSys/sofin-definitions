@@ -39,7 +39,7 @@ case "${SYSTEM_NAME}" in
         # <RhodiumToad> --enable-thread-safety only affects libpq, yes
         # <RhodiumToad> the problem is that dblink and postgres_fdw end up dynamically linking libpq into the backend
 
-        CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -Wno-unused-command-line-argument -fstack-protector -fstack-protector-strong -fstack-protector-all -fno-strict-overflow -Wformat -Wformat-security -O3 -funroll-loops -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -w -march=sandybridge -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fsanitize=safe-stack"
+        CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -Wno-unused-command-line-argument -fstack-protector -fstack-protector-strong -fstack-protector-all -fno-strict-overflow -Wformat -Wformat-security -O3 -funroll-loops -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -w -march=ivybridge -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fsanitize=safe-stack"
         LDFLAGS="-pie -z relro -z now -L${PREFIX}/lib -fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags  -L/usr/lib -lelf -ldtrace -Wl,--as-needed -fsanitize=safe-stack"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace DTRACEFLAGS='-64'"
 
