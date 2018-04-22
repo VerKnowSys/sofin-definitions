@@ -1,20 +1,36 @@
 inherit php56
 
-DEF_FULL_NAME="PHP 7"
+DEF_FULL_NAME="PHP 7.0"
 DEF_SHA="21617bbb00ef2f4c13e8078fa5064c509870a638"
 DEF_VERSION="7.0.29"
 DEF_SUFFIX="70"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_BUNDLED_EXTENSIONS="xdebug imagick"
+DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip"
 
-# install_memcached () {
-#     ${GIT_BIN} clone https://github.com/php-memcached-dev/php-memcached.git
-#     cd php-memcached
-#     ${GIT_BIN} checkout php7
-#     ${PREFIX}/bin/phpize
-#     ./configure --prefix=${PREFIX} --disable-memcached-sasl --with-php-config=${PREFIX}/bin/php-config
-#     PATH=${PREFIX}/bin:$PATH make install && \
-#     note "Installed PECL extension: ${geoip_name}" && \
-#     return 0
-#     return 1
-# }
+install_geoip () {
+    geoip_name="geoip-1.1.1"
+    geoip_archive="${geoip_name}.tgz"
+    run "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${geoip_archive}\" ${FETCH_OPTS}" && \
+    run "${TAR_BIN} xf ${geoip_archive}" && \
+    cd ${geoip_name} && \
+    run "${PREFIX}/bin/phpize" && \
+    run "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX}" && \
+    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed PECL extension: ${geoip_name}" && \
+    return 0
+    return 1
+}
+
+install_xdebug () {
+    arch_name="xdebug-2.6.0"
+    archive="${arch_name}.tgz"
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    run "${TAR_BIN} xf ${archive}" && \
+    cd "${arch_name}" && \
+    run "${PREFIX}/bin/phpize" && \
+    run "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
+    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed Xdebug pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}

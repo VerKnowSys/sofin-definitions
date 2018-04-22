@@ -5,4 +5,32 @@ DEF_SHA="fb453fbe0f2a32a126b0d668c74a5a435fc606b2"
 DEF_VERSION="7.1.16"
 DEF_SUFFIX="71"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_BUNDLED_EXTENSIONS=""
+DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip"
+
+install_geoip () {
+    geoip_name="geoip-1.1.1"
+    geoip_archive="${geoip_name}.tgz"
+    run "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${geoip_archive}\" ${FETCH_OPTS}" && \
+    run "${TAR_BIN} xf ${geoip_archive}" && \
+    cd ${geoip_name} && \
+    run "${PREFIX}/bin/phpize" && \
+    run "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX}" && \
+    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed PECL extension: ${geoip_name}" && \
+    return 0
+    return 1
+}
+
+install_xdebug () {
+    arch_name="xdebug-2.6.0"
+    archive="${arch_name}.tgz"
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    run "${TAR_BIN} xf ${archive}" && \
+    cd "${arch_name}" && \
+    run "${PREFIX}/bin/phpize" && \
+    run "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
+    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed Xdebug pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}
