@@ -10,7 +10,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-option-checking --disable-cgi --disable-all --disable-phpdbg --disable-phpdbg-webhelper --disable-phpdbg-debug --with-pic --with-iconv --with-layout=GNU --with-zlib --with-zlib-dir=/usr --with-gettext=${PREFIX} --enable-zip --enable-mysqlnd --enable-sockets --enable-soap --enable-json --enable-xml --enable-libxml --with-xsl=${PREFIX} --with-libxml-dir=${PREFIX} --enable-dom --enable-session --enable-hash --enable-simplexml --enable-filter --with-unixODBC=${PREFIX} --enable-pdo --with-pdo-mysql=${PREFIX} --with-pdo-pgsql=${PREFIX} --with-pdo-sqlite=${PREFIX} --with-pdo-odbc=unixODBC,${PREFIX} --enable-mbstring --enable-fileinfo --with-openssl=${PREFIX} --with-openssl-dir=${PREFIX} --enable-intl --with-mcrypt=${PREFIX} --with-mysqli=mysqlnd --with-pgsql=${PREFIX} --with-curl=${PREFIX} --with-gmp=${PREFIX} --with-freetype-dir=${PREFIX} --with-pear --enable-posix --with-bz2 --enable-ftp --enable-calendar --enable-bcmath --enable-wddx --with-xmlrpc --enable-ctype --with-mhash=${PREFIX} --enable-tokenizer --enable-xmlwriter --enable-xmlreader --with-sqlite3=${PREFIX} --with-imap=${PREFIX} --with-imap-ssl=${PREFIX} --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --enable-exif --with-libedit=${PREFIX} --with-pcre-dir=${PREFIX} --with-libexpat-dir=${PREFIX} --without-pcre-jit --with-gdbm=${PREFIX} --with-gd=${PREFIX} --with-icu-dir=${PREFIX} --enable-gd-native-ttf --enable-opcache --enable-phar --enable-embed --enable-cli --enable-fpm --enable-sysvshm --enable-sysvsem --enable-sysvmsg --enable-shmop ac_cv_sizeof_off_t=8 ac_cv_decimal_fp_supported=\"no\" lt_cv_path_SED=\"sed\""
 DEF_REQUIREMENTS="pkgconf m4 libtool gmp make jemalloc libedit ccache zip zlib bzip2 lzma lzo xz gettext libffi pcre icu perl openssl libevent openldap expat geoip sqlite gdbm db bash nasm libnet libxml2 libgpg-error libgcrypt libxslt bison27 flex postgresql94 unixodbc python27 autoconf texinfo automake114 libpaper libidn tiff jbig2dec jbigkit libjpeg-turbo jpeg lcms2 jasper libmcrypt libunistring libidn2 nghttp2 libssh2 curl cmake mysql-lib freefont sharefont t1lib graphite2 freetype fontconfig libpng gd imagemagick cyrus-sasl imap re2c"
 DEF_INSTALL_METHOD="make -s install"
-DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip dbase"
+DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip"
 DEF_EXPORTS="php php-fpm php-config phpize pecl pear"
 DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB share/man lib/libxslt-plugins lib/libmcrypt lib/cmake share/bison share/autoconf COPYING INSTALL-BINARY README lib/perl5 lib/python2.7 include/python2.7"
 
@@ -88,7 +88,7 @@ install_geoip () {
 }
 
 install_imagick () {
-    arch_name="imagick-3.4.1"
+    arch_name="imagick-3.4.3"
     archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     run "${TAR_BIN} xf ${archive}" && \
@@ -102,7 +102,7 @@ install_imagick () {
 }
 
 install_rar () {
-    arch_name="rar-3.0.2"
+    arch_name="rar-4.0.0"
     archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     run "${TAR_BIN} xf ${archive}" && \
@@ -116,7 +116,7 @@ install_rar () {
 }
 
 install_pear_modules () {
-    for mod in Archive_Tar Auth Auth_HTTP Auth_SASL Benchmark Cache Cache_Lite Config Date DB DB_DataObject DB_DataObject_FormBuilder File HTML_Common HTML_Form HTML_QuickForm HTML_QuickForm_Controller HTML_Table HTML_Template_Flexy HTML_Template_IT HTML_Template_Sigma HTML_TreeMenu HTTP HTTP_Client HTTP_Download HTTP_Header HTTP_Request HTTP_Upload Image_Canvas Image_Color Image_Graph Log Mail Mail_Mime Mail_mimeDecode MDB MDB2 MDB2_Driver_mysql MIME_Type Net_DNS Net_FTP Net_IMAP Net_IPv4 Net_IPv6 Net_Ping Net_POP3 Net_SMTP Net_Socket Net_URL2 Net_URL Net_UserAgent_Detect Numbers_Roman Numbers_Words OLE Pager PHP_Compat PhpDocumentor PHPUnit Services_Weather SOAP Spreadsheet_Excel_Writer Structures_Graph Text_Password Validate XML_Beautifier XML_Parser XML_RPC XML_Serializer XML_Tree XML_Util mdb OLE-beta Spreadsheet_Excel_Writer-beta Crypt_CHAP Numbers_Words-beta File_Passwd HTTP_WebDAV_Server xml_rpc2;
+    for mod in Auth Auth_HTTP Auth_SASL Benchmark Cache Cache_Lite Config Date DB DB_DataObject DB_DataObject_FormBuilder File HTML_QuickForm_Controller HTML_Table HTML_Template_Flexy HTML_Template_IT HTML_Template_Sigma HTML_TreeMenu HTTP HTTP_Client HTTP_Download Image_Color Log Mail Mail_Mime Mail_mimeDecode MDB2 MIME_Type Net_DNS Net_FTP Net_IMAP Net_IPv4 Net_IPv6 Net_Ping Net_POP3 Net_SMTP Net_URL2 Net_UserAgent_Detect Numbers_Roman OLE Pager PHP_Compat PhpDocumentor Services_Weather Spreadsheet_Excel_Writer Structures_Graph Text_Password Validate XML_Beautifier OLE-beta Spreadsheet_Excel_Writer-beta Crypt_CHAP Numbers_Words-beta File_Passwd;
     do
         try "${PREFIX}/bin/pear install $mod"
     done
@@ -124,27 +124,12 @@ install_pear_modules () {
 }
 
 
-install_dbase () {
-    arch_name="dbase-5.1.0"
+install_xdebug () {
+    arch_name="xdebug-2.5.5"
     archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     run "${TAR_BIN} xf ${archive}" && \
     cd "${arch_name}" && \
-    run "${PREFIX}/bin/phpize" && \
-    run "./configure --prefix=${PREFIX} --with-dbase=${PREFIX}" && \
-    run "PATH=${PREFIX}/bin:$PATH make install" && \
-    note "Installed Dbase pecl module" && \
-    return 0
-    return 1
-}
-
-
-install_xdebug () {
-    arch_name="xdebug-2.4.1"
-    archive="${arch_name}.tgz"
-    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
-    run "${TAR_BIN} xf ${archive}" && \
-    cd "xdebug-2.4.1" && \
     run "${PREFIX}/bin/phpize" && \
     run "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
     run "PATH=${PREFIX}/bin:$PATH make install" && \
@@ -152,25 +137,6 @@ install_xdebug () {
     return 0
     return 1
 }
-
-
-# install_oci8 () {
-#     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-#         warn "OCI8 not supported under FreeBSD hosts!" && \
-#         return 0
-#     fi
-#     arch_name="oci8-2.0.10"
-#     archive="${arch_name}.tgz"
-#     ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${archive}" ${FETCH_OPTS} && \
-#     ${TAR_BIN} xf "${archive}" && \
-#     cd "${arch_name}" && \
-#     ${PREFIX}/bin/phpize && \
-#     ./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-oci8=instantclient,${PREFIX}/lib && \
-#     PATH=${PREFIX}/bin:$PATH make install && \
-#     note "Installed PECL extension: ${arch_name}" && \
-#     return 0
-#     return 1
-# }
 
 
 install_and_move () {
@@ -184,24 +150,8 @@ install_and_move () {
 install_extensions () {
     # update pecl protocols before installing extensions
     PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
-    extensions_dir="${PREFIX}/lib/php/extensions"
     for name in $(echo "${DEF_BUNDLED_EXTENSIONS}" | ${TR_BIN} ' ' '\n' 2>/dev/null); do
-        try "test -f ${extensions_dir}/${name}.so" || install_and_move "${name}" || error "Failed to install PECL extension: ${name}"
+        install_and_move "${name}" || error "Failed to install PECL extension: ${name}"
     done
     try "install_pear_modules"
-}
-
-# Used by Php 5.2-5.4:
-install_opcache () {
-    run "PATH=$PATH:${PREFIX}/bin echo ${PREFIX} | ${PREFIX}/bin/pecl install zendopcache"
-}
-
-# Used by Php 5.2-5.4:
-install_apc () {
-    run "printf \"no\nno\nno\nno\nno\nyes\n\" | PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install apc"
-}
-
-# Used by Php 5.2-5.3:
-install_phar () {
-    run "PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl install phar"
 }
