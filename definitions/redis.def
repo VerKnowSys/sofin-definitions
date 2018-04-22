@@ -2,11 +2,11 @@ DEF_DISABLE_ON="Linux"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Redis is in-memory data structure store, used as database, cache and message broker."
 DEF_NAME="redis"
-DEF_VERSION="4.0.6"
-DEF_SHA="c28432d1900628d26f9dc5f6290ceb433434a149"
+DEF_VERSION="4.0.9"
+DEF_SHA="8aa33d13c3ff5c4d4d2cc52932340893132c8aec"
 DEF_ORIGIN="http://${DEF_NAME}.io"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make jemalloc libedit lua51"
+DEF_REQUIREMENTS="make libedit lua51"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s"
 DEF_INSTALL_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s install"
@@ -21,3 +21,4 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # causing flood of "ask for root password" prompts... I have no further comments...
     DEF_TEST_METHOD="false"
 fi
+DEF_STANDALONE=YES
