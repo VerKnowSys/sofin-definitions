@@ -1,7 +1,8 @@
 DEF_FULL_NAME="GNU S-Lang Library"
 DEF_NAME="slang"
-DEF_SHA="a8ea7f1b5736160a94efb67b137a0f5b9916bdf2"
-DEF_VERSION="2.3.1a"
+DEF_SHA="bbf7f2dcc14e7c7fca40868fd4b411a2bd9e2655"
+DEF_VERSION="2.3.2"
+DEF_ORIGIN="https://www.jedsoft.org/releases/slang/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="http://www.jedsoft.org/releases/slang/"
 DEF_REQUIREMENTS="pcre readline"
@@ -11,5 +12,3 @@ DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USEFUL="bin/sl*"
 DEF_EXPORTS="slsh"
-DEF_NO_LLVM_LINKER=YES
-
