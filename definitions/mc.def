@@ -4,13 +4,19 @@ DEF_ORIGIN="http://ftp.midnight-commander.org"
 DEF_VERSION="4.8.20"
 DEF_SHA="1e8b9840e65f276e6e67be7430750fde3b5909e4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 libtool xz lzo lzop lz4 zip pcre expat readline libffi python27 icu gettext slang glib perl"
-DEF_STANDALONE=YES
-DEF_CONFIGURE_ARGS="--without-x --disable-nls --with-mmap --with-screen=slang \
---enable-threads --enable-charset --with-pcre=${PREFIX} --with-search-engine=pcre \
+DEF_REQUIREMENTS="pkgconf make libtool readline pcre slang lz4 xz zip libxml2 libffi python27 icu gettext glib perl"
+DEF_CONFIGURE_ARGS="--disable-nls --disable-assert --enable-mclib --enable-charset \
+--disable-tests --enable-static=no --enable-threads=posix --with-mmap --with-screen=ncurses \
+--disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html --disable-dependency-tracking \
+--with-pcre=${PREFIX} --with-search-engine=glib --with-libintl-prefix=${PREFIX} \
 --with-slang-includes=${PREFIX}/include --with-slang-libs=${PREFIX}/lib \
---with-subshell --without-internal-edit --with-diff-viewer \
+--with-subshell --without-internal-edit --with-diff-viewer --without-x \
 "
 DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs include"
+DEF_AFTER_CONFIGURE_METHOD="patch_stuff"
+patch_stuff () {
+    run "${SED_BIN} -i '' -e 's|missing-parameter-type|unused-variable|; s|but-set-variable|variable|' configure"
+    run "${SED_BIN} -i '' -e 's|SUBDIRS = intl|SUBDIRS =|' Makefile.in"
+}
 DEF_EXPORTS="mc mcdiff mcedit mcview"
-DEF_NO_LLVM_LINKER=YES
+DEF_STANDALONE=YES
