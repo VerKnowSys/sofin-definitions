@@ -14,7 +14,7 @@ patch_Configure () {
 DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
 patch_Makefile () {
     if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        ${SED_BIN} -i '' -e "s#-lpthread -lm -lcrypt -lutil#-lpthread -lm -lcrypt -lutil -pie -fPIC#g" ./Makefile
+        ${SED_BIN} -i '' -e "s#-lpthread -lm -lcrypt -lutil#-lpthread -lm -lcrypt -lelf -pie#g" ./Makefile
     fi
 }
 DEF_CONFIGURE_METHOD="./Configure"
