@@ -12,7 +12,7 @@ DEF_REQUIREMENTS="pkgconf m4 libtool gmp make jemalloc libedit ccache zip zlib b
 DEF_INSTALL_METHOD="make -s install"
 DEF_BUNDLED_EXTENSIONS="xdebug imagick rar geoip dbase"
 DEF_EXPORTS="php php-fpm php-config phpize pecl pear"
-DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB share/man lib/libxslt-plugins lib/libmcrypt lib/cmake share/bison share/autoconf COPYING INSTALL-BINARY README"
+DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB share/man lib/libxslt-plugins lib/libmcrypt lib/cmake share/bison share/autoconf COPYING INSTALL-BINARY README lib/perl5 lib/python2.7 include/python2.7"
 
 DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES # causes random crashes and other issues
