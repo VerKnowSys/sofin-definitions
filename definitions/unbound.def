@@ -2,11 +2,10 @@ DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Unbound DNS"
 DEF_STANDALONE=YES
 DEF_NAME="unbound"
-DEF_VERSION="1.6.7"
+DEF_VERSION="1.7.0"
 DEF_ORIGIN="http://www.unbound.net/downloads/"
-DEF_SHA="098f8acfc3e9d1cab54f07863e61eabbb67c80dc"
+DEF_SHA="d90b09315c75ad2843b868785b3d12a2c4f27b28"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf expat libressl libevent"
 DEF_CONFIGURE_ARGS="--with-libexpat=${PREFIX} --with-ssl=${PREFIX} --with-libevent=${PREFIX}"
 DEF_EXPORTS="unbound unbound-anchor unbound-checkconf unbound-control unbound-control-setup"
-DEF_NO_LLVM_LINKER=YES
