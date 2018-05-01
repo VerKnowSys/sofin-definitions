@@ -3,17 +3,16 @@ DEF_NAME="fontconfig"
 DEF_SHA="5eb9b1fe8c3f9e0447b1238ade3c7af15b671a4d"
 DEF_VERSION="2.11.94"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl jam m4 libtool libressl python27 libpng expat autoconf texinfo automake freetype"
+DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl jam m4 libtool libressl python27 libpng libxml2 autoconf texinfo automake freetype"
 DEF_CONFIGURE_ARGS="--disable-docs --enable-iconv \
     --with-configdir=${SERVICE_DIR}/etc/fonts/conf.d \
     --with-templatedir=${SERVICE_DIR}/etc/fonts/conf.avail \
     --with-xmldir=${SERVICE_DIR}/etc/fonts \
-    --with-expat-includes=${PREFIX}/include \
-    --with-expat-lib=${PREFIX}/lib \
     --with-default-fonts=${PREFIX}/share/fonts \
     --with-add-fonts=${PREFIX}/lib/X11/fonts \
     --with-cache-dir=${SERVICE_DIR}/var/db/fontconfig \
     --with-pkgconfigdir=${PREFIX}/lib/pkgconfig \
+    --enable-libxml2 \
 "
 DEF_MAKE_METHOD="LC_ALL=C make -s ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS}"
