@@ -6,12 +6,22 @@ DEF_VERSION="4.0.9"
 DEF_SHA="8aa33d13c3ff5c4d4d2cc52932340893132c8aec"
 DEF_ORIGIN="http://${DEF_NAME}.io"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make libedit lua51"
+DEF_REQUIREMENTS="make libedit lua51 jemalloc"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_MAKE_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s"
-DEF_INSTALL_METHOD="env MALLOC=jemalloc CC=cc CXX=c++ PREFIX=${PREFIX} make -s install"
+DEF_MAKE_METHOD="build_and_install_redis"
+build_and_install_redis () {
+    _cwd="$(pwd)"
+    cd deps/lua/src && ${CP_BIN} fpconv.* lua_* strbuf.* "${_cwd}/src"
+    cd "${_cwd}"
+
+    mkdir -p "deps/jemalloc/lib"
+    ${CP_BIN} "${PREFIX}/lib/libjemalloc_pic.a" "deps/jemalloc/lib/"
+
+    PREV_FINAL_CFLAGS="${CFLAGS}" make STD= OPT= DEBUG= WARN= V=yo PREFIX="${PREFIX}" CFLAGS="${CFLAGS} -I${PREFIX}/include -I/usr/include -Wl,-E -pthread" LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L/usr/lib -lpthread -lm -lc -lexecinfo" MALLOC=jemalloc install
+}
+DEF_INSTALL_METHOD="true"
+DEF_NO_CCACHE=YES
 DEF_CONFLICTS_WITH="Redis"
-DEF_USE_SAFE_STACK=YES
 DEF_NO_SSP_BUFFER_OVERRIDE=YES
 DEF_NO_FORTIFY_SOURCE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
