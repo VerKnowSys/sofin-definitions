@@ -1,8 +1,8 @@
 DEF_FULL_NAME="MariaDB 10.1"
 DEF_STANDALONE=YES
-DEF_SHA="c315c5054612647c3665d286910d9f33c5c61ce3"
+DEF_SHA="f3a849e9a814cab97d0f20c37adeb01129ca02fc"
 DEF_NAME="mariadb"
-DEF_VERSION="10.1.32"
+DEF_VERSION="10.1.33"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make lz4 gettext libedit libnet lua51 pcre libressl perl yasm libxml2 python27 ninja cmake msgpack kytea libsodium zeromq4 libevent"
 DEF_CONFIGURE_METHOD="cmake"
