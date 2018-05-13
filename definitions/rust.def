@@ -1,24 +1,14 @@
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.25.0"
+DEF_VERSION="1.26.0"
+DEF_SHA="d3e722d6000fb76c641b270818481438e6372a7e"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
 DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc"
 DEF_CONFLICTS_WITH="Rust"
-
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_SHA="30e7d674007b87d19eda9ae9147472e74a59e64e"
-        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-apple-darwin.tar.gz"
-        ;;
-
-    FreeBSD)
-        DEF_SHA="fb0420d1548d63dc470bce8aea13f6947be63c18"
-        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
-        ;;
-esac
 
 DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
 patch_prefix_and_install () {
