@@ -7,7 +7,7 @@ DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
-DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc"
+DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc rg everustc"
 DEF_CONFLICTS_WITH="Rust"
 
 DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
