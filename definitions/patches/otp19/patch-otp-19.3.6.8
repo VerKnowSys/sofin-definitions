@@ -1,0 +1,73 @@
+diff --git OTP_VERSION OTP_VERSION
+index 6d40ebaad3..bcb7f99fa7 100644
+--- OTP_VERSION
++++ OTP_VERSION
+@@ -1 +1 @@
+-19.3.6.7
++19.3.6.8
+diff --git lib/ssh/doc/src/notes.xml lib/ssh/doc/src/notes.xml
+index b62731d496..b80ddb1621 100644
+--- lib/ssh/doc/src/notes.xml
++++ lib/ssh/doc/src/notes.xml
+@@ -30,6 +30,22 @@
+     <file>notes.xml</file>
+   </header>
+ 
++<section><title>Ssh 4.4.2.3</title>
++
++    <section><title>Fixed Bugs and Malfunctions</title>
++      <list>
++        <item>
++          <p>
++	    An ssh_sftp server (running version 6) could fail if it
++	    is told to remove a file which in fact is a directory.</p>
++          <p>
++	    Own Id: OTP-15004</p>
++        </item>
++      </list>
++    </section>
++
++</section>
++
+ <section><title>Ssh 4.4.2.2</title>
+ 
+     <section><title>Improvements and New Features</title>
+diff --git lib/ssh/src/ssh_sftpd.erl lib/ssh/src/ssh_sftpd.erl
+index fb680fe11c..8589730438 100644
+--- lib/ssh/src/ssh_sftpd.erl
++++ lib/ssh/src/ssh_sftpd.erl
+@@ -384,10 +384,12 @@ handle_op(?SSH_FXP_REMOVE, ReqId, <<?UINT32(PLen), BPath:PLen/binary>>,
+     case IsDir of %% This version 6 we still have ver 5
+ 	true when Vsn > 5 ->
+ 	    ssh_xfer:xf_send_status(State0#state.xf, ReqId,
+-				    ?SSH_FX_FILE_IS_A_DIRECTORY, "File is a directory"); 
++				    ?SSH_FX_FILE_IS_A_DIRECTORY, "File is a directory"),
++            State0;
+ 	true ->
+ 	    ssh_xfer:xf_send_status(State0#state.xf, ReqId,
+-				    ?SSH_FX_FAILURE, "File is a directory"); 
++				    ?SSH_FX_FAILURE, "File is a directory"),
++            State0;
+ 	false ->
+ 	    {Status, FS1} = FileMod:delete(Path, FS0),
+ 	    State1 = State0#state{file_state = FS1},
+diff --git lib/ssh/vsn.mk lib/ssh/vsn.mk
+index 8249bf4837..fbf689690b 100644
+--- lib/ssh/vsn.mk
++++ lib/ssh/vsn.mk
+@@ -1,5 +1,5 @@
+ #-*-makefile-*-   ; force emacs to enter makefile-mode
+ 
+-SSH_VSN = 4.4.2.2
++SSH_VSN = 4.4.2.3
+ 
+ APP_VSN    = "ssh-$(SSH_VSN)"
+diff --git otp_versions.table otp_versions.table
+index a419d54dd0..bc14164b90 100644
+--- otp_versions.table
++++ otp_versions.table
+@@ -1,3 +1,4 @@
++OTP-19.3.6.8 : ssh-4.4.2.3 # asn1-4.0.4 common_test-1.14 compiler-7.0.4.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 erts-8.3.5.4 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2.0.1 megaco-3.18.1 mnesia-4.14.3.1 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssl-8.1.3.1.1 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
+ OTP-19.3.6.7 : kernel-5.2.0.1 # asn1-4.0.4 common_test-1.14 compiler-7.0.4.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 erts-8.3.5.4 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 megaco-3.18.1 mnesia-4.14.3.1 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssh-4.4.2.2 ssl-8.1.3.1.1 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
+ OTP-19.3.6.6 : ssh-4.4.2.2 ssl-8.1.3.1.1 # asn1-4.0.4 common_test-1.14 compiler-7.0.4.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 erts-8.3.5.4 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 mnesia-4.14.3.1 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
+ OTP-19.3.6.5 : erts-8.3.5.4 mnesia-4.14.3.1 ssh-4.4.2.1 # asn1-4.0.4 common_test-1.14 compiler-7.0.4.1 cosEvent-2.2.1 cosEventDomain-1.2.1 cosFileTransfer-1.2.1 cosNotification-1.2.2 cosProperty-1.2.1 cosTime-1.2.2 cosTransactions-1.3.2 crypto-3.7.4 debugger-4.2.1 dialyzer-3.1.1 diameter-1.12.2 edoc-0.8.1 eldap-1.2.2 erl_docgen-0.6.1 erl_interface-3.9.3 et-1.6 eunit-2.3.2 gs-1.6.2 hipe-3.15.4 ic-4.4.2 inets-6.3.9 jinterface-1.7.1 kernel-5.2 megaco-3.18.1 observer-2.3.1 odbc-2.12 orber-3.8.2 os_mon-2.4.2 otp_mibs-1.1.1 parsetools-2.1.4 percept-0.9 public_key-1.4 reltool-0.7.3 runtime_tools-1.11.1 sasl-3.0.3 snmp-5.2.5 ssl-8.1.3.1 stdlib-3.3 syntax_tools-2.1.1 tools-2.9.1 typer-0.9.12 wx-1.8 xmerl-1.3.14 :
