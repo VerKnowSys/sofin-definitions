@@ -51,6 +51,7 @@ esac
 DEF_NO_DISALLOW_MAP32BIT=YES
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
+DEF_NO_ASLR=YES
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS} erl erlc beam beam.smp run_erl ct_run"
 
 HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
