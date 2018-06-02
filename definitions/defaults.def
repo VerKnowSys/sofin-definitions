@@ -50,6 +50,7 @@ unset   DEF_NO_MPROTECT
 unset   DEF_NO_PAGEEXEC
 unset   DEF_NO_ASLR
 unset   DEF_NO_SEGVGUARD
+unset   DEF_NO_SHLIBRANDOM
 unset   DEF_APPLY_LOWER_SECURITY_ON # list of binaries/libraries to disable security bits on
 
 unset   DEF_SHA # sha1 of archive source, used to check file checksum after archive download. May be skipped when in git mode
