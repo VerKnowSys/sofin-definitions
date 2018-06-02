@@ -51,3 +51,8 @@ after_exports () {
     npm config set cafile="${SERVICE_DIR}/etc/ssl/cert.pem"
     npm set prefix="${SERVICE_DIR}"
 }
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_NO_ASLR=YES
+DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
