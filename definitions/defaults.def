@@ -43,6 +43,15 @@ unset   DEF_AFTER_TEST_METHOD
 unset   DEF_AFTER_INSTALL_METHOD
 unset   DEF_AFTER_PATCH_METHOD
 unset   DEF_AFTER_EXPORT_METHOD
+
+# HardenedBSD hardening features:
+unset   DEF_NO_DISALLOW_MAP32BIT
+unset   DEF_NO_MPROTECT
+unset   DEF_NO_PAGEEXEC
+unset   DEF_NO_ASLR
+unset   DEF_NO_SEGVGUARD
+unset   DEF_APPLY_LOWER_SECURITY_ON # list of binaries/libraries to disable security bits on
+
 unset   DEF_SHA # sha1 of archive source, used to check file checksum after archive download. May be skipped when in git mode
 unset   DEF_USER_INFO # additional optional information from definition to user displayed after installation
 unset   DEF_CONFLICTS_WITH # defines list of definitions which are in conflict with software.
