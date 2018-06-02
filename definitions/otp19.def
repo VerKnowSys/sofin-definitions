@@ -4,10 +4,10 @@ DEF_NAME="otp"
 PATCHES_SITE="https://olgeni.olgeni.com/~olgeni/distfiles/"
 DEF_STANDALONE=YES
 MAJOR="19.3"
-MINOR="6.5"
+MINOR="6.9"
 DEF_VERSION="${MAJOR}.${MINOR}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make m4 expat zlib lzma lzo xz gettext db gdbm libunwind libressl perl bison flex libgpg-error libgcrypt autoconf texinfo automake18"
+DEF_REQUIREMENTS="pkgconf make m4 expat lzo db gdbm libunwind libressl perl bison27 libgpg-error libgcrypt autoconf texinfo automake18"
 
 DEF_AFTER_UNPACK_METHOD="post_unpack"
 post_unpack () {
@@ -22,6 +22,7 @@ DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX}  
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
+DEF_USEFUL="bin/bison bin/yacc"
 DEF_USELESS="lib/*perl* docs share"
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_LTO=YES
@@ -46,6 +47,11 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --enable-java --enable-darwin-64bit --enable-hipe --with-dynamic-trace=dtrace"
         ;;
 esac
+
+DEF_NO_DISALLOW_MAP32BIT=YES
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS} erl erlc beam beam.smp run_erl ct_run"
 
 HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
 install_repl_history () {
