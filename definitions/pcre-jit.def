@@ -1,0 +1,5 @@
+inherit pcre
+
+DEF_FULL_NAME="PCRE Library with JIT enabled"
+DEF_SUFFIX="-jit"
+DEF_CONFIGURE_ARGS="--enable-jit --enable-pcregrep-jit --enable-shared --enable-static --enable-rebuild-chartables --enable-utf8 --enable-pcre2grep-libz --enable-pcre2grep-libbz2 --disable-stack-for-recursion --enable-unicode-properties"
