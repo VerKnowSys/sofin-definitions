@@ -1,10 +1,10 @@
 DEF_NAME="node"
-DEF_VERSION="v8.11.1"
+DEF_VERSION="v8.11.2"
 DEF_FULL_NAME="Node.js ${DEF_VERSION} LTS (VerKnowSys build)"
-DEF_SHA="9144b4545885af5c806f7f68d814ffa6a8ed97bd"
+DEF_SHA="40679bcfeb1a812da4f2cbd91c4732aa716ccfb6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf make gettext libtool c-ares lzo lz4 m4 expat pcre readline perl zip bison gmp mpfr libmpc isl binutils-gold gcc libffi openssl python27 nghttp2 icu libuv"
+DEF_REQUIREMENTS="pkgconf make gettext c-ares lzo lz4 expat pcre readline perl zip bison libffi openssl python27 nghttp2 icu libuv"
 DEF_CONFIGURE_ARGS="--with-dtrace --tag=VerKnowSys \
 --shared-openssl --shared-openssl-libpath=${PREFIX} --openssl-use-def-ca-store \
 --shared-cares --shared-cares-libpath=${PREFIX} \
@@ -24,14 +24,15 @@ DEF_STRIP=LIB
 # NOTE: override Sofin compiler setup:
 unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
 
-CFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -I${PREFIX}/include -I/usr/include -fPIE"
+CFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -I${PREFIX}/include -I/usr/include -fPIC -fPIE"
 CXXFLAGS="${CFLAGS}"
-LDFLAGS="-L${PREFIX}/lib -L/usr/lib -fPIE"
+LDFLAGS="-L${PREFIX}/lib -L/usr/lib"
 
-CC="gcc -w -O2 -fpermissive ${CFLAGS}"
-CXX="g++ -w -O2 -fpermissive ${CFLAGS}"
-CPP="c++"
-LINK="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${LDFLAGS} -pie"
+GYP_DEFINES="clang=1"
+CC="cc -w -O2 -fpermissive ${CFLAGS}"
+CXX="c++ -w -O2 -fpermissive ${CFLAGS}"
+CPP="cpp"
+LINK="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${LDFLAGS}"
 LD="${LINK}"
 
 DEF_AFTER_CONFIGURE_METHOD="after_config"
@@ -48,6 +49,7 @@ DEF_INSTALL_METHOD="env CC.host=\"${CC}\" CXX.host=\"${CXX}\" LINK.host=\"${LINK
 
 DEF_AFTER_EXPORT_METHOD="after_exports"
 after_exports () {
+    npm config set registry "http://registry.npmjs.eu/"
     npm config set cafile="${SERVICE_DIR}/etc/ssl/cert.pem"
     npm set prefix="${SERVICE_DIR}"
 }
