@@ -16,7 +16,7 @@ DEF_CONFIGURE_ARGS="--with-dtrace --tag=VerKnowSys \
 "
 DEF_CONFLICTS_WITH="Node"
 DEF_STANDALONE=YES
-DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/g++ bin/gcc bin/c++ bin/ld* bin/as bin/nm bin/ar bin/pkgconf bin/*conf"
+DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
 DEF_EXPORTS="node npm npx"
 DEF_USELESS="*.a lib/perl* lib/python* include/python x86_64* etc sbin share/systemtap"
 DEF_STRIP=LIB
