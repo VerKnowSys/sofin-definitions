@@ -4,7 +4,7 @@ DEF_NAME="git"
 DEF_VERSION="2.12.3"
 DEF_STANDALONE=YES
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf m4 libtool make pth libunistring zlib bzip2 lzma xz pcre icu expat gmp perl autoconf texinfo automake114 libressl libffi gettext python27 spdylay nghttp2 libssh2 curl-minimal"
+DEF_REQUIREMENTS="pkgconf make libunistring gettext pcre icu expat gmp perl libressl libffi python27 nghttp2 libssh2 curl-minimal" # autoconf texinfo automake114
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_CONFIGURE_ARGS="--with-iconv=/usr --with-zlib=/usr --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"
@@ -27,4 +27,4 @@ esac
 DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --without-python ${DEF_CONFIGURE_ARGS}"
 DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
 DEF_USEFUL="bin/perl*"
-DEF_USELESS="lib/*.a share/examples share/texinfo share/gtk-doc share/aclocal* share/auto*"
+DEF_USELESS="lib/python2.7 lib/*.a include/python2.7  share/examples share/texinfo share/gtk-doc share/aclocal* share/auto*"
