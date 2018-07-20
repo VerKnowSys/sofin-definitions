@@ -1,0 +1,32 @@
+From a64c4d806fa54848c35632114585ad82b98712e8 Mon Sep 17 00:00:00 2001
+From: Kenji Rikitake <kenji.rikitake@acm.org>
+Date: Mon, 24 Apr 2017 23:13:00 +0900
+Subject: [PATCH] wxe_impl.cpp: pointer comparison fix
+
+* Fix ordered comparison between (void *) pointer and zero
+---
+ lib/wx/c_src/wxe_impl.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/wx/c_src/wxe_impl.cpp b/lib/wx/c_src/wxe_impl.cpp
+index 0d2da5d4a79..8118136d30e 100644
+--- a/lib/wx/c_src/wxe_impl.cpp
++++ b/lib/wx/c_src/wxe_impl.cpp
+@@ -666,7 +666,7 @@ void * WxeApp::getPtr(char * bp, wxeMemEnv *memenv) {
+     throw wxe_badarg(index);
+   }
+   void * temp = memenv->ref2ptr[index];
+-  if((index < memenv->next) && ((index == 0) || (temp > NULL)))
++  if((index < memenv->next) && ((index == 0) || (temp != (void *)NULL)))
+     return temp;
+   else {
+     throw wxe_badarg(index);
+@@ -678,7 +678,7 @@ void WxeApp::registerPid(char * bp, ErlDrvTermData pid, wxeMemEnv * memenv) {
+   if(!memenv)
+     throw wxe_badarg(index);
+   void * temp = memenv->ref2ptr[index];
+-  if((index < memenv->next) && ((index == 0) || (temp > NULL))) {
++  if((index < memenv->next) && ((index == 0) || (temp != (void *) NULL))) {
+     ptrMap::iterator it;
+     it = ptr2ref.find(temp);
+     if(it != ptr2ref.end()) {
