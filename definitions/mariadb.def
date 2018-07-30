@@ -11,7 +11,7 @@ DEF_EXPORTS="mysql mysqld_multi mysqld mysqld_safe mysql_config mysqladmin mysql
 DEF_USELESS="share/bison share/gdb share/libtool doc sql-bench support-files data share/cmake* man lib/*perl* include/python* lib/python* doc docs sql-bench share/cmake* share/gtk* share/glib* share/man INSTALL-BINARY README COPYING share/gettext share/*.sql share/lua COPYING.LESSER COPYING.thirdparty CREDITS EXCEPTIONS-CLIENT README-wsrep scripts libexec lib/lua mysql-test include/boost"
 DEF_USEFUL="bin/my*" # always be prepared for more ;)
 DEF_NO_CCACHE=YES
-DEF_USE_SAFE_STACK=YES
+# DEF_USE_SAFE_STACK=YES
 DEF_CONFLICTS_WITH="Percona Mysql"
 DEF_AFTER_PATCH_METHOD="sed_stuff"
 sed_stuff () {
