@@ -1,12 +1,11 @@
 DEF_REQUIRE_ROOT_ACCESS=YES
 DEF_FULL_NAME="Courier Mail Server Auth Lib"
-DATA_DIR="/SystemUsers/SoftwareData/Courier/"
 DEF_SHA="c4e5fcf746da4104156c59c6d56fbfbf82f544ba"
 DEF_NAME="courier-authlib"
 DEF_VERSION="0.66.3"
 DEF_LINKER_FLAGS="-lpthread"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_CONFIGURE_ARGS="--without-authpam --without-authldap --without-authpwd --without-authshadow --without-stdheaderdir --sysconfdir=${DATA_DIR}etc --localstatedir=${DATA_DIR}var"
+DEF_CONFIGURE_ARGS="--without-authpam --without-authldap --without-authpwd --without-authshadow --without-stdheaderdir --sysconfdir=${SERVICE_DIR}etc --localstatedir=${SERVICE_DIR}var"
 
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     patch_makefile () {

@@ -1,9 +1,8 @@
 DEF_REQUIRE_ROOT_ACCESS=YES
 DEF_FULL_NAME="Courier Mail IMAP Server"
-DATA_DIR="/SystemUsers/SoftwareData/Courier/"
 DEF_SHA="9c42a2a4e6f68eb233a573b63ce6a3931072be58"
 DEF_NAME="courier-imap"
 DEF_VERSION="4.16.2"
 DEF_LINKER_FLAGS="-lpthread"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_CONFIGURE_ARGS="--disable-root-check --sysconfdir=${DATA_DIR}etc --localstatedir=${DATA_DIR}var"
+DEF_CONFIGURE_ARGS="--disable-root-check --sysconfdir=${SERVICE_DIR}/etc --localstatedir=${SERVICE_DIR}/var"
