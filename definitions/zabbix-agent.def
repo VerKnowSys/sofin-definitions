@@ -3,4 +3,24 @@ inherit zabbix
 DEF_FULL_NAME="Zabbix agent"
 DEF_SUFFIX="-agent"
 DEF_CONFIGURE_ARGS="--disable-proxy --disable-server ${COMMON_ZABBIX_CONF_ARGS}"
-DEF_REQUIREMENTS="pkgconf m4 libedit make perl openssl pcre libevent libssh2"
+
+skip_non_agent_requirements () {
+    _reqs=""
+    for _req in $(to_iter "${DEF_REQUIREMENTS}"); do
+        case "${_req}" in
+            libuuid|postgresql94|postgresql95|postgresql96|postgresql104|mariadb|mysql51|mysql|mysql-lib)
+                ;;
+
+            *)
+                _reqs="${_reqs} ${_req}"
+                ;;
+        esac
+        unset _req
+    done
+
+    DEF_REQUIREMENTS="${_reqs}"
+    unset _reqs
+}
+
+# Invoke function when reading the definition:
+skip_non_agent_requirements
