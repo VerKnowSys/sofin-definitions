@@ -5,18 +5,26 @@ DEF_NAME="ffmpeg"
 DEF_VERSION="3.2.5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 FFMPEG_DEFAULT_CONFIGURE_FLAGS="--cc=cc --cxx=c++ --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --enable-openssl --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-sdl --disable-xlib --enable-ftrapv --enable-nonfree --enable-libmp3lame --enable-libopus --enable-libsoxr --enable-libspeex --enable-libtwolame --enable-libvorbis --enable-libwavpack --disable-libtheora --enable-lzma --disable-videotoolbox --enable-lzo --enable-pic --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vda --disable-vdpau --disable-d3d11va --disable-dxva2" #  --enable-libbs2b --disable-stripping
-DEF_REQUIREMENTS="pkgconf ccache make libatomic_ops m4 libtool zlib lzma lzo xz bzip2 nasm expat yasm pcre perl openssl python27 autoconf automake icu boost-static libffi gettext glib libmpdclient mpc db sqlite fftw lame libid3tag mpg123 libcue jemalloc curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    # DEF_COMPILER_FLAGS="-mmacosx-version-min=10.11 -arch=x86_64"
-    DEF_CONFIGURE_ARGS="--enable-lto --enable-pic --disable-rpath --disable-iconv"
+DEF_REQUIREMENTS="pkgconf ccache make libatomic_ops m4 libtool zlib lzma lzo xz bzip2 nasm expat yasm pcre perl openssl10 python27 autoconf automake icu boost-static libffi gettext glib libmpdclient mpc db sqlite fftw lame libid3tag mpg123 libcue jemalloc curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        # DEF_COMPILER_FLAGS="-mmacosx-version-min=10.11 -arch=x86_64"
+        DEF_CONFIGURE_ARGS="--enable-lto --enable-pic --disable-rpath --disable-iconv"
+        ;;
 
-elif [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    DEF_CONFIGURE_ARGS="--enable-rpath"
-    DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib ${DEF_OPTFLAGS} -fsanitize=safe-stack"
-    DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -fsanitize=safe-stack"
-fi
+    FreeBSD) # HardenedBSD
+        DEF_CONFIGURE_ARGS="--enable-rpath"
+        DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib ${DEF_OPTFLAGS} -fsanitize=safe-stack"
+        DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -fsanitize=safe-stack"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="--enable-rpath"
+        DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib ${DEF_OPTFLAGS}"
+        ;;
+esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS}"
-DEF_USEFUL="bin/ff*"
+DEF_USEFUL="bin/ff* bin/*-config bin/sndfile-* bin/speex* bin/*lame bin/wavpack bin/mpc bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STRIP=NO
 DEF_STANDALONE=YES
