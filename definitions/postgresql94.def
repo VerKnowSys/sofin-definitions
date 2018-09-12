@@ -6,8 +6,8 @@ DEF_NAME="postgresql"
 DEF_SUFFIX="94"
 DEF_VERSION="9.4.18"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib"
-DEF_REQUIREMENTS="pkgconf make libedit libressl" #  m4 libtool
+DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs"
+DEF_REQUIREMENTS="pkgconf make libedit libressl libuuid" #  m4 libtool
 DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
 DEF_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog pg_archivecleanup pg_basebackup pg_isready pg_receivexlog pg_recvlogical pg_resetxlog postmaster reindexdb vacuumdb createlang droplang dropuser ecpg clusterdb"
 DEF_ORIGIN="http://www.postgresql.org"
@@ -58,4 +58,5 @@ build_addons_and_extensions () {
     run "cd ${base_dir}/hstore && make install"
     run "cd ${base_dir}/pg_trgm && make install"
     run "cd ${base_dir}/pgcrypto && make install"
+    run "cd ${base_dir}/uuid-ossp && make install"
 }
