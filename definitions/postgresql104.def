@@ -1,5 +1,6 @@
-inherit postgresql94
+inherit postgresql96
 
+DEF_FULL_NAME="PostgreSQL 10.4"
 DEF_SHA="56106299525156834f055b421531f05947ba8691"
 DEF_NAME="postgresql"
 DEF_SUFFIX="104"
