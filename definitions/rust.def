@@ -7,7 +7,7 @@ DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
-DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc rg everustc"
+DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt racer rls rust-gdb rust-lldb rustdoc rg everustc bat cargo-asm cargo-audit fd"
 DEF_CONFLICTS_WITH="Rust"
 
 DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
@@ -42,8 +42,8 @@ ${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
 }
 
 install_utils () {
-    note "Installing: $(distn "racer, cargo-watch, cargo-do, rustfmt, cargo-count")"
-    for _add in racer cargo-watch cargo-do rustfmt cargo-count ripgrep rusteve everustc; do
+    note "Installing: $(distn "racer, cargo-audit, cargo-asm, cargo-watch, cargo-do, rustfmt, cargo-count, bat, rg and fd-find")"
+    for _add in racer cargo-audit cargo-asm cargo-watch cargo-do rustfmt cargo-count ripgrep rusteve everustc bat rg fd-find; do
         if [ ! -x "${SERVICE_DIR}/bin/${_add}" ]; then
             note "Building utility: $(distn "${_add}")"
             PATH="${PREFIX}/bin:/bin:/usr/bin" cargo install --force "${_add}" >> "${LOG}-${DEF_NAME}"
