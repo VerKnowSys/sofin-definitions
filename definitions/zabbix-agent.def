@@ -8,7 +8,7 @@ skip_non_agent_requirements () {
     _reqs=""
     for _req in $(to_iter "${DEF_REQUIREMENTS}"); do
         case "${_req}" in
-            libuuid|postgresql94|postgresql95|postgresql96|postgresql104|mariadb|mysql51|mysql|mysql-lib)
+            libuuid|postgresql95|postgresql96|postgresql104|mariadb|mysql51|mysql|mysql-lib)
                 ;;
 
             *)

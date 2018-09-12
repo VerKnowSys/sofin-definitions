@@ -5,7 +5,7 @@ DEF_NAME="bacula"
 DEF_SHA="6c7e152d665837b736cca69a72108a5aa21fc4c3"
 DEF_VERSION="7.4.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make m4 libtool zlib bzip2 lzma lzo lz4 xz zip libressl readline postgresql94"
+DEF_REQUIREMENTS="make m4 libtool zlib bzip2 lzma lzo lz4 xz zip libressl readline libuuid postgresql96"
 DEF_CONFIGURE_ARGS="--enable-smartalloc --with-readline=${PREFIX} --disable-nls --with-postgresql=${PREFIX} --with-openssl=${PREFIX} --disable-conio --with-scriptdir=${PREFIX}/share/${DEF_NAME} --enable-batch-insert --with-plugindir=${PREFIX}/lib/plugins --with-dump-email=root@localhost --with-job-email=root@localhost --with-sbin-perm=755 --with-baseport=9101 --with-sd-group=operator DEBUG="
 case "${SYSTEM_NAME}" in
     Darwin)
