@@ -2,14 +2,15 @@ DEF_DISABLE_ON="Darwin"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Zabbix monitoring system"
 DEF_NAME="zabbix"
-DEF_SHA="de702b3bf804d7a3846ac953934b326a4ad86f6d"
-DEF_VERSION="3.4.10"
+DEF_SHA="4f95ebe362b8376b1b1d0fb009c40475bc27459b"
+DEF_VERSION="3.4.13"
+DEF_ORIGIN="https://www.zabbix.com/download_sources"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf m4 libedit make perl openssl postgresql96 pcre libevent libssh2"
-DEF_CONFIGURE_ARGS="--enable-proxy --enable-server --with-postgresql=${PREFIX}/bin/pg_config ${COMMON_ZABBIX_CONF_ARGS}"
-COMMON_ZABBIX_CONF_ARGS="--enable-ipv6 --enable-agent --sysconfdir=${SERVICE_DIR}/etc \
+DEF_REQUIREMENTS="pkgconf libedit make pcre libevent perl openssl libuuid postgresql96 libssh2"
+COMMON_ZABBIX_CONF_ARGS="--disable-ipv6 --enable-agent --sysconfdir=${SERVICE_DIR}/etc \
     --with-iconv=/usr --with-iconv-include=/usr/include --with-iconv-lib=/usr/lib \
     --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --with-libevent=${PREFIX} --with-ssh2=${PREFIX}"
+DEF_CONFIGURE_ARGS="--enable-proxy --enable-server --with-postgresql=${PREFIX}/bin/pg_config ${COMMON_ZABBIX_CONF_ARGS}"
 DEF_EXPORTS="zabbix_get zabbix_sender zabbix_agent zabbix_agentd zabbix_proxy zabbix_server"
 DEF_USELESS="include share/texinfo lib/*perl*"
 DEF_USE_SAFE_STACK=YES
