@@ -1,9 +1,10 @@
 DEF_FULL_NAME="Apache Httpd server"
 DEF_STANDALONE=YES
 DEF_NAME="httpd"
-DEF_SHA="9e56042515793a6992adc4b9f3a0345a0cb98176"
-DEF_VERSION="2.4.33"
+DEF_SHA="94d6e274273903ed153479c7701fa03761abf93d"
+DEF_VERSION="2.4.34"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://httpd.apache.org/download.cgi"
 DEF_REQUIREMENTS="make pkgconf libtool libxml2 libunistring libedit libevent lzo lz4 pcre gdbm db perl openssl python27 nghttp2 apr apr-util lua51 curl-minimal"
 DEF_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-static-htdbm --enable-static-httxt2dbm --enable-http --enable-http2 --with-nghttp2=${PREFIX} --enable-logio --disable-proxy-balancer"
 DEF_EXPORTS="httpd htdigest httxt2dbm htdbm fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve dbmmanage rotatelogs h2ph h2xs a2p"
@@ -14,18 +15,18 @@ DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}" in
     Linux)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=apache --with-suexec-logfile=/var/log/httpd/suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/local/bin:/usr/bin:/bin' --sysconfdir=/etc/${DEF_NAME}/conf"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=apache --with-suexec-logfile=${SERVICE_DIR}/logs/suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/local/bin:/usr/bin:/bin' --sysconfdir=/etc/${DEF_NAME}/conf"
         ;;
 
     *)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=worker --with-suexec-logfile=${SERVICE_DIR}/log/httpd-suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/bin:/bin:${SERVICE_DIR}/bin'"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=worker --with-suexec-logfile=${SERVICE_DIR}/logs/httpd-suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/bin:/bin:${SERVICE_DIR}/bin'"
         ;;
 esac
 
 build_limitipconn () {
     MOD_NAME="mod_limitipconn"
     MOD_VERSION="0.24"
-    run "${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2" ${FETCH_OPTS}"
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2 ${FETCH_OPTS}"
     run "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.bz2" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
     run "PATH=${PREFIX}/bin:/bin:/usr/bin make install" && \
@@ -36,7 +37,7 @@ build_limitipconn () {
 build_fcgid () {
     MOD_NAME="mod_fcgid"
     MOD_VERSION="2.3.9"
-    run "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz\" ${FETCH_OPTS}"
+    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz ${FETCH_OPTS}"
     run "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
     run "PATH=${PREFIX}/bin:/bin:/usr/bin ./configure.apxs" && \
