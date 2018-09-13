@@ -1,22 +1,8 @@
-DEF_FULL_NAME="LibIDN2"
+DEF_FULL_NAME="LibIDN v2 - International Domain Names"
 DEF_NAME="libidn2"
-DEF_SHA="26311b538897a8ed0569922132f2139ee3ec6a28"
-DEF_VERSION="0.16"
+DEF_VERSION="2.0.5"
+DEF_SHA="91a5122511f87aaaa3f1b700f23c487aaf0dbd9e"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/libidn/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_AFTER_UNPACK_METHOD="prepare_gnu_stuff"
-prepare_gnu_stuff () {
-    autoreconf
-    try "${LN_BIN} -s /usr/bin/true ${PREFIX}/bin/help2man"
-}
-DEF_AFTER_CONFIGURE_METHOD="hack_gnu_makefile"
-hack_gnu_makefile () {
-    if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-        ${SED_BIN} -i '' -e "s|uint8_t *data = calloc|uint8_t *data = (uint8_t*) calloc|g;" gentr46map.c
-        ${SED_BIN} -i '' -e "s|return rawmemchr|return (char*)rawmemchr|g;" lib/strchrnul.c
-        ${SED_BIN} -i '' -e 's|uint32_t *tmp = malloc ((len2 + 1)|uint32_t *tmp = (uint32_t*) malloc ((len2 + 1)|g; s|uint8_t *tmp = malloc (lookupnamelen + 1)|uint8_t *tmp = (uint8_t*) malloc (lookupnamelen + 1)|g' lookup.c
-    fi
-    ${SED_BIN} -i '' -e "s|-I${PREFIX}/include |-I${PREFIX}/include -I${PREFIX}/include/unicode -L${PREFIX}/lib -L/usr/lib |g; s|-std=c++11|-std=gnu++11 -Wno-c++11-narrowing -w|g;" Makefile
-    ${SED_BIN} -i '' -e 's|#include \"error.h\"|#define error printf|g; s|#include <glib/gquark.h>||g;' src/idn2.c
-}
-DEF_REQUIREMENTS="autoconf texinfo libunistring automake14"
-DEF_CONFIGURE_ARGS="--with-libunistring-prefix=${PREFIX} --with-libintl-prefix=${PREFIX} --with-libiconv-prefix=${PREFIX} --disable-valgrind-tests --disable-gtk-doc-html --disable-dependency-tracking --disable-silent-rules"
+DEF_REQUIREMENTS="pkgconf make lzma xz lzo lz4 libressl gettext libunistring"
+DEF_CONFIGURE_ARGS="--with-libunistring-prefix=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-valgrind-tests --disable-gtk-doc-html --disable-dependency-tracking --disable-silent-rules"
