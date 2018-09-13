@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin" # It's built in, and too big of a hassle for a snake.
 DEF_FULL_NAME="Python 2.7"
 DEF_NAME="Python"
 DEF_VERSION="2.7.14"
@@ -38,7 +39,7 @@ locale_cleanup () {
 DEF_EXPORTS="python python2 python-config python2-config pip easy_install pydoc"
 DEF_USEFUL="bin/python* bin/easy_install* bin/pip* bin/pcre* bin/gdbm* bin/gettext* bin/recode*"
 DEF_USELESS="lib/perl5"
-DEF_CONFLICTS_WITH="Python"
+DEF_CONFLICTS_WITH="Python2"
 
 DEF_NO_FAST_MATH=YES
 DEF_NO_CCACHE=YES
