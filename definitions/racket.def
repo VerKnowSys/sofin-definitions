@@ -4,7 +4,7 @@ DEF_NAME="racket"
 DEF_VERSION="6.12"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-src.tgz"
 DEF_REQUIREMENTS="make pkgconf m4 zlib bzip2 pth lzma xz lzo libtool pcre libressl python27 perl autoconf automake bison util-macros cups libxml2 jbig2dec jbigkit nasm libjpeg-turbo libpaper texinfo libidn jpeg tiff lcms2 freefont sharefont freetype fontconfig jasper libpng libffi icu gettext glib pixman graphite2 t1lib harfbuzz cairo pango"
-DEF_CONFIGURE_ARGS="--enable-lt=${PREFIX}/bin/libtool --bindir=${SERVICE_DIR}/bin --enable-libffi --enable-jit --enable-futures --enable-places --enable-foreign --enable-extflonum --enable-backtrace --disable-docs --enable-libs --enable-ubsan --enable-strip"
+DEF_CONFIGURE_ARGS="--enable-lt=${PREFIX}/bin/libtool --bindir=${SERVICE_DIR}/bin --enable-libffi --enable-futures --enable-places --enable-foreign --enable-extflonum --enable-backtrace --disable-docs --enable-libs --enable-ubsan --enable-strip"
 DEF_COMPILER_ARGS="-I${PREFIX}/include"
 DEF_MAKE_METHOD="make -s -j${CPUS}"
 DEF_INSTALL_METHOD="make -s -j${CPUS} install"
@@ -13,6 +13,7 @@ DEF_AFTER_INSTALL_METHOD="move_racket_and_raco_to_software_bin"
 move_racket_and_raco_to_software_bin () {
     for _racket_elem in drracket gracket racket raco scribble setup-plt splain swindle; do
         ${MV_BIN} -v "${SERVICE_DIR}/bin/${_racket_elem}" "${PREFIX}/bin/${_racket_elem}"
+        ${LN_BIN} -s "${PREFIX}/bin/${_racket_elem}" "${SERVICE_DIR}/bin/${_racket_elem}"
     done
 }
 DEF_BUILD_DIR_SUFFIX="src"
