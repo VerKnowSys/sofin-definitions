@@ -1,11 +1,11 @@
-DEF_DISABLE_ON="Darwin"
+DEF_DISABLE_ON="Darwin" # NOTE: under Darwin pip3 is completely unavailable after build
 DEF_FULL_NAME="Python 3 + Meson build system"
 DEF_SHA="36a90695cda9298a0663e667c12909246c358851"
 DEF_NAME="Python"
 DEF_SUFFIX="36"
 DEF_VERSION="3.6.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 libxml2 readline lzo lz4 zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl"
+DEF_REQUIREMENTS="pkgconf make m4 libxml2 readline lzma xz lzo lz4 zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-fpectl --without-pydebug --with-doc-strings --with-ensurepip=install --without-gcc --enable-loadable-sqlite-extensions"
 DEF_AFTER_INSTALL_METHOD="pip3 install meson"
 DEF_EXPORTS="python3 python3-config python3.6 python3.6-config easy_install3 pip3 meson"
