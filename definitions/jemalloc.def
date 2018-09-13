@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="FreeBSD" # NOTE: built in FreeBSD systems as default allocator
 DEF_FULL_NAME="Jemalloc Library"
 DEF_SHA="711dac85ad245ba1503336ed8752e0483998d8a8"
 DEF_NAME="jemalloc"
