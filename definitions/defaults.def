@@ -15,6 +15,7 @@
         DEF_LANG="en_US.UTF-8"
         DEF_USE_TOOLS=YES
 # unset   DEF_UTILITY_BUNDLE # if set, bundle will be built as Sofin utility
+unset   DEF_CRITICAL # Set any value to mark definition "mission critical" (one that shouldn't be "easy removable")
 unset   DEF_TYPE # Set it to "meta" for meta bundles
 unset   DEF_DISABLE_ON # defines list of unames. For example DEF_DISABLE_ON="Linux Darwin" will disable definition for Linux and OSX hosts.
 unset   DEF_EXPORTS # defines list of binaries to be exported to user env into PATH
