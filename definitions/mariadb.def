@@ -3,6 +3,7 @@ DEF_STANDALONE=YES
 DEF_SHA="8811cbb28fb1a766359798ffc9d086b86e99c431"
 DEF_NAME="mariadb"
 DEF_VERSION="10.1.36"
+DEF_ORIGIN="https://downloads.mariadb.org/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make lz4 gettext libedit libnet lua51 pcre libressl perl yasm libxml2 python27 ninja cmake msgpack kytea libsodium zeromq4 libevent"
 DEF_CONFIGURE_METHOD="cmake"
