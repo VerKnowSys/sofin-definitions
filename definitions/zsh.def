@@ -13,8 +13,11 @@ DEF_TEST_METHOD="make -j${CPUS:-8} check"
 DEF_AFTER_INSTALL_METHOD="link_sh"
 link_sh () {
     debug "Linking $(distd "${PREFIX}/bin/zsh => ${PREFIX}/bin/sh"), $(distd "${PREFIX}/bin/zsh-${DEF_VERSION} => ${PREFIX}/bin/zsh")"
-    try "${RM_BIN} -f ${PREFIX}/bin/sh; ${LN_BIN} -s ${PREFIX}/bin/zsh ${PREFIX}/bin/sh"
-    try "${RM_BIN} -f ${PREFIX}/bin/zsh; ${LN_BIN} -s ${PREFIX}/bin/zsh-${DEF_VERSION} ${PREFIX}/bin/zsh"
+    try " \
+        ${RM_BIN} -f ${PREFIX}/bin/sh ${PREFIX}/bin/zsh; \
+        ${LN_BIN} -s ${PREFIX}/bin/zsh-${DEF_VERSION} ${PREFIX}/bin/zsh \
+        ${LN_BIN} -s ${PREFIX}/bin/zsh ${PREFIX}/bin/sh \
+        "
 }
 
 DEF_AFTER_EXPORT_METHOD="validate_product"
