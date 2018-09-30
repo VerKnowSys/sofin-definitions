@@ -146,7 +146,7 @@ install_and_move () {
 
 install_extensions () {
     # update pecl protocols before installing extensions
-    PATH=${PREFIX}/bin:$PATH ${PREFIX}/bin/pecl channel-update pecl.php.net
+    PATH=${PREFIX}/bin:$PATH "${PREFIX}/bin/pecl" "channel-update" "pecl.php.net"
     for name in $(echo "${DEF_BUNDLED_EXTENSIONS}" | ${TR_BIN} ' ' '\n' 2>/dev/null); do
         install_and_move "${name}" || error "Failed to install PECL extension: ${name}"
     done
