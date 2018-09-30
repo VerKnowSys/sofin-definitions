@@ -1,0 +1,4 @@
+inherit zsh
+
+# Alternative build is not critical:
+unset DEF_CRITICAL
