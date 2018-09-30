@@ -8,10 +8,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://zsh.sourceforge.net/Arc/source.html"
 DEF_CONFIGURE_ARGS="--enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-gdbm --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions"
 DEF_REQUIREMENTS="pkgconf make libtool libedit zlib bzip2 xz lzma lzo lz4 db gdbm pcre"
-DEF_TEST_METHOD="test_zsh"
-test_zsh () {
-    make -j "${CPUS:-8}" check
-}
+DEF_TEST_METHOD="make -j${CPUS:-8} check"
 
 DEF_AFTER_INSTALL_METHOD="link_sh"
 link_sh () {
