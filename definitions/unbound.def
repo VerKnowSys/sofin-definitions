@@ -13,7 +13,7 @@ DEF_EXPORTS="unbound unbound-anchor unbound-checkconf unbound-control unbound-co
 DEF_AFTER_EXPORT_METHOD="validate_product"
 validate_product () {
     _ldd_content="$(ldd "${PREFIX}/sbin/unbound" 2>&1)"
-    _product_version="$("${PREFIX}/sbin/unbound" -v 2>&1)"
+    _product_version="$(${PREFIX}/sbin/unbound --v 2>&1)"
     debug "validate_product($(distd "Unbound")): ${_ldd_content} + ${_product_version}"
     echo "${_product_version}" | ${GREP_BIN} "${DEF_VERSION}" && \
         echo "${_ldd_content}" | ${GREP_BIN} 'libsodium' && \
