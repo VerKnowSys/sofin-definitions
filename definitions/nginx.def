@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Nginx Standalone"
 DEF_STANDALONE=YES
 DEF_NAME="nginx"
-DEF_SHA="6aff77a83fac2e1cb8e0a3fb35f252a2d927d29b"
-DEF_VERSION="1.15.4"
+DEF_SHA="faa1670ecb94523332754288925cb41ff6a12d0c"
+DEF_VERSION="1.15.5"
 DEF_ORIGIN="http://nginx.org/download/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make pkgconf libtool pcre libressl libxml2 libevent geoip nghttp2"
