@@ -5,6 +5,6 @@ DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
 DEF_VERSION="1.33.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-asio-lib --with-boost-libdir=${PREFIX}/lib --with-libxml2=${PREFIX} --with-jemalloc --disable-hpack-tools --disable-debug --disable-python-bindings --disable-examples --disable-failmalloc"
-DEF_REQUIREMENTS="pkgconf make icu yaml libffi libressl libxml2 libevent python27 boost"
+DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27 boost"
 DEF_EXPORTS="nghttp nghttpd nghttpx h2load"
 DEF_NO_LLVM_LINKER=YES
