@@ -6,7 +6,7 @@ DEF_SHA="f10d17431ce2c867f7c99e3f539c6cf458461874"
 DEF_VERSION="5.6.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://zsh.sourceforge.net/Arc/source.html"
-DEF_CONFIGURE_ARGS="--enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-gdbm --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions"
+DEF_CONFIGURE_ARGS="--disable-dynamic --enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-gdbm --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions"
 DEF_REQUIREMENTS="pkgconf make libtool libedit zlib bzip2 xz lzma lzo lz4 db gdbm pcre"
 DEF_TEST_METHOD="make -j${CPUS:-8} check"
 
@@ -31,9 +31,3 @@ DEF_USEFUL="bin/zsh-${DEF_VERSION}"
 DEF_EXPORTS="zsh sh"
 DEF_USE_SAFE_STACK=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
-
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dynamic"
-        ;;
-esac
