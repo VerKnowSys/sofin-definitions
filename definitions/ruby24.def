@@ -1,8 +1,8 @@
-inherit ruby22
+inherit ruby25
 
 DEF_FULL_NAME="Ruby YARV 2.4"
-DEF_SHA="ec82b0d53bd0adad9b19e6b45e44d54e9ec3f10c"
+DEF_SHA="b5be590b37487248da3a85541a62fb81f7f7e29a"
 DEF_NAME="ruby"
-DEF_VERSION="2.4.4"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_VERSION="2.4.5"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
