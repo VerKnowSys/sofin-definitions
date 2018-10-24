@@ -1,9 +1,10 @@
 DEF_FULL_NAME="Memcached"
+DEF_STANDALONE=YES
 DEF_NAME="memcached"
-DEF_SHA="fff9351b360a09497cd805d3e4c1ffbe860d067d"
-DEF_VERSION="1.5.10"
+DEF_SHA="59b800337ae4bb164b85a5779fa5b72d5f9af66c"
+DEF_VERSION="1.5.11"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf libressl libevent"
+DEF_REQUIREMENTS="pkgconf libevent"
 if [ "${SYSTEM_NAME}" != "Minix" ]; then
     _addon="--enable-64bit"
 fi
