@@ -1,19 +1,17 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_STANDALONE=YES
-DEF_FULL_NAME="Syslog-ng - an enhanced log daemon"
+DEF_FULL_NAME="Syslog-ng - an enhanced log daemon v3.9.x"
 DEF_NAME="syslog-ng"
 DEF_SHA="1ca437393d8895654452bef8ac0b996fe73284f8"
 DEF_VERSION="3.9.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-ipv6 --enable-geoip --enable-ssl --enable-json --enable-dynamic-linking --disable-linux-caps --enable-spoof-source --with-libnet=${PREFIX}/bin/libnetcfg --datadir=${PREFIX}/share/syslog-ng/"
-DEF_REQUIREMENTS="pkgconf eventlog make m4 zlib pcre libffi gettext libressl python36 flex perl bison autoconf texinfo automake114 libtool json-c geoip libnet icu glib"
-DEF_MAKE_METHOD="make -s"
-DEF_INSTALL_METHOD="make -s install"
-DEF_USEFUL="syslog*"
-DEF_EXPORTS="syslog-ng syslog-ng-ctl"
-DEF_USELESS="lib/python* lib/libffi* lib/glib* share/aclocal* share/doc lib/*perl* share/bison share/autoconf* share/automake* share/gettext* share/libtool"
+DEF_REQUIREMENTS="pkgconf make eventlog pcre libffi gettext libressl icu db python36 geoip perl libnet glib"
+DEF_CONFIGURE_ARGS="--enable-ipv6 --enable-geoip --enable-ssl --disable-json --enable-dynamic-linking --disable-linux-caps --enable-spoof-source --with-libnet=${PREFIX}/bin/libnetcfg --enable-native --with-pidfile-dir=${SERVICE_DIR} --with-mongoc=no --without-compile-date"
 DEF_AFTER_PATCH_METHOD="patch_libnet_detect"
 patch_libnet_detect () {
     ${SED_BIN} -i '' -e 's:libnet-config:libnet11-config:g' ./configure
 }
-export RANLIB="/usr/bin/true"
+DEF_INSTALL_METHOD="make -s install"
+DEF_EXPORTS="syslog-ng syslog-ng-ctl"
+DEF_USEFUL="bin/*config"
+DEF_USELESS="lib/python* lib/libffi* lib/glib* share/aclocal* share/doc lib/*perl* share/bison share/autoconf* share/automake* share/gettext* lib/*.a include docs"
