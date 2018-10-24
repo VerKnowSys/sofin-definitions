@@ -8,3 +8,4 @@ DEF_CONFIGURE_ARGS="--enable-asio-lib --with-boost-libdir=${PREFIX}/lib --with-l
 DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27 boost"
 DEF_EXPORTS="nghttp nghttpd nghttpx h2load"
 DEF_NO_LLVM_LINKER=YES
+DEF_USEFUL="bin/*"
