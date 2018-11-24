@@ -113,12 +113,15 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 DEF_NO_LLVM_LINKER=YES
                 DEF_LINKER_NO_DTAGS=YES
                 DEF_NO_RETPOLINE=YES
+                DEF_NO_PIE=YES
                 ;;
 
             Minix)
                 DEF_COMPILER_FLAGS="-arch=i686 ${DEF_OPTFLAGS} -I/usr/pkg/include ${DEF_VISIBILITY_FLAGS}"
                 DEF_LINKER_FLAGS="-L/usr/pkg/lib"
                 DEF_NO_RETPOLINE=YES
+                DEF_NO_PIC=YES
+                DEF_NO_PIE=YES
                 ;;
 
             Linux)
