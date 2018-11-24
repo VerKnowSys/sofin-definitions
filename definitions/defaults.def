@@ -46,6 +46,7 @@ unset   DEF_AFTER_PATCH_METHOD
 unset   DEF_AFTER_EXPORT_METHOD
 
 # HardenedBSD hardening features:
+unset   DEF_NO_PIC
 unset   DEF_NO_PIE
 unset   DEF_NO_DISALLOW_MAP32BIT
 unset   DEF_NO_MPROTECT
