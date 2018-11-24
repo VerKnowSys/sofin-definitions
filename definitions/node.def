@@ -1,60 +1,115 @@
+DEF_SHA="3786d04ad6da5bdd4c779e44365537b3983cbf45"
 DEF_NAME="node"
-DEF_VERSION="v8.12.0"
-DEF_SHA="c83add7809c7f36c2afb81d96cde25f1534bbe27"
-DEF_FULL_NAME="Node.js ${DEF_VERSION} LTS"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_VERSION="v10.13.0"
+DEF_FULL_NAME="Node.js Dubnium-${DEF_VERSION%.*}-LTS"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf make gettext c-ares lzo lz4 expat pcre readline perl zip bison libffi openssl python27 nghttp2 icu libuv"
-DEF_CONFIGURE_ARGS="--with-dtrace --tag=VerKnowSys \
---shared-openssl --shared-openssl-libpath=${PREFIX} --openssl-use-def-ca-store \
---shared-cares --shared-cares-libpath=${PREFIX} \
---shared-nghttp2 --shared-nghttp2-libpath=${PREFIX} \
---shared-zlib --shared-zlib-libpath=${PREFIX} \
---shared-libuv --shared-libuv-libpath=${PREFIX} \
---without-etw --without-perfctr --without-snapshot \
---with-intl=system-icu --without-inspector \
-"
-DEF_CONFLICTS_WITH="Node"
+DEF_REQUIREMENTS="pkgconf make jemalloc libedit zip lzo lz4 pcre libffi gettext icu libxml2 c-ares expat python27 libuv boost nghttp2"
+DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
+--without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 DEF_STANDALONE=YES
-DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
 DEF_EXPORTS="node npm npx"
-DEF_USELESS="*.a lib/perl* lib/python* include/python x86_64* etc sbin share/systemtap"
-DEF_STRIP=LIB
+DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
+DEF_USELESS="lib/*.a lib/perl* lib/python* include/python* sbin share/systemtap"
+DEF_CONFLICTS_WITH="Node"
 
-# NOTE: override Sofin compiler setup:
-unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
+DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
+node_patch_configured () {
+    permnote "Replacing: '/usr/local' with: '${PREFIX}', since /usr/local is hardcoded multiple times among Node source files…"
+    ${SED_BIN} -i '' \
+        -e "s#/usr/local#${PREFIX}#g" \
+            "Makefile" \
+            "common.gypi" \
+            "deps/v8/gypfiles/toolchain.gypi" \
+            "deps/v8/gypfiles/v8.gyp" \
+            "deps/http_parser/Makefile" \
+            "tools/install.py" \
+            "deps/npm/lib/config/defaults.js" \
+            "deps/npm/lib/utils/completion.sh"
+}
 
-CFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -I${PREFIX}/include -I/usr/include -fPIC -fPIE"
-CXXFLAGS="${CFLAGS}"
-LDFLAGS="-L${PREFIX}/lib -L/usr/lib"
-
+# Override default compiler setup for mr special a.k.a. as the "Node-the-Unicorn" ;)
 GYP_DEFINES="clang=1"
-CC="cc -w -O2 -fpermissive ${CFLAGS}"
-CXX="c++ -w -O2 -fpermissive ${CFLAGS}"
+BUILD_DEFINES="-DBUNDLED_SSL -DDTRACE"
+CFLAGS="${CFLAGS} ${BUILD_DEFINES}"
+CXXFLAGS="${CXXFLAGS} ${BUILD_DEFINES}"
+CC="cc ${CFLAGS}"
+CXX="c++ ${CXXFLAGS}"
 CPP="cpp"
-LINK="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${LDFLAGS}"
-LD="${LINK}"
+LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 
-DEF_AFTER_CONFIGURE_METHOD="after_config"
-after_config () {
-    ${SED_BIN} "s#/usr/local#${PREFIX}#g" deps/v8/src/v8.gyp
-
-    # yes, I know it's wrong ;) but Node is wrong and nobody cares :P
-    if [ ! -f "${PREFIX}/lib/libstdc++.so" ]; then
-        ${LN_BIN} -s "/usr/lib/libc++.so" "${PREFIX}/lib/libstdc++.so"
-    fi
-}
-DEF_MAKE_METHOD="env CC.host=\"${CC}\" CXX.host=\"${CXX}\" LINK.host=\"${LINK}\" LINK.target=\"${LINK}\" make ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="env CC.host=\"${CC}\" CXX.host=\"${CXX}\" LINK.host=\"${LINK}\" LINK.target=\"${LINK}\" make ${MAKE_OPTS} install"
-
-DEF_AFTER_EXPORT_METHOD="after_exports"
-after_exports () {
-    npm config set registry "http://registry.npmjs.eu/"
-    npm config set cafile="${SERVICE_DIR}/etc/ssl/cert.pem"
-    npm set prefix="${SERVICE_DIR}"
+# Define Node-specific build environment magic:
+DEF_MAKE_METHOD="node_build"
+node_build () {
+    try "env \
+            CC.host=\"${CC}\" \
+            CXX.host=\"${CXX}\" \
+            LINK.host=\"${CXX}\" \
+            LINK.target=\"${CXX}\" \
+                make -s ${MAKE_OPTS}" \
+                    || error "Failed phase: node_build()"
 }
 
+# … and make install needs env magic too:
+DEF_INSTALL_METHOD="node_install"
+node_install () {
+    try "env \
+            CC.host=\"${CC}\" \
+            CXX.host=\"${CXX}\" \
+            LINK.host=\"${CXX}\" \
+            LINK.target=\"${CXX}\" \
+                make install" \
+                    || error "Failed phase: node_install()"
+}
+
+#
+# After exports:
+#
+#   - Node binary modules "prefix" - default for global npm scripts installation via `npm install -g …`,
+#   - NPM "registry" - remote site where NPM should seek for Node modules,
+#   - SSL CA certificate - required by Node for TLS/SSL support for Node-driven software..
+#
+DEF_AFTER_EXPORT_METHOD="node_npm_setup_after_export"
+node_npm_setup_after_export () {
+    _prefix="${SERVICE_DIR}"
+    _registry="https://registry.npmjs.eu/"
+    _ssl_ca_cert="${SERVICE_DIR}/etc/ssl/cert.pem"
+    debug "node_npm_setup_after_export(): $(distn "PREFIX: ${_prefix}"), $(distn "REGISTRY: ${_registry}"), $(distn "SSL_CA_CERT: ${_ssl_ca_cert}")"
+
+    permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "prefix=${_prefix}")"
+    run "npm set prefix=\"${_prefix}\""
+
+    permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "registry=${_registry}")"
+    run "npm config set registry \"${_registry}\""
+
+    permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "cafile=${_ssl_ca_cert}")"
+    run "npm config set cafile=\"${_ssl_ca_cert}\""
+}
+
+
+#
+# HardenedBSD build-time options and system hardening-features are too much for Node (V8) to handle. Details below:
+#
+#   Node specific issues:
+#       - No "Position Independent Executable" feature is enabled on bbuild-time. Build process is crashing on link with "-pie".
+#       - No C++11 standard enabled - recent Node (versions: +10) claim to use C++14, hence C++11 (C++ default) is disabled for Node.
+#       - Don't use ccache - Node can be built with ccache enabled, but it makes installation of native NPM modules _much_ more difficult later on…
+#
+DEF_NO_PIE=YES
+DEF_NO_CXX11=YES
+DEF_NO_CCACHE=YES
+DEF_NO_FAST_MATH=YES
+DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_NO_FORTIFY_SOURCE=YES
+DEF_USE_SAFE_STACK=YES
+
+#
+# Some kernel-harden-features have to be disabled explicitly for 'node' since it's built without -fPIE option.
+# Since ASLR relies on PIE feature enabled on build time, it is is disabled as well.
+# Disabling one of features below will cause V8 to misbehave, be unstable or crash.:
+#
+DEF_NO_ASLR=YES
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
-DEF_NO_ASLR=YES
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
+
