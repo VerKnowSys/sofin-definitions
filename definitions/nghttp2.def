@@ -4,8 +4,9 @@ DEF_SHA="517addfbd22f3739aff3c3c81c6b675a068d37d7"
 DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
 DEF_VERSION="1.34.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--enable-asio-lib --with-boost-libdir=${PREFIX}/lib --with-libxml2=${PREFIX} --with-jemalloc --disable-hpack-tools --disable-debug --disable-python-bindings --disable-examples --disable-failmalloc"
+DEF_CONFIGURE_ARGS="--enable-lib-only --enable-asio-lib \
+--with-jemalloc --with-boost=${PREFIX} --with-boost-libdir=${PREFIX}/lib --with-libxml2=${PREFIX} \
+--disable-app --disable-hpack-tools --disable-debug --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
+--without-mruby --without-neverbleed --without-systemd"
 DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27 boost"
-DEF_EXPORTS="nghttp nghttpd nghttpx h2load"
-DEF_NO_LLVM_LINKER=YES
 DEF_USEFUL="bin/*"
