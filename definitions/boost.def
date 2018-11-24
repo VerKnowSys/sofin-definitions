@@ -15,7 +15,7 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="--with-toolset=clang"
         ;;
 esac
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python-root=${PREFIX} --with-python=${PREFIX} --with-icu=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,mpi"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python-root=${PREFIX} --with-python=${PREFIX} --with-icu=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,mpi,wave,graph,graph_parallel,locale,type_erasure,test"
 DEF_MAKE_METHOD="true"
 DEF_INSTALL_METHOD="cflags='${CFLAGS}' cxxflags='${CXXFLAGS}' ./b2 -j${CPUS} variant=release threading=multi link=shared runtime-link=shared optimization=speed inlining=full pch=off install"
 DEF_USELESS="include/python* lib/python*"
