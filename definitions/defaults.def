@@ -101,8 +101,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
-                DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
-                DEF_LINKER_FLAGS="-fPIC"
+                DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_NO_LTO=YES
                 ;;
 
