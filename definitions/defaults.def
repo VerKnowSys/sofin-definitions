@@ -70,7 +70,7 @@ unset   DEF_NO_RETPOLINE # don't use -mretpoline
 unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
 unset   DEF_NO_LLVM_LINKER
 unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
-unset   DEF_USE_SAFE_STACK
+unset   DEF_USE_SAFE_STACK # HardenedBSD specific feature for now, since it's the only open source system based on LLVM
 unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
 unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
 unset   DEF_NO_SSP_BUFFER_OVERRIDE
