@@ -6,5 +6,7 @@ DEF_ORIGIN="http://site.icu-project.org/download"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-src.tgz"
 DEF_BUILD_DIR_SUFFIX="source"
 DEF_EXPORTS="icu-config icu-info"
+DEF_USEFUL="bin/icu* bin/*conf*"
 DEF_REQUIREMENTS="make"
-DEF_CONFIGURE_ARGS="--enable-release --enable-shared --disable-static --disable-samples --enable-rpath"
+DEF_CONFIGURE_ARGS="--enable-release --enable-shared --enable-icu-config --enable-rpath \
+--disable-static --disable-samples --disable-tests --disable-plugins"
