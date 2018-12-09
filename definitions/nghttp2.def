@@ -1,12 +1,12 @@
 DEF_FULL_NAME="Http2 Library"
 DEF_NAME="nghttp2"
-DEF_SHA="517addfbd22f3739aff3c3c81c6b675a068d37d7"
+DEF_SHA="692995dbbf63e4cd7eab1073373dbd0a5da77c99"
 DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
-DEF_VERSION="1.34.0"
+DEF_VERSION="1.35.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--enable-lib-only --enable-asio-lib \
---with-jemalloc --with-boost=${PREFIX} --with-boost-libdir=${PREFIX}/lib --with-libxml2=${PREFIX} \
---disable-app --disable-hpack-tools --disable-debug --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
---without-mruby --without-neverbleed --without-systemd"
-DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27 boost"
-DEF_USEFUL="bin/*"
+DEF_CONFIGURE_ARGS="--with-jemalloc --with-libxml2=${PREFIX} \
+--without-mruby --without-neverbleed --without-systemd \
+--enable-lib-only --enable-asio-lib \
+--disable-debug --disable-app --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
+"
+DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27"
