@@ -8,7 +8,6 @@ DEF_EXPORTS="openssl"
 DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL"
 DEF_STANDALONE=YES
 
-_curl_cacert_origin="https://curl.haxx.se/ca/cacert.pem"
 DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert"
 fetch_and_install_fresh_ca_cert () {
     mkdir -p "${SERVICE_DIR}/etc/ssl"
@@ -16,11 +15,11 @@ fetch_and_install_fresh_ca_cert () {
     try "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl; ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem" \
         && note "Removed old CA cert: $(distn "${SERVICE_DIR}/etc/ssl/cert.pem")"
 
-    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${_curl_cacert_origin}" \
-        && note "Fetched most recent CA certs from: $(distn "${_curl_cacert_origin}")" \
+    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE}" \
+        && note "Fetched most recent CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE}")" \
         && return 0
 
-    run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${MAIN_SOURCE_REPOSITORY}cacert.pem" \
-        && note "Fetched cached CA certs from: $(distn "${MAIN_SOURCE_REPOSITORY}cacert.pem")" \
+    run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
+        && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
         && return 0
 }

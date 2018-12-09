@@ -16,3 +16,19 @@ after_installation () {
 }
 DEF_USELESS="lib/*python* include/*python* lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
 DEF_USE_SAFE_STACK=YES
+
+DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert"
+fetch_and_install_fresh_ca_cert () {
+    mkdir -p "${SERVICE_DIR}/etc/ssl"
+
+    try "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl; ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem" \
+        && note "Removed old CA cert: $(distn "${SERVICE_DIR}/etc/ssl/cert.pem")"
+
+    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE}" \
+        && note "Fetched most recent CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE}")" \
+        && return 0
+
+    run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
+        && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
+        && return 0
+}
