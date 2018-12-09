@@ -11,6 +11,8 @@ DEF_STANDALONE=YES
 _curl_cacert_origin="https://curl.haxx.se/ca/cacert.pem"
 DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert"
 fetch_and_install_fresh_ca_cert () {
+    mkdir -p "${SERVICE_DIR}/etc/ssl"
+
     try "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl; ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem" \
         && note "Removed old CA cert: $(distn "${SERVICE_DIR}/etc/ssl/cert.pem")"
 
