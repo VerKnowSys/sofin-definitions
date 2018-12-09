@@ -1,20 +1,14 @@
 DEF_NAME="curl"
-DEF_VERSION="7.61.1"
-DEF_SHA="8b56123714b4e061f0f71005c5be598b12f82483"
-DEF_ORIGIN="https://github.com/curl/curl/releases"
+DEF_VERSION="7.62.0"
+DEF_SHA="9d08126a3ae06834e2fdebdac2ef20fe7c4feb12"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://curl.haxx.se/download.html"
+DEF_REQUIREMENTS="pkgconf make jemalloc pcre icu libunistring gettext lzo libffi libxml2 libressl perl libidn2 libevent python27 nghttp2 libssh2"
+DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --without-polarssl --without-mbedtls --without-cyassl --without-nss --without-axtls --disable-ldap --disable-ldaps --disable-debug"
 DEF_EXPORTS="curl curl-config"
-DEF_REQUIREMENTS="pkgconf make libunistring gettext lzo libffi libxml2 libressl perl libidn2 libevent jemalloc nghttp2 libssh2 python27"
-DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --disable-debug --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --without-polarssl --without-mbedtls --without-cyassl --without-nss --without-axtls --disable-ldap --disable-ldaps"
-DEF_INSTALL_METHOD="make -s install"
-DEF_AFTER_INSTALL_METHOD="after_installation"
-DEF_STANDALONE=YES
-after_installation () {
-    run "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl"
-    run "${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem"
-    run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${MAIN_SOURCE_REPOSITORY}cacert.pem"
-}
 DEF_USELESS="lib/*python* include/*python* lib/*perl* include/*perl* share/man share/texinfo share/info share/aclocal"
+DEF_INSTALL_METHOD="make -s install"
+DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
 
 DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert"
