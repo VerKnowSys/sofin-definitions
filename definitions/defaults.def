@@ -83,7 +83,8 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
 unset   DEF_NO_LTO
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
-        DEF_CA_ROOTCERT_ORIGIN="${DEF_CA_ROOTCERT_ORIGIN:-"https://curl.haxx.se/ca/cacert.pem"}" # default source of ROOT-CA
+        DEF_DEFAULT_CA_CERT_SOURCE="https://curl.haxx.se/ca/cacert.pem" # default source of ROOT-CA
+        DEF_DEFAULT_CA_CERT_SOURCE_ALT="${MAIN_SOURCE_REPOSITORY}cacert.pem" # # backup source of ROOT-CA
 
         DEF_DEFAULT_USED_ARCHITECTURE="x86_64" # deduplicated value of mainly used hw architecture
         DEF_WORKSTATION_VERSION_FLAGS="-mmacosx-version-min=${MINIMAL_MAJOR_OS_VERSION}" # default major workstation system version used
