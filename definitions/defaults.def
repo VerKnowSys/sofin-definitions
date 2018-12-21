@@ -116,6 +116,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 DEF_LINKER_NO_DTAGS=YES
                 DEF_NO_RETPOLINE=YES
                 DEF_NO_PIE=YES
+                DEF_USE_LTO=YES
                 ;;
 
             Minix)
