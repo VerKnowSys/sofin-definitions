@@ -15,7 +15,7 @@ DEF_NO_LLVM_LINKER=YES
 
 DEF_MAKE_METHOD="make_riak"
 make_riak () {
-    export _srcpath="$(pwd)"
+    _srcpath="$(pwd)"
     CFLAGS="-I${PREFIX}/include -I${_srcpath}/deps/eleveldb/c_src/leveldb/include -pthread"
     CXXFLAGS="-I${PREFIX}/include -I${_srcpath}/deps/eleveldb/c_src/leveldb/include -pthread"
     LDFLAGS="-L${PREFIX}/lib -L/usr/lib -lpthread"
