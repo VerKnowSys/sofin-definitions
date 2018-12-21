@@ -5,4 +5,3 @@ DEF_NAME="xz"
 DEF_VERSION="5.2.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="lzma lzmadec lzmainfo xzdec xzdiff xzgrep xzless xzmore lzmore unlzma unxz xzcat xzcmp xz"
-DEF_NO_LTO=YES

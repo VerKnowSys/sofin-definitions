@@ -9,5 +9,3 @@ DEF_EXPORTS="gnutls-cli gnutls-serv"
 DEF_USEFUL="bin/gnu*"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
-DEF_NO_LTO=YES
-#

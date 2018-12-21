@@ -82,7 +82,7 @@ unset   DEF_NO_FORTIFY_SOURCE
 unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
-unset   DEF_NO_LTO
+unset   DEF_USE_LTO # Link time optimization feature
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         DEF_DEFAULT_CA_CERT_SOURCE="https://curl.haxx.se/ca/cacert.pem" # default source of ROOT-CA
