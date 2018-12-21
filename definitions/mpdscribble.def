@@ -6,7 +6,7 @@ DEF_ORIGIN="https://www.musicpd.org/clients/mpdscribble/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--with-http-client=curl LIBMPDCLIENT_CFLAGS='-I${PREFIX}/include -I${PREFIX}/include/mpd' LIBMPDCLIENT_LIBS='-L${PREFIX}/lib -lmpdclient'"
 DEF_REQUIREMENTS="make perl texinfo libidn libressl libmpdclient libffi gettext glib curl"
-DEF_NO_CXX11=YES
+DEF_USE_CXX14=YES
 DEF_NO_FAST_MATH=YES
 DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES
