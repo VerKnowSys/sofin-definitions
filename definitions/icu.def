@@ -8,5 +8,5 @@ DEF_BUILD_DIR_SUFFIX="source"
 DEF_EXPORTS="icu-config icu-info"
 DEF_USEFUL="bin/icu* bin/*conf*"
 DEF_REQUIREMENTS="make"
-DEF_CONFIGURE_ARGS="--enable-release --enable-shared --enable-icu-config --enable-rpath \
---disable-static --disable-samples --disable-tests --disable-plugins"
+DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --disable-plugins"
+unset DEF_USE_LTO
