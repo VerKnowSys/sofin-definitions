@@ -7,6 +7,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="libedit"
 DEF_EXPORTS="lua luac"
 DEF_CONFIGURE_METHOD="ignore"
+unset DEF_USE_LTO
 case "${SYSTEM_NAME}" in
     Linux)
         DEF_MAKE_METHOD="make linux"
