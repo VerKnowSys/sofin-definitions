@@ -19,3 +19,4 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
         run "install_name_tool -id ${PREFIX}/lib/libmysqlclient.18.dylib ${PREFIX}/lib/libmysqlclient.18.dylib"
     }
 fi
+unset DEF_USE_LTO

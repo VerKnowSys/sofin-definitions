@@ -14,6 +14,7 @@ DEF_BUNDLED_EXTENSIONS="xdebug imagick geoip"
 DEF_EXPORTS="php php-fpm php-config phpize pecl pear"
 DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB share/man lib/libxslt-plugins lib/libmcrypt lib/cmake share/bison share/autoconf COPYING INSTALL-BINARY README lib/perl5 lib/python2.7 include/python2.7"
 
+unset DEF_USE_LTO
 DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES # causes random crashes and other issues
 DEF_NO_TRAP_INT_OVERFLOW=YES # causes pecl to overflow on any command ;)

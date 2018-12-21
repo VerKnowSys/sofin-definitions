@@ -10,6 +10,7 @@ DEF_USELESS="lib/*python* include/*python* lib/*perl* include/*perl* share/man s
 DEF_INSTALL_METHOD="make -s install"
 DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
 
 DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert"
 fetch_and_install_fresh_ca_cert () {

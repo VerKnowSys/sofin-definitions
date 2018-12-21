@@ -13,6 +13,7 @@ DEF_USELESS="share/bison share/gdb share/libtool doc sql-bench support-files dat
 DEF_USEFUL="bin/my*" # always be prepared for more ;)
 DEF_NO_CCACHE=YES
 # DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
 DEF_CONFLICTS_WITH="Percona Mysql"
 DEF_AFTER_PATCH_METHOD="sed_stuff"
 sed_stuff () {

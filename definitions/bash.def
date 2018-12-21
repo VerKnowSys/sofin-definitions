@@ -9,3 +9,4 @@ DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 DEF_REQUIREMENTS="libedit"
 DEF_CONFIGURE_ARGS="--enable-multibyte --without-bash-malloc --disable-rpath --disable-nls --enable-readline --enable-disabled-builtins --with-libiconv-prefix=/usr"
+unset DEF_USE_LTO

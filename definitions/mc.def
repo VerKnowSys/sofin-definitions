@@ -20,3 +20,4 @@ patch_stuff () {
 }
 DEF_EXPORTS="mc mcdiff mcedit mcview"
 DEF_STANDALONE=YES
+unset DEF_USE_LTO

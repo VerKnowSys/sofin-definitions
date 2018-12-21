@@ -4,3 +4,4 @@ DEF_NAME="libpaper"
 DEF_VERSION="1.1.24+nmu2"
 DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}.tar.gz"
+unset DEF_USE_LTO

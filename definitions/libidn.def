@@ -5,3 +5,4 @@ DEF_VERSION="1.33"
 DEF_REQUIREMENTS="perl texinfo"
 DEF_CONFIGURE_ARGS="--disable-nls --enable-static --enable-shared --disable-valgrind-tests --disable-gtk-doc-html --with-libpth-prefix=${PREFIX}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+unset DEF_USE_LTO

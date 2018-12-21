@@ -6,3 +6,4 @@ DEF_ORIGIN="https://ftp.gnu.org/gnu/libidn/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make lzma xz lzo lz4 libressl gettext libunistring"
 DEF_CONFIGURE_ARGS="--with-libunistring-prefix=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-valgrind-tests --disable-gtk-doc-html --disable-dependency-tracking --disable-silent-rules"
+unset DEF_USE_LTO
