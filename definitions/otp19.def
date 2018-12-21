@@ -24,6 +24,7 @@ DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USEFUL="bin/bison bin/yacc"
 DEF_USELESS="lib/*perl* docs share"
+unset DEF_USE_LTO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_CCACHE=YES
 DEF_USE_SAFE_STACK=YES
