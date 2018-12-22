@@ -11,3 +11,4 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_COMPILER_FLAGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers -framework Carbon"
     DEF_LINKER_FLAGS="-L${PREFIX}/lib -lvorbis -logg -framework Carbon"
 fi
+unset DEF_USE_LTO

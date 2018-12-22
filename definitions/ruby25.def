@@ -10,6 +10,7 @@ DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-pat
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
 
+unset DEF_USE_LTO
 DEF_NO_LLVM_LINKER=YES
 
 case "${SYSTEM_NAME}" in

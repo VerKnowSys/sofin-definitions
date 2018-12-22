@@ -7,3 +7,4 @@ DEF_CONFIGURE_ARGS="--enable-sndfile=${PREFIX} --enable-fftw=${PREFIX} --disable
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_COMPILER_FLAGS="-mmacosx-version-min=10.11 -arch=x86_64"
 fi
+unset DEF_USE_LTO

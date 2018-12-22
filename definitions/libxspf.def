@@ -6,3 +6,4 @@ DEF_VERSION="1.2.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-test --disable-doc"
 DEF_REQUIREMENTS="expat uriparser"
+unset DEF_USE_LTO

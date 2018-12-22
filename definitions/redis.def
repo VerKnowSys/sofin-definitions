@@ -49,3 +49,4 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_TEST_METHOD="false"
 fi
 DEF_STANDALONE=YES
+unset DEF_USE_LTO

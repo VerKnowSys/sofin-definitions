@@ -5,3 +5,4 @@ DEF_NAME="libdca"
 DEF_VERSION="0.0.5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-oss --enable-fixed --enable-double --enable-shared --disable-solaris-audio --disable-win"
+unset DEF_USE_LTO

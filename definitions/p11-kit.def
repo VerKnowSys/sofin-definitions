@@ -5,3 +5,4 @@ DEF_VERSION="0.23.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
 DEF_CONFIGURE_ARGS="--disable-gtk-doc --disable-nls --enable-debug=no --with-trust-paths=${PREFIX}/share/certs/ca-root-nss.crt --disable-static --with-libtasn1=${PREFIX}"
+unset DEF_USE_LTO

@@ -12,3 +12,4 @@ DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-t
 "
 DEF_EXPORTS="gpg-connect-agent gpg-agent gpg-connect-agent gpg-error gpg-error-config gpg gpg2 gpgconf gpgkey2ssh gpgparsemail gpgsm gpgsm-gencert.sh gpgv2 symcryptrun watchgnupg hmac256"
 DEF_USELESS="share/readline share/aclocal"
+unset DEF_USE_LTO

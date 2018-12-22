@@ -8,6 +8,7 @@ DEF_REQUIREMENTS="pkgconf make m4 readline zlib bzip2 lzo lz4 lzma xz zip libtoo
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD=":" # quick way to ignore default build options for custom build process:
 DEF_AFTER_MAKE_METHOD="meson . output && ninja -C output"
+unset DEF_USE_LTO
 
 DEF_INSTALL_METHOD="install_files_manually"
 install_files_manually () {

@@ -12,3 +12,4 @@ fi
 DEF_EXPORTS="nettle-hash nettle-lfib-stream"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
+unset DEF_USE_LTO
