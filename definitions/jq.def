@@ -6,3 +6,4 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make m4 flex bison"
 DEF_CONFIGURE_ARGS="--disable-static --disable-docs --disable-valgrind --with-pic --enable-shared --without-oniguruma"
 DEF_EXPORTS="jq"
+unset DEF_USE_LTO

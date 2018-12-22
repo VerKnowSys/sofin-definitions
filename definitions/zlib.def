@@ -4,3 +4,4 @@ DEF_NAME="zlib"
 DEF_VERSION="1.2.8"
 DEF_CONFIGURE_ARGS="--libdir=${PREFIX}/lib --sharedlibdir=${PREFIX}/lib"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+unset DEF_USE_LTO
