@@ -41,7 +41,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_MAKE_METHOD="make bsd"
+        DEF_MAKE_METHOD="make posix"
         ;;
 esac
 
