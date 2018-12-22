@@ -6,24 +6,35 @@ DEF_SHA="a43c24ea6365482323b78e21752d610756efcc39"
 DEF_VERSION="5.0.3"
 DEF_ORIGIN="http://${DEF_NAME}.io"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make libedit lua51 jemalloc"
+DEF_REQUIREMENTS="pkgconf make libedit jemalloc"
 DEF_CONFIGURE_METHOD="ignore"
+
 DEF_MAKE_METHOD="build_and_install_redis"
 build_and_install_redis () {
-    _cwd="$(pwd)"
-    cd deps/lua/src && ${CP_BIN} fpconv.* lua_* strbuf.* "${_cwd}/src"
+    _cwd="$(pwd 2>/dev/null)"
+    cd deps/lua/src \
+        && try "${CP_BIN} -vf fpconv.* lua_* strbuf.* '${_cwd}/src'"
     cd "${_cwd}"
 
-    mkdir -p "deps/jemalloc/lib"
-    ${CP_BIN} "${PREFIX}/lib/libjemalloc_pic.a" "deps/jemalloc/lib/"
-
-    _adds="-lexecinfo"
-    if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-        unset _adds
-        ${CP_BIN} "${PREFIX}/lib/libjemalloc.a" "deps/jemalloc/lib/"
-    fi
-
-    PREV_FINAL_CFLAGS="${CFLAGS}" make STD= OPT= DEBUG= WARN= V=yo PREFIX="${PREFIX}" CFLAGS="${CFLAGS} -I${PREFIX}/include -I/usr/include -Wl,-E -pthread" LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L/usr/lib -lpthread -lm -lc ${_adds}" MALLOC=jemalloc install
+    note "Installing prebuilt Jemalloc library from PREFIX: ${PREFIX}"
+    try "${MKDIR_BIN} -p 'deps/jemalloc/lib/'"
+    run "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.a' 'deps/jemalloc/lib/'"
+    run "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc_pic.a' 'deps/jemalloc/lib/'"
+    run "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
+    run "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
+    run "\
+        make \
+            STD= \
+            OPT= \
+            DEBUG= \
+            WARN= \
+            V=yo \
+            PREFIX='${PREFIX}' \
+            CFLAGS='${CFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include' \
+            LDFLAGS='${LDFLAGS} -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc' \
+            MALLOC=jemalloc \
+                install \
+    "
 }
 DEF_INSTALL_METHOD="true"
 DEF_NO_CCACHE=YES
