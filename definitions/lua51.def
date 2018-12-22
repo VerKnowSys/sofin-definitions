@@ -4,17 +4,36 @@ DEF_NAME="lua"
 DEF_VERSION="5.1.5"
 DEF_SUFFIX="51"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libedit"
+DEF_REQUIREMENTS="pkgconf make libedit"
 DEF_EXPORTS="lua luac"
 DEF_CONFIGURE_METHOD="ignore"
-unset DEF_USE_LTO
+
+DEF_AFTER_UNPACK_METHOD="patch_makefile"
+patch_makefile () {
+    if [ "${SYSTEM_NAME}" != "Darwin" ]; then
+        _build_flags="-Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -Wl,-fuse-ld=lld -fPIC -fPIE ${LTO_CFLAGS} ${CFLAGS}"
+    fi
+    debug "Lua51 build: LTO_CFLAGS available from Sofin: $(distd "${LTO_CFLAGS}")"
+    ${SED_BIN} -i '' -e "\
+        s|^STD=|STD=${_build_flags}|; \
+        s|Linux|FreeBSD|g; \
+        s|gcc|clang|g; \
+        s|/usr/local|${PREFIX}|g; \
+        " \
+            src/Makefile \
+            Makefile
+
+    ${SED_BIN} -i '' -e \
+        "s#readline/readline.h#editline/readline.h#g" \
+        src/luaconf.h
+
+    unset _build_flags
+}
+
+
 case "${SYSTEM_NAME}" in
     Linux)
         DEF_MAKE_METHOD="make linux"
-        ;;
-
-    FreeBSD)
-        DEF_MAKE_METHOD="make freebsd"
         ;;
 
     Darwin)
@@ -22,25 +41,9 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_MAKE_METHOD="make posix"
+        DEF_MAKE_METHOD="make bsd"
         ;;
 esac
-
-DEF_AFTER_CONFIGURE_METHOD="patch_makefile"
-patch_makefile () {
-    # if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-    #     _addon="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-fuse-ld=gold"
-    # fi
-    ${SED_BIN} -i '' -e "s#readline/readline.h#editline/readline.h#g" src/luaconf.h
-    ${SED_BIN} -i '' -e "s#= /usr/local#= ${PREFIX}#" Makefile
-    ${SED_BIN} -i '' -e "s#CFLAGS= .*\$#CFLAGS= ${CFLAGS} -I${PREFIX}/include -I/usr/include/edit/ \$(MYCFLAGS)#;s#-lreadline#-ledit#g;" src/Makefile
-    ${SED_BIN} -i '' -e "s#LIBS= -lm#LIBS= ${LDFLAGS} -L${PREFIX}/lib -lm#" src/Makefile
-    # unset _addon
-
-    if [ "${SYSTEM_NAME}" != "Linux" ]; then
-        ${SED_BIN} -i '' -e "s/CC= gcc/CC= clang/" src/Makefile
-    fi
-}
 
 # because Lua guys possibly don't know how to do things correctly:
 DEF_AFTER_MAKE_METHOD="create_pc"
