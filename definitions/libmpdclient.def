@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Music Player Daemon Client Library"
 DEF_NAME="libmpdclient"
-DEF_SHA="cca26fe0735d6f36bc7529a14395a5cb69f3ac0b"
-DEF_VERSION="2.15"
+DEF_SHA="fab5c8738e3429d5515953064e65e905053955f4"
+DEF_VERSION="2.16"
 DEF_ORIGIN="https://www.musicpd.org/libs/libmpdclient/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf make m4 readline zlib bzip2 lzo lz4 lzma xz zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl libxml2 python36"
@@ -14,14 +14,14 @@ DEF_INSTALL_METHOD="install_files_manually"
 install_files_manually () {
     debug "Installing libraries"
     _client_lib="libmpdclient.so.${DEF_VERSION}"
-    ${CP_BIN} -f "output/${_client_lib}" "${PREFIX}/lib/${_client_lib}"
+    run "${CP_BIN} -f 'output/${_client_lib}' '${PREFIX}/lib/${_client_lib}'"
     for _file in libmpdclient.so libmpdclient.so.2; do
         ${RM_BIN} -f "${PREFIX}/lib/${_file}"
         ${LN_BIN} -s "${PREFIX}/lib/${_client_lib}" "${PREFIX}/lib/${_file}"
     done
 
     debug "Installing headers"
-    ${MKDIR_BIN} -p "${PREFIX}/include/mpd"
-    ${CP_BIN} -f "output/version.h" "${PREFIX}/include/mpd/version.h"
-    ${CP_BIN} -f include/mpd/*.h "${PREFIX}/include/mpd/"
+    try "${MKDIR_BIN} -p '${PREFIX}/include/mpd'"
+    run "${INSTALL_BIN} 'output/version.h' '${PREFIX}/include/mpd/version.h'"
+    run "${CP_BIN} -f include/mpd/*.h '${PREFIX}/include/mpd/'"
 }
