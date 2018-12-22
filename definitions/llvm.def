@@ -4,21 +4,24 @@ DEF_SHA="f97632fcc3186eb0d396492ef8acfc807648580f"
 DEF_NAME="llvm"
 DEF_VERSION="7.0.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
-DEF_REQUIREMENTS="make libedit lzma lzo lz4 xz re2c libffi libxml2 libressl curl-minimal cmake python36 ninja pcre swig"
+DEF_REQUIREMENTS="make libedit lzma lzo lz4 xz re2c libffi libxml2 libressl curl-minimal cmake python36 ninja pcre swig libunwind"
 DEF_CONFIGURE_ARGS="-DLLVM_ENABLE_CXX1Y=on -DLLVM_INCLUDE_EXAMPLES=off -DLLVM_INCLUDE_TESTS=off -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PIC=on -DLLVM_TARGETS_TO_BUILD=\"X86;ARM\" -DLLVM_INSTALL_UTILS=on -DLLVM_OPTIMIZED_TABLEGEN=on -DLLVM_ENABLE_ASSERTIONS=off -DLLVM_USE_FOLDERS=off -DLLVM_INCLUDE_DOCS=off -DLLVM_INCLUDE_GO_TESTS=off -DLLVM_PARALLEL_LINK_JOBS=${CPUS} -DLLVM_PARALLEL_COMPILE_JOBS=${CPUS} -DLLVM_ENABLE_LIBCXX=on -DLLVM_TOOL_COMPILER_RT_BUILD=on -DLLVM_APPEND_VC_REV=off -DLLVM_TOOL_LIBCXX_BUILD=on -DLLVM_TOOL_LIBCXXABI_BUILD=on -DLLVM_BUILD_LLVM_DYLIB=on -DLLVM_EXTERNAL_CLANG_SOURCE_DIR=${PWD}/tools/clang"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="FileCheck not lli-child-target bugpoint c-index-test clang clang++ clang-cl clang-cpp clang-tblgen clang-check clang-format clang-import-test clang-offload-bundler clang-rename idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-lto llvm-link llvm-mc llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt llvm-symbolizer llvm-split llvm-profdata llvm-PerfectShuffle llvm-pdbdump llvm-mcmarkup llvm-lib llvm-dwp llvm-dsymutil llvm-cxxdump llvm-c-test yaml-bench"
-DEF_USEFUL="bin/llvm* bin/clang*"
+DEF_USEFUL="bin/llvm* bin/clang* bin/*conf"
 DEF_USELESS="lib/perl* include/python* lib/python* share man doc"
 unset DEF_USE_LTO
 
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LTO=on"
-fi
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LTO=on"
+        ;;
+esac
 
 DEF_AFTER_UNPACK_METHOD="unpack_tools"
 unpack_tools () {
     cd tools
+    # NOTE: Clang is in "cfe" archive:
     run "${FETCH_BIN} '${MAIN_SOURCE_REPOSITORY}cfe-${DEF_VERSION}.src.tar.xz'"
     run "${TAR_BIN} xf 'cfe-${DEF_VERSION}.src.tar.xz'"
     run "${MV_BIN} 'cfe-${DEF_VERSION}.src' clang"
