@@ -1,21 +1,19 @@
-DEF_DISABLE_ON="Linux"
-DEF_FULL_NAME="FFMPEG"
-DEF_SHA="52b91db1a0ed86afa743d71737af30c601b07566"
+DEF_FULL_NAME="FFMPEG: Multimedia framework, able to decode, encode, transcode, mux, demux, stream, filter and play pretty much anything that humans and machines have created."
+DEF_SHA="40bb9002df044514723e9cca7f0a049eee88fed8"
 DEF_NAME="ffmpeg"
-DEF_VERSION="3.2.5"
+DEF_VERSION="4.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-FFMPEG_DEFAULT_CONFIGURE_FLAGS="--cc=cc --cxx=c++ --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --enable-openssl --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-sdl --disable-xlib --enable-ftrapv --enable-nonfree --enable-libmp3lame --enable-libopus --enable-libsoxr --enable-libspeex --enable-libtwolame --enable-libvorbis --enable-libwavpack --disable-libtheora --enable-lzma --disable-videotoolbox --enable-lzo --enable-pic --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vda --disable-vdpau --disable-d3d11va --disable-dxva2" #  --enable-libbs2b --disable-stripping
-DEF_REQUIREMENTS="pkgconf ccache make libatomic_ops m4 libtool zlib lzma lzo xz bzip2 nasm expat yasm pcre perl openssl10 python27 autoconf automake icu boost-static libffi gettext glib libmpdclient mpc db sqlite fftw lame libid3tag mpg123 libcue jemalloc curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr"
+_ffmpeg_configure_flags="--cc=cc --cxx=c++ --enable-pic --enable-lzo --enable-lzma --enable-openssl --enable-libwavpack --enable-libtwolame --enable-libsoxr --enable-libmp3lame --enable-ftrapv --enable-nonfree --enable-libopus --enable-libspeex --enable-libvorbis --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-xlib --disable-libtheora --disable-videotoolbox --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vdpau --disable-d3d11va --disable-dxva2 --disable-valgrind-backtrace"
+DEF_REQUIREMENTS="pkgconf make libatomic_ops m4 libtool zlib lzma lzo xz bzip2 nasm expat yasm pcre perl openssl10 python27 autoconf automake icu boost-static libffi gettext glib db sqlite fftw lame libid3tag mpg123 libcue jemalloc curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr python36 libmpdclient mpc"
 case "${SYSTEM_NAME}" in
-    Darwin)
-        # DEF_COMPILER_FLAGS="-mmacosx-version-min=10.11 -arch=x86_64"
-        DEF_CONFIGURE_ARGS="--enable-lto --enable-pic --disable-rpath --disable-iconv"
-        ;;
-
     FreeBSD) # HardenedBSD
-        DEF_CONFIGURE_ARGS="--enable-rpath"
+        DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --disable-static --enable-rpath --extra-ldflags='-L${PREFIX}/lib -pie -fPIC'"
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib ${DEF_OPTFLAGS} -fsanitize=safe-stack"
         DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -fsanitize=safe-stack"
+        ;;
+
+    Darwin)
+        DEF_CONFIGURE_ARGS="--enable-lto --disable-rpath --disable-iconv"
         ;;
 
     *)
@@ -23,8 +21,8 @@ case "${SYSTEM_NAME}" in
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib ${DEF_OPTFLAGS}"
         ;;
 esac
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS}"
-DEF_USEFUL="bin/ff* bin/*-config bin/sndfile-* bin/speex* bin/*lame bin/wavpack bin/mpc bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${_ffmpeg_configure_flags}"
+DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/wavpack bin/mpc bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
-DEF_STRIP=NO
 DEF_STANDALONE=YES
+DEF_USE_SAFE_STACK=YES
