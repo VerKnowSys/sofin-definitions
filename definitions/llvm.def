@@ -10,6 +10,7 @@ DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="FileCheck not lli-child-target bugpoint c-index-test clang clang++ clang-cl clang-cpp clang-tblgen clang-check clang-format clang-import-test clang-offload-bundler clang-rename idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-lto llvm-link llvm-mc llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt llvm-symbolizer llvm-split llvm-profdata llvm-PerfectShuffle llvm-pdbdump llvm-mcmarkup llvm-lib llvm-dwp llvm-dsymutil llvm-cxxdump llvm-c-test yaml-bench"
 DEF_USEFUL="bin/llvm* bin/clang*"
 DEF_USELESS="lib/perl* include/python* lib/python* share man doc"
+unset DEF_USE_LTO
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LTO=on"
