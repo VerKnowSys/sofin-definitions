@@ -10,7 +10,7 @@
 ################################################################################
 
 
-        DEF_COMPLIANCE='^1.[1-6]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
+        DEF_COMPLIANCE='^1.[1-8]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
         DEF_LANG="en_US.UTF-8"
         DEF_USE_TOOLS=YES
