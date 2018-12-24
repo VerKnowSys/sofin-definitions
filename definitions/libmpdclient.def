@@ -4,23 +4,33 @@ DEF_SHA="fab5c8738e3429d5515953064e65e905053955f4"
 DEF_VERSION="2.16"
 DEF_ORIGIN="https://www.musicpd.org/libs/libmpdclient/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 readline zlib bzip2 lzo lz4 lzma xz zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl libxml2 python36"
-DEF_CONFIGURE_METHOD="no-conf"
-DEF_MAKE_METHOD=":" # quick way to ignore default build options for custom build process:
-DEF_AFTER_MAKE_METHOD="meson . output && ninja -C output"
+DEF_REQUIREMENTS="pkgconf m4 readline zlib bzip2 lzo lz4 lzma xz zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl libxml2 python36 ninja"
+DEF_CONFIGURE_METHOD="ignore"
 
-DEF_INSTALL_METHOD="install_files_manually"
-install_files_manually () {
-    debug "Installing libraries"
-    _client_lib="libmpdclient.so.${DEF_VERSION}"
-    run "${CP_BIN} -f 'output/${_client_lib}' '${PREFIX}/lib/${_client_lib}'"
-    for _file in libmpdclient.so libmpdclient.so.2; do
-        ${RM_BIN} -f "${PREFIX}/lib/${_file}"
-        ${LN_BIN} -s "${PREFIX}/lib/${_client_lib}" "${PREFIX}/lib/${_file}"
-    done
+DEF_MAKE_METHOD="make_and_install"
+make_and_install () {
+    debug "${0}: Building and installing"
+    run "meson . output && ninja -C output"
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            _dest_lib="libmpdclient.2.dylib"
+            run "${CP_BIN} -f 'output/${_dest_lib}' '${PREFIX}/lib/${_dest_lib}'"
+            try "${RM_BIN} -f ${PREFIX}/lib/libmpdclient.dylib"
+            run "${LN_BIN} -fs ${PREFIX}/lib/${_dest_lib} ${PREFIX}/lib/libmpdclient.dylib"
+            ;;
 
-    debug "Installing headers"
+        *)
+            _dest_lib="libmpdclient.so.${DEF_VERSION}"
+            run "${CP_BIN} -f 'output/${_dest_lib}' '${PREFIX}/lib/${_dest_lib}'"
+            for _file in libmpdclient.so libmpdclient.so.2; do
+                try "${RM_BIN} -f ${PREFIX}/lib/${_file}"
+                run "${LN_BIN} -s ${PREFIX}/lib/${_dest_lib} ${PREFIX}/lib/${_file}"
+            done
+            ;;
+    esac
+    debug "${0}: Installing headers"
     try "${MKDIR_BIN} -p '${PREFIX}/include/mpd'"
     run "${INSTALL_BIN} 'output/version.h' '${PREFIX}/include/mpd/version.h'"
     run "${CP_BIN} -f include/mpd/*.h '${PREFIX}/include/mpd/'"
 }
+DEF_INSTALL_METHOD=":"
