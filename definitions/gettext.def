@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="GNU Gettext Library"
 DEF_SHA="e0fe90ede22f7f16bbde7bdea791a835f2773fc9"
 DEF_NAME="gettext"
@@ -8,7 +7,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-relocatable --enable-shared --enable-threads=posix --disable-static \
  --with-included-gettext --with-included-glib --with-included-libcroco --with-included-libunistring --without-emacs \
  --disable-debug --disable-java --disable-native-java --disable-csharp --disable-openmp"
-DEF_REQUIREMENTS="pkgconf make zlib"
+DEF_REQUIREMENTS="pkgconf"
 DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh msgcmp msgexec msginit msgcomm msguniq msgen msgconv xgettext msgfilter ngettext gettextize msgcat msgmerge envsubst recode-sr-latin"
 DEF_NO_TRAP_INT_OVERFLOW=YES
 unset DEF_USE_LTO
