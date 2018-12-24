@@ -1,9 +1,10 @@
-DEF_FULL_NAME="TMux - terminal multiplexer"
-DEF_SHA="a12bb094bf0baf0275b6d5cc718c938639712e97"
+DEF_FULL_NAME="TMux - terminal multiplexer - modern screen-utility replacement"
 DEF_STANDALONE=YES
 DEF_NAME="tmux"
-DEF_VERSION="2.7"
+DEF_VERSION="2.8"
+DEF_SHA="6a469769a242c95dc8aec443b436d4f8f279f517"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/tmux/tmux/releases"
 DEF_REQUIREMENTS="pkgconf libressl libevent"
 DEF_CONFIGURE_ARGS="--disable-static"
 DEF_EXPORTS="tmux"
