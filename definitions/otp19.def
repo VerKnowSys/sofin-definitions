@@ -7,18 +7,17 @@ MAJOR="19.3"
 MINOR="6.9"
 DEF_VERSION="${MAJOR}.${MINOR}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make m4 expat lzo db gdbm libunwind libressl perl bison27 libgpg-error libgcrypt autoconf texinfo automake18"
+DEF_REQUIREMENTS="pkgconf jemalloc icu libunistring gettext lzo libffi libxml2 db gdbm libunwind libressl perl bison27 bison libgpg-error libgcrypt" # pcre
 
-DEF_AFTER_UNPACK_METHOD="post_unpack"
-post_unpack () {
-    note "Removing prebuilt files"
-    ./otp_build remove_prebuilt_files
+# DEF_AFTER_UNPACK_METHOD="post_unpack"
+# post_unpack () {
+#     note "Removing prebuilt files"
+#     ./otp_build remove_prebuilt_files
+#     note "Otp autoconf"
+#     ./otp_build autoconf
+# }
 
-    note "Otp autoconf"
-    ./otp_build autoconf
-}
-
-DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX}  --enable-native-libs --without-odbc --without-docs --enable-sctp --enable-kernel-poll"
+DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --enable-native-libs --without-odbc --without-docs --enable-sctp --enable-kernel-poll"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
