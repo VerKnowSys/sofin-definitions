@@ -14,6 +14,7 @@ case "${SYSTEM_NAME}" in
 
     Darwin)
         DEF_CONFIGURE_ARGS="--enable-lto --disable-rpath --disable-iconv"
+        DEF_REQUIREMENTS="lzma ${DEF_REQUIREMENTS}"
         ;;
 
     *)
