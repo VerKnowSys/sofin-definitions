@@ -4,7 +4,7 @@ DEF_NAME="ffmpeg"
 DEF_VERSION="4.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 _ffmpeg_configure_flags="--cc=cc --cxx=c++ --enable-pic --enable-lzo --enable-lzma --enable-openssl --enable-libwavpack --enable-libtwolame --enable-libsoxr --enable-libmp3lame --enable-ftrapv --enable-nonfree --enable-libopus --enable-libspeex --enable-libvorbis --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-xlib --disable-libtheora --disable-videotoolbox --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vdpau --disable-d3d11va --disable-dxva2 --disable-valgrind-backtrace"
-DEF_REQUIREMENTS="pkgconf jemalloc perl autoconf automake libffi libatomic_ops lzo nasm libxml2 yasm pcre openssl icu gettext python27 glib db sqlite fftw lame libid3tag mpg123 libcue curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser expat libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn libmpcdec libmad libshout opus opus-tools faac audiofile soxr python36 libmpdclient mpc" # libssh2 boost boost-static libsamplerate
+DEF_REQUIREMENTS="pkgconf jemalloc perl autoconf automake libffi libatomic_ops lzo nasm libxml2 yasm pcre openssl icu gettext python27 glib db sqlite fftw lame libid3tag mpg123 libcue curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac uriparser expat libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libidn libmpcdec libmad libshout opus opus-tools faac audiofile soxr" # libssh2 boost boost-static libsamplerate
 case "${SYSTEM_NAME}" in
     FreeBSD) # HardenedBSD
         DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --disable-static --enable-rpath --extra-ldflags='-L${PREFIX}/lib -pie -fPIC'"
@@ -22,7 +22,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${_ffmpeg_configure_flags}"
-DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/wavpack bin/mpc bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
+DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/wavpack bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
 DEF_USELESS="docs lib/python2.7 lib/*.a lib/perl5 share/a* share/gdb share/libatom* share/emacs include/boost include/python2.7 bin/python bin/python-config bin/python2* bin/db_* bin/glib-* bin/gettext* bin/msg* bin/*2.7 bin/easy_install bin/pip"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STANDALONE=YES
