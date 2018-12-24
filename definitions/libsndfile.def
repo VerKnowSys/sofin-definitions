@@ -5,10 +5,22 @@ DEF_VERSION="1.0.25"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="libogg libvorbis"
 DEF_CONFIGURE_ARGS="--disable-alsa"
+
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    # issue: configure script can't find "Carbon.h"
-    # solution:
-    DEF_COMPILER_FLAGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers -framework Carbon"
+    # solution for: 'configure script can't find "Carbon.h"' issue:
+    _found_carbon=""
+    for _macos_minor_version in 15 14 13 12 11 10 9 8 7 6; do
+        debug "${0}: Seeking Carbon framework in: $(distd "${_macos_minor_version}")"
+        _carbon_framework="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.${_macos_minor_version}.sdk/System/Library/Frameworks/Carbon.framework"
+        if [ -d "${_carbon_framework}" ]; then
+            _found_carbon="${_carbon_framework}"
+            break
+        fi
+    done
+    if [ -z "${_found_carbon}" ]; then
+        error "$(diste "Carbon") framework NOT found! Please make sure $(diste "Xcode.app") is available in your system!"
+    fi
+    DEF_COMPILER_FLAGS="-I${_carbon_framework}/Versions/A/Headers -framework Carbon"
     DEF_LINKER_FLAGS="-L${PREFIX}/lib -lvorbis -logg -framework Carbon"
 fi
 unset DEF_USE_LTO
