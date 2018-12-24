@@ -1,8 +1,11 @@
-DEF_FULL_NAME="SOX"
-DEF_SHA="dc9668256b9d81ef25d672f14f12ec026b0b4087"
+inherit "ffmpeg"
+
+DEF_FULL_NAME="SOX - Sound eXchange - the Swiss Army knife of sound processing programs."
 DEF_NAME="sox"
 DEF_VERSION="14.4.2"
+DEF_SHA="dc9668256b9d81ef25d672f14f12ec026b0b4087"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-alsa"
-DEF_REQUIREMENTS="pkgconf ccache make expat libatomic_ops m4 zlib lzma lzo xz bzip2 nasm pcre perl python27 autoconf automake libtool libressl icu boost-static libffi gettext glib libmpdclient mpc db sqlite yasm fftw lame libid3tag mpg123 libcue curl-minimal cmake libdca taglib yajl faad neon libogg libvorbis flac libtheora uriparser libxspf speex libao wavpack openal libsndfile twolame libbs2b texinfo libmpcdec libsamplerate libmad libshout opus opus-tools faac audiofile soxr"
 DEF_EXPORTS="a2p c2ph enc2xs ffmpeg ffprobe ffserver flac h2ph h2xs lame libnetcfg metaflac play rec s2p sndfile-cmp sndfile-concat sndfile-convert sndfile-deinterleave sndfile-info sndfile-interleave sndfile-metadata-get sndfile-metadata-set sndfile-play sndfile-regtest sndfile-salvage sox soxi speexdec speexenc splain vsyasm wavpack wvgain wvunpack xmlwf xspf_check xspf_strip xsubpp"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} ffmpeg"
+unset DEF_USE_LTO
