@@ -1,10 +1,10 @@
 DEF_FULL_NAME="Icecast"
 DEF_NAME="icecast"
-DEF_SHA="230e2aa5abf80010c42d41cc7c0b078fb542b080"
-DEF_VERSION="2.4.3"
+DEF_SHA="dc1974235e72dfa5006ab4b8bae0380a2f951a36"
+DEF_VERSION="2.4.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make m4 libtool libxml2 libgpg-error libgcrypt libxslt curl-minimal libogg libvorbis libtheora opus speex"
-DEF_USELESS="share/libtool"
+DEF_ORIGIN="http://icecast.org/"
+DEF_REQUIREMENTS="pkgconf libxml2 libgpg-error libgcrypt libxslt curl-minimal libogg libvorbis libtheora opus speex"
 DEF_EXPORTS="icecast"
 DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
