@@ -4,7 +4,7 @@ DEF_VERSION="v10.14.2"
 DEF_FULL_NAME="Node.js Dubnium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf make jemalloc libedit zip lzo lz4 pcre libffi gettext icu libxml2 libevent c-ares yaml python27 nghttp2 libuv boost"
+DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl autoconf texinfo automake18 libffi icu yaml python27 nghttp2 libuv boost"
 DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
 --without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 DEF_STANDALONE=YES
@@ -41,7 +41,7 @@ LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--en
 # Define Node-specific build environment magic:
 DEF_MAKE_METHOD="node_build"
 node_build () {
-    try "env \
+    run "env \
             CC.host=\"${CC}\" \
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
@@ -53,7 +53,7 @@ node_build () {
 # … and make install needs env magic too:
 DEF_INSTALL_METHOD="node_install"
 node_install () {
-    try "env \
+    run "env \
             CC.host=\"${CC}\" \
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
