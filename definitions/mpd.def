@@ -1,38 +1,35 @@
-DEF_FULL_NAME="Music Player Daemon"
+inherit "ffmpeg"
+
+DEF_FULL_NAME="Music Player Daemon - Server (including: mpc + mpdscribble)"
 DEF_STANDALONE=YES
 DEF_NAME="mpd"
-DEF_SHA="568b99ff87552a9f16a48cc620149b6f88a4fcb0"
-DEF_VERSION="0.20.21"
+DEF_VERSION="0.20.23"
+DEF_SHA="ab9b9b0118e4804716b6d05fa55b3bc1628a1ade"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://www.musicpd.org/download.html"
-DEF_REQUIREMENTS="pkgconf make m4 readline zlib bzip2 lzo lz4 lzma xz zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl10 libxml2 python36 python27 autoconf texinfo automake nasm yasm cmake ninja libmpdclient icu boost lame libatomic_ops libunistring zziplib curl-minimal mpc fftw openal faac libid3tag mpg123 libcue libdca taglib yajl faad neon libogg libvorbis flac opus opus-tools uriparser expat libxspf speex speexdsp libao wavpack twolame libmpcdec libmad libshout soxr sox ffmpeglib glib libssh2 nghttp2 curl mpdscribble"
-DEF_CONFIGURE_ARGS="--with-boost=${PREFIX} --enable-yajl=${PREFIX} --enable-zzip=${PREFIX} --enable-database=${PREFIX} --enable-libmpdclient=${PREFIX} --enable-ffmpeg=${PREFIX} --enable-flac=${PREFIX} --enable-id3=${PREFIX} --enable-icu=${PREFIX} --enable-curl=${PREFIX} --enable-soxr=${PREFIX} --enable-shout=${PREFIX} --enable-vorbis=${PREFIX} --enable-wavpack=${PREFIX} --enable-zlib=/usr --enable-openal=${PREFIX} --enable-opus=${PREFIX} --enable-sqlite=${PREFIX} --enable-mpg123=${PREFIX} --enable-libwrap=/usr --disable-inotify --disable-ipv6 --disable-webdav --disable-lsr --disable-systemd-daemon --with-zeroconf=no --with-pollmethod=auto --disable-pulse --disable-alsa --disable-httpd-output"
+DEF_ORIGIN="https://www.musicpd.org/download/mpd/"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} gdbm python36 boost ffmpeglib libmpdclient mpc curl-minimal mpdscribble zlib"
+DEF_CONFIGURE_ARGS="" # just let the magic happen ;)
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="--enable-osx --enable-eventfd"
+        ;;
+
+    FreeBSD)
+        DEF_LINKER_FLAGS="-L${PREFIX}/lib -lm -ltls -lavutil -lwrap"
+        DEF_COMPILER_FLAGS="-I${PREFIX}/include -arch=x86_64"
+        ;;
+esac
 DEF_EXPORTS="mpd mpc mpdscribble"
-DEF_USELESS="ssl doc* share man sbin include libdata lib/cmake lib/pkgconfig lib/glib-2.0 lib/libffi-3.2.1 lib/python* lib/perl* lib/*.a"
-DEF_AFTER_UNPACK_METHOD="prepare_lazily"
-DEF_AFTER_INSTALL_METHOD="create_mpdconf"
+DEF_USELESS="ssl doc* share man sbin include libdata lib/cmake lib/pkgconfig lib/glib-* lib/libffi-* lib/*python* lib/*perl* lib/*.a"
 DEF_USE_CXX14=YES
 DEF_NO_FAST_MATH=YES
 DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES
 
+DEF_AFTER_INSTALL_METHOD="create_mpdconf"
 create_mpdconf () {
     try "${MKDIR_BIN} -p ${SERVICE_DIR}/logs ${SERVICE_DIR}/data"
     if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
         run "${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example"
     fi
 }
-
-prepare_lazily () {
-    case "${SYSTEM_NAME}" in
-        Darwin)
-            DEF_CONFIGURE_ARGS="--enable-osx --enable-eventfd ${DEF_CONFIGURE_ARGS}"
-            ;;
-
-        FreeBSD)
-            DEF_LINKER_FLAGS="-L${PREFIX}/lib -lm -ltls -lavutil -lwrap"
-            DEF_COMPILER_FLAGS="-I${PREFIX}/include -arch=x86_64"
-            ;;
-    esac
-}
-
