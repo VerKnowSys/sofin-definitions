@@ -2,11 +2,11 @@ DEF_DISABLE_ON="Darwin"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Zabbix monitoring system"
 DEF_NAME="zabbix"
-DEF_SHA="4f95ebe362b8376b1b1d0fb009c40475bc27459b"
-DEF_VERSION="3.4.13"
+DEF_SHA="b5ef06f539df7940fb672a9facafa18453f3e457"
+DEF_VERSION="4.0.3"
 DEF_ORIGIN="https://www.zabbix.com/download_sources"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf libedit make pcre libevent perl openssl libuuid postgresql96 libssh2"
+DEF_REQUIREMENTS="pkgconf libedit pcre libevent perl openssl libuuid postgresql96 libssh2"
 COMMON_ZABBIX_CONF_ARGS="--disable-ipv6 --enable-agent --sysconfdir=${SERVICE_DIR}/etc \
     --with-iconv=/usr --with-iconv-include=/usr/include --with-iconv-lib=/usr/lib \
     --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --with-libevent=${PREFIX} --with-ssh2=${PREFIX}"
@@ -15,3 +15,4 @@ DEF_EXPORTS="zabbix_get zabbix_sender zabbix_agent zabbix_agentd zabbix_proxy za
 DEF_USELESS="include share/texinfo lib/*perl*"
 DEF_USE_SAFE_STACK=YES
 DEF_STANDALONE=YES
+unset DEF_USE_LTO
