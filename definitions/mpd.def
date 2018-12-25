@@ -19,8 +19,9 @@ case "${SYSTEM_NAME}" in
         DEF_COMPILER_FLAGS="-I${PREFIX}/include -arch=x86_64"
         ;;
 esac
+unset DEF_USEFUL
 DEF_EXPORTS="mpd mpc mpdscribble"
-DEF_USELESS="ssl doc* share man sbin include libdata lib/cmake lib/pkgconfig lib/glib-* lib/libffi-* lib/*python* lib/*perl* lib/*.a"
+DEF_USELESS="${DEF_USELESS} ssl doc* share man sbin include libdata lib/cmake lib/pkgconfig lib/glib-* lib/libffi-* lib/*python* lib/*perl* lib/*.a"
 DEF_USE_CXX14=YES
 DEF_NO_FAST_MATH=YES
 DEF_USE_SAFE_STACK=YES
