@@ -1,0 +1,7 @@
+DEF_FULL_NAME="Zip Library"
+DEF_NAME="libzip"
+DEF_VERSION="1.5.1"
+DEF_SHA="4033cccb7544a3eab6d0ee28be94cf45bea60b0b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://libzip.org/download/"
+DEF_CONFIGURE_METHOD="cmake"
