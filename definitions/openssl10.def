@@ -1,10 +1,11 @@
 inherit libressl
 
 DEF_FULL_NAME="OpenSSL Library"
-DEF_SHA="692f5f2f1b114f8adaadaa3e7be8cce1907f38c5"
 DEF_NAME="openssl"
 DEF_VERSION="1.0.2q"
+DEF_SHA="692f5f2f1b114f8adaadaa3e7be8cce1907f38c5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://www.openssl.org/source/"
 DEF_CONFIGURE_METHOD="./config"
 DEF_CONFIGURE_ARGS="shared -L${PREFIX}/lib -I${PREFIX}/include"
 DEF_REQUIREMENTS="perl"
