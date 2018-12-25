@@ -42,8 +42,9 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} jpeg jbig2dec jbigkit nasm libjpeg-turbo tiff libpng wxwidgets"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --enable-java --enable-darwin-64bit --enable-hipe --with-dynamic-trace=dtrace"
+        # DEF_REQUIREMENTS="${DEF_REQUIREMENTS} jpeg jbig2dec jbigkit nasm libjpeg-turbo tiff libpng wxwidgets"
+        # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --enable-java --enable-darwin-64bit --enable-hipe --with-dynamic-trace=dtrace"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-darwin-64bit --enable-hipe --with-dynamic-trace=dtrace"
         ;;
 esac
 
