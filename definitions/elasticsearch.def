@@ -1,18 +1,24 @@
 DEF_DISABLE_ON="Darwin Linux"
-DEF_FULL_NAME="Elastic Search"
+DEF_FULL_NAME="Elasticsearch"
 DEF_STANDALONE=YES
 DEF_NAME="elasticsearch"
-DEF_SHA="5150c33ccd104a9ce8b7040eeb5b68cb9ee32a70"
-DEF_VERSION="2.4.0"
+DEF_VERSION="6.5.4"
+DEF_SHA="f89d5796108b393cff87a0c0325065bc112b01ad"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://www.elastic.co/start"
 DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
-DEF_REQUIREMENTS="openjdk8"
-DEF_USELESS="demo sample samples src.zip THIRD_PARTY_* COPYING"
-DEF_USEFUL="bin/java bin/jar"
-DEF_EXPORTS="elasticsearch elasticsearch.in.sh plugin"
-DEF_AFTER_INSTALL_METHOD="patch_script"
+DEF_REQUIREMENTS="openjdk8 bash"
+DEF_USELESS="bin/*.bat bin/*.exe demo sample samples src.zip THIRD_PARTY_* COPYING include NOTICE.txt ASSEMBLY_EXCEPTION README.textile"
+DEF_USEFUL="bin/java bin/jar bin/bash bin/elasticsearch*"
+DEF_EXPORTS="elasticsearch elasticsearch-certgen elasticsearch-certutil elasticsearch-cli elasticsearch-croneval elasticsearch-env elasticsearch-keystore elasticsearch-migrate elasticsearch-plugin elasticsearch-saml-metadata elasticsearch-setup-passwords elasticsearch-shard elasticsearch-sql-cli elasticsearch-syskeygen elasticsearch-translog elasticsearch-users x-pack-env x-pack-security-env x-pack-watcher-env"
 
+DEF_AFTER_INSTALL_METHOD="patch_script"
 patch_script () {
-    ${SED_BIN} -i '' -e "s#CDPATH=\"\"#export JAVA_HOME=${PREFIX}/jre; CDPATH=\"\"#"  ${PREFIX}/bin/elasticsearch ${PREFIX}/bin/plugin
+    ${SED_BIN} -i '' -e \
+        "s#/bin/bash#${PREFIX}/bin/bash#g; s#\$JAVA#${PREFIX}/bin/java#g" ${PREFIX}/bin/elasticsearch*
 }
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="${PREFIX}/bin/java"
