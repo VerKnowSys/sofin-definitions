@@ -1,8 +1,26 @@
-DEF_FULL_NAME="Logstash"
+DEF_FULL_NAME="Logstash - an open source data collection engine with real-time pipelining capabilities."
+DEF_STANDALONE=YES
 DEF_NAME="logstash"
-DEF_SHA="417185f7724b6ec17a65f02764c3d571f6518768"
-DEF_VERSION="1.1.13"
+DEF_VERSION="6.5.4"
+DEF_SHA="a02963c76bf4e52829c5f81dcbb9128737317bd4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://www.elastic.co/downloads/logstash"
 DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
-DEF_EXPORTS="logstash"
+DEF_REQUIREMENTS="openjdk8 bash"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin ${DEF_NAME}-keystore"
+DEF_USEFUL="bin/bash bin/java* bin/j* bin/logstash*"
+DEF_USELESS="*.dll *.exe *.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README"
+
+DEF_AFTER_INSTALL_METHOD="patch_script"
+patch_script () {
+    ${SED_BIN} -i '' -e \
+        "s#\"\$@\"#\"\$@\" 2>/dev/null#g; s#/bin/bash#${PREFIX}/bin/bash#g; s#/bin/sh#${PREFIX}/bin/bash#g; s#^setup\$#export PATH=\"${PREFIX}/bin:${PATH}\"; export LOGSTASH_HOME=${PREFIX} LS_JAVA_OPTS=\"\${LS_JAVA_OPTS} -Xmx2g\" JAVA_HOME=${PREFIX}; export JAVACMD=${PREFIX}/bin/java; setup#;" \
+                "${PREFIX}/bin/${DEF_NAME}" \
+                "${PREFIX}/bin/${DEF_NAME}-plugin" \
+                "${PREFIX}/bin/${DEF_NAME}-keystore"
+}
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="java javac javap jar"
