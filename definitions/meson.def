@@ -1,0 +1,10 @@
+inherit "python36"
+
+unset DEF_SUFFIX
+DEF_FULL_NAME="Meson build system (Python 3.6)"
+DEF_VERSION="0.49+"
+DEF_NAME="meson"
+DEF_USEFUL="bin/python3*"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
+DEF_EXPORTS="meson"
+DEF_TYPE="meta"
