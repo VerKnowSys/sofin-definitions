@@ -4,12 +4,5 @@ DEF_SHA="fab5c8738e3429d5515953064e65e905053955f4"
 DEF_VERSION="2.16"
 DEF_ORIGIN="https://www.musicpd.org/libs/libmpdclient/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="m4 readline zlib bzip2 lzo lz4 lzma xz zip libtool gdbm sqlite pcre gettext yaml libffi perl openssl libxml2 python36 ninja"
-DEF_CONFIGURE_METHOD="ignore"
-
-DEF_MAKE_METHOD="make_and_install"
-make_and_install () {
-    debug "${0}: Building and installing"
-    run "meson . output --prefix=${PREFIX} && ninja -C output && ninja -C output install"
-}
-DEF_INSTALL_METHOD=":"
+DEF_REQUIREMENTS="readline lzo gdbm sqlite pcre perl openssl libxml2"
+DEF_CONFIGURE_METHOD="meson"
