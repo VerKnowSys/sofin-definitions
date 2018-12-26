@@ -1,9 +1,10 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="Perl"
-DEF_SHA="0622f86160e8969633cbd21a2cca9e11ae1f8c5a"
 DEF_NAME="perl"
-DEF_VERSION="5.28.0"
+DEF_VERSION="5.28.1"
+DEF_SHA="6f1ad40f1a40b5f33814b7afff315e813622590b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://www.cpan.org/src/README.html"
 DEF_REQUIREMENTS="pkgconf make libtool lzo libressl gdbm db gettext"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
