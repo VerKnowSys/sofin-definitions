@@ -10,15 +10,57 @@ DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ 
 DEF_REQUIREMENTS="openjdk8 bash"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin ${DEF_NAME}-keystore"
 DEF_USEFUL="bin/bash bin/java* bin/j* bin/logstash*"
-DEF_USELESS="*.dll *.exe *.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README"
+DEF_USELESS="*.dll *.exe *.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README ASSEMBLY_EXCEPTION"
 
-DEF_AFTER_INSTALL_METHOD="patch_script"
+DEF_AFTER_INSTALL_METHOD="patch_script && move_originals && create_location_agnostic_wrapper && make_writable_service_dirs"
 patch_script () {
     ${SED_BIN} -i '' -e \
         "s#\"\$@\"#\"\$@\" 2>/dev/null#g; s#/bin/bash#${PREFIX}/bin/bash#g; s#/bin/sh#${PREFIX}/bin/bash#g; s#^setup\$#export PATH=\"${PREFIX}/bin:${PATH}\"; export LOGSTASH_HOME=${PREFIX} LS_JAVA_OPTS=\"\${LS_JAVA_OPTS} -Xmx2g\" JAVA_HOME=${PREFIX}; export JAVACMD=${PREFIX}/bin/java; setup#;" \
                 "${PREFIX}/bin/${DEF_NAME}" \
                 "${PREFIX}/bin/${DEF_NAME}-plugin" \
+                "${PREFIX}/bin/${DEF_NAME}-keystore" \
+                    && return 0
+    return 1
+}
+
+move_originals () {
+    ${MV_BIN} "${PREFIX}/bin/${DEF_NAME}" "${PREFIX}/bin/${DEF_NAME}.distribution" \
+        && ${MV_BIN} "${PREFIX}/bin/${DEF_NAME}-plugin" "${PREFIX}/bin/${DEF_NAME}-plugin.distribution" \
+            && ${MV_BIN} "${PREFIX}/bin/${DEF_NAME}-keystore" "${PREFIX}/bin/${DEF_NAME}-keystore.distribution" \
+                && return 0
+    return 1
+}
+
+create_location_agnostic_wrapper () {
+    for _elm in "${PREFIX}/bin/${DEF_NAME}" \
+                "${PREFIX}/bin/${DEF_NAME}-plugin" \
                 "${PREFIX}/bin/${DEF_NAME}-keystore"
+        do
+            printf "%b\n%b\n%b\n\n" \
+                "#!/bin/sh" \
+                "cd ${PREFIX}" \
+                "exec bin/${_elm##*/}.distribution" \
+                    > "${_elm}" 2>/dev/null \
+                        && debug "${0}: Wrapper: $(distd "bin/${_elm##*/}") -> $(distd "bin/${_elm##*/}.distribution") of prefix: $(distd "${PREFIX}")"
+    done \
+        && ${CHMOD_BIN} a+x \
+            "${PREFIX}/bin/${DEF_NAME}" \
+            "${PREFIX}/bin/${DEF_NAME}-plugin" \
+            "${PREFIX}/bin/${DEF_NAME}-keystore" \
+                && return 0
+
+    return 1
+}
+
+make_writable_service_dirs () {
+    ${RM_BIN} -rf "${SERVICE_DIR}/config" "${SERVICE_DIR}/modules"
+    ${MKDIR_BIN} -p "${SERVICE_DIR}/data" \
+        && ${MV_BIN} "${PREFIX}/config" "${SERVICE_DIR}/config" \
+        && ${LN_BIN} -fs "${SERVICE_DIR}/config" "${PREFIX}/config" \
+        && ${MV_BIN} "${PREFIX}/modules" "${SERVICE_DIR}/modules" \
+        && ${LN_BIN} -fs "${SERVICE_DIR}/modules" "${PREFIX}/modules" \
+            && return 0
+    return 1
 }
 
 DEF_NO_MPROTECT=YES
