@@ -1,11 +1,24 @@
 DEF_DISABLE_ON="Darwin Linux"
-DEF_FULL_NAME="OpenJDK 1.8 64bit"
-DEF_SHA="6273d81e329e9d1be540055f9ef71c6a8093bf80"
+DEF_FULL_NAME="OpenJDK 1.8 (headless version 64-bit)"
 DEF_NAME="openjdk8"
-DEF_VERSION="1.8.0_144"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.txz"
+DEF_VERSION="8.0_181-b13"
+DEF_SHA="3885f0ea3601c7d72ff7d89fbd44acf7f7c2c540"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_INSTALL_METHOD="${CP_BIN} -fR ${BUILD_DIR}/$(capitalize ${DEF_NAME})/ ${PREFIX}"
+DEF_AFTER_INSTALL_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
 DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript policytool java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
 DEF_CONFLICTS_WITH="Openjdk"
-DEF_USELESS="demo sample"
+DEF_USELESS="demo sample THIRD_PARTY_README src.zip"
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
+
+#
+# NOTE:
+#
+# This binary definition is prepared like this:
+#
+# $ pkg install openjdk8
+# $ cd /usr/local
+# $ tar cJf openjdk8-8.0_181-b13-portbuild.tar.xz openjdk8
