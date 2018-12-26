@@ -17,6 +17,9 @@ DEF_AFTER_INSTALL_METHOD="patch_script"
 patch_script () {
     ${SED_BIN} -i '' -e \
         "s#/bin/bash#${PREFIX}/bin/bash#g; s#\$JAVA#${PREFIX}/bin/java#g" ${PREFIX}/bin/elasticsearch*
+    # TODO: $ES_PATH_CONF - should be using SERVICE_DIR for jvm.options
+    # TODO: warning: ignoring JAVA_TOOL_OPTIONS=/Software/Elasticsearch/bin/java_TOOL_OPTIONS
+    # TODO: warning: ignoring JAVA_OPTS=/Software/Elasticsearch/bin/java_OPTS; pass JVM parameters via ES_JAVA_OPTS
 }
 
 DEF_NO_MPROTECT=YES
