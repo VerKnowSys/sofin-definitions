@@ -14,3 +14,4 @@ patch_tha_gnu_code () {
 }
 DEF_CONFIGURE_ARGS="--disable-static --enable-curses=ncursesw --enable-dict-dir=${SERVICE_DIR}"
 DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
