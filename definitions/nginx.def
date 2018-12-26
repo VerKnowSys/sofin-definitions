@@ -1,11 +1,11 @@
 DEF_FULL_NAME="Nginx Standalone"
 DEF_STANDALONE=YES
 DEF_NAME="nginx"
-DEF_SHA="48c59c35655b06c6e5ce736a3d5f34b17a2e6551"
-DEF_VERSION="1.15.7"
+DEF_SHA="1816c7e3e96c7c76e1224d88436faf1b29ceb14b"
+DEF_VERSION="1.15.8"
 DEF_ORIGIN="http://nginx.org/download/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make jemalloc pcre icu libffi libressl libxml2 libevent geoip python27 nghttp2"
+DEF_REQUIREMENTS="jemalloc pcre icu libffi libressl libxml2 libevent geoip python27 nghttp2"
 DEF_CONFIGURE_ARGS="--without-poll_module --without-select_module --with-compat --with-pcre --with-threads --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-http_realip_module --with-stream --with-stream_ssl_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_stub_status_module --with-stream_geoip_module --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --modules-path=${PREFIX}/modules"
 
 DEF_AFTER_UNPACK_METHOD="patch_modules_after_unpack"
