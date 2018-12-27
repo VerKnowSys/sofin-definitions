@@ -10,16 +10,47 @@ DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
 DEF_REQUIREMENTS="openjdk8 bash"
 DEF_USELESS="bin/*.bat bin/*.exe demo sample samples src.zip THIRD_PARTY_* COPYING include NOTICE.txt ASSEMBLY_EXCEPTION README.textile"
-DEF_USEFUL="bin/java bin/jar bin/bash bin/elasticsearch*"
+DEF_USEFUL="bin/java bin/jar bin/bash bin/elastic*"
 DEF_EXPORTS="elasticsearch elasticsearch-certgen elasticsearch-certutil elasticsearch-cli elasticsearch-croneval elasticsearch-env elasticsearch-keystore elasticsearch-migrate elasticsearch-plugin elasticsearch-saml-metadata elasticsearch-setup-passwords elasticsearch-shard elasticsearch-sql-cli elasticsearch-syskeygen elasticsearch-translog elasticsearch-users x-pack-env x-pack-security-env x-pack-watcher-env"
 
-DEF_AFTER_INSTALL_METHOD="patch_script"
+DEF_AFTER_INSTALL_METHOD="prepare_and_link_service_dirs && patch_script"
+
+prepare_and_link_service_dirs () {
+    mkdir -p "${PREFIX}/data" 2>/dev/null
+    if [ ! -L "${PREFIX}/data" ]; then
+        debug "${0}: prepare_and_link_service_dirs(): Running initial service dir preparation"
+        ${MV_BIN} "${PREFIX}/data" "${SERVICE_DIR}/data" \
+        && ${MV_BIN} "${PREFIX}/logs" "${SERVICE_DIR}/logs" \
+            && ${LN_BIN} -fs "${SERVICE_DIR}/logs" "${PREFIX}/logs" \
+            && ${LN_BIN} -fs "${SERVICE_DIR}/data" "${PREFIX}/data" \
+                && ${MV_BIN} "${PREFIX}/config" "${SERVICE_DIR}/config" \
+                && ${LN_BIN} -fs "${SERVICE_DIR}/config" "${PREFIX}/config" \
+                    && ${MV_BIN} "${PREFIX}/modules" "${SERVICE_DIR}/modules" \
+                    && ${LN_BIN} -fs "${SERVICE_DIR}/modules" "${PREFIX}/modules" \
+                        && return 0
+    else
+        debug "${0}: Already prepared service dirs." \
+            && return 0
+    fi
+}
+
 patch_script () {
+    # patch sheebang:
+    for _exp_scrpt in $(to_iter "${DEF_EXPORTS}"); do
+        ${SED_BIN} -i '' -e \
+            "s#/bin/bash#${PREFIX}/bin/bash#g;  s#\"\`dirname \"\$0\"\`\"#${PREFIX}/bin#g;" \
+            "${PREFIX}/bin/${_exp_scrpt}"
+    done
+
+    # patch environment file:
     ${SED_BIN} -i '' -e \
-        "s#/bin/bash#${PREFIX}/bin/bash#g; s#\$JAVA#${PREFIX}/bin/java#g" ${PREFIX}/bin/elasticsearch*
-    # TODO: $ES_PATH_CONF - should be using SERVICE_DIR for jvm.options
-    # TODO: warning: ignoring JAVA_TOOL_OPTIONS=/Software/Elasticsearch/bin/java_TOOL_OPTIONS
-    # TODO: warning: ignoring JAVA_OPTS=/Software/Elasticsearch/bin/java_OPTS; pass JVM parameters via ES_JAVA_OPTS
+        "s#ES_HOME=.*\$#JAVA_HOME=${PREFIX}; ES_HOME=${PREFIX}#g;  s#while \[ \".*\$#while false; do#g;" \
+            "${PREFIX}/bin/elasticsearch-env"
+
+    # patch jvm options file:
+    ${SED_BIN} -i '' -e \
+        "s#-Xms1g#-Xms2g#g;  s#-Xmx1g#-Xmx4g#g;" \
+            "${SERVICE_DIR}/config/jvm.options"
 }
 
 DEF_NO_MPROTECT=YES
