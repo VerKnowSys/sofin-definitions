@@ -1,4 +1,5 @@
 DEF_FULL_NAME="WeeChat, the extensible chat client."
+DEF_STANDALONE=YES
 DEF_NAME="weechat"
 DEF_SHA="a4e0e8b82f29d2c81a4186e674983ede6b7c0afd"
 DEF_VERSION="2.3"
