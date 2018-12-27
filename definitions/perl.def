@@ -22,6 +22,17 @@ DEF_CONFIGURE_METHOD="./Configure"
 DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS} -L${PREFIX}/lib' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=y -Ui_malloc -Ui_iconv -Dscriptdir=${SERVICE_DIR}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
 DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
 
+if [ "Darwin" = "${SYSTEM_NAME}" ]; then
+    case "${SYSTEM_VERSION}" in
+        10.14)
+            DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS} -L${PREFIX}/lib' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=n -Ui_malloc -Ui_iconv -Dscriptdir=${SERVICE_DIR}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
+            ;;
+
+        *)
+            ;;
+    esac
+fi
+
 unset DEF_USE_LTO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_FAST_MATH=YES
