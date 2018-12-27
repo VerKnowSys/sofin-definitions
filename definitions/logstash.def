@@ -53,13 +53,13 @@ create_location_agnostic_wrapper () {
 }
 
 make_writable_service_dirs () {
-    ${RM_BIN} -rf "${SERVICE_DIR}/config" "${SERVICE_DIR}/modules"
-    ${MKDIR_BIN} -p "${SERVICE_DIR}/data" \
-        && ${MV_BIN} "${PREFIX}/config" "${SERVICE_DIR}/config" \
-        && ${LN_BIN} -fs "${SERVICE_DIR}/config" "${PREFIX}/config" \
-        && ${MV_BIN} "${PREFIX}/modules" "${SERVICE_DIR}/modules" \
-        && ${LN_BIN} -fs "${SERVICE_DIR}/modules" "${PREFIX}/modules" \
-            && return 0
+    ${MV_BIN} "${PREFIX}/data" "${SERVICE_DIR}/data" \
+        && ${LN_BIN} -fs "${SERVICE_DIR}/data" "${PREFIX}/data" \
+            && ${MV_BIN} "${PREFIX}/config" "${SERVICE_DIR}/config" \
+                && ${LN_BIN} -fs "${SERVICE_DIR}/config" "${PREFIX}/config" \
+                    && ${MV_BIN} "${PREFIX}/modules" "${SERVICE_DIR}/modules" \
+                        && ${LN_BIN} -fs "${SERVICE_DIR}/modules" "${PREFIX}/modules" \
+                            && return 0
     return 1
 }
 
