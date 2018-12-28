@@ -3,7 +3,6 @@ Curl
 Dmidecode
 Elasticsearch
 Elixir
-Gawk
 Geoip
 Geoipupdate
 Jq
@@ -38,6 +37,5 @@ Rust
 Tmux
 Tree
 Unbound
-Weechat
 Zabbix
 Zabbix-agent
