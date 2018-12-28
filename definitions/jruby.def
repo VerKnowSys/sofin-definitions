@@ -1,41 +1,48 @@
 DEF_DISABLE_ON="Darwin Linux"
-DEF_FULL_NAME="JRuby"
+DEF_STANDALONE=YES
+DEF_FULL_NAME="JRuby - Ruby implementation in Java (MRI v2.5.x compliant)"
 DEF_NAME="jruby"
-DEF_SHA="3165b7de8a98a3ec283d0bd892dda474aaca113a"
-DEF_VERSION="9.1.5.0"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-bin-${DEF_VERSION}.tar.gz"
+DEF_VERSION="9.2.5.0"
+DEF_SHA="c78526ce98b1b4273d11989246cb9bf224ce9712"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-dist-${DEF_VERSION}-bin.tar.gz"
+DEF_ORIGIN="https://www.jruby.org/download"
 DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
-DEF_REQUIREMENTS="openjdk8"
-DEF_USEFUL="bin/jdb bin/jhat bin/jinfo bin/jmap bin/jar bin/jps bin/jarsigner bin/jrunscript bin/policytool bin/java bin/jstack bin/registervm bin/classpath bin/javac bin/jstat bin/rmic bin/javadoc bin/jstatd bin/rmid bin/javah bin/keytool bin/rmiregistry bin/javap bin/javavm jcmd"
-DEF_EXPORTS="ast gem jgem irb jirb jruby jrubyc ri rdoc rake ruby bundle"
+DEF_REQUIREMENTS="openjdk8 bash"
+DEF_USEFUL="bin/j* bin/bash"
+DEF_EXPORTS="ast gem jgem irb jirb jruby ruby jrubyc ri rdoc rake bundle"
 DEF_ORIGIN="http://jruby.org/download"
-DEF_CONFLICTS_WITH="Rubinius Ruby Passenger"
+DEF_CONFLICTS_WITH="Ruby"
+DEF_USELESS="lib/*.dll bin/*.exe bin/*.bat demo sample samples src.zip COPYING NOTICE.txt include THIRD_PARTY_README"
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="java javac javap jar"
+
 DEF_AFTER_INSTALL_METHOD="create_jruby_script"
-DEF_USELESS="demo sample samples src.zip THIRD_PARTY_* COPYING"
-
 create_jruby_script () {
-    cd ${PREFIX}/bin
-    ${FETCH_BIN} https://raw.githubusercontent.com/jruby/jruby/master/bin/jruby.sh ${FETCH_OPTS}
-    ${MV_BIN} -f jruby jruby.bash
-    ${MV_BIN} jruby.sh jruby
-    ${CHMOD_BIN} +x jruby
-
-    # two little fixes for fbsd sh:
-    ${SED_BIN} -i '' -e 's/\[\[/[/g;s/\]\]/]/g' jruby
-    ${SED_BIN} -i '' -e '26,39d' jruby
-
-    # set JRE and JRUBY HOME:
-    ${SED_BIN} -i '' -e "s#PRG=\$0#export JAVA_HOME=${PREFIX}/jre; export JRUBY_HOME=${PREFIX} ; PRG=\$0#"  jruby
+    cd "${PREFIX}/bin"
+    ${SED_BIN} -i '' -e "s#cygwin=false#export JAVA_HOME=${PREFIX}; export JRUBY_HOME=${PREFIX} ; cygwin=false#;"  "${PREFIX}/bin/jruby"
+    for _exp_scrpt in $(to_iter "${DEF_EXPORTS}"); do
+        # bash:
+        ${SED_BIN} -i '' -e \
+            "s#/usr/bin/env bash#${PREFIX}/bin/bash#g;" \
+            "${PREFIX}/bin/${_exp_scrpt}"
+        # jruby:
+        ${SED_BIN} -i '' -e \
+            "s#/usr/bin/env jruby#${PREFIX}/bin/jruby#g;" \
+            "${PREFIX}/bin/${_exp_scrpt}"
+    done
 
     # build and install nailgun:
-    cd ${PREFIX}/tool/nailgun
-    ./configure
-    make
+    cd "${PREFIX}/tool/nailgun"
+    try "./configure && make >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
 
     # make some post install magic:
-    ${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm
-    ${LN_BIN} -s ${PREFIX}/bin/jruby ${PREFIX}/bin/ruby
-    test ! -f ${HOME}/.gemrc && printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc
-    gem install bundler
+    try "${LN_BIN} -fs ${PREFIX}/bin/jruby ${PREFIX}/bin/ruby"
+    if [ -f "${HOME}/.gemrc" ]; then
+        printf 'gem: --no-ri --no-rdoc\n' > "${HOME}/.gemrc"
+    fi
+
+    try "gem install bundler >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
 }
