@@ -30,3 +30,4 @@ DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
 DEF_USEFUL="bin/perl*"
 DEF_USELESS="lib/*.a lib/*python* share/examples share/texinfo share/gtk-doc share/aclocal* share/auto* share/gettext* lib/libffi-* lib/pkgconfig include"
 DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
