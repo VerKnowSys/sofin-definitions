@@ -154,12 +154,3 @@ install_extensions () {
     done
     try "install_pear_modules"
 }
-
-
-# NOTE: function currently unused:
-use_openssl11 () {
-    _reqs="$(echo "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/openssl10/openssl/' 2>/dev/null)"
-    debug "use_openssl11(): ${_reqs}"
-    DEF_REQUIREMENTS="${_reqs}"
-    unset _reqs
-}
