@@ -9,17 +9,39 @@ DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
 DEF_REQUIREMENTS="openjdk8 bash"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin ${DEF_NAME}-keystore"
-DEF_USEFUL="bin/bash bin/java* bin/j* bin/logstash*"
-DEF_USELESS="*.dll *.exe *.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README ASSEMBLY_EXCEPTION"
+DEF_USEFUL="bin/bash bin/j* bin/logstash*"
+DEF_USELESS="bin/*.dll bin/*.exe bin/*.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README ASSEMBLY_EXCEPTION"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_USER_INFO="Be sure to install latest OpenJDK 8+ from: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
+        ;;
+esac
 
 DEF_AFTER_INSTALL_METHOD="patch_script && move_originals && create_location_agnostic_wrapper && make_writable_service_dirs"
 patch_script () {
-    ${SED_BIN} -i '' -e \
-        "s#\"\$@\"#\"\$@\" 2>/dev/null#g; s#/bin/bash#${PREFIX}/bin/bash#g; s#/bin/sh#${PREFIX}/bin/bash#g; s#^setup\$#export PATH=\"${PREFIX}/bin:${PATH}\"; export LOGSTASH_HOME=${PREFIX} LS_JAVA_OPTS=\"\${LS_JAVA_OPTS} -Xmx2g\" JAVA_HOME=${PREFIX}; export JAVACMD=${PREFIX}/bin/java; setup#;" \
-                "${PREFIX}/bin/${DEF_NAME}" \
-                "${PREFIX}/bin/${DEF_NAME}-plugin" \
-                "${PREFIX}/bin/${DEF_NAME}-keystore" \
-                    && return 0
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            _jdk18_java_home="$(${FIND_BIN} /Library/Java/JavaVirtualMachines/ -name 'jdk1.8.0_*' -type d -maxdepth 1 -mindepth 1 2>/dev/null | ${HEAD_BIN} -n1 2>/dev/null)/Contents/Home"
+            if [ -z "${_jdk18_java_home}" ]; then
+                error "No JDK 8+ directory found under: $(diste "/Library/Java/JavaVirtualMachines/jdk1.8.0_*")"
+            fi
+            ${SED_BIN} -i '' -e \
+                "s#\"\$@\"#\"\$@\" 2>/dev/null#g;  s#^setup\$#export PATH=\"${PREFIX}/bin:${PATH}\"; export LOGSTASH_HOME=${PREFIX} LS_JAVA_OPTS=\"\${LS_JAVA_OPTS} -Xmx2g\" JAVA_HOME=${_jdk18_java_home}; export JAVACMD=${PREFIX}/bin/java; setup#;" \
+                        "${PREFIX}/bin/${DEF_NAME}" \
+                        "${PREFIX}/bin/${DEF_NAME}-plugin" \
+                        "${PREFIX}/bin/${DEF_NAME}-keystore" \
+                            && return 0
+            ;;
+
+        *)
+            ${SED_BIN} -i '' -e \
+                "s#\"\$@\"#\"\$@\" 2>/dev/null#g; s#/bin/bash#${PREFIX}/bin/bash#g; s#/bin/sh#${PREFIX}/bin/bash#g; s#^setup\$#export PATH=\"${PREFIX}/bin:${PATH}\"; export LOGSTASH_HOME=${PREFIX} LS_JAVA_OPTS=\"\${LS_JAVA_OPTS} -Xmx2g\" JAVA_HOME=${PREFIX}; export JAVACMD=${PREFIX}/bin/java; setup#;" \
+                        "${PREFIX}/bin/${DEF_NAME}" \
+                        "${PREFIX}/bin/${DEF_NAME}-plugin" \
+                        "${PREFIX}/bin/${DEF_NAME}-keystore" \
+                            && return 0
+            ;;
+    esac
     return 1
 }
 
@@ -53,13 +75,16 @@ create_location_agnostic_wrapper () {
 }
 
 make_writable_service_dirs () {
-    ${MV_BIN} "${PREFIX}/data" "${SERVICE_DIR}/data" \
-        && ${LN_BIN} -fs "${SERVICE_DIR}/data" "${PREFIX}/data" \
-            && ${MV_BIN} "${PREFIX}/config" "${SERVICE_DIR}/config" \
-                && ${LN_BIN} -fs "${SERVICE_DIR}/config" "${PREFIX}/config" \
-                    && ${MV_BIN} "${PREFIX}/modules" "${SERVICE_DIR}/modules" \
-                        && ${LN_BIN} -fs "${SERVICE_DIR}/modules" "${PREFIX}/modules" \
-                            && return 0
+    if [ ! -L "${PREFIX}/data" ]; then
+        debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
+        try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
+            && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'" \
+                && try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+                    && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'" \
+                        && try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
+                            && try "${LN_BIN} -fs '${SERVICE_DIR}/modules' '${PREFIX}/modules'" \
+                                && return 0
+    fi
     return 1
 }
 
