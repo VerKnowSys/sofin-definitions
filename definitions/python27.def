@@ -38,7 +38,7 @@ locale_cleanup () {
 }
 DEF_EXPORTS="python python2 python-config python2-config pip easy_install pydoc"
 DEF_USEFUL="bin/python* bin/easy_install* bin/pip* bin/pcre* bin/gdbm* bin/gettext* bin/recode*"
-DEF_USELESS="lib/perl5"
+DEF_USELESS="lib/*perl* lib/*.a include lib/libffi-* lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata"
 DEF_CONFLICTS_WITH="Python2"
 
 unset DEF_USE_LTO
