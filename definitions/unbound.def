@@ -9,6 +9,7 @@ DEF_ORIGIN="http://www.unbound.net/downloads/"
 DEF_REQUIREMENTS="expat libressl libevent libsodium"
 DEF_CONFIGURE_ARGS="--enable-pie --enable-relro-now --enable-shared --enable-dnscrypt --disable-static --with-pthreads --with-libexpat=${PREFIX} --with-ssl=${PREFIX} --with-libevent=${PREFIX} --with-libsodium=${PREFIX} --with-conf-file=${SERVICE_DIR}/service.conf --with-pidfile=${SERVICE_DIR}/service.pid --with-rootkey-file=${SERVICE_DIR}/root.key --with-run-dir=${SERVICE_DIR}"
 DEF_EXPORTS="unbound unbound-anchor unbound-checkconf unbound-control unbound-control-setup"
+DEF_USELESS="lib/pkgconfig lib/*.a bin man include"
 
 DEF_AFTER_EXPORT_METHOD="validate_product"
 validate_product () {
