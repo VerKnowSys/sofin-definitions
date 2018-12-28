@@ -18,7 +18,7 @@ fetch_and_install_fresh_ca_cert () {
         && note "Fetched most recent CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE}")" \
         && return 0
 
-    run "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
+    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
         && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
         && return 0
 }

@@ -13,12 +13,12 @@ DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
 install_geoip () {
     geoip_name="geoip-1.1.1"
     geoip_archive="${geoip_name}.tgz"
-    run "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${geoip_archive}\" ${FETCH_OPTS}" && \
-    run "${TAR_BIN} xf ${geoip_archive}" && \
+    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${geoip_archive}\" ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${geoip_archive}" && \
     cd ${geoip_name} && \
-    run "${PREFIX}/bin/phpize" && \
-    run "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX}" && \
-    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX}" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed PECL extension: ${geoip_name}" && \
     return 0
     return 1
@@ -27,12 +27,12 @@ install_geoip () {
 install_xdebug () {
     arch_name="xdebug-2.6.0"
     archive="${arch_name}.tgz"
-    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
-    run "${TAR_BIN} xf ${archive}" && \
+    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${archive}" && \
     cd "${arch_name}" && \
-    run "${PREFIX}/bin/phpize" && \
-    run "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
-    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed Xdebug pecl module: ${arch_name}" && \
     return 0
     return 1

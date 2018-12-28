@@ -34,6 +34,6 @@ DEF_USELESS="lib/*perl* include/python* lib/python* man share"
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
     try "${TEST_BIN} -f ${HOME}/.gemrc" || \
-        run "printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
-    run "${PREFIX}/bin/gem install bundler"
+        try "printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
+    try "${PREFIX}/bin/gem install bundler"
 }

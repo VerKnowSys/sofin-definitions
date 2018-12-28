@@ -15,7 +15,7 @@ DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
     cd contrib/src/stc/
     note "Building WX contrib stuff!"
-    run "make"
+    try "make"
     note "Installing WX contrib stuff"
-    run "make install"
+    try "make install"
 }

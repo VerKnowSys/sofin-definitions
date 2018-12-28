@@ -9,6 +9,6 @@ DEF_MAKE_METHOD="true"
 DEF_INSTALL_METHOD="install_method"
 install_method () {
     ${MKDIR_BIN} -p "${PREFIX}/bin" "${PREFIX}/lib"
-    run "${CC_NAME} ${CFLAGS} ${LDFLAGS} -o ${PREFIX}/bin/pstree ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/pstree.c"
+    try "${CC_NAME} ${CFLAGS} ${LDFLAGS} -o ${PREFIX}/bin/pstree ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/pstree.c"
 }
 DEF_EXPORTS="pstree"

@@ -8,7 +8,7 @@ DEF_MAKE_METHOD="unset AR && make -s"
 DEF_INSTALL_METHOD="install_jam"
 install_jam () {
     try "${MKDIR_BIN} -p ${PREFIX}/bin"
-    run "${INSTALL_BIN} -v ./jam0 ${PREFIX}/bin/jam"
+    try "${INSTALL_BIN} -v ./jam0 ${PREFIX}/bin/jam"
 }
 DEF_EXPORTS="jam mkjambase"
 DEF_NO_CCACHE=YES

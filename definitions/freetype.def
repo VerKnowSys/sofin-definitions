@@ -11,9 +11,9 @@ DEF_MAKE_METHOD=":"
 DEF_INSTALL_METHOD="setup_and_make" # CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\" make -s install
 setup_and_make () {
     cd builds/unix
-    run "./configure ${DEF_CONFIGURE_ARGS} CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\""
+    try "./configure ${DEF_CONFIGURE_ARGS} CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\""
     cd ../..
-    run "make setup CFG=\"${DEF_CONFIGURE_ARGS}\""
+    try "make setup CFG=\"${DEF_CONFIGURE_ARGS}\""
     make -j "${CPUS}" && \
         make install
 }

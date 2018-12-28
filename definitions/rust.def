@@ -19,7 +19,7 @@ DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
 patch_prefix_and_install () {
     ${SED_BIN} -i '' -e "s|/bin/bash|/bin/sh|; s|/usr/local|${PREFIX}|g" install.sh
     note "Installing Rust v${DEF_VERSION}"
-    run "./install.sh >> ${LOG}-${DEF_NAME}"
+    try "./install.sh >> ${LOG}-${DEF_NAME}"
 }
 
 
@@ -43,7 +43,7 @@ RUSTFLAGS=\"\${RUSTFLAGS:-\"${DEFAULT_RUSTFLAGS}\"}\" \\
 CARGO_BUILD_JOBS=\"\${CARGO_BUILD_JOBS:-\"${CPUS}\"}\" \\
 CARGO_INSTALL_ROOT=\"\${CARGO_INSTALL_ROOT:-\"${SERVICE_DIR}\"}\" \\
 ${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
-    run "${CHMOD_BIN} -v 755 \"${PREFIX}/bin/cargo\""
+    try "${CHMOD_BIN} -v 755 \"${PREFIX}/bin/cargo\""
 }
 
 install_utils () {

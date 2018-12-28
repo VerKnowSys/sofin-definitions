@@ -16,7 +16,7 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
     DEF_COMPILER_FLAGS="-arch=x86_64"
     DEF_AFTER_INSTALL_METHOD="fix_no_rpath"
     fix_no_rpath () {
-        run "install_name_tool -id ${PREFIX}/lib/libmysqlclient.18.dylib ${PREFIX}/lib/libmysqlclient.18.dylib"
+        try "install_name_tool -id ${PREFIX}/lib/libmysqlclient.18.dylib ${PREFIX}/lib/libmysqlclient.18.dylib"
     }
 fi
 unset DEF_USE_LTO

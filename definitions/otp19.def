@@ -56,8 +56,8 @@ DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS} erl erlc beam beam.smp run_erl ct_ru
 
 HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
 install_repl_history () {
-    run "${GIT_BIN} clone ${HISTORY_PLUGIN_SOURCE}"
+    try "${GIT_BIN} clone ${HISTORY_PLUGIN_SOURCE}"
     cd erlang-history
     note "Installing erlang-history plugin"
-    run "PATH=$PATH:${PREFIX}/bin:/bin make install"
+    try "PATH=$PATH:${PREFIX}/bin:/bin make install"
 }

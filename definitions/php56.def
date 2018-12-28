@@ -41,7 +41,7 @@ hack_after_unpack () {
     try "${MV_BIN} -v ext/openssl/config0.m4 ext/openssl/config.m4"
     try "${MV_BIN} -v ext/zlib/config0.m4 ext/zlib/config.m4"
 
-    run "./buildconf --force --prefix=${PREFIX}"
+    try "./buildconf --force --prefix=${PREFIX}"
 }
 
 DEF_AFTER_CONFIGURE_METHOD="hack_phpisms"
@@ -62,11 +62,11 @@ hack_prefix_hardcode_after_install () {
 }
 
 install_memcached () {
-    run "${GIT_BIN} clone https://github.com/php-memcached-dev/php-memcached.git"
+    try "${GIT_BIN} clone https://github.com/php-memcached-dev/php-memcached.git"
     cd php-memcached
-    run "${PREFIX}/bin/phpize"
-    run "./configure --prefix=${PREFIX} --disable-memcached-sasl --with-php-config=${PREFIX}/bin/php-config"
-    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    try "${PREFIX}/bin/phpize"
+    try "./configure --prefix=${PREFIX} --disable-memcached-sasl --with-php-config=${PREFIX}/bin/php-config"
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed PECL extension: ${geoip_name}" && \
     return 0
     return 1
@@ -75,12 +75,12 @@ install_memcached () {
 install_geoip () {
     geoip_name="geoip-1.0.8"
     geoip_archive="${geoip_name}.tgz"
-    run "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${geoip_archive}\" ${FETCH_OPTS}" && \
-    run "${TAR_BIN} xf ${geoip_archive}" && \
+    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${geoip_archive}\" ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${geoip_archive}" && \
     cd ${geoip_name} && \
-    run "${PREFIX}/bin/phpize" && \
-    run "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX}" && \
-    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-geoip=${PREFIX}" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed PECL extension: ${geoip_name}" && \
     return 0
     return 1
@@ -89,12 +89,12 @@ install_geoip () {
 # install_imagick () {
 #     arch_name="imagick-3.4.3"
 #     archive="${arch_name}.tgz"
-#     run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
-#     run "${TAR_BIN} xf ${archive}" && \
+#     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+#     try "${TAR_BIN} xf ${archive}" && \
 #     cd "${arch_name}" && \
-#     run "${PREFIX}/bin/phpize" && \
-#     run "./configure --prefix=${PREFIX} --with-imagick=${PREFIX}" && \
-#     run "PATH=${PREFIX}/bin:$PATH make install" && \
+#     try "${PREFIX}/bin/phpize" && \
+#     try "./configure --prefix=${PREFIX} --with-imagick=${PREFIX}" && \
+#     try "PATH=${PREFIX}/bin:$PATH make install" && \
 #     note "Installed IMagick pecl module" && \
 #     return 0
 #     return 1
@@ -103,12 +103,12 @@ install_geoip () {
 # install_rar () {
 #     arch_name="rar-4.0.0"
 #     archive="${arch_name}.tgz"
-#     run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
-#     run "${TAR_BIN} xf ${archive}" && \
+#     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+#     try "${TAR_BIN} xf ${archive}" && \
 #     cd "${arch_name}" && \
-#     run "${PREFIX}/bin/phpize" && \
-#     run "./configure --prefix=${PREFIX} --enable-rar --with-php-config=${PREFIX}/bin/php-config CFLAGS=\"-I${PREFIX}/include\"" && \
-#     run "CFLAGS=\"-I${PREFIX}/include\" PATH=${PREFIX}/bin:$PATH make install" && \
+#     try "${PREFIX}/bin/phpize" && \
+#     try "./configure --prefix=${PREFIX} --enable-rar --with-php-config=${PREFIX}/bin/php-config CFLAGS=\"-I${PREFIX}/include\"" && \
+#     try "CFLAGS=\"-I${PREFIX}/include\" PATH=${PREFIX}/bin:$PATH make install" && \
 #     note "Installed Rar pecl module: ${arch_name}" && \
 #     return 0
 #     return 1
@@ -126,12 +126,12 @@ install_pear_modules () {
 install_xdebug () {
     arch_name="xdebug-2.5.5"
     archive="${arch_name}.tgz"
-    run "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
-    run "${TAR_BIN} xf ${archive}" && \
+    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${archive}" && \
     cd "${arch_name}" && \
-    run "${PREFIX}/bin/phpize" && \
-    run "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
-    run "PATH=${PREFIX}/bin:$PATH make install" && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed Xdebug pecl module: ${arch_name}" && \
     return 0
     return 1

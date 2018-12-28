@@ -15,8 +15,8 @@ DEF_CONFIGURE_ARGS="--disable-nls --disable-assert --enable-mclib --enable-chars
 DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs include"
 DEF_AFTER_CONFIGURE_METHOD="patch_stuff"
 patch_stuff () {
-    run "${SED_BIN} -i '' -e 's|missing-parameter-type|unused-variable|; s|but-set-variable|variable|' configure"
-    run "${SED_BIN} -i '' -e 's|SUBDIRS = intl|SUBDIRS =|' Makefile.in"
+    try "${SED_BIN} -i '' -e 's|missing-parameter-type|unused-variable|; s|but-set-variable|variable|' configure"
+    try "${SED_BIN} -i '' -e 's|SUBDIRS = intl|SUBDIRS =|' Makefile.in"
 }
 DEF_EXPORTS="mc mcdiff mcedit mcview"
 DEF_STANDALONE=YES

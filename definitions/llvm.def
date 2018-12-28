@@ -22,14 +22,14 @@ DEF_AFTER_UNPACK_METHOD="unpack_tools"
 unpack_tools () {
     cd tools
     # NOTE: Clang is in "cfe" archive:
-    run "${FETCH_BIN} '${MAIN_SOURCE_REPOSITORY}cfe-${DEF_VERSION}.src.tar.xz'"
-    run "${TAR_BIN} xf 'cfe-${DEF_VERSION}.src.tar.xz'"
-    run "${MV_BIN} 'cfe-${DEF_VERSION}.src' clang"
+    try "${FETCH_BIN} '${MAIN_SOURCE_REPOSITORY}cfe-${DEF_VERSION}.src.tar.xz'"
+    try "${TAR_BIN} xf 'cfe-${DEF_VERSION}.src.tar.xz'"
+    try "${MV_BIN} 'cfe-${DEF_VERSION}.src' clang"
     cd ..
 }
 
 # Cmake build can.. skip FileCheck installation, just because
 DEF_AFTER_INSTALL_METHOD="fix_cmake_mess"
 fix_cmake_mess () {
-    run "${INSTALL_BIN} -v bin/FileCheck ${PREFIX}/bin/FileCheck"
+    try "${INSTALL_BIN} -v bin/FileCheck ${PREFIX}/bin/FileCheck"
 }

@@ -17,7 +17,7 @@ after_unpack () {
     cd Thread-Queue-3.12
     try "perl Makefile.PL"
     try "make"
-    run "make install"
+    try "make install"
 }
 DEF_AFTER_CONFIGURE_METHOD="after_configure"
 after_configure () {

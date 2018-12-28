@@ -18,11 +18,11 @@ build_and_install_redis () {
 
     note "Installing prebuilt Jemalloc library from PREFIX: ${PREFIX}"
     try "${MKDIR_BIN} -p 'deps/jemalloc/lib/'"
-    run "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.a' 'deps/jemalloc/lib/'"
-    run "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc_pic.a' 'deps/jemalloc/lib/'"
-    run "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
-    run "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
-    run "\
+    try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.a' 'deps/jemalloc/lib/'"
+    try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc_pic.a' 'deps/jemalloc/lib/'"
+    try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
+    try "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
+    try "\
         make \
             STD= \
             OPT= \

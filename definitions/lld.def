@@ -11,7 +11,7 @@ DEF_USELESS="share doc lib/python* lib/cmake"
 DEF_AFTER_UNPACK_METHOD="prepare_lld"
 prepare_lld () {
     cd tools
-    run "${GIT_BIN} clone -b ${DEF_GIT_CHECKOUT} https://github.com/llvm-mirror/lld"
+    try "${GIT_BIN} clone -b ${DEF_GIT_CHECKOUT} https://github.com/llvm-mirror/lld"
     cd ..
 }
 

@@ -31,6 +31,6 @@ DEF_AFTER_INSTALL_METHOD="create_mpdconf"
 create_mpdconf () {
     try "${MKDIR_BIN} -p ${SERVICE_DIR}/logs ${SERVICE_DIR}/data"
     if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
-        run "${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example"
+        try "${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example"
     fi
 }

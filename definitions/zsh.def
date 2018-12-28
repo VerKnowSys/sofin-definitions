@@ -24,7 +24,7 @@ DEF_AFTER_EXPORT_METHOD="validate_product"
 validate_product () {
     parse_version "${DEF_VERSION}"
     debug "validate_product(version=$(distd "${_major}.${_minor}.${_micro}"))"
-    run "${PREFIX}/bin/zsh --version 2>/dev/null | ${GREP_BIN} -F \"${_major}.${_minor}\" >/dev/null 2>&1"
+    try "${PREFIX}/bin/zsh --version 2>/dev/null | ${GREP_BIN} -F \"${_major}.${_minor}\" >/dev/null 2>&1"
 }
 
 DEF_USEFUL="bin/zsh-${DEF_VERSION}"
