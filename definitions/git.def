@@ -28,5 +28,5 @@ esac
 DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --without-python ${DEF_CONFIGURE_ARGS}"
 DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
 DEF_USEFUL="bin/perl*"
-DEF_USELESS="lib/python2.7 lib/*.a include/python2.7  share/examples share/texinfo share/gtk-doc share/aclocal* share/auto*"
+DEF_USELESS="lib/python2.7 lib/*.a include/python2.7 include share/examples share/texinfo share/gtk-doc share/aclocal* share/auto* share/gettext* lib/libffi* lib/pkgconfig "
 DEF_USE_SAFE_STACK=YES
