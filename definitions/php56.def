@@ -13,7 +13,7 @@ DEF_REQUIREMENTS="pkgconf geoip m4 perl autoconf jemalloc libedit texinfo automa
 DEF_INSTALL_METHOD="make -s install"
 DEF_BUNDLED_EXTENSIONS="xdebug geoip"
 DEF_EXPORTS="php php-fpm php-config pecl pear phpize"
-DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB share/man lib/libxslt-plugins lib/libmcrypt lib/cmake share/bison share/autoconf COPYING INSTALL-BINARY README lib/perl5 lib/python2.7 include lib/*.a lib/*.sh share/aclocal* share/automake* lib/libffi* lib/pkgconfig share/t1lib lib/php/build ssl lib/postgresql/pgxs/src"
+DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB share/man lib/libxslt-plugins lib/libmcrypt lib/cmake share/bison share/autoconf COPYING INSTALL-BINARY README lib/perl5 lib/python2.7 include lib/*.a lib/*.sh share/aclocal* share/automake* lib/libffi-* lib/pkgconfig share/t1lib lib/php/build ssl lib/postgresql/pgxs/src"
 
 unset DEF_USE_LTO
 DEF_USE_SAFE_STACK=YES

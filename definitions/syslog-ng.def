@@ -14,4 +14,4 @@ patch_libnet_detect () {
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="syslog-ng syslog-ng-ctl"
 DEF_USEFUL="bin/*config"
-DEF_USELESS="lib/python* lib/libffi* lib/glib* share/aclocal* share/doc lib/*perl* share/gettext* lib/*.a include docs share/glib*"
+DEF_USELESS="lib/python* lib/libffi-* lib/glib* share/aclocal* share/doc lib/*perl* share/gettext* lib/*.a include docs share/glib*"
