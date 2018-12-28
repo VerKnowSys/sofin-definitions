@@ -1,23 +1,24 @@
 DEF_FULL_NAME="GNU Midnight Commander File Manager"
+DEF_STANDALONE=YES
 DEF_NAME="mc"
-DEF_ORIGIN="http://ftp.midnight-commander.org"
 DEF_VERSION="4.8.21"
 DEF_SHA="f66fec68e6e3e284b6e8f26d96001aa47c23b2d9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make pcre slang lz4 lzo zip libxml2 libffi python27 icu gettext glib perl"
-DEF_CONFIGURE_ARGS="--disable-nls --disable-assert --enable-mclib --enable-charset \
---disable-tests --enable-static=no --enable-threads=posix --with-mmap --with-screen=ncurses \
---disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html --disable-dependency-tracking \
---with-pcre=${PREFIX} --with-search-engine=glib --with-libintl-prefix=${PREFIX} \
---with-slang-includes=${PREFIX}/include --with-slang-libs=${PREFIX}/lib \
---with-subshell --without-internal-edit --with-diff-viewer --without-x \
-"
-DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs include libdata sbin lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh share/gettext*"
+DEF_ORIGIN="http://ftp.midnight-commander.org"
+DEF_REQUIREMENTS="pcre libffi gettext icu python27 glib perl"
+DEF_CONFIGURE_ARGS="--with-pic --with-mmap --with-screen=ncurses --with-search-engine=pcre --with-subshell \
+--with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} --without-internal-edit --without-diff-viewer --without-x \
+--enable-shared --enable-charset --enable-background --enable-mclib --enable-threads \
+--disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html"
+DEF_EXPORTS="mc mcview"
+DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh share/gettext* libdata sbin include bin/msg* bin/glib*"
+
 DEF_AFTER_CONFIGURE_METHOD="patch_stuff"
 patch_stuff () {
-    try "${SED_BIN} -i '' -e 's|missing-parameter-type|unused-variable|; s|but-set-variable|variable|' configure"
-    try "${SED_BIN} -i '' -e 's|SUBDIRS = intl|SUBDIRS =|' Makefile.in"
+    try "${SED_BIN} -i '' -e 's|missing-parameter-type|unused-variable|; s|but-set-variable|variable|' configure" \
+        && try "${SED_BIN} -i '' -e 's|SUBDIRS = intl|SUBDIRS =|' Makefile.in" \
+            && debug "${0}: patch_stuff() successful!" \
+                && return 0
+    return 1
 }
-DEF_EXPORTS="mc mcdiff mcedit mcview"
-DEF_STANDALONE=YES
 unset DEF_USE_LTO
