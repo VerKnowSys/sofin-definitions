@@ -76,6 +76,7 @@ create_location_agnostic_wrapper () {
 
 make_writable_service_dirs () {
     if [ ! -L "${PREFIX}/data" ]; then
+        mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
         debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
         try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
             && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'" \
@@ -83,7 +84,9 @@ make_writable_service_dirs () {
                     && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'" \
                         && try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
                             && try "${LN_BIN} -fs '${SERVICE_DIR}/modules' '${PREFIX}/modules'" \
-                                && return 0
+                                && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+                                    && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
+                                        && return 0
     fi
     return 1
 }
