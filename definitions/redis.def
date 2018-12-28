@@ -6,8 +6,9 @@ DEF_SHA="a43c24ea6365482323b78e21752d610756efcc39"
 DEF_VERSION="5.0.3"
 DEF_ORIGIN="http://${DEF_NAME}.io"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make libedit jemalloc"
+DEF_REQUIREMENTS="jemalloc"
 DEF_CONFIGURE_METHOD="ignore"
+DEF_USELESS="lib/*.a include lib/pkgconfig man share"
 
 DEF_MAKE_METHOD="build_and_install_redis"
 build_and_install_redis () {
