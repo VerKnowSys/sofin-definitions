@@ -1,0 +1,19 @@
+inherit "python36"
+
+unset DEF_SUFFIX
+DEF_FULL_NAME="Asciinema (Python 3.6)"
+DEF_VERSION="2018-12-29-0115-pip"
+DEF_NAME="asciinema"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
+DEF_TYPE="meta"
+DEF_EXPORTS="asciinema"
+DEF_USEFUL="bin/python3*"
+
+DEF_AFTER_INSTALL_METHOD="upgrade_pip && install_asciinema"
+upgrade_pip () {
+    pip3 install --upgrade pip
+}
+
+install_asciinema () {
+    pip3 install asciinema
+}
