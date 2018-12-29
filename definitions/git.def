@@ -5,7 +5,7 @@ DEF_NAME="git"
 DEF_VERSION="2.12.3"
 DEF_STANDALONE=YES
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make libunistring gettext pcre icu expat gmp perl libressl libffi python27 nghttp2 libssh2 curl-minimal"
+DEF_REQUIREMENTS="pkgconf make libunistring gettext pcre icu expat gmp perl libressl libffi python27 nghttp2 libssh2 curl-dynamic"
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_CONFIGURE_ARGS="--with-iconv=/usr --with-zlib=/usr --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"

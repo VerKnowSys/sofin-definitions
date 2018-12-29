@@ -5,7 +5,7 @@ DEF_VERSION="3.6.2"
 DEF_ORIGIN="https://cmake.org/download/"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jsoncpp --no-system-libarchive --no-system-expat"
-DEF_REQUIREMENTS="pkgconf make jemalloc lzma xz expat libressl curl-minimal"
+DEF_REQUIREMENTS="pkgconf make jemalloc lzma xz expat libressl curl-dynamic"
 DEF_EXPORTS="cmake ccmake"
 DEF_STANDALONE=YES
 DEF_NO_FAST_MATH=YES
