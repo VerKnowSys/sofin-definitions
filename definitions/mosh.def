@@ -10,9 +10,9 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
 else
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-client --enable-server --with-utempter"
 fi
-DEF_USEFUL="bin/perl*"
-DEF_STANDALONE=YES
 DEF_EXPORTS="mosh-client mosh-server mosh"
+DEF_USEFUL="bin/perl"
+DEF_USELESS="lib/pkgconfig lib/*.a man docs include"
 
 DEF_AFTER_INSTALL_METHOD="patch_mosh_bin"
 patch_mosh_bin () {
