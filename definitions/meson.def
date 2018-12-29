@@ -8,3 +8,5 @@ DEF_USEFUL="bin/python3*"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
 DEF_EXPORTS="meson"
 DEF_TYPE="meta"
+
+DEF_AFTER_INSTALL_METHOD="pip3 install meson"
