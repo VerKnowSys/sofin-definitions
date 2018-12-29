@@ -9,4 +9,11 @@ DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
 DEF_EXPORTS="meson"
 DEF_TYPE="meta"
 
-DEF_AFTER_INSTALL_METHOD="pip3 install meson"
+DEF_AFTER_INSTALL_METHOD="upgrade_pip && install_asciinema"
+upgrade_pip () {
+    pip3 install --upgrade pip
+}
+
+install_asciinema () {
+    pip3 install meson
+}
