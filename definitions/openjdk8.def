@@ -6,7 +6,7 @@ DEF_SHA="3885f0ea3601c7d72ff7d89fbd44acf7f7c2c540"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
 DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_INSTALL_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
-DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript policytool java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
+DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd" # policytool requires libX11
 DEF_CONFLICTS_WITH="Openjdk"
 DEF_USELESS="demo sample THIRD_PARTY_README src.zip"
 
