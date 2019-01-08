@@ -1,13 +1,13 @@
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.31.0"
-DEF_SHA="69b2df73541a16a568b13cb1eadc5455f655c6f6"
+DEF_VERSION="1.31.1"
+DEF_SHA="8d940ba8781174cb68a7e48d2e7673095cd2c5b4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
-DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt rls rust-gdb rust-lldb rustdoc rg everustc bat cargo-asm cargo-audit fd cargo-clippy clippy-driver cargo-llvm-ir bindgen run-cargo-script cargo-script"
+DEF_EXPORTS="rustc cargo cargo.bin cargo-count cargo-do cargo-check cargo-modules cargo-watch cargo-fmt rustfmt rls rust-gdb rust-lldb rustdoc rg everustc bat cargo-asm cargo-audit fd cargo-clippy clippy-driver cargo-llvm-ir bindgen run-cargo-script cargo-script exa"
 DEF_CONFLICTS_WITH="Rust"
 
 # NOTE: rustdoc has issues on hardened systems, so disabling mprotect for it:
@@ -48,7 +48,7 @@ ${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
 
 install_utils () {
     note "Installing: $(distn "cargo-audit, cargo-asm, cargo-watch, cargo-do, rustfmt, cargo-count, bat, rg and fd-find")"
-    for _add in cargo-audit cargo-asm cargo-watch cargo-do rustfmt cargo-count ripgrep everustc bat rg fd-find bindgen cargo-script; do
+    for _add in cargo-audit cargo-asm cargo-watch cargo-do rustfmt cargo-count ripgrep everustc bat rg exa fd-find bindgen cargo-script; do
         if [ ! -x "${SERVICE_DIR}/bin/${_add}" ]; then
             note "Building utility: $(distn "${_add}")"
             try "PATH=${PREFIX}/bin:/bin:/usr/bin cargo install --force ${_add} >> ${LOG}-${DEF_NAME}"
