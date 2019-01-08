@@ -1,10 +1,10 @@
-DEF_SHA="de5e8a449da4186ae2a766d4f02d2184117f9616"
 DEF_NAME="node"
-DEF_VERSION="v10.14.2"
+DEF_VERSION="v10.15.0"
+DEF_SHA="9f9e972c4d00d83dc1b2daa0aeda414c5473f856"
 DEF_FULL_NAME="Node.js Dubnium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://nodejs.org/download/"
-DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl autoconf texinfo automake18 libffi icu yaml python27 nghttp2 libuv boost"
+DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl autoconf texinfo automake18 libffi icu yaml python27 nghttp2 libuv"
 DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
 --without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 DEF_STANDALONE=YES
