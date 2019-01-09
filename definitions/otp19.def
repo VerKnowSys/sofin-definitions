@@ -7,8 +7,8 @@ MAJOR="19.3"
 MINOR="6.x"
 DEF_VERSION="${MAJOR}.${MINOR}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
-DEF_REQUIREMENTS="jemalloc lzo libxml2 libressl perl bison flex"
-DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --with-ssl-rpath=${PREFIX}/lib --enable-native-libs --without-odbc --without-docs --enable-sctp"
+DEF_REQUIREMENTS="lzo libxml2 libressl perl bison flex"
+DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --without-odbc --without-docs --enable-sctp --enable-hipe"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
@@ -20,17 +20,25 @@ DEF_NO_CCACHE=YES
 DEF_TEST_METHOD="make release_tests"
 case "${SYSTEM_NAME}" in
     FreeBSD)
-        # DEF_USE_SAFE_STACK=YES
         DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} -fPIC -fPIE -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lthr -lpthread"
         DEF_MAKE_METHOD="ERL_TOP=${PWD} make -j${CPUS}"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --enable-hipe --with-dynamic-trace=dtrace --enable-m64-build --enable-kernel-poll"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --with-dynamic-trace=dtrace --enable-m64-build --enable-kernel-poll --enable-native-libs --enable-shared-zlib --enable-dynamic-ssl-lib --with-ssl-rpath=${PREFIX}/lib"
         ;;
 
     Darwin)
-        # DEF_REQUIREMENTS="${DEF_REQUIREMENTS} jpeg jbig2dec jbigkit nasm libjpeg-turbo tiff libpng wxwidgets"
-        # DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --enable-java --enable-darwin-64bit --enable-hipe --with-dynamic-trace=dtrace"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-darwin-64bit --enable-hipe --with-dynamic-trace=dtrace"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} wxwidgets"
+        DEF_MAKE_METHOD="ERL_TOP=${PWD} make -j${CPUS}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --with-dynamic-trace=dtrace --enable-shared-zlib --enable-dynamic-ssl-lib --without-javac --enable-native-libs --enable-darwin-64bit"
+        case "${SYSTEM_VERSION}" in
+            10.11)
+                DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-kernel-poll"
+                ;;
+
+            *)
+                DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-kernel-poll"
+                ;;
+        esac
         ;;
 esac
 
@@ -40,10 +48,10 @@ DEF_NO_PAGEEXEC=YES
 DEF_NO_ASLR=YES
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS} erl erlc beam beam.smp run_erl ct_run"
 
-HISTORY_PLUGIN_SOURCE="https://github.com/VerKnowSys/erlang-history"
 install_repl_history () {
-    try "${GIT_BIN} clone ${HISTORY_PLUGIN_SOURCE}"
+    _history_plugin_source="https://github.com/VerKnowSys/erlang-history"
+    permnote "Installing erlang-history plugin from: $(distn "${_history_plugin_source}")"
+    try "${GIT_BIN} clone --depth 1 ${_history_plugin_source} >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
     cd erlang-history
-    note "Installing erlang-history plugin"
-    try "PATH=$PATH:${PREFIX}/bin:/bin make install"
+    try "PATH=$PATH:${PREFIX}/bin:/bin make install >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
 }
