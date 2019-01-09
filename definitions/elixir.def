@@ -10,7 +10,24 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
 DEF_CONFLICTS_WITH="Otp"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp19"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp21"
 DEF_USELESS="${DEF_USELESS} share lib/*perl*"
+DEF_MAKE_METHOD="export_stuff_and_make"
+export_stuff_and_make () {
+    # Elixir requires UTF in env:
+    export LANG=en_US.UTF-8
+    export LC_CTYPE="en_US.UTF-8"
+    export LC_COLLATE="en_US.UTF-8"
+    export LC_TIME="en_US.UTF-8"
+    export LC_NUMERIC="en_US.UTF-8"
+    export LC_MONETARY="en_US.UTF-8"
+    export LC_MESSAGES="en_US.UTF-8"
+    export ELIXIR_ASSERT_TIMEOUT=2000 \
+        && export OTP_RELEASE=OTP-21.2 \
+            && make compile >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" \
+            && dialyzer -pa lib/elixir/ebin --build_plt --output_plt elixir.plt --apps lib/elixir/ebin/elixir.beam lib/elixir/ebin/Elixir.Kernel.beam \
+                && return 0
+    return 1
+}
 DEF_TEST_METHOD="make test"
 DEF_INSTALL_METHOD="make -s install"
