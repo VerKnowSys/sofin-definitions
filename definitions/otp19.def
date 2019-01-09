@@ -17,7 +17,6 @@ DEF_USELESS="lib/*perl* docs share include lib/*.a lib/libffi* lib/cmake"
 unset DEF_USE_LTO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_CCACHE=YES
-DEF_NO_LLVM_LINKER=YES
 DEF_TEST_METHOD="make release_tests"
 case "${SYSTEM_NAME}" in
     FreeBSD)
