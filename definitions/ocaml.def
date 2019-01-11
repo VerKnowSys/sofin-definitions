@@ -4,7 +4,7 @@ DEF_STANDALONE=YES
 DEF_NAME="ocaml"
 DEF_VERSION="4.07.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make lzo lz4 lzma xz pcre gdbm db perl openssl"
+DEF_REQUIREMENTS="pkgconf make lzo lz4 lzma xz pcre db perl openssl"
 DEF_CONFIGURE_METHOD="posix"
 DEF_CONFIGURE_OPTS="-fPIC -safe-string -with-pthread"
 DEF_MAKE_METHOD="AR=ar make -s world.opt ${MAKE_OPTS}"
