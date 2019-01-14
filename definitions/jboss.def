@@ -1,9 +1,0 @@
-DEF_FULL_NAME="JBoss Application Server"
-DEF_STANDALONE=YES
-DEF_NAME="jboss"
-DEF_SHA="fcec1002dce22d3281cc08d18d0ce72006868b6f"
-DEF_VERSION="7.1.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-as-${DEF_VERSION}.Final.tar.gz"
-DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${CACHE_DIR}cache/${DEF_NAME}-${DEF_VERSION}/${DEF_NAME}-as-${DEF_VERSION}.Final/ ${PREFIX}"
-DEF_AFTER_INSTALL_METHOD="${FIND_BIN} ${PREFIX} -type f -name '*.dll' -o -name '*.exe' -o -name '*.bat' | ${XARGS_BIN} rm"
