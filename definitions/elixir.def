@@ -25,7 +25,7 @@ export_stuff_and_make () {
     export ELIXIR_ASSERT_TIMEOUT=2000 \
         && export OTP_RELEASE=OTP-21.2 \
             && make compile >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" \
-            && dialyzer -pa lib/elixir/ebin --build_plt --output_plt elixir.plt --apps lib/elixir/ebin/elixir.beam lib/elixir/ebin/Elixir.Kernel.beam  >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" \
+            && make build_plt >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" \
                 && return 0
     return 1
 }
