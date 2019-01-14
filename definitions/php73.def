@@ -1,14 +1,15 @@
 inherit php56
 
-DEF_FULL_NAME="PHP 7.2"
-DEF_SHA="11fce3f65b62a2bd6fff180d7f484327c3779a06"
-DEF_VERSION="7.2.14"
-DEF_SUFFIX="72"
+DEF_FULL_NAME="PHP 7.3"
+DEF_SHA="16495262ef9f13b62a615d68ad4ebce22169837d"
+DEF_VERSION="7.3.1"
+DEF_SUFFIX="73"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_BUNDLED_EXTENSIONS="xdebug geoip memcached"
 DEF_NO_MPROTECT=YES # JIT enabled
 DEF_NO_PAGEEXEC=YES # JIT enabled
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
+DEF_REQUIREMENTS="libzip libsodium ${DEF_REQUIREMENTS}"
 
 install_geoip () {
     geoip_name="geoip-1.1.1"
@@ -25,7 +26,7 @@ install_geoip () {
 }
 
 install_xdebug () {
-    arch_name="xdebug-2.6.0"
+    arch_name="xdebug-2.7.0beta1"
     archive="${arch_name}.tgz"
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${archive}" && \
