@@ -29,7 +29,7 @@ esac
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFLICTS_WITH="Jruby Ruby"
-DEF_USELESS="lib/*perl* lib/*python* lib/*.a man share include sbin scripts ssl lib/cmake lib/libffi-* lib/libxslt-plugins lib/pkgconfig lib/*.sh"
+DEF_USELESS="lib/*perl* lib/*python* lib/*.a man share sbin scripts ssl lib/cmake lib/libffi-* lib/libxslt-plugins lib/pkgconfig lib/*.sh"
 
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
