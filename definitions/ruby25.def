@@ -5,7 +5,7 @@ DEF_VERSION="2.5.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFIGURE_METHOD="debugflags= ./configure"
-DEF_REQUIREMENTS="pkgconf libedit jemalloc pcre icu libunistring gdbm db libgpg-error libgcrypt gettext yaml sqlite lzo libffi libxml2 libressl libxslt perl libidn2 libevent openssl python27 nghttp2 libssh2 curl libuuid postgresql96 mysql-lib gmp"
+DEF_REQUIREMENTS="pkgconf libedit jemalloc pcre icu libunistring gdbm db libgpg-error libgcrypt gettext yaml sqlite lzo libffi libxml2 libxslt perl libidn2 libevent openssl python27 nghttp2 libssh2 curl libuuid postgresql10 mysql-lib gmp"
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --disable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
