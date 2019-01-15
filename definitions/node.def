@@ -10,7 +10,7 @@ DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --open
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
-DEF_USELESS="lib/*.a lib/perl* lib/python* include/python* sbin share/systemtap include info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh docs"
+DEF_USELESS="lib/*.a lib/perl* lib/python* sbin share/systemtap include/*python* include/perl* info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
 
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
