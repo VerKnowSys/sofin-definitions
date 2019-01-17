@@ -4,7 +4,7 @@ DEF_SHA="692995dbbf63e4cd7eab1073373dbd0a5da77c99"
 DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
 DEF_VERSION="1.35.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--with-jemalloc --with-libxml2=${PREFIX} \
+DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} \
 --without-mruby --without-neverbleed --without-systemd \
 --enable-lib-only --enable-asio-lib \
 --disable-debug --disable-app --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
