@@ -55,3 +55,4 @@ create_service_dirs () {
 DEF_EXPORTS="nginx"
 DEF_CONFLICTS_WITH="Httpd"
 DEF_USE_SAFE_STACK=YES
+DEF_USE_CFI=YES
