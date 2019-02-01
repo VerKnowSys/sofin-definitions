@@ -106,7 +106,6 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
             FreeBSD)
                 DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_USE_LTO=YES
-                DEF_USE_CFI=YES
                 ;;
 
             Darwin)
@@ -119,7 +118,6 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 DEF_NO_RETPOLINE=YES
                 DEF_NO_PIE=YES
                 DEF_USE_LTO=YES
-                DEF_USE_CFI=YES
                 ;;
 
             Minix)
