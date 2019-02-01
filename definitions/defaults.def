@@ -83,6 +83,7 @@ unset   DEF_USELESS # list of patterns of files to be removed after build proces
 unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
         DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 unset   DEF_USE_LTO # Link time optimization feature
+unset   DEF_USE_CFI # Control Flow Integrity compiler feature
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
         DEF_DEFAULT_CA_CERT_SOURCE="https://curl.haxx.se/ca/cacert.pem" # default source of ROOT-CA
@@ -105,6 +106,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
             FreeBSD)
                 DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} ${DEF_VISIBILITY_FLAGS}"
                 DEF_USE_LTO=YES
+                DEF_USE_CFI=YES
                 ;;
 
             Darwin)
@@ -117,6 +119,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 DEF_NO_RETPOLINE=YES
                 DEF_NO_PIE=YES
                 DEF_USE_LTO=YES
+                DEF_USE_CFI=YES
                 ;;
 
             Minix)
