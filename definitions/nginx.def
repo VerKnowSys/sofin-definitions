@@ -28,7 +28,7 @@ _paths_override_svdos="--build=VerKnowSys \
     --http-client-body-temp-path=${SERVICE_DIR}/body \
     --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi \
 "
-_common_args="--with-cc-opt='${DEFAULT_COMPILER_FLAGS} -fPIE' --with-ld-opt='${LDFLAGS} -R${PREFIX}/lib ${DEFAULT_LDFLAGS} -pie'"
+_common_args="--with-cc-opt='${CFLAGS}' --with-ld-opt='${LDFLAGS}'"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=${USER:-nobody} --group=staff ${_paths_override_svdos}"
