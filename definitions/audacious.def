@@ -1,5 +1,13 @@
-inherit audacious-core
+inherit audacious-plugins
 
-DEF_APPLE_BUNDLE=YES
+# DEF_APPLE_BUNDLE=YES
 DEF_TYPE="meta"
+DEF_NAME="audacious"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} audacious-plugins"
 DEF_EXPORTS="audacious"
+# DEF_AFTER_INSTALL_METHOD="${CP_BIN} -r contrib/macpack/Audacious.app ${PREFIX}/"
+# DEF_AFTER_EXPORT_METHOD="${CP_BIN} -r ${PREFIX}/Audacious.app ${PREFIX}/../"
+
+# @TODO: Apple bundle
+
+DEF_CLEAN_USELESS=NO
