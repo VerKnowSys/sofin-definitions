@@ -40,12 +40,19 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
         done
     }
 
+    DEF_USER_INFO="Make sure that Xcode is configured properly."
+
+    case "${SYSTEM_VERSION}" in
+        10.14)
+            DEF_USER_INFO="${DEF_USER_INFO} On macOS Mojave run:\n  $ xcode-select --install\n  $ open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg"
+            ;;
+
+        *)
+            ;;
+    esac
+
     DEF_AFTER_INSTALL_METHOD="make_symlinks"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath"
 else
     LD="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie"
 fi
-
-# Note: Make sure that Xcode is configured properly on macOS Mojave, run:
-# $ xcode-select --install
-# $ open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
