@@ -45,3 +45,7 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
 else
     LD="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie"
 fi
+
+# Note: Make sure that Xcode is configured properly on macOS Mojave, run:
+# $ xcode-select --install
+# $ open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
