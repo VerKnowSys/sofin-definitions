@@ -1,0 +1,24 @@
+inherit qtbase
+
+DEF_FULL_NAME="${DEF_FULL_NAME} + MacOS Extras"
+DEF_NAME="qtmacextras"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-everywhere-src-${DEF_VERSION}.tar.xz"
+DEF_SHA="4816b5d136f9c519dc40946c5cd159af981617e2"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} qtbase"
+DEF_CONFIGURE_METHOD="no-conf"
+
+if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
+    DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake -spec freebsd-clang ${DEF_NAME}.pro"
+else
+    DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake ${DEF_NAME}.pro"
+fi
+
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    make_symlinks () {
+        for lib in QtMacExtras; do
+            ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
+        done
+    }
+
+    DEF_AFTER_INSTALL_METHOD="make_symlinks"
+fi
