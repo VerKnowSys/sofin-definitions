@@ -6,7 +6,7 @@ DEF_ORIGIN="https://curl.haxx.se/download.html"
 DEF_REQUIREMENTS="jemalloc pcre icu libunistring gettext lzo libffi libxml2 perl openssl libidn2 python27 nghttp2 libssh2"
 DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --without-polarssl --without-mbedtls --without-cyassl --without-nss --without-axtls --disable-ldap --disable-ldaps --disable-debug"
 DEF_EXPORTS="curl curl-config"
-DEF_USELESS="man lib/*python* lib/*perl* include/*python* share/man share/texinfo share/info share/aclocal* share/gettext* lib/*.a lib/cmake lib/libffi-*"
+DEF_USELESS="man lib/*python* lib/*perl* include/*python* share/man share/texinfo share/info share/aclocal* share/gettext* lib/*.a lib/cmake lib/libffi-* include lib/pkgconfig"
 DEF_INSTALL_METHOD="make -s install"
 DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES

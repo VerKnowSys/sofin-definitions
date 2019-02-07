@@ -1,0 +1,4 @@
+inherit "curl"
+
+DEF_USELESS="man lib/*python* lib/*perl* include/*python* share/man share/texinfo share/info share/aclocal* share/gettext* lib/*.a lib/cmake lib/libffi-*"
+unset DEF_EXPORTS DEF_USE_SAFE_STACK
