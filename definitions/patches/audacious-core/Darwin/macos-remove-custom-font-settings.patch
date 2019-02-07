@@ -1,0 +1,17 @@
+diff --git a/src/libaudqt/audqt.cc b/src/libaudqt/audqt.cc
+index a0d2b8fd7..1bcfb9699 100644
+--- a/src/libaudqt/audqt.cc
++++ b/src/libaudqt/audqt.cc
+@@ -76,12 +76,6 @@ EXPORT void init ()
+     margins_local.FourPt = QMargins (sizes.FourPt, sizes.FourPt, sizes.FourPt, sizes.FourPt);
+     margins_local.EightPt = QMargins (sizes.EightPt, sizes.EightPt, sizes.EightPt, sizes.EightPt);
+ 
+-#ifdef Q_OS_MAC  // Mac-specific font tweaks
+-    QApplication::setFont (QApplication::font ("QSmallFont"), "QDialog");
+-    QApplication::setFont (QApplication::font ("QSmallFont"), "QTreeView");
+-    QApplication::setFont (QApplication::font ("QTipLabel"), "QStatusBar");
+-#endif
+-
+     log_init ();
+ }
+ 
