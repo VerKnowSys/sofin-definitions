@@ -10,15 +10,19 @@ DEF_CLEAN_USELESS=NO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install; true"
-DEF_AFTER_UNPACK_METHOD="after_unpack"
-after_unpack () {
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/Thread-Queue-3.12.tar.gz ${FETCH_OPTS}"
-    try "${TAR_BIN} xf Thread-Queue-3.12.tar.gz"
-    cd Thread-Queue-3.12
-    try "perl Makefile.PL"
-    try "make"
-    try "make install"
-}
+
+if [ "${SYSTEM_NAME}" != "Darwin" ]; then
+  DEF_AFTER_UNPACK_METHOD="after_unpack"
+  after_unpack () {
+      try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/Thread-Queue-3.12.tar.gz ${FETCH_OPTS}"
+      try "${TAR_BIN} xf Thread-Queue-3.12.tar.gz"
+      cd Thread-Queue-3.12
+      try "perl Makefile.PL"
+      try "make"
+      try "make install"
+  }
+fi
+
 DEF_AFTER_CONFIGURE_METHOD="after_configure"
 after_configure () {
     ${SED_BIN} -i '' -e 's#$(PERL) $(srcdir)/doc/help2man --output=$@#true#g' Makefile

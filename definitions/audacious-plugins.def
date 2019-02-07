@@ -1,10 +1,64 @@
-DEF_DISABLE_ON="Linux FreeBSD"
+inherit audacious-core
+
 DEF_FULL_NAME="Audacious Plugins"
 DEF_NAME="audacious-plugins"
-DEF_VERSION="3.7-devel"
-DEF_GIT_CHECKOUT="master"
 DEF_SOURCE_PATH="git@github.com:audacious-media-player/audacious-plugins.git"
-DEF_REQUIREMENTS="m4 make perl autoconf automake expat zlib bzip2 cmake pcre pkgconf libffi gettext python27 libtool glib flac mpg123 yasm ffmpeg libogg libvorbis curl faad neon libxml2 soxr libsndfile libbs2b libcue qtbase55 qtmacextras55 audacious-core audacious-plugins"
-DEF_CONFIGURE_METHOD="./autogen.sh ; ./configure PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig:/usr/local/lib/pkgconfig"
-DEF_CONFIGURE_ARGS="--enable-qt --enable-qtui --disable-gtk --disable-gtkui --disable-skins --disable-lyricwiki --disable-filewriter --disable-glspectrum --disable-songchange --disable-statusicon --disable-vtx --disable-ladspa --disable-blur-scope --disable-cairo-spectrum --disable-alarm --disable-albumart --disable-delete-files --disable-search-tool --disable-mpris2 --disable-scrobbler2 --disable-qtaudio --with-system-libxml2=no --enable-jack --enable-mac-media-keys"
-DEF_NO_CCACHE="YES"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} \
+expat \
+bzip2 \
+cmake \
+flac \
+mpg123 \
+yasm \
+libogg \
+libvorbis \
+jemalloc \
+libressl \
+curl-minimal \
+faad \
+neon \
+libxml2 \
+soxr \
+libsndfile \
+libbs2b \
+libcue \
+wavpack \
+libatomic_ops \
+lzo \
+nasm \
+icu \
+db \
+fftw \
+lame \
+libid3tag \
+libdca \
+taglib \
+yajl \
+uriparser \
+libxspf \
+speex \
+libao \
+openal \
+twolame \
+texinfo \
+libmpcdec \
+libmad \
+libshout \
+opus \
+opus-tools \
+faac \
+audiofile \
+ffmpeg \
+audacious-core \
+"
+DEF_CONFIGURE_ARGS="\
+--enable-qt \
+--enable-mac-media-keys \
+--disable-gtk \
+--disable-qtaudio \
+--disable-jack \
+--with-system-libxml2=yes \
+--with-ffmpeg=ffmpeg \
+"
+
+# @TODO: cleanup deps

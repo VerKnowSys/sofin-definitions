@@ -1,0 +1,58 @@
+DEF_FULL_NAME="Qt 5.12 Base Library"
+DEF_NAME="qtbase"
+DEF_SHA="e48e91f343a7b02dc7012c787a2e3fcb3589f16d"
+DEF_VERSION="5.12.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-everywhere-src-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_ARGS="\
+-prefix ${PREFIX} \
+-opensource \
+-confirm-license \
+-release \
+-shared \
+-pkg-config \
+-continue \
+-system-zlib \
+-nomake examples \
+-nomake tests \
+-no-pch \
+-no-cups \
+-no-dbus \
+-no-glib \
+-no-gtk \
+-no-feature-sqlmodel \
+-no-sql-sqlite \
+"
+DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
+DEF_CONFLICTS_WITH="Qt Qtws Qtwk Qtme"
+DEF_REQUIREMENTS="pkgconf make"
+DEF_MAKE_METHOD="make -j${CPUS}"
+DEF_INSTALL_METHOD="make -s install"
+DEF_NO_CCACHE="YES"
+DEF_NO_FAST_MATH="YES"
+DEF_NO_TRAP_INT_OVERFLOW="YES"
+DEF_NO_SSP_BUFFER_OVERRIDE="YES"
+DEF_NO_FORTIFY_SOURCE="YES"
+
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
+    make_symlinks () {
+        for lib in QtCore QtGui QtWidgets QtOpenGL; do
+            ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
+        done
+    }
+
+    DEF_USER_INFO="Make sure that Xcode is configured properly."
+
+    case "${SYSTEM_VERSION}" in
+        10.14)
+            DEF_USER_INFO="${DEF_USER_INFO} On macOS Mojave run:\n  $ xcode-select --install\n  $ open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg"
+            ;;
+
+        *)
+            ;;
+    esac
+
+    DEF_AFTER_INSTALL_METHOD="make_symlinks"
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath"
+else
+    LD="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie"
+fi
