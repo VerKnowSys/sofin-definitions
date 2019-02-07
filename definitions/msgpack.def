@@ -1,8 +1,9 @@
 DEF_FULL_NAME="MessagePack is an extremely efficient object serialization library"
 DEF_NAME="msgpack"
-DEF_VERSION="2.0.0"
-DEF_SHA="5c3a1314d7c12a3bbff9cc14905d9612c7e3c15d"
+DEF_VERSION="3.1.1"
+DEF_SHA="004fc1465e7b6f962b947f70d120ea13c9b425e0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_REQUIREMENTS="ccache perl autoconf libtool texinfo automake bzip2 xz cmake"
 DEF_EXPORTS="msgcat msgcmp msgcomm msgconv msgen msgexec msgfilter msgfmt msggrep msginit msgmerge msgunfmt msguniq"
+unset DEF_USE_LTO
