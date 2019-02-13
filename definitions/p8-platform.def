@@ -1,0 +1,8 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Platform support library used by libCEC"
+DEF_NAME="p8-platform"
+DEF_SHA="0141c1b96bf98dcf4e446d7d089617c9d1225879"
+DEF_VERSION="2.1.0.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pkgconf expat zlib bzip2 cmake"
+DEF_CONFIGURE_METHOD="cmake"
