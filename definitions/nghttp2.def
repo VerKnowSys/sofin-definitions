@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Http2 Library"
 DEF_NAME="nghttp2"
-DEF_SHA="692995dbbf63e4cd7eab1073373dbd0a5da77c99"
+DEF_SHA="0f5518d95516f394351bfb30904c0d3c6c03ae69"
 DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
-DEF_VERSION="1.35.1"
+DEF_VERSION="1.36.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} \
 --without-mruby --without-neverbleed --without-systemd \
