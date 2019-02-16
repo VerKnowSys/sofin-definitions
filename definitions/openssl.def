@@ -1,6 +1,6 @@
 inherit libressl
 
-DEF_FULL_NAME="OpenSSL v1.1.x"
+DEF_FULL_NAME="OpenSSL v1.1.1"
 DEF_NAME="openssl"
 DEF_VERSION="1.1.1a"
 DEF_SHA="8fae27b4f34445a5500c9dc50ae66b4d6472ce29"
@@ -12,11 +12,11 @@ unset DEF_USE_LTO
 
 case "${SYSTEM_NAME}" in
     FreeBSD|OpenBSD|NetBSD)
-        DEF_CONFIGURE_ARGS="BSD-x86_64"
+        DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl BSD-x86_64"
         ;;
 
     Darwin)
-        DEF_CONFIGURE_ARGS="--openssldir=${PREFIX}/etc/openssl darwin64-x86_64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
+        DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl darwin64-x86_64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
         unset DEF_REQUIREMENTS
         ;;
 
