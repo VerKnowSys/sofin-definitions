@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.32.0"
-DEF_SHA="989458118d774283fe58e5bbfbf118492d388cea"
-DEF_ORIGIN="https://forge.rust-lang.org/other-installation-methods.html"
+DEF_VERSION="1.33.0"
+DEF_SHA="6cba12148bebd2dbd08daab5e49490eefb4e987f"
+DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/other-installation-methods.html
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 DEF_STANDALONE=YES
 DEF_CONFIGURE_METHOD="binary"
