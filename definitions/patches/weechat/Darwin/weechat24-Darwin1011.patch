@@ -1,0 +1,10 @@
+--- src/core/weechat.c.oric	2019-03-02 14:39:44.000000000 +0100
++++ src/core/weechat.c	2019-03-02 14:39:56.000000000 +0100
+@@ -47,6 +47,7 @@
+ #include <sys/time.h>
+ #include <time.h>
+ #include <signal.h>
++#include <unistd.h>
+ 
+ #ifdef HAVE_LANGINFO_CODESET
+ #include <langinfo.h>
