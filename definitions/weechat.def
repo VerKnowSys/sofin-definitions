@@ -13,13 +13,12 @@ unset DEF_USE_LTO
 DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_GUILE=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_RUBY=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_PYTHON3=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_PERL=ON"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_REQUIREMENTS="jemalloc ncurses libunistring lzo libedit libsodium lua51 libxml2 pcre libffi openssl libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
+        DEF_REQUIREMENTS="jemalloc libunistring zlib lzo libedit lua51 pcre libffi openssl libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_LUA=ON -DENABLE_SPELL=ON"
-        # CFLAGS="-std=c11 -w -Wno-error -Wno-implicit-function-declaration" # ${CFLAGS}
         ;;
 
     *)
-        DEF_REQUIREMENTS="jemalloc libunistring lzo libedit libevent libsodium libxml2 pcre libffi libressl perl python27 libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl ruby24"
+        DEF_REQUIREMENTS="jemalloc libunistring lzo libedit libevent pcre libffi libressl perl python27 libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl ruby24"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_LUA=OFF"
         ;;
 esac
