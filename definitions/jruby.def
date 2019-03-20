@@ -6,7 +6,14 @@ DEF_SHA="3c13ec3966f6cc44966f3978c96325b9e56174f1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-dist-${DEF_VERSION}-bin.tar.gz"
 DEF_ORIGIN="https://repo1.maven.org/maven2/org/${DEF_NAME}/${DEF_NAME}-dist/${DEF_VERSION}/${DEF_NAME}-dist-${DEF_VERSION}-bin.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+DEF_AFTER_UNPACK_METHOD="install_jruby"
+install_jruby () {
+    try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+    # NOTE: only lib/jni/x86_64-FreeBSD/ is required here, but others will fail validation, so removing all of them:
+    for _jni_elem in aarch64-Linux arm-Linux i386-Linux i386-SunOS i386-Windows ppc-AIX ppc64-AIX ppc64-Linux ppc64le-Linux sparcv9-Linux sparcv9-SunOS x86_64-Linux x86_64-OpenBSD x86_64-SunOS x86_64-Windows; do
+        try "${RM_BIN} -rf '${PREFIX}/lib/jni/${_jni_elem}'"
+    done
+}
 DEF_REQUIREMENTS="openjdk8 bash"
 DEF_USEFUL="bin/j* bin/bash"
 DEF_EXPORTS="ast gem jgem irb jirb jruby ruby jrubyc ri rdoc rake bundle"
