@@ -37,7 +37,7 @@ install_vera_font_and_default_fonts_conf () {
     ${TEST_BIN} -f ${SERVICE_DIR}/etc/fonts/${_conf_filename} || \
         ${INSTALL_BIN} -v ${_conf_filename} ${SERVICE_DIR}/etc/fonts/${_conf_filename}
     ${TEST_BIN} -f ${PREFIX}/lib/X11/fonts/${_font_filename} || \
-        ${FETCH_BIN} -o ${PREFIX}/lib/X11/fonts/${_font_filename} ${FETCH_OPTS} ${_remote_source}
+        ${FETCH_BIN} -o ${PREFIX}/lib/X11/fonts/${_font_filename} ${_remote_source}
     ${CHMOD_BIN} -v 640 \
         ${PREFIX}/lib/X11/fonts/${_font_filename} \
         ${SERVICE_DIR}/etc/fonts/${_conf_filename}
