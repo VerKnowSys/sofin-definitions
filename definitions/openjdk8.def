@@ -1,12 +1,16 @@
 DEF_DISABLE_ON="Darwin Linux"
 DEF_FULL_NAME="OpenJDK 1.8 (headless version 64-bit)"
 DEF_NAME="openjdk8"
-DEF_VERSION="8.0_181-b13"
-DEF_SHA="3885f0ea3601c7d72ff7d89fbd44acf7f7c2c540"
+DEF_VERSION="8.0_202-b08"
+DEF_SHA="42126534698e6e2103d09dceeeed8e630f5c951d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_INSTALL_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
-DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd" # policytool requires libX11
+DEF_AFTER_INSTALL_METHOD="install_jdk8_headless"
+install_jdk8_headless () {
+    try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+    try "${RM_BIN} -f '${PREFIX}/lib/amd64/libjawt.so' '${PREFIX}/bin/policytool'"
+}
+DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
 DEF_CONFLICTS_WITH="Openjdk"
 DEF_USELESS="demo sample THIRD_PARTY_README src.zip"
 
