@@ -1,9 +1,9 @@
 DEF_FULL_NAME="Http2 Library"
 DEF_NAME="nghttp2"
-DEF_SHA="0f5518d95516f394351bfb30904c0d3c6c03ae69"
-DEF_ORIGIN="https://github.com/nghttp2/nghttp2/releases"
-DEF_VERSION="1.36.0"
+DEF_SHA="bdd774c5aa60a610556c5e233f6f44cf5f65aecc"
+DEF_VERSION="1.37.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} \
 --without-mruby --without-neverbleed --without-systemd \
 --enable-lib-only --enable-asio-lib \
