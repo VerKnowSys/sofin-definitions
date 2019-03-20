@@ -1,0 +1,6 @@
+DEF_FULL_NAME="iNotify-like Library - based on kqueue"
+DEF_SHA="18a1dc9731cfa39172388ab2a649cba7e44293d7"
+DEF_NAME="libinotify"
+DEF_VERSION="20180201"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}-kqueue/${DEF_NAME}-kqueue/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
