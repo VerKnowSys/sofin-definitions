@@ -18,9 +18,9 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pcap --enable-sdl --enable-system --enable-pie --enable-lzo --enable-seccomp --enable-vde --enable-attr --enable-numa --enable-libnfs --enable-tpm --enable-trace-backends=dtrace --python=${PREFIX}/bin/python" # --with-coroutine=gthread
         ;;
 esac
-DEF_USEFUL="bin/qemu* bin/python*"
-DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips"
-DEF_CLEAN_USELESS=NO
+DEF_USEFUL="bin/qemu*"
+DEF_USELESS="share/gtk* share/glib* share/ac* share/auto* share/gettext share/glib* share/read* share/bison share/readline share/texinfo include lib/*.a lib/*.sh lib/*.al"
+DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips qemu-system-aarch64"
 DEF_NO_CCACHE=YES
 DEF_NO_FAST_MATH=YES
 unset DEF_USE_LTO
