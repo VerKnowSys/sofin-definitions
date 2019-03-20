@@ -4,5 +4,6 @@ DEF_SHA="5c6cec77475a0039ae30de5b3e3ed7bcd261323c"
 DEF_VERSION="v11.6.0"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-CURRENT"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://nodejs.org/dist/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
 --without-inspector --without-snapshot --without-etw --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
