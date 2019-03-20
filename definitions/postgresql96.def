@@ -57,4 +57,5 @@ build_addons_and_extensions () {
     try "cd ${base_dir}/pgcrypto && make install"
     try "cd ${base_dir}/uuid-ossp && make install"
     try "cd ${base_dir}/btree_gin && make install"
+    try "cd ${base_dir}/pg_stat_statements && make install"
 }
