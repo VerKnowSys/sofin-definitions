@@ -14,7 +14,7 @@ install_jruby () {
         try "${RM_BIN} -rf '${PREFIX}/lib/jni/${_jni_elem}'"
     done
 }
-DEF_REQUIREMENTS="openjdk8 bash"
+DEF_REQUIREMENTS="openjdk8 libinotify bash"
 DEF_USEFUL="bin/j* bin/bash"
 DEF_EXPORTS="ast gem jgem irb jirb jruby ruby jrubyc ri rdoc rake bundle"
 DEF_CONFLICTS_WITH="Ruby"
