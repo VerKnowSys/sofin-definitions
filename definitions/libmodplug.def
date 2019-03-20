@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="FreeBSD Linux"
 DEF_FULL_NAME="Modplug"
 DEF_SHA="f9ac64fe4b3232941cee12e533e97f9447a232ef"
 DEF_NAME="libmodplug"
