@@ -1,19 +1,26 @@
-DEF_FULL_NAME="qEMUlator"
-DEF_SHA="8551c8424d14917f6d2af78fe20565fbcaffb768"
+DEF_DISABLE_ON="Linux Minix"
+DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer."
 DEF_NAME="qemu"
-DEF_VERSION="2.6.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf make jemalloc m4 libtool gdbm db sqlite gettext zlib xz bzip2 pcre lzma lzo lzop libpng pixman perl bison libpcap texinfo libidn autoconf automake python27 libressl libevent spdylay nghttp2 libssh2 curl libgpg-error gmp nettle libtasn1 libffi p11-kit gnutls glib libxml2 userspace-rcu glusterfs mpfr libmpc isl012 zip libusb vde2 vdetelweb"
-DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --extra-cflags='${CFLAGS} -DPREFIX=${PREFIX}' --extra-ldflags='-L${PREFIX}/lib ${LDFLAGS}' --make=${PREFIX}/bin/make --enable-bsd-user --disable-linux-user --enable-gnutls --enable-nettle --enable-curses --enable-curl --enable-jemalloc --enable-libssh2 --enable-bzip2 --enable-libusb --enable-uuid --enable-vnc --enable-vnc-png --enable-coroutine-pool --disable-werror --disable-docs --disable-gtk --disable-virtfs --disable-guest-agent --disable-sparse --disable-xen --disable-xen-pci-passthrough --enable-fdt --disable-netmap --disable-vhost-net --disable-spice --disable-usb-redir --disable-libiscsi --enable-vhdx --disable-rdma --disable-kvm --target-list=arm-softmmu,mips-softmmu,i386-softmmu,x86_64-softmmu --disable-strip --disable-user" # disable-user: http://ół.pl/fb0e6450c1583fd6acfed4225c7a5b23.png
+DEF_SHA="10c2730bb48b1ab4f4d568c3ea2c12a8c35f5106"
+DEF_VERSION="2.12.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="jemalloc bison bzip2 libzip lzma lzo lzop lz4 zip db sqlite pcre readline libffi autoconf texinfo automake icu gettext glib libpcap libidn libidn2 libressl libevent nghttp2 libssh2 curl libgpg-error gmp pixman nettle libtasn1 p11-kit gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 fontconfig sdl2-ttf libpng zlib"
+DEF_CONFIGURE_ARGS="--cxx=clang++ --cc=clang --interp-prefix='${PREFIX}/lib/qemu-%%M' --extra-cflags='${CFLAGS} -DPREFIX=${PREFIX}' --extra-ldflags='-L${PREFIX}/lib ${LDFLAGS}' --enable-bsd-user --disable-linux-user --enable-gnutls --enable-nettle --enable-curl --enable-jemalloc --enable-fdt --enable-libssh2 --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --disable-netmap --disable-vhost-net --disable-spice --disable-usb-redir --disable-libiscsi --disable-rdma --disable-kvm --target-list=aarch64-softmmu --disable-strip --disable-user" # disable-user: http://ół.pl/fb0e6450c1583fd6acfed4225c7a5b23.png --disable-virtfs --disable-sparse --enable-curses
 DEF_COMPILER_FLAGS="-I${PREFIX}/include"
 DEF_LINKER_FLAGS="-L${PREFIX}/lib -stdlib=libc++"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-cocoa"
-else
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pcap --enable-system --enable-pie --disable-sdl --enable-lzo --enable-seccomp --enable-vde --enable-attr --enable-glusterfs --enable-numa --enable-libnfs --enable-tpm --enable-trace-backends=dtrace --python=${PREFIX}/bin/python" # --with-coroutine=gthread
-fi
-DEF_USEFUL="bin/qemu*"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cocoa --enable-sdl"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pcap --enable-sdl --enable-system --enable-pie --enable-lzo --enable-seccomp --enable-vde --enable-attr --enable-numa --enable-libnfs --enable-tpm --enable-trace-backends=dtrace --python=${PREFIX}/bin/python" # --with-coroutine=gthread
+        ;;
+esac
+DEF_USEFUL="bin/qemu* bin/python*"
 DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips"
 DEF_CLEAN_USELESS=NO
 DEF_NO_CCACHE=YES
 DEF_NO_FAST_MATH=YES
+unset DEF_USE_LTO
