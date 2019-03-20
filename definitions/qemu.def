@@ -6,20 +6,20 @@ DEF_VERSION="3.1.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc bison bzip2 libzip lzma lzo lzop lz4 zip db sqlite pcre readline libffi autoconf texinfo automake icu gettext glib libpcap libidn libidn2 libressl libevent nghttp2 libssh2 curl libgpg-error gmp pixman nettle libtasn1 p11-kit gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 fontconfig sdl2-ttf libpng zlib"
-DEF_CONFIGURE_ARGS="--cxx=clang++ --cc=clang --interp-prefix='${PREFIX}/lib/qemu-%%M' --extra-cflags='${CFLAGS} -DPREFIX=${PREFIX}' --extra-ldflags='-L${PREFIX}/lib ${LDFLAGS}' --enable-bsd-user --disable-linux-user --enable-gnutls --enable-nettle --enable-curl --enable-jemalloc --enable-fdt --enable-libssh2 --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=aarch64-softmmu --disable-strip --disable-user" # --disable-netmap --disable-vhost-net --disable-usb-redir --disable-spice --disable-libiscsi --disable-rdma --disable-kvm
-DEF_COMPILER_FLAGS="-I${PREFIX}/include"
-DEF_LINKER_FLAGS="-L${PREFIX}/lib -stdlib=libc++"
+DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-libssh2 --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=aarch64-softmmu --disable-strip --disable-user --disable-linux-user"
+DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cocoa --enable-sdl"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cocoa"
         ;;
 
     *)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pcap --enable-sdl --enable-system --enable-pie --enable-lzo --enable-seccomp --enable-vde --enable-attr --enable-numa --enable-libnfs --enable-tpm --enable-trace-backends=dtrace --python=${PREFIX}/bin/python" # --with-coroutine=gthread
+        DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/bison/perl bison/; s/glib/python27 glib/' 2>/dev/null)"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python --enable-pie"
         ;;
 esac
 DEF_USEFUL="bin/qemu*"
-DEF_USELESS="share/gtk* share/glib* share/ac* share/auto* share/gettext share/glib* share/read* share/bison share/readline share/texinfo include lib/*.a lib/*.sh lib/*.al"
+DEF_USELESS="share/gtk* share/glib* share/ac* share/auto* share/gettext share/glib* share/read* share/bison share/readline share/texinfo include lib/*.a lib/*.sh lib/*.la"
 DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips qemu-system-aarch64"
 DEF_NO_CCACHE=YES
 DEF_NO_FAST_MATH=YES
