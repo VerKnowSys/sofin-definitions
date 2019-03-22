@@ -14,9 +14,17 @@ DEF_STANDALONE=YES
 DEF_AFTER_INSTALL_METHOD="patch_hardcodes"
 patch_hardcodes () {
     ${SED_BIN} -i '' -e "s#GPG=\"gpg\"#GPG=\"${PREFIX}/bin/gpg2\"#" "${PREFIX}/bin/pass"
-    ${SED_BIN} -i '' -e "s#bash#${PREFIX}/bin/bash#g" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#/usr/bin/env ##" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#tree -C -l#${PREFIX}/bin/tree -C -l#g" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#sed #${PREFIX}/bin/sed #g" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#GETOPT.*\$#GETOPT=${PREFIX}/bin/getopt#" "${PREFIX}/lib/password-store/platform.sh"
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            # Don't replace bash stuff for Darwin
+            ;;
+
+        *)
+            ${SED_BIN} -i '' -e "s#bash#${PREFIX}/bin/bash#g" "${PREFIX}/bin/pass"
+            ;;
+    esac
 }
