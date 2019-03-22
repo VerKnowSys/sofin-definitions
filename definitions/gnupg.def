@@ -1,8 +1,9 @@
 DEF_FULL_NAME="Modern version of GNU Privacy Guard 2"
-DEF_SHA="295298debcc2c12f02a2f2fdf04aecb6d6aae396"
 DEF_NAME="gnupg"
-DEF_VERSION="2.2.6"
+DEF_VERSION="2.2.14"
+DEF_SHA="f349c20e7498af88299b0d42a961e0364e5c37e7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf make libtool db47 readline pcre sqlite libgpg-error libgcrypt libassuan libksba npth gmp nettle libtasn1 libffi p11-kit texinfo libidn gnutls"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-tools \
 --with-libgcrypt-prefix=${PREFIX} --with-libassuan-prefix=${PREFIX} --with-npth-prefix=${PREFIX} \
