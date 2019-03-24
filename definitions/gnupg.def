@@ -4,7 +4,7 @@ DEF_VERSION="2.2.14"
 DEF_SHA="f349c20e7498af88299b0d42a961e0364e5c37e7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf make libtool db47 readline pcre sqlite libgpg-error libgcrypt libassuan libksba npth gmp nettle libtasn1 libffi p11-kit texinfo libidn gnutls"
+DEF_REQUIREMENTS="pkgconf make libedit gettext getopt pth npth libgpg-error nasm libgcrypt libassuan libksba gdbm db gmp nettle libtasn1 libffi p11-kit texinfo libidn gnutls sqlite"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-tools \
 --with-libgcrypt-prefix=${PREFIX} --with-libassuan-prefix=${PREFIX} --with-npth-prefix=${PREFIX} \
 --with-ksba-prefix=${PREFIX} --with-libgpg-error-prefix=${PREFIX} --with-readline=${PREFIX} \
