@@ -49,11 +49,11 @@ create_jruby_script () {
                 ;;
 
             Darwin)
-                _jdk18_java_home="$(${FIND_BIN} /Library/Java/JavaVirtualMachines/ -name 'jdk1.8.0_*' -type d -maxdepth 1 -mindepth 1 2>/dev/null | ${HEAD_BIN} -n1 2>/dev/null)/Contents/Home"
-                if [ -z "${_jdk18_java_home}" ]; then
-                    error "No JDK 8+ directory found under: $(diste "/Library/Java/JavaVirtualMachines/jdk1.8.0_*")"
+                _jre_home="$(${FIND_BIN} /Library/Java/JavaVirtualMachines/ -name 'jdk*' -type d -maxdepth 1 -mindepth 1 2>/dev/null | ${HEAD_BIN} -n1 2>/dev/null)/Contents/Home"
+                if [ -z "${_jre_home}" ]; then
+                    error "No JDK 8+ directory found under: $(diste "/Library/Java/JavaVirtualMachines/jdk*")"
                 fi
-                ${SED_BIN} -i '' -e "s#cygwin=false#export JAVA_HOME=${_jdk18_java_home}; export JRUBY_HOME=${PREFIX} ; cygwin=false#;"  "${PREFIX}/bin/jruby"
+                ${SED_BIN} -i '' -e "s#cygwin=false#export JAVA_HOME=${_jre_home}; export JRUBY_HOME=${PREFIX} ; cygwin=false#;"  "${PREFIX}/bin/jruby"
                 ;;
         esac
         ${SED_BIN} -i '' -e \
