@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Linux Minix"
 DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: AARCH64 (ARM64)"
 DEF_NAME="qemu"
 DEF_SHA="3ed63c0c05abc8c8ec075dac2688c229f139a5da"
@@ -6,7 +5,7 @@ DEF_VERSION="3.1.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc bison bzip2 libzip lzma lzo lzop lz4 zip db sqlite pcre readline libffi autoconf texinfo automake icu gettext glib libpcap libidn libidn2 libressl libevent nghttp2 libssh2 curl libgpg-error gmp pixman nettle libtasn1 p11-kit gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 fontconfig sdl2-ttf libpng zlib"
-DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-libssh2 --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=aarch64-softmmu --disable-strip --disable-user --disable-linux-user"
+DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-libssh2 --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=mips-softmmu,arm-softmmu,aarch64-softmmu --disable-strip --disable-user --disable-linux-user"
 DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w"
 case "${SYSTEM_NAME}" in
     Darwin)
