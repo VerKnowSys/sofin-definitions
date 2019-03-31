@@ -1,8 +1,8 @@
-DEF_FULL_NAME="CCache"
+DEF_FULL_NAME="CCache - C/C++ compiler cache"
 DEF_NAME="ccache"
-DEF_SHA="e1df3902782d9dcb6a7c34cf917a2cb8112c6fab"
-DEF_VERSION="3.3.4"
-DEF_ORIGIN="http://ccache.samba.org/download.html"
+DEF_VERSION="3.6"
+DEF_SHA="037aa55036bf9663703ffffce287af7384f804ff"
+DEF_ORIGIN="https://www.samba.org/ftp/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_EXPORTS="ccache"
+DEF_EXPORTS="${DEF_NAME}"
 DEF_NO_CCACHE=YES
