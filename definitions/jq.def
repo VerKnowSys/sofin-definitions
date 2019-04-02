@@ -3,7 +3,7 @@ DEF_SHA="73bcbdc45be4db907a864e829b06cd869f77f4f7"
 DEF_NAME="jq"
 DEF_VERSION="1.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="bison"
+DEF_REQUIREMENTS="perl bison"
 DEF_CONFIGURE_ARGS="--disable-static --disable-docs --disable-valgrind --with-pic --enable-shared --without-oniguruma"
 DEF_EXPORTS="jq"
 unset DEF_USE_LTO
