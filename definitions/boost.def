@@ -1,9 +1,10 @@
 DEF_FULL_NAME="Boost - C++ Libraries"
 DEF_NAME="boost"
-DEF_SHA="b6b284acde2ad7ed49b44e856955d7b1ea4e9459"
-DEF_VERSION="1.66.0"
+DEF_VERSION="1.69.0"
+DEF_SHA="ea6eee4b5999f9c02105386850f63a53f0250eaa"
 _major_ver="${DEF_VERSION%.*}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
+DEF_ORIGIN="https://dl.bintray.com/boostorg/release/${DEF_VERSION}/source/${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf make zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27 icu"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
 case "${SYSTEM_NAME}" in
