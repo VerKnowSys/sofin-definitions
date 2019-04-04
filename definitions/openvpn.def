@@ -1,11 +1,12 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="OpenVPN"
 DEF_NAME="openvpn"
-DEF_SHA="4742492867df31aadc0aeea5c8b4422d1a624e69"
-DEF_VERSION="2.4.6"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_VERSION="2.4.7"
+DEF_SHA="7dfbbd75109398a9f7b214887450091f464fbf7b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://swupdate.${DEF_NAME}.org/community/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="lzo lz4 libressl"
 DEF_USEFUL="bin/openssl bin/ocspcheck"
 DEF_USELESS="include lib/*.a lib/pkgconfig libdata docs"
-DEF_EXPORTS="openvpn"
+DEF_EXPORTS="${DEF_NAME}"
 DEF_USE_SAFE_STACK=YES
