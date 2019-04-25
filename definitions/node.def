@@ -8,9 +8,9 @@ DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo p
 DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
 --without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 DEF_STANDALONE=YES
-DEF_EXPORTS="node npm npx"
-DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
-DEF_USELESS="lib/*.a lib/perl* lib/python* sbin share/systemtap include/*python* include/perl* info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh docs"
+DEF_EXPORTS="node npm npx gyp webpack rollup"
+DEF_USEFUL="bin/npm* bin/node* bin/python* bin/perl* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
+DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
 
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
@@ -69,12 +69,12 @@ node_install () {
 #   - NPM "registry" - remote site where NPM should seek for Node modules,
 #   - SSL CA certificate - required by Node for TLS/SSL support for Node-driven software..
 #
-DEF_AFTER_EXPORT_METHOD="node_npm_setup_after_export"
-node_npm_setup_after_export () {
+DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert; node_npm_setup_after_install"
+node_npm_setup_after_install () {
     _prefix="${SERVICE_DIR}"
     _registry="https://registry.npmjs.org/"
     _ssl_ca_cert="${SERVICE_DIR}/etc/ssl/cert.pem"
-    debug "node_npm_setup_after_export(): $(distn "PREFIX: ${_prefix}"), $(distn "REGISTRY: ${_registry}"), $(distn "SSL_CA_CERT: ${_ssl_ca_cert}")"
+    debug "node_npm_setup_after_install(): $(distn "PREFIX: ${_prefix}"), $(distn "REGISTRY: ${_registry}"), $(distn "SSL_CA_CERT: ${_ssl_ca_cert}")"
 
     permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "prefix=${_prefix}")"
     try "npm set prefix=\"${_prefix}\""
@@ -84,6 +84,26 @@ node_npm_setup_after_export () {
 
     permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "cafile=${_ssl_ca_cert}")"
     try "npm config set cafile=\"${_ssl_ca_cert}\""
+
+    permnote "Installing additional default utilities"
+    try "npm install -g webpack"
+    try "npm install -g rollup"
+}
+
+
+fetch_and_install_fresh_ca_cert () {
+    mkdir -p "${SERVICE_DIR}/etc/ssl"
+
+    try "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl; ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem" \
+        && note "Removed old CA cert: $(distn "${SERVICE_DIR}/etc/ssl/cert.pem")"
+
+    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE}" \
+        && note "Fetched most recent CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE}")" \
+        && return 0
+
+    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
+        && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
+        && return 0
 }
 
 
