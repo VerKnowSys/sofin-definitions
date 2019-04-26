@@ -1,11 +1,12 @@
 DEF_FULL_NAME="LibreSSL Library - OpenSSL replacement by OpenBSD team."
 DEF_NAME="libressl"
-DEF_VERSION="2.8.3"
-DEF_SHA="41148f55aebf798254259e4700645997760ff1a2"
+DEF_VERSION="2.9.1"
+DEF_SHA="46f33e42a307d53e17e11f105a4403b9ccfdcc76"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL"
+DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="openssl"
 DEF_STANDALONE=YES
+unset DEF_USE_LTO
 
 DEF_AFTER_INSTALL_METHOD="fetch_and_install_fresh_ca_cert"
 fetch_and_install_fresh_ca_cert () {
