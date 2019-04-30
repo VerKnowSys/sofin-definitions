@@ -1,23 +1,8 @@
-DEF_FULL_NAME="multi-platform support library with a focus on asynchronous I/O"
-DEF_SHA="a0a7d57320e8d834ecd9461c38b90e111726ddfe"
+DEF_FULL_NAME="Multi-platform support library with a focus on asynchronous I/O"
 DEF_NAME="libuv"
-DEF_VERSION="1.23.2"
+DEF_VERSION="1.28.0"
+DEF_SHA="081f505d4b9827a60c973420b5b631cefd2990de"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make m4 libtool libffi expat python27"
-DEF_CONFIGURE_METHOD="no-conf"
-DEF_MAKE_METHOD="make_stuff"
-make_stuff () {
-    ${GIT_BIN} clone https://chromium.googlesource.com/external/gyp.git tools/gyp
-    cd tools/gyp
-    python setup.py install
-    cd ../..
-
-    try "./gyp_uv.py -f make -Duv_library=shared_library"
-    try "BUILDTYPE=Release make -C out"
-}
-DEF_INSTALL_METHOD="install_stuff"
-install_stuff () {
-    try "${INSTALL_BIN} -v out/Release/lib.target/libuv.so.1 ${PREFIX}/lib/libuv.so.1"
-    try "${LN_BIN} -s ${PREFIX}/lib/libuv.so.1 ${PREFIX}/lib/libuv.so"
-    try "${CP_BIN} -R include/ ${PREFIX}/include"
-}
+DEF_CONFIGURE_METHOD="cmake"
