@@ -75,20 +75,24 @@ create_location_agnostic_wrapper () {
 }
 
 make_writable_service_dirs () {
-    if [ ! -L "${PREFIX}/data" ]; then
-        mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
-        debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
+    debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
+    mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
+    if [ -d "${PREFIX}/data" ]; then
         try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
-            && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'" \
-                && try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
-                    && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'" \
-                        && try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
-                            && try "${LN_BIN} -fs '${SERVICE_DIR}/modules' '${PREFIX}/modules'" \
-                                && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
-                                    && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
-                                        && return 0
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'"
     fi
-    return 1
+    if [ -d "${PREFIX}/config" ]; then
+        try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'"
+    fi
+    if [ -d "${PREFIX}/modules" ]; then
+        try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/modules' '${PREFIX}/modules'"
+    fi
+    if [ -d "${PREFIX}/logs" ]; then
+        try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
+    fi
 }
 
 DEF_NO_MPROTECT=YES

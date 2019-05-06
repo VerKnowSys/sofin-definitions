@@ -19,21 +19,23 @@ case "${SYSTEM_NAME}" in
 esac
 
 prepare_and_link_service_dirs () {
-    if [ ! -L "${PREFIX}/data" ]; then
-        debug "${0}: prepare_and_link_service_dirs(): Running initial service dir preparation"
-        mkdir -p "${PREFIX}/data"
+    debug "${0}: prepare_and_link_service_dirs(): Running initial service dir preparation"
+    mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
+    if [ -d "${PREFIX}/data" ]; then
         try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
-        && try "${LN_BIN} -s '${SERVICE_DIR}/data' '${PREFIX}/data'" \
-            && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
-            && try "${LN_BIN} -s '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
-                && try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
-                && try "${LN_BIN} -s '${SERVICE_DIR}/config' '${PREFIX}/config'" \
-                    && try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
-                    && try "${LN_BIN} -s '${SERVICE_DIR}/modules' '${PREFIX}/modules'" \
-                        && return 0
-    else
-        debug "${0}: Already prepared service dirs." \
-            && return 0
+        && try "${LN_BIN} -s '${SERVICE_DIR}/data' '${PREFIX}/data'"
+    fi
+    if [ -d "${PREFIX}/logs" ]; then
+        try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
+    fi
+    if [ -d "${PREFIX}/config" ]; then
+        try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/config' '${PREFIX}/config'"
+    fi
+    if [ -d "${PREFIX}/modules" ]; then
+        try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/modules' '${PREFIX}/modules'"
     fi
 }
 
