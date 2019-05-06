@@ -34,9 +34,13 @@ make_writable_service_dirs () {
             && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'" \
                 && try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
                     && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'" \
-                        && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
-                            && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
-                                && return 0
+                        && try "${MV_BIN} '${PREFIX}/plugins' '${SERVICE_DIR}/plugins'" \
+                            && try "${LN_BIN} -fs '${SERVICE_DIR}/plugins' '${PREFIX}/plugins'" \
+                                && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+                                    && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
+                                        && try "${MV_BIN} '${PREFIX}/optimize' '${SERVICE_DIR}/optimize'" \
+                                            && try "${LN_BIN} -fs '${SERVICE_DIR}/optimize' '${PREFIX}/optimize'" \
+                                                && return 0
     fi
     return 1
 }
