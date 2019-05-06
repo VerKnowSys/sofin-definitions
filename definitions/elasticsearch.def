@@ -1,10 +1,10 @@
 DEF_FULL_NAME="Elasticsearch"
 DEF_STANDALONE=YES
 DEF_NAME="elasticsearch"
-DEF_VERSION="6.6.2"
-DEF_SHA="b8564db8a00a711a05a9f64c57b55f94e33448e0"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_VERSION="7.0.1"
+DEF_SHA="844c5d5fd5d6087a12ffc1d6b418866fc965503a"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-no-jdk-linux-x86_64.tar.gz"
+DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}-no-jdk-linux-x86_64.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
 DEF_REQUIREMENTS="openjdk8 libinotify bash"
@@ -77,3 +77,6 @@ patch_script () {
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
 DEF_APPLY_LOWER_SECURITY_ON="java javac javap jar"
+
+# NOTE: You may need to add "xpack.ml.enabled: false" to elasticsearch.yml, to avoid ES incompetence by leaving mainstream system unsupported.
+
