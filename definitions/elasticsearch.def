@@ -70,7 +70,7 @@ patch_script () {
 
     # patch jvm options file:
     ${SED_BIN} -i '' -e \
-        "s#-Xms1g#-Xms2g#g;  s#-Xmx1g#-Xmx4g#g;" \
+        "s#-Xms1g#-Xms4g#g;  s#-Xmx1g#-Xmx4g#g;" \
             "${SERVICE_DIR}/config/jvm.options"
 }
 
