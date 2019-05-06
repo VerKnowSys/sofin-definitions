@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Logstash - an open source data collection engine with real-time pipelining capabilities."
 DEF_STANDALONE=YES
 DEF_NAME="logstash"
-DEF_VERSION="6.6.2"
-DEF_SHA="35e5ef86b543ec8880406cd2571681d9ae50d99d"
+DEF_VERSION="7.0.1"
+DEF_SHA="d5f22e5dc948025edb55e164cffbd5d5f2391554"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
@@ -61,7 +61,7 @@ create_location_agnostic_wrapper () {
             printf "%b\n%b\n%b\n\n" \
                 "#!/bin/sh" \
                 "cd ${PREFIX}" \
-                "exec bin/${_elm##*/}.distribution" \
+                "exec bin/${_elm##*/}.distribution \${@}" \
                     > "${_elm}" 2>/dev/null \
                         && debug "${0}: Wrapper: $(distd "bin/${_elm##*/}") -> $(distd "bin/${_elm##*/}.distribution") of prefix: $(distd "${PREFIX}")"
     done \
