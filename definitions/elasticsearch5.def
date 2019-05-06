@@ -1,0 +1,65 @@
+inherit elasticsearch
+
+DEF_VERSION="5.6.16"
+DEF_SHA="4ce4a1087e79d552b0d95566095827b18bcb6f67"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+DEF_EXPORTS="elasticsearch-keystore elasticsearch-plugin elasticsearch-translog elasticsearch.in.sh elasticsearch"
+
+prepare_and_link_service_dirs () {
+    if [ ! -L "${PREFIX}/data" ]; then
+        debug "${0}: prepare_and_link_service_dirs(): Running initial service dir preparation"
+        mkdir -p "${PREFIX}/logs" "${PREFIX}/data"
+        try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/data' '${PREFIX}/data'" \
+            && try "${MV_BIN} '${PREFIX}/plugins' '${SERVICE_DIR}/plugins'" \
+            && try "${LN_BIN} -s '${SERVICE_DIR}/plugins' '${PREFIX}/plugins'" \
+                && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+                && try "${LN_BIN} -s '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
+                    && try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+                    && try "${LN_BIN} -s '${SERVICE_DIR}/config' '${PREFIX}/config'" \
+                        && try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
+                        && try "${LN_BIN} -s '${SERVICE_DIR}/modules' '${PREFIX}/modules'" \
+                            && return 0
+    else
+        debug "${0}: Already prepared service dirs." \
+            && return 0
+    fi
+}
+
+patch_script () {
+    # patch sheebang:
+    for _exp_scrpt in $(to_iter "${DEF_EXPORTS}"); do
+        case "${SYSTEM_NAME}" in
+            FreeBSD)
+                ${SED_BIN} -i '' -e \
+                    "s#/bin/bash#${PREFIX}/bin/bash#g;  s#\"\`dirname \"\$0\"\`\"#${PREFIX}/bin#g;" \
+                    "${PREFIX}/bin/${_exp_scrpt}"
+                ;;
+        esac
+    done
+
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            _jdk18_java_home="$(${FIND_BIN} /Library/Java/JavaVirtualMachines/ -name 'jdk1.8.0_*' -type d -maxdepth 1 -mindepth 1 2>/dev/null | ${HEAD_BIN} -n1 2>/dev/null)/Contents/Home"
+            if [ -z "${_jdk18_java_home}" ]; then
+                error "No JDK 8+ directory found under: $(diste "/Library/Java/JavaVirtualMachines/jdk1.8.0_*")"
+            fi
+            ${SED_BIN} -i '' -e \
+                "s#ES_HOME=.*\$#JAVA_HOME=${PREFIX}; ES_HOME=${PREFIX};#g" \
+                    "${PREFIX}/bin/elasticsearch"
+            ;;
+
+        FreeBSD)
+            ${SED_BIN} -i '' -e \
+                "s#ES_HOME=.*\$#JAVA_HOME=${PREFIX}; ES_HOME=${PREFIX};#g" \
+                    "${PREFIX}/bin/elasticsearch"
+            ;;
+    esac
+
+    # patch jvm options file:
+    ${SED_BIN} -i '' -e \
+        "s#-Xms2g#-Xms4g#g;  s#-Xmx2g#-Xmx4g#g;" \
+            "${SERVICE_DIR}/config/jvm.options"
+}
