@@ -1,0 +1,46 @@
+DEF_FULL_NAME="Kibana - Elasticsearch data visualiser and composer."
+DEF_STANDALONE=YES
+DEF_NAME="kibana"
+DEF_VERSION="5.6.16"
+DEF_SHA="59c90abe1b456de3b513d022c1716f381d8623ef"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-linux-x86_64.tar.gz"
+DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}-linux-x86_64.tar.gz"
+DEF_CONFIGURE_METHOD="binary"
+DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}-linux-x86_64/ ${PREFIX}"
+DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl autoconf texinfo automake18 libffi icu yaml python27 nghttp2 libuv node"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin ${DEF_NAME}-keystore"
+DEF_USEFUL="bin/bash bin/kibana* bin/npm* bin/node*"
+DEF_USELESS="node bin/*.dll bin/*.exe bin/*.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README ASSEMBLY_EXCEPTION"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_USER_INFO="Be sure to install latest OpenJDK 8+ from: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
+        ;;
+esac
+
+DEF_AFTER_INSTALL_METHOD="use_local_node && make_writable_service_dirs"
+use_local_node () {
+    ${SED_BIN} -i '' -e \
+        "s#/node/bin/node#/bin/node#;" \
+                "${PREFIX}/bin/${DEF_NAME}" \
+                "${PREFIX}/bin/${DEF_NAME}-plugin"
+}
+
+
+make_writable_service_dirs () {
+    if [ ! -L "${PREFIX}/data" ]; then
+        mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
+        debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
+        try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
+            && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'" \
+                && try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+                    && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'" \
+                        && try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+                            && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'" \
+                                && return 0
+    fi
+    return 1
+}
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="node"
