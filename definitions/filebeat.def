@@ -1,0 +1,28 @@
+DEF_FULL_NAME="ES-beats: Filebeat"
+DEF_STANDALONE=YES
+DEF_NAME="filebeat"
+DEF_VERSION="5.6.16"
+DEF_SHA="8c32c547f2aa4b5b7634edcf6eb69871624ebb7b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_METHOD="binary"
+DEF_AFTER_UNPACK_METHOD="create_filebeat_root"
+create_filebeat_root () {
+    try "${MKDIR_BIN} -p ${PREFIX}/bin"
+    try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+    try "${RM_BIN} -f .build-hash.txt NOTICE"
+    try "${MV_BIN} ${PREFIX}/filebeat ${PREFIX}/bin/filebeat"
+    try "${MV_BIN} ${PREFIX}/filebeat*yml ${SERVICE_DIR}/"
+}
+
+DEF_USEFUL="bin/filebeat-${DEF_VERSION}"
+DEF_EXPORTS="filebeat"
+
+DEF_AFTER_INSTALL_METHOD="install_wrapper ${DEF_VERSION}"
+install_wrapper () {
+    version="$1"
+    if [ ! -x "${PREFIX}/bin/filebeat-${version}" ]; then
+        ${MV_BIN} "${PREFIX}/bin/filebeat" "${PREFIX}/bin/filebeat-${version}" && \
+        printf "#!/bin/sh\n\n%s\n" "${PREFIX}/bin/filebeat-${version} --path.config ${SERVICE_DIR} --path.data ${SERVICE_DIR} --path.logs ${SERVICE_DIR} \$@" > "${PREFIX}/bin/filebeat"
+        ${CHMOD_BIN} a+x "${PREFIX}/bin/filebeat"
+    fi
+}
