@@ -1,0 +1,32 @@
+DEF_FULL_NAME="Go Language"
+DEF_NAME="go"
+DEF_VERSION="1.12.5"
+DEF_SHA="ca6d95831cdb4084c4a2d66913cc2109272298a0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
+DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
+DEF_CONFIGURE_METHOD="binary"
+DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+DEF_USEFUL="bin/go-${DEF_VERSION} bin/gofmt-${DEF_VERSION} bin/godoc-${DEF_VERSION}"
+DEF_USELESS="doc"
+DEF_EXPORTS="go gofmt godoc"
+
+DEF_AFTER_INSTALL_METHOD="install_wrappers ${DEF_VERSION}"
+install_wrappers () {
+    mkdir -p "${SERVICE_DIR}/local"
+    version="$1"
+    if [ ! -x "${PREFIX}/bin/go-${version}" ]; then
+        ${MV_BIN} "${PREFIX}/bin/go" "${PREFIX}/bin/go-${version}" && \
+        printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${version} \$@\n" > "${PREFIX}/bin/go"
+        ${CHMOD_BIN} a+x "${PREFIX}/bin/go"
+    fi
+    if [ ! -x "${PREFIX}/bin/godoc-${version}" ]; then
+        ${MV_BIN} "${PREFIX}/bin/godoc" "${PREFIX}/bin/godoc-${version}" && \
+        printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/godoc-${version} \$@\n" > "${PREFIX}/bin/godoc"
+        ${CHMOD_BIN} a+x "${PREFIX}/bin/godoc"
+    fi
+    if [ ! -x "${PREFIX}/bin/gofmt-${version}" ]; then
+        ${MV_BIN} "${PREFIX}/bin/gofmt" "${PREFIX}/bin/gofmt-${version}" && \
+        printf "#!/bin/sh\nexport GOPATH=${SERVICE_DIR}/local\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${version} \$@\n" > "${PREFIX}/bin/gofmt"
+        ${CHMOD_BIN} a+x "${PREFIX}/bin/gofmt"
+    fi
+}
