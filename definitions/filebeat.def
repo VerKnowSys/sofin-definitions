@@ -20,9 +20,10 @@ DEF_EXPORTS="filebeat"
 DEF_AFTER_INSTALL_METHOD="install_wrapper ${DEF_VERSION}"
 install_wrapper () {
     version="$1"
+    mkdir -p "${SERVICE_DIR}/logs"
     if [ ! -x "${PREFIX}/bin/filebeat-${version}" ]; then
         ${MV_BIN} "${PREFIX}/bin/filebeat" "${PREFIX}/bin/filebeat-${version}" && \
-        printf "#!/bin/sh\n\n%s\n" "${PREFIX}/bin/filebeat-${version} --path.config ${SERVICE_DIR} --path.data ${SERVICE_DIR} --path.logs ${SERVICE_DIR} \$@" > "${PREFIX}/bin/filebeat"
+        printf "#!/bin/sh\n\n%s\n" "${PREFIX}/bin/filebeat-${version} --path.config ${SERVICE_DIR} --path.data ${SERVICE_DIR} --path.logs ${SERVICE_DIR}/logs \$@" > "${PREFIX}/bin/filebeat"
         ${CHMOD_BIN} a+x "${PREFIX}/bin/filebeat"
     fi
 }
