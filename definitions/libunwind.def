@@ -1,7 +1,8 @@
 DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Unwind Library"
-DEF_SHA="aa04e6a7164aef754415b3b5e9453985741dd99e"
+DEF_SHA="4ce18ee9c168ed6de85126534d855ddcb696bb17"
 DEF_NAME="libunwind"
-DEF_VERSION="1.1"
+DEF_VERSION="1.2.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-cxx-exceptions --enable-shared --enable-minidebuginfo --disable-debug"
+unset DEF_USE_LTO
