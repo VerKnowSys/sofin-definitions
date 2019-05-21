@@ -1,0 +1,84 @@
+inherit "logstash"
+
+DEF_VERSION="5.6.16"
+DEF_SHA="73a9a7f655a11223ff5a1a09558663d61ac92c69"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+DEF_REQUIREMENTS="openjdk8 libinotify bash"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin cpdump"
+DEF_USEFUL="bin/bash bin/ja* bin/logstash* bin/ruby"
+
+DEF_AFTER_INSTALL_METHOD="patch_script && move_originals && create_location_agnostic_wrapper && make_writable_service_dirs"
+patch_script () {
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            _jdk18_java_home="$(${FIND_BIN} /Library/Java/JavaVirtualMachines/ -name 'jdk1.8.0_*' -type d -maxdepth 1 -mindepth 1 2>/dev/null | ${HEAD_BIN} -n1 2>/dev/null)/Contents/Home"
+            if [ -z "${_jdk18_java_home}" ]; then
+                error "No JDK 8+ directory found under: $(diste "/Library/Java/JavaVirtualMachines/jdk1.8.0_*")"
+            fi
+            ${SED_BIN} -i '' -e \
+                "s#LOGSTASH_HOME=.*#LOGSTASH_HOME=${PREFIX}; JAVA_HOME=${_jdk18_java_home}#;" \
+                        "${PREFIX}/bin/${DEF_NAME}.lib.sh" \
+                            && return 0
+            ;;
+
+        *)
+            ${SED_BIN} -i '' -e \
+                "s#LOGSTASH_HOME=.*#LOGSTASH_HOME=${PREFIX}; JAVA_HOME=${PREFIX}#;" \
+                        "${PREFIX}/bin/${DEF_NAME}.lib.sh" \
+                            && return 0
+            ;;
+    esac
+    return 1
+}
+
+move_originals () {
+    ${MV_BIN} "${PREFIX}/bin/${DEF_NAME}" "${PREFIX}/bin/${DEF_NAME}.distribution" \
+        && ${MV_BIN} "${PREFIX}/bin/${DEF_NAME}-plugin" "${PREFIX}/bin/${DEF_NAME}-plugin.distribution" \
+            && return 0
+    return 1
+}
+
+create_location_agnostic_wrapper () {
+    for _elm in "${PREFIX}/bin/${DEF_NAME}" \
+                "${PREFIX}/bin/${DEF_NAME}-plugin"
+        do
+            printf "%b\n%b\n%b\n\n" \
+                "#!/bin/sh" \
+                "cd ${PREFIX}" \
+                "exec bin/${_elm##*/}.distribution \${@}" \
+                    > "${_elm}" 2>/dev/null \
+                        && debug "${0}: Wrapper: $(distd "bin/${_elm##*/}") -> $(distd "bin/${_elm##*/}.distribution") of prefix: $(distd "${PREFIX}")"
+    done \
+        && ${CHMOD_BIN} a+x \
+            "${PREFIX}/bin/${DEF_NAME}" \
+            "${PREFIX}/bin/${DEF_NAME}-plugin" \
+                && return 0
+
+    return 1
+}
+
+make_writable_service_dirs () {
+    debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
+    mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
+    if [ -d "${PREFIX}/data" ]; then
+        try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'"
+    fi
+    if [ -d "${PREFIX}/config" ]; then
+        try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'"
+    fi
+    if [ -d "${PREFIX}/modules" ]; then
+        try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/modules' '${PREFIX}/modules'"
+    fi
+    if [ -d "${PREFIX}/logs" ]; then
+        try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
+    fi
+}
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="java javac javap jar"
