@@ -1,9 +1,9 @@
 DEF_FULL_NAME="MariaDB 10.1"
 DEF_STANDALONE=YES
-DEF_SHA="aada075c1b983f54a7636581a4702d1b65809ecb"
+DEF_SHA="bbe8717df2f0d02fd80e8dc9ab7788fb8b359116"
 DEF_NAME="mariadb"
-DEF_VERSION="10.1.39"
-DEF_ORIGIN="https://downloads.mariadb.org/"
+DEF_VERSION="10.1.40"
+DEF_ORIGIN="http://ftp.icm.edu.pl/pub/unix/database/${DEF_NAME}//${DEF_NAME}-${DEF_VERSION}/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make lz4 gettext libedit libnet lua51 pcre libressl perl yasm libxml2 python27 ninja cmake msgpack kytea libsodium zeromq4 libevent"
 DEF_CONFIGURE_METHOD="cmake"
