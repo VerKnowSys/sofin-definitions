@@ -1,0 +1,6 @@
+DEF_FULL_NAME="ASIO Library"
+DEF_NAME="asio"
+DEF_SHA="878eec8961f29fb41d134608c6f916bdf45e9eeb"
+DEF_VERSION="1.12.2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://netix.dl.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_VERSION}%20%28Stable%29/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
