@@ -24,11 +24,17 @@ bootstrap_stuff () {
     cd ${cur_dir}
 }
 
-DEF_INSTALL_METHOD="install_stuff"
+DEF_INSTALL_METHOD="install_stuff && patch_stuff"
 install_stuff () {
     cd build/scons
     ${python_bin} setup.py install \
         --prefix=${PREFIX} --standard-lib \
         --no-version-script
     cd ../..
+}
+
+patch_stuff () {
+    ${SED_BIN} -i '' -e \
+        "s|/usr/bin/env python|${PREFIX}/bin/python|" \
+        "${PREFIX}/bin/scons"
 }
