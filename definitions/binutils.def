@@ -11,3 +11,4 @@ DEF_CONFIGURE_ARGS="--enable-shared --with-gmp=${PREFIX} --with-mpfr=${PREFIX} -
 DEF_EXPORTS="ld ld.bfd ld.gold addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres"
 DEF_USELESS="share/bison share/libtool share/texinfo"
 DEF_NO_LLVM_LINKER=YES
+unset DEF_USE_LTO
