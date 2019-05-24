@@ -86,6 +86,8 @@ unset   DEF_USE_LTO # Link time optimization feature
 unset   DEF_USE_CFI # Control Flow Integrity compiler feature
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 
+        DEF_USE_RAMDISK=YES # use RAMdisk for build
+
         DEF_DEFAULT_CA_CERT_SOURCE="https://curl.haxx.se/ca/cacert.pem" # default source of ROOT-CA
         DEF_DEFAULT_CA_CERT_SOURCE_ALT="${MAIN_SOURCE_REPOSITORY}cacert.pem" # # backup source of ROOT-CA
 
