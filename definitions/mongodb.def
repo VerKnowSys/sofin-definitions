@@ -7,7 +7,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://fastdl.${DEF_NAME}.org/src/${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="libxml2 readline db pcre snappy libffi libressl python27 curl-dynamic wiredtiger gmp mpfr libmpc isl binutils" # NOTE: we build: gmp mpfr libmpc isl binutils, only to get GNU ar that supports "@file" option used by Mongo build system.
 DEF_USEFUL="bin/mongo*"
-DEF_USELESS="lib/*.py lib/*.a include"
+DEF_USELESS="lib/*.py lib/*.a include lib/cmake lib/python2.7 share/gtk-doc x86_64-unknown-freebsd*"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="install_hidden_requirements"
 install_hidden_requirements () {
