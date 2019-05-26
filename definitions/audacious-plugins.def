@@ -18,6 +18,9 @@ curl-minimal \
 faad \
 neon \
 libxml2 \
+libgpg-error \
+libgcrypt \
+libxslt \
 soxr \
 libsndfile \
 libbs2b \

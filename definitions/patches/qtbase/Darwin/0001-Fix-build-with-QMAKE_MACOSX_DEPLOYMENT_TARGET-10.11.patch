@@ -1,0 +1,32 @@
+From 8e1374b944b43b26f9f75878eacb02ac318cbaa2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Lipski?= <michal@tallica.pl>
+Date: Sun, 26 May 2019 19:54:01 +0200
+Subject: [PATCH] Fix build with QMAKE_MACOSX_DEPLOYMENT_TARGET=10.11
+
+---
+ src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.mm | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.mm b/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.mm
+index a367487e85..d4e5ce786e 100644
+--- a/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.mm
++++ b/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.mm
+@@ -82,10 +82,11 @@
+     Q_ASSERT(size_t(bytesPerLine()) == bytesPerRow);
+     Q_ASSERT(size_t(byteCount()) == totalBytes);
+ 
+-    if (colorSpace) {
+-        IOSurfaceSetValue(m_surface, CFSTR("IOSurfaceColorSpace"),
+-            QCFType<CFPropertyListRef>(CGColorSpaceCopyPropertyList(colorSpace)));
+-    }
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *))
++        if (colorSpace) {
++            IOSurfaceSetValue(m_surface, CFSTR("IOSurfaceColorSpace"),
++                QCFType<CFPropertyListRef>(CGColorSpaceCopyPropertyList(colorSpace)));
++        }
+ }
+ 
+ QIOSurfaceGraphicsBuffer::~QIOSurfaceGraphicsBuffer()
+-- 
+2.20.1 (Apple Git-117)
+
