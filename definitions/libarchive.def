@@ -1,6 +1,8 @@
 DEF_FULL_NAME="Archive Library"
-DEF_SHA="ccf14e3b4ec7c6b242cf07062dd40e82a17485a5"
-DEF_ORIGIN="https://github.com/libarchive/libarchive/releases"
 DEF_NAME="libarchive"
-DEF_VERSION="3.2.2"
+DEF_VERSION="3.3.3"
+DEF_SHA="499a8f48a895faff4151d7398b24070d578f0b2e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_EXPORTS="bsdcat bsdcpio bsdtar"
+unset DEF_USE_LTO
