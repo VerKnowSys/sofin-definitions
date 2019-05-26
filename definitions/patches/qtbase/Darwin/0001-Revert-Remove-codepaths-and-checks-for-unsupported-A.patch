@@ -1,0 +1,656 @@
+From 42bf7b2efa802c8a6dfe030544dc47396054854a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micha=C5=82=20Lipski?= <michal@tallica.pl>
+Date: Sun, 26 May 2019 16:37:18 +0200
+Subject: [PATCH] Revert "Remove codepaths and checks for unsupported Apple
+ platforms"
+
+This reverts commit b02fe1bfe7bc5daa503dc3a274570aad0d8dca5a.
+---
+ mkspecs/features/uikit/default_pre.prf        |  2 +
+ src/corelib/global/qlogging.cpp               |  3 +-
+ src/corelib/io/qfilesystemengine_unix.cpp     | 32 +++---
+ src/corelib/kernel/qcore_mac_p.h              | 79 ++++++++++++---
+ .../cocoa/qcocoaapplicationdelegate.mm        | 12 ++-
+ .../platforms/cocoa/qcocoabackingstore.mm     |  5 +
+ src/plugins/platforms/cocoa/qnswindow.mm      | 37 ++++---
+ src/plugins/platforms/ios/qiosintegration.mm  |  6 +-
+ src/plugins/platforms/ios/qiosscreen.mm       |  7 +-
+ .../platforms/ios/qiostextresponder.mm        | 14 +--
+ src/plugins/platforms/ios/quiview.mm          | 45 ++++++---
+ src/plugins/styles/mac/qmacstyle_mac.mm       |  7 ++
+ src/testlib/qappletestlogger.cpp              | 98 +++++++++++--------
+ .../auto/corelib/kernel/qtimer/tst_qtimer.cpp |  3 +-
+ 14 files changed, 237 insertions(+), 113 deletions(-)
+
+diff --git a/mkspecs/features/uikit/default_pre.prf b/mkspecs/features/uikit/default_pre.prf
+index ea6882fbc8..6a44a67bca 100644
+--- a/mkspecs/features/uikit/default_pre.prf
++++ b/mkspecs/features/uikit/default_pre.prf
+@@ -24,3 +24,5 @@ load(default_pre)
+ !versionAtLeast(QMAKE_XCODE_VERSION, 4.3): \
+     error("This mkspec requires Xcode 4.3 or later")
+ 
++ios:shared:!versionAtLeast(QMAKE_IOS_DEPLOYMENT_TARGET, 8.0): \
++    QMAKE_IOS_DEPLOYMENT_TARGET = 8.0
+diff --git a/src/corelib/global/qlogging.cpp b/src/corelib/global/qlogging.cpp
+index 30232170fb..7ef60c2a74 100644
+--- a/src/corelib/global/qlogging.cpp
++++ b/src/corelib/global/qlogging.cpp
+@@ -1767,7 +1767,8 @@ static void qDefaultMessageHandler(QtMsgType type, const QMessageLogContext &con
+ # elif defined(Q_OS_ANDROID) && !defined(Q_OS_ANDROID_EMBEDDED)
+     handledStderr |= android_default_message_handler(type, context, message);
+ # elif defined(QT_USE_APPLE_UNIFIED_LOGGING)
+-    handledStderr |= AppleUnifiedLogger::messageHandler(type, context, message);
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *))
++        handledStderr |= AppleUnifiedLogger::messageHandler(type, context, message);
+ # elif defined Q_OS_WASM
+     handledStderr |= wasm_default_message_handler(type, context, message);
+ # endif
+diff --git a/src/corelib/io/qfilesystemengine_unix.cpp b/src/corelib/io/qfilesystemengine_unix.cpp
+index 5bab897d43..c7d8457e87 100644
+--- a/src/corelib/io/qfilesystemengine_unix.cpp
++++ b/src/corelib/io/qfilesystemengine_unix.cpp
+@@ -76,7 +76,9 @@
+ #endif
+ 
+ #if defined(Q_OS_DARWIN)
+-# include <sys/clonefile.h>
++# if QT_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(101200, 100000, 100000, 30000)
++#  include <sys/clonefile.h>
++# endif
+ # include <copyfile.h>
+ // We cannot include <Foundation/Foundation.h> (it's an Objective-C header), but
+ // we need these declarations:
+@@ -1226,18 +1228,20 @@ bool QFileSystemEngine::createLink(const QFileSystemEntry &source, const QFileSy
+ //static
+ bool QFileSystemEngine::copyFile(const QFileSystemEntry &source, const QFileSystemEntry &target, QSystemError &error)
+ {
+-#if defined(Q_OS_DARWIN)
+-    if (::clonefile(source.nativeFilePath().constData(),
+-                    target.nativeFilePath().constData(), 0) == 0)
+-        return true;
+-    error = QSystemError(errno, QSystemError::StandardLibraryError);
+-    return false;
++#if QT_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(101200, 100000, 100000, 30000)
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
++        if (::clonefile(source.nativeFilePath().constData(),
++                        target.nativeFilePath().constData(), 0) == 0)
++            return true;
++        error = QSystemError(errno, QSystemError::StandardLibraryError);
++        return false;
++    }
+ #else
+     Q_UNUSED(source);
+     Q_UNUSED(target);
++#endif
+     error = QSystemError(ENOSYS, QSystemError::StandardLibraryError); //Function not implemented
+     return false;
+-#endif
+ }
+ 
+ //static
+@@ -1259,11 +1263,13 @@ bool QFileSystemEngine::renameFile(const QFileSystemEntry &source, const QFileSy
+     }
+ #endif
+ #if defined(Q_OS_DARWIN) && defined(RENAME_EXCL)
+-    if (renameatx_np(AT_FDCWD, srcPath, AT_FDCWD, tgtPath, RENAME_EXCL) == 0)
+-        return true;
+-    if (errno != ENOTSUP) {
+-        error = QSystemError(errno, QSystemError::StandardLibraryError);
+-        return false;
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
++        if (renameatx_np(AT_FDCWD, srcPath, AT_FDCWD, tgtPath, RENAME_EXCL) == 0)
++            return true;
++        if (errno != ENOTSUP) {
++            error = QSystemError(errno, QSystemError::StandardLibraryError);
++            return false;
++        }
+     }
+ #endif
+ 
+diff --git a/src/corelib/kernel/qcore_mac_p.h b/src/corelib/kernel/qcore_mac_p.h
+index f96e7358a2..58c07ad929 100644
+--- a/src/corelib/kernel/qcore_mac_p.h
++++ b/src/corelib/kernel/qcore_mac_p.h
+@@ -59,6 +59,36 @@
+ 
+ // --------------------------------------------------------------------------
+ 
++#if !defined(QT_BOOTSTRAPPED) && (QT_MACOS_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_10_12) || !defined(Q_OS_MACOS))
++#define QT_USE_APPLE_ACTIVITIES
++
++#if defined(OS_ACTIVITY_OBJECT_API)
++#error The file <os/activity.h> has already been included
++#endif
++
++// We runtime-check all use of the activity APIs, so we can safely build
++// with them included, even if the deployment target is macOS 10.11
++#if QT_MACOS_DEPLOYMENT_TARGET_BELOW(__MAC_10_12)
++#undef __MAC_OS_X_VERSION_MIN_REQUIRED
++#define __MAC_OS_X_VERSION_MIN_REQUIRED __MAC_10_12
++#define DID_OVERRIDE_DEPLOYMENT_TARGET
++#endif
++
++#include <os/activity.h>
++#if !OS_ACTIVITY_OBJECT_API
++#error "Expected activity API to be available"
++#endif
++
++#if defined(DID_OVERRIDE_DEPLOYMENT_TARGET)
++#undef __MAC_OS_X_VERSION_MIN_REQUIRED
++#define __MAC_OS_X_VERSION_MIN_REQUIRED __MAC_10_11
++#undef DID_OVERRIDE_DEPLOYMENT_TARGET
++#endif
++
++#endif
++
++// --------------------------------------------------------------------------
++
+ #if defined(QT_BOOTSTRAPPED)
+ #include <ApplicationServices/ApplicationServices.h>
+ #else
+@@ -190,32 +220,42 @@ Q_CORE_EXPORT AppleApplication *qt_apple_sharedApplication();
+ 
+ // --------------------------------------------------------------------------
+ 
+-#if !defined(QT_BOOTSTRAPPED)
++#if !defined(QT_BOOTSTRAPPED) && (QT_MACOS_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_10_12) || !defined(Q_OS_MACOS))
+ #define QT_USE_APPLE_UNIFIED_LOGGING
+ 
+ QT_END_NAMESPACE
+ #include <os/log.h>
++
++// The compiler isn't smart enough to realize that we're calling these functions
++// guarded by __builtin_available, so we need to also tag each function with the
++// runtime requirements.
++#include <os/availability.h>
++#define OS_LOG_AVAILABILITY API_AVAILABLE(macos(10.12), ios(10.0), tvos(10.0), watchos(3.0))
+ QT_BEGIN_NAMESPACE
+ 
+ class Q_CORE_EXPORT AppleUnifiedLogger
+ {
+ public:
+     static bool messageHandler(QtMsgType msgType, const QMessageLogContext &context, const QString &message,
+-        const QString &subsystem = QString());
++        const QString &subsystem = QString()) OS_LOG_AVAILABILITY;
+     static bool willMirrorToStderr();
+ private:
+-    static os_log_type_t logTypeForMessageType(QtMsgType msgType);
+-    static os_log_t cachedLog(const QString &subsystem, const QString &category);
++    static os_log_type_t logTypeForMessageType(QtMsgType msgType) OS_LOG_AVAILABILITY;
++    static os_log_t cachedLog(const QString &subsystem, const QString &category) OS_LOG_AVAILABILITY;
+ };
+ 
++#undef OS_LOG_AVAILABILITY
++
+ #endif
+ 
+ // --------------------------------------------------------------------------
+ 
+-#if !defined(QT_BOOTSTRAPPED)
++#if defined(QT_USE_APPLE_ACTIVITIES)
+ 
+ QT_END_NAMESPACE
+-#include <os/activity.h>
++#include <os/availability.h>
++#define OS_ACTIVITY_AVAILABILITY API_AVAILABLE(macos(10.12), ios(10.0), tvos(10.0), watchos(3.0))
++#define OS_ACTIVITY_AVAILABILITY_CHECK __builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)
+ QT_BEGIN_NAMESPACE
+ 
+ template <typename T> using QAppleOsType = QAppleRefCounted<T, void *, os_retain, os_release>;
+@@ -224,7 +264,7 @@ class Q_CORE_EXPORT QAppleLogActivity
+ {
+ public:
+     QAppleLogActivity() : activity(nullptr) {}
+-    QAppleLogActivity(os_activity_t activity) : activity(activity) {}
++    QAppleLogActivity(os_activity_t activity) OS_ACTIVITY_AVAILABILITY : activity(activity) {}
+     ~QAppleLogActivity() { if (activity) leave(); }
+ 
+     QAppleLogActivity(const QAppleLogActivity &) = delete;
+@@ -245,17 +285,21 @@ public:
+ 
+     QAppleLogActivity&& enter()
+     {
+-        if (activity)
+-            os_activity_scope_enter(static_cast<os_activity_t>(*this), &state);
++        if (activity) {
++            if (OS_ACTIVITY_AVAILABILITY_CHECK)
++                os_activity_scope_enter(static_cast<os_activity_t>(*this), &state);
++        }
+         return std::move(*this);
+     }
+ 
+     void leave() {
+-        if (activity)
+-            os_activity_scope_leave(&state);
++        if (activity) {
++            if (OS_ACTIVITY_AVAILABILITY_CHECK)
++                os_activity_scope_leave(&state);
++        }
+     }
+ 
+-    operator os_activity_t()
++    operator os_activity_t() OS_ACTIVITY_AVAILABILITY
+     {
+         return reinterpret_cast<os_activity_t>(static_cast<void *>(activity));
+     }
+@@ -269,7 +313,9 @@ private:
+ #define QT_APPLE_LOG_ACTIVITY_CREATE(condition, description, parent) []() { \
+         if (!(condition)) \
+             return QAppleLogActivity(); \
+-        return QAppleLogActivity(os_activity_create(description, parent, OS_ACTIVITY_FLAG_DEFAULT)); \
++        if (OS_ACTIVITY_AVAILABILITY_CHECK) \
++            return QAppleLogActivity(os_activity_create(description, parent, OS_ACTIVITY_FLAG_DEFAULT)); \
++        return QAppleLogActivity(); \
+     }()
+ 
+ #define QT_VA_ARGS_CHOOSE(_1, _2, _3, _4, _5, _6, _7, _8, _9, N, ...) N
+@@ -290,7 +336,12 @@ QT_MAC_WEAK_IMPORT(_os_activity_current);
+ 
+ #define QT_APPLE_SCOPED_LOG_ACTIVITY(...) QAppleLogActivity scopedLogActivity = QT_APPLE_LOG_ACTIVITY(__VA_ARGS__).enter();
+ 
+-#endif // !defined(QT_BOOTSTRAPPED)
++#else
++// No-ops for macOS 10.11. We don't need to provide QT_APPLE_SCOPED_LOG_ACTIVITY,
++// as all the call sites for that are in code that's only built on 10.12 and above.
++#define QT_APPLE_LOG_ACTIVITY_WITH_PARENT(...)
++#define QT_APPLE_LOG_ACTIVITY(...)
++#endif // QT_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE
+ 
+ // -------------------------------------------------------------------------
+ 
+diff --git a/src/plugins/platforms/cocoa/qcocoaapplicationdelegate.mm b/src/plugins/platforms/cocoa/qcocoaapplicationdelegate.mm
+index 2cf6672da9..f8368a2456 100644
+--- a/src/plugins/platforms/cocoa/qcocoaapplicationdelegate.mm
++++ b/src/plugins/platforms/cocoa/qcocoaapplicationdelegate.mm
+@@ -256,11 +256,13 @@ - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+     inLaunch = false;
+ 
+     if (qEnvironmentVariableIsEmpty("QT_MAC_DISABLE_FOREGROUND_APPLICATION_TRANSFORM")) {
+-        // Move the application window to front to avoid launching behind the terminal.
+-        // Ignoring other apps is necessary (we must ignore the terminal), but makes
+-        // Qt apps play slightly less nice with other apps when lanching from Finder
+-        // (See the activateIgnoringOtherApps docs.)
+-        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
++        if (__builtin_available(macOS 10.12, *)) {
++            // Move the application window to front to avoid launching behind the terminal.
++            // Ignoring other apps is necessary (we must ignore the terminal), but makes
++            // Qt apps play slightly less nice with other apps when lanching from Finder
++            // (See the activateIgnoringOtherApps docs.)
++            [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
++        }
+     }
+ }
+ 
+diff --git a/src/plugins/platforms/cocoa/qcocoabackingstore.mm b/src/plugins/platforms/cocoa/qcocoabackingstore.mm
+index cff1f96615..371947b0d2 100644
+--- a/src/plugins/platforms/cocoa/qcocoabackingstore.mm
++++ b/src/plugins/platforms/cocoa/qcocoabackingstore.mm
+@@ -71,6 +71,11 @@
+     return QRasterBackingStore::format();
+ }
+ 
++#if !QT_MACOS_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_10_12)
++static const NSCompositingOperation NSCompositingOperationCopy = NSCompositeCopy;
++static const NSCompositingOperation NSCompositingOperationSourceOver = NSCompositeSourceOver;
++#endif
++
+ /*!
+     Flushes the given \a region from the specified \a window onto the
+     screen.
+diff --git a/src/plugins/platforms/cocoa/qnswindow.mm b/src/plugins/platforms/cocoa/qnswindow.mm
+index 52f765eb31..7dad6d784b 100644
+--- a/src/plugins/platforms/cocoa/qnswindow.mm
++++ b/src/plugins/platforms/cocoa/qnswindow.mm
+@@ -102,20 +102,29 @@ + (void)applicationActivationChanged:(NSNotification*)notification
+     NSEnumerator<NSWindow*> *windowEnumerator = nullptr;
+     NSApplication *application = [NSApplication sharedApplication];
+ 
+-    // Unfortunately there's no NSWindowListOrderedBackToFront,
+-    // so we have to manually reverse the order using an array.
+-    NSMutableArray<NSWindow *> *windows = [NSMutableArray<NSWindow *> new];
+-    [application enumerateWindowsWithOptions:NSWindowListOrderedFrontToBack
+-        usingBlock:^(NSWindow *window, BOOL *) {
+-            // For some reason AppKit will give us nil-windows, skip those
+-            if (!window)
+-                return;
+-
+-            [windows addObject:window];
+-        }
+-    ];
+-
+-    windowEnumerator = windows.reverseObjectEnumerator;
++#if QT_MACOS_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_10_12)
++    if (__builtin_available(macOS 10.12, *)) {
++        // Unfortunately there's no NSWindowListOrderedBackToFront,
++        // so we have to manually reverse the order using an array.
++        NSMutableArray<NSWindow *> *windows = [NSMutableArray<NSWindow *> new];
++        [application enumerateWindowsWithOptions:NSWindowListOrderedFrontToBack
++            usingBlock:^(NSWindow *window, BOOL *) {
++                // For some reason AppKit will give us nil-windows, skip those
++                if (!window)
++                    return;
++
++                [windows addObject:window];
++            }
++        ];
++
++        windowEnumerator = windows.reverseObjectEnumerator;
++    } else
++#endif
++    {
++        // No way to get ordered list of windows, so fall back to unordered,
++        // list, which typically corresponds to window creation order.
++        windowEnumerator = application.windows.objectEnumerator;
++    }
+ 
+     for (NSWindow *window in windowEnumerator) {
+         // We're meddling with normal and floating windows, so leave others alone
+diff --git a/src/plugins/platforms/ios/qiosintegration.mm b/src/plugins/platforms/ios/qiosintegration.mm
+index 9eca0eaad3..dafec2c99c 100644
+--- a/src/plugins/platforms/ios/qiosintegration.mm
++++ b/src/plugins/platforms/ios/qiosintegration.mm
+@@ -115,8 +115,10 @@
+     m_touchDevice = new QTouchDevice;
+     m_touchDevice->setType(QTouchDevice::TouchScreen);
+     QTouchDevice::Capabilities touchCapabilities = QTouchDevice::Position | QTouchDevice::NormalizedPosition;
+-    if (mainScreen.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
+-        touchCapabilities |= QTouchDevice::Pressure;
++    if (__builtin_available(iOS 9, *)) {
++        if (mainScreen.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
++            touchCapabilities |= QTouchDevice::Pressure;
++    }
+     m_touchDevice->setCapabilities(touchCapabilities);
+     QWindowSystemInterface::registerTouchDevice(m_touchDevice);
+ #if QT_CONFIG(tabletevent)
+diff --git a/src/plugins/platforms/ios/qiosscreen.mm b/src/plugins/platforms/ios/qiosscreen.mm
+index 9aba658479..f43b004ca8 100644
+--- a/src/plugins/platforms/ios/qiosscreen.mm
++++ b/src/plugins/platforms/ios/qiosscreen.mm
+@@ -456,7 +456,12 @@ static QString deviceModelIdentifier()
+ 
+ qreal QIOSScreen::refreshRate() const
+ {
+-    return m_uiScreen.maximumFramesPerSecond;
++#if QT_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_NA, 100300, 110000, __WATCHOS_NA)
++    if (__builtin_available(iOS 10.3, tvOS 11, *))
++        return m_uiScreen.maximumFramesPerSecond;
++#endif
++
++    return 60.0;
+ }
+ 
+ Qt::ScreenOrientation QIOSScreen::nativeOrientation() const
+diff --git a/src/plugins/platforms/ios/qiostextresponder.mm b/src/plugins/platforms/ios/qiostextresponder.mm
+index 396c769be8..91a088ede1 100644
+--- a/src/plugins/platforms/ios/qiostextresponder.mm
++++ b/src/plugins/platforms/ios/qiostextresponder.mm
+@@ -244,15 +244,17 @@ - (instancetype)initWithInputContext:(QT_PREPEND_NAMESPACE(QIOSInputContext) *)i
+         self.inputAccessoryView = [[[WrapperView alloc] initWithView:accessoryView] autorelease];
+ 
+ #ifndef Q_OS_TVOS
+-    if (platformData.value(kImePlatformDataHideShortcutsBar).toBool()) {
+-        // According to the docs, leadingBarButtonGroups/trailingBarButtonGroups should be set to nil to hide the shortcuts bar.
+-        // However, starting with iOS 10, the API has been surrounded with NS_ASSUME_NONNULL, which contradicts this and causes
+-        // compiler warnings. Still it is the way to go to really hide the space reserved for that.
++    if (__builtin_available(iOS 9, *)) {
++        if (platformData.value(kImePlatformDataHideShortcutsBar).toBool()) {
++            // According to the docs, leadingBarButtonGroups/trailingBarButtonGroups should be set to nil to hide the shortcuts bar.
++            // However, starting with iOS 10, the API has been surrounded with NS_ASSUME_NONNULL, which contradicts this and causes
++            // compiler warnings. Still it is the way to go to really hide the space reserved for that.
+ #pragma clang diagnostic push
+ #pragma clang diagnostic ignored "-Wnonnull"
+-        self.inputAssistantItem.leadingBarButtonGroups = nil;
+-        self.inputAssistantItem.trailingBarButtonGroups = nil;
++            self.inputAssistantItem.leadingBarButtonGroups = nil;
++            self.inputAssistantItem.trailingBarButtonGroups = nil;
+ #pragma clang diagnostic pop
++        }
+     }
+ #endif
+ 
+diff --git a/src/plugins/platforms/ios/quiview.mm b/src/plugins/platforms/ios/quiview.mm
+index e64c05d099..de60bd7c36 100644
+--- a/src/plugins/platforms/ios/quiview.mm
++++ b/src/plugins/platforms/ios/quiview.mm
+@@ -128,17 +128,21 @@ - (instancetype)initWithFrame:(CGRect)frame
+             self.layer.borderWidth = 1.0;
+         }
+ 
++#if QT_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_NA, 110000, 110000, __WATCHOS_NA)
+         if (qEnvironmentVariableIsSet("QT_IOS_DEBUG_WINDOW_SAFE_AREAS")) {
+-            UIView *safeAreaOverlay = [[UIView alloc] initWithFrame:CGRectZero];
+-            [safeAreaOverlay setBackgroundColor:[UIColor colorWithRed:0.3 green:0.7 blue:0.9 alpha:0.3]];
+-            [self addSubview:safeAreaOverlay];
+-
+-            safeAreaOverlay.translatesAutoresizingMaskIntoConstraints = NO;
+-            [safeAreaOverlay.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
+-            [safeAreaOverlay.leftAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leftAnchor].active = YES;
+-            [safeAreaOverlay.rightAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.rightAnchor].active = YES;
+-            [safeAreaOverlay.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
++            if (__builtin_available(iOS 11, tvOS 11, *)) {
++                UIView *safeAreaOverlay = [[UIView alloc] initWithFrame:CGRectZero];
++                [safeAreaOverlay setBackgroundColor:[UIColor colorWithRed:0.3 green:0.7 blue:0.9 alpha:0.3]];
++                [self addSubview:safeAreaOverlay];
++
++                safeAreaOverlay.translatesAutoresizingMaskIntoConstraints = NO;
++                [safeAreaOverlay.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
++                [safeAreaOverlay.leftAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leftAnchor].active = YES;
++                [safeAreaOverlay.rightAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.rightAnchor].active = YES;
++                [safeAreaOverlay.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
++            }
+         }
++#endif
+     }
+ 
+     return self;
+@@ -351,10 +355,12 @@ - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+     QTouchDevice *touchDevice = QIOSIntegration::instance()->touchDevice();
+     QTouchDevice::Capabilities touchCapabilities = touchDevice->capabilities();
+ 
+-    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
+-        touchCapabilities |= QTouchDevice::Pressure;
+-    else
+-        touchCapabilities &= ~QTouchDevice::Pressure;
++    if (__builtin_available(iOS 9, *)) {
++        if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
++            touchCapabilities |= QTouchDevice::Pressure;
++        else
++            touchCapabilities &= ~QTouchDevice::Pressure;
++    }
+ 
+     touchDevice->setCapabilities(touchCapabilities);
+ }
+@@ -662,7 +668,18 @@ - (QIOSViewController*)qtViewController
+ 
+ - (UIEdgeInsets)qt_safeAreaInsets
+ {
+-    return self.safeAreaInsets;
++#if QT_DARWIN_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_NA, 110000, 110000, __WATCHOS_NA)
++    if (__builtin_available(iOS 11, tvOS 11, *))
++        return self.safeAreaInsets;
++#endif
++
++    // Fallback for iOS < 11
++    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
++    CGPoint topInset = [self convertPoint:CGPointMake(0, self.viewController.topLayoutGuide.length) fromView:nil];
++    CGPoint bottomInset = [self convertPoint:CGPointMake(0, self.viewController.bottomLayoutGuide.length) fromView:nil];
++    safeAreaInsets.top = topInset.y;
++    safeAreaInsets.bottom = bottomInset.y;
++    return safeAreaInsets;
+ }
+ 
+ @end
+diff --git a/src/plugins/styles/mac/qmacstyle_mac.mm b/src/plugins/styles/mac/qmacstyle_mac.mm
+index cf7cf18c17..109e3300d2 100644
+--- a/src/plugins/styles/mac/qmacstyle_mac.mm
++++ b/src/plugins/styles/mac/qmacstyle_mac.mm
+@@ -1911,10 +1911,17 @@ Carbon draws comboboxes (and other views) outside the rect given as argument. Us
+                 }
+                 Q_UNREACHABLE();
+             } ();
++#if QT_MACOS_PLATFORM_SDK_EQUAL_OR_ABOVE(__MAC_10_12)
+             const auto styleMask = NSWindowStyleMaskTitled
+                                  | NSWindowStyleMaskClosable
+                                  | NSWindowStyleMaskMiniaturizable
+                                  | NSWindowStyleMaskResizable;
++#else
++            const auto styleMask = NSTitledWindowMask
++                                 | NSClosableWindowMask
++                                 | NSMiniaturizableWindowMask
++                                 | NSResizableWindowMask;
++#endif
+             bv = [NSWindow standardWindowButton:button forStyleMask:styleMask];
+             [bv retain];
+             break;
+diff --git a/src/testlib/qappletestlogger.cpp b/src/testlib/qappletestlogger.cpp
+index dfeadebdef..d53f38a759 100644
+--- a/src/testlib/qappletestlogger.cpp
++++ b/src/testlib/qappletestlogger.cpp
+@@ -52,7 +52,10 @@ bool QAppleTestLogger::debugLoggingEnabled()
+     // Debug-level messages are only captured in memory when debug logging is
+     // enabled through a configuration change, which can happen automatically
+     // when running inside Xcode, or with the Console application open.
+-    return os_log_type_enabled(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG);
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *))
++        return os_log_type_enabled(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG);
++
++    return false;
+ }
+ 
+ QAppleTestLogger::QAppleTestLogger()
+@@ -69,13 +72,15 @@ void QAppleTestLogger::enterTestFunction(const char *function)
+     // Re-create activity each time
+     testFunctionActivity = QT_APPLE_LOG_ACTIVITY("Running test function").enter();
+ 
+-    QTestCharBuffer testIdentifier;
+-    QTestPrivate::generateTestIdentifier(&testIdentifier);
+-    QString identifier = QString::fromLatin1(testIdentifier.data());
+-    QMessageLogContext context(nullptr, 0, nullptr, "qt.test.enter");
+-    QString message = identifier;
+-
+-    AppleUnifiedLogger::messageHandler(QtDebugMsg, context, message, identifier);
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
++        QTestCharBuffer testIdentifier;
++        QTestPrivate::generateTestIdentifier(&testIdentifier);
++        QString identifier = QString::fromLatin1(testIdentifier.data());
++        QMessageLogContext context(nullptr, 0, nullptr, "qt.test.enter");
++        QString message = identifier;
++        if (AppleUnifiedLogger::messageHandler(QtDebugMsg, context, message, identifier))
++            return; // AUL already printed to stderr
++    }
+ }
+ 
+ void QAppleTestLogger::leaveTestFunction()
+@@ -101,43 +106,49 @@ struct MessageData
+ void QAppleTestLogger::addIncident(IncidentTypes type, const char *description,
+                                    const char *file, int line)
+ {
+-    MessageData messageData = [=]() {
+-        switch (type) {
+-        case QAbstractTestLogger::Pass:
+-            return MessageData{QtInfoMsg, "pass"};
+-        case QAbstractTestLogger::XFail:
+-            return MessageData{QtInfoMsg, "xfail"};
+-        case QAbstractTestLogger::Fail:
+-            return MessageData{QtCriticalMsg, "fail"};
+-        case QAbstractTestLogger::XPass:
+-            return MessageData{QtInfoMsg, "xpass"};
+-        case QAbstractTestLogger::BlacklistedPass:
+-            return MessageData{QtWarningMsg, "bpass"};
+-        case QAbstractTestLogger::BlacklistedFail:
+-            return MessageData{QtInfoMsg, "bfail"};
+-        case QAbstractTestLogger::BlacklistedXPass:
+-            return MessageData{QtWarningMsg, "bxpass"};
+-        case QAbstractTestLogger::BlacklistedXFail:
+-            return MessageData{QtInfoMsg, "bxfail"};
+-        }
+-        Q_UNREACHABLE();
+-    }();
+-
+-    QTestCharBuffer category;
+-    messageData.generateCategory(&category);
+-
+-    QMessageLogContext context(file, line, /* function = */ nullptr, category.data());
+-
+-    QString message = testIdentifier();
+-    if (qstrlen(description))
+-        message += QLatin1Char('\n') % QString::fromLatin1(description);
+-
+-    AppleUnifiedLogger::messageHandler(messageData.messageType, context, message, subsystem());
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
++        MessageData messageData = [=]() {
++            switch (type) {
++            case QAbstractTestLogger::Pass:
++                return MessageData{QtInfoMsg, "pass"};
++            case QAbstractTestLogger::XFail:
++                return MessageData{QtInfoMsg, "xfail"};
++            case QAbstractTestLogger::Fail:
++                return MessageData{QtCriticalMsg, "fail"};
++            case QAbstractTestLogger::XPass:
++                return MessageData{QtInfoMsg, "xpass"};
++            case QAbstractTestLogger::BlacklistedPass:
++                return MessageData{QtWarningMsg, "bpass"};
++            case QAbstractTestLogger::BlacklistedFail:
++                return MessageData{QtInfoMsg, "bfail"};
++            case QAbstractTestLogger::BlacklistedXPass:
++                return MessageData{QtWarningMsg, "bxpass"};
++            case QAbstractTestLogger::BlacklistedXFail:
++                return MessageData{QtInfoMsg, "bxfail"};
++            }
++            Q_UNREACHABLE();
++        }();
++
++        QTestCharBuffer category;
++        messageData.generateCategory(&category);
++
++        QMessageLogContext context(file, line, /* function = */ nullptr, category.data());
++
++        QString message = testIdentifier();
++        if (qstrlen(description))
++            message += QLatin1Char('\n') % QString::fromLatin1(description);
++
++        if (AppleUnifiedLogger::messageHandler(messageData.messageType, context, message, subsystem()))
++            return; // AUL already printed to stderr
++    }
+ }
+ 
+ void QAppleTestLogger::addMessage(QtMsgType type, const QMessageLogContext &context, const QString &message)
+ {
+-    AppleUnifiedLogger::messageHandler(type, context, message);
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
++        if (AppleUnifiedLogger::messageHandler(type, context, message))
++            return; // AUL already printed to stderr
++    }
+ }
+ 
+ void QAppleTestLogger::addMessage(MessageTypes type, const QString &message, const char *file, int line)
+@@ -175,7 +186,10 @@ void QAppleTestLogger::addMessage(MessageTypes type, const QString &message, con
+             msg = testIdentifier();
+     }
+ 
+-    AppleUnifiedLogger::messageHandler(messageData.messageType, context, msg, subsystem());
++    if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
++        if (AppleUnifiedLogger::messageHandler(messageData.messageType, context, msg, subsystem()))
++            return; // AUL already printed to stderr
++    }
+ }
+ 
+ QString QAppleTestLogger::subsystem() const
+diff --git a/tests/auto/corelib/kernel/qtimer/tst_qtimer.cpp b/tests/auto/corelib/kernel/qtimer/tst_qtimer.cpp
+index 8d194dafc1..0666f0acb1 100644
+--- a/tests/auto/corelib/kernel/qtimer/tst_qtimer.cpp
++++ b/tests/auto/corelib/kernel/qtimer/tst_qtimer.cpp
+@@ -456,7 +456,8 @@ void tst_QTimer::moveToThread()
+ #if defined(Q_OS_WIN32)
+     QSKIP("Does not work reliably on Windows :(");
+ #elif defined(Q_OS_MACOS)
+-    QSKIP("Does not work reliably on macOS 10.12+ (QTBUG-59679)");
++    if (__builtin_available(macOS 10.12, *))
++        QSKIP("Does not work reliably on macOS 10.12 (QTBUG-59679)");
+ #endif
+     QTimer ti1;
+     QTimer ti2;
+-- 
+2.20.1 (Apple Git-117)
+
