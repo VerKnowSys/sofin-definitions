@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Qt 5.12 Base Library"
 DEF_NAME="qtbase"
-DEF_SHA="e48e91f343a7b02dc7012c787a2e3fcb3589f16d"
-DEF_VERSION="5.12.1"
+DEF_SHA="dbe6ed4779998f757473a727b7ff3300c7d31155"
+DEF_VERSION="5.12.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-everywhere-src-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="\
 -prefix ${PREFIX} \
@@ -52,7 +52,7 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     esac
 
     DEF_AFTER_INSTALL_METHOD="make_symlinks"
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath"
+    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath QMAKE_MACOSX_DEPLOYMENT_TARGET=10.11"
 else
     LD="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie"
 fi
