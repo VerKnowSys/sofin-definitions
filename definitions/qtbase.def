@@ -21,6 +21,7 @@ DEF_CONFIGURE_ARGS="\
 -no-gtk \
 -no-feature-sqlmodel \
 -no-sql-sqlite \
+-no-avx2 \
 "
 DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 DEF_CONFLICTS_WITH="Qt Qtws Qtwk Qtme"
