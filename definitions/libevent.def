@@ -1,5 +1,6 @@
 DEF_FULL_NAME="Lib Event"
 DEF_NAME="libevent"
-DEF_SHA="a586882bc93a208318c70fc7077ed8fca9862864"
-DEF_VERSION="2.0.22"
+DEF_SHA="609b14bd2eeb3b48272b607656fa9e1d3318c5e2"
+DEF_VERSION="2.1.10"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-stable.tar.gz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/release-${DEF_VERSION}-stable/${DEF_NAME}-${DEF_VERSION}-stable.tar.gz"
