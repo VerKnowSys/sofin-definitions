@@ -13,7 +13,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --disable-static --disable-rpath --disable-iconv --disable-lzma"
+        DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --disable-static --disable-rpath --disable-iconv --disable-lzma --disable-avx2"
         ;;
 
     *)
