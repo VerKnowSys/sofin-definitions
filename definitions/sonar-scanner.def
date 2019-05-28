@@ -1,0 +1,34 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="Sonar-scanner (command line version)"
+DEF_NAME="sonar-scanner"
+DEF_VERSION="3.3.0.1492"
+DEF_SHA="6368c67416e9a53992f1e6dda62ca9c6bfd01bf0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://binaries.sonarsource.com/Distribution/${DEF_NAME}-cli/${DEF_NAME}-cli-${DEF_VERSION}.zip"
+DEF_CONFIGURE_METHOD="binary"
+DEF_AFTER_UNPACK_METHOD="install_sonar_scanner"
+install_sonar_scanner () {
+    try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+    ${SED_BIN} -i '' -e "s|^script_path.*$|JAVA_HOME=${PREFIX}|; s|^sonar_scanner_home.*$|sonar_scanner_home=${PREFIX}|" \
+        "${PREFIX}/bin/sonar-scanner" "${PREFIX}/bin/sonar-scanner-debug"
+}
+DEF_AFTER_INSTALL_METHOD="link_conf_to_service_dir"
+link_conf_to_service_dir () {
+    if [ -d "${PREFIX}/conf" ]; then
+        try "${MV_BIN} '${PREFIX}/conf' '${SERVICE_DIR}/conf'" \
+        && try "${LN_BIN} -fs '${SERVICE_DIR}/conf' '${PREFIX}/conf'"
+    fi
+}
+DEF_REQUIREMENTS="openjdk8 libinotify"
+DEF_USEFUL="bin/j*"
+DEF_EXPORTS="sonar-scanner sonar-scanner-debug"
+DEF_USELESS="lib/*.a bin/*.dll bin/*.exe bin/*.bat demo sample samples src.zip COPYING NOTICE.txt include THIRD_PARTY_README jre/THIRD_PARTY_README LICENSE"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_USER_INFO="Be sure to install latest OpenJDK 8+ from: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
+        ;;
+esac
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="java javac javap jar"
