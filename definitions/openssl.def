@@ -2,10 +2,10 @@ inherit libressl
 
 DEF_FULL_NAME="OpenSSL v1.1.1"
 DEF_NAME="openssl"
-DEF_VERSION="1.1.1b"
-DEF_SHA="e9710abf5e95c48ebf47991b10cbb48c09dae102"
+DEF_VERSION="1.1.1c"
+DEF_SHA="71b830a077276cbeccc994369538617a21bee808"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://www.openssl.org/source/"
+DEF_ORIGIN="https://www.openssl.org/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="perl"
 DEF_CONFIGURE_METHOD="./Configure"
 unset DEF_USE_LTO
