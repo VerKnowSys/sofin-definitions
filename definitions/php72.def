@@ -28,7 +28,7 @@ install_geoip () {
 }
 
 install_xdebug () {
-    arch_name="xdebug-2.6.0"
+    arch_name="xdebug-2.7.2"
     archive="${arch_name}.tgz"
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${archive}" && \
