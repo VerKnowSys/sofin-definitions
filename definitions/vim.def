@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Vim editor"
 DEF_NAME="vim"
 DEF_SHA="22605f23c640d01d9ed579e8d1f84befbde37d16"
