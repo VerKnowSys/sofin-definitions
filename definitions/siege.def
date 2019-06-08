@@ -1,9 +1,18 @@
 DEF_FULL_NAME="Siege utility."
+DEF_STANDALONE=YES
 DEF_NAME="siege"
-DEF_SHA="eed6ddd96c2168dd11e0512ca4235298c5e16f93"
-DEF_VERSION="3.1.0"
+DEF_SHA="489bcc89799146631898612c8a39030b98cfe310"
+DEF_VERSION="4.0.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_EXPORTS="siege siege.config"
-DEF_AFTER_CONFIGURE_METHOD="${MKDIR_BIN} ${PREFIX} ; ${MKDIR_BIN} ${PREFIX}/etc; true"
-DEF_REQUIREMENTS="make"
-DEF_INSTALL_METHOD="make -s install"
+DEF_ORIGIN="http://download.joedog.org/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="libtool libressl"
+DEF_CONFIGURE_ARGS="--with-ssl=${PREFIX} --with-zlib --disable-static"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}.config"
+
+DEF_AFTER_INSTALL_METHOD="after_install_patch_config"
+after_install_patch_config () {
+    ${SED_BIN} -i '' -e \
+        "s|^rcfile=.*$|rcfile=${SERVICE_DIR}/etc/siegerc|; s|^config=.*$|config=${SERVICE_DIR}/etc/siege.conf|;" \
+        "${PREFIX}/bin/${DEF_NAME}.config"
+    return 0
+}
