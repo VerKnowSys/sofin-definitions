@@ -1,11 +1,10 @@
 DEF_FULL_NAME="GNU Lib"
 DEF_NAME="glib"
-DEF_SHA="948a768931ca321a35e16556a1c8adcae04babf2"
-DEF_VERSION="2.50.2"
+DEF_SHA="4064eb1eb5ff626c211e86bc939f8b743ceafaba"
+DEF_VERSION="2.56.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://ftp.gnome.org/pub/gnome/sources/glib/"
-DEF_REQUIREMENTS="pkgconf make m4 zlib bzip2 lzo lz4 zip libtool expat gdbm sqlite pcre readline yaml libffi perl openssl autoconf texinfo automake gettext python27 icu"
-DEF_CONFIGURE_ARGS="--enable-static=yes --disable-dtrace --disable-man --without-xml-catalog --disable-gtk-doc --with-pcre=system --disable-fam"
-DEF_EXPORTS="psktool certtool srptool ocsptool gnutls-cli p11tool systemkey"
+DEF_ORIGIN="https://ftp.gnome.org/pub/gnome/sources/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="lzo lz4 libtool expat pcre readline libffi libressl gettext python27 icu"
+DEF_CONFIGURE_ARGS="--disable-dtrace --disable-man --without-xml-catalog --disable-gtk-doc --with-pcre=system --disable-fam" #  --enable-static=yes
 DEF_USEFUL="bin/g* bin/*-config bin/pkgconf"
-
+DEF_EXPORTS="gio gio-querymodules glib-compile-resources glib-compile-schemas glib-genmarshal glib-gettextize glib-mkenums glibtoolize gobject-query gresource gsettings gtester gtester-report gdbus gdbus-codegen genbrk gapplication envsubst c_rehash gencfu gencnval gendict genrb"
