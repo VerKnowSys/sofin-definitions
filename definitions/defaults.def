@@ -97,10 +97,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
         DEF_VISIBILITY_FLAGS="-fvisibility=default"
 
         # Explicit compiler optimisation options:
-        if [ -n "${DEBUGBUILD}" ]; then
-            debug "DEBUGBUILD defined! Appending compiler flags with: $(distd "-O0 -ggdb")"
-            BUILD_OPT_FLAGS="-W -O0 -ggdb"
-        else
+        if [ -z "${DEBUGBUILD}" ]; then
             BUILD_OPT_FLAGS="-w -O2"
         fi
         DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=ivybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx -mtune=ivybridge
