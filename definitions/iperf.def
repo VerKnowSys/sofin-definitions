@@ -1,7 +1,8 @@
 DEF_FULL_NAME="Network benchmarking utility - Iperf"
 DEF_NAME="iperf"
-DEF_SHA="8b44a23385044bb454e7891966c37339d3bb3711"
-DEF_VERSION="2.0.10"
+DEF_VERSION="2.0.13"
+DEF_SHA="0c7625c61087b9e6866421abb8bb533658b40a8d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_EXPORTS="iperf"
+DEF_ORIGIN="https://sourceforge.mirrorservice.org/i/project/project/ip/${DEF_NAME}2/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_EXPORTS="${DEF_NAME}"
 unset DEF_USE_LTO
