@@ -1,9 +1,10 @@
 DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Lib xspf"
-DEF_SHA="23bbc0573636928210f42699029941dd06b20a1d"
 DEF_NAME="libxspf"
 DEF_VERSION="1.2.0"
+DEF_SHA="23bbc0573636928210f42699029941dd06b20a1d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="http://downloads.xiph.org/releases/xspf/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-test --disable-doc"
 DEF_REQUIREMENTS="expat uriparser"
 unset DEF_USE_LTO
