@@ -1,0 +1,8 @@
+DEF_FULL_NAME="The opusfile library provides seeking, decode, and playback of Opus streams in the Ogg container"
+DEF_NAME="opusfile"
+DEF_VERSION="0.11"
+DEF_SHA="fc3bf2a73be16836a16d9e55ff1097de3835dce3"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://downloads.xiph.org/releases/opus/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-examples --disable-doc --disable-shared"
+unset DEF_USE_LTO
