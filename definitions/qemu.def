@@ -9,11 +9,12 @@ DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user -
 DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w"
 case "${SYSTEM_NAME}" in
     Darwin)
+        DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/glib/expat glib/' 2>/dev/null)"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cocoa"
         ;;
 
     *)
-        DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/bison/perl bison/; s/glib/python27 glib/' 2>/dev/null)"
+        DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/bison/perl bison/; s/glib/yaml expat python27 glib/' 2>/dev/null)"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python --enable-pie"
         ;;
 esac
