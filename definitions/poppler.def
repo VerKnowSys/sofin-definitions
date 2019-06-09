@@ -6,3 +6,10 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://poppler.freedesktop.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="nasm jpeg libjpeg-turbo libpng lcms2 perl"
 DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DENABLE_GLIB=ON -DENABLE_SPLASH=ON -DSPLASH_CMYK=ON -DWITH_Cairo=ON -DENABLE_LIBCURL=OFF -DBUILD_GTK_TESTS=OFF  -DBUILD_CPP_TESTS=OFF -DBUILD_QT5_TESTS=OFF -DENABLE_QT5=OFF"
+DEF_AFTER_INSTALL_METHOD="move_headers_to_proper_place"
+move_headers_to_proper_place () {
+    try "${MV_BIN} ${PREFIX}/include/poppler/cpp/*.h ${PREFIX}/include/"
+    try "${RM_BIN} -rf '${PREFIX}/include/poppler'"
+}
+unset DEF_USE_LTO
