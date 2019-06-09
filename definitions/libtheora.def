@@ -1,8 +1,9 @@
 DEF_FULL_NAME="Lib Theora"
-DEF_SHA="8dcaa8e61cd86eb1244467c0b64b9ddac04ae262"
 DEF_NAME="libtheora"
 DEF_VERSION="1.1.1"
+DEF_SHA="8dcaa8e61cd86eb1244467c0b64b9ddac04ae262"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="http://downloads.xiph.org/releases/theora/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="libogg libvorbis"
 DEF_CONFIGURE_ARGS="--disable-examples --disable-sdltest --disable-spec --enable-shared --with-ogg=${PREFIX} --with-vorbis=${PREFIX} --disable-static --enable-shared"
 DEF_NO_CCACHE=YES
