@@ -4,3 +4,5 @@ DEF_VERSION="0.2.1"
 DEF_SHA="0f107876925141fe1a8840f4d602d5b0771be105"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://downloads.xiph.org/releases/opus/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-examples --disable-doc"
+unset DEF_USE_LTO
