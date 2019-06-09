@@ -1,7 +1,8 @@
 DEF_FULL_NAME="Pixman low level pixel manipulation library"
 DEF_NAME="pixman"
-DEF_SHA="a1b1683c1a55acce9d928fea1ab6ceb79142ddc7"
-DEF_VERSION="0.34.0"
-DEF_CONFIGURE_ARGS="--disable-gtk"
+DEF_VERSION="0.38.4"
+DEF_SHA="8594e0a31c1802ae0c155d6b502c0953aa862baa"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://www.cairographics.org/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-gtk"
 unset DEF_USE_LTO
