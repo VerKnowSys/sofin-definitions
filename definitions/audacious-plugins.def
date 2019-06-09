@@ -60,7 +60,8 @@ DEF_CONFIGURE_ARGS="\
 --disable-gtk \
 --disable-qtaudio \
 --disable-jack \
---with-system-libxml2=yes \
+--disable-mpris2 \
+--with-system-libxml2=no \
 --with-ffmpeg=ffmpeg \
 "
 
