@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Cairo graphics library (with PDF, PNG, JPEG support)"
 DEF_STANDALONE=YES
 DEF_NAME="cairo"
-DEF_VERSION="1.16.0"
-DEF_SHA="00e81842ae5e81bb0343108884eb5205be0eac14"
+DEF_VERSION="1.17.2"
+DEF_SHA="c5d6f12701f23b2dc2988a5a5586848e70e858fe"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cairographics.org/releases/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-valgrind --enable-gtk-doc-html=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-ps=no --enable-svg=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
