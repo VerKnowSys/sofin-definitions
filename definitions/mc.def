@@ -11,7 +11,7 @@ DEF_CONFIGURE_ARGS="--with-pic --with-mmap --with-screen=ncurses --with-search-e
 --enable-shared --enable-charset --enable-background --enable-mclib --enable-threads \
 --disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view"
-DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs lib/cmake lib/libffi-* lib/pkgconfig lib/*.sh share/gettext* libdata sbin include bin/msg* bin/glib*"
+DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs lib/cmake lib/pkgconfig lib/*.sh share/gettext* libdata sbin include bin/msg* bin/glib*"
 
 DEF_AFTER_CONFIGURE_METHOD="patch_stuff"
 patch_stuff () {

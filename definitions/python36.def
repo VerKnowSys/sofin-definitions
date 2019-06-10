@@ -9,7 +9,7 @@ DEF_REQUIREMENTS="libxml2 readline db gdbm sqlite pcre gettext yaml libffi perl-
 DEF_CONFIGURE_ARGS="--without-dtrace --with-fpectl --without-pydebug --with-doc-strings --with-ensurepip=install --without-gcc --enable-loadable-sqlite-extensions"
 DEF_EXPORTS="python3 python3-config python3.6 python3.6-config easy_install3 pip3"
 DEF_USEFUL="bin/pyth* bin/pip* bin/*config bin/easy_install*"
-DEF_USELESS="share/gtk-doc lib/*perl* lib/*.a include lib/libffi-* lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata lib/*.sh share/gettext* share/pkgconfig lib/libffi-* lib/cmake ssl"
+DEF_USELESS="share/gtk-doc lib/*perl* lib/*.a include lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata lib/*.sh share/gettext* share/pkgconfig lib/cmake ssl"
 DEF_CONFLICTS_WITH="Python3"
 DEF_NO_FAST_MATH=YES
 DEF_NO_CCACHE=YES
