@@ -1,0 +1,3 @@
+inherit "rust"
+
+DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper"
