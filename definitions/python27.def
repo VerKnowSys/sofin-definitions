@@ -4,7 +4,7 @@ DEF_NAME="Python"
 DEF_VERSION="2.7.15"
 DEF_SHA="f99348a095ec4a6411c84c0d15343d11920c9724"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf make m4 libtool lzo lz4 zip expat pcre libffi libressl readline"
+DEF_REQUIREMENTS="libedit db pcre expat yaml libffi libressl"
 DEF_CONFIGURE_ARGS="--with-libs='-lssl -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc --without-lto --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT=-fPIC"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_configure"
