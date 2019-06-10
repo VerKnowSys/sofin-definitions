@@ -1,11 +1,11 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_STANDALONE=YES
-DEF_FULL_NAME="Syslog-ng - an enhanced log daemon v3.9.x"
+DEF_FULL_NAME="Syslog-ng - an enhanced log daemon v3.9"
 DEF_NAME="syslog-ng"
 DEF_SHA="1ca437393d8895654452bef8ac0b996fe73284f8"
 DEF_VERSION="3.9.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make json-c eventlog pcre libffi gettext libressl icu db python36 geoip perl libnet glib curl-dynamic"
+DEF_REQUIREMENTS="pkgconf make libxml2 readline db gdbm yaml perl-static json-c eventlog pcre libffi gettext libressl icu python36 geoip libnet glib curl-dynamic"
 DEF_CONFIGURE_ARGS="--disable-ipv6 --enable-geoip --enable-ssl --enable-json --enable-dynamic-linking --disable-linux-caps --enable-spoof-source --with-libnet=${PREFIX}/bin/libnetcfg --enable-native --with-pidfile-dir=${SERVICE_DIR} --with-mongoc=no --without-compile-date"
 DEF_AFTER_PATCH_METHOD="patch_libnet_detect"
 patch_libnet_detect () {
@@ -13,6 +13,6 @@ patch_libnet_detect () {
 }
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="syslog-ng syslog-ng-ctl"
-DEF_USEFUL="bin/*config"
-DEF_USELESS="lib/python* lib/libffi-* lib/glib* share/aclocal* share/doc lib/*perl* share/gettext* lib/*.a include docs share/glib*"
+DEF_USEFUL="bin/*config bin/syslog* sbin/syslog*"
+DEF_USELESS="lib/python* lib/glib* share/glib* share/aclocal* share/doc lib/*perl* share/gettext* lib/*.a include docs"
 unset DEF_USE_LTO
