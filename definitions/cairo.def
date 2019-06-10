@@ -1,19 +1,19 @@
-DEF_FULL_NAME="Cairo graphics library (with PDF, PNG, JPEG support)"
+DEF_FULL_NAME="Cairo graphics library (headless build with support for: SVG, PS, PDF, PNG, JPEG, FC, FT and CairoScript)"
 DEF_STANDALONE=YES
 DEF_NAME="cairo"
 DEF_VERSION="1.17.2"
 DEF_SHA="c5d6f12701f23b2dc2988a5a5586848e70e858fe"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cairographics.org/releases/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--disable-valgrind --enable-gtk-doc-html=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-ps=no --enable-svg=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
+DEF_CONFIGURE_ARGS="--disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
 DEF_REQUIREMENTS="make pkgconf zlib bzip2 m4 lzma lzo lz4 xz pcre libressl expat nasm icu python27 db perl gettext jpeg jbig2dec jbigkit openjpeg libjpeg-turbo freetype libxml2 fontconfig libpaper texinfo libidn tiff libpng lcms2 libtool libffi graphite2 t1lib glib harfbuzz pixman poppler"
-DEF_USELESS="include/python* lib/perl5 lib/python* lib/libxslt-plugins libexec ssl man share/man share/bash* share/aclocal* share/auto* share/cups share/bison share/doc share/gtk-doc share/gdb share/emacs share/examples share/texinfo share/info share/libtool share/gettext share/icu share/util-macros lib/*.a"
-DEF_USEFUL="bin/pkgconf bin/pkg-config *bin/*config" # XXX: pkg-config is required to let 3rd party apps know about library location
+DEF_USELESS="include/python* lib/perl5 lib/python* lib/libxslt-plugins libexec ssl man share/man share/bash* share/aclocal* share/auto* share/cups share/bison share/doc share/gtk-doc share/gdb share/emacs share/examples share/texinfo share/info share/libtool share/gettext share/icu share/util-macros lib/*.a lib/openjpeg-* lib/*.sh share/glib-* share/gettext-* share/graphite*"
+
 DEF_AFTER_INSTALL_METHOD="create_stub_version"
-create_stub_version () {
-    _cairo_stub="${PREFIX}/bin/cairo-version"
+create_stub_version () { # NOTE: FIXME: this wrapper is just a workaround for Sofin that doesn't perform def-useless-cleanup-routine without an exported binary
+    _cairo_stub="${PREFIX}/bin/${DEF_NAME}-version"
     printf "%b\n\n%b\n" "#!/bin/sh" "cat \"${PREFIX}/${DEF_NAME}${DEF_SUFFIX}.installed\"" > "${_cairo_stub}"
     try "${CHMOD_BIN} 755 ${_cairo_stub}"
 }
-DEF_EXPORTS="cairo-version"
+DEF_EXPORTS="${DEF_NAME}-version"
 unset DEF_USE_LTO
