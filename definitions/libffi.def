@@ -4,6 +4,9 @@ DEF_NAME="libffi"
 DEF_VERSION="3.2.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile_libtool_tag"
-# DEF_AFTER_INSTALL_METHOD="${CP_BIN} -fR ${PREFIX}/lib/libffi-${DEF_VERSION}/include ${PREFIX} && ${RM_BIN} -rf ${PREFIX}/lib/libffi-${DEF_VERSION}"
+DEF_AFTER_INSTALL_METHOD="move_libffi_include"
+move_libffi_include () {
+    try "${CP_BIN} -vfR ${PREFIX}/lib/libffi-${DEF_VERSION}/include ${PREFIX} && ${RM_BIN} -rf ${PREFIX}/lib/libffi-${DEF_VERSION}"
+}
 DEF_NO_CCACHE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
