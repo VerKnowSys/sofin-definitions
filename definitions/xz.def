@@ -1,8 +1,9 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="XZ Utils"
-DEF_SHA="a2975d12e0905daec48ec87c0098602e0669d195"
 DEF_NAME="xz"
-DEF_VERSION="5.2.3"
+DEF_VERSION="5.2.4"
+DEF_SHA="1d3a6910c28d40df0134f4a49e5570e8249120c5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://fossies.org/linux/misc/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="lzma lzmadec lzmainfo xzdec xzdiff xzgrep xzless xzmore lzmore unlzma unxz xzcat xzcmp xz"
 unset DEF_USE_LTO
