@@ -1,22 +1,24 @@
-DEF_FULL_NAME="VI File Manager"
+DEF_FULL_NAME="VI-like File Manager"
+DEF_STANDALONE=YES
 DEF_NAME="vifm"
-DEF_ORIGIN="https://vifm.info"
-DEF_VERSION="0.9.1"
-DEF_SHA="e444bd85d32a4cba1d7e47f5aa53d94c784aceda"
+DEF_VERSION="0.10"
+DEF_SHA="fbdfe7bd9da754e9c8b09da5db8fd8f99bbb49ae"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://netix.dl.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf make"
 DEF_CONFIGURE_ARGS="--disable-desktop-files --without-X11 --without-gtk --enable-extended-keys"
-DEF_EXPORTS="vifm vifm-pause vifmrc-converter"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_AFTER_EXPORT_METHOD="update_vifm_default_config"
-DEF_CONFLICTS_WITH="vifm-devel"
-DEF_STANDALONE=YES
-DEF_MAKE_METHOD="make -s"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-pause ${DEF_NAME}rc-converter"
+DEF_CONFLICTS_WITH="${DEF_NAME}"
 DEF_INSTALL_METHOD="make -s install"
 
-update_vifm_default_config () {
-  try "${MKDIR_BIN} -p $HOME/.vifm"
-  try "${MV_BIN} $HOME/.vifm/vifmrc $HOME/.vifm/vifmrc.old-$(${DATE_BIN} +%Y-%m-%d-%H-%M-%S)"
-  printf "
+DEF_AFTER_EXPORT_METHOD="create_default_config_if_doesnt_exist"
+create_default_config_if_doesnt_exist () {
+  _def_rcfile="${SERVICE_DIR}/${DEF_NAME}rc"
+  try "${MKDIR_BIN} -p ${SERVICE_DIR}/colors"
+
+  if [ ! -f "${_def_rcfile}" ]; then
+    note "No default configuration file found: $(distn "${_def_rcfile}"). Generating default config"
+    printf "
 set vicmd=vi
 set history=100
 set followlinks
@@ -49,17 +51,15 @@ nmap r :!./%%c<space>
 
 windo normal zo
 
-set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,phistory,dirstack,registers,bookmarks
+set ${DEF_NAME}info=dhistory,savedirs,chistory,state,tui,shistory,phistory,dirstack,registers,bookmarks
 
 execute 'set statusline=\"  %%t%%= %%A %%10u:%%-7g %%15s %%20d     logged as: '.\$USER.'  \"'
 
 windo set viewcolumns=-{name}..,7{uname},7{gname},7{mtime},11{perms},9{}
+" > "${_def_rcfile}"
 
-" > "$HOME/.vifm/vifmrc"
-  try "${MKDIR_BIN} -p $HOME/.vifm/colors"
-  if [ "$(id -u)" = "0" ]; then
-    try "${MV_BIN} $HOME/.vifm/colors/dmilith-root $HOME/.vifm/colors/dmilith-root-$(${DATE_BIN} +%s)"
-    printf "
+    if [ "$(id -u)" = "0" ]; then
+      printf "
 highlight Win cterm=none ctermfg=white ctermbg=black
 highlight Directory cterm=bold ctermfg=cyan ctermbg=black
 highlight Link cterm=bold ctermfg=yellow ctermbg=black
@@ -77,11 +77,10 @@ highlight WildMenu cterm=underline,reverse ctermfg=white ctermbg=black
 highlight CmdLine cterm=none ctermfg=white ctermbg=black
 highlight ErrorMsg cterm=none ctermfg=red ctermbg=black
 highlight Border cterm=none ctermfg=black ctermbg=red
-" > "$HOME/.vifm/colors/dmilith-root"
-    printf "colorscheme dmilith-root" >> "$HOME/.vifm/vifmrc"
-  else
-    try "${MV_BIN} $HOME/.vifm/colors/dmilith-user $HOME/.vifm/colors/dmilith-user-$(${DATE_BIN} +%Y-%m-%d-%H-%M-%S)"
-    printf "
+" > "${SERVICE_DIR}/colors/dmilith-root"
+      printf "colorscheme dmilith-root" >> "${_def_rcfile}"
+    else
+      printf "
 highlight Win cterm=none ctermfg=white ctermbg=black
 highlight Directory cterm=bold ctermfg=cyan ctermbg=black
 highlight Link cterm=bold ctermfg=yellow ctermbg=black
@@ -99,8 +98,15 @@ highlight WildMenu cterm=underline,reverse ctermfg=white ctermbg=black
 highlight CmdLine cterm=none ctermfg=white ctermbg=black
 highlight ErrorMsg cterm=none ctermfg=red ctermbg=black
 highlight Border cterm=none ctermfg=black ctermbg=blue
-" > "$HOME/.vifm/colors/dmilith-user"
-    printf "colorscheme dmilith-user" >> "$HOME/.vifm/vifmrc"
+" > "${SERVICE_DIR}/colors/dmilith-user"
+      printf "colorscheme dmilith-user" >> "${_def_rcfile}"
+    fi
+
+    if [ -n "${HOME}" ] \
+    &&[ ! -d "${HOME}/.vifm" ]; then
+      try "${LN_BIN} -s ${SERVICE_DIR} ${HOME}/.vifm"
+    fi
   fi
+
   return 0
 }
