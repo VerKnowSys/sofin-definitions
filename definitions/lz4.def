@@ -1,10 +1,17 @@
-DEF_FULL_NAME="LZ4 is lossless compression algorithm"
+DEF_FULL_NAME="LZ4 is lossless compression library + utilities"
 DEF_NAME="lz4"
 DEF_SHA="70cf7b4ac726b6afd54c2e151aa4a7815279966a"
 DEF_VERSION="1.9.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://fossies.org/linux/misc/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
-DEF_EXPORTS="lz4 lz4c lz4cat"
 DEF_REQUIREMENTS="make"
 DEF_MAKE_METHOD=":"
-DEF_INSTALL_METHOD="OS=${SYSTEM_NAME} make -s install"
+DEF_INSTALL_METHOD="OS=${SYSTEM_NAME} make -j${CPUS:-4} -s install"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}c ${DEF_NAME}cat"
+
+DEF_AFTER_UNPACK_METHOD="patch_pkgconfig_dir"
+patch_pkgconfig_dir () {
+    try "${SED_BIN} -i '' -e 's#libdata/pkgconfig#lib/pkgconfig#' lib/Makefile"
+    return 0
+}
