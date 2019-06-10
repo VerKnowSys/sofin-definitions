@@ -1,10 +1,10 @@
 DEF_FULL_NAME="PostgreSQL 9.x"
 DEF_STANDALONE=YES
 DEF_NAME="postgresql"
-DEF_VERSION="9.6.12"
-DEF_SHA="e505868d08b2645d08d87d747c652ac1a62518b8"
-DEF_ORIGIN="https://www.postgresql.org/ftp/source/"
+DEF_VERSION="9.6.13"
+DEF_SHA="32b9bd28f68426a42c596d1fcedeb971401aee88"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs"
 DEF_REQUIREMENTS="pkgconf make libedit libressl libuuid"
 DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
