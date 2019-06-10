@@ -54,6 +54,16 @@ unset   DEF_NO_PAGEEXEC
 unset   DEF_NO_ASLR
 unset   DEF_NO_SEGVGUARD
 unset   DEF_NO_SHLIBRANDOM
+unset   DEF_NO_RETPOLINE # don't use -mretpoline
+unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
+unset   DEF_NO_LLVM_LINKER
+unset   DEF_NO_LINKER_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
+unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
+unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
+unset   DEF_NO_SSP_BUFFER_OVERRIDE
+unset   DEF_NO_FORTIFY_SOURCE
+unset   DEF_NO_HARDEN_FLAGS # don't set compiler hardening flags
+unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 unset   DEF_APPLY_LOWER_SECURITY_ON # list of binaries/libraries to disable security bits on
 
 unset   DEF_SHA # sha1 of archive source, used to check file checksum after archive download. May be skipped when in git mode
@@ -68,24 +78,14 @@ unset   DEF_STANDALONE # TODO: it's currently only a marker for standalone bundl
 unset   DEF_USE_CXX11 # use -std=c++11
 unset   DEF_USE_CXX14 # use -std=c++14
 unset   DEF_USE_CXX17 # use -std=c++17
-unset   DEF_NO_RETPOLINE # don't use -mretpoline
-unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
-unset   DEF_NO_LLVM_LINKER
-unset   DEF_LINKER_NO_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
-unset   DEF_USE_SAFE_STACK # HardenedBSD specific feature for now, since it's the only open source system based on LLVM
-unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
-unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
-unset   DEF_NO_SSP_BUFFER_OVERRIDE
-unset   DEF_NO_FORTIFY_SOURCE
-unset   DEF_NO_HARDEN_FLAGS # don't set compiler hardening flags
-        DEF_DEFAULT_USELESS="info doc docs share/*-doc share/gtk-doc share/emacs share/common-lisp share/bison share/doc share/docs share/info"
-        DEF_DEFAULT_USEFUL="bin/*-config bin/*cfg" # TODO:
-unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
-unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
-        DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 unset   DEF_USE_LTO # Link time optimization feature
 unset   DEF_USE_CFI # Control Flow Integrity compiler feature
-unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
+unset   DEF_USE_SAFE_STACK # HardenedBSD specific feature for now, since it's the only open source system based on LLVM
+unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
+unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
+        DEF_DEFAULT_USELESS="info doc docs share/*-doc share/gtk-doc share/emacs share/common-lisp share/bison share/doc share/docs share/info"
+        DEF_DEFAULT_USEFUL="bin/*-config bin/*cfg" # TODO:
+        DEF_CLEAN_USELESS=YES # if YES, all NOT exported binaries will be removed from PREFIX/bin and PREFIX/sbin
 
         DEF_USE_RAMDISK=YES # use RAMdisk for build
 
@@ -114,7 +114,7 @@ unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
                 # DEF_LINKER_FLAGS="-arch=${DEF_DEFAULT_USED_ARCHITECTURE}"
                 DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline" # include
                 DEF_NO_LLVM_LINKER=YES
-                DEF_LINKER_NO_DTAGS=YES
+                DEF_NO_LINKER_DTAGS=YES
                 DEF_NO_RETPOLINE=YES
                 DEF_NO_PIE=YES
                 DEF_USE_LTO=YES
