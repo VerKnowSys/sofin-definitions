@@ -49,5 +49,4 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # causing flood of "ask for root password" prompts... I have no further comments...
     DEF_TEST_METHOD="false"
 fi
-DEF_STANDALONE=YES
 unset DEF_USE_LTO
