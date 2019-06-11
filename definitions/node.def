@@ -46,7 +46,7 @@ node_build () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                make -s ${MAKE_OPTS}" \
+                make ${MAKE_OPTS}" \
                     || error "Failed phase: node_build()"
 }
 

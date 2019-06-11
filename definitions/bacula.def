@@ -15,7 +15,7 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-tcp-wrappers=/usr/lib"
         ;;
 esac
-DEF_MAKE_METHOD="make -s ${MAKE_OPTS}"
+DEF_MAKE_METHOD="make ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="bacula bacula-dir bacula-fd bacula-sd bconsole bcopy bextract bls bpluginfo bregex bscan bsmtp btape btraceback bwild dbcheck"
 DEF_COMPILER_FLAGS="-I/usr/include/readline -lz"

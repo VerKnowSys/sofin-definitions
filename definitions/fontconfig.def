@@ -14,7 +14,7 @@ DEF_CONFIGURE_ARGS="--disable-docs --enable-iconv \
     --with-pkgconfigdir=${PREFIX}/lib/pkgconfig \
     --enable-libxml2 \
 "
-DEF_MAKE_METHOD="LC_ALL=C make -s ${MAKE_OPTS}"
+DEF_MAKE_METHOD="LC_ALL=C make ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS}"
 DEF_EXPORTS="fc-cache fc-cat fc-list fc-match fc-pattern fc-query fc-scan fc-validate"
 DEF_USELESS="include/python* lib/python* lib/perl*"

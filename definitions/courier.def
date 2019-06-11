@@ -13,7 +13,7 @@ DEF_EXPORTS="addcr courier-config courierauthconfig couriermlm couriertls delive
 DEF_AFTER_UNPACK_METHOD="umask 022 && mkdir -p ${SERVICE_DIR}/var"
 DEF_AFTER_CONFIGURE_METHOD="umask 022 && fix_fail_in_esmtpd_makefile ; umask 022 && fix_fail_in_makefile"
 DEF_AFTER_INSTALL_METHOD="umask 022 && create_authfile ; install_courier_admin"
-DEF_MAKE_METHOD="umask 022 && make -s ${MAKE_OPTS}"
+DEF_MAKE_METHOD="umask 022 && make ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="umask 022 && make install ${MAKE_OPTS} && make install-configure"
 
 fix_fail_in_esmtpd_makefile () {
