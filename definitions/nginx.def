@@ -28,7 +28,7 @@ _paths_override_svdos="--build=VerKnowSys \
     --http-client-body-temp-path=${SERVICE_DIR}/body \
     --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi \
 "
-_common_args="--with-cc-opt='${CFLAGS}' --with-ld-opt='${LDFLAGS}'"
+_common_args="--with-cc-opt='${CFLAGS}' --with-ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=${USER:-nobody} --group=staff ${_paths_override_svdos}"
@@ -43,7 +43,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-DEF_MAKE_METHOD="OPENSSL=${PREFIX} && make -s ${MAKE_OPTS}"
+DEF_MAKE_METHOD="OPENSSL=${PREFIX} && make ${MAKE_OPTS}"
 DEF_AFTER_MAKE_METHOD="create_service_dirs"
 create_service_dirs () {
     for _pref in /proxy /body /body /fcgi /logs; do
@@ -54,4 +54,4 @@ create_service_dirs () {
 
 DEF_EXPORTS="nginx"
 DEF_CONFLICTS_WITH="Httpd"
-DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
