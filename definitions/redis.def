@@ -32,9 +32,9 @@ build_and_install_redis () {
             V=yo \
             PREFIX='${PREFIX}' \
             CFLAGS='${CFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include' \
-            LDFLAGS='${LDFLAGS} -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc' \
+            LDFLAGS='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc' \
             MALLOC=jemalloc \
-                install \
+                install >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX} \
     "
 }
 DEF_INSTALL_METHOD="true"
