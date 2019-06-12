@@ -3,12 +3,25 @@ DEF_SHA="cac19cd00e1a907f3150cc040ccc077783496d76"
 DEF_NAME="libmad"
 DEF_VERSION="0.15.1b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    DEF_CONFIGURE_ARGS="x86_64-apple-darwin"
-fi
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-accuracy --enable-fpm=intel --disable-debugging --enable-sso"
+DEF_ORIGIN="ftp://ftp.mars.org/pub/mpeg/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="x86_64-apple-darwin"
+        ;;
+    *)
+        ;;
+esac
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-accuracy --disable-debugging --enable-sso"
+DEF_CONFIGURE_METHOD="LDFLAGS=-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ./configure"
+
+DEF_AFTER_UNPACK_METHOD="fix_configure"
+fix_configure () {
+    ${SED_BIN} -i '' -e 's| -fforce-mem||' configure
+}
+
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile"
 fix_makefile () {
-    # Options unsupported under FreeBSD:
-    ${SED_BIN} -i '' -e 's#-fforce-mem -fforce-addr -fthread-jumps -fcse-follow-jumps -fcse-skip-blocks -fexpensive-optimizations -fregmove##g' ./Makefile || true
+    for _unsupported in "-fthread-jumps" "-fcse-follow-jumps" "-fcse-skip-blocks" "-fregmove"; do
+        ${SED_BIN} -i '' -e "s#${_unsupported}##g" Makefile
+    done
 }
