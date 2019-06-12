@@ -8,10 +8,10 @@ DEF_CONFIGURE_METHOD="no-conf"
 DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --with-pic --with-png=auto --with-bzip2=auto --with-zlib=auto --with-harfbuzz=no"
 DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -I${PREFIX}/include -std=c99"
 DEF_MAKE_METHOD=":"
-DEF_INSTALL_METHOD="setup_and_make" # CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\" make -s install
+DEF_INSTALL_METHOD="setup_and_make"
 setup_and_make () {
     cd builds/unix
-    try "./configure ${DEF_CONFIGURE_ARGS} CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\""
+    try "./configure ${DEF_CONFIGURE_ARGS} CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\" LDFLAGS=\"-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags\""
     cd ../..
     try "make setup CFG=\"${DEF_CONFIGURE_ARGS}\""
     make -j "${CPUS}" && \
