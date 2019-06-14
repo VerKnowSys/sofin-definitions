@@ -1,8 +1,8 @@
 DEF_FULL_NAME="GNU Gettext Library"
-DEF_SHA="e0fe90ede22f7f16bbde7bdea791a835f2773fc9"
 DEF_NAME="gettext"
-DEF_VERSION="0.19.8.1"
-DEF_ORIGIN="https://ftp.gnu.org/pub/gnu/gettext/"
+DEF_VERSION="0.20.1"
+DEF_SHA="62f4a6a2fd5f80bfd0e66c497a04094fa3e07b90"
+DEF_ORIGIN="https://ftp.gnu.org/pub/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-relocatable --enable-shared --enable-threads=posix --disable-static \
  --with-included-gettext --with-included-glib --with-included-libcroco --with-included-libunistring --without-emacs \
