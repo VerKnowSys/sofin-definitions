@@ -12,9 +12,9 @@ DEF_USELESS="share/gtk-doc lib/*perl* lib/*.a include lib/pkgconfig docs man sha
 
 DEF_AFTER_CONFIGURE_METHOD="patch_so_called_config_of_so_called_language"
 patch_so_called_config_of_so_called_language () {
-    ${SED_BIN} -i '' -e 's|#define HAVE_DEV_PTMX 1|#undef HAVE_DEV_PTMX|' pyconfig.h
-    echo "#define HAVE_TIMEGM 1" >> pyconfig.h
-    echo "#define MAX_GROUPS 4096" >> Modules/posixmodule.h
+    ${SED_BIN} -i '' -e 's|#define HAVE_DEV_PTMX 1|#undef HAVE_DEV_PTMX|' pyconfig.h # this doesn't exists.. but it's marked as existing feature. Sure
+    echo "#define HAVE_TIMEGM 1" >> pyconfig.h # this is required since configuration process is unable to detect existing function. Yea
+    echo "#define MAX_GROUPS 4096" >> Modules/posixmodule.h # this doesn't exist on BSDs. Who cares right? ;)
 }
 
 DEF_CONFLICTS_WITH="Python3"
