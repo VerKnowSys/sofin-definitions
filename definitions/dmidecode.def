@@ -1,10 +1,15 @@
 DEF_FULL_NAME="DMI Decode hardware reporting utility"
-DEF_SHA="d190f1333e8a217cf02d2a6c98795dc5ced97ddc"
 DEF_NAME="dmidecode"
-DEF_VERSION="2.12"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_VERSION="3.2"
+DEF_SHA="acf4b5c6e757066453fd06aa9060fceb257849bf"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="http://ftp.igh.cnrs.fr/pub/nongnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="no-conf" # no configure script for this package
-DEF_AFTER_UNPACK_METHOD="${SED_BIN} -i '' -e 's/gcc/clang/' Makefile"
+DEF_AFTER_UNPACK_METHOD="prepare_build"
+prepare_build () {
+    ${SED_BIN} -i '' -e 's/gcc/clang/' Makefile
+    echo '#include <sys/socket.h>' >> dmidecode.h
+}
 DEF_MAKE_METHOD="make prefix=${PREFIX}"
 DEF_INSTALL_METHOD="make install prefix=${PREFIX}"
 DEF_EXPORTS="dmidecode biosdecode vpddecode"
