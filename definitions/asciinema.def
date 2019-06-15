@@ -2,7 +2,7 @@ inherit "python36"
 
 unset DEF_SUFFIX
 DEF_FULL_NAME="Asciinema (Python 3.6)"
-DEF_VERSION="2.0.1"
+DEF_VERSION="2.0.2"
 DEF_NAME="asciinema"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
 DEF_TYPE="meta"
