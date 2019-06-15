@@ -5,7 +5,7 @@ DEF_NAME="syslog-ng"
 DEF_SHA="1ca437393d8895654452bef8ac0b996fe73284f8"
 DEF_VERSION="3.9.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make libxml2 readline db gdbm yaml perl-static json-c eventlog pcre libffi gettext libressl icu python36 geoip libnet glib curl-dynamic"
+DEF_REQUIREMENTS="pkgconf make readline json-c eventlog libffi libressl expat gettext gmp python36 geoip libnet pcre glib curl-dynamic"
 DEF_CONFIGURE_ARGS="--disable-ipv6 --enable-geoip --enable-ssl --enable-json --enable-dynamic-linking --disable-linux-caps --enable-spoof-source --with-libnet=${PREFIX}/bin/libnetcfg --enable-native --with-pidfile-dir=${SERVICE_DIR} --with-mongoc=no --without-compile-date"
 DEF_AFTER_PATCH_METHOD="patch_libnet_detect"
 patch_libnet_detect () {
