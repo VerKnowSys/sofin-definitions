@@ -2,10 +2,14 @@ inherit gnupg
 
 DEF_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
 DEF_NAME="gpgme"
-DEF_VERSION="1.12.0"
-DEF_SHA="6f1828fcd7de4366ca063e57f35e4ab24bc91baf"
+DEF_VERSION="1.13.1"
+DEF_SHA="f87f34e695e8d74ccc7c8f42864d50630afebb0e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-nls"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} gnupg"
 DEF_USELESS="lib/*perl* share/readline share/common-lisp"
+DEF_AFTER_UNPACK_METHOD="link_gpg_to_gpg2"
+link_gpg_to_gpg2 () {
+    ${LN_BIN} -fs "${PREFIX}/bin/gpg2" "${PREFIX}/bin/gpg"
+}
