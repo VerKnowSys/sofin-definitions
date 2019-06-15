@@ -1,14 +1,16 @@
 DEF_FULL_NAME="JPEG Library"
-DEF_SHA="15dd867617a88abd07573e06a86ace9bdb998ac2"
 DEF_NAME="jpeg"
-DEF_VERSION="v9b"
+DEF_VERSION="v9c"
+DEF_SHA="2ce111c8c0ac828a44b13ad28c265e954a342d07"
 DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}src.${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="http://ijg.org/files/${DEF_NAME}src.${DEF_VERSION}.tar.gz"
 DEF_AFTER_INSTALL_METHOD="patch_header"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 DEF_NO_LLVM_LINKER=YES
 
 patch_header () {
-    ${SED_BIN} -i '' -e 's#JCOPYRIGHT_SHORT#"JCOPYRIGHT_SHORT"#; s#JCOPYRIGHT#"JCOPYRIGHT"#; s#JVERSION#"v9b"#' ${PREFIX}/include/jerror.h || true
+    ${SED_BIN} -i '' -e "s#JCOPYRIGHT_SHORT#\"JCOPYRIGHT_SHORT\"#; s#JCOPYRIGHT#\"JCOPYRIGHT\"#; s#JVERSION#\"${DEF_VERSION}\"#" "${PREFIX}/include/jerror.h"
+    return 0
 }
