@@ -2,9 +2,9 @@ DEF_DISABLE_ON="Darwin"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Zabbix monitoring system"
 DEF_NAME="zabbix"
-DEF_SHA="b5ef06f539df7940fb672a9facafa18453f3e457"
-DEF_VERSION="4.0.3"
-DEF_ORIGIN="https://www.zabbix.com/download_sources"
+DEF_VERSION="4.2.3"
+DEF_SHA="cf32cb3cf67e4a199fd9359645ed1502592dc198"
+DEF_ORIGIN="https://fossies.org/linux/misc/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf libedit pcre libevent perl openssl libuuid postgresql96 libssh2"
 COMMON_ZABBIX_CONF_ARGS="--disable-ipv6 --enable-agent --sysconfdir=${SERVICE_DIR}/etc \
@@ -14,5 +14,6 @@ DEF_CONFIGURE_ARGS="--enable-proxy --enable-server --with-postgresql=${PREFIX}/b
 DEF_EXPORTS="zabbix_get zabbix_sender zabbix_agent zabbix_agentd zabbix_proxy zabbix_server"
 DEF_USELESS="include share/texinfo lib/*perl* lib/*.a lib/pkgconfig ssl"
 DEF_USE_SAFE_STACK=YES
+DEF_NO_FAST_MATH=YES
 DEF_STANDALONE=YES
 unset DEF_USE_LTO
