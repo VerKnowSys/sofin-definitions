@@ -5,9 +5,9 @@ DEF_SHA="5e2fe78453ecc983247223d73ad2129509ef2564"
 DEF_VERSION="1.16.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nginx.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="jemalloc pcre icu libffi libressl libxml2 libevent geoip"
+DEF_REQUIREMENTS="pcre libressl geoip"
 DEF_CONFIGURE_ARGS="--without-poll_module --without-select_module --with-compat --with-pcre --with-threads --with-http_ssl_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_geoip_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_geoip_module --with-stream_ssl_preread_module --without-http_scgi_module --without-http_uwsgi_module --with-http_slice_module --with-http_secure_link_module --with-http_auth_request_module --with-http_addition_module --with-http_degradation_module --with-http_random_index_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_stub_status_module --without-mail_pop3_module --without-mail_imap_module --without-mail_smtp_module --modules-path=${PREFIX}/modules"
-DEF_USELESS="lib/*.a lib/*.sh lib/cmake lib/pkgconfig lib/icu include"
+DEF_USELESS="lib/*.a lib/*.sh lib/cmake lib/pkgconfig include bin share man"
 
 DEF_AFTER_UNPACK_METHOD="patch_modules_after_unpack"
 patch_modules_after_unpack () {
