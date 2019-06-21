@@ -5,7 +5,7 @@ DEF_SHA="4fe15bc983aacca8ae4811f6d8ad8f91b6faa973"
 DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jsoncpp"
-DEF_REQUIREMENTS="pkgconf make jemalloc lzma xz expat libressl curl-dynamic libarchive"
+DEF_REQUIREMENTS="jemalloc pkgconf make lzma xz expat libressl curl-dynamic libarchive"
 DEF_EXPORTS="${DEF_NAME} c${DEF_NAME}"
 DEF_STANDALONE=YES
 DEF_NO_FAST_MATH=YES
