@@ -1,13 +1,14 @@
 DEF_FULL_NAME="Cmake build system - fully featured build."
-DEF_SHA="22c4c222d98146bec986ba4406c0c3e2d764fa37"
 DEF_NAME="cmake"
-DEF_VERSION="3.6.2"
-DEF_ORIGIN="https://cmake.org/download/"
+DEF_VERSION="3.6.3"
+DEF_SHA="4fe15bc983aacca8ae4811f6d8ad8f91b6faa973"
+DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jsoncpp --no-system-libarchive --no-system-expat"
-DEF_REQUIREMENTS="pkgconf make jemalloc lzma xz expat libressl curl-dynamic"
-DEF_EXPORTS="cmake ccmake"
+DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jsoncpp"
+DEF_REQUIREMENTS="pkgconf make jemalloc lzma xz expat libressl curl-dynamic libarchive"
+DEF_EXPORTS="${DEF_NAME} c${DEF_NAME}"
 DEF_STANDALONE=YES
 DEF_NO_FAST_MATH=YES
 DEF_NO_CCACHE=YES
 DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
