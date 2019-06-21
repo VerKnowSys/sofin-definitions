@@ -6,5 +6,12 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://codeload.github.com/${DEF_NAME}/${DEF_NAME}/tar.gz/v${DEF_VERSION}"
 DEF_CONFIGURE_ARGS="--enable-gui=no --without-x --disable-perlinterp --disable-pythoninterp --disable-tclinterp --disable-rubyinterp --disable-luainterp --disable-nls --disable-selinux --disable-netbeans --disable-gtktest --disable-gpm --with-compiledby=VerKnowSys --enable-multibyte"
 DEF_REQUIREMENTS="make"
-DEF_AFTER_INSTALL_METHOD="printf \"set nocompatible\n\" >> $HOME/.${DEF_NAME}rc"
+DEF_AFTER_EXPORT_METHOD="create_vimrc_if_not_present"
+create_vimrc_if_not_present () {
+    _vimrc="${HOME}/.${DEF_NAME}rc"
+    if [ ! -f "${_vimrc}" ]; then
+        note "Creating default vimrc file: ${_vimrc}"
+        printf "set nocompatible\nsyntax on\n" >> "${_vimrc}"
+    fi
+}
 DEF_EXPORTS="vim evim xxd rview rvim ex vimdiff view"
