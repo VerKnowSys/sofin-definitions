@@ -8,5 +8,6 @@ DEF_REQUIREMENTS="libressl"
 DEF_CONFIGURE_ARGS="--with-zlib --enable-widec --with-ssl --disable-finger --disable-gopher --disable-ftp --enable-default-colors"
 DEF_MAKE_METHOD="make -j${CPUS}"
 DEF_INSTALL_METHOD="make -s install"
+DEF_USELESS="lib/*.a include"
 DEF_EXPORTS="${DEF_NAME}"
 unset DEF_USE_LTO
