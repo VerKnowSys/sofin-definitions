@@ -3,8 +3,8 @@ inherit otp19
 unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD
 DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
 DEF_NAME="elixir"
-DEF_VERSION="1.8.1"
-DEF_SHA="10bcb3036e49448a4f6359f498e5842d33a562f6"
+DEF_VERSION="1.9.0"
+DEF_SHA="5793bf82a863b85e3f9f503ee2dc3e6afd521ffa"
 DEF_ORIGIN="https://github.com/elixir-lang/elixir/releases"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
