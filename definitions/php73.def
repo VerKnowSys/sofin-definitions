@@ -6,7 +6,7 @@ DEF_VERSION="7.3.6"
 DEF_SHA="eb23b9ad603f0b93790e7d5f343ee3cddaaa7981"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-libzip=${PREFIX}"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-libzip=${PREFIX} --with-sodium=${PREFIX}"
 DEF_REQUIREMENTS="libzip libsodium ${DEF_REQUIREMENTS}"
 DEF_BUNDLED_EXTENSIONS="apcu xdebug geoip memcached"
 DEF_NO_MPROTECT=YES # JIT enabled
