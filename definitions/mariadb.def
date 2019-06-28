@@ -27,8 +27,3 @@ make_sure_data_dir_exists_or_create_it () {
         try "${MKDIR_BIN} -p ${SERVICE_DIR}/${_dir}"
     done
 }
-case "${SYSTEM_NAME}" in
-    FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DSECURITY_HARDENED=ON"
-        ;;
-esac
