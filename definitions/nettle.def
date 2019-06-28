@@ -1,15 +1,15 @@
 DEF_FULL_NAME="Low-level cryptographic library"
 DEF_NAME="nettle"
-DEF_SHA="bf2b4d3a41192ff6177936d7bc3bee4cebeb86c4"
-DEF_VERSION="3.3"
+DEF_VERSION="3.5.1"
+DEF_SHA="077a71eef4a62acc4480ff7e2051f806b1724ea2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="bzip2 zlib make m4 gmp"
 if [ "${SYSTEM_ARCH}" = "arm" ]; then
     DEF_CONFIGURE_ARGS="--enable-shared --disable-assembler"
 else
     DEF_CONFIGURE_ARGS="--enable-shared"
 fi
-DEF_EXPORTS="nettle-hash nettle-lfib-stream"
-DEF_MAKE_METHOD="make -s"
+DEF_EXPORTS="${DEF_NAME}-hash ${DEF_NAME}-lfib-stream"
 DEF_INSTALL_METHOD="make -s install"
 unset DEF_USE_LTO
