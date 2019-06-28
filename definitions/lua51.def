@@ -1,31 +1,25 @@
 DEF_FULL_NAME="Lua"
-DEF_SHA="b3882111ad02ecc6b972f8c1241647905cb2e3fc"
 DEF_NAME="lua"
 DEF_VERSION="5.1.5"
-DEF_SUFFIX="51"
+DEF_SHA="b3882111ad02ecc6b972f8c1241647905cb2e3fc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make libedit"
 DEF_EXPORTS="lua luac"
 DEF_CONFIGURE_METHOD="ignore"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
     if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-        _build_flags="-Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -Wl,-fuse-ld=lld -fPIC -fPIE ${LTO_CFLAGS} ${CFLAGS}"
+        _build_flags="-Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie,-z,notext -Wl -fPIC -fPIE ${CFLAGS}"
     fi
     debug "Lua51 build: LTO_CFLAGS available from Sofin: $(distd "${LTO_CFLAGS}")"
     ${SED_BIN} -i '' -e "\
         s|^STD=|STD=${_build_flags}|; \
         s|Linux|FreeBSD|g; \
-        s|gcc|clang|g; \
+        s|gcc|cc ${_build_flags}|g; \
         s|/usr/local|${PREFIX}|g; \
         " \
             src/Makefile \
             Makefile
-
-    ${SED_BIN} -i '' -e \
-        "s#readline/readline.h#editline/readline.h#g" \
-        src/luaconf.h
 
     unset _build_flags
 }
@@ -48,8 +42,9 @@ esac
 # because Lua guys possibly don't know how to do things correctly:
 DEF_AFTER_MAKE_METHOD="create_pc"
 create_pc () {
-    ${MKDIR_BIN} -p ${PREFIX}/lib/pkgconfig
+    ${MKDIR_BIN} -p "${PREFIX}/lib/pkgconfig"
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#" etc/lua.pc
-    ${INSTALL_BIN} -v etc/lua.pc ${PREFIX}/lib/pkgconfig/
+    ${INSTALL_BIN} -v etc/lua.pc "${PREFIX}/lib/pkgconfig/"
 }
 DEF_INSTALL_METHOD="make -s install"
+unset DEF_USE_LTO
