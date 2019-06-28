@@ -7,18 +7,23 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="weechat weechat-curses"
-DEF_USE_SAFE_STACK=YES
-unset DEF_USE_LTO
+DEF_USELESS="lib/*a include share/aclocal"
 
-DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_GUILE=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_RUBY=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_PYTHON3=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_PERL=ON"
+DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_GUILE=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_PYTHON3=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_REQUIREMENTS="jemalloc libunistring zlib lzo libedit lua51 pcre libffi openssl libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_LUA=ON -DENABLE_SPELL=ON"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=ON"
         ;;
 
     *)
-        DEF_REQUIREMENTS="jemalloc libunistring lzo libedit libevent pcre libffi libressl perl python27 libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl ruby24"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_LUA=OFF"
+        DEF_REQUIREMENTS="jemalloc libunistring lzo libedit lua51 libevent pcre libffi libressl perl python27 libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
+        # TODO: figure out magic with ruby25 build options that cause troubles here..
+        # DEF_AFTER_INSTALL_METHOD="install_additional_requirements"
+        # install_additional_requirements () {
+        # }
         ;;
 esac
+
+DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO
