@@ -1,6 +1,7 @@
 DEF_FULL_NAME="ASN.1 structure parser library"
 DEF_NAME="libtasn1"
-DEF_SHA="c7b36fa50866bbc889f7503c7fd1e9f9d7c52a64"
-DEF_VERSION="4.10"
+DEF_VERSION="4.13"
+DEF_SHA="a84afb4cd8187c1fa5901c6bc1cf1486eea66635"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 unset DEF_USE_LTO
