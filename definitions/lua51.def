@@ -9,7 +9,7 @@ DEF_CONFIGURE_METHOD="ignore"
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
     if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-        _build_flags="-Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie,-z,notext -Wl -fPIC -fPIE ${CFLAGS}"
+        _build_flags="-Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -fPIC -fPIE ${CFLAGS}"
     fi
     debug "Lua51 build: LTO_CFLAGS available from Sofin: $(distd "${LTO_CFLAGS}")"
     ${SED_BIN} -i '' -e "\
