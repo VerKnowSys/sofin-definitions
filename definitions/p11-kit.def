@@ -1,8 +1,9 @@
-DEF_FULL_NAME="PKCS#11"
+DEF_FULL_NAME="PKCS#11 - provides a way to load and enumerate PKCS#11 modules."
 DEF_NAME="p11-kit"
-DEF_SHA="4da0d7b47935b6cb0f321dd00358b063ae42df71"
-DEF_VERSION="0.23.2"
+DEF_VERSION="0.23.16.1"
+DEF_SHA="5522b60d90bd2dc8aac23cd0c0b0aded693f7c46"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/p11-glue/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
 DEF_CONFIGURE_ARGS="--disable-gtk-doc --disable-nls --enable-debug=no --with-trust-paths=${PREFIX}/share/certs/ca-root-nss.crt --disable-static --with-libtasn1=${PREFIX}"
 unset DEF_USE_LTO
