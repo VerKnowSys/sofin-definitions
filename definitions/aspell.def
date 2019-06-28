@@ -1,17 +1,19 @@
 DEF_DISABLE_ON="Darwin"
+DEF_STANDALONE=YES
 DEF_FULL_NAME="Aspell"
 DEF_SHA="ff1190db8de279f950c242c6f4c5d5cdc2cbdc49"
 DEF_NAME="aspell"
 DEF_VERSION="0.60.6.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="ftp://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 make libtool gettext perl-static texinfo"
-DEF_EXPORTS="aspell aspell-import word-list-compress pspell-config run-with-aspell recode-sr-latin"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-import word-list-compress pspell-config run-with-${DEF_NAME} recode-sr-latin"
 DEF_USEFUL="bin/as*"
 DEF_AFTER_UNPACK_METHOD="patch_tha_gnu_code"
 patch_tha_gnu_code () {
     ${SED_BIN} -i '' -e "s#word == '\\\\0'#word == 0#g" prog/check_funs.cpp
     ${SED_BIN} -i '' -e "s#top.do_check == '\\\\0'#top.do_check == 0#g" modules/filter/tex.cpp
 }
-DEF_CONFIGURE_ARGS="--disable-static --enable-curses=ncursesw --enable-dict-dir=${SERVICE_DIR}"
+DEF_CONFIGURE_ARGS="--enable-curses=ncursesw --enable-dict-dir=${SERVICE_DIR}" # --disable-static
 DEF_USE_SAFE_STACK=YES
 unset DEF_USE_LTO
