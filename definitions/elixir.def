@@ -1,4 +1,4 @@
-inherit otp19
+inherit otp21
 
 unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD
 DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
@@ -7,26 +7,25 @@ DEF_VERSION="1.9.0"
 DEF_SHA="5793bf82a863b85e3f9f503ee2dc3e6afd521ffa"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/elixir-lang/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_METHOD="no-conf"
-DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
-DEF_CONFLICTS_WITH="Otp"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp21"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_CONFLICTS_WITH="Otp"
+DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
+
 DEF_MAKE_METHOD="export_stuff_and_make"
 export_stuff_and_make () {
-    # Elixir requires UTF in env:
-    export LANG=en_US.UTF-8
-    export LC_CTYPE="en_US.UTF-8"
-    export LC_COLLATE="en_US.UTF-8"
-    export LC_TIME="en_US.UTF-8"
-    export LC_NUMERIC="en_US.UTF-8"
-    export LC_MONETARY="en_US.UTF-8"
-    export LC_MESSAGES="en_US.UTF-8"
-    export ELIXIR_ASSERT_TIMEOUT=2000 \
-        && export OTP_RELEASE=OTP-21.2 \
-            && make compile >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" \
-            && make build_plt >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" \
-                && return 0
+    note "Setting explicit UTF8 in built-env of: ${DEF_NAME}-${MAJOR}"
+    try "export LANG=en_US.UTF-8 \
+        && export LC_CTYPE=en_US.UTF-8 \
+        && export LC_COLLATE=en_US.UTF-8 \
+        && export LC_TIME=en_US.UTF-8 \
+        && export LC_NUMERIC=en_US.UTF-8 \
+        && export LC_MONETARY=en_US.UTF-8 \
+        && export LC_MESSAGES=en_US.UTF-8 \
+        && export ELIXIR_ASSERT_TIMEOUT=2000 \
+        && export OTP_RELEASE=OTP-${MAJOR} \
+        && make compile \
+        && make build_plt" && return 0
     return 1
 }
-DEF_TEST_METHOD="make test"
-DEF_INSTALL_METHOD="make -s install"
+DEF_TEST_METHOD="make test >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
