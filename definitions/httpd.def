@@ -1,17 +1,12 @@
-DEF_FULL_NAME="Apache Httpd server"
+DEF_FULL_NAME="Apache Web Server - Httpd (2.4.x)"
 DEF_STANDALONE=YES
 DEF_NAME="httpd"
-DEF_SHA="94d6e274273903ed153479c7701fa03761abf93d"
-DEF_VERSION="2.4.34"
+DEF_VERSION="2.4.39"
+DEF_SHA="75695bb7bb589c308755bf496de8b34522133865"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_ORIGIN="https://httpd.apache.org/download.cgi"
-DEF_REQUIREMENTS="make pkgconf libtool libxml2 libunistring libedit libevent lzo lz4 pcre gdbm db perl openssl python27 nghttp2 apr apr-util lua51 curl-dynamic"
-DEF_CONFIGURE_ARGS="--with-z=${PREFIX} --with-crypto --enable-nonportable-atomics=yes --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-mpm=worker --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-express --enable-deflate --enable-session --enable-session-cookie --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-proxy-wstunnel --enable-proxy-fcgi --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --enable-cache --enable-cache-disk --enable-auth-form --enable-auth-digest --enable-pie --enable-load-all-modules --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-static-htdbm --enable-static-httxt2dbm --enable-http --enable-http2 --with-nghttp2=${PREFIX} --enable-logio --disable-proxy-balancer"
-DEF_EXPORTS="httpd htdigest httxt2dbm htdbm fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve dbmmanage rotatelogs h2ph h2xs a2p"
-DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
-DEF_USELESS="lib/cmake man manual share logs lib/*python* lib/lua docs include/python* lib/*.a"
-DEF_USEFUL="bin/perl* bin/ap[[:alpha:]]-1-config bin/curl*"
-DEF_USE_SAFE_STACK=YES
+DEF_ORIGIN="http://ftp.ps.pl/pub/apache//${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_REQUIREMENTS="make pkgconf zlib libxml2 libunistring expat libedit libevent lzo lz4 pcre db perl gdbm openssl python27 nghttp2 apr apr-util lua51 curl-dynamic"
+DEF_CONFIGURE_ARGS="--with-z=${PREFIX} --with-ssl=${PREFIX} --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-apr-util=${PREFIX} --with-gdbm=${PREFIX} --with-berkeley-db=${PREFIX} --with-libxml2=${PREFIX} --with-lua=${PREFIX} --with-curl=${PREFIX} --with-nghttp2=${PREFIX} --with-mpm=worker --enable-mpms-shared=all --enable-filter --enable-ext-filter --enable-modules=all --enable-mods-static=all --enable-load-all-modules --enable-http --enable-http2 --enable-proxy-http2 --enable-unixd --enable-xml2enc --with-sslport=443 --with-port=80 --enable-ssl --enable-proxy --enable-proxy-connect --enable-proxy-wstunnel --enable-proxy-fcgi --enable-proxy-express --enable-deflate --enable-session --disable-sed --enable-session-cookie --enable-crypto --enable-session-crypto --enable-slotmem-shm --disable-slotmem-plain --enable-heartbeat --enable-heartmonitor --enable-negotiation --enable-rewrite --enable-userdir --enable-vhost-alias --enable-unique-id --enable-expires --enable-mime-magic --enable-request --enable-include --enable-data --enable-buffer --enable-ratelimit --enable-watchdog --disable-example-hooks --enable-cache --enable-cache-disk --enable-authn-file --enable-auth-form --enable-auth-digest --disable-authz-core --disable-authnz-ldap --disable-auth-basic --enable-pie --enable-exception-hook --enable-suexec --with-suexec-userdir=public_html --with-suexec-uidmin=500 --with-suexec-gidmin=100 --with-suexec-docroot=/ --enable-logio --disable-proxy-balancer --disable-ldap --disable-md --disable-dav --disable-dav-lock --enable-lua --enable-nonportable-atomics=yes"
 
 case "${SYSTEM_NAME}" in
     Linux)
@@ -19,9 +14,27 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=worker --with-suexec-logfile=${SERVICE_DIR}/logs/httpd-suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/bin:/bin:${SERVICE_DIR}/bin'"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-suexec-caller=worker --with-suexec-logfile=${SERVICE_DIR}/logs/${DEF_NAME}-suexec.log --with-suexec-safepath='${PREFIX}/bin:/usr/bin:/bin:${SERVICE_DIR}/bin'"
         ;;
 esac
+
+DEF_EXPORTS="${DEF_NAME} htdigest httxt2dbm htdbm fcgistarter htpasswd apachectl ab htcacheclean enc2xs apxs suexec logresolve dbmmanage rotatelogs h2ph h2xs a2p"
+DEF_USELESS="lib/cmake man manual share logs lib/*python* lib/*perl* lib/lua docs include lib/*.a"
+DEF_USEFUL="bin/perl* bin/*sed bin/ap[[:alpha:]]-1-config bin/curl*"
+# DEF_LINKER_FLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+unset DEF_USE_LTO
+
+DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
+build_addons_and_extensions () {
+    note "Installing additional modules" && \
+    build_limitipconn && \
+    build_fcgid && \
+    build_useragent2 && \
+    build_security && \
+    build_evasive && \
+    note "Done building modules"
+    try "${MKDIR_BIN} -p ${SERVICE_DIR}/logs"
+}
 
 build_limitipconn () {
     MOD_NAME="mod_limitipconn"
@@ -78,14 +91,4 @@ build_evasive () {
     try "PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_evasive24.c" && \
     note "Installed: mod_evasive" && \
     return 0
-}
-
-build_addons_and_extensions () {
-    note "Installing additional modules" && \
-    build_limitipconn && \
-    build_fcgid && \
-    build_useragent2 && \
-    build_security && \
-    build_evasive && \
-    note "Done building modules"
 }
