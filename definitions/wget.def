@@ -7,6 +7,6 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--sysconfdir=${SERVICE_DIR}/etc"
 DEF_REQUIREMENTS="bzip2 perl zlib libgpg-error gmp nettle libffi libtasn1 p11-kit libunistring gnutls texinfo libidn2"
-DEF_USELESS="lib/perl* lib/*.a include share/gtk* share/info share/man share/texinfo"
+DEF_USELESS="lib/perl* lib/*.a include share/gtk* share/info share/texinfo share/aclocal share/libgpg-error share/p11-kit"
 DEF_EXPORTS="${DEF_NAME}"
 unset DEF_USE_LTO
