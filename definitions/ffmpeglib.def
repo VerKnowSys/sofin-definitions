@@ -1,5 +1,0 @@
-inherit ffmpeg
-
-DEF_SUFFIX="lib"
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS} \
-    --disable-programs --disable-devices --enable-shared --enable-static"
