@@ -1,5 +1,10 @@
 DEF_FULL_NAME="GNU Nroff"
 DEF_NAME="groff"
-DEF_SHA="61a6808ea1ef715df9fa8e9b424e1f6b9fa8c091"
-DEF_VERSION="1.22.3"
+DEF_VERSION="1.22.4"
+DEF_SHA="2ce4ab107e3fab1414fef2c5b5312f562a4e4d35"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="perl-static"
+DEF_CONFIGURE_ARGS="--without-doc"
+DEF_EXPORTS="groff roff2html roff2text afmtodit neqn grn gpinyin nroff pdfroff pdfmom roff2ps roff2pdf tfmtodit grolj4 grolbp soelim roff2dvi groffer post-grohtml tbl troff indxbib lookbib preconv pic chem grap2graph grotty grodvi grog refer hpftodit mmroff eqn pre-grohtml eqn2graph addftinfo pfbtops perl5.28.2 gdiffmk pic2graph grops lkbib gropdf gperl roff2x glilypond"
+unset DEF_USE_LTO
