@@ -14,18 +14,22 @@ DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elix
 
 DEF_MAKE_METHOD="export_stuff_and_make"
 export_stuff_and_make () {
-    note "Setting explicit UTF8 in built-env of: ${DEF_NAME}-${MAJOR}"
-    try "export LANG=en_US.UTF-8 \
-        && export LC_CTYPE=en_US.UTF-8 \
-        && export LC_COLLATE=en_US.UTF-8 \
-        && export LC_TIME=en_US.UTF-8 \
-        && export LC_NUMERIC=en_US.UTF-8 \
-        && export LC_MONETARY=en_US.UTF-8 \
-        && export LC_MESSAGES=en_US.UTF-8 \
-        && export ELIXIR_ASSERT_TIMEOUT=2000 \
+    _lang="en_US.UTF-8"
+    _elixir_timeout="2000"
+
+    note "Setting explicit encoding: $(distn "${_lang}") for build of: $(distn "$(capitalize "${DEF_NAME}-${DEF_VERSION}"), OTP-${MAJOR}.${MINOR}")"
+    try "export LANG=${_lang} \
+        && export LC_CTYPE=${_lang} \
+        && export LC_COLLATE=${_lang} \
+        && export LC_TIME=${_lang} \
+        && export LC_NUMERIC=${_lang} \
+        && export LC_MONETARY=${_lang} \
+        && export LC_MESSAGES=${_lang} \
+        && export ELIXIR_ASSERT_TIMEOUT=${_elixir_timeout} \
         && export OTP_RELEASE=OTP-${MAJOR} \
-        && make compile \
-        && make build_plt" && return 0
+        && make compile ${MAKE_OPTS} \
+        && make build_plt ${MAKE_OPTS} \
+    " && return 0
     return 1
 }
 DEF_TEST_METHOD="make test >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
