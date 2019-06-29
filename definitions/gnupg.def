@@ -4,7 +4,7 @@ DEF_VERSION="2.2.16"
 DEF_SHA="f956c8cebee3a6ddb2ce6e6e058d474d056dd9e0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf make libedit gettext getopt pth npth libgpg-error nasm libgcrypt libassuan libksba gdbm db gmp nettle libtasn1 libffi p11-kit texinfo libidn gnutls sqlite"
+DEF_REQUIREMENTS="pkgconf make libedit gettext getopt pth npth libgpg-error nasm libgcrypt libassuan libksba gdbm db gmp nettle libtasn1 libffi p11-kit texinfo libidn libunistring gnutls sqlite"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-tools \
 --with-libgcrypt-prefix=${PREFIX} --with-libassuan-prefix=${PREFIX} --with-npth-prefix=${PREFIX} \
 --with-ksba-prefix=${PREFIX} --with-libgpg-error-prefix=${PREFIX} --with-readline=${PREFIX} \
@@ -12,5 +12,5 @@ DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-t
 --enable-gpg-is-gpg2 --enable-symcryptrun --enable-gnutls \
 "
 DEF_EXPORTS="gpg-connect-agent gpg-agent gpg-connect-agent gpg-error gpg-error-config gpg gpg2 gpgconf gpgkey2ssh gpgparsemail gpgsm gpgsm-gencert.sh gpgv2 symcryptrun watchgnupg hmac256"
-DEF_USELESS="share/readline share/aclocal"
+DEF_USELESS="share/readline share/aclocal include lib/*.a"
 unset DEF_USE_LTO
