@@ -47,6 +47,7 @@ strip_deeptree_bins () {
     _beamsmp_bin="${PREFIX}/lib/erlang/erts-${MAJOR}.${MINOR}/bin/beam.smp"
     note "AfterInstall: strip beam.smp: $(distn "${_beamsmp_bin}")"
     try "${STRIP_BIN} ${_beamsmp_bin}"
+    return 0
 }
 
 DEF_NO_DISALLOW_MAP32BIT=YES
