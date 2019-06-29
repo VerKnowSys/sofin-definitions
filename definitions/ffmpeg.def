@@ -24,7 +24,7 @@ case "${SYSTEM_NAME}" in
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${_ffmpeg_configure_flags}"
 DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/wavpack bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
-DEF_USELESS="docs lib/python2.7 lib/*.a lib/perl5 share/a* share/gdb share/libatom* share/emacs include/boost include/python2.7 bin/python bin/python-config bin/python2* bin/db_* bin/glib-* bin/gettext* bin/msg* bin/*2.7 bin/easy_install bin/pip"
+DEF_USELESS="docs lib/python* lib/perl* share/a* share/gdb share/libatom* share/emacs bin/python* bin/db_* bin/glib-* bin/gettext* bin/msg* bin/easy_install bin/pip include lib/*.a"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
