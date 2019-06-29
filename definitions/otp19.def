@@ -7,13 +7,13 @@ MAJOR="19.3"
 MINOR="6.x"
 DEF_VERSION="${MAJOR}.${MINOR}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${MAJOR}.tar.gz"
-DEF_REQUIREMENTS="lzo libxml2 libressl perl bison flex"
+DEF_REQUIREMENTS="lzo libxml2 libressl perl-static bison flex"
 DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --without-odbc --without-docs --enable-sctp --enable-hipe"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp Elixir"
 DEF_USEFUL="bin/bison bin/yacc bin/flex"
-DEF_USELESS="lib/*perl* docs share include lib/*.a lib/libffi* lib/cmake"
+DEF_USELESS="docs include lib/*.a lib/libffi* lib/cmake"
 unset DEF_USE_LTO
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_CCACHE=YES
