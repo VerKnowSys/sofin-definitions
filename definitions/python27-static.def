@@ -1,0 +1,21 @@
+inherit "python27"
+
+unset DEF_CONFLICTS_WITH DEF_STANDALONE DEF_USE_SAFE_STACK DEF_LINKER_FLAGS
+
+_major_minor="${DEF_VERSION%.*}"
+DEF_CONFIGURE_ARGS="--with-libs='-lssl -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --without-ensurepip --enable-static --disable-shared --disable-ipv6 --with-pymalloc --without-lto --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT=-fPIC LDFLAGS=-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+
+DEF_USEFUL="bin/py* bin/easy*"
+DEF_USELESS="lib/*.{a,la} include lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata"
+DEF_COMPILER_FLAGS="${DEF_OPTFLAGS}"
+DEF_LINKER_FLAGS="-fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+
+DEF_AFTER_INSTALL_METHOD="link_regular_names"
+link_regular_names () {
+    binfile="python${_major_minor}"
+    try "${LN_BIN} -vsf ${PREFIX}/bin/${binfile} ${PREFIX}/bin/${binfile%${_major_minor}}" && \
+        note "Forced symlink: $(distd "${PREFIX}/bin/${binfile}") => $(distd "${PREFIX}/bin/${binfile%${_major_minor}}")"
+    return 0
+}
+
+DEF_EXPORTS="python python${_major_minor}"
