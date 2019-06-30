@@ -3,10 +3,10 @@ DEF_VERSION="7.65.1"
 DEF_SHA="26edd5197564178575c92c41e03acf2131b7643e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://curl.haxx.se/download/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf jemalloc pcre icu libunistring perl openssl lzo libffi libxml2 libidn2 python27 nghttp2 libssh2"
+DEF_REQUIREMENTS="pkgconf jemalloc pcre icu libunistring perl-static openssl lzo libffi libxml2 libidn2 python27-static nghttp2 libssh2"
 DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --disable-ldap --disable-ldaps --disable-debug"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-config"
-DEF_USELESS="man lib/*python* lib/*perl* include/*python* share/man share/texinfo share/info share/aclocal* lib/*.a lib/cmake include lib/pkgconfig"
+DEF_USELESS="man share/man share/texinfo share/info share/aclocal* lib/*.{a,la} lib/cmake include lib/pkgconfig"
 DEF_INSTALL_METHOD="make -s install"
 DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
