@@ -1,9 +1,10 @@
 inherit "mariadb"
 
+DEF_FULL_NAME="MariaDB 10.4"
 DEF_SHA="a52d816a8dfd30a0d5bac9d68590a65297d15b30"
 DEF_VERSION="10.4.6"
 DEF_ORIGIN="http://ftp.icm.edu.pl/pub/unix/database/${DEF_NAME}//${DEF_NAME}-${DEF_VERSION}/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="jemalloc libxml2 bzip2 lzma xz lz4 lzo libedit libressl msgpack pcre libevent perl bison"
+DEF_REQUIREMENTS="jemalloc libxml2 bzip2 lzma xz lz4 lzo libedit libressl msgpack pcre libevent perl-static bison"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DPLUGIN_SPIDER=NO -DPLUGIN_DAEMON_EXAMPLE=NO -DPLUGIN_DIALOG_EXAMPLES=NO -DPLUGIN_EXAMPLE=NO -DPLUGIN_EXAMPLE_KEY_MANAGEMENT=NO -DPLUGIN_FTEXAMPLE=NO -DCONC_WITH_SSL=YES -DPLUGIN_USER_VARIABLES=DYNAMIC"
 DEF_USE_CXX17=YES
