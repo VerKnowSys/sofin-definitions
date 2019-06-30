@@ -5,7 +5,7 @@ DEF_SHA="85cee62e47f0707808ff3d7cb68b6cd075a65509"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="debugflags= ./configure"
-DEF_REQUIREMENTS="libedit jemalloc pcre icu libunistring db libgpg-error libgcrypt gettext yaml sqlite lzo libffi libxml2 libxslt perl-static gdbm libidn2 libevent openssl python27 nghttp2 libssh2 curl libuuid postgresql10 mysql-lib gmp"
+DEF_REQUIREMENTS="libedit jemalloc pcre icu libunistring db libgpg-error libgcrypt gettext yaml sqlite lzo libffi libxml2 libxslt perl-static gdbm libidn2 libevent openssl python27-static nghttp2 libssh2 curl libuuid postgresql10 mysql-lib gmp"
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --enable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
