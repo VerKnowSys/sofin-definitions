@@ -6,5 +6,9 @@ DEF_VERSION="2.22.0"
 DEF_SHA="4984f9f7d32e7f967cee15dce4973c231b2308a1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="pkgconf make libunistring pcre icu expat gmp perl libressl libffi python27 nghttp2 libssh2 curl-dynamic"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python=${PREFIX}/bin/python"
+DEF_USEFUL="bin/perl* bin/python*"
+DEF_USELESS="lib/*.{a,la} share/examples share/texinfo share/gtk-doc share/aclocal* share/auto* lib/pkgconfig include"
 
 unset DEF_CRITICAL
