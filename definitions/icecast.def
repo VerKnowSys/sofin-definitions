@@ -7,5 +7,6 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.osuosl.org/pub/xiph/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf libxml2 libgpg-error libgcrypt libxslt libressl curl-dynamic libogg libvorbis libtheora speex"
 DEF_EXPORTS="${DEF_NAME}"
+DEF_USELESS="include lib/*.a"
 DEF_USE_SAFE_STACK=YES
 unset DEF_USE_LTO
