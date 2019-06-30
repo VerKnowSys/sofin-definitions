@@ -3,16 +3,15 @@ DEF_NAME="otp"
 DEF_VERSION="17.5"
 DEF_SHA="433bafe9bb16a2230830de93985c1d6e02ec1c4e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="lzo libxml2 libressl perl bison flex libgpg-error libgcrypt libxslt"
+DEF_REQUIREMENTS="lzo libxml2 libressl perl-static bison flex libgpg-error libgcrypt libxslt"
 DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --without-odbc --without-docs --enable-sctp --enable-hipe"
 DEF_INSTALL_METHOD="make -s install && install_repl_history"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_CONFLICTS_WITH="Otp"
 DEF_USEFUL="bin/bison bin/yacc bin/flex"
-DEF_USELESS="lib/*perl* docs share include lib/*.a lib/libffi* lib/cmake"
+DEF_USELESS="docs share include lib/*.{a,la} lib/cmake"
 unset DEF_USE_LTO
 DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_NO_CCACHE=YES
 DEF_TEST_METHOD="make release_tests"
 case "${SYSTEM_NAME}" in
     FreeBSD)
