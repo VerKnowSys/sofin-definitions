@@ -1,8 +1,8 @@
 DEF_FULL_NAME="GNU Midnight Commander File Manager"
 DEF_STANDALONE=YES
 DEF_NAME="mc"
-DEF_VERSION="4.8.22"
-DEF_SHA="5a207973a69269e6bdc9a7e4e989a8acfb4a46af"
+DEF_VERSION="4.8.23"
+DEF_SHA="021a33828922b45d18daa23189d6c86d17e61e09"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://ftp.midnight-commander.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pcre libffi expat gettext icu python27 glib perl-static"
@@ -11,7 +11,7 @@ DEF_CONFIGURE_ARGS="--with-pic --with-mmap --with-screen=ncurses --with-search-e
 --enable-shared --enable-charset --enable-background --enable-mclib --enable-threads \
 --disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view"
-DEF_USELESS="lib/*perl* lib/*python* share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs lib/cmake lib/pkgconfig lib/*.sh share/gettext* libdata sbin include bin/msg* bin/glib*"
+DEF_USELESS="share/bash-completion share/gdb share/glib* share/*doc* share/info share/slsh share/libtool man lib/*.{la,a} lib/glib-2.0 share/ac* share/auto* share/emacs lib/cmake lib/pkgconfig lib/*.sh share/gettext* libdata sbin include bin/msg* bin/glib*"
 
 DEF_AFTER_CONFIGURE_METHOD="patch_stuff"
 patch_stuff () {
