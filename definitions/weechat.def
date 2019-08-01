@@ -12,7 +12,7 @@ DEF_USELESS="lib/*a include share/aclocal"
 DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_GUILE=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_PYTHON3=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_REQUIREMENTS="jemalloc libunistring zlib lzo libedit lua51 pcre libffi openssl libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
+        DEF_REQUIREMENTS="jemalloc libunistring zlib lzo libedit lua51 pcre libffi openssl libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl ruby24"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=ON"
         ;;
 
