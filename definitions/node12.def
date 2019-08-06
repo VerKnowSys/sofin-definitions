@@ -1,10 +1,10 @@
 inherit "node"
 
-DEF_VERSION="v12.6.0"
+DEF_VERSION="12.6.0"
 DEF_SHA="aae570419e8ee64f1f733838a4730c84441816fe"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-CURRENT"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://nodejs.org/dist/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://nodejs.org/dist/v${DEF_VERSION}/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-snapshot --without-etw --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
