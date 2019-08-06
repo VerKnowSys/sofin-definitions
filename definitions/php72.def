@@ -8,10 +8,24 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-libzip=${PREFIX} --with-sodium=${PREFIX} --enable-intl"
 DEF_REQUIREMENTS="libzip libsodium ${DEF_REQUIREMENTS}"
-DEF_BUNDLED_EXTENSIONS="apcu xdebug geoip memcached"
+DEF_BUNDLED_EXTENSIONS="apcu xdebug geoip memcached meminfo"
 DEF_NO_MPROTECT=YES # JIT enabled
 DEF_NO_PAGEEXEC=YES # JIT enabled
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
+
+install_meminfo () {
+    phpmeminfo_name="php-meminfo-1.0.5"
+    phpmeminfo_archive="${phpmeminfo_name}.tar.gz"
+    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${phpmeminfo_archive}\" ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${phpmeminfo_archive}" && \
+    cd "${phpmeminfo_name}/extension/php7" && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed PECL extension: ${phpmeminfo_name}" && \
+    return 0
+    return 1
+}
 
 install_geoip () {
     geoip_name="geoip-1.1.1"
