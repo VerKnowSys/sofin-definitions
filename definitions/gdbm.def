@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Library of database functions that use extensible hashing and work similar to the standard UNIX dbm."
 DEF_NAME="gdbm"
 DEF_VERSION="1.18.1"

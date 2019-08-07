@@ -5,7 +5,14 @@ DEF_VERSION="1.1.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_REQUIREMENTS="pkgconf gettext"
-DEF_LINKER_FLAGS="-L${PREFIX}/lib -lc -lintl -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+case "${SYSTEM_NAME}" in
+    FreeBSD|Linux)
+        DEF_LINKER_FLAGS="-L${PREFIX}/lib -lc -lintl -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+        ;;
+    *)
+        DEF_LINKER_FLAGS="-L${PREFIX}/lib -lc -lintl"
+        ;;
+esac
 DEF_AFTER_PATCH_METHOD="hack_gnu_crap"
 hack_gnu_crap () {
     ${SED_BIN} -i '' -e "s#prefix=/usr/local#prefix=${PREFIX}#" Makefile
