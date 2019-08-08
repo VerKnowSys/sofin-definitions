@@ -20,7 +20,7 @@ patch_hardcodes () {
     ${SED_BIN} -i '' -e "s#GETOPT.*\$#GETOPT=${PREFIX}/bin/getopt#" "${PREFIX}/lib/password-store/platform.sh"
     case "${SYSTEM_NAME}" in
         Darwin)
-            # Don't replace bash stuff for Darwin
+            ${SED_BIN} -i '' -e "s#bash#/bin/bash#g" "${PREFIX}/bin/pass"
             ;;
 
         *)
