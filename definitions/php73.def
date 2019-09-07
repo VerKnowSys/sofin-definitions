@@ -2,8 +2,8 @@ inherit php56
 
 DEF_FULL_NAME="PHP 7.3"
 DEF_SUFFIX="73"
-DEF_VERSION="7.3.8"
-DEF_SHA="bb311ba3618ceaf803bb6cce5420950a131db0ce"
+DEF_VERSION="7.3.9"
+DEF_SHA="425d73a8c89ce4a937d6db5dfe502ebe156dea3e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-libzip=${PREFIX} --with-sodium=${PREFIX} --enable-intl"
