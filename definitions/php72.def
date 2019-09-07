@@ -2,8 +2,8 @@ inherit php56
 
 DEF_FULL_NAME="PHP 7.2"
 DEF_SUFFIX="72"
-DEF_VERSION="7.2.21"
-DEF_SHA="79dba32f58a5c54b2a3200a7b66051aa5641f4f7"
+DEF_VERSION="7.2.22"
+DEF_SHA="2a0d0fd672a295e1c9c64dc007bc709244fbcb7b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-libzip=${PREFIX} --with-sodium=${PREFIX} --enable-intl"
