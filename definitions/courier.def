@@ -46,3 +46,4 @@ install_courier_admin () {
     "${PREFIX}/bin/courier-admin"
 }
 DEF_USELESS="lib/perl* lib/pkgconfig lib/courier-authlib/*.a docs share/htmldoc share/info share/libtool share/gettext*"
+unset DEF_USE_LTO

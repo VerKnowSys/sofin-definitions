@@ -6,6 +6,7 @@ DEF_VERSION="0.66.3"
 DEF_LINKER_FLAGS="-lpthread"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-authpam --without-authldap --without-authpwd --without-authshadow --without-stdheaderdir --sysconfdir=${SERVICE_DIR}etc --localstatedir=${SERVICE_DIR}var"
+unset DEF_USE_LTO
 
 if [ "${SYSTEM_NAME}" = "Linux" ]; then
     patch_makefile () {
