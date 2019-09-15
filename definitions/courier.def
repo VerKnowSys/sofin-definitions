@@ -39,7 +39,7 @@ LOGGEROPTS=\"\"
 
 install_courier_admin () {
   ${FETCH_BIN} -o - \
-    "https://raw.github.com/VerKnowSys/courier-admin/master/courier-admin" \
+    "https://raw.githubusercontent.com/VerKnowSys/courier-admin/master/courier-admin" \
     > "courier-admin"
   ${INSTALL_BIN} -v \
     "courier-admin" \
