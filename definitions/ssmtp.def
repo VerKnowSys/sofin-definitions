@@ -1,0 +1,13 @@
+DEF_FULL_NAME="sSMTP utility"
+DEF_NAME="ssmtp"
+DEF_VERSION="master"
+DEF_GIT_CHECKOUT="master"
+DEF_SOURCE_PATH="https://github.com/ajwans/sSMTP.git"
+DEF_EXPORTS="ssmtp generate_config"
+DEF_MAKE_METHOD="make"
+DEF_INSTALL_METHOD="make install"
+DEF_AFTER_MAKE_METHOD="use_alt_config_gen"
+use_alt_config_gen () {
+    ${MV_BIN} "generate_config_alt" "${PREFIX}/bin/generate_config"
+    ${CP_BIN} /usr/bin/true generate_config
+}
