@@ -1,45 +1,32 @@
 DEF_FULL_NAME="Influxb database"
-DEF_NAME="influxdb"
-DEF_SOURCE_PATH="git://github.com/OliverLetterer/dummy-repo.git"
-DEF_VERSION="0.10.0"
-DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_STANDALONE=YES
-DEF_REQUIREMENTS="pkgconf pcre go15 protobuf"
+DEF_NAME="influxdb"
+DEF_VERSION="1.7.4"
+DEF_SHA="0a47767f1abc523145e251cdd86b38783d4eb9ca"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://codeload.github.com/influxdata/${DEF_NAME}/tar.gz/v${DEF_VERSION}"
+DEF_REQUIREMENTS="pkgconf go"
+DEF_USELESS="doc test include share src local/src misc pkg api etc man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="make_action"
-DEF_INSTALL_METHOD="strip_and_install_links"
-DEF_USELESS="doc test include share src local/src misc pkg api etc man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
-DEF_EXPORTS="influx influx_stress influxd inspect test_client urlgen"
+DEF_INSTALL_METHOD="install_action"
+DEF_EXPORTS="influx influxd"
+DEF_NO_CCACHE=YES
 
 make_action () {
-    srcdir="$(${PWD_BIN} 2>/dev/null)"
-    influxdb_git_repo="https://github.com/influxdata/influxdb.git"
-    export PATH=${PATH}:/Software/Git/exports
-    export GOPATH=${PREFIX}/local
-    debug "Cleaning GOPATH: ${GOPATH}"
-    ${RM_BIN} -rf "${GOPATH}"
-    ${MKDIR_BIN} -p ${GOPATH}/src/github.com/influxdata
-    cd $GOPATH/src/github.com/influxdata && \
-    debug "Cloning ${influxdb_git_repo}" && \
-    ${GIT_BIN} clone ${influxdb_git_repo} && \
-    cd $GOPATH/src/github.com/influxdata/influxdb && \
-    debug "Checking out branch: v${DEF_VERSION}" && \
-    ${GIT_BIN} checkout -b "v${DEF_VERSION}" && \
-    debug "Getting ${DEF_NAME}" && \
-    ${PREFIX}/bin/go get -v -t ./... && \
-    debug "Building ${DEF_NAME}" && \
-    ${PREFIX}/bin/go clean ./... && \
-    debug "Installing ${DEF_NAME}" && \
-    ${PREFIX}/bin/go install ./... && \
-    debug "Done."
+    export PATH="${PATH}:/Software/Git/bin" # NOTE: Go build mechanism requires git binary to be available:
+    try "${PREFIX}/bin/go mod init" \
+        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influx ./cmd/influx" \
+        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influxd ./cmd/influxd" \
+        && return 0
+    return 1
 }
 
-strip_and_install_links () {
-    debug "Stripping binaries from local prefix"
-    for afile in $(${FIND_BIN} "${PREFIX}/local/bin" -type f); do
-        debug "Stripping file: ${afile}: $(${STRIP_BIN} ${afile})"
+install_action () {
+    ${MKDIR_BIN} -p "${PREFIX}/bin"
+    for _binary in influx influxd; do
+        try "${MV_BIN} bin/${_binary} ${PREFIX}/bin/${_binary}"
+        try "${STRIP_BIN} ${PREFIX}/bin/${_binary}"
     done
-    for binary in influx influx_stress influxd inspect test_client urlgen; do
-        ${LN_BIN} -s ${PREFIX}/local/bin/${binary} ${PREFIX}/bin/${binary}
-    done
+    unset _binary
 }
