@@ -17,6 +17,7 @@ install_dep () {
     _dep_version="0.5.4"
     note "Installing dep with version ${_dep_version}"
     ${FETCH_BIN} -o "${PREFIX}/bin/dep" "https://github.com/golang/dep/releases/download/v${_dep_version}/dep-freebsd-amd64"
+    ${CHMOD_BIN} a+rx "${PREFIX}/bin/dep"
 }
 
 DEF_AFTER_INSTALL_METHOD="install_wrappers ${DEF_VERSION}"
