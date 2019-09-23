@@ -1,56 +1,62 @@
+DEF_STANDALONE=YES
 DEF_FULL_NAME="Grafana"
 DEF_NAME="grafana"
-DEF_VERSION="2.6.0"
-DEF_SOURCE_PATH="git://github.com/OliverLetterer/dummy-repo.git"
-DEF_GIT_CHECKOUT="v${DEF_VERSION}"
-DEF_REQUIREMENTS="pkgconf pcre go15 zlib bzip2 make yaml libedit python27 node42"
+DEF_VERSION="6.3.6"
+DEF_SOURCE_PATH="https://github.com/grafana/grafana.git"
+DEF_GIT_CHECKOUT="master"
+DEF_REQUIREMENTS="go"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_USELESS="etc doc test include share src local/src misc pkg api man lib/python* AUTHORS CONTRIBUTING.md CONTRIBUTORS LICENSE PATENTS README.md VERSION favicon.ico robots.txt"
 DEF_EXPORTS="grafana-cli grafana-server"
 DEF_NO_CCACHE=YES
 
 DEF_MAKE_METHOD="make_action"
 make_action () {
-    # XXX: hardcoded path to git:
-    export PATH=${PATH}:/Software/Git/exports
-    export GOPATH=${PREFIX}/local
-    debug "Cleaning GOPATH: ${GOPATH} & ${PREFIX}/grafana-github"
-    ${RM_BIN} -rf "${GOPATH}" "${PREFIX}/grafana-github"
-    ${MKDIR_BIN} -p "${GOPATH}"
-    cd "${GOPATH}"
-    debug "Fetching Grafana"
-    ${PREFIX}/bin/go get github.com/grafana/grafana
-    cd "${GOPATH}/src/github.com/grafana/grafana"
+    mkdir -p "${PREFIX}/bin"
+    export PATH=${PATH}:/Software/Git/bin
+    export GOPATH="$(pwd)"
 
     debug "Checking out v${DEF_VERSION}" && \
-    ${GIT_BIN} checkout -b "v${DEF_VERSION}" && \
-    debug "Fetching dependencies of Grafana" && \
-    ${PREFIX}/bin/go run build.go setup && \
-    ${GOPATH}/bin/godep restore && \
-    debug "Building Grafana" && \
-    ${PREFIX}/bin/go clean ./... && \
-    debug "Installing ${DEF_NAME}" && \
-    ${PREFIX}/bin/go install ./... && \
-    debug "Installing node modules" && \
-    cd ${PREFIX} && \
-    ${GIT_BIN} clone https://github.com/grafana/grafana.git grafana-github && \
-    cd grafana-github && \
-    ${GIT_BIN} checkout -b "v${DEF_VERSION}" && \
-    ${PREFIX}/bin/npm install && \
-    ${PREFIX}/bin/npm install -g grunt-cli && \
-    ${PREFIX}/bin/grunt && \
-    ${CP_BIN} -R public/ ../public && \
-    ${CP_BIN} -R conf/ ../conf && \
+    ${GIT_BIN} checkout -b "v${DEF_VERSION}"
+
+    debug "Fetching last version of xerrors (to prevent fail with Go 1.13)" && \
+    go get -u golang.org/x/xerrors && \
+    debug "Building server" && \
+    go build -ldflags "-w" -o "${PREFIX}/bin/grafana-server" ./pkg/cmd/grafana-server && \
+    debug "Building cli" && \
+    go build -ldflags "-w" -o "${PREFIX}/bin/grafana-cli" ./pkg/cmd/grafana-cli
+    # NOTE: setting "-X main.version=${DEF_VERSION} -X main.commit=v${DEF_VERSION}" causes: "flag provided but not defined: -X"
+
+    cd "${GOPATH}"
+    debug "Fetching prebuilt Grafana archive" && \
+    ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
+    ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
+    cd ${DEF_NAME}-${DEF_VERSION} && \
+    ${CP_BIN} -R public/ "${SERVICE_DIR}/public" && \
+    ${CP_BIN} -R conf/ "${SERVICE_DIR}/conf" && \
     cd .. && \
-    ${RM_BIN} -rf ./grafana-github && \
     note "Done."
 }
 
-DEF_INSTALL_METHOD="install_links"
-install_links () {
-    for binary in grafana-cli grafana-server; do
-        ${RM_BIN} -f ${PREFIX}/bin/${binary}
-        ${STRIP_BIN} ${PREFIX}/local/bin/${binary}
-        ${LN_BIN} -s ${PREFIX}/local/bin/${binary} ${PREFIX}/bin/${binary}
+DEF_INSTALL_METHOD="strip_wipe_and_link_stuff"
+strip_wipe_and_link_stuff () {
+    for binary in $(to_iter "${DEF_EXPORTS}"); do
+        ${STRIP_BIN} "${PREFIX}/bin/${binary}"
     done
+    if [ ! -L "${PREFIX}/conf" ]; then
+        ${LN_BIN} -fs "${SERVICE_DIR}/conf" "${PREFIX}/conf"
+    fi
+    if [ ! -L "${PREFIX}/public" ]; then
+        ${LN_BIN} -fs "${SERVICE_DIR}/public" "${PREFIX}/public"
+    fi
+    if [ -n "${PREFIX}" ]; then
+        ${RM_BIN} -rf \
+            "${PREFIX}/api" \
+            "${PREFIX}/lib" \
+            "${PREFIX}/man" \
+            "${PREFIX}/misc" \
+            "${PREFIX}/src" \
+            "${PREFIX}/pkg" \
+            "${PREFIX}/test" \
+            "${SERVICE_DIR}/pkg"
+    fi
 }
