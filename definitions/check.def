@@ -1,0 +1,8 @@
+DEF_FULL_NAME="Check library"
+DEF_NAME="check"
+DEF_VERSION="0.12.0"
+DEF_SHA="f6d95392b8c6b9efdab559e6dba239b30a389b56"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/libcheck/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_EXPORTS="check"
+unset DEF_USE_LTO
