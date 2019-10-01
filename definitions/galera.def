@@ -1,0 +1,38 @@
+DEF_FULL_NAME="Galera Multimaster Replication for Mariadb"
+DEF_NAME="galera"
+DEF_VERSION="25.3.27"
+DEF_SHA="8b14a81866ea19a60767449bab3b9e56d12069fb"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="http://archive.mariadb.org/mariadb-10.3.18/galera-${DEF_VERSION}/src/galera-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pkgconf make zlib xz lzma db libxml2 sqlite bzip2 yaml libffi libressl python27 icu boost scons check"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_MAKE_METHOD="make_products"
+make_products () {
+    export CFLAGS="${CFLAGS} -I${PREFIX}/include -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+    export CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+    export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+    scons revno=${DEF_VERSION} system_asio=0 tests=0 debug=0 -j${CPUS:-4}
+}
+DEF_INSTALL_METHOD="install_products"
+install_products () {
+    ${INSTALL_BIN} -v garb/garbd "${PREFIX}/bin/"
+    ${INSTALL_BIN} -v libgalera_smm.so "${PREFIX}/lib/"
+    ${LN_BIN} -s "${PREFIX}/lib/libgalera_smm.so" "${PREFIX}/lib/libgalera.so"
+    ${RM_BIN} -f \
+        ${PREFIX}/lib/libboost_thread* \
+        ${PREFIX}/lib/libboost_chrono* \
+        ${PREFIX}/lib/libboost_regex* \
+        ${PREFIX}/lib/libboost_fiber* \
+        ${PREFIX}/lib/libboost_log* \
+        ${PREFIX}/lib/libboost_random* \
+        ${PREFIX}/lib/libboost_filesystem* \
+        ${PREFIX}/lib/libboost_coroutine* \
+        ${PREFIX}/lib/libboost_serialization* \
+        ${PREFIX}/lib/libboost_wserialization* \
+        ${PREFIX}/lib/libboost_contract* \
+        ${PREFIX}/lib/libboost_timer* \
+        ${PREFIX}/lib/libboost_system*
+}
+DEF_EXPORTS="garbd"
+DEF_USELESS="include lib/python* lib/cmake man lib/*.{a,la} share"
+unset DEF_USE_LTO
