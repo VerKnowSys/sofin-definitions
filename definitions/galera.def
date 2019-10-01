@@ -18,21 +18,8 @@ install_products () {
     ${INSTALL_BIN} -v garb/garbd "${PREFIX}/bin/"
     ${INSTALL_BIN} -v libgalera_smm.so "${PREFIX}/lib/"
     ${LN_BIN} -s "${PREFIX}/lib/libgalera_smm.so" "${PREFIX}/lib/libgalera.so"
-    ${RM_BIN} -f \
-        ${PREFIX}/lib/libboost_thread* \
-        ${PREFIX}/lib/libboost_chrono* \
-        ${PREFIX}/lib/libboost_regex* \
-        ${PREFIX}/lib/libboost_fiber* \
-        ${PREFIX}/lib/libboost_log* \
-        ${PREFIX}/lib/libboost_random* \
-        ${PREFIX}/lib/libboost_filesystem* \
-        ${PREFIX}/lib/libboost_coroutine* \
-        ${PREFIX}/lib/libboost_serialization* \
-        ${PREFIX}/lib/libboost_wserialization* \
-        ${PREFIX}/lib/libboost_contract* \
-        ${PREFIX}/lib/libboost_timer* \
-        ${PREFIX}/lib/libboost_system*
+    ${STRIP_BIN} ${PREFIX}/lib/*.so
 }
 DEF_EXPORTS="garbd"
-DEF_USELESS="include lib/python* lib/cmake man lib/*.{a,la} share"
+DEF_USELESS="include lib/python* lib/cmake man lib/*.{a,la,sh} share sbin lib/icu lib/pkgconfig lib/libicu* lib/libffi* lib/libxml* lib/libpython* lib/libsqlite* lib/libyaml* lib/libboost_iostreams* lib/libboost_atomic* lib/libboost_container* lib/libboost_context* lib/libboost_date* lib/libboost_math* lib/libboost_stack* lib/libboost_thread* lib/libboost_chrono* lib/libboost_regex* lib/libboost_fiber* lib/libboost_log* lib/libboost_random* lib/libboost_filesystem* lib/libboost_coroutine* lib/libboost_serialization* lib/libboost_wserialization* lib/libboost_contract* lib/libboost_timer* lib/libboost_system* lib/libcheck* lib/libz*"
 unset DEF_USE_LTO
