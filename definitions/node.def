@@ -8,7 +8,7 @@ DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo p
 DEF_CONFIGURE_ARGS="--tag=VerKnowSys --with-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
 --without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 DEF_STANDALONE=YES
-DEF_EXPORTS="node npm npx gyp webpack rollup"
+DEF_EXPORTS="node npm npx gyp webpack rollup node-sass"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
@@ -88,6 +88,14 @@ node_npm_setup_after_install () {
     permnote "Installing additional default utilities"
     try "npm install -g webpack"
     try "npm install -g rollup"
+
+    # NOTE: this is why I love Node developers, they're just awesome. I'm big fan:
+    _pwd="$(pwd)"
+    ${MKDIR_BIN} -p "${SERVICE_DIR}/lib"
+    cd "${SERVICE_DIR}/lib"
+    try "npm install node-sass" # installing with -g fails, so a workaround:
+    ${LN_BIN} -s "${SERVICE_DIR}/lib/node_modules/node-sass/bin/node-sass" "${SERVICE_DIR}/bin/node-sass"
+    cd "${_pwd}"
 }
 
 
