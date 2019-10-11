@@ -39,10 +39,12 @@ LOGGEROPTS=\"\"
 
 install_courier_admin () {
   ${FETCH_BIN} -o - \
-    "https://raw.github.com/VerKnowSys/courier-admin/master/courier-admin" \
+    "https://raw.githubusercontent.com/VerKnowSys/courier-admin/master/courier-admin" \
     > "courier-admin"
   ${INSTALL_BIN} -v \
     "courier-admin" \
     "${PREFIX}/bin/courier-admin"
 }
+DEF_USEFUL="bin/perl*"
 DEF_USELESS="lib/perl* lib/pkgconfig lib/courier-authlib/*.a docs share/htmldoc share/info share/libtool share/gettext*"
+unset DEF_USE_LTO

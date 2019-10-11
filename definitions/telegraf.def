@@ -1,0 +1,19 @@
+DEF_DISABLE_ON="Darwin Linux"
+DEF_FULL_NAME="Telegraf - The plugin-driven server agent for collecting & reporting metrics."
+DEF_STANDALONE=YES
+DEF_NAME="telegraf"
+DEF_VERSION="f669ef44"
+DEF_SHA="b479d2e5cebc65602c092f4d648cbad501da9e91"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-nightly_freebsd_amd64.tar.gz"
+DEF_ORIGIN="https://dl.influxdata.com/${DEF_NAME}/nightlies/${DEF_NAME}-nightly_freebsd_amd64.tar.gz"
+DEF_CONFIGURE_METHOD="binary"
+DEF_USELESS="etc docs var usr"
+DEF_AFTER_UNPACK_METHOD="move_stuff_to_destination"
+move_stuff_to_destination () {
+    ${MKDIR_BIN} -p "${SERVICE_DIR}" "${PREFIX}/bin" "${PREFIX}/lib"
+    ${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}
+    ${MV_BIN} "${PREFIX}/etc/telegraf/telegraf.conf" "${SERVICE_DIR}/service.conf"
+    ${MV_BIN} "${PREFIX}/usr/bin/telegraf" "${PREFIX}/bin/telegraf"
+    ${MV_BIN} "${PREFIX}/usr/lib/telegraf" "${PREFIX}/lib/telegraf"
+}
+DEF_EXPORTS="${DEF_NAME}"

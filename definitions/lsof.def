@@ -1,0 +1,15 @@
+DEF_DISABLE_ON="Darwin Linux"
+DEF_FULL_NAME="lsof - List Of Files utility"
+DEF_NAME="lsof"
+DEF_VERSION="4.93.2"
+DEF_SHA="9abb3bd184530192f8caee8f6b5650b154a666ce"
+DEF_ORIGIN="https://fossies.org/linux/misc/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_EXPORTS="lsof"
+DEF_MAKE_METHOD="./Configure freebsd && make" # well, not really.. cause this thing requires kernel sources, hence manual steps are required on build-server:
+#
+# cd /usr
+# git clone --jobs 8 --single-branch --branch hardened/11-stable/master https://github.com/hardenedbsd/hardenedbsd-stable/ hardenedbsd-11-stable
+# ln -s hardenedbsd-11-stable src
+#

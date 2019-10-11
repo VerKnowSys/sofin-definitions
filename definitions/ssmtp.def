@@ -1,0 +1,19 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="sSMTP utility"
+DEF_NAME="ssmtp"
+DEF_VERSION="master"
+DEF_GIT_CHECKOUT="master"
+DEF_SOURCE_PATH="https://github.com/ajwans/sSMTP.git"
+DEF_CONFIGURE_ARGS="--enable-ssl"
+DEF_REQUIREMENTS="libressl"
+DEF_EXPORTS="ssmtp sendmail"
+
+DEF_AFTER_INSTALL_METHOD="link_as_sendmail"
+link_as_sendmail () {
+    try "${LN_BIN} -s ${PREFIX}/sbin/ssmtp ${PREFIX}/sbin/sendmail"
+}
+
+DEF_AFTER_MAKE_METHOD="use_alt_config_gen"
+use_alt_config_gen () {
+    try "${CP_BIN} -v /usr/bin/true generate_config"
+}

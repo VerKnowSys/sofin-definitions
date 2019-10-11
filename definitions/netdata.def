@@ -1,0 +1,11 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="NetData"
+DEF_NAME="netdata"
+DEF_VERSION="1.17.1"
+DEF_SHA="88a47d9286a5c722c44116fbd291d6b350f584f7"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-v${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--enable-https --enable-jsonc --with-webdir=${SERVICE_DIR}/web --with-jemalloc=${PREFIX} --with-user=www"
+DEF_REQUIREMENTS="pkgconf jemalloc zlib libuuid libressl json-c"
+DEF_EXPORTS="netdata"
+DEF_USELESS="include lib/pkgconfig lib/*.{a,la} docs man"

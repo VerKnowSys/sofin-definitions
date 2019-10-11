@@ -1,20 +1,16 @@
 DEF_FULL_NAME="Freetype - library to render fonts"
 DEF_NAME="freetype"
-DEF_VERSION="2.10.0"
-DEF_SHA="f6abf03e0e3189a0de883981c57d3861b5d314f5"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_ORIGIN="https://download.savannah.gnu.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf zlib bzip2 make perl m4 libtool libressl python27 libpng expat autoconf texinfo automake"
-DEF_CONFIGURE_METHOD="no-conf"
-DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --with-pic --with-png=auto --with-bzip2=auto --with-zlib=auto --with-harfbuzz=no"
-DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -I${PREFIX}/include -std=c99"
-DEF_MAKE_METHOD=":"
-DEF_INSTALL_METHOD="setup_and_make"
-setup_and_make () {
-    cd builds/unix
-    try "./configure ${DEF_CONFIGURE_ARGS} CFLAGS=\"${DEF_COMPILER_FLAGS}\" CXXFLAGS=\"${DEF_COMPILER_FLAGS}\" LDFLAGS=\"-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags\""
-    cd ../..
-    try "make setup CFG=\"${DEF_CONFIGURE_ARGS}\""
-    make -j "${CPUS}" && \
-        make install
+DEF_VERSION="2.10.1"
+DEF_SHA="79874ef4eaa52025126b71d836453b8279bdd331"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://download.savannah.gnu.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="pkgconf zlib bzip2 make libpng texinfo"
+DEF_CONFIGURE_METHOD="builds/unix/configure"
+DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --with-pic --with-png=auto --with-bzip2=auto --with-zlib=auto --with-harfbuzz=no --enable-freetype-config --enable-static=no"
+DEF_MAKE_METHOD="make setup CFG='${DEF_CONFIGURE_ARGS}' && make ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="make install"
+DEF_AFTER_INSTALL_METHOD="patch_freetype_config"
+patch_freetype_config () {
+    ${SED_BIN} -i '' -e 's|/Services/Sofin/exports/pkg-config|pkg-config|g' "${PREFIX}/bin/freetype-config"
 }
+DEF_EXPORTS="freetype-config"
