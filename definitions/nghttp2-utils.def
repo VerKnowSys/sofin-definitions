@@ -1,0 +1,11 @@
+inherit "nghttp2"
+
+DEF_FULL_NAME="Nghttp2-utils, alias: h2load"
+DEF_SUFFIX="-utils"
+DEF_STANDALONE=YES
+DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} --without-mruby --without-neverbleed --without-systemd \
+--disable-debug --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
+--enable-app"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} c-ares libev"
+DEF_EXPORTS="h2load"
+unset DEF_USE_LTO
