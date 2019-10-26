@@ -8,7 +8,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-libzip=${PREFIX} --with-sodium=${PREFIX} --enable-intl"
 DEF_REQUIREMENTS="libzip libsodium ${DEF_REQUIREMENTS}"
-DEF_BUNDLED_EXTENSIONS="apcu xdebug geoip memcached meminfo"
+DEF_BUNDLED_EXTENSIONS="apcu xdebug geoip memcached meminfo redis"
 DEF_NO_MPROTECT=YES # JIT enabled
 DEF_NO_PAGEEXEC=YES # JIT enabled
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
@@ -65,6 +65,20 @@ install_apcu () {
     try "./configure --prefix=${PREFIX} --enable-apcu --with-php-config=${PREFIX}/bin/php-config" && \
     try "PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed APCu pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}
+
+install_redis () {
+    redis_name="redis-5.0.2"
+    redis_archive="${redis_name}.tgz"
+    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\" ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${redis_archive}" && \
+    cd ${redis_name} && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-redis=${PREFIX}" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed PECL extension: ${redis_name}" && \
     return 0
     return 1
 }
