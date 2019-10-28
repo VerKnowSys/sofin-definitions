@@ -68,17 +68,3 @@ install_apcu () {
     return 0
     return 1
 }
-
-install_redis () {
-    redis_name="redis-5.0.2"
-    redis_archive="${redis_name}.tgz"
-    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\" ${FETCH_OPTS}" && \
-    try "${TAR_BIN} xf ${redis_archive}" && \
-    cd ${redis_name} && \
-    try "${PREFIX}/bin/phpize" && \
-    try "./configure --prefix=${PREFIX} --with-php-config=${PREFIX}/bin/php-config --with-redis=${PREFIX}" && \
-    try "PATH=${PREFIX}/bin:$PATH make install" && \
-    note "Installed PECL extension: ${redis_name}" && \
-    return 0
-    return 1
-}
