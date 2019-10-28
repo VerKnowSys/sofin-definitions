@@ -1,0 +1,6 @@
+DEF_FULL_NAME="Oniguruma Regexp Library"
+DEF_NAME="onig"
+DEF_VERSION="6.9.3"
+DEF_SHA="f2bde879bb7334a1b0d7b5553a851a8d6374f28b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/kkos/oniguruma/releases/download/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
