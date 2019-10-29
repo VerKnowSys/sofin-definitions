@@ -1,0 +1,12 @@
+inherit "pcre2"
+
+DEF_FULL_NAME="PCRE2 Library with JIT enabled"
+DEF_SUFFIX="-jit"
+DEF_CONFIGURE_ARGS="--enable-jit --enable-pcregrep-jit --enable-shared --enable-static --enable-rebuild-chartables --enable-utf8 --disable-stack-for-recursion --enable-unicode-properties"
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_NO_ASLR=YES
+DEF_NO_DISALLOW_MAP32BIT=YES
+DEF_NO_SHLIBRANDOM=YES
+DEF_APPLY_LOWER_SECURITY_ON="pcre2grep pcre2test"
