@@ -1,0 +1,25 @@
+inherit "perl"
+
+unset DEF_SUFFIX
+DEF_DISABLE_ON="Linux Darwin"
+DEF_FULL_NAME="Mysql Tuner (Perl 5)"
+DEF_VERSION="1.7.19"
+DEF_ORIGIN="http://mysqltuner.pl/"
+DEF_NAME="mysqltuner"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} perl"
+DEF_TYPE="meta"
+DEF_EXPORTS="mysqltuner"
+DEF_USEFUL="bin/perl* bin/basic_passwords.txt  bin/vulnerabilities.csv"
+
+DEF_AFTER_INSTALL_METHOD="install_mysqltuner"
+install_mysqltuner () {
+    ${MKDIR_BIN} -p "${PREFIX}/bin"
+
+    fetch -o "${PREFIX}/bin/mysqltuner" "${DEF_ORIGIN}"
+    ${SED_BIN} -i '' -e "s|/usr/bin/env perl|${PREFIX}/bin/perl|" "${PREFIX}/bin/mysqltuner"
+
+    fetch -o "${PREFIX}/bin/basic_passwords.txt" "https://raw.githubusercontent.com/major/MySQLTuner-perl/master/basic_passwords.txt"
+    fetch -o "${PREFIX}/bin/vulnerabilities.csv" "https://raw.githubusercontent.com/major/MySQLTuner-perl/master/vulnerabilities.csv"
+
+    ${CHMOD_BIN} a+x "${PREFIX}/bin/mysqltuner"
+}
