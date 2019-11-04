@@ -10,6 +10,7 @@ DEF_REQUIREMENTS="${DEF_REQUIREMENTS} perl"
 DEF_TYPE="meta"
 DEF_EXPORTS="mysqltuner"
 DEF_USEFUL="bin/perl* bin/basic_passwords.txt  bin/vulnerabilities.csv"
+DEF_USELESS="lib/*.{a,la} include share lib/pkgconfig"
 
 DEF_AFTER_INSTALL_METHOD="install_mysqltuner"
 install_mysqltuner () {
