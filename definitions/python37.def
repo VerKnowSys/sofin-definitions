@@ -2,8 +2,8 @@ inherit python36
 
 DEF_FULL_NAME="Python 3.7"
 DEF_SUFFIX="37"
-DEF_VERSION="3.7.4"
-DEF_SHA="a862c5a58626fdad02d2047a57771ede2783fcef"
+DEF_VERSION="3.7.5"
+DEF_SHA="860f88886809ae8bfc86afa462536811c347a2a1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
