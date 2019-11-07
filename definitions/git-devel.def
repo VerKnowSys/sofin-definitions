@@ -2,7 +2,7 @@ inherit "git"
 
 DEF_FULL_NAME="Git SCM (recent version)"
 DEF_SUFFIX="-devel"
-DEF_VERSION="2.23.0"
+DEF_VERSION="2.24.0"
 DEF_SHA="fc627f8cb994c60ae6c4580ca514af2a18c464d7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
