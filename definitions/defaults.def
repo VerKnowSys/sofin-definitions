@@ -54,7 +54,7 @@ unset   DEF_NO_PAGEEXEC
 unset   DEF_NO_ASLR
 unset   DEF_NO_SEGVGUARD
 unset   DEF_NO_SHLIBRANDOM
-unset   DEF_NO_RETPOLINE # don't use -mretpoline
+        DEF_NO_RETPOLINE=YES # don't use -mretpoline
 unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
 unset   DEF_NO_LLVM_LINKER
 unset   DEF_NO_LINKER_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
