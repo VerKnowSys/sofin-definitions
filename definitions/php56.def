@@ -23,7 +23,7 @@ DEF_NO_FAST_MATH=YES
 
 case "${SYSTEM_NAME}" in
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --with-iconv-dir=/usr --with-fpm-user=www --with-fpm-group=www"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --with-iconv-dir=/usr --with-fpm-user=www --with-fpm-group=www"
         DEF_MAKE_METHOD="make -j${CPUS}"
         ;;
 
