@@ -1,0 +1,8 @@
+DEF_FULL_NAME="SysBench Benchmark Tool"
+DEF_NAME="sysbench"
+DEF_VERSION="0.4.12.14"
+DEF_SHA="8d22ab7e5a6e3384895ecd702c10cf9fd7fee9d5"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://downloads.mysql.com/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="perl-static expat cmake mysql-lib"
+DEF_EXPORTS="sysbench"
