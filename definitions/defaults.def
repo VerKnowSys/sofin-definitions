@@ -58,11 +58,11 @@ unset   DEF_NO_SHLIBRANDOM
 unset   DEF_NO_GOLDEN_LINKER # any value disables golden linker flags for configuration stage for current definition
 unset   DEF_NO_LLVM_LINKER
 unset   DEF_NO_LINKER_DTAGS # any value will cause omition of "-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags" ld param.
-unset   DEF_NO_FAST_MATH # any value disables "-ffast-math" compiler option for current definition
 unset   DEF_NO_CCACHE # any value disables ccache usage for current definition
-unset   DEF_NO_SSP_BUFFER_OVERRIDE
-unset   DEF_NO_FORTIFY_SOURCE
-unset   DEF_NO_HARDEN_FLAGS # don't set compiler hardening flags
+        DEF_NO_FAST_MATH=YES # disables "-ffast-math" compiler option for current definition
+        DEF_NO_HARDEN_FLAGS=YES # causes performance penalty since enables -fstack-protector-all
+unset   DEF_NO_FORTIFY_SOURCE # buffer overflow checks
+unset   DEF_NO_SSP_BUFFER_OVERRIDE # stack protector checks
 unset   DEF_NO_TRAP_INT_OVERFLOW # if set, pass "-ftrapv" to compiler
 unset   DEF_APPLY_LOWER_SECURITY_ON # list of binaries/libraries to disable security bits on
 
@@ -100,7 +100,7 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
         if [ -z "${DEBUGBUILD}" ]; then
             BUILD_OPT_FLAGS="-w -O2"
         fi
-        DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=ivybridge -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast" # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx -mtune=ivybridge
+        DEF_OPTFLAGS="${BUILD_OPT_FLAGS} -march=ivybridge" # -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx -mtune=ivybridge
 
         case "${SYSTEM_NAME}" in
             FreeBSD)
