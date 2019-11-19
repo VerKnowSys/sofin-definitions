@@ -1,10 +1,9 @@
 DEF_FULL_NAME="Nano editor"
 DEF_NAME="nano"
-DEF_VERSION="4.3"
-DEF_SHA="9f6c23bc2c9b510f19980a96f586a5ab9a2f84c6"
+DEF_VERSION="4.5"
+DEF_SHA="7893a41d1a9fd7225857e4602f8675ec153100ec"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.nano-editor.org/dist/v4/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-utf8 --enable-color"
 DEF_USELESS="lib/*.a include"
 DEF_EXPORTS="${DEF_NAME}"
-unset DEF_USE_LTO
