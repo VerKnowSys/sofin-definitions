@@ -1,30 +1,11 @@
 DEF_FULL_NAME="GNU Automake"
 DEF_NAME="automake"
-DEF_SHA="dc60b87d720cd2669f3e2e1659d904b383149c40"
-_build_version="1.11"
-DEF_VERSION="${_build_version}.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="m4 make perl autoconf libtool texinfo"
+DEF_SHA="1012bc79956013d53da0890f8493388a6cb20831"
+DEF_VERSION="1.16.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="m4 libtool make perl autoconf texinfo"
 DEF_EXPORTS="automake aclocal autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames libtool libtoolize glibtoolize makeinfo texi2any texi2dvi texi2pdf texindex"
-DEF_CLEAN_USELESS=NO
+DEF_MAKE_METHOD="make -s -j${CPUS}"
+DEF_INSTALL_METHOD="make -s install"
 DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_MAKE_METHOD="make -s"
-DEF_INSTALL_METHOD="make -s install; true"
-
-if [ "${SYSTEM_NAME}" != "Darwin" ]; then
-  DEF_AFTER_UNPACK_METHOD="after_unpack"
-  after_unpack () {
-      try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/Thread-Queue-3.12.tar.gz ${FETCH_OPTS}"
-      try "${TAR_BIN} xf Thread-Queue-3.12.tar.gz"
-      cd Thread-Queue-3.12
-      try "perl Makefile.PL"
-      try "make"
-      try "make install"
-  }
-fi
-
-DEF_AFTER_CONFIGURE_METHOD="after_configure"
-after_configure () {
-    ${SED_BIN} -i '' -e 's#$(PERL) $(srcdir)/doc/help2man --output=$@#true#g' Makefile
-    :
-}
+DEF_CLEAN_USELESS=NO
