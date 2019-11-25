@@ -25,4 +25,9 @@ create_stub_version () { # NOTE: FIXME: this wrapper is just a workaround for So
     try "${CHMOD_BIN} 755 ${_cairo_stub}"
 }
 DEF_EXPORTS="${DEF_NAME}-version"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
