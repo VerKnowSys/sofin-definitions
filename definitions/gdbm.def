@@ -8,4 +8,9 @@ DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.g
 DEF_CONFIGURE_ARGS="--enable-libgdbm-compat --enable-dependency-tracking --enable-memory-mapped-io --enable-libgdbm-compat"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="gdbm_dump gdbm_load gdbmtool"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

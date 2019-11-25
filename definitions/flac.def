@@ -12,4 +12,9 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
 else
   DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-static"
 fi
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

@@ -9,4 +9,9 @@ DEF_CONFIGURE_ARGS="--without-doc"
 DEF_USEFUL="bin/perl*"
 DEF_USELESS="include lib/*.a share/doc"
 DEF_EXPORTS="groff roff2html roff2text afmtodit neqn grn gpinyin nroff pdfroff pdfmom roff2ps roff2pdf tfmtodit grolj4 grolbp soelim roff2dvi groffer post-grohtml tbl troff indxbib lookbib preconv pic chem grap2graph grotty grodvi grog refer hpftodit mmroff eqn pre-grohtml eqn2graph addftinfo pfbtops gdiffmk pic2graph grops lkbib gropdf gperl roff2x glilypond"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

@@ -19,4 +19,9 @@ hack_gnu_crap () {
     ${SED_BIN} -i '' -e "s/gcc/clang/g" Makefile
 }
 DEF_EXPORTS="getopt"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

@@ -20,4 +20,9 @@ DEF_CONFIGURE_ARGS="--disable-cxx --disable-nls --disable-guile --enable-local-l
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-serv"
 DEF_USEFUL="bin/gnu*"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
