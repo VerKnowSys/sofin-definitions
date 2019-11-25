@@ -1,8 +1,8 @@
 DEF_FULL_NAME="PostgreSQL 9.6.x - open source object-relational database system"
 DEF_STANDALONE=YES
 DEF_NAME="postgresql"
-DEF_VERSION="9.6.14"
-DEF_SHA="12ebacbe8138c17a4748b2c3ec6b7473a40a4ca1"
+DEF_VERSION="9.6.16"
+DEF_SHA="5fff91ee210a475dc41cbc39f5a596ae17a1513f"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs"
@@ -12,7 +12,13 @@ DEF_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb c
 DEF_CONFLICTS_WITH="Postgresql"
 DEF_USELESS="lib/*.a include lib/pkgconfig sbin man"
 DEF_STRIP=BIN
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
 DEF_USE_SAFE_STACK=YES
 DEF_NO_FAST_MATH=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
