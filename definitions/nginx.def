@@ -56,7 +56,10 @@ create_service_dirs () {
     done
     unset _pref
 }
-
 DEF_EXPORTS="nginx"
-DEF_CONFLICTS_WITH="Httpd"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

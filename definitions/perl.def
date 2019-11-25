@@ -33,7 +33,12 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
     esac
 fi
 
-unset DEF_USE_LTO
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_FAST_MATH=YES
 DEF_MAKE_METHOD="make_method"

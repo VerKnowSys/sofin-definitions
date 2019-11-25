@@ -4,4 +4,9 @@ DEF_SHA="21e98282b103307a16792e5e2d4c99beaf0b3b9c"
 DEF_VERSION="1.9.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.libssh2.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

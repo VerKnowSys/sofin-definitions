@@ -16,6 +16,4 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
 fi
 DEF_NO_CCACHE=YES
 DEF_EXPORTS="openssl"
-DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
-unset DEF_USE_LTO

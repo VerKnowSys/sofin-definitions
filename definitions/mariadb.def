@@ -14,7 +14,7 @@ DEF_USEFUL="bin/my*" # always be prepared for more ;)
 # DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11.2)
+    FreeBSD-11*)
         unset DEF_USE_LTO
         ;;
 esac

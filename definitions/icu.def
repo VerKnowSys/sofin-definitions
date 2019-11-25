@@ -9,4 +9,9 @@ DEF_EXPORTS="icu-config icu-info"
 DEF_USEFUL="bin/icu* bin/*conf*"
 DEF_REQUIREMENTS="make"
 DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --disable-plugins"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

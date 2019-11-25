@@ -13,7 +13,12 @@ DEF_MAKE_METHOD="docdir=/tmp make -s -j${CPUS}"
 DEF_INSTALL_METHOD="make -s install"
 DEF_REQUIREMENTS="make m4 libtool"
 DEF_COMPILER_FLAGS="-DCRYPTO=1 -DL10N=1"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
 
 case "${SYSTEM_NAME}" in
     Linux)

@@ -21,4 +21,9 @@ patch_stuff () {
                 && return 0
     return 1
 }
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

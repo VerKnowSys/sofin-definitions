@@ -13,3 +13,13 @@ DEF_USELESS="lib/*.{a,la} share/examples share/texinfo share/gtk-doc share/acloc
 DEF_CONFLICTS_WITH="Git"
 
 unset DEF_CRITICAL
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+
+    FreeBSD-12*)
+        DEF_USE_LTO=YES
+        ;;
+esac

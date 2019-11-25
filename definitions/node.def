@@ -123,7 +123,12 @@ fetch_and_install_fresh_ca_cert () {
 #       - No C++11 standard enabled - recent Node (versions: +10) claim to use C++14, hence C++11 (C++ default) is disabled for Node.
 #       - Don't use ccache - Node can be built with ccache enabled, but it makes installation of native NPM modules _much_ more difficult later on…
 #
-unset DEF_USE_LTO
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
 DEF_USE_CXX14=YES
 DEF_NO_PIE=YES
 DEF_NO_CCACHE=YES

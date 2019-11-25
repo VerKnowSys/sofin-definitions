@@ -5,4 +5,9 @@ DEF_SHA="46b3afd04311d69427adc59e9154f4a124fd890e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="bsdcat bsdcpio bsdtar"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

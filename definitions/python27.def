@@ -41,7 +41,12 @@ DEF_USEFUL="bin/python* bin/easy_install* bin/pip* bin/pcre* bin/gdbm* bin/gette
 DEF_USELESS="lib/*perl* lib/*.a include lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata"
 DEF_CONFLICTS_WITH="Python2"
 
-unset DEF_USE_LTO
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
 DEF_NO_FAST_MATH=YES
 DEF_NO_CCACHE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
