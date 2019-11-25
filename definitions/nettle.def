@@ -12,4 +12,9 @@ else
 fi
 DEF_EXPORTS="${DEF_NAME}-hash ${DEF_NAME}-lfib-stream"
 DEF_INSTALL_METHOD="make -s install"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

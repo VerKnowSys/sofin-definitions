@@ -18,4 +18,9 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
         try "install_name_tool -id ${PREFIX}/lib/libmysqlclient.18.dylib ${PREFIX}/lib/libmysqlclient.18.dylib"
     }
 fi
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

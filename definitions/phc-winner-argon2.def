@@ -7,9 +7,14 @@ DEF_ORIGIN="https://github.com/P-H-C/${DEF_NAME}/archive/${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf" # no configure script for this package
 DEF_COMPILER_FLAGS="-I./include -pthread"
 DEF_EXPORTS="argon2"
-unset DEF_USE_LTO
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
     ${SED_BIN} -i '' -e "s|^PREFIX.*$|PREFIX=${PREFIX}|" Makefile
 }
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

@@ -8,4 +8,9 @@ DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} --without
 --enable-app"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} c-ares libev"
 DEF_EXPORTS="h2load"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
