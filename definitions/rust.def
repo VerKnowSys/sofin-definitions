@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.38.0"
-DEF_SHA="14a4a216547eaa1b2f272b8d64d21f33473fc020"
+DEF_VERSION="1.39.0"
+DEF_SHA="4eaa3dd43f4d8ac297b4695365522d4b64cb3273"
 DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/other-installation-methods.html
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 DEF_STANDALONE=YES
@@ -10,7 +10,7 @@ DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
 _base_tools="rustc cargo cargo.bin rust-gdb rust-gdbgui rust-lldb cargo-clippy cargo-miri clippy-driver miri rustdoc"
-_cargo_crates="sccache rls rustfmt everustc bindgen exa hexyl rdb tac ripgrep fd-find cargo-script cargo-asm cargo-audit cargo-expand cargo-count cargo-do cargo-check cargo-watch" # lw
+_cargo_crates="rls rustfmt everustc bindgen exa hexyl rdb tac ripgrep fd-find cargo-script cargo-asm cargo-audit cargo-expand cargo-count cargo-do cargo-check cargo-watch" # lw
 _cargo_tools="cargo-fmt cargo-llvm-ir run-cargo-script fd rg" # NOTE: some crates (like ripgrep or fd-find here), have different name of crate and different utility name
 DEF_EXPORTS="${_base_tools} ${_cargo_crates} ${_cargo_tools}"
 DEF_CONFLICTS_WITH="Rust"
@@ -55,15 +55,7 @@ ${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
 install_utils () {
     note "Installing cargo utilities: $(distn "${_cargo_crates}")"
     for _util in $(to_iter "${_cargo_crates}"); do
-        case "${_util}" in
-            sccache)
-                try "CC=cc CXX=c++ LD=ld.lld PATH=${SERVICE_DIR}/bin:${PREFIX}/bin:/bin:/usr/bin:/Services/Sofin/exports cargo install ${_util} >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}"
-                ;;
-
-            *)
-                try "RUSTC_WRAPPER=sccache CC=cc CXX=c++ LD=ld.lld PATH=${SERVICE_DIR}/bin:${PREFIX}/bin:/bin:/usr/bin:/Services/Sofin/exports cargo install --force ${_util} >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}" \
-                        || exit 6
-                ;;
-        esac
+        try "CC=cc CXX=c++ LD=ld.lld PATH=${SERVICE_DIR}/bin:${PREFIX}/bin:/bin:/usr/bin:/Services/Sofin/exports cargo install --force ${_util} >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}" \
+                || exit 6
     done
 }
