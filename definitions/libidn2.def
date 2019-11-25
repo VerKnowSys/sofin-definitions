@@ -1,10 +1,10 @@
 DEF_FULL_NAME="LibIDN v2 - International Domain Names"
 DEF_NAME="libidn2"
-DEF_VERSION="2.1.1a"
-DEF_SHA="3a668f43efb6c36e32e9841775efff04aef18c0b"
+DEF_VERSION="2.3.0"
+DEF_SHA="53f54fd3c305d871ed5716406c0695fad5c34c45"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/libidn/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf make lzma xz lzo lz4 libressl gettext libunistring"
 DEF_CONFIGURE_ARGS="--with-libunistring-prefix=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-valgrind-tests --disable-gtk-doc-html --disable-dependency-tracking --disable-silent-rules"
 DEF_EXPORTS="idn2"
-unset DEF_USE_LTO
+# unset DEF_USE_LTO
