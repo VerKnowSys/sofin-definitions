@@ -1,5 +1,13 @@
 DEF_FULL_NAME="FreeIPMI implementation"
-DEF_SHA="343b574ca79038d22827c895ef0ca95ee38137ae"
+DEF_STANDALONE=YES
 DEF_NAME="freeipmi"
-DEF_VERSION="1.4.4"
+DEF_VERSION="1.6.4"
+DEF_SHA="f88ec854cef7f235aeb013308ebdb51075c51ef8"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="libgpg-error libgcrypt autoconf automake libtool argp-standalone"
+DEF_CONFIGURE_METHOD="PTHREAD_LIBS=-lpthread ac_cv_path_CPP=c++ ./configure"
+DEF_CONFIGURE_ARGS="--with-sysroot=${PREFIX} --disable-init-scripts --with-pkgconfig-dir=${PREFIX}/lib/pkgconfig"
+DEF_COMPILER_FLAGS="-D_WANT_SEMUN"
+DEF_EXPORTS="bmc-config bmc-device bmc-info bmc-watchdog ipmi-chassis ipmi-chassis-config ipmi-config ipmi-console ipmi-dcmi ipmi-detect ipmi-fru ipmi-locate ipmi-oem ipmi-pef-config ipmi-pet ipmi-ping ipmi-power ipmi-raw ipmi-sel ipmi-sensors ipmi-sensors-config ipmiconsole ipmidetect ipmidetectd ipmimonitoring ipmiping ipmipower ipmiseld pef-config rmcp-ping rmcpping"
+unset DEF_USE_LTO
