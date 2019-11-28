@@ -1,20 +1,19 @@
 DEF_FULL_NAME="OCaml"
-DEF_SHA="55b9f90603f43cd84abba4db6f3a05a6040c505a"
 DEF_STANDALONE=YES
 DEF_NAME="ocaml"
-DEF_VERSION="4.07.1"
+DEF_VERSION="4.09.0"
+DEF_SHA="981f15617d90ed990919c031c8c1f39b45f62002"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make lzo lz4 lzma xz pcre db perl openssl"
-DEF_CONFIGURE_METHOD="posix"
-DEF_CONFIGURE_OPTS="-fPIC -safe-string -with-pthread"
-DEF_MAKE_METHOD="AR=ar make -s world.opt ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="make -s install"
-DEF_USELESS="lib/*.a lib/perl5 include/openssl docs ssl share/aclocal"
+DEF_REQUIREMENTS="make zlib lzo lz4 pcre db perl-static openssl bison gmp mpfr libmpc texinfo isl binutils"
+DEF_CONFIGURE_ARGS="--enable-shared=yes --enable-static=no --enable-flambda --disable-debug-runtime --disable-ocamldoc"
+DEF_MAKE_METHOD="make world.opt ${MAKE_OPTS}"
+DEF_INSTALL_METHOD="make install"
+DEF_USELESS="lib/*.a include/openssl docs ssl share/aclocal"
 DEF_USEFUL="bin/ocaml*"
 DEF_EXPORTS="ocaml ocamlc camlp4r camlp4oof camlp4orf ocamlbuild ocamlcp ocamlrun camlp4 camlp4o camlp4of camlp4oof camlp4orf camlp4prof ocamldep ocamllex ocamlmklib ocamlmktop ocamlobjinfo ocamlyacc ocamlopt ocamldoc"
 DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_NO_CCACHE=YES
 DEF_USE_SAFE_STACK=YES
+DEF_NO_CCACHE=YES
 
 # Ocaml build system doesn't recognize relro linker feature:
 unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
