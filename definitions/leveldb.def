@@ -1,24 +1,8 @@
 DEF_FULL_NAME="LevelDB"
 DEF_NAME="leveldb"
-DEF_SHA="df11440c30deed5987263730180225db98de9f57"
-DEF_VERSION="1.20"
+DEF_VERSION="1.22"
+DEF_SHA="8d310af5cfb53dc836bfb412ff4b3c8aea578627"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf"
-DEF_EXPORTS="leveldbutil db_bench"
-DEF_CONFIGURE_METHOD="no-conf"
-
-DEF_MAKE_METHOD="make_all"
-make_all () {
-    make -j "${CPUS}" all
-}
-DEF_INSTALL_METHOD="install_all"
-install_all () {
-    mkdir -p "${PREFIX}/lib/" "${PREFIX}/bin/"
-    ${CP_BIN} out-static/leveldbutil "${PREFIX}/bin/"
-    ${CP_BIN} out-static/db_bench "${PREFIX}/bin/"
-
-    ${CP_BIN} out-shared/libleveldb* "${PREFIX}/lib/"
-    ${CP_BIN} out-static/libleveldb.a "${PREFIX}/lib/"
-    ${CP_BIN} out-static/libmemenv.a "${PREFIX}/lib/"
-}
-DEF_USE_SAFE_STACK=YES
+DEF_REQUIREMENTS="snappy"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DBUILD_SHARED_LIBS=YES -DHAVE_CLANG_THREAD_SAFETY=YES -DLEVELDB_BUILD_TESTS=NO"
