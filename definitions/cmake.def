@@ -1,15 +1,13 @@
 DEF_FULL_NAME="Cmake build system - fully featured build."
+DEF_STANDALONE=YES
 DEF_NAME="cmake"
-DEF_VERSION="3.6.3"
-DEF_SHA="4fe15bc983aacca8ae4811f6d8ad8f91b6faa973"
+DEF_VERSION="3.16.0"
+DEF_SHA="9943ebbbf076bbe1b54c7dadcd6df28ad0d241ed"
 DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-libs --no-system-jsoncpp"
-DEF_REQUIREMENTS="jemalloc pkgconf make lzma xz expat libressl curl-dynamic libarchive"
+DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS}"
+DEF_REQUIREMENTS="jemalloc pkgconf make lzma xz expat libressl curl-dynamic libarchive rhash"
 DEF_EXPORTS="${DEF_NAME} c${DEF_NAME}"
-DEF_STANDALONE=YES
-DEF_NO_FAST_MATH=YES
-DEF_NO_CCACHE=YES
 DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
