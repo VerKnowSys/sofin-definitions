@@ -1,13 +1,11 @@
 DEF_DISABLE_ON="Darwin"
+DEF_STANDALONE=YES
 DEF_FULL_NAME="ISC DHCP Server"
 DEF_NAME="dhcp"
-DEF_SHA="a21b89a5074dd1262d677e779c6793db570befdf"
-DEF_VERSION="4.3.3"
+DEF_VERSION="4.3.6-P1"
+DEF_SHA="8a02b202377c030bfd378b0497dc8974510e9b87"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make perl libressl libxml2"
+DEF_CONFIGURE_ARGS="--enable-paranoia --enable-early-chroot --enable-dhcpv6"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
-DEF_COMPILER_FLAGS="-w"
-DEF_CONFIGURE_ARGS="--disable-dependency-tracking --enable-paranoia --enable-early-chroot --enable-dhcpv6"
 DEF_EXPORTS="dhclient dhcpd dhcrelay"
-DEF_STANDALONE=YES
