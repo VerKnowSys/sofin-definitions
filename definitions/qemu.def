@@ -14,13 +14,10 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/bison/perl bison/; s/glib/yaml expat python27 glib/' 2>/dev/null)"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --python=${PREFIX}/bin/python --enable-pie"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pie"
         ;;
 esac
 DEF_USEFUL="bin/qemu*"
-DEF_USELESS="share/gtk* share/glib* share/ac* share/auto* share/gettext share/glib* share/read* share/bison share/readline share/texinfo include lib/*.a lib/*.sh lib/*.la"
+DEF_USELESS="share/gtk* share/glib* share/ac* share/auto* share/gettext share/glib* share/read* share/bison share/readline share/texinfo include lib/*.{a,sh,la} lib/glib-2.0 lib/cmake lib/pkgconfig share/emacs share/gdb share/common-lisp share/bash-completion"
 DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips qemu-system-aarch64"
-DEF_NO_FAST_MATH=YES
 DEF_USE_SAFE_STACK=YES
-unset DEF_USE_LTO
