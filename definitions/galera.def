@@ -4,7 +4,7 @@ DEF_VERSION="25.3.27"
 DEF_SHA="8b14a81866ea19a60767449bab3b9e56d12069fb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://archive.mariadb.org/mariadb-10.3.18/galera-${DEF_VERSION}/src/galera-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf make zlib xz lzma db libxml2 sqlite bzip2 yaml libffi libressl python27 icu boost scons check"
+DEF_REQUIREMENTS="zlib db libxml2 yaml libffi libressl python27 boost scons check"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD="make_products"
 make_products () {
@@ -21,5 +21,4 @@ install_products () {
     ${STRIP_BIN} ${PREFIX}/lib/*.so
 }
 DEF_EXPORTS="garbd"
-DEF_USELESS="include lib/python* lib/cmake man lib/*.{a,la,sh} share sbin lib/icu lib/pkgconfig lib/libicu* lib/libffi* lib/libxml* lib/libpython* lib/libsqlite* lib/libyaml* lib/libboost_iostreams* lib/libboost_atomic* lib/libboost_container* lib/libboost_context* lib/libboost_date* lib/libboost_math* lib/libboost_stack* lib/libboost_thread* lib/libboost_chrono* lib/libboost_regex* lib/libboost_fiber* lib/libboost_log* lib/libboost_random* lib/libboost_filesystem* lib/libboost_coroutine* lib/libboost_serialization* lib/libboost_wserialization* lib/libboost_contract* lib/libboost_timer* lib/libboost_system* lib/libcheck* lib/libz*"
-unset DEF_USE_LTO
+DEF_USELESS="include lib/python* lib/cmake man lib/*.{a,la,sh} share sbin lib/icu lib/pkgconfig lib/libicu* lib/libffi* lib/libxml* lib/libpython* lib/libsqlite*"
