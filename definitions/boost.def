@@ -5,18 +5,16 @@ DEF_SHA="ea6eee4b5999f9c02105386850f63a53f0250eaa"
 _major_ver="${DEF_VERSION%.*}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
 DEF_ORIGIN="https://dl.bintray.com/boostorg/release/${DEF_VERSION}/source/${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf make zlib xz lzma gdbm db sqlite bzip2 yaml libffi libressl python27 icu"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="--with-toolset=darwin"
         ;;
 
-    FreeBSD)
+    *)
         DEF_CONFIGURE_ARGS="--with-toolset=clang"
         ;;
 esac
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python-root=${PREFIX} --with-python=${PREFIX} --with-icu=${PREFIX} --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,mpi,wave,graph,graph_parallel,locale,type_erasure,test"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-icu --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,test"
 DEF_MAKE_METHOD="true"
-DEF_INSTALL_METHOD="cflags='${CFLAGS}' cxxflags='${CXXFLAGS}' ./b2 -j${CPUS} variant=release threading=multi link=shared runtime-link=shared optimization=speed inlining=full pch=off install"
-DEF_USELESS="include/python* lib/python*"
+DEF_INSTALL_METHOD="./b2 -j${CPUS} cflags='-march=ivybridge -flto=thin' cxxflags='-march=ivybridge -flto=thin' linkflags='-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags' variant=release threading=multi link=shared runtime-link=shared debug-symbols=off optimization=speed inlining=full warnings=off pch=on address-model=64 profiling=off install"
