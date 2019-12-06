@@ -5,7 +5,7 @@ DEF_SHA="2151db4603786000fcf841e2a38031b79418677e"
 DEF_VERSION="r4.0.9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://fastdl.${DEF_NAME}.org/src/${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libxml2 readline db pcre snappy libffi libressl python27 curl-dynamic wiredtiger gmp mpfr libmpc isl binutils" # NOTE: we build: gmp mpfr libmpc isl binutils, only to get GNU ar that supports "@file" option used by Mongo build system.
+DEF_REQUIREMENTS="libxml2 readline db pcre snappy libffi libressl python27 curl-dynamic gmp mpfr libmpc isl zlib binutils" # NOTE: we build: gmp mpfr libmpc isl binutils, only to get GNU ar that supports "@file" option used by Mongo build system.
 DEF_USEFUL="bin/mongo*"
 DEF_USELESS="lib/*.py lib/*.a include lib/cmake lib/python2.7 share/gtk-doc x86_64-unknown-freebsd*"
 DEF_CONFIGURE_METHOD="ignore"
@@ -18,8 +18,8 @@ install_hidden_requirements () {
 DEF_INSTALL_METHOD="build_and_install_stuff"
 build_and_install_stuff () {
     # Install mongod:
-    buildscripts/scons.py --release --cache --cache-dir=/tmp/mongo --libc++ --cxx-std=14 --opt=on --install-mode=hygienic --spider-monkey-dbg=off --jlink="${CPUS:-8}" --jobs="${CPUS:-8}" --prefix="${PREFIX}" --sanitize=safe-stack --runtime-hardening=on --disable-warnings-as-errors --use-system-snappy --use-system-zlib --use-system-wiredtiger --use-system-pcre --use-new-tools --build-fast-and-loose VERBOSE=on LIBPATH="${PREFIX}/lib" AR="${PREFIX}/bin/ar" RPATH="${PREFIX}/lib" CCFLAGS="-I${PREFIX}/include -I/usr/lib" LINKFLAGS="-L${PREFIX}/lib -L/usr/lib" CFLAGS="-I${PREFIX}/include" install \
-            && note "MongoDB installed"
+    buildscripts/scons.py --release --cache --cache-dir=/tmp/mongo --libc++ --cxx-std=14 --opt=on --install-mode=hygienic --spider-monkey-dbg=off --jlink="${CPUS:-8}" --jobs="${CPUS:-8}" --prefix="${PREFIX}" --sanitize=safe-stack --runtime-hardening=on --disable-warnings-as-errors --use-system-snappy --use-system-zlib --use-system-pcre --use-new-tools --build-fast-and-loose VERBOSE=on LIBPATH="${PREFIX}/lib" AR="${PREFIX}/bin/ar" RPATH="${PREFIX}/lib" CCFLAGS="-I${PREFIX}/include -I/usr/lib" LINKFLAGS="-L${PREFIX}/lib -L/usr/lib" CFLAGS="-I${PREFIX}/include" install \
+            && note "MongoDB installed" # --use-system-wiredtiger
 }
 DEF_AFTER_INSTALL_METHOD="copy_config"
 copy_config () {
@@ -27,6 +27,4 @@ copy_config () {
     ${CP_BIN} -fv "rpm/mongod.conf" "${SERVICE_DIR}/etc/mongodb.conf.sample"
 }
 DEF_EXPORTS="mongod"
-DEF_NO_CCACHE=YES
-DEF_USE_SAFE_STACK=YES
 unset DEF_USE_RAMDISK
