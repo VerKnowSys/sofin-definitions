@@ -1,21 +1,11 @@
 DEF_STANDALONE=YES
-DEF_FULL_NAME="Open NTPd"
+DEF_FULL_NAME="Open-NTPd"
 DEF_NAME="openntpd"
-DEF_SHA="ad190fea59fab655ce79b263849d552e46accaac"
-DEF_VERSION="5.9p1"
+DEF_VERSION="6.2p3"
+DEF_SHA="a2c741902679b23a94ac8d8a4e7342b1297195db"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make m4 perl bison"
-DEF_CONFIGURE_ARGS="--enable-dependency-tracking --with-cacert=/etc/ssl"
-DEF_USELESS="lib/*perl* include"
+DEF_ORIGIN="https://cdn.openbsd.org/pub/OpenBSD/OpenNTPD/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="perl-static bison"
+DEF_CONFIGURE_ARGS="--enable-dependency-tracking --with-cacert=/etc/ssl/cert.pem"
+DEF_USELESS="lib/*.{a,la} include"
 DEF_EXPORTS="ntpctl ntpd"
-
-#
-# Pick an older version for linux hosts that fails to build latest 5.9, caused by:
-#
-# /usr/include/time.h:336: error: conflicting types for 'clock_gettime' ...
-#
-if [ "${SYSTEM_NAME}" = "Linux" ]; then
-    DEF_SHA="ba885dc7cf599161b351cd90af2af175071e3a9d"
-    DEF_VERSION="5.7p4"
-    DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-fi
