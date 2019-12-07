@@ -1,0 +1,17 @@
+--- configure.orig	2019-12-07 00:36:55.200146000 +0100
++++ configure	2019-12-07 00:37:18.346907000 +0100
+@@ -6747,14 +6747,6 @@
+ $as_echo "$last_check$remark" >&6; }
+ 
+ 
+-test $last_check = no && as_fn_error $? "
+-
+-********************************************************************************
+-You need a more recent version (at least 4.2) of the readline
+-library (ftp://ftp.gnu.org/gnu/readline/) to build this program!
+-********************************************************************************
+-" "$LINENO" 5
+-
+ 
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether your readline headers and library know about rl_basic_quote_characters" >&5
+ $as_echo_n "checking whether your readline headers and library know about rl_basic_quote_characters... " >&6; }

@@ -1,0 +1,18 @@
+--- configure.ac.orig	2019-12-07 12:33:56.422684000 +0100
++++ configure.ac	2019-12-07 12:32:39.413708000 +0100
+@@ -371,15 +371,9 @@
+ 
+ AC_EGREP_RL_HEADER_AND_CHECK_FUNC([rl_set_screen_size], [rl_set_screen_size(25,80)], [HAVE_RL_SET_SCREEN_SIZE])
+ 
+-test $last_check = no && AC_MY_ERROR([You need a more recent version (at least 4.2) of the readline
+-library (ftp://ftp.gnu.org/gnu/readline/) to build this program!])
+ 
+-
+ AC_EGREP_RL_HEADER_AND_CHECK_FUNC([rl_basic_quote_characters], [printf("%s", rl_basic_quote_characters)], [HAVE_RL_BASIC_QUOTE_CHARS]) 
+ 
+-test $last_check = no && AC_MY_ERROR([[The readline library that I found is incomplete, probably just a wrapper
+-around libedit (like on Mac OS X) Please install GNU Readline and re-configure
+-with the correct CFLAGS and LDFLAGS (cf. the instructions in INSTALL)]])
+ 
+ AC_EGREP_RL_HEADER_AND_CHECK_FUNC([rl_variable_value], [rl_variable_value("blah")], [HAVE_RL_VARIABLE_VALUE]) 
+ 

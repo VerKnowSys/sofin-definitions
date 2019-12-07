@@ -1,0 +1,15 @@
+DEF_FULL_NAME="A readline wrapper"
+DEF_NAME="rlwrap"
+DEF_VERSION="0.43"
+DEF_SHA="0c0a3a6012a003d4ae3a44e9f82f9090b4ac4650"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="readline autoconf automake"
+DEF_AFTER_CONFIGURE_METHOD="after_config"
+after_config () {
+    aclocal
+    autoheader
+    autoconf
+    autoreconf
+    automake
+}
+DEF_EXPORTS="rlwrap"
