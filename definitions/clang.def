@@ -1,0 +1,7 @@
+inherit "cfe"
+
+DEF_NAME="clang"
+DEF_TYPE="meta"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} cfe"
+
+unset DEF_SUFFIX
