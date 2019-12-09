@@ -1,12 +1,12 @@
 DEF_FULL_NAME="Pkg-Config"
 DEF_NAME="pkgconf"
-DEF_VERSION="1.6.1"
-DEF_SHA="4921712c2fbb76dbeb8a74368772032165a8ef74"
+DEF_VERSION="1.6.3"
+DEF_SHA="9aaa032fd818e445b63eae926caa5665ea36b144"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://distfiles.dereferenced.org/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="${DEF_NAME} pkg-config"
 DEF_CONFIGURE_ARGS="--with-pkg-config-dir=${PREFIX}/lib/pkgconfig:/usr/libdata/pkgconfig --with-system-libdir=/usr/lib --with-system-includedir=/usr/include"
-unset DEF_USE_LTO
+# unset DEF_USE_LTO
 
 DEF_AFTER_MAKE_METHOD="patch_tests"
 patch_tests () {
