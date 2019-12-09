@@ -1,10 +1,10 @@
 DEF_FULL_NAME="ImageMagick Graphics Library"
 DEF_NAME="Imagemagick"
-DEF_VERSION="7.0.8-50"
-DEF_SHA="dacb49dfde9b54535416f06d60bb64789d2f5c1c"
+DEF_VERSION="7.0.9-8"
+DEF_SHA="ca551c7052cfb38c4913c84b910b79a998502a64"
 DEF_ORIGIN="http://mirror.checkdomain.de/imagemagick/ImageMagick-${DEF_VERSION}.tar.xz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}ImageMagick-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libedit db lzma xz pcre expat yaml libffi libressl python27 libtool libpaper libpng libjpeg-turbo nasm jpeg jbig2dec jbigkit openjpeg tiff freetype t1lib libxml2 fontconfig freefont sharefont jasper fftw"
+DEF_REQUIREMENTS="pkgconf libedit db lzma xz pcre expat yaml libffi libressl python27 libtool libpaper libpng libjpeg-turbo nasm jpeg jbig2dec jbigkit openjpeg tiff freetype t1lib libxml2 fontconfig freefont sharefont jasper fftw"
 DEF_CONFIGURE_ARGS="--with-lzma --without-perl --with-threads --with-fftw"
 DEF_INSTALL_METHOD="make -s install"
 DEF_USEFUL="bin/magick* bin/pkgconf bin/pkg-config bin/gsbj bin/gsdj bin/gsdj500 bin/gslj bin/gslp bin/gsnd"
@@ -12,23 +12,3 @@ DEF_USELESS="lib/*python* include lib/*.a share/examples share/info share/bison 
 DEF_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream Magick++-config Magick-config MagickWand-config MagickCore-config Wand-config"
 DEF_CONFLICTS_WITH="GraphicsMagick"
 DEF_USE_SAFE_STACK=YES
-
-DEF_AFTER_CONFIGURE_METHOD="fix_makefile"
-fix_makefile () {
-    ${SED_BIN} -i '' -e \
-        '/7.Q16HDRI.pc/d ; /cp -f\ \$\^\ \$\@/d' \
-        Makefile
-    return 0
-}
-
-DEF_AFTER_INSTALL_METHOD="use_bundled_pkgconf"
-use_bundled_pkgconf () {
-    ${SED_BIN} -i '' -e \
-        "s:pkg-config:${PREFIX}/bin/pkgconf:g" \
-        "${PREFIX}/bin/Magick++-config" \
-        "${PREFIX}/bin/Magick-config" \
-        "${PREFIX}/bin/MagickCore-config" \
-        "${PREFIX}/bin/MagickWand-config" \
-        "${PREFIX}/bin/Wand-conf"ig
-    return 0
-}
