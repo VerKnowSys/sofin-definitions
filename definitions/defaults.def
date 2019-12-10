@@ -81,6 +81,7 @@ unset   DEF_USE_CXX17 # use -std=c++17
 unset   DEF_USE_LTO # Link time optimization feature
 unset   DEF_USE_CFI # Control Flow Integrity compiler feature
 unset   DEF_USE_SAFE_STACK # HardenedBSD specific feature for now, since it's the only open source system based on LLVM
+unset   DEF_KEEP_DEBUG_SYMBOLS # if set, Bundle debug symbols will be preserved
 unset   DEF_USELESS # list of patterns of files to be removed after build process. example: "lib/perl5 lib/python2.7 bin/perl bin/python"
 unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't apply on patterns present on DEF_USELESS list
         DEF_DEFAULT_USELESS="info doc docs share/*-doc share/gtk-doc share/emacs share/common-lisp share/bison share/doc share/docs share/info"
