@@ -2,3 +2,5 @@ inherit curl
 
 DEF_REQUIREMENTS="jemalloc expat libressl"
 DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --disable-debug"
+
+unset DEF_USE_SAFE_STACK
