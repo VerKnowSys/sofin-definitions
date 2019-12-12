@@ -1,0 +1,11 @@
+DEF_FULL_NAME="Sphinx 2.2"
+DEF_STANDALONE=YES
+DEF_NAME="sphinx"
+DEF_VERSION="2.2.11-release"
+DEF_SHA="34e83f43de0e69e258bf749ea00348c60a51632a"
+DEF_ORIGIN="https://github.com/sphinxsearch/${DEF_NAME}/archive/${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="libuuid libedit pcre libressl libsodium libxml2 libevent bison icu mariadb postgresql11"
+DEF_CONFIGURE_ARGS="--enable-dl --with-pgsql --with-mysql --with-iconv --enable-id64"
+DEF_EXPORTS="indexer indextool spelldump wordbreaker searchd"
+DEF_USELESS="lib/*.{a,la,sh} lib/{plugin,postgresql,pkgconfig,cmake,icu} sql-bench support-files share/{mysql,postgresql,aclocal,pkgconfig,icu} mysql-test include data man"
