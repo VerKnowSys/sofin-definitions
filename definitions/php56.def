@@ -12,7 +12,7 @@ DEF_REQUIREMENTS="pkgconf geoip m4 perl-static autoconf jemalloc libedit texinfo
 DEF_INSTALL_METHOD="make -s install"
 DEF_BUNDLED_EXTENSIONS="xdebug geoip redis igbinary"
 DEF_EXPORTS="php php-fpm php-config pecl pear phpize"
-DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB lib/{libxslt-plugins,libmcrypt,cmake,pkgconfig,postgresql,icu} COPYING INSTALL-BINARY README include lib/*.{a,la,sh} share/aclocal* share/automake* ssl share/{bison,autoconf,t1lib,bulgarian,charsets,czech,danish,dictionary.txt,dutch,english,errmsg-utf8.txt,estonian,fill_help_tables.sql,french,german,greek,hungarian,icu,italian,japanese,korean,libgpg-error,mysql_security_commands.sql,mysql_system_tables_data.sql,mysql_system_tables.sql,mysql_test_data_timezone.sql,nghttp2,norwegian,norwegian-ny,polish,portuguese,postgresql,romanian,russian,serbian,slovak,spanish,swedish,ukrainian} libdata"
+DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB lib/{libxslt-plugins,libmcrypt,cmake,pkgconfig,postgresql,icu} lib/php/build COPYING INSTALL-BINARY README include lib/*.{a,la,sh} share/aclocal* share/automake* ssl share/{bison,autoconf,t1lib,bulgarian,charsets,czech,danish,dictionary.txt,dutch,english,errmsg-utf8.txt,estonian,fill_help_tables.sql,french,german,greek,hungarian,icu,italian,japanese,korean,libgpg-error,mysql_security_commands.sql,mysql_system_tables_data.sql,mysql_system_tables.sql,mysql_test_data_timezone.sql,nghttp2,norwegian,norwegian-ny,polish,portuguese,postgresql,romanian,russian,serbian,slovak,spanish,swedish,ukrainian,re2c} libdata"
 
 unset DEF_USE_LTO
 DEF_USE_SAFE_STACK=YES
@@ -35,7 +35,7 @@ esac
 DEF_AFTER_UNPACK_METHOD="hack_after_unpack"
 hack_after_unpack () {
     try "${TEST_BIN} -f ${HOME}/.pearrc" && \
-        try "${MV_BIN} -vf ${HOME}/.pearrc ${HOME}/.pearrc.old.${TIMESTAMP}"
+        try "${RM_BIN} -f ${HOME}/.pearrc"
 
     # I have no idea wtf is this... hack on hack after hack..
     try "${MV_BIN} -v ext/sqlite3/config0.m4 ext/sqlite3/config.m4"
@@ -55,6 +55,8 @@ hack_phpisms () {
 # install extensions
 DEF_AFTER_INSTALL_METHOD="hack_prefix_hardcode_after_install; install_extensions"
 hack_prefix_hardcode_after_install () {
+    try "${PREFIX}/bin/pear channel-update pear.php.net"
+
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" \
         "${PREFIX}/bin/php-config" \
         "${PREFIX}/bin/pecl" \
