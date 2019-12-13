@@ -24,7 +24,7 @@ case "${SYSTEM_NAME}" in
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${_ffmpeg_configure_flags}"
 DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/wavpack bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
-DEF_USELESS="docs share/a* share/gdb share/libatom* share/emacs bin/db_* bin/glib-* bin/gettext* bin/msg* bin/easy_install include lib/*.{a,la}"
+DEF_USELESS="docs share/a* share/{gdb,emacs,bash-completion,ffmpeg,gettext,gettext-0.20,glib-2.0,gtk-doc,icu,libtool,locale,openal,pkgconfig,vala} share/libatom* include lib/*.{a,la} lib/{ao,ckport,cmake,engines-1.1,gettext,gio,glib-2.0,icu,pkgconfig} man sbin bin/auto*"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STANDALONE=YES
 DEF_USE_SAFE_STACK=YES
