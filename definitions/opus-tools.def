@@ -7,6 +7,5 @@ DEF_ORIGIN="https://archive.mozilla.org/pub/opus/${DEF_NAME}-${DEF_VERSION}.tar.
 DEF_REQUIREMENTS="libressl libogg libvorbis flac opus libopusenc opusfile"
 DEF_COMPILER_FLAGS="-DFLOAT_APPROX"
 DEF_CONFIGURE_ARGS="--disable-examples --disable-doc --disable-oggtest --disable-opustest --disable-opusfiletest --disable-libopusenctest --with-pic --enable-sse"
-DEF_USEFUL="bin/opus*"
+DEF_USELESS="include lib/*.{a,la} lib/pkgconfig share/aclocal"
 DEF_EXPORTS="opusdec opusenc opusinfo"
-unset DEF_USE_LTO
