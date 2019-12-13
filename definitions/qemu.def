@@ -1,7 +1,7 @@
 DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: AARCH64 (ARM64)"
 DEF_NAME="qemu"
-DEF_SHA="3ed63c0c05abc8c8ec075dac2688c229f139a5da"
-DEF_VERSION="3.1.0"
+DEF_VERSION="3.1.1.1"
+DEF_SHA="a74b5f27f771ebc2e70e5f52228bea346c781188"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc bison bzip2 libzip lzma lzo lzop lz4 zip db sqlite pcre readline libffi autoconf texinfo automake icu gettext glib libpcap libidn libidn2 libressl libevent nghttp2 libssh2 curl libgpg-error gmp pixman nettle libtasn1 p11-kit libunistring gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 fontconfig sdl2-ttf libpng zlib"
@@ -18,6 +18,6 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 DEF_USEFUL="bin/qemu*"
-DEF_USELESS="share/gtk* share/glib* share/ac* share/auto* share/gettext share/glib* share/read* share/bison share/readline share/texinfo include lib/*.{a,sh,la} lib/glib-2.0 lib/cmake lib/pkgconfig share/emacs share/gdb share/common-lisp share/bash-completion"
+DEF_USELESS="share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,icu,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.{a,sh,la} lib/{glib-2.0,cmake,pkgconfig,icu,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
 DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips qemu-system-aarch64"
 DEF_USE_SAFE_STACK=YES
