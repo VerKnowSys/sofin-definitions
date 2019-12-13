@@ -1,5 +1,19 @@
-inherit slapd
-
-DEF_FULL_NAME="OpenLDAP client"
+DEF_DISABLE_ON="Darwin"
+DEF_FULL_NAME="OpenLDAP server"
 DEF_NAME="openldap"
-DEF_CONFIGURE_ARGS="--with-threads=posix --enable-ipv6 --enable-dynamic --with-tls=openssl --without-cyrus-sasl --disable-slapd"
+DEF_VERSION="2.4.48"
+DEF_SHA="c1984e80f6db038b317bf931866adb38e5537dcd"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}openldap-${DEF_VERSION}.tgz"
+DEF_ORIGIN="ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-${DEF_VERSION}.tgz"
+DEF_CONFIGURE_ARGS="--enable-dynamic --with-tls=openssl --enable-overlays=mod --enable-shell --enable-modules --enable-rewrite --enable-slapd --enable-sock --enable-local --with-threads=posix --with-mp=gmp --without-cyrus-sasl --enable-hdb=yes --enable-bdb=yes --enable-ipv6 --enable-shell --enable-static=no"
+DEF_REQUIREMENTS="libtool gmp db libressl"
+DEF_USEFUL="bin/db_*"
+DEF_USELESS="man share docs include lib/*.{a,la}"
+DEF_EXPORTS="slapd ldapadd ldapcompare ldapdelete ldapexop ldapmodify ldapmodrdn ldappasswd ldapsearch ldapurl ldapwhoami"
+
+patch_configure () {
+    # HACK: db dependency seems to be completely fine, but configure script insists to say it's broken:
+    ${SED_BIN} -i '' -e 's#if test $ol_cv_bdb_compat != yes ; then#if test $ol_cv_bdb_compat != no ; then#g' ./configure
+    return 0
+}
+DEF_AFTER_UNPACK_METHOD="patch_configure"

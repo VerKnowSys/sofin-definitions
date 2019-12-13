@@ -1,0 +1,4 @@
+inherit openldap
+
+DEF_FULL_NAME="OpenLDAP client library"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-slapd"
