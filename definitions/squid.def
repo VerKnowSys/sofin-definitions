@@ -1,9 +1,10 @@
 DEF_FULL_NAME="Squid proxy"
 DEF_NAME="squid"
-DEF_SHA="da5c117c4431b2a9fb743466078c4d7e1be8a1f4"
-DEF_VERSION="4.0.1"
+DEF_VERSION="4.9"
+DEF_SHA="43c90a1a2eb4d1613f1bfc603ad08e8a835be319"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf bzip2 zlib make m4 gmp expat nettle libressl perl"
+DEF_ORIGIN="http://www.squid-cache.org/Versions/v4/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="pkgconf gmp expat nettle libressl perl"
 DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --disable-select \
 --disable-poll \
@@ -14,15 +15,15 @@ DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --disable-translation \
 --disable-arch-native \
 --disable-auth \
---with-default-user=worker \
+--with-default-user=www \
 --with-aio \
 --enable-pf-transparent \
---localstatedir=/Services/Squid/var \
---datadir=/Services/Squid/data \
---sysconfdir=/Services/Squid/etc \
---with-logdir=/Services/Squid/log \
---with-pidfile=/Services/Squid/run/squid.pid \
---with-swapdir=/Services/Squid/swap \
+--localstatedir=${SERVICE_DIR}/var \
+--datadir=${SERVICE_DIR}/data \
+--sysconfdir=${SERVICE_DIR}/etc \
+--with-logdir=${SERVICE_DIR}/log \
+--with-pidfile=${SERVICE_DIR}/service.pid \
+--with-swapdir=${SERVICE_DIR}/swap \
 --with-large-files \
 --without-heimdal-krb5 \
 --without-mit-krb5 \
@@ -37,4 +38,4 @@ DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 DEF_USEFUL="bin/perl bin/openssl"
 DEF_EXPORTS="squid squidclient purge cachemgr.cgi cert_tool cert_valid.pl diskd ext_delayer_acl ext_file_userip_acl ext_kerberos_ldap_group_acl ext_sql_session_acl ext_time_quota_acl ext_unix_group_acl ext_wbinfo_group_acl helper-mux log_db_daemon log_file_daemon storeid_file_rewrite unlinkd url_fake_rewrite url_fake_rewrite.sh url_lfs_rewrite"
 DEF_LINKER_FLAGS="-lpthread"
-DEF_NO_LLVM_LINKER=YES
+# DEF_NO_LLVM_LINKER=YES
