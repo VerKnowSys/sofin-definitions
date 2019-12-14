@@ -1,8 +1,0 @@
-DEF_FULL_NAME="DarkIce is a live audio streamer"
-DEF_NAME="darkice"
-DEF_SHA="508eb0560a7cdf0990a8793f4b8d324ae74bc343"
-DEF_VERSION="1.2"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libogg libvorbis faac"
-DEF_CONFIGURE_ARGS="--with-vorbis-prefix=${PREFIX} --with-faac-prefix=${PREFIX} --with-jack-prefix=/usr/local"
-DEF_EXPORTS="darkice"
