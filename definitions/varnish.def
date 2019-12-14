@@ -1,19 +1,19 @@
 DEF_FULL_NAME="Varnish cache"
 DEF_STANDALONE=YES
-DEF_SHA="1d9092d9fb42fbc2ab9fb255ec1cb50b5bdcebc7"
 DEF_NAME="varnish"
-DEF_VERSION="4.1.9"
+DEF_VERSION="6.3.1"
+DEF_SHA="26d237294dec76e946b5feef4dabb0aff5b8dc77"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
-DEF_CONFIGURE_METHOD="./configure"
-DEF_REQUIREMENTS="pkgconf zlib pcre m4 make libressl python27"
+DEF_ORIGIN="https://varnish-cache.org/_downloads/${DEF_NAME}-${DEF_VERSION}.tgz"
+DEF_REQUIREMENTS="libffi pcre libressl expat readline gettext gmp python36"
+DEF_CONFIGURE_ARGS="--with-jemalloc --disable-epoll --disable-ports"
 DEF_EXPORTS="varnishd varnishstat varnishlog varnishadm varnishhist varnishncsa varnishtest varnishtop"
-APP_USEFUL="bin/pip* bin/python*"
-APP_USELESS="lib/perl* share/auto* share/acloca* share/groff share/libtool share/texinfo"
-DEF_NO_CCACHE=YES
 
-DEF_AFTER_PATCH_METHOD="hack_pyt_mods"
-hack_pyt_mods () {
-    try "cp /usr/bin/true ${PREFIX}/bin/docutils"
-    try "cp /usr/bin/true ${PREFIX}/bin/rst2man"
-    try "cp /usr/bin/true ${PREFIX}/bin/rst2html"
+DEF_USEFUL="bin/varni*"
+DEF_USELESS="share/auto* share/acloca* share/{libtool,texinfo,groff} lib/*.{a,la} lib/{gettext,pkgconfig,python3.6}"
+
+DEF_AFTER_UNPACK_METHOD="install_requirements"
+install_requirements () {
+    try "${PREFIX}/bin/pip3 install --upgrade pip"
+    try "${PREFIX}/bin/pip3 install docutils sphinx" # for rst2man, rst2html, sphinx-build
 }
