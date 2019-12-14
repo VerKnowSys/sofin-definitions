@@ -1,8 +1,20 @@
-DEF_FULL_NAME="Network benchmarking utility - Iperf"
+DEF_FULL_NAME="Network benchmarking utility - Iperf 3"
 DEF_NAME="iperf"
-DEF_VERSION="2.0.13"
-DEF_SHA="0c7625c61087b9e6866421abb8bb533658b40a8d"
+DEF_VERSION="3.7"
+DEF_SHA="0e36aaafa986e8d68f036aba709b0028895be3bf"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://sourceforge.mirrorservice.org/i/project/project/ip/${DEF_NAME}2/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_EXPORTS="${DEF_NAME}"
-unset DEF_USE_LTO
+DEF_ORIGIN="https://downloads.es.net/pub/${DEF_NAME}/${DEF_NAME}2/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="libressl"
+DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} --disable-dependency-tracking"
+DEF_EXPORTS="${DEF_NAME}3"
+
+DEF_AFTER_UNPACK_METHOD="after_patch"
+after_patch () {
+    ${SED_BIN} -i '' -e 's/^PROGRAMS/noinst_PROGRAMS/' src/Makefile.in
+}
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
