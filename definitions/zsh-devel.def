@@ -1,0 +1,13 @@
+inherit zsh
+
+# Alternative build is not critical:
+unset DEF_CRITICAL DEF_USE_SAFE_STACK
+
+DEF_SUFFIX="-devel"
+DEF_VERSION="5.7.1"
+DEF_SHA="fedd82419881323b1087241d536d2fb1528a9deb"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_ARGS="--enable-dynamic --enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions"
+DEF_EXPORTS="zsh sh zsh-${DEF_VERSION}"
+DEF_REQUIREMENTS="pcre gdbm"
+DEF_CONFLICTS_WITH="Zsh"
