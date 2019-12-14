@@ -5,8 +5,12 @@ DEF_VERSION="1.20.3"
 DEF_SHA="2b886eab5b97267cc358ab35e42d14d33d6dfc95"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--sysconfdir=${SERVICE_DIR}/etc"
-DEF_REQUIREMENTS="bzip2 perl zlib libgpg-error gmp nettle libffi libtasn1 p11-kit libunistring gnutls texinfo libidn2"
-DEF_USELESS="lib/perl* lib/*.a include share/gtk* share/info share/texinfo share/aclocal share/libgpg-error share/p11-kit"
+DEF_REQUIREMENTS="perl libgpg-error gmp nettle libffi libtasn1 p11-kit libunistring gnutls texinfo libidn2"
+DEF_USELESS="lib/perl* lib/*.{a,la} lib/{pkcs11,pkgconfig} include share/gtk* share/{info,aclocal,libgpg-error,p11-kit} libexec man"
 DEF_EXPORTS="${DEF_NAME}"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
