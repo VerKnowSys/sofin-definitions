@@ -3,4 +3,9 @@ DEF_SHA="03a0bfa85713adcc6b3383c12e2cc68a9cfbf4c4"
 DEF_NAME="lame"
 DEF_VERSION="3.99.5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac

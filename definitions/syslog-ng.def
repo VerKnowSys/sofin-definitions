@@ -16,3 +16,9 @@ DEF_EXPORTS="syslog-ng syslog-ng-ctl"
 DEF_USEFUL="bin/*config bin/syslog* sbin/syslog*"
 DEF_USELESS="lib/python* lib/glib* share/glib* share/aclocal* share/doc lib/*perl* share/gettext* lib/*.a include docs"
 unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
