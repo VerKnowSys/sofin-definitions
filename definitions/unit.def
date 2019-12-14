@@ -1,21 +1,22 @@
 inherit php72
 
-unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD DEF_AFTER_INSTALL_METHOD
+unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD DEF_AFTER_INSTALL_METHOD DEF_USE_LTO
 
 DEF_FULL_NAME="Nginx Unit + Php72"
-DEF_SHA="722b0de99c336bce339918a50dab8f87446b824c"
 DEF_NAME="unit"
-DEF_VERSION="1.12.0"
+DEF_VERSION="1.13.0"
+DEF_SHA="a27c2092e26a0ec7f8f4210786c02ba08df6ea8e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://${DEF_NAME}.nginx.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --user=www --control=unix:${SERVICE_DIR}/service.sock --state=${SERVICE_DIR}/state --pid=${SERVICE_DIR}/service.pid --log=${SERVICE_DIR}/service.log --cc-opt='${CFLAGS}' --ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
 DEF_AFTER_CONFIGURE_METHOD="./configure php --config=${PREFIX}/bin/php-config --lib-path=${PREFIX}/lib"
 DEF_AFTER_INSTALL_METHOD="symlink_config_state"
 symlink_config_state () {
-    ${LN_BIN} -sf "${SERVICE_DIR}/service.conf" "${SERVICE_DIR}/state/conf.json"
+    try "${LN_BIN} -sf ${SERVICE_DIR}/service.conf ${SERVICE_DIR}/state/conf.json"
 }
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} php72"
 DEF_EXPORTS="unitd"
+
 DEF_NO_MPROTECT=YES # JIT enabled
 DEF_NO_PAGEEXEC=YES # JIT enabled
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
