@@ -1,0 +1,17 @@
+--- configure.orig	2019-12-15 11:12:54.799422000 +0100
++++ configure	2019-12-15 11:13:16.705158000 +0100
+@@ -6806,14 +6806,6 @@
+ $as_echo "$last_check$remark" >&6; }
+ 
+ 
+-test $last_check = no && as_fn_error $? "
+-
+-********************************************************************************
+-The readline library that I found is incomplete, probably just a wrapper
+-around libedit (like on Mac OS X) Please install GNU Readline and re-configure
+-with the correct CFLAGS and LDFLAGS (cf. the instructions in INSTALL)
+-********************************************************************************
+-" "$LINENO" 5
+ 
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether your readline headers and library know about rl_variable_value" >&5
+ $as_echo_n "checking whether your readline headers and library know about rl_variable_value... " >&6; }
