@@ -1,30 +1,32 @@
 DEF_FULL_NAME="MongoDB (server only)"
 DEF_STANDALONE=YES
 DEF_NAME="mongodb"
-DEF_SHA="2151db4603786000fcf841e2a38031b79418677e"
-DEF_VERSION="r4.0.9"
+DEF_VERSION="r4.2.2"
+DEF_SHA="3d9d420a2535d2aca5f0c8e0e7368079b932f87e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://fastdl.${DEF_NAME}.org/src/${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libxml2 readline db pcre snappy libffi libressl python27 curl-dynamic gmp mpfr libmpc isl zlib binutils" # NOTE: we build: gmp mpfr libmpc isl binutils, only to get GNU ar that supports "@file" option used by Mongo build system.
+DEF_REQUIREMENTS="pcre libffi libressl expat readline gettext gmp python36 libidn2 curl-dynamic snappy boost sqlite"
 DEF_USEFUL="bin/mongo*"
-DEF_USELESS="lib/*.py lib/*.a include lib/cmake lib/python2.7 share/gtk-doc x86_64-unknown-freebsd*"
+DEF_USELESS="lib/*.{a,la,py} include lib/{cmake,python2.7,gtk-doc} x86_64-unknown-freebsd*"
 DEF_CONFIGURE_METHOD="ignore"
+DEF_USE_CXX17=YES
 DEF_MAKE_METHOD="install_hidden_requirements"
 install_hidden_requirements () {
-    ${SED_BIN} -i '' -e "s|/usr/bin/env python2|${PREFIX}/bin/python|" buildscripts/*.py
-    try "${PREFIX}/bin/pip install --upgrade pip"
-    try "${PREFIX}/bin/pip install typing pyyaml regex cheetah"
+    try "${PREFIX}/bin/pip3 install --upgrade pip"
+    try "${PREFIX}/bin/pip3 install typing pyyaml regex psutil Cheetah3"
 }
 DEF_INSTALL_METHOD="build_and_install_stuff"
 build_and_install_stuff () {
     # Install mongod:
-    buildscripts/scons.py --release --cache --cache-dir=/tmp/mongo --libc++ --cxx-std=14 --opt=on --install-mode=hygienic --spider-monkey-dbg=off --jlink="${CPUS:-8}" --jobs="${CPUS:-8}" --prefix="${PREFIX}" --sanitize=safe-stack --runtime-hardening=on --disable-warnings-as-errors --use-system-snappy --use-system-zlib --use-system-pcre --use-new-tools --build-fast-and-loose VERBOSE=on LIBPATH="${PREFIX}/lib" AR="${PREFIX}/bin/ar" RPATH="${PREFIX}/lib" CCFLAGS="-I${PREFIX}/include -I/usr/lib" LINKFLAGS="-L${PREFIX}/lib -L/usr/lib" CFLAGS="-I${PREFIX}/include" install \
-            && note "MongoDB installed" # --use-system-wiredtiger
+    buildscripts/scons.py --release --dbg=off --cache --cache-dir=/tmp/mongo --disable-warnings-as-errors --link-model=dynamic --opt=on --install-mode=hygienic --spider-monkey-dbg=off --jlink="${CPUS:-8}" --jobs="${CPUS:-8}" --prefix="${PREFIX}" --lto=on --ssl=on --ssl-provider=openssl --runtime-hardening=on --use-system-snappy --use-system-zlib --use-system-pcre --use-system-boost --use-system-sqlite --enable-http-client=auto --use-hardware-crc32=on --sanitize=safe-stack \
+        RPATH="${PREFIX}/lib" LIBPATH="${PREFIX}/lib" CCFLAGS="-w -I${PREFIX}/include -I/usr/lib" LINKFLAGS="-L${PREFIX}/lib -L/usr/lib" CFLAGS="-w -I${PREFIX}/include" VERBOSE=off \
+        install && note "MongoDB installed"
 }
 DEF_AFTER_INSTALL_METHOD="copy_config"
 copy_config () {
     mkdir -p "${SERVICE_DIR}/etc"
     ${CP_BIN} -fv "rpm/mongod.conf" "${SERVICE_DIR}/etc/mongodb.conf.sample"
 }
-DEF_EXPORTS="mongod"
+DEF_EXPORTS="mongod mongo_benchmark mongo_integrationtest mongo_unittest textfile jsheader idl_tool gziptool distsrc"
+DEF_USELESS="lib/{gettext,python3.6} docs man share"
 unset DEF_USE_RAMDISK
