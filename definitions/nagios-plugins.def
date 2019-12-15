@@ -1,7 +1,0 @@
-DEF_FULL_NAME="Nagios plugins"
-DEF_SHA="ce96d3c0fe05493b55f49646986eaa1347fa9cdb"
-DEF_NAME="nagios-plugins"
-DEF_VERSION="2.1.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make zlib perl openssl"
-DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX}"
