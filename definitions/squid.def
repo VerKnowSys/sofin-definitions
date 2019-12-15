@@ -35,7 +35,8 @@ DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --enable-build-info \
 --enable-loadable-modules \
 --enable-removal-policies=\"lru heap\""
-DEF_USEFUL="bin/perl bin/openssl"
+DEF_USEFUL="bin/perl* bin/openssl"
+DEF_USELESS="include lib/*.{a,la} share/aclocal man docs"
 DEF_EXPORTS="squid squidclient purge cachemgr.cgi cert_tool cert_valid.pl diskd ext_delayer_acl ext_file_userip_acl ext_kerberos_ldap_group_acl ext_sql_session_acl ext_time_quota_acl ext_unix_group_acl ext_wbinfo_group_acl helper-mux log_db_daemon log_file_daemon storeid_file_rewrite unlinkd url_fake_rewrite url_fake_rewrite.sh url_lfs_rewrite"
 DEF_LINKER_FLAGS="-lpthread"
 # DEF_NO_LLVM_LINKER=YES
