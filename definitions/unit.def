@@ -4,8 +4,8 @@ unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD DEF_AFTER_INSTALL_METHOD DEF_USE_LTO
 
 DEF_FULL_NAME="Nginx Unit + Php72"
 DEF_NAME="unit"
-DEF_VERSION="1.13.0"
-DEF_SHA="a27c2092e26a0ec7f8f4210786c02ba08df6ea8e"
+DEF_VERSION="1.14.0"
+DEF_SHA="3e58cfe8c99f98fc6cdfe258f3ea40f26e222bc0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://${DEF_NAME}.nginx.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --user=www --control=unix:${SERVICE_DIR}/service.sock --state=${SERVICE_DIR}/state --pid=${SERVICE_DIR}/service.pid --log=${SERVICE_DIR}/service.log --cc-opt='${CFLAGS}' --ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
