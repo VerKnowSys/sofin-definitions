@@ -15,5 +15,5 @@ upgrade_pip () {
 }
 
 install_asciinema () {
-    pip3 install asciinema
+    pip3 install ${DEF_NAME}==${DEF_VERSION}
 }
