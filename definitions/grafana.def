@@ -1,7 +1,7 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Grafana"
 DEF_NAME="grafana"
-DEF_VERSION="6.3.6"
+DEF_VERSION="6.5.2"
 DEF_SOURCE_PATH="https://github.com/grafana/grafana.git"
 DEF_GIT_CHECKOUT="master"
 DEF_REQUIREMENTS="go"
@@ -18,15 +18,19 @@ make_action () {
     debug "Checking out v${DEF_VERSION}" && \
     ${GIT_BIN} checkout -b "v${DEF_VERSION}"
 
+    debug "Patching version under: $(distd "pkg/cmd/grafana-server/main.go")"
+    ${SED_BIN} -i '' -e "s|^var version =.*\$|var version = \"${DEF_VERSION}\"|; s|^var buildBranch =.*\$|var buildBranch = \"v${DEF_VERSION}\"|" pkg/cmd/grafana-server/main.go
+
     debug "Fetching last version of xerrors (to prevent fail with Go 1.13)" && \
     go get -u golang.org/x/xerrors && \
     debug "Building server" && \
     go build -ldflags "-w" -o "${PREFIX}/bin/grafana-server" ./pkg/cmd/grafana-server && \
     debug "Building cli" && \
-    go build -ldflags "-w" -o "${PREFIX}/bin/grafana-cli" ./pkg/cmd/grafana-cli
-    # NOTE: setting "-X main.version=${DEF_VERSION} -X main.commit=v${DEF_VERSION}" causes: "flag provided but not defined: -X"
+    go build -ldflags "-w" -o "${PREFIX}/bin/grafana-cli" ./pkg/cmd/grafana-cli \
+        || return 1
 
     cd "${GOPATH}"
+    # ORIGIN for prebuild: https://dl.grafana.com/oss/release/grafana-6.5.2.linux-amd64.tar.gz
     debug "Fetching prebuilt Grafana archive" && \
     ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
     ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
