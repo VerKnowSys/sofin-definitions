@@ -19,7 +19,9 @@ make_action () {
     ${GIT_BIN} checkout -b "v${DEF_VERSION}"
 
     debug "Patching version under: $(distd "pkg/cmd/grafana-server/main.go")"
-    ${SED_BIN} -i '' -e "s|^var version =.*\$|var version = \"${DEF_VERSION}\"|; s|^var buildBranch =.*\$|var buildBranch = \"v${DEF_VERSION}\"|" pkg/cmd/grafana-server/main.go
+    ${SED_BIN} -i '' -e "s|^var version =.*\$|var version = \"${DEF_VERSION}\"|; s|^var buildBranch =.*\$|var buildBranch = \"v${DEF_VERSION}\"|" \
+        pkg/cmd/grafana-server/main.go \
+        pkg/cmd/grafana-cli/main.go
 
     debug "Fetching last version of xerrors (to prevent fail with Go 1.13)" && \
     go get -u golang.org/x/xerrors && \
