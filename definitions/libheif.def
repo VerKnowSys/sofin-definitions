@@ -1,0 +1,8 @@
+DEF_FULL_NAME="ISO/IEC 23008-12:2017 HEIF file format decoder and encoder."
+DEF_NAME="libheif"
+DEF_VERSION="1.6.1"
+DEF_SHA="9d1f901a55ed3e89dbf1a336dc8daeb98613b3cf"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/strukturag/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="libpng jpeg x265 libde265"
+DEF_CONFIGURE_METHOD="cmake"
