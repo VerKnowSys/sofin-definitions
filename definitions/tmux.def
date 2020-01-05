@@ -7,4 +7,4 @@ DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/${DEF_V
 DEF_REQUIREMENTS="libevent"
 DEF_CONFIGURE_ARGS="--disable-static"
 DEF_EXPORTS="${DEF_NAME}"
-DEF_USELESS="include lib/*.a lib/pkgconfig man"
+DEF_USELESS="include lib/pkgconfig man"

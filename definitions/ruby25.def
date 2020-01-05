@@ -32,6 +32,10 @@ DEF_USELESS="lib/*perl* lib/*python* lib/*.a man share sbin scripts ssl lib/cmak
 
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
+    ${STRIP_BIN} \
+        ${PREFIX}/lib/ruby/**/x86_64-**/*.so \
+        ${PREFIX}/lib/ruby/**/x86_64-**/**/*.so
+
     try "${TEST_BIN} -f ${HOME}/.gemrc" || \
         try "printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
     try "${PREFIX}/bin/gem install bundler"
