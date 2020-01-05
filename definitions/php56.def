@@ -53,7 +53,7 @@ hack_phpisms () {
 }
 
 # install extensions
-DEF_AFTER_INSTALL_METHOD="hack_prefix_hardcode_after_install; install_extensions"
+DEF_AFTER_INSTALL_METHOD="hack_prefix_hardcode_after_install; install_extensions; strip_extensions"
 hack_prefix_hardcode_after_install () {
     try "${PREFIX}/bin/pear channel-update pear.php.net"
 
@@ -186,4 +186,9 @@ install_extensions () {
         install_and_move "${name}" || error "Failed to install PECL extension: ${name}"
     done
     try "install_pear_modules"
+}
+
+
+strip_extensions () {
+    ${STRIP_BIN} ${PREFIX}/lib/php/**/*.so
 }
