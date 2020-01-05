@@ -5,8 +5,8 @@ DEF_SHA="541039290d188fff683a1d2f2892bd74854dd022"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="debugflags= ./configure"
-DEF_REQUIREMENTS="libedit jemalloc pcre icu libunistring db libgpg-error libgcrypt gettext yaml sqlite lzo libffi libxml2 libxslt perl-static gdbm libidn2 libevent openssl python27-static nghttp2 libssh2 curl libuuid postgresql10 mysql-lib gmp"
-DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --enable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
+DEF_REQUIREMENTS="libedit jemalloc pcre icu libunistring libgpg-error libgcrypt gettext sqlite lzo libffi libxml2 libxslt perl-static gdbm libidn2 libevent openssl python27-static nghttp2 libssh2 curl libuuid postgresql10 mysql-lib gmp libtool yaml"
+DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --disable-static --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --enable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
 

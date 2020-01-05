@@ -5,7 +5,7 @@ DEF_VERSION="1.18.1"
 DEF_SHA="4a923ebfac06bb05c1c7699b206719e06a938f0d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-libgdbm-compat --enable-dependency-tracking --enable-memory-mapped-io --enable-libgdbm-compat"
+DEF_CONFIGURE_ARGS="--enable-libgdbm-compat --enable-dependency-tracking --enable-memory-mapped-io --enable-libgdbm-compat --disable-static"
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="gdbm_dump gdbm_load gdbmtool"
 

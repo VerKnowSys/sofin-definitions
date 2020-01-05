@@ -4,6 +4,6 @@ DEF_SHA="5245ce38b198cecd57775fb3c7b7328ec1a2a615"
 DEF_VERSION="1.36"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="bzip2 make m4 libtool"
-DEF_CONFIGURE_ARGS="--disable-nls"
+DEF_CONFIGURE_ARGS="--disable-nls --disable-static"
 DEF_EXPORTS="gpg-error gpg-error-config"
 DEF_NO_CCACHE=YES
