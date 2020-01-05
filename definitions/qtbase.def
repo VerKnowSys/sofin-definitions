@@ -25,7 +25,7 @@ DEF_CONFIGURE_ARGS="\
 "
 DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 DEF_CONFLICTS_WITH="Qt Qtws Qtwk Qtme"
-DEF_REQUIREMENTS="pkgconf make"
+DEF_REQUIREMENTS="pkgconf-static make"
 DEF_MAKE_METHOD="make -j${CPUS}"
 DEF_INSTALL_METHOD="make -s install"
 DEF_NO_CCACHE="YES"

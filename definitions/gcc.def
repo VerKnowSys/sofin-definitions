@@ -20,7 +20,7 @@ DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgc
 --enable-gold --enable-bootstrap --enable-shared --disable-static --enable-host-shared --with-gxx-include-dir=/usr/include/c++/v1 \
 --disable-libstdcxx --enable-libgomp --enable-libgcc --enable-libssp --with-pkgversion=VerKnowSys \
 "
-DEF_REQUIREMENTS="pkgconf make m4 lzo lz4 perl-static gmp mpfr libmpc isl zip zlib libtool libunwind binutils-gold"
+DEF_REQUIREMENTS="pkgconf-static make m4 lzo lz4 perl-static gmp mpfr libmpc isl zip zlib libtool libunwind binutils-gold"
 DEF_COMPILER_FLAGS="-Wno-error -Wno-reserved-user-defined-literal"
 DEF_MAKE_METHOD="env ${common_opts} make ${MAKE_OPTS} all-gcc"
 DEF_INSTALL_METHOD="env ${common_opts} make install-strip-gcc"

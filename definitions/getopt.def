@@ -4,7 +4,7 @@ DEF_SHA="98725b4878d19ab6b126cd16263fed1f6090f6a7"
 DEF_VERSION="1.1.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
-DEF_REQUIREMENTS="pkgconf gettext"
+DEF_REQUIREMENTS="pkgconf-static gettext"
 case "${SYSTEM_NAME}" in
     FreeBSD|Linux)
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -lc -lintl -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"

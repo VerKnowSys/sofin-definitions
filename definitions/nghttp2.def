@@ -9,4 +9,4 @@ DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} \
 --enable-lib-only --enable-asio-lib \
 --disable-static --disable-debug --disable-app --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
 "
-DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27-static"
+DEF_REQUIREMENTS="pkgconf-static make jemalloc icu yaml libffi libressl libxml2 libevent python27-static"

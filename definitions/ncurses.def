@@ -3,7 +3,7 @@ DEF_NAME="ncurses"
 DEF_SHA="acd606135a5124905da770803c05f1f20dd3b21c"
 DEF_VERSION="6.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-relink --enable-pc-files --with-pkg-config=${PREFIX}/bin/pkgconf --sysconfdir=${SERVICE_DIR}/etc --without-ada --with-shared --with-cxx-shared --disable-static --enable-sigwinch --enable-tcap-names --without-develop --enable-wgetch-events --without-debug --disable-big-core --enable-ext-colors --enable-getcap --enable-symlinks --enable-getcap-cache --with-rcs-ids --enable-rpath --enable-widec --enable-bsdpad --disable-termcap --without-termlib --disable-overwrite --disable-root-environ --with-manpages --with-manpage-format=normal --without-manpage-renames --with-hashed-db --without-tests CC= CXX= LD=" # --enable-ext-colors
+DEF_CONFIGURE_ARGS="--enable-relink --enable-pc-files --with-pkg-config=${PREFIX}/bin/pkgconf-static --sysconfdir=${SERVICE_DIR}/etc --without-ada --with-shared --with-cxx-shared --disable-static --enable-sigwinch --enable-tcap-names --without-develop --enable-wgetch-events --without-debug --disable-big-core --enable-ext-colors --enable-getcap --enable-symlinks --enable-getcap-cache --with-rcs-ids --enable-rpath --enable-widec --enable-bsdpad --disable-termcap --without-termlib --disable-overwrite --disable-root-environ --with-manpages --with-manpage-format=normal --without-manpage-renames --with-hashed-db --without-tests CC= CXX= LD=" # --enable-ext-colors
 DEF_REQUIREMENTS="pkgconf"
 DEF_MAKE_METHOD="locale_cleanup_and_build"
 locale_cleanup_and_build () {

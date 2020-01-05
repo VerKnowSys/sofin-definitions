@@ -15,6 +15,6 @@ patch_tests () {
 DEF_AFTER_INSTALL_METHOD="hack_symlink"
 hack_symlink () {
     try "${TEST_BIN} -x ${PREFIX}/bin/pkg-config" || \
-        try "${LN_BIN} -s ${PREFIX}/bin/pkgconf ${PREFIX}/bin/pkg-config"
+        try "${LN_BIN} -s ${PREFIX}/bin/pkgconf-static ${PREFIX}/bin/pkg-config"
     return 0
 }

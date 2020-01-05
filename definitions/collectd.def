@@ -5,7 +5,7 @@ DEF_SHA="ef97838e249814ad96a2edc0410326efbb4f3d08"
 DEF_VERSION="5.5.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_STANDALONE=YES
-DEF_REQUIREMENTS="pkgconf ccache make m4 libtool libedit perl pth npth expat autoconf automake libstatgrab pcre libffi gettext curl-dynamic libpcap liboping libressl cmake python27 libxml2 libuuid postgresql96 libgpg-error libgcrypt mysql-lib geoip bind yajl nginx lua51 bison"
+DEF_REQUIREMENTS="pkgconf-static ccache make m4 libtool libedit perl pth npth expat autoconf automake libstatgrab pcre libffi gettext curl-dynamic libpcap liboping libressl cmake python27 libxml2 libuuid postgresql96 libgpg-error libgcrypt mysql-lib geoip bind yajl nginx lua51 bison"
 case ${SYSTEM_NAME} in
     FreeBSD)
         DEF_REQUIREMENTS="${DEF_REQUIREMENTS} nginx"

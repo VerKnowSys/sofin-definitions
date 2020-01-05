@@ -1,4 +1,4 @@
 inherit curl
 
-DEF_REQUIREMENTS="pkgconf make jemalloc expat libressl"
+DEF_REQUIREMENTS="pkgconf-static make jemalloc expat libressl"
 DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --disable-debug --without-libidn2 --without-nghttp2 --without-libssh2"

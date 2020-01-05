@@ -6,7 +6,7 @@ DEF_VERSION="5.5.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}qt-everywhere-opensource-src-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="-prefix ${PREFIX} -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -no-xcb -nomake examples -nomake tests -L${PREFIX}/lib -no-rpath"
 DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
-DEF_REQUIREMENTS="pkgconf make"
+DEF_REQUIREMENTS="pkgconf-static make"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_AFTER_INSTALL_METHOD="makeSymlinks"
     makeSymlinks () {

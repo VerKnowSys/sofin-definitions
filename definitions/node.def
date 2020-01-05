@@ -4,12 +4,12 @@ DEF_SHA="7e260091b562430f582a4906e232c0bede536f37"
 DEF_FULL_NAME="Node.js Dubnium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/v${DEF_VERSION}/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2 libuv"
+DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2 libuv"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
 --without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass"
-DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf bin/*conf"
+DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-static bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
 

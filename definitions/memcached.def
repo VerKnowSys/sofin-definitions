@@ -4,7 +4,7 @@ DEF_NAME="memcached"
 DEF_VERSION="1.5.20"
 DEF_SHA="5d3b5af3ce0a1483d655017db7228bcaeff10d47"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf libevent"
+DEF_REQUIREMENTS="pkgconf-static libevent"
 if [ "${SYSTEM_NAME}" != "Minix" ]; then
     _addon="--enable-64bit"
 fi

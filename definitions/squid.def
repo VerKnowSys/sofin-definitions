@@ -4,7 +4,7 @@ DEF_VERSION="4.9"
 DEF_SHA="43c90a1a2eb4d1613f1bfc603ad08e8a835be319"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.squid-cache.org/Versions/v4/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf gmp expat nettle libressl perl"
+DEF_REQUIREMENTS="pkgconf-static gmp expat nettle libressl perl"
 DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --disable-select \
 --disable-poll \
