@@ -7,6 +7,6 @@ DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/v${DEF_
 DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} \
 --without-mruby --without-neverbleed --without-systemd \
 --enable-lib-only --enable-asio-lib \
---disable-debug --disable-app --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
+--disable-static --disable-debug --disable-app --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
 "
 DEF_REQUIREMENTS="pkgconf make jemalloc icu yaml libffi libressl libxml2 libevent python27-static"

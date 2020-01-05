@@ -6,6 +6,7 @@ DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}src.v${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://ijg.org/files/${DEF_NAME}src.v${DEF_VERSION}.tar.gz"
 DEF_AFTER_INSTALL_METHOD="patch_header"
+DEF_CONFIGURE_ARGS="--disable-static"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
 DEF_NO_LLVM_LINKER=YES

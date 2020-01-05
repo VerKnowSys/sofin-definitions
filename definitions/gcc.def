@@ -17,7 +17,7 @@ DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgc
 --enable-languages=${langs} --libdir=${targlib} --libexecdir=${libexec} \
 --with-ld=${PREFIX}/bin/ld.gold --with-as=${PREFIX}/bin/as --with-ar=${PREFIX}/bin/ar --with-nm=${PREFIX}/bin/nm \
 --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} --with-isl=${PREFIX} \
---enable-gold --enable-bootstrap --enable-shared --enable-host-shared --with-gxx-include-dir=/usr/include/c++/v1 \
+--enable-gold --enable-bootstrap --enable-shared --disable-static --enable-host-shared --with-gxx-include-dir=/usr/include/c++/v1 \
 --disable-libstdcxx --enable-libgomp --enable-libgcc --enable-libssp --with-pkgversion=VerKnowSys \
 "
 DEF_REQUIREMENTS="pkgconf make m4 lzo lz4 perl-static gmp mpfr libmpc isl zip zlib libtool libunwind binutils-gold"

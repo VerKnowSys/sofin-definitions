@@ -4,6 +4,7 @@ DEF_VERSION="8.0"
 DEF_SHA="d58041c2143595dc001d2777ae9a200be30198b0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://ftp.gnu.org/gnu/readline/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-static"
 
 DEF_AFTER_PATCH_METHOD="patch_pc"
 patch_pc () {

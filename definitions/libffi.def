@@ -3,6 +3,7 @@ DEF_SHA="280c265b789e041c02e5c97815793dfc283fb1e6"
 DEF_NAME="libffi"
 DEF_VERSION="3.2.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-static"
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile_libtool_tag"
 DEF_AFTER_UNPACK_METHOD="patch_pc_in"
 patch_pc_in () {

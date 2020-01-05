@@ -3,6 +3,7 @@ DEF_NAME="t1lib"
 DEF_SHA="4b4fc22c8688eefaaa8cfc990f0039f95f4287de"
 DEF_VERSION="5.1.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-static"
 DEF_MAKE_METHOD="make without_doc"
 DEF_INSTALL_METHOD="make -s install"
 
