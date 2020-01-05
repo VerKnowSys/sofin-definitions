@@ -4,8 +4,19 @@ DEF_VERSION="3.0.2"
 DEF_SHA="3d025eb32b0304b5b1c317bb59add037680e3298"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_EXPORTS="openssl"
+DEF_EXPORTS="openssl nc ocspcheck"
+DEF_CONFIGURE_ARGS="--enable-nc --enable-shared --disable-static"
+DEF_INSTALL_METHOD="make -s install"
 DEF_STANDALONE=YES
+
+# XXX: tests are forcibly linked with static libraries we explicitly disabled:
+DEF_AFTER_CONFIGURE_METHOD="remove_tests"
+remove_tests () {
+    ${RM_BIN} -rf tests
+    mkdir tests
+    echo "all:" > tests/Makefile
+    echo "install:" >> tests/Makefile
+}
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
