@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Linux Darwin"
+DEF_DISABLE_ON="Linux"
 DEF_FULL_NAME="Htop utility"
 DEF_NAME="htop"
 DEF_SHA="5da790e6addf495edc4d8ed7d69d1f0de085c7ad"
