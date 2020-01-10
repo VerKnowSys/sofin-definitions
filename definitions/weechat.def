@@ -1,8 +1,8 @@
 DEF_FULL_NAME="WeeChat, the extensible chat client."
 DEF_STANDALONE=YES
 DEF_NAME="weechat"
-DEF_VERSION="2.6"
-DEF_SHA="8796cdd3216aeb1c8adda536ed6549008f4b459c"
+DEF_VERSION="2.7"
+DEF_SHA="aea165c2332196fa55b408545f6bfd800174d45b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
@@ -19,16 +19,26 @@ case "${SYSTEM_NAME}" in
 
     *)
         # TODO: figure out magic with ruby25 build options that cause troubles here..
-        DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp python37 jemalloc libunistring lzo libedit lua51 libevent pcre perl libgpg-error libgcrypt nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
-        DEF_AFTER_MAKE_METHOD="install_additional_requirements"
+        DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp python37 jemalloc libunistring lzo libedit lua51 libevent pcre perl libgpg-error libgcrypt nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl aspell"
+        DEF_AFTER_MAKE_METHOD="install_additional_requirements; remove_services_bin"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
             # Install wee_slack.py requirements:
             try "${PREFIX}/bin/pip3 install --upgrade pip"
             try "${PREFIX}/bin/pip3 install pync"
             try "${PREFIX}/bin/pip3 install websocket-client"
         }
+
+        remove_services_bin () {
+            try "${RM_BIN} -rf ${SERVICE_DIR}/bin"
+        }
         ;;
 esac
 
 DEF_USE_SAFE_STACK=YES
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
