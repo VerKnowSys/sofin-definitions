@@ -7,3 +7,9 @@ DEF_ORIGIN="https://www.nano-editor.org/dist/v4/${DEF_NAME}-${DEF_VERSION}.tar.x
 DEF_CONFIGURE_ARGS="--enable-utf8 --enable-color"
 DEF_USELESS="lib/*.{a,la} include man"
 DEF_EXPORTS="${DEF_NAME}"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
