@@ -8,13 +8,10 @@ DEF_CONFIGURE_ARGS="--disable-static"
 
 DEF_AFTER_PATCH_METHOD="patch_pc"
 
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    patch_pc () {
-        ${SED_BIN} -i '' -e '/^Requires.private: @TERMCAP_PKG_CONFIG_LIB@/ s|^|#|' readline.pc.in
-    }
-else
-    patch_pc () {
-        ${SED_BIN} -i '' -e '/^Requires.private: @TERMCAP_PKG_CONFIG_LIB@/ s|^|#|' readline.pc.in
+patch_pc () {
+    ${SED_BIN} -i '' -e '/^Requires.private: @TERMCAP_PKG_CONFIG_LIB@/ s|^|#|' readline.pc.in
+
+    if [ "${SYSTEM_NAME}" != "Darwin" ]; then
         ${SED_BIN} -i '' -e '/SHOBJ_LDFLAGS = / s| = |&-ltermcapw |' shlib/Makefile.in
-    }
-fi
+    fi
+}
