@@ -8,7 +8,7 @@ DEF_CONFIGURE_ARGS="--disable-static"
 
 DEF_AFTER_PATCH_METHOD="patch_pc"
 
-if [ "${SYSTEM_NAME}" != "Darwin" ]; then
+if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     patch_pc () {
         ${SED_BIN} -i '' -e '/^Requires.private: @TERMCAP_PKG_CONFIG_LIB@/ s|^|#|' readline.pc.in
     }
