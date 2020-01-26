@@ -29,6 +29,7 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
             ;;
 
         *)
+            unset DEF_USE_LTO
             ;;
     esac
 fi
