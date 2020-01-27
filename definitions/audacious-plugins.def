@@ -48,6 +48,8 @@ libmpcdec \
 libmad \
 libshout \
 opus \
+libopusenc \
+opusfile \
 opus-tools \
 faac \
 audiofile \
@@ -61,7 +63,7 @@ DEF_CONFIGURE_ARGS="\
 --disable-qtaudio \
 --disable-jack \
 --disable-mpris2 \
---with-system-libxml2=no \
+--with-system-libxml2=yes \
 --with-ffmpeg=ffmpeg \
 "
 
