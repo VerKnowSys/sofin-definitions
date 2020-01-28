@@ -54,6 +54,8 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
 
     DEF_AFTER_INSTALL_METHOD="make_symlinks"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath QMAKE_MACOSX_DEPLOYMENT_TARGET=10.11"
+    CFLAGS="${CFLAGS} --sysroot $(xcrun --show-sdk-path)"
+    CXXFLAGS="${CXXFLAGS} --sysroot $(xcrun --show-sdk-path)"
 else
     LD="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie"
 fi

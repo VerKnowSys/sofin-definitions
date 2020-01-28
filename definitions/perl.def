@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Minix"
 DEF_FULL_NAME="Perl"
 DEF_NAME="perl"
-DEF_VERSION="5.28.2"
-DEF_SHA="5457f788372f667bf5a1ba3b05211faf773f024f"
+DEF_VERSION="5.30.1"
+DEF_SHA="905617fbc5802d59914be2a26a604dee52dd13b3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="lzo libressl db gettext"
@@ -29,6 +29,7 @@ if [ "Darwin" = "${SYSTEM_NAME}" ]; then
             ;;
 
         *)
+            unset DEF_USE_LTO
             ;;
     esac
 fi
