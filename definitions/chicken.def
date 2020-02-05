@@ -1,0 +1,29 @@
+DEF_FULL_NAME="Chicken Scheme"
+DEF_SHA="ac5abdf82168d5d86f00a79f75f7a73dc0c717ab"
+DEF_NAME="chicken"
+DEF_VERSION="5.1.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="no-conf"
+
+DEF_AFTER_UNPACK_METHOD="patch_makefile"
+patch_makefile () {
+    ${SED_BIN} -i '' -e "s/gcc/clang/g; s/g++/clang++/g" *.make Makefile*
+}
+
+DEF_MAKE_METHOD="true"
+DEF_INSTALL_METHOD="make_install_method"
+make_install_method () {
+    C_COMPILER="${CC}" \
+    C_COMPILER_OPTIMIZATION_OPTIONS="${CFLAGS}" \
+    CXX_COMPILER="${CXX}" \
+    DOCDIR="${SERVICE_DIR}/doc" \
+    LIBDIR="${PREFIX}/lib" \
+    LIBRARIAN="${AR_BIN}" \
+    LINKER_OPTIONS="${LDFLAGS}" \
+    MANDIR=${PREFIX}/man \
+    PREFIX=${PREFIX} \
+    PROGRAM_SUFFIX="${PKGNAMESUFFIX}"
+    PLATFORM=bsd \
+        make install
+}
+DEF_EXPORTS="chicken chicken-do chicken-install chicken-profile chicken-status chicken-uninstall csc csi feathers"
