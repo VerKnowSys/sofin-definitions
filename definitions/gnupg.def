@@ -11,9 +11,9 @@ DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-t
 --with-zlib=/usr --with-regex=${PREFIX} --disable-dependency-tracking --disable-ldap \
 --enable-gpg-is-gpg2 --enable-symcryptrun --enable-gnutls \
 "
-DEF_EXPORTS="gpg-connect-agent gpg-agent gpg-connect-agent gpg-error gpg-error-config gpg gpg2 gpgconf gpgkey2ssh gpgparsemail gpgsm gpgsm-gencert.sh gpgv2 symcryptrun watchgnupg hmac256 pinentry pinentry-curses dirmngr"
+DEF_EXPORTS="gpg-connect-agent gpg-agent gpg-connect-agent gpg-error gpg-error-config gpg gpg2 gpgconf gpgkey2ssh gpgparsemail gpgsm gpgsm-gencert.sh gpgv2 symcryptrun watchgnupg hmac256 pinentry pinentry-curses dirmngr gpg-preset-passphrase"
 DEF_USELESS="share/readline share/aclocal include lib/*.a"
-DEF_USEFUL="bin/dir*"
+DEF_USEFUL="bin/dir* bin/gpg*"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
