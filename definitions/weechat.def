@@ -1,8 +1,8 @@
-DEF_FULL_NAME="WeeChat, the extensible chat client."
+DEF_FULL_NAME="WeeChat, the extensible chat client"
 DEF_STANDALONE=YES
 DEF_NAME="weechat"
-DEF_VERSION="2.7"
-DEF_SHA="aea165c2332196fa55b408545f6bfd800174d45b"
+DEF_VERSION="2.7.1"
+DEF_SHA="9c2f0de80d613c511e499ea40c8e9609b7f82347"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
@@ -19,7 +19,7 @@ case "${SYSTEM_NAME}" in
 
     *)
         # TODO: figure out magic with ruby25 build options that cause troubles here..
-        DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp python37 jemalloc libunistring lzo libedit lua51 libevent pcre perl libgpg-error libgcrypt nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl aspell"
+        DEF_REQUIREMENTS="libffi libressl expat readline gettext libtool aspell-lib gmp python37 jemalloc libunistring lzo libedit lua51 libevent pcre perl libgpg-error libgcrypt nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
         DEF_AFTER_MAKE_METHOD="install_additional_requirements; remove_services_bin"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
