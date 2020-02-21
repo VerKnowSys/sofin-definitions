@@ -1,0 +1,3 @@
+inherit aspell
+
+unset DEF_USE_SAFE_STACK
