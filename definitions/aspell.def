@@ -1,9 +1,9 @@
 DEF_DISABLE_ON="Darwin"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Aspell"
-DEF_SHA="ff1190db8de279f950c242c6f4c5d5cdc2cbdc49"
 DEF_NAME="aspell"
-DEF_VERSION="0.60.6.1"
+DEF_VERSION="0.60.8"
+DEF_SHA="ae554df297aee676b4d16f261fa5c60e285478f6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="ftp://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 make libtool gettext perl-static texinfo"
