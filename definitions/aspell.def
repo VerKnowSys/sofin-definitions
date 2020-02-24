@@ -7,7 +7,7 @@ DEF_SHA="ae554df297aee676b4d16f261fa5c60e285478f6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="ftp://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="m4 make libtool gettext perl-static texinfo"
-DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-import word-list-compress pspell-config run-with-${DEF_NAME} recode-sr-latin"
+DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-import word-list-compress pspell-config run-with-${DEF_NAME} recode-sr-latin prezip prezip-bin precat preunzip xmlwf"
 DEF_USEFUL="bin/as*"
 DEF_AFTER_UNPACK_METHOD="patch_tha_gnu_code"
 patch_tha_gnu_code () {
