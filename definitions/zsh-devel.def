@@ -1,7 +1,7 @@
 inherit zsh
 
 # Alternative build is not critical:
-unset DEF_CRITICAL DEF_USE_SAFE_STACK
+unset DEF_CRITICAL DEF_USE_SAFE_STACK DEF_TEST_METHOD
 
 DEF_SUFFIX="-devel"
 DEF_VERSION="5.7.1"
