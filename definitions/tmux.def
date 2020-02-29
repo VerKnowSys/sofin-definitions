@@ -4,7 +4,12 @@ DEF_VERSION="3.0a"
 DEF_SHA="0cc951b9ff545b429c101eb562e0be9c5aba5ed4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libevent"
-DEF_CONFIGURE_ARGS="--disable-static"
+DEF_REQUIREMENTS="libevent utf8proc"
+DEF_CONFIGURE_ARGS="--disable-static --enable-utf8proc"
+case "${SYSTEM_NAME}" in
+    FreeBSD)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-utempter"
+        ;;
+esac
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USELESS="include lib/pkgconfig man"
