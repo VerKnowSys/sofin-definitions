@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.41.1"
-DEF_SHA="a3a29e99cd6843303547878ccf9c79307f9a3fd6"
+DEF_VERSION="1.42.0"
+DEF_SHA="97ce4299110d7a1c2b326980435d4b7de8cded2b"
 DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 DEF_STANDALONE=YES
@@ -20,13 +20,28 @@ DEF_NO_MPROTECT=YES
 DEF_APPLY_LOWER_SECURITY_ON="rustdoc"
 
 
-DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
+DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install && install_wasm_compiler"
 patch_prefix_and_install () {
     ${SED_BIN} -i '' -e "s|/bin/bash|/bin/sh|; s|/usr/local|${PREFIX}|g" install.sh
     note "Installing Rust v${DEF_VERSION}"
     try "./install.sh >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}" \
         || exit 6
 }
+
+install_wasm_compiler () {
+    _wasm_target="wasm32-unknown-unknown"
+    _wasm_name="${DEF_NAME}-std-${DEF_VERSION}-${_wasm_target}"
+    _wasm_archive="${_wasm_name}.tar.gz"
+    fetch "${MAIN_SOURCE_REPOSITORY}${_wasm_archive}"
+    ${TAR_BIN} xf "${_wasm_archive}"
+    ${CP_BIN} -r \
+        "${_wasm_name}/rust-std-${_wasm_target}/lib/rustlib/${_wasm_target}" \
+        "${PREFIX}/lib/rustlib/"
+
+    ${RM_BIN} -rf "${_wasm_name}"
+    ${RM_BIN} -f "${_wasm_archive}"
+}
+
 
 
 DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper; install_utils"
