@@ -1,8 +1,8 @@
 inherit "node"
 
-DEF_VERSION="12.13.0"
-DEF_SHA="22c9b89e124256264c7637ed80f33fb820e9d581"
-DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
+DEF_VERSION="12.16.1"
+DEF_SHA="45549556410cb0eb463ae1e384ecba0fb3ee3b97"
+DEF_FULL_NAME="Node.js Erbium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/v${DEF_VERSION}/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2"
