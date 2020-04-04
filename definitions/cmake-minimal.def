@@ -3,5 +3,3 @@ inherit cmake
 DEF_FULL_NAME="Cmake build system - minimal install"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS} --system-zlib --system-bzip2 --system-curl"
 DEF_REQUIREMENTS=""
-
-# DEF_REQUIREMENTS="jemalloc pkgconf-static make lzma xz expat libressl curl-dynamic "
