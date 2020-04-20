@@ -1,17 +1,8 @@
 DEF_FULL_NAME="Lib FFI"
-DEF_SHA="280c265b789e041c02e5c97815793dfc283fb1e6"
 DEF_NAME="libffi"
-DEF_VERSION="3.2.1"
+DEF_VERSION="3.3"
+DEF_SHA="8df6cb570c8d6596a67d1c0773bf00650154f7aa"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--disable-static"
-DEF_AFTER_CONFIGURE_METHOD="fix_makefile_libtool_tag"
-DEF_AFTER_UNPACK_METHOD="patch_pc_in"
-patch_pc_in () {
-    try "${SED_BIN} -i '' -e 's#\${libdir}/@PACKAGE_NAME@-@PACKAGE_VERSION@#\${exec_prefix}#' libffi.pc.in"
-}
-DEF_AFTER_INSTALL_METHOD="move_libffi_include"
-move_libffi_include () {
-    try "${CP_BIN} -vfR ${PREFIX}/lib/libffi-${DEF_VERSION}/include ${PREFIX} && ${RM_BIN} -rf ${PREFIX}/lib/libffi-${DEF_VERSION}"
-}
 DEF_NO_CCACHE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
