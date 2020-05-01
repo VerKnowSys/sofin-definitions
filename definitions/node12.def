@@ -1,10 +1,10 @@
 inherit "node"
 
-DEF_VERSION="12.16.1"
-DEF_SHA="45549556410cb0eb463ae1e384ecba0fb3ee3b97"
+DEF_VERSION="12.16.3"
+DEF_SHA="d17faf7c0bcd20acc8b2475326c9771204447948"
 DEF_FULL_NAME="Node.js Erbium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://nodejs.org/dist/v${DEF_VERSION}/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://nodejs.org/dist/latest-v12.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-snapshot --without-etw --shared-zlib --shared-nghttp2  --shared-cares"
 
