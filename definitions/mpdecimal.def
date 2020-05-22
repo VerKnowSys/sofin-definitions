@@ -1,0 +1,8 @@
+DEF_FULL_NAME="mpdecimal"
+DEF_NAME="mpdecimal"
+DEF_SHA="b926360a96fba40f9363abe111e24d776c661adb"
+DEF_VERSION="2.4.2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+
+# workaround for linker using clang as a wrapper:
+LD="clang"
