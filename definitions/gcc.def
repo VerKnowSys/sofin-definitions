@@ -1,4 +1,4 @@
-langs="c,c++"
+langs="c,c++,fortran"
 suffix="$(echo "${DEF_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
 targlib="${PREFIX}/lib"
 libexec="${PREFIX}/libexec"
