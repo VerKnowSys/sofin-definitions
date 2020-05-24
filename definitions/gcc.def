@@ -1,28 +1,34 @@
-langs="c,c++,fortran"
+langs="c,c++"
 suffix="$(echo "${DEF_VERSION}" | ${CUT_BIN} -c1 2>/dev/null)"
 targlib="${PREFIX}/lib"
-libexec="${PREFIX}/libexec"
 common_shared_env="LANG=C LC_ALL=C" # gcc_gxx_include_dir=\"/usr/include/c++/v1\"
 common_opts="${common_shared_env} SUFFIX=${suffix} GCC_VERSION=${DEF_VERSION} DISTVERSION=${DEF_VERSION}"
 
 DEF_DISABLE_ON="Linux Darwin"
 DEF_STANDALONE=YES
-DEF_VERSION="7.2.0"
+DEF_VERSION="7.5.0"
 DEF_NAME="gcc"
-DEF_SHA="08a88199ed94fdf4940d118ba3c07028245cd5b7"
+DEF_SHA="9153345fa05adfa58b4759ccb9f37d09662dd101"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
 DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
+
 DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgcj --disable-multilib \
---enable-languages=${langs} --libdir=${targlib} --libexecdir=${libexec} \
+--with-build-config=bootstrap-debug --enable-languages=${langs} --libdir=${targlib} --libexecdir=${targlib} \
 --with-ld=${PREFIX}/bin/ld.gold --with-as=${PREFIX}/bin/as --with-ar=${PREFIX}/bin/ar --with-nm=${PREFIX}/bin/nm \
 --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} --with-isl=${PREFIX} \
---enable-gold --enable-bootstrap --enable-shared --disable-static --enable-host-shared --with-gxx-include-dir=/usr/include/c++/v1 \
---disable-libstdcxx --enable-libgomp --enable-libgcc --enable-libssp --with-pkgversion=VerKnowSys \
-"
+--disable-libstdcxx --enable-bootstrap --enable-shared --enable-host-shared --enable-default-pie \
+--with-pkgversion=VerKnowSys --with-gxx-include-dir=/usr/include/c++/v1"
 DEF_REQUIREMENTS="pkgconf-static make m4 lzo lz4 perl-static gmp mpfr libmpc isl zip zlib libtool libunwind binutils-gold"
-DEF_COMPILER_FLAGS="-Wno-error -Wno-reserved-user-defined-literal"
-DEF_MAKE_METHOD="env ${common_opts} make ${MAKE_OPTS} all-gcc"
+
+DEF_AFTER_UNPACK_METHOD="contrib/gcc_update --touch"
+# DEF_AFTER_INSTALL_METHOD="generate_libgfortran_spec"
+# generate_libgfortran_spec () {
+#     echo '%rename lib liborig' > "${PREFIX}/lib/gcc/x86_64-unknown-freebsd${SYSTEM_VERSION}/${DEF_VERSION}/libgfortran.spec"
+#     echo '*lib: -lm -lgcc' >> "${PREFIX}/lib/gcc/x86_64-unknown-freebsd${SYSTEM_VERSION}/${DEF_VERSION}/libgfortran.spec"
+# }
+
+DEF_MAKE_METHOD="env ${common_opts} make -j${CPUS} all-gcc"
 DEF_INSTALL_METHOD="env ${common_opts} make install-strip-gcc"
 DEF_USELESS="man doc docs share/doc share/info share/bison share/libtool share/texinfo lib/*perl* share/man/man7 share/aclocal* share/auto*"
 DEF_USEFUL="bin/g* bin/ld* bin/x86_64-unknown-freebsd*"
@@ -35,5 +41,4 @@ unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
 
 CFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fuse-ld=gold -fPIE"
 CXXFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fuse-ld=gold -fPIE"
-LDFLAGS="-L${PREFIX}/lib -L/usr/lib -fPIE"
 LD="ld.gold -pie"
