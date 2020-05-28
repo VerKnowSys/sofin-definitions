@@ -1,8 +1,8 @@
 DEF_FULL_NAME="PostgreSQL 9.6.x - open source object-relational database system"
 DEF_STANDALONE=YES
 DEF_NAME="postgresql"
-DEF_VERSION="9.6.16"
-DEF_SHA="5fff91ee210a475dc41cbc39f5a596ae17a1513f"
+DEF_VERSION="9.6.18"
+DEF_SHA="9b01c120d0c16ed111e25f80e791581354a463cd"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static"
