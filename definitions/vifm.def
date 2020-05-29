@@ -1,8 +1,8 @@
 DEF_FULL_NAME="VI-like File Manager"
 DEF_STANDALONE=YES
 DEF_NAME="vifm"
-DEF_VERSION="0.10"
-DEF_SHA="fbdfe7bd9da754e9c8b09da5db8fd8f99bbb49ae"
+DEF_VERSION="0.10.1"
+DEF_SHA="c5e6b110768dd14f8f13ed12e681cccaa2d49227"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://netix.dl.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf-static make"
