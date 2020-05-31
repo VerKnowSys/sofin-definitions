@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Darwin" # It's built in, and too big of a hassle for a snake.
 DEF_FULL_NAME="Python 2.7"
 DEF_NAME="Python"
-DEF_VERSION="2.7.16"
-DEF_SHA="e9543af127d958b12b0edfb9340d4f0af3d0d90e"
+DEF_VERSION="2.7.18"
+DEF_SHA="678d4cf483a1c92efd347ee8e1e79326dc82810b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libedit db pcre expat libffi libressl"
 DEF_CONFIGURE_ARGS="--with-libs='-lssl -lcrypto -lm -lc -lc++ -lz -lncurses -lutil -lpthread' --with-threads --with-tsc --with-suffix= --without-gcc --with-fpectl --with-doc-strings --without-pth --disable-ipv6 --with-pymalloc --without-lto --with-system-expat=${PREFIX} --with-system-ffi=${PREFIX} ac_cv_have_long_long_format=yes ac_cv_opt_olimit_ok=no ac_cv_lib_intl_textdomain=no ac_cv_header_libintl_h=no OPT=-fPIC LDFLAGS=-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
