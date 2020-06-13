@@ -1,8 +1,9 @@
 DEF_FULL_NAME="GNU Make"
-DEF_SHA="7d9d11eb36cfb752da1fb11bb3e521d2a3cc8830"
+DEF_SHA="3c40e5b49b893dbb14f1e2e1f8fe89b7298cc51d"
 DEF_NAME="make"
-DEF_VERSION="4.2.1"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_VERSION="4.3"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="${DEF_NAME} g${DEF_NAME}"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking" # NO: --program-prefix=g
 DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -x ${PREFIX}/bin/gmake || ${LN_BIN} -s ${PREFIX}/bin/make ${PREFIX}/bin/gmake"
