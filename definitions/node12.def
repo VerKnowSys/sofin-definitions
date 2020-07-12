@@ -1,7 +1,7 @@
 inherit "node"
 
-DEF_VERSION="12.17.0"
-DEF_SHA="2d4afc5be4b315285423c113631fefc3ef494447"
+DEF_VERSION="12.18.2"
+DEF_SHA="9c2187204dae27e5d4382cd599c5e710bc10c057"
 DEF_FULL_NAME="Node.js Erbium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/latest-v12.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
@@ -20,3 +20,5 @@ node_patch_configured () {
             "deps/npm/lib/config/defaults.js" \
             "deps/npm/lib/utils/completion.sh"
 }
+
+unset DEF_USE_RAMDISK
