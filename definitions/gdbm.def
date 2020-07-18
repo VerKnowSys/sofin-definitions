@@ -9,8 +9,4 @@ DEF_CONFIGURE_ARGS="--enable-libgdbm-compat --enable-dependency-tracking --enabl
 DEF_INSTALL_METHOD="make -s install"
 DEF_EXPORTS="gdbm_dump gdbm_load gdbmtool"
 
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
-        unset DEF_USE_LTO
-        ;;
-esac
+       unset DEF_USE_LTO
