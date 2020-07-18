@@ -1,9 +1,9 @@
 DEF_CRITICAL=YES
-DEF_FULL_NAME="Git SCM"
-DEF_SHA="c06d95faebc83962f94efba11448f9a2ae841b9f"
-DEF_NAME="git"
-DEF_VERSION="2.12.3"
 DEF_STANDALONE=YES
+DEF_FULL_NAME="Git SCM"
+DEF_NAME="git"
+DEF_VERSION="2.26.2"
+DEF_SHA="bdb5eb6c014d7c372be70782a5155d964abe2c08"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pkgconf-static make libunistring gettext pcre icu expat gmp perl libressl libffi python27 nghttp2 libssh2 curl-dynamic"
 case "${SYSTEM_NAME}" in
@@ -25,9 +25,20 @@ case "${SYSTEM_NAME}" in
         ;;
 
 esac
-DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --without-python ${DEF_CONFIGURE_ARGS}"
+DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --with-python=${PREFIX}/bin/python ${DEF_CONFIGURE_ARGS}"
 DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
-DEF_USEFUL="bin/perl*"
-DEF_USELESS="lib/*.a lib/*python* share/examples share/texinfo share/gtk-doc share/aclocal* share/auto* share/gettext* lib/pkgconfig include"
+DEF_USEFUL="bin/perl* bin/python*"
+DEF_USELESS="lib/*.{a,la} lib/{pkgconfig,icu} share/{examples,texinfo,gtk-doc,icu,nghttp2} share/aclocal* share/auto* include man sbin docs"
 DEF_USE_SAFE_STACK=YES
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
+DEF_AFTER_INSTALL_METHOD="strip_libexec"
+strip_libexec () {
+    ${STRIP_BIN} libexec/git-core/git-* 2>/dev/null
+    return 0
+}
