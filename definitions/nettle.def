@@ -4,7 +4,7 @@ DEF_VERSION="3.6"
 DEF_SHA="22e48a4d232ccd26ba8303709f2222b422a8827d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="bzip2 zlib make m4 gmp"
+DEF_REQUIREMENTS="zlib make-static m4 gmp"
 if [ "${SYSTEM_ARCH}" = "arm" ]; then
     DEF_CONFIGURE_ARGS="--enable-shared --disable-assembler"
 else

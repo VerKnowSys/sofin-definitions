@@ -5,7 +5,7 @@ DEF_SHA="2309b9264d625bf566051f8b8422185c2b9304e3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/fish-shell/fish-shell/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--without-xsel --without-gettext --enable-utf"
-DEF_REQUIREMENTS="pkgconf-static m4 make pcre libedit"
+DEF_REQUIREMENTS="pkgconf-static make-static m4 pcre libedit"
 DEF_EXPORTS="fish fish_indent fish_pager fishd"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in

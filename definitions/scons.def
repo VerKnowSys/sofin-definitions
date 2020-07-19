@@ -4,7 +4,7 @@ DEF_SHA="f505f70803264155aaa02870b24220545d646bc1"
 DEF_VERSION="2.4.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-src-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="make libressl libxml2 python27"
+DEF_REQUIREMENTS="make-static libressl libxml2 python27"
 DEF_EXPORTS="scons scons-time sconsign"
 DEF_USEFUL="bin/python*"
 

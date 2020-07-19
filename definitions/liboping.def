@@ -2,7 +2,7 @@ DEF_FULL_NAME="Oping library"
 DEF_NAME="liboping"
 DEF_SHA="4ba4774cf7894cee0749844d33f9a5f9a6a2c793"
 DEF_VERSION="1.8.0"
-DEF_REQUIREMENTS="make m4 libtool autoconf automake"
+DEF_REQUIREMENTS="make-static m4 libtool autoconf automake"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 
 DEF_AFTER_UNPACK_METHOD="patch_Makefileam"

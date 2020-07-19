@@ -15,7 +15,7 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="--disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
         ;;
 esac
-DEF_REQUIREMENTS="make pkgconf m4 lzma lzo lz4 xz pcre libressl expat nasm icu python27-static db perl-static gettext jpeg jbig2dec jbigkit openjpeg libjpeg-turbo freetype libxml2 fontconfig libpaper texinfo libidn tiff libpng lcms2 libtool libffi graphite2 t1lib glib harfbuzz pixman poppler"
+DEF_REQUIREMENTS="make-static pkgconf m4 lzma lzo lz4 xz pcre libressl expat nasm icu python27-static db perl-static gettext jpeg jbig2dec jbigkit openjpeg libjpeg-turbo freetype libxml2 fontconfig libpaper texinfo libidn tiff libpng lcms2 libtool libffi graphite2 t1lib glib harfbuzz pixman poppler"
 DEF_USEFUL="bin/pkg*"
 DEF_USELESS="include/python* lib/perl5 lib/python* lib/libxslt-plugins libexec ssl man share/man share/bash* share/aclocal* share/auto* share/{bison,doc,gtk-doc,gdb,emacs,examples,texinfo,info,libtool,gettext,icu,util-macros,t1lib/doc} lib/*.a lib/openjpeg-* lib/*.sh share/glib-* share/gettext-* share/graphite* docs sbin"
 

@@ -2,6 +2,6 @@ inherit llvm
 
 DEF_FULL_NAME="${DEF_FULL_NAME} + GNU Golden Linker"
 DEF_NAME="gold"
-DEF_REQUIREMENTS="pkgconf-static make ccache pcre bzip2 lzma xz m4 perl-static autoconf libtool automake bison gmp mpfr libmpc texinfo isl zlib binutils-gold libressl python27-static cmake ninja"
+DEF_REQUIREMENTS="pkgconf-static make-static ccache pcre bzip2 lzma xz m4 perl-static autoconf libtool automake bison gmp mpfr libmpc texinfo isl zlib binutils-gold libressl python27-static cmake ninja"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_BINUTILS_INCDIR=${PREFIX}/include"
 DEF_EXPORTS="gold ld ld.bfd ld.gold ${DEF_EXPORTS}"

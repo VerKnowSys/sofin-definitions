@@ -3,7 +3,7 @@ DEF_SHA="1a887dc7182c91726137aaf6a4627efdd82d988e"
 DEF_NAME="goaccess"
 DEF_VERSION="0.7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="make expat zlib pcre pkgconf-static libffi gettext python27 m4 libtool glib"
+DEF_REQUIREMENTS="make-static expat zlib pcre pkgconf-static libffi gettext python27 m4 libtool glib"
 DEF_CONFIGURE_ARGS="--enable-utf8"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     unset DEF_CONFIGURE_ARGS

@@ -6,7 +6,7 @@ DEF_SHA="6e6f279530bcca09090cd9f6a47003a7421ba3ef"
 DEF_NAME="courier"
 DEF_VERSION="0.75.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf-static perl pcre m4 libtool openssl make db expat gettext courier-unicode courier-authlib courier-imap"
+DEF_REQUIREMENTS="pkgconf-static make-static perl pcre m4 libtool openssl db expat gettext courier-unicode courier-authlib courier-imap"
 DEF_LINKER_FLAGS="-lpthread"
 DEF_CONFIGURE_ARGS="--enable-mimetypes=/etc/mime.types --disable-silent-rules --disable-root-check --enable-syslog=1 --enable-use-flock --enable-unicode --enable-workarounds-for-imap-client-bugs --enable-mimecharset=UTF-8 --without-ipv6 --without-ispell --with-db=db --disable-static" # NOTE: this mime.types file exists in ServeD system by default, same with /etc/ssl
 DEF_EXPORTS="addcr courier-config courierauthconfig couriermlm couriertls deliverquota mailbot maildiracl maildirkw maildirmake maildrop makemime pop3d aliaslookup courier esmtpd imapd-ssl makepercentrelay mkesmtpdcert pop3login showmodules webmaild authdaemond courieresmtpd esmtpd-msa imaplogin makesmtpaccess mkimapdcert pw2userdb userdb authenumerate courierfilter esmtpd-ssl makeacceptmailfor makesmtpaccess-msa mkpop3dcert sharedindexinstall userdb-test-cram-md5 authpasswd courierlogger filterctl makealiases makeuserdb sharedindexsplit userdbpw authtest couriertcpd imapd makehosteddomains makeuucpneighbors pop3d-ssl showconfig webgpg courier-admin mailq recode-sr-latin sendmail testmxlookup webmlmd webmlmd.rc rmail reformime reformail makedat dotforward cancelmsg"
