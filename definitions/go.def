@@ -20,22 +20,22 @@ install_dep () {
     ${CHMOD_BIN} a+rx "${PREFIX}/bin/dep"
 }
 
-DEF_AFTER_INSTALL_METHOD="install_wrappers ${DEF_VERSION}"
-install_wrappers () {
-    version="$1"
-    if [ ! -x "${PREFIX}/bin/go-${version}" ]; then
-        ${MV_BIN} "${PREFIX}/bin/go" "${PREFIX}/bin/go-${version}" && \
-        printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${version} \$@\n" > "${PREFIX}/bin/go"
-        ${CHMOD_BIN} a+x "${PREFIX}/bin/go"
-    fi
-    if [ ! -x "${PREFIX}/bin/godoc-${version}" ]; then
-        ${MV_BIN} "${PREFIX}/bin/godoc" "${PREFIX}/bin/godoc-${version}" && \
-        printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/godoc-${version} \$@\n" > "${PREFIX}/bin/godoc"
-        ${CHMOD_BIN} a+x "${PREFIX}/bin/godoc"
-    fi
-    if [ ! -x "${PREFIX}/bin/gofmt-${version}" ]; then
-        ${MV_BIN} "${PREFIX}/bin/gofmt" "${PREFIX}/bin/gofmt-${version}" && \
-        printf "#!/bin/sh\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${version} \$@\n" > "${PREFIX}/bin/gofmt"
-        ${CHMOD_BIN} a+x "${PREFIX}/bin/gofmt"
-    fi
-}
+# DEF_AFTER_INSTALL_METHOD="install_wrappers ${DEF_VERSION}"
+# install_wrappers () {
+#     version="$1"
+#     if [ ! -x "${PREFIX}/bin/go-${version}" ]; then
+#         ${MV_BIN} "${PREFIX}/bin/go" "${PREFIX}/bin/go-${version}" && \
+#         printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${version} \$@\n" > "${PREFIX}/bin/go"
+#         ${CHMOD_BIN} a+x "${PREFIX}/bin/go"
+#     fi
+#     if [ ! -x "${PREFIX}/bin/godoc-${version}" ]; then
+#         ${MV_BIN} "${PREFIX}/bin/godoc" "${PREFIX}/bin/godoc-${version}" && \
+#         printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/godoc-${version} \$@\n" > "${PREFIX}/bin/godoc"
+#         ${CHMOD_BIN} a+x "${PREFIX}/bin/godoc"
+#     fi
+#     if [ ! -x "${PREFIX}/bin/gofmt-${version}" ]; then
+#         ${MV_BIN} "${PREFIX}/bin/gofmt" "${PREFIX}/bin/gofmt-${version}" && \
+#         printf "#!/bin/sh\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${version} \$@\n" > "${PREFIX}/bin/gofmt"
+#         ${CHMOD_BIN} a+x "${PREFIX}/bin/gofmt"
+#     fi
+# }
