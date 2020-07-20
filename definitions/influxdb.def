@@ -14,17 +14,17 @@ DEF_EXPORTS="influx influxd"
 DEF_NO_CCACHE=YES
 
 make_action () {
+    ${MKDIR_BIN} -p "${PREFIX}/bin"
     export PATH="${PATH}:/Software/Git/bin" # NOTE: Go build mechanism requires git binary to be available:
-    try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influx ./cmd/influx" \
-        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influxd ./cmd/influxd" \
+    try "env GO111MODULE=on ${PREFIX}/bin/go get ./..." \
+        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -ldflags '-X main.version=${DEF_VERSION}' -o ${PREFIX}/bin/influx ./cmd/influx" \
+        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -ldflags '-X main.version=${DEF_VERSION}' -o ${PREFIX}/bin/influxd ./cmd/influxd" \
         && return 0
     return 1
 }
 
 install_action () {
-    ${MKDIR_BIN} -p "${PREFIX}/bin"
     for _binary in influx influxd; do
-        try "${MV_BIN} bin/${_binary} ${PREFIX}/bin/${_binary}"
         try "${STRIP_BIN} ${PREFIX}/bin/${_binary}"
     done
     unset _binary
