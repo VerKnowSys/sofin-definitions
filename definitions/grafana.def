@@ -13,7 +13,6 @@ DEF_MAKE_METHOD="make_action"
 make_action () {
     mkdir -p "${PREFIX}/bin"
     export PATH=${PATH}:/Software/Git/bin
-    export GOPATH="$(pwd)"
 
     debug "Checking out v${DEF_VERSION}" && \
     ${GIT_BIN} checkout -b "v${DEF_VERSION}"
@@ -24,14 +23,11 @@ make_action () {
         pkg/cmd/grafana-cli/main.go
 
     debug "Fetching last version of xerrors (to prevent fail with Go 1.13)" && \
-    go get -u golang.org/x/xerrors && \
-    debug "Building server" && \
-    go build -ldflags "-w" -o "${PREFIX}/bin/grafana-server" ./pkg/cmd/grafana-server && \
-    debug "Building cli" && \
-    go build -ldflags "-w" -o "${PREFIX}/bin/grafana-cli" ./pkg/cmd/grafana-cli \
+    try "go get -u golang.org/x/xerrors" \
+        && try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-server' ./pkg/cmd/grafana-server" \
+        && try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-cli' ./pkg/cmd/grafana-cli" \
         || return 1
 
-    cd "${GOPATH}"
     # ORIGIN for prebuild: https://dl.grafana.com/oss/release/grafana-6.5.2.linux-amd64.tar.gz
     debug "Fetching prebuilt Grafana archive" && \
     ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
