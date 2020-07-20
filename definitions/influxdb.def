@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Influxb database"
 DEF_STANDALONE=YES
 DEF_NAME="influxdb"
-DEF_VERSION="1.7.8"
-DEF_SHA="d9fb4df9adc40868705be6c0f4f4901470997f73"
+DEF_VERSION="1.8.1"
+DEF_SHA="a03288a5d0e9e742df15489b4a97bab2d6072fab"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://codeload.github.com/influxdata/${DEF_NAME}/tar.gz/v${DEF_VERSION}"
 DEF_REQUIREMENTS="pkgconf-static go"
@@ -15,8 +15,7 @@ DEF_NO_CCACHE=YES
 
 make_action () {
     export PATH="${PATH}:/Software/Git/bin" # NOTE: Go build mechanism requires git binary to be available:
-    try "${PREFIX}/bin/go mod init" \
-        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influx ./cmd/influx" \
+    try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influx ./cmd/influx" \
         && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -o bin/influxd ./cmd/influxd" \
         && return 0
     return 1
