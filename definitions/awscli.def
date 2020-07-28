@@ -2,7 +2,7 @@ inherit "python36"
 
 unset DEF_SUFFIX
 DEF_FULL_NAME="AWS-cli (Python 3.6)"
-DEF_VERSION="1.18.69"
+DEF_VERSION="1.18.105"
 DEF_NAME="awscli"
 DEF_USEFUL="bin/python3*"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
