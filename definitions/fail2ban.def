@@ -1,7 +1,7 @@
 inherit "python36"
 
 unset DEF_SUFFIX
-DEF_STNDALONE=YES
+DEF_STANDALONE=YES
 DEF_FULL_NAME="Fail2ban (Python 3.6)"
 DEF_VERSION="0.11.1"
 DEF_NAME="fail2ban"
