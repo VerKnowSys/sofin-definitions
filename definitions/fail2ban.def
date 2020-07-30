@@ -1,0 +1,41 @@
+inherit "python36"
+
+unset DEF_SUFFIX
+DEF_STNDALONE=YES
+DEF_FULL_NAME="Fail2ban (Python 3.6)"
+DEF_VERSION="0.11.1"
+DEF_NAME="fail2ban"
+DEF_SHA="45b1e4320b079b193acfda7bdc60421f1e920077"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} sqlite python36"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_USEFUL="bin/python3* bin/fail2ban* bin/sqlite3"
+DEF_EXPORTS="fail2ban fail2ban-client fail2ban-regex fail2ban-testcases fail2ban-python"
+
+unset DEF_AFTER_CONFIGURE_METHOD
+DEF_MAKE_METHOD="true"
+DEF_INSTALL_METHOD="install_fail2ban"
+
+install_fail2ban () {
+    mkdir -p "${PREFIX}/bin" "${PREFIX}/lib" "${SERVICE_DIR}/lib" "${SERVICE_DIR}/log"
+
+    ${SED_BIN} -i '' -e "s|/usr/bin/env python|${PREFIX}/bin/python3|" bin/*
+    ${SED_BIN} -i '' -e "s|/var/run/fail2ban|${SERVICE_DIR}|g; s|/var/run|${SERVICE_DIR}|g; s|/var/lib/fail2ban|${SERVICE_DIR}/lib|g; s|/etc/fail2ban|${SERVICE_DIR}|g; s|/usr/lib|${PREFIX}/lib|g; s|/usr/bin|${PREFIX}/bin|g; s|/var/log|${SERVICE_DIR}/log|g;" \
+        setup.py \
+        fail2ban/client/fail2bancmdline.py \
+        fail2ban/tests/misctestcase.py \
+        fail2ban/client/fail2banregex.py \
+        fail2ban/client/configreader.py \
+        fail2ban/tests/utils.py \
+        fail2ban/client/fail2banreader.py \
+        fail2ban/client/csocket.py \
+        fail2ban/server/asyncserver.py \
+        fail2ban/server/server.py \
+        fail2ban/tests/clientreadertestcase.py \
+        fail2ban/tests/clientbeautifiertestcase.py \
+        config/fail2ban.conf
+
+    try "${PREFIX}/bin/python3 setup.py install"
+
+    ${RM_BIN} -rf "${SERVICE_DIR}/exports"
+}
