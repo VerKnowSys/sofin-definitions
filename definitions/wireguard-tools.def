@@ -7,20 +7,33 @@ DEF_ORIGIN="https://git.zx2c4.com/${DEF_NAME}/snapshot/${DEF_NAME}-${DEF_VERSION
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_BUILD_DIR_SUFFIX="src/"
-DEF_REQUIREMENTS="bash"
+DEF_REQUIREMENTS="bash go"
 DEF_USEFUL="bin/bash"
-DEF_EXPORTS="wg wg-quick"
+DEF_EXPORTS="wg wg-quick wireguard-go"
+DEF_NO_CCACHE=YES
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
     ${SED_BIN} -i '' -e "s|^PREFIX.*\$|PREFIX=${PREFIX}|" Makefile
-    ${SED_BIN} -i '' -e "s|RUNSTATEDIR \"/wireguard/\"|\"${SERVICE_DIR}\"|" ipc.c
+    ${SED_BIN} -i '' -e "s|RUNSTATEDIR \"/wireguard/\"|\"${SERVICE_DIR}/\"|" ipc.c
+}
+
+DEF_AFTER_MAKE_METHOD="make_wireguard_go"
+make_wireguard_go () {
+    _name="wireguard-go-0.0.20200320"
+    _last="${_name}.tar.xz"
+    fetch "https://git.zx2c4.com/wireguard-go/snapshot/${_last}"
+    ${TAR_BIN} xf "${_last}"
+    cd "${_name}"
+    ${SED_BIN} -i '' -e "s|var socketDirectory.*\$|var socketDirectory = \"${SERVICE_DIR}/\"|" ipc/uapi_linux.go ipc/uapi_bsd.go
+    export PATH=${PATH}:/Software/Git/exports && make && ${INSTALL_BIN} wireguard-go ${PREFIX}/bin/wireguard-go
 }
 
 DEF_AFTER_INSTALL_METHOD="install_wg_quick"
 install_wg_quick () {
     debug "Patching wg-quick…"
     ${SED_BIN} -i '' -e "s|^CONFIG_SEARCH_PATHS.*\$|CONFIG_SEARCH_PATHS=${SERVICE_DIR}|; s|/usr/local/bin/bash|${PREFIX}/bin/bash|" wg-quick/*.bash
+    ${SED_BIN} -i '' -e "s|/var/run/wireguard|${SERVICE_DIR}|g" wg-quick/*.bash
 
     case "${SYSTEM_NAME}" in
         FreeBSD)
