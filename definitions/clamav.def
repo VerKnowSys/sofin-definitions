@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Open source antivirus engine for detecting trojans, viruses, malware & other malicious threats."
 DEF_STANDALONE=YES
 DEF_NAME="clamav"
-DEF_VERSION="0.102.1"
-DEF_SHA="88040368d506b923b627eab3c8a96c941f1719f9"
+DEF_VERSION="0.102.4"
+DEF_SHA="ea0f6faeedb0248c684cceb87f7ff3a8bd4b610d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.clamav.net/downloads/production/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pkgconf-static pcre libressl libxml2 python27-static libidn2 curl-dynamic json-c"
