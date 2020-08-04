@@ -1,7 +1,13 @@
 DEF_FULL_NAME="Integer Set Library"
-DEF_SHA="197df7b0c2a81697404b4373437210f876fec207"
 DEF_NAME="isl"
-DEF_VERSION="0.16"
+DEF_VERSION="0.22"
+DEF_SHA="8805573d4b501919553ce3b90f3c88392ac09a02"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://mirror.sobukus.de/files/src/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-static"
-unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
