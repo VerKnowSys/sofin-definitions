@@ -1,0 +1,7 @@
+DEF_FULL_NAME="MPFR - portable library for arbitrary precision arithmetic on floating-point numbers."
+DEF_NAME="mpfr"
+DEF_VERSION="4.1.0"
+DEF_SHA="159c3a58705662bfde4dc93f2617f3660855ead6"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_ARGS="--disable-static"
+DEF_REQUIREMENTS="gmp"
