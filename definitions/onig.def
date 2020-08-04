@@ -1,8 +1,9 @@
 DEF_FULL_NAME="Oniguruma Regexp Library"
 DEF_NAME="onig"
-DEF_VERSION="6.9.5"
-DEF_SHA="1b53f65f7990337ad0f9a6d6f04366f5528bab0e"
+DEF_VERSION="6.9.5_rev1"
+DEF_SHA="e0e6320303dfedf70b76f30da959d8dea61b72f2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/kkos/oniguruma/releases/download/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--disable-static"
 DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_EXPORTS="onig-config"
