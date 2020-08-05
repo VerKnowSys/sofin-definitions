@@ -1,8 +1,21 @@
 DEF_DISABLE_ON="Darwin"
-DEF_FULL_NAME="GNU Guile library"
+DEF_FULL_NAME="GNU Guile - Scheme implementation"
 DEF_NAME="guile"
-DEF_SHA="d3a4c11b9faa01e3da6d58cd0d64fcf26d937e63"
-DEF_VERSION="2.0.12"
-DEF_REQUIREMENTS="pkgconf-static make-static m4 libtool gmp libunistring libatomic_ops gc libffi libedit"
+DEF_VERSION="3.0.4"
+DEF_SHA="a67e10595371254a5ce3d771365d307735b84882"
+DEF_REQUIREMENTS="pkgconf-static make-static m4 readline libtool gmp libunistring libatomic_ops gc libffi"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--enable-shared --disable-static"
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --with-threads --disable-nls --with-libgmp-prefix=${PREFIX} --with-libunistring-prefix=${PREFIX} --with-libreadline-prefix=${PREFIX}"
+DEF_INSTALL_METHOD="make install"
+DEF_USELESS="lib/*.{a,la}"
+DEF_EXPORTS="guile-tools guile-snarf guile-config guile guild"
+DEF_NO_CCACHE=YES
+
+DEF_AFTER_CONFIGURE_METHOD="patch_libguile_makefile"
+patch_libguile_makefile () {
+    case "${SYSTEM_NAME}" in
+        *BSD)
+            ${SED_BIN} -i '' -e "s#\$(SED) -i#\$(SED) -i ''#" libguile/Makefile
+            ;;
+    esac
+}
