@@ -19,11 +19,17 @@ patch_the_patch () {
     return 0
 }
 
-DEF_AFTER_PATCH_METHOD="sed_stuff"
+DEF_AFTER_PATCH_METHOD="sed_stuff; reset_patch_state"
 sed_stuff () {
     ${SED_BIN} -i '' -e "s|%%LOCALBASE%%|${PREFIX}|g" scripts/mysql_config.sh
     ${SED_BIN} -i '' -e "s|%%PREFIX%%|${PREFIX}|g" mysys/my_default.c
     return 0
+}
+reset_patch_state () {
+    _cwd="$(${PWD_BIN} 2>/dev/null)"
+    cd "${DEFINITIONS_DIR}"
+    ${GIT_BIN} checkout -- "patches/mariadb/FreeBSD/patch-storage_tokudb_PerconaFT_cmake__modules_TokuThirdParty.cmake"
+    cd "${_cwd}"
 }
 
 DEF_AFTER_INSTALL_METHOD="strip_libexec"
