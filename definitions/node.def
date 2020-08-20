@@ -1,17 +1,17 @@
 DEF_NAME="node"
-DEF_VERSION="10.21.0"
-DEF_SHA="0c2e544d330e82b01952e9a17d79d48f8f106c50"
-DEF_FULL_NAME="Node.js Dubnium-${DEF_VERSION%.*}-LTS"
+DEF_VERSION="12.18.3"
+DEF_SHA="e007cb96e14c6aa559dda106de83638b15b00e39"
+DEF_FULL_NAME="Node.js Erbium-${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://nodejs.org/dist/latest-v10.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2 libuv"
-DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store \
---without-inspector --without-snapshot --without-etw --without-perfctr --shared-zlib --shared-nghttp2 --shared-libuv --shared-cares --shared-openssl"
+DEF_ORIGIN="https://nodejs.org/dist/latest-v12.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2"
+DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-snapshot --without-etw --shared-zlib --shared-nghttp2 --shared-cares --shared-openssl"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-static bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
+unset DEF_USE_RAMDISK
 
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
 node_patch_configured () {
@@ -20,8 +20,6 @@ node_patch_configured () {
         -e "s#/usr/local#${PREFIX}#g" \
             "Makefile" \
             "common.gypi" \
-            "deps/v8/gypfiles/toolchain.gypi" \
-            "deps/v8/gypfiles/v8.gyp" \
             "deps/http_parser/Makefile" \
             "tools/install.py" \
             "deps/npm/lib/config/defaults.js" \
@@ -30,7 +28,7 @@ node_patch_configured () {
 
 # Override default compiler setup for mr special a.k.a. as the "Node-the-Unicorn" ;)
 GYP_DEFINES="clang=1"
-BUILD_DEFINES="-DBUNDLED_SSL -DDTRACE"
+BUILD_DEFINES="" # -DDTRACE
 CFLAGS="${CFLAGS} ${BUILD_DEFINES}"
 CXXFLAGS="${CXXFLAGS} ${BUILD_DEFINES}"
 CC="cc ${CFLAGS}"
