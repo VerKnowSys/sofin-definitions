@@ -1,11 +1,10 @@
 DEF_FULL_NAME="GNU Automake"
 DEF_NAME="automake"
-DEF_SHA="1012bc79956013d53da0890f8493388a6cb20831"
-DEF_VERSION="1.16.1"
+DEF_VERSION="1.16.2"
+DEF_SHA="f87fd355c6142e4e87d7a69702697f3a30c922d8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="m4 libtool make-static perl autoconf texinfo"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="automake aclocal autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames libtool libtoolize glibtoolize makeinfo texi2any texi2dvi texi2pdf texindex"
-DEF_MAKE_METHOD="make -s -j${CPUS}"
-DEF_INSTALL_METHOD="make -s install"
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_CLEAN_USELESS=NO
