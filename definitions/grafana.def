@@ -1,7 +1,7 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Grafana"
 DEF_NAME="grafana"
-DEF_VERSION="6.5.2"
+DEF_VERSION="7.1.4"
 DEF_SOURCE_PATH="https://github.com/grafana/grafana.git"
 DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_REQUIREMENTS="go"
