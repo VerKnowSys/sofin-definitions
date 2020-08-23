@@ -1,7 +1,7 @@
 inherit node
 
 # NOTE: node-util is non-standalone version of Node, that's built using ccache
-unset DEF_STANDALONE DEF_EXPORTS DEF_NO_CCACHE
+unset DEF_STANDALONE DEF_EXPORTS DEF_NO_CCACHE DEF_AFTER_INSTALL_METHOD
 
 CC="${CCACHE_BIN} cc ${CFLAGS}"
 CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
