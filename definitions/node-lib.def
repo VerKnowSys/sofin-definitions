@@ -1,6 +1,11 @@
 inherit node
 
-unset DEF_STANDALONE DEF_EXPORTS
+unset DEF_STANDALONE DEF_EXPORTS DEF_NO_CCACHE
 
 DEF_FULL_NAME="Lib-${DEF_FULL_NAME}"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --shared"
+
+CC="${CCACHE_BIN} cc ${CFLAGS}"
+CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
+CPP="${CCACHE_BIN} cpp"
+LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
