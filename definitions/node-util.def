@@ -1,0 +1,9 @@
+inherit node
+
+# NOTE: node-util is non-standalone version of Node, that's built using ccache
+unset DEF_STANDALONE DEF_EXPORTS DEF_NO_CCACHE
+
+CC="${CCACHE_BIN} cc ${CFLAGS}"
+CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
+CPP="${CCACHE_BIN} cpp"
+LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
