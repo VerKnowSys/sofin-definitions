@@ -6,49 +6,41 @@ DEF_SHA="59c90abe1b456de3b513d022c1716f381d8623ef"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-linux-x86_64.tar.gz"
 DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}-linux-x86_64.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}-linux-x86_64/ ${PREFIX}"
 DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu yaml python27-static nghttp2 node-util"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin ${DEF_NAME}-keystore"
 DEF_USEFUL="bin/bash bin/kibana* bin/npm* bin/node*"
 DEF_USELESS="node bin/*.dll bin/*.exe bin/*.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README ASSEMBLY_EXCEPTION"
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_USER_INFO="Be sure to install latest OpenJDK 8+ from: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
-        ;;
-esac
 
-DEF_AFTER_INSTALL_METHOD="use_local_node && make_writable_service_dirs"
+DEF_AFTER_UNPACK_METHOD="install_and_make_writable_service_dirs"
+install_and_make_writable_service_dirs () {
+    debug "${0}: install_and_make_writable_service_dirs(): Running initial service dir preparation"
+    mkdir -p "${SERVICE_DIR}/config" "${SERVICE_DIR}/plugins" "${SERVICE_DIR}/data" "${SERVICE_DIR}/logs" "${SERVICE_DIR}/optimize"
+    if [ ! -L "${PREFIX}/data" ]; then
+        try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'"
+    fi
+    if [ ! -L "${PREFIX}/config" ]; then
+        try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'"
+    fi
+    if [ ! -L "${PREFIX}/plugins" ]; then
+        try "${LN_BIN} -fs '${SERVICE_DIR}/plugins' '${PREFIX}/plugins'"
+    fi
+    if [ ! -L "${PREFIX}/logs" ]; then
+        try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
+    fi
+    if [ ! -L "${PREFIX}/optimize" ]; then
+        try "${LN_BIN} -fs '${SERVICE_DIR}/optimize' '${PREFIX}/optimize'"
+    fi
+
+    debug "Installing Kibana5…"
+    ${CP_BIN} -fR "${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}-linux-x86_64/" "${PREFIX}"
+}
+
+DEF_AFTER_INSTALL_METHOD="use_local_node"
 use_local_node () {
     ${SED_BIN} -i '' -e \
         "s#/node/bin/node#/bin/node#;" \
                 "${PREFIX}/bin/${DEF_NAME}" \
                 "${PREFIX}/bin/${DEF_NAME}-plugin"
-}
-
-
-make_writable_service_dirs () {
-    debug "${0}: make_writable_service_dirs(): Running initial service dir preparation"
-    mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
-    if [ ! -L "${PREFIX}/data" ]; then
-        try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
-        && try "${LN_BIN} -fs '${SERVICE_DIR}/data' '${PREFIX}/data'"
-    fi
-    if [ ! -L "${PREFIX}/config" ]; then
-        try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
-        && try "${LN_BIN} -fs '${SERVICE_DIR}/config' '${PREFIX}/config'"
-    fi
-    if [ ! -L "${PREFIX}/plugins" ]; then
-        try "${MV_BIN} '${PREFIX}/plugins' '${SERVICE_DIR}/plugins'" \
-        && try "${LN_BIN} -fs '${SERVICE_DIR}/plugins' '${PREFIX}/plugins'"
-    fi
-    if [ ! -L "${PREFIX}/logs" ]; then
-        try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
-        && try "${LN_BIN} -fs '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
-    fi
-    if [ ! -L "${PREFIX}/optimize" ]; then
-        try "${MV_BIN} '${PREFIX}/optimize' '${SERVICE_DIR}/optimize'" \
-        && try "${LN_BIN} -fs '${SERVICE_DIR}/optimize' '${PREFIX}/optimize'"
-    fi
 }
 
 DEF_NO_MPROTECT=YES
