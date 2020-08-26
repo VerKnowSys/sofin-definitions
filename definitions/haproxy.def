@@ -1,0 +1,46 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="Haproxy"
+DEF_NAME="haproxy"
+DEF_VERSION="2.2.0"
+DEF_SHA="d0a95ff93ed63cdd49ed1b505b841c96792b709a"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_REQUIREMENTS="make-static lua53 pcre2 libressl"
+DEF_USELESS="lib/*.{a,la} man share/lua docs doc bin"
+DEF_EXPORTS="${DEF_NAME}"
+
+DEF_MAKE_METHOD="make_haproxy"
+make_haproxy () {
+    case "${SYSTEM_NAME}" in
+        FreeBSD)
+            ${SED_BIN} -i '' -e "s|gcc|clang|g; s|g++|clang++|g" Makefile
+            make -j "${CPUS}" \
+                PREFIX="${PREFIX}" \
+                TARGET="freebsd" \
+                LUA_LIB_NAME="lua" \
+                USE_OPENSSL=1 \
+                USE_ZLIB=1 \
+                USE_LUA=1 \
+                USE_PCRE2=1 \
+                USE_LIBCRYPT=1 \
+                USE_RT=1 \
+                USE_THREAD=1
+            ;;
+
+        Linux)
+            make -j "${CPUS}" PREFIX="${PREFIX}" USE_OPENSSL=1 USE_ZLIB=1 USE_LUA=1 USE_PCRE2=1 USE_SYSTEMD=1 USE_LIBCRYPT=1 USE_RT=1 USE_THREAD=1
+            ;;
+
+        *)
+            ;;
+    esac
+
+}
+
+DEF_INSTALL_METHOD="install_haproxy"
+install_haproxy () {
+    make -j "${CPUS}" \
+        PREFIX="${PREFIX}" \
+        install
+}
