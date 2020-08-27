@@ -31,7 +31,7 @@ build_and_install_redis () {
             WARN= \
             V=yo \
             PREFIX='${PREFIX}' \
-            CFLAGS='${CFLAGS} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include' \
+            CFLAGS='${CFLAGS} -march=ivybridge -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include' \
             LDFLAGS='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc' \
             MALLOC=jemalloc \
                 install >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX} \
@@ -49,3 +49,9 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # causing flood of "ask for root password" prompts... I have no further comments...
     DEF_TEST_METHOD="false"
 fi
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
