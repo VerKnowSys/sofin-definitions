@@ -8,8 +8,8 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         ;;
 
     *)
-        DEF_SHA="bea1b5abcb691acf014e592f41d0a9580a41216a"
-        DEF_VERSION="3.6.14"
+        DEF_SHA="00ef7d93347df586c3d1a00f13c326706c0c59ba"
+        DEF_VERSION="3.6.15"
         ;;
 esac
 
