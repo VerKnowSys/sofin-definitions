@@ -1,7 +1,0 @@
-inherit ruby25
-
-DEF_FULL_NAME="Ruby YARV 2.4"
-DEF_VERSION="2.4.9"
-DEF_SHA="da07b802cf7598547f98b7b2d8fc8ff5f03dbef4"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
