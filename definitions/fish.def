@@ -1,12 +1,13 @@
 DEF_FULL_NAME="Fish - Friendly Interactive Shell"
 DEF_NAME="fish"
-DEF_VERSION="3.0.2"
-DEF_SHA="2309b9264d625bf566051f8b8422185c2b9304e3"
+DEF_VERSION="3.1.2"
+DEF_SHA="a50886c71ddfe188b63322a557fcbeb5c768930d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/fish-shell/fish-shell/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--without-xsel --without-gettext --enable-utf"
-DEF_REQUIREMENTS="pkgconf-static make-static m4 pcre libedit"
-DEF_EXPORTS="fish fish_indent fish_pager fishd"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DPCRE2_SUPPORT_PCRE2GREP_JIT=OFF -DPCRE2_SUPPORT_LIBEDIT=ON"
+DEF_REQUIREMENTS="pkgconf-static make-static m4 pcre2 libedit"
+DEF_EXPORTS="fish fish_indent fish_pager fishd fish_key_reader fish_indent"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
