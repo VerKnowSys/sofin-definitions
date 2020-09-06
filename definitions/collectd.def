@@ -1,11 +1,11 @@
 DEF_DISABLE_ON="Darwin"
-DEF_FULL_NAME="CollectD"
-DEF_NAME="collectd"
-DEF_SHA="ef97838e249814ad96a2edc0410326efbb4f3d08"
-DEF_VERSION="5.5.0"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_STANDALONE=YES
-DEF_REQUIREMENTS="pkgconf-static ccache make-static m4 libtool libedit perl pth npth expat autoconf automake libstatgrab pcre libffi gettext curl-dynamic libpcap liboping libressl cmake python27 libxml2 libuuid postgresql11-client libgpg-error libgcrypt mariadb-client geoip bind yajl nginx lua51 bison"
+DEF_FULL_NAME="Collectd - The system statistics collection daemon"
+DEF_NAME="collectd"
+DEF_VERSION="5.12.0"
+DEF_SHA="af36fe83e2995270b5632fc21e5a001e6702cdce"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_REQUIREMENTS="pkgconf-static make-static icu libedit libressl perl pth npth expat libstatgrab pcre libffi gettext curl-dynamic libpcap autoconf automake liboping python27 libxml2 libuuid postgresql11-client mariadb-client geoip libmaxminddb yajl"
 case ${SYSTEM_NAME} in
     FreeBSD)
         DEF_REQUIREMENTS="${DEF_REQUIREMENTS} nginx"
@@ -17,22 +17,29 @@ case ${SYSTEM_NAME} in
         ;;
 esac
 
-DEF_USELESS="COPYING INSTALL-BINARY README libdata html docs doc data conf lib/python* lib/postgresql logs mysql-test scripts sql-bench support-files var lib/*perl* etc/bash* man share/*sql share/*txt share/aclocal* share/autoconf share/automake* share/bulgarian share/charsets share/cmake* share/czech share/danish share/dutch share/english share/estonian share/french share/german share/gettext share/glib* share/greek share/hungarian share/info share/italian share/japanese share/korean share/libtool share/locale share/man share/norwegian share/norwegian-ny share/polish share/portuguese share/romanian share/russian share/serbian share/slovak share/spanish share/swedish share/ukrainian share/bash-completion share/gdb share/bison"
+DEF_USELESS="include lib/cmake lib/*.{a,la} COPYING INSTALL-BINARY README libdata html docs doc data conf lib/python* lib/postgresql logs mysql-test scripts sql-bench support-files var lib/*perl* etc/bash* man share/*sql share/*txt share/aclocal* share/autoconf share/automake* share/bulgarian share/charsets share/cmake* share/czech share/danish share/dutch share/english share/estonian share/french share/german share/gettext share/glib* share/greek share/hungarian share/info share/italian share/japanese share/korean share/libtool share/locale share/man share/norwegian share/norwegian-ny share/polish share/portuguese share/romanian share/russian share/serbian share/slovak share/spanish share/swedish share/ukrainian share/bash-completion share/gdb share/bison"
 DEF_EXPORTS="collectd-nagios collectd-tg collectdctl collectd collectdmon"
-DEF_AFTER_UNPACK_METHOD="prepare_automake_local"
-common_options="--disable-all-plugins --localstatedir=/var --disable-static --without-amqp --without-java --without-libaquaero5 --without-libganglia --without-libiptc --without-libjvm --without-liblvm2app --without-libkstat --without-libldap --without-libmnl --without-libmodbus --without-libnetlink --without-libnetapp --without-libowcapi --without-libperfstat --without-libsensors --without-libvarnish --without-lvm --without-mic --without-oracle --disable-turbostat --disable-debug --without-libdbi --disable-dbi --disable-ipmi --without-libyajl --disable-write_kafka --disable-memcached --without-libmemcached --without-libcmongoc --disable-write_mongodb --without-libnotify --disable-notify_desktop --without-libesmtp --disable-notify_email --without-libupsclient --disable-nut --disable-onewire --disable-openldap --without-perl --without-perl-bindings --disable-perl --disable-pinba --without-python --disable-python --without-librabbitmq --disable-rabbitmq --without-libcredis --disable-redis --disable-write_redis --without-librouteros --disable-routeros --without-librrd --disable-rrdcached --disable-rrdtool --disable-sigrok --without-libtokyotyrant --disable-tokyotyrant --without-libxmms --disable-xmms --without-libzookeeper --disable-zookeeper --disable-virt --disable-write_riemann --disable-protocols --disable-ethstat --disable-snmp"
-enabled_plugins_no_deps="--enable-aggregation --enable-apcups --enable-contextswitch --enable-cpu --enable-csv --enable-df --enable-disk --enable-email --enable-exec --enable-fhcount --enable-filecount --enable-load --enable-logfile --enable-match_empty_counter --enable-match_hashed --enable-match_regex --enable-match_timediff --enable-match_value --enable-mbmon  --enable-memory --enable-network --enable-ntpd --enable-openvpn --enable-powerdns --enable-processes --enable-statsd --enable-swap --enable-syslog --enable-table --enable-tail --enable-tail_csv --enable-target_notification --enable-target_replace --enable-target_scale --enable-target_set --enable-target_v5upgrade --enable-tcpconns --enable-ted --enable-threshold --enable-teamspeak2 --enable-unixsock --enable-uptime --enable-uuid --enable-write_log --enable-zfs_arc --enable-olsrd --enable-users ${PLATFORM_SPECIFIC_OPTIONS}"
-enabled_plugins_with_deps="--enable-write_http --enable-curl --with-libcurl=${PREFIX} --with-libgcrypt=${PREFIX} --with-libmysql=${PREFIX} --enable-mysql --with-postgresql=${PREFIX} --enable-postgresql --with-libpq --with-libstatgrab=${PREFIX} --enable-dns --with-libpcap=${PREFIX} --with-liboping=${PREFIX} --enable-ping --enable-interface --with-bind=${PREFIX} --enable-bind --with-libyajl=${PREFIX} --enable-curl_json --enable-curl_xml --with-libnetsnmp=${PREFIX} --enable-snmp"
+common_options="--disable-all-plugins \
+        --disable-amqp \
+        --disable-ceph \
+        --disable-cgroups \
+        --disable-fhcount \
+        --disable-static \
+        --disable-turbostat \
+        --without-libaquaero5 \
+        --without-libganglia \
+        --without-libiptc \
+        --without-libldap \
+        --without-libmnl \
+        --without-libnetapp \
+        --without-libowcapi \
+        --without-libsensors \
+        --without-mic \
+        --without-oracle \
+        --without-java \
+        --localstatedir=${SERVICE_DIR}/var \
+        c_cv_have_strtok_r_reentrant=no \
+        "
+enabled_plugins_no_deps="--enable-aggregation --enable-apcups --enable-contextswitch --enable-cpu --enable-csv --enable-df --enable-disk --enable-email --enable-exec --enable-filecount --enable-load --enable-logfile --enable-match_empty_counter --enable-match_hashed --enable-match_regex --enable-match_timediff --enable-match_value --enable-mbmon  --enable-memory --enable-network --enable-ntpd --enable-openvpn --enable-powerdns --enable-processes --enable-statsd --enable-swap --enable-syslog --enable-table --enable-tail --enable-tail_csv --enable-target_notification --enable-target_replace --enable-target_scale --enable-target_set --enable-target_v5upgrade --enable-tcpconns --enable-ted --enable-threshold --enable-unixsock --enable-uptime --enable-uuid --enable-write_log --enable-zfs_arc --enable-olsrd --enable-users ${PLATFORM_SPECIFIC_OPTIONS}"
+enabled_plugins_with_deps="--enable-write_http --enable-curl --with-libcurl=${PREFIX} --with-libmysql=${PREFIX} --enable-mysql --enable-postgresql --with-libpq --with-libstatgrab=${PREFIX} --enable-dns --with-libpcap=${PREFIX} --with-liboping=${PREFIX} --enable-ping --enable-interface --with-libyajl=${PREFIX} --enable-curl_json --enable-curl_xml"
 DEF_CONFIGURE_ARGS="${common_options} ${enabled_plugins_no_deps} ${enabled_plugins_with_deps}"
-DEF_COMPILER_FLAGS="-Wno-error"
-DEF_MAKE_METHOD="make -s"
-
-prepare_automake_local () {
-    ${LN_BIN} -s ${PREFIX}/bin/aclocal ${PREFIX}/bin/aclocal-1.14 || true
-    ${LN_BIN} -s ${PREFIX}/bin/automake ${PREFIX}/bin/automake-1.14 || true
-    # 2015-09-26 16:56:31 - dmilith - XXX: Hacks on library detection failures:
-    ${SED_BIN} -i '' -e 's#plugin_ascent="yes"#plugin_bind="yes"#g' ./configure.ac
-    ${SED_BIN} -i '' -e 's#with_libnetsnmp="no"#with_libnetsnmp="yes"#g' ./configure.ac
-    ${SED_BIN} -i '' -e "s#with_snmp_config=.*\$#with_snmp_config=${PREFIX}/bin/net-snmp-config#g" ./configure.ac
-    ${PREFIX}/bin/autoreconf
-}
