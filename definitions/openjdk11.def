@@ -1,0 +1,36 @@
+DEF_DISABLE_ON="Darwin Linux"
+DEF_STANDALONE=YES
+DEF_FULL_NAME="OpenJDK 11 (headless version 64-bit)"
+DEF_NAME="openjdk11"
+DEF_VERSION="11.0.8"
+DEF_SHA="b1ea49ad3e885ca1cfac29d416982cb903748466"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
+DEF_CONFIGURE_METHOD="binary"
+DEF_REQUIREMENTS="patchelf jpeg libpng freetype libxml2 fontconfig"
+DEF_AFTER_INSTALL_METHOD="install_jdk_headless"
+install_jdk_headless () {
+    try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+    try "${LN_BIN} -fs ${PREFIX}/lib/libfontconfig.so ${PREFIX}/lib/libfontconfig.so.1"
+    try "${LN_BIN} -fs ${PREFIX}/lib/libjpeg.so ${PREFIX}/lib/libjpeg.so.8"
+    try "patchelf --set-rpath ${PREFIX}/lib:${PREFIX}/lib/server ${PREFIX}/lib/*.so"
+}
+DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
+DEF_CONFLICTS_WITH="Openjdk"
+DEF_USELESS="demo sample lib/{libsplashscreen.so,liblcms.so,libjsound.so,libjawt.so,libawt_xawt.so}"
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
+
+#
+# NOTE:
+#
+# This binary definition is prepared like this:
+#
+# $ pkg install openjdk11
+# $ cd /usr/local
+# $ for file in openjdk11/bin/*; do rmextattr system hbsd.pax.mprotect $file; done
+# $ for file in openjdk11/bin/*; do rmextattr system hbsd.pax.pageexec $file; done
+# $ for file in openjdk11/bin/*; do rmextattr system hbsd.pax.nopageexec $file; done
+# $ for file in openjdk11/bin/*; do rmextattr system hbsd.pax.nomprotect $file; done
+# $ tar cJf openjdk11-11.0.8-portbuild.tar.xz openjdk11
