@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="JRuby - Ruby implementation in Java (MRI v2.5.x compliant)"
 DEF_NAME="jruby"
-DEF_VERSION="9.2.9.0"
-DEF_SHA="39ef88eb5e7319402b15c048f638f26e2b9c4f4c"
+DEF_VERSION="9.2.13.0"
+DEF_SHA="876bee4475c1d22b1acd437fcdf7f38b682f0e60"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-dist-${DEF_VERSION}-bin.tar.gz"
 DEF_ORIGIN="https://repo1.maven.org/maven2/org/${DEF_NAME}/${DEF_NAME}-dist/${DEF_VERSION}/${DEF_NAME}-dist-${DEF_VERSION}-bin.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
@@ -14,14 +14,14 @@ install_jruby () {
         try "${RM_BIN} -rf '${PREFIX}/lib/jni/${_jni_elem}'"
     done
 }
-DEF_REQUIREMENTS="openjdk8 libinotify bash"
+DEF_REQUIREMENTS="patchelf jpeg libpng freetype libxml2 fontconfig openjdk11 bash"
 DEF_USEFUL="bin/j* bin/bash"
-DEF_EXPORTS="ast gem jgem irb jirb jruby ruby jrubyc ri rdoc rake bundle"
+DEF_EXPORTS="ast gem jgem irb jirb jruby ruby jrubyc ri rdoc rake bundle ng testrb"
 DEF_CONFLICTS_WITH="Ruby"
-DEF_USELESS="bin/*.{dll,exe,bat} lib/*.{a,la} demo sample samples src.zip COPYING NOTICE.txt include THIRD_PARTY_README lib/jni/{x86_64-DragonFlyBSD,mips64el-Linux} docs share"
+DEF_USELESS="bin/*.{dll,exe,bat} lib/*.{a,la} demo sample samples src.zip COPYING NOTICE.txt include THIRD_PARTY_README lib/jni/{x86_64-DragonFlyBSD,mips64el-Linux} docs share lib/{libsplashscreen.so,liblcms.so,libjsound.so,libjawt.so,libawt_xawt.so}"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_USER_INFO="Be sure to install latest OpenJDK 8+ from: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
+        DEF_USER_INFO="Be sure to install latest OpenJDK 11+ from: https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
         ;;
 esac
 
@@ -70,6 +70,8 @@ create_jruby_script () {
     try "gem install bundler >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
 
     # build and install nailgun:
+    _cwd="$(pwd)"
     cd "${PREFIX}/tool/nailgun"
-    try "./configure && make >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
+    try "./configure && make && ${INSTALL_BIN} -v ng ${PREFIX}/bin/ng >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
+    cd "${_cwd}"
 }
