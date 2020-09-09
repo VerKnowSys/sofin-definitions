@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Darwin Linux"
 DEF_FULL_NAME="OpenJDK 1.8 (headless version 64-bit)"
 DEF_NAME="openjdk8"
-DEF_VERSION="8.0_202-b08"
-DEF_SHA="42126534698e6e2103d09dceeeed8e630f5c951d"
+DEF_VERSION="8.0_265-b01"
+DEF_SHA="e29bc21522acfc2ec309e34dfd0bee35b492ba71"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
 DEF_CONFIGURE_METHOD="binary"
 DEF_REQUIREMENTS="libinotify"
@@ -27,4 +27,8 @@ DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
 #
 # $ pkg install openjdk8
 # $ cd /usr/local
-# $ tar cJf openjdk8-8.0_181-b13-portbuild.tar.xz openjdk8
+# $ for file in openjdk8/bin/*; do rmextattr system hbsd.pax.mprotect $file; done
+# $ for file in openjdk8/bin/*; do rmextattr system hbsd.pax.pageexec $file; done
+# $ for file in openjdk8/bin/*; do rmextattr system hbsd.pax.nopageexec $file; done
+# $ for file in openjdk8/bin/*; do rmextattr system hbsd.pax.nomprotect $file; done
+# $ tar cJf openjdk8-8.0_265-b01-portbuild.tar.xz openjdk8
