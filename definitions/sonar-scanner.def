@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Sonar-scanner (command line version)"
 DEF_NAME="sonar-scanner"
-DEF_VERSION="3.3.0.1492"
-DEF_SHA="6368c67416e9a53992f1e6dda62ca9c6bfd01bf0"
+DEF_VERSION="4.4.0.2170"
+DEF_SHA="983530536ea653bea45a78411ef43ad42719d698"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://binaries.sonarsource.com/Distribution/${DEF_NAME}-cli/${DEF_NAME}-cli-${DEF_VERSION}.zip"
 DEF_CONFIGURE_METHOD="binary"
@@ -11,6 +11,7 @@ install_sonar_scanner () {
     try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
     ${SED_BIN} -i '' -e "s|^script_path.*$|JAVA_HOME=${PREFIX}|; s|^sonar_scanner_home.*$|sonar_scanner_home=${PREFIX}|" \
         "${PREFIX}/bin/sonar-scanner" "${PREFIX}/bin/sonar-scanner-debug"
+    ${CHMOD_BIN} 755 "${PREFIX}/bin/sonar-scanner" "${PREFIX}/bin/sonar-scanner-debug"
 }
 DEF_AFTER_INSTALL_METHOD="link_conf_to_service_dir"
 link_conf_to_service_dir () {
