@@ -12,19 +12,12 @@ DEF_NO_CCACHE=YES
 DEF_MAKE_METHOD="make_action"
 make_action () {
     mkdir -p "${PREFIX}/bin"
-    export PATH=${PATH}:/Software/Git/bin
-
-    debug "Checking out v${DEF_VERSION}" && \
-    ${GIT_BIN} checkout -b "v${DEF_VERSION}"
-
     debug "Patching version under: $(distd "pkg/cmd/grafana-server/main.go")"
     ${SED_BIN} -i '' -e "s|^var version =.*\$|var version = \"${DEF_VERSION}\"|; s|^var buildBranch =.*\$|var buildBranch = \"v${DEF_VERSION}\"|" \
         pkg/cmd/grafana-server/main.go \
         pkg/cmd/grafana-cli/main.go
 
-    debug "Fetching last version of xerrors (to prevent fail with Go 1.13)" && \
-    try "go get -u golang.org/x/xerrors" \
-        && try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-server' ./pkg/cmd/grafana-server" \
+    try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-server' ./pkg/cmd/grafana-server" \
         && try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-cli' ./pkg/cmd/grafana-cli" \
         || return 1
 
