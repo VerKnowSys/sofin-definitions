@@ -20,4 +20,4 @@ esac
 DEF_USEFUL="bin/qemu*"
 DEF_USELESS="share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,icu,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.{a,sh,la} lib/{glib-2.0,cmake,pkgconfig,icu,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
 DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips qemu-system-aarch64"
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES

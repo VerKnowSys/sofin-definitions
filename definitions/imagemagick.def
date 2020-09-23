@@ -15,7 +15,7 @@ strip_modules () {
 }
 DEF_EXPORTS="magick convert display identify animate compare composite conjure mogrify montage thumbnail stream import magick-script Magick++-config MagickWand-config MagickCore-config"
 DEF_CONFLICTS_WITH="GraphicsMagick"
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)

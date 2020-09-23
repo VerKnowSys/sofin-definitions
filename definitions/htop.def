@@ -7,6 +7,6 @@ DEF_REQUIREMENTS="make-static autoconf automake"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/htop-dev/${DEF_NAME}/releases/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="${DEF_NAME}"
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES
 DEF_AFTER_UNPACK_METHOD="./autogen.sh"
 DEF_USELESS="include share/auto* share/ac* man lib"

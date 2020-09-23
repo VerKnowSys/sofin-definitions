@@ -15,7 +15,7 @@ patch_tha_gnu_code () {
     ${SED_BIN} -i '' -e "s#top.do_check == '\\\\0'#top.do_check == 0#g" modules/filter/tex.cpp
 }
 DEF_CONFIGURE_ARGS="--enable-curses=ncursesw --enable-dict-dir=${SERVICE_DIR}" # --disable-static
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)

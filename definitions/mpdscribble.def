@@ -8,5 +8,5 @@ DEF_CONFIGURE_ARGS="--with-http-client=curl LIBMPDCLIENT_CFLAGS='-I${PREFIX}/inc
 DEF_REQUIREMENTS="make-static perl texinfo libidn libressl libmpdclient libffi gettext glib curl"
 DEF_USE_CXX14=YES
 DEF_NO_FAST_MATH=YES
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES

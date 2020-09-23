@@ -45,7 +45,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)

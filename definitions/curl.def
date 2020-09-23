@@ -8,7 +8,7 @@ DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --with-libi
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-config"
 DEF_USELESS="man share lib/*.{a,la,sh} lib/cmake include lib/pkgconfig sbin"
 DEF_STANDALONE=YES
-DEF_USE_SAFE_STACK=YES
+#DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
