@@ -14,8 +14,7 @@ DEF_BUNDLED_EXTENSIONS="xdebug geoip redis igbinary"
 DEF_EXPORTS="php php-fpm php-config pecl pear phpize"
 DEF_USELESS="doc docs php/man mysql-test scripts sql-bench support-files data Software man bin/DB lib/{libxslt-plugins,libmcrypt,cmake,pkgconfig,postgresql,icu} lib/php/build COPYING INSTALL-BINARY README include lib/*.{a,la,sh} share/aclocal* share/automake* ssl share/{bison,autoconf,t1lib,bulgarian,charsets,czech,danish,dictionary.txt,dutch,english,errmsg-utf8.txt,estonian,fill_help_tables.sql,french,german,greek,hungarian,icu,italian,japanese,korean,libgpg-error,mysql_security_commands.sql,mysql_system_tables_data.sql,mysql_system_tables.sql,mysql_test_data_timezone.sql,nghttp2,norwegian,norwegian-ny,polish,portuguese,postgresql,romanian,russian,serbian,slovak,spanish,swedish,ukrainian,re2c} libdata"
 
-unset DEF_USE_LTO
-DEF_USE_SAFE_STACK=YES
+unset DEF_USE_LTO DEF_USE_SAFE_STACK
 DEF_NO_CCACHE=YES # causes random crashes and other issues
 DEF_NO_TRAP_INT_OVERFLOW=YES # causes pecl to overflow on any command ;)
 DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -fsigned-char -fno-strict-aliasing"
