@@ -8,7 +8,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS}"
 DEF_REQUIREMENTS="jemalloc pkgconf-static make-static lzma xz expat libressl curl-dynamic libarchive rhash"
 DEF_EXPORTS="${DEF_NAME} c${DEF_NAME}"
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)

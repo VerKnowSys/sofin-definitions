@@ -13,7 +13,7 @@ DEF_USELESS="lib/*.a include/openssl docs ssl share/aclocal"
 DEF_USEFUL="bin/ocaml*"
 DEF_EXPORTS="ocaml ocamlc camlp4r camlp4oof camlp4orf ocamlbuild ocamlcp ocamlrun camlp4 camlp4o camlp4of camlp4oof camlp4orf camlp4prof ocamldep ocamllex ocamlmklib ocamlmktop ocamlobjinfo ocamlyacc ocamlopt ocamldoc"
 DEF_NO_TRAP_INT_OVERFLOW=YES
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES
 
 # Ocaml build system doesn't recognize relro linker feature:

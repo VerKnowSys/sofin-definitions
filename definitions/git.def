@@ -29,7 +29,7 @@ DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with
 DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
 DEF_USEFUL="bin/perl* bin/python*"
 DEF_USELESS="lib/*.{a,la} lib/{pkgconfig,icu} share/{examples,texinfo,gtk-doc,icu,nghttp2} share/aclocal* share/auto* include man sbin docs"
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)

@@ -24,7 +24,7 @@ DEF_EXPORTS="mpd mpc mpdscribble"
 DEF_USELESS="${DEF_USELESS} ssl doc* share man sbin include libdata lib/cmake lib/pkgconfig lib/glib-* lib/*python* lib/*perl* lib/*.a"
 DEF_USE_CXX14=YES
 DEF_NO_FAST_MATH=YES
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES
 DEF_NO_CCACHE=YES
 
 DEF_AFTER_INSTALL_METHOD="create_mpdconf"

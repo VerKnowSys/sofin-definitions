@@ -10,4 +10,4 @@ DEF_USEFUL="bin/openssl bin/ocspcheck"
 DEF_USELESS="include lib/*.{a,la} lib/pkgconfig libdata docs man"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_AFTER_INSTALL_METHOD="${STRIP_BIN} ${PREFIX}/lib/openvpn/plugins/*.so"
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES

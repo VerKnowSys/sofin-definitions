@@ -134,7 +134,7 @@ DEF_NO_CCACHE=YES
 DEF_NO_FAST_MATH=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_FORTIFY_SOURCE=YES
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES
 
 #
 # Some kernel-harden-features have to be disabled explicitly for 'node' since it's built without -fPIE option.

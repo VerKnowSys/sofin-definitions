@@ -27,4 +27,4 @@ DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/
 DEF_USELESS="docs share/a* share/{gdb,emacs,bash-completion,ffmpeg,gettext,gettext-0.20,glib-2.0,gtk-doc,icu,libtool,locale,openal,pkgconfig,vala} share/libatom* include lib/*.{a,la} lib/{ao,ckport,cmake,engines-1.1,gettext,gio,glib-2.0,icu,pkgconfig} man sbin bin/auto*"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STANDALONE=YES
-#DEF_USE_SAFE_STACK=YES
+DEF_USE_SAFE_STACK=YES
