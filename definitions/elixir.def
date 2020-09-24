@@ -1,13 +1,15 @@
-inherit otp21
+inherit otp
 
-unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD DEF_AFTER_INSTALL_METHOD
-DEF_FULL_NAME="Elixir Lang on top of Erlang ${DEF_FULL_NAME}"
+OTP_VERSION="${DEF_VERSION}"
+
+unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD DEF_AFTER_PATCH_METHOD DEF_AFTER_INSTALL_METHOD
+DEF_FULL_NAME="Elixir Lang on top of ${DEF_FULL_NAME}"
 DEF_NAME="elixir"
 DEF_VERSION="1.10.4"
 DEF_SHA="d8634700f61c72c0e97f1a212919803a86016d2a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/elixir-lang/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp21"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} otp"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_CONFLICTS_WITH="Otp"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
@@ -17,8 +19,9 @@ export_stuff_and_make () {
     _lang="en_US.UTF-8"
     _elixir_timeout="2000"
 
-    note "Setting explicit encoding: $(distn "${_lang}") for build of: $(distn "$(capitalize "${DEF_NAME}-${DEF_VERSION}"), OTP-${MAJOR}.${MINOR}")"
-    try "export LANG=${_lang} \
+    note "Setting explicit encoding: $(distn "${_lang}") for build of: $(distn "$(capitalize "${DEF_NAME}-${DEF_VERSION}"), OTP-${OTP_VERSION%.*}")"
+    try "export PATH=${PATH} \
+        && export LANG=${_lang} \
         && export LC_CTYPE=${_lang} \
         && export LC_COLLATE=${_lang} \
         && export LC_TIME=${_lang} \
@@ -26,7 +29,7 @@ export_stuff_and_make () {
         && export LC_MONETARY=${_lang} \
         && export LC_MESSAGES=${_lang} \
         && export ELIXIR_ASSERT_TIMEOUT=${_elixir_timeout} \
-        && export OTP_RELEASE=OTP-${MAJOR} \
+        && export OTP_RELEASE=OTP-${OTP_VERSION%.*} \
         && make compile ${MAKE_OPTS} \
     " && return 0
     return 1
