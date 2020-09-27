@@ -14,7 +14,7 @@ install_jruby () {
         try "${RM_BIN} -rf '${PREFIX}/lib/jni/${_jni_elem}'"
     done
 }
-DEF_REQUIREMENTS="patchelf jpeg libpng freetype libxml2 fontconfig openjdk11 bash"
+DEF_REQUIREMENTS="patchelf jpeg libpng freetype libxml2 gperf fontconfig openjdk11 bash"
 DEF_USEFUL="bin/j* bin/bash"
 DEF_EXPORTS="ast gem jgem irb jirb jruby ruby jrubyc ri rdoc rake bundle ng testrb"
 DEF_CONFLICTS_WITH="Ruby"
