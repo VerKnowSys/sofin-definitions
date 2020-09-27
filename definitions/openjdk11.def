@@ -6,7 +6,7 @@ DEF_VERSION="11.0.8"
 DEF_SHA="b1ea49ad3e885ca1cfac29d416982cb903748466"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_REQUIREMENTS="patchelf jpeg libpng freetype libxml2 fontconfig"
+DEF_REQUIREMENTS="patchelf jpeg libpng freetype libxml2 gperf fontconfig"
 DEF_AFTER_INSTALL_METHOD="install_jdk_headless"
 install_jdk_headless () {
     try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
