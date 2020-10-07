@@ -5,7 +5,7 @@ DEF_VERSION="4.8.25"
 DEF_SHA="4082ae830f09e919112aa3fc1d7e5333921a6a33"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://ftp.midnight-commander.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pcre libffi expat gettext icu python27-static glib perl-static"
+DEF_REQUIREMENTS="pcre libffi gettext glib"
 DEF_CONFIGURE_ARGS="--with-pic --with-mmap --with-screen=ncurses --with-search-engine=glib --with-subshell \
 --with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} --without-internal-edit --with-diff-viewer --without-x \
 --enable-shared --enable-charset --enable-background --enable-mclib --enable-threads \
