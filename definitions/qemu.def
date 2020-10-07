@@ -1,10 +1,10 @@
 DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: AARCH64 (ARM64)"
 DEF_NAME="qemu"
-DEF_VERSION="5.0.0"
-DEF_SHA="52d1c0e6025a212d4fde471e4d9b5913f2615f86"
+DEF_VERSION="5.1.0"
+DEF_SHA="8c70ce2b65349e9b42bd20c9dec2c90f8e7b960a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp python36 jemalloc bison libzip lzma lzo lzop lz4 zip db sqlite pcre autoconf texinfo automake icu glib libpcap libidn libidn2 libevent nghttp2 libssh2 curl libgpg-error pixman nettle libtasn1 p11-kit libunistring gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 gperf fontconfig sdl2-ttf libpng zlib"
+DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp jemalloc bison libzip lzma lzo lzop lz4 zip db sqlite pcre autoconf texinfo automake glib libpcap libidn libidn2 libevent nghttp2 libssh2 curl libgpg-error pixman nettle libtasn1 p11-kit libunistring gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 gperf fontconfig sdl2-ttf libpng zlib"
 DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=mips-softmmu,arm-softmmu,aarch64-softmmu --disable-user --disable-linux-user"
 DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w"
 case "${SYSTEM_NAME}" in
@@ -18,6 +18,6 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 DEF_USEFUL="bin/qemu*"
-DEF_USELESS="share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,icu,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.{a,sh,la} lib/{glib-2.0,cmake,pkgconfig,icu,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
+DEF_USELESS="share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.{a,sh,la} lib/{glib-2.0,cmake,pkgconfig,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
 DEF_EXPORTS="qemu-img qemu-nbd qemu-system-i386 qemu-system-x86_64 qemu-io qemu-system-arm qemu-system-mips qemu-system-aarch64"
 DEF_USE_SAFE_STACK=YES
