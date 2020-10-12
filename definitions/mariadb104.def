@@ -1,8 +1,8 @@
 inherit "mariadb"
 
 DEF_FULL_NAME="MariaDB 10.4"
-DEF_SHA="3f71dae76251674f29a7f0cc3d6eded13b9ade0e"
-DEF_VERSION="10.4.14"
+DEF_VERSION="10.4.15"
+DEF_SHA="929f6847c93be099f2667492d9426486d29fc606"
 DEF_ORIGIN="http://ftp.icm.edu.pl/pub/unix/database/${DEF_NAME}//${DEF_NAME}-${DEF_VERSION}/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="jemalloc pcre libxml2 lz4 lzo snappy readline libressl msgpack libevent perl-static bison zstd"
