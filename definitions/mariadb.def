@@ -1,8 +1,8 @@
 DEF_FULL_NAME="MariaDB 10.1"
 DEF_STANDALONE=YES
 DEF_NAME="mariadb"
-DEF_VERSION="10.1.46"
-DEF_SHA="fabb5cb898bc1df50cf08f7fd04a7c69767f8a6f"
+DEF_VERSION="10.1.47"
+DEF_SHA="25d25d18a7fa5779b5b74d6d56c947e6a527362b"
 DEF_ORIGIN="http://ftp.icm.edu.pl/pub/unix/database/${DEF_NAME}//${DEF_NAME}-${DEF_VERSION}/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pcre libressl libsodium libxml2 libevent snappy"
