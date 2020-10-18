@@ -16,7 +16,7 @@ install_jdk_headless () {
 }
 DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
 DEF_CONFLICTS_WITH="Openjdk"
-DEF_USELESS="demo sample lib/{libsplashscreen.so,liblcms.so,libjsound.so,libjawt.so,libawt_xawt.so}"
+DEF_USELESS="demo sample lib/src.zip lib/{libsplashscreen.so,liblcms.so,libjsound.so,libjawt.so,libawt_xawt.so} THIRD_PARTY_README lib/*.{la,sh} share/{aclocal,gtk-doc} include docs"
 
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES

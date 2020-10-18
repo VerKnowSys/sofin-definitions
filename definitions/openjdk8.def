@@ -1,3 +1,4 @@
+DEF_STANDALONE=YES
 DEF_DISABLE_ON="Darwin Linux"
 DEF_FULL_NAME="OpenJDK 1.8 (headless version 64-bit)"
 DEF_NAME="openjdk8"
@@ -5,16 +6,20 @@ DEF_VERSION="8.0_265-b01"
 DEF_SHA="e29bc21522acfc2ec309e34dfd0bee35b492ba71"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-portbuild.tar.xz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_REQUIREMENTS="libinotify"
+DEF_REQUIREMENTS="libinotify patchelf jpeg libpng freetype libxml2 gperf fontconfig"
 DEF_AFTER_INSTALL_METHOD="install_jdk8_headless"
 install_jdk8_headless () {
     try "${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
     try "${RM_BIN} -f '${PREFIX}/lib/amd64/libjawt.so' '${PREFIX}/bin/policytool'"
     try "${LN_BIN} -fs '${PREFIX}/lib/libinotify.so.0' '${PREFIX}/jre/lib/amd64/libinotify.so.0'"
+    try "${LN_BIN} -fs ${PREFIX}/lib/libfontconfig.so ${PREFIX}/lib/libfontconfig.so.1"
+    try "${LN_BIN} -fs ${PREFIX}/lib/libjpeg.so ${PREFIX}/lib/libjpeg.so.8"
+    try "patchelf --set-rpath ${PREFIX}/lib:${PREFIX}/lib/server:${PREFIX}/lib/amd64/server:${PREFIX}/jre/lib/amd64:${PREFIX}/jre/lib/amd64/server ${PREFIX}/lib/*.so ${PREFIX}/jre/lib/amd64/*.so"
 }
 DEF_EXPORTS="jdb jhat jinfo jmap jar jps jarsigner jrunscript java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
 DEF_CONFLICTS_WITH="Openjdk"
-DEF_USELESS="demo sample THIRD_PARTY_README src.zip"
+DEF_USELESS="demo sample THIRD_PARTY_README src.zip lib/*.{a,la,sh} share/{aclocal,gtk-doc} include docs"
+DEF_USEFUL="bin/fc*"
 
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
