@@ -20,7 +20,7 @@ link_conf_to_service_dir () {
         && try "${LN_BIN} -fs '${SERVICE_DIR}/conf' '${PREFIX}/conf'"
     fi
 }
-DEF_REQUIREMENTS="openjdk8 libinotify"
+DEF_REQUIREMENTS="libinotify patchelf jpeg libpng freetype libxml2 gperf fontconfig openjdk8"
 DEF_USEFUL="bin/j*"
 DEF_EXPORTS="sonar-scanner sonar-scanner-debug"
 DEF_USELESS="lib/*.a bin/*.dll bin/*.exe bin/*.bat demo sample samples src.zip COPYING NOTICE.txt include THIRD_PARTY_README jre/THIRD_PARTY_README LICENSE"

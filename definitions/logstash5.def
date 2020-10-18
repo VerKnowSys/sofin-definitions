@@ -4,7 +4,7 @@ DEF_VERSION="5.6.16"
 DEF_SHA="73a9a7f655a11223ff5a1a09558663d61ac92c69"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
-DEF_REQUIREMENTS="openjdk8 libinotify bash"
+DEF_REQUIREMENTS="libinotify patchelf jpeg libpng freetype libxml2 gperf fontconfig openjdk8 libinotify bash"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin cpdump"
 DEF_USEFUL="bin/bash bin/ja* bin/logstash* bin/ruby"
 
