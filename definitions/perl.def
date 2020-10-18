@@ -5,7 +5,7 @@ DEF_VERSION="5.32.0"
 DEF_SHA="ddecb3117c016418b19ed3a8827e4b521b47d6bb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="lzo libressl db gettext"
+DEF_REQUIREMENTS="libressl db"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {
