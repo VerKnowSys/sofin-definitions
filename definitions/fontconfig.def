@@ -29,7 +29,7 @@ make_destdirs () {
         ${SERVICE_DIR}/var/db/fontconfig \
         ${PREFIX}/lib/X11/fonts
 }
-DEF_AFTER_MAKE_METHOD="install_vera_font_and_default_fonts_conf"
+DEF_AFTER_INSTALL_METHOD="install_vera_font_and_default_fonts_conf"
 install_vera_font_and_default_fonts_conf () {
     _conf_filename="fonts.conf"
     _font_filename="VeraMono.ttf"
