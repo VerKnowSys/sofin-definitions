@@ -1,7 +1,12 @@
-inherit mariadb
-
-DEF_DISABLE_ON="Linux"
-DEF_FULL_NAME="MariaDB 10.1 client"
+DEF_FULL_NAME="MariaDB 10.1 (client only)"
+DEF_NAME="mariadb"
 DEF_SUFFIX="-client"
+DEF_VERSION="10.1.47"
+DEF_SHA="25d25d18a7fa5779b5b74d6d56c947e6a527362b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="http://ftp.icm.edu.pl/pub/unix/database/${DEF_NAME}//${DEF_NAME}-${DEF_VERSION}/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="jemalloc readline pcre lzo libressl libevent snappy"
+DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS="-DBUILD_CONFIG=mysql_release -DINSTALL_INCLUDEDIR=include/mysql -DINSTALL_INFODIR=share/info -DINSTALL_MYSQLSHAREDIR=share/mysql -DMYSQL_MAINTAINER_MODE=OFF -DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DENABLED_LOCAL_INFILE=ON -DENABLE_DEBUG_SYNC=OFF -DWITH_SAFEMALLOC=OFF -DWITH_UNIT_TESTS=OFF -DWITH_VALGRIND=OFF -DWITH_LIBWRAP=OFF -DWITH_INNODB_LZ4=YES -DGRN_WITH_LZ4=YES -DWITH_INNODB_BZIP2=YES -DWITH_INNODB_LZMA=YES -DWITH_INNODB_LZO=YES -DINSTALL_SYSCONFDIR=${SERVICE_DIR}/etc -DTMPDIR=/tmp -DMYSQL_DATADIR=${SERVICE_DIR}/data -DWITH_SSL=yes -DWITH_INNODB_DISALLOW_WRITES=ON -DENABLED_PROFILING=OFF -DCOMPILATION_COMMENT=VerKnowSys -DHAVE_STDCXX11=YES -DWITH_EMBEDDED_SERVER=OFF -DCMAKE_SKIP_BUILD_RPATH=YES -DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 -DWITH_JEMALLOC=YES -DWITH_PCRE=system -DWITH_ZLIB=system -DWITH_INNODB_SNAPPY=YES -DSECURITY_HARDENED=ON -DWITHOUT_SERVER=ON -DPLUGIN_AUTH_PAM=OFF"
-DEF_USELESS="${DEF_USELESS} support-files"
+DEF_EXPORTS="mysql mysql_ldb mysql_config mysqladmin mysql-admin mysqlimport mysqlbinlog mysqldump mysqlaccess mysqlcheck mysqlhotcopy mysql_upgrade mysql_install_db msql2mysql myisamchk myisamlog myisampack mysqltest mysqlslap mysqldumpslow mysqlbug mysql_zap mysql_waitpid mysql_tzinfo_to_sql mysql_setpermission mysql_secure_installation mysql_plugin mysql_fix_extensions mysql_find_rows mysql_convert_table_format mysql_client_test my_print_defaults myisam_ftdump innochecksum aria_chk aria_dump_log aria_ftdump aria_pack aria_read_log mytop perror mysqlshow mysql-proxy resolveip mariabackup"
+DEF_USELESS="bin/zstdmt share/{bison,gdb,libtool,cmake,man,gettext,aclocal,pkgconfig} share/gtk* share/glib* share/gettext* doc sql-bench data man docs sql-bench INSTALL-BINARY README COPYING COPYING.LESSER COPYING.thirdparty CREDITS EXCEPTIONS-CLIENT README-wsrep scripts libexec mysql-test include libdata lib/{cmake,pkgconfig} lib/*.{a,la} support-files"
