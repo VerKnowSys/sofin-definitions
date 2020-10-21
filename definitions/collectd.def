@@ -5,11 +5,10 @@ DEF_NAME="collectd"
 DEF_VERSION="5.12.0"
 DEF_SHA="af36fe83e2995270b5632fc21e5a001e6702cdce"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf-static make-static icu libedit libressl perl pth npth expat libstatgrab pcre libffi gettext curl-dynamic libpcap autoconf automake liboping python27 libxml2 libuuid postgresql11-client mariadb-client geoip libmaxminddb yajl"
+DEF_REQUIREMENTS="icu libxml2 libpcap yajl protobuf lua51 pth npth expat libstatgrab libffi @nginx perl @curl @liboping libuuid postgresql11-client @python36 @mariadb-client"
 case ${SYSTEM_NAME} in
     FreeBSD)
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} nginx"
-        PLATFORM_SPECIFIC_OPTIONS="--enable-pf --enable-nginx"
+        PLATFORM_SPECIFIC_OPTIONS="--enable-pf"
         ;;
 
     Linux)
@@ -17,8 +16,9 @@ case ${SYSTEM_NAME} in
         ;;
 esac
 
-DEF_USELESS="include lib/cmake lib/*.{a,la} COPYING INSTALL-BINARY README libdata html docs doc data conf lib/python* lib/postgresql logs mysql-test scripts sql-bench support-files var lib/*perl* etc/bash* man share/*sql share/*txt share/aclocal* share/autoconf share/automake* share/bulgarian share/charsets share/cmake* share/czech share/danish share/dutch share/english share/estonian share/french share/german share/gettext share/glib* share/greek share/hungarian share/info share/italian share/japanese share/korean share/libtool share/locale share/man share/norwegian share/norwegian-ny share/polish share/portuguese share/romanian share/russian share/serbian share/slovak share/spanish share/swedish share/ukrainian share/bash-completion share/gdb share/bison"
+DEF_USELESS="include lib/cmake lib/*.{a,la} COPYING INSTALL-BINARY README libdata html docs doc data conf lib/postgresql logs mysql-test scripts sql-bench support-files var etc/bash* man share/*sql share/*txt share/aclocal* share/autoconf share/automake* share/bulgarian share/charsets share/cmake* share/czech share/danish share/dutch share/english share/estonian share/french share/german share/gettext share/glib* share/greek share/hungarian share/info share/italian share/japanese share/korean share/libtool share/locale share/man share/norwegian share/norwegian-ny share/polish share/portuguese share/romanian share/russian share/serbian share/slovak share/spanish share/swedish share/ukrainian share/bash-completion share/gdb share/bison"
 DEF_EXPORTS="collectd-nagios collectd-tg collectdctl collectd collectdmon"
+DEF_USEFUL="bin/python* bin/perl* bin/lua*"
 common_options="--disable-all-plugins \
         --disable-amqp \
         --disable-ceph \
@@ -40,6 +40,6 @@ common_options="--disable-all-plugins \
         --localstatedir=${SERVICE_DIR}/var \
         c_cv_have_strtok_r_reentrant=no \
         "
-enabled_plugins_no_deps="--enable-aggregation --enable-apcups --enable-contextswitch --enable-cpu --enable-csv --enable-df --enable-disk --enable-email --enable-exec --enable-filecount --enable-load --enable-logfile --enable-match_empty_counter --enable-match_hashed --enable-match_regex --enable-match_timediff --enable-match_value --enable-mbmon  --enable-memory --enable-network --enable-ntpd --enable-openvpn --enable-powerdns --enable-processes --enable-statsd --enable-swap --enable-syslog --enable-table --enable-tail --enable-tail_csv --enable-target_notification --enable-target_replace --enable-target_scale --enable-target_set --enable-target_v5upgrade --enable-tcpconns --enable-ted --enable-threshold --enable-unixsock --enable-uptime --enable-uuid --enable-write_log --enable-zfs_arc --enable-olsrd --enable-users ${PLATFORM_SPECIFIC_OPTIONS}"
-enabled_plugins_with_deps="--enable-write_http --enable-curl --with-libcurl=${PREFIX} --with-libmysql=${PREFIX} --enable-mysql --enable-postgresql --with-libpq --with-libstatgrab=${PREFIX} --enable-dns --with-libpcap=${PREFIX} --with-liboping=${PREFIX} --enable-ping --enable-interface --with-libyajl=${PREFIX} --enable-curl_json --enable-curl_xml"
-DEF_CONFIGURE_ARGS="${common_options} ${enabled_plugins_no_deps} ${enabled_plugins_with_deps}"
+enabled_plugins="--enable-python --enable-lua --enable-mysql --enable-postgresql --enable-curl --enable-curl_json --enable-curl_xml --enable-nginx --enable-dns --enable-ping --enable-interface --enable-write_http --enable-aggregation --enable-apcups --enable-contextswitch --enable-cpu --enable-csv --enable-df --enable-disk --enable-email --enable-exec --enable-filecount --enable-load --enable-logfile --enable-match_empty_counter --enable-match_hashed --enable-match_regex --enable-match_timediff --enable-match_value --enable-mbmon  --enable-memory --enable-network --enable-ntpd --enable-openvpn --enable-powerdns --enable-processes --enable-statsd --enable-swap --enable-syslog --enable-table --enable-tail --enable-tail_csv --enable-target_notification --enable-target_replace --enable-target_scale --enable-target_set --enable-target_v5upgrade --enable-tcpconns --enable-ted --enable-threshold --enable-unixsock --enable-uptime --enable-uuid --enable-write_log --enable-zfs_arc --enable-olsrd --enable-users ${PLATFORM_SPECIFIC_OPTIONS}"
+with_plugins="--with-libpython=${PREFIX} --with-libcurl=${PREFIX} --with-libmysql=${PREFIX} --with-libpq --with-libprotobuf=${PREFIX} --with-libstatgrab=${PREFIX} --with-libpcap=${PREFIX} --with-liboping=${PREFIX} --with-libyajl=${PREFIX}"
+DEF_CONFIGURE_ARGS="${common_options} ${enabled_plugins} ${with_plugins}"
