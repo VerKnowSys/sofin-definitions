@@ -43,3 +43,9 @@ common_options="--disable-all-plugins \
 enabled_plugins="--enable-python --enable-lua --enable-mysql --enable-postgresql --enable-curl --enable-curl_json --enable-curl_xml --enable-nginx --enable-dns --enable-ping --enable-interface --enable-write_http --enable-aggregation --enable-apcups --enable-contextswitch --enable-cpu --enable-csv --enable-df --enable-disk --enable-email --enable-exec --enable-filecount --enable-load --enable-logfile --enable-match_empty_counter --enable-match_hashed --enable-match_regex --enable-match_timediff --enable-match_value --enable-mbmon  --enable-memory --enable-network --enable-ntpd --enable-openvpn --enable-powerdns --enable-processes --enable-statsd --enable-swap --enable-syslog --enable-table --enable-tail --enable-tail_csv --enable-target_notification --enable-target_replace --enable-target_scale --enable-target_set --enable-target_v5upgrade --enable-tcpconns --enable-ted --enable-threshold --enable-unixsock --enable-uptime --enable-uuid --enable-write_log --enable-zfs_arc --enable-olsrd --enable-users ${PLATFORM_SPECIFIC_OPTIONS}"
 with_plugins="--with-libpython=${PREFIX} --with-libcurl=${PREFIX} --with-libmysql=${PREFIX} --with-libpq --with-libprotobuf=${PREFIX} --with-libstatgrab=${PREFIX} --with-libpcap=${PREFIX} --with-liboping=${PREFIX} --with-libyajl=${PREFIX}"
 DEF_CONFIGURE_ARGS="${common_options} ${enabled_plugins} ${with_plugins}"
+
+DEF_AFTER_INSTALL_METHOD="strip_plugins"
+strip_plugins () {
+    try "${STRIP_BIN} ${PREFIX}/lib/collectd/*.so"
+    return 0
+}
