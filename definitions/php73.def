@@ -107,19 +107,22 @@ install_pear_modules () {
 
 
 install_memcached () {
-    try "${GIT_BIN} clone https://github.com/php-memcached-dev/php-memcached.git"
-    cd php-memcached
-    try "${PREFIX}/bin/phpize"
-    try "./configure --prefix=${PREFIX} --disable-memcached-sasl --with-php-config=${PREFIX}/bin/php-config"
+    memcached_name="memcached-3.1.5"
+    memcached_archive="${memcached_name}.tgz"
+    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${memcached_archive}\" ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${memcached_archive}" && \
+    cd ${memcached_name} && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --disable-memcached-sasl --with-php-config=${PREFIX}/bin/php-config" && \
     try "PATH=${PREFIX}/bin:$PATH make install" && \
-    note "Installed PECL extension: ${geoip_name}" && \
+    note "Installed PECL extension: ${memcached_name}" && \
     return 0
     return 1
 }
 
 
 install_redis () {
-    redis_name="redis-5.0.2"
+    redis_name="redis-5.3.2"
     redis_archive="${redis_name}.tgz"
     try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\" ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${redis_archive}" && \
@@ -134,7 +137,7 @@ install_redis () {
 
 
 install_igbinary () {
-    igbinary_name="igbinary-3.0.1"
+    igbinary_name="igbinary-3.1.6"
     igbinary_archive="${igbinary_name}.tgz"
     try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${igbinary_archive}\" ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${igbinary_archive}" && \
@@ -194,7 +197,7 @@ install_geoip () {
 
 
 install_xdebug () {
-    arch_name="xdebug-2.7.2"
+    arch_name="xdebug-2.9.8"
     archive="${arch_name}.tgz"
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${archive}" && \
@@ -209,7 +212,7 @@ install_xdebug () {
 
 
 install_apcu () {
-    arch_name="apcu-5.1.17"
+    arch_name="apcu-5.1.19"
     archive="${arch_name}.tgz"
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${archive}" && \
