@@ -1,13 +1,13 @@
 DEF_FULL_NAME="Memcached"
 DEF_STANDALONE=YES
 DEF_NAME="memcached"
-DEF_VERSION="1.6.7"
-DEF_SHA="49336bb0a4b7ad296422b08148581ed54edf32d0"
+DEF_VERSION="1.6.8"
+DEF_SHA="8f3efd851efc5b822bd991b93d06a271b2fac052"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf-static libevent"
+DEF_REQUIREMENTS="libevent"
 if [ "${SYSTEM_NAME}" != "Minix" ]; then
     _addon="--enable-64bit"
 fi
-DEF_CONFIGURE_ARGS="--with-libevent=${PREFIX} ${_addon} --disable-docs"
+DEF_CONFIGURE_ARGS="--with-libevent=${PREFIX} ${_addon} --disable-docs --disable-static"
 DEF_EXPORTS="memcached"
 DEF_COMPILER_FLAGS="-Wno-error -w"
