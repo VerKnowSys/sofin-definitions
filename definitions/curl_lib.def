@@ -1,4 +1,5 @@
 inherit "curl"
 
 DEF_USELESS="man lib/*python* lib/*perl* include/*python* share/man share/texinfo share/info share/aclocal* lib/cmake"
+DEF_REQUIREMENTS="jemalloc pcre libunistring libressl lzo libffi libxml2 libidn2 nghttp2 libssh2"
 unset DEF_EXPORTS DEF_USE_SAFE_STACK
