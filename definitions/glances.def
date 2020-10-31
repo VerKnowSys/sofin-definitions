@@ -2,7 +2,7 @@ inherit "python37"
 
 unset DEF_SUFFIX
 DEF_FULL_NAME="Glances (Python 3.7)"
-DEF_VERSION="3.1.2"
+DEF_VERSION="3.1.5"
 DEF_NAME="glances"
 DEF_REQUIREMENTS="@python37"
 DEF_TYPE="meta"
