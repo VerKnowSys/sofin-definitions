@@ -4,7 +4,7 @@ DEF_VERSION="5.1.0"
 DEF_SHA="8c70ce2b65349e9b42bd20c9dec2c90f8e7b960a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp jemalloc bison libzip lzma lzo lzop lz4 zip db sqlite pcre autoconf texinfo automake glib libpcap libidn libidn2 libevent nghttp2 libssh2 curl libgpg-error pixman nettle libtasn1 p11-kit libunistring gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image freetype libxml2 gperf fontconfig sdl2-ttf libpng zlib"
+DEF_REQUIREMENTS="@glib @curl_lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image @fontconfig sdl2-ttf zlib"
 DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=mips-softmmu,arm-softmmu,aarch64-softmmu --disable-user --disable-linux-user"
 DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w"
 case "${SYSTEM_NAME}" in

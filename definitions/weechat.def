@@ -7,19 +7,18 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="weechat weechat-curses"
-DEF_USELESS="lib/*a include share/aclocal"
-DEF_USEFUL="bin/pip* bin/python* bin/ruby* bin/gem* bin/perl* bin/cpan*"
+DEF_USELESS="lib/*.{a,la} include share/{aclocal,gettext,gettext-0.20.2,gtk-doc}"
+DEF_USEFUL="bin/pip* bin/python* bin/perl* bin/cpan* bin/guil*"
 
-DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_GUILE=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON"
+DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON -DENABLE_GUILE=OFF"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_REQUIREMENTS="jemalloc libunistring zlib lzo libedit lua51 pcre libffi openssl libgpg-error libgcrypt gmp nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl ruby24"
+        DEF_REQUIREMENTS="@curl_lib lua51 @libgcrypt @gnutls libuuid"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=ON"
         ;;
 
     *)
-        # TODO: figure out magic with ruby25 build options that cause troubles here..
-        DEF_REQUIREMENTS="libffi libressl expat readline gettext libtool aspell-lib gmp python37 jemalloc libunistring lzo libedit lua51 libevent pcre perl libgpg-error libgcrypt nettle libtasn1 p11-kit texinfo libidn gnutls libidn2 nghttp2 libssh2 libuuid curl"
+        DEF_REQUIREMENTS="lua51 aspell-lib libuuid @curl_lib @python37 @perl @libgcrypt @gnutls"
         DEF_AFTER_MAKE_METHOD="install_dictionaries; install_additional_requirements; remove_services_bin"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
@@ -45,7 +44,11 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 
-DEF_USE_SAFE_STACK=YES
+DEF_AFTER_INSTALL_METHOD="strip_libexec"
+strip_libexec () {
+    try "${STRIP_BIN} ${PREFIX}/lib/weechat/plugins/*.so"
+    return 0
+}
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
