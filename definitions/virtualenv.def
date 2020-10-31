@@ -5,7 +5,7 @@ DEF_FULL_NAME="Virtual ENV (Python 3.6)"
 DEF_VERSION="20.0.21"
 DEF_NAME="virtualenv"
 DEF_USEFUL="bin/python3*"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
+DEF_REQUIREMENTS="@python37"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_TYPE="meta"
 

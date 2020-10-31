@@ -5,7 +5,7 @@ DEF_FULL_NAME="AWS-cli (Python 3.6)"
 DEF_VERSION="1.18.158"
 DEF_NAME="awscli"
 DEF_USEFUL="bin/python3*"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} python36"
+DEF_REQUIREMENTS="@python37"
 DEF_EXPORTS="aws aws_bash_completer aws_completer aws_zsh_completer.sh"
 DEF_TYPE="meta"
 
