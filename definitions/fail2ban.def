@@ -1,16 +1,16 @@
-inherit "python36"
+inherit "python37"
 
 unset DEF_SUFFIX
 DEF_STANDALONE=YES
-DEF_FULL_NAME="Fail2ban (Python 3.6)"
+DEF_FULL_NAME="Fail2ban (Python 3.7)"
 DEF_VERSION="0.11.1"
 DEF_NAME="fail2ban"
 DEF_SHA="45b1e4320b079b193acfda7bdc60421f1e920077"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} sqlite python36"
+DEF_REQUIREMENTS="sqlite @python37"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_USEFUL="bin/python3* bin/fail2ban* bin/sqlite3"
-DEF_EXPORTS="fail2ban fail2ban-client fail2ban-regex fail2ban-testcases fail2ban-python"
+DEF_EXPORTS="fail2ban fail2ban-server fail2ban-client fail2ban-regex fail2ban-testcases fail2ban-python"
 
 unset DEF_AFTER_CONFIGURE_METHOD
 DEF_MAKE_METHOD="true"
