@@ -1,3 +1,4 @@
+DEF_STANDALONE=YES
 DEF_FULL_NAME="Chicken Scheme"
 DEF_SHA="3456f2c60b378ef1f6fa6b8d1d31eb05a1d82dcb"
 DEF_NAME="chicken"
@@ -25,5 +26,13 @@ make_install_method () {
     PROGRAM_SUFFIX="${PKGNAMESUFFIX}"
     PLATFORM=bsd \
         make install
+}
+DEF_AFTER_INSTALL_METHOD="move_chicken_lib_to_services"
+move_chicken_lib_to_services () {
+    if [ ! -d "${SERVICE_DIR}/chicken" ] \
+    && [ ! -L "${PREFIX}/lib/chicken" ]; then
+        try "${MV_BIN} ${PREFIX}/lib/chicken ${SERVICE_DIR}/chicken"
+        try "${LN_BIN} -s ${SERVICE_DIR}/chicken ${PREFIX}/lib/chicken"
+    fi
 }
 DEF_EXPORTS="chicken chicken-do chicken-install chicken-profile chicken-status chicken-uninstall csc csi feathers"
