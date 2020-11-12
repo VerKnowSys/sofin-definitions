@@ -8,23 +8,21 @@ DEF_CONFIGURE_METHOD="no-conf"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
-    ${SED_BIN} -i '' -e "s/gcc/clang/g; s/g++/clang++/g" *.make Makefile*
+    ${SED_BIN} -i '' -e "s/gcc/clang/g; s/g++/clang++/g" *.make
+    ${SED_BIN} -i '' -e "s/-DHAVE_CHICKEN_CONFIG_H/-DHAVE_CHICKEN_CONFIG_H -fPIC -fPIE/; s/-Wl,-R/-fPIE -pie -Wl,-R/g; s/-shared/-pie -shared/g" Makefile.bsd
 }
 
 DEF_MAKE_METHOD="true"
 DEF_INSTALL_METHOD="make_install_method"
 make_install_method () {
-    C_COMPILER="${CC}" \
-    C_COMPILER_OPTIMIZATION_OPTIONS="${CFLAGS}" \
-    CXX_COMPILER="${CXX}" \
     DOCDIR="${SERVICE_DIR}/doc" \
     LIBDIR="${PREFIX}/lib" \
     LIBRARIAN="${AR_BIN}" \
-    LINKER_OPTIONS="${LDFLAGS}" \
     MANDIR=${PREFIX}/man \
     PREFIX=${PREFIX} \
     PROGRAM_SUFFIX="${PKGNAMESUFFIX}"
     PLATFORM=bsd \
+    OPTIMIZE_FOR_SPEED=1 \
         make install
 }
 DEF_AFTER_INSTALL_METHOD="move_chicken_lib_to_services"
