@@ -5,7 +5,7 @@ DEF_VERSION="3.0.4"
 DEF_SHA="a67e10595371254a5ce3d771365d307735b84882"
 DEF_REQUIREMENTS="readline libtool gmp libunistring libatomic_ops gc libffi"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--enable-shared --disable-static --with-threads --disable-nls --with-libgmp-prefix=${PREFIX} --with-libunistring-prefix=${PREFIX} --with-libreadline-prefix=${PREFIX}"
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --with-threads --disable-nls --with-libgmp-prefix=${PREFIX} --with-libunistring-prefix=${PREFIX} --with-libreadline-prefix=${PREFIX} --enable-jit=yes"
 DEF_INSTALL_METHOD="make install"
 DEF_USELESS="lib/*.{a,la}"
 DEF_EXPORTS="guile-tools guile-snarf guile-config guile guild"
@@ -19,3 +19,7 @@ patch_libguile_makefile () {
             ;;
     esac
 }
+
+DEF_NO_MPROTECT=YES
+DEF_NO_PAGEEXEC=YES
+DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"

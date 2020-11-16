@@ -1,0 +1,6 @@
+inherit guile
+
+DEF_REQUIREMENTS="readline libtool gmp libunistring libatomic_ops gc libffi"
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --with-threads --disable-nls --with-libgmp-prefix=${PREFIX} --with-libunistring-prefix=${PREFIX} --with-libreadline-prefix=${PREFIX} --enable-jit=no"
+
+unset DEF_NO_MPROTECT DEF_NO_PAGEEXEC DEF_APPLY_LOWER_SECURITY_ON
