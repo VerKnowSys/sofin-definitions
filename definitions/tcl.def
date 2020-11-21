@@ -6,10 +6,13 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-src.tar.gz"
 DEF_EXPORTS="tcl tclsh${DEF_VERSION%a*}"
 DEF_BUILD_DIR_SUFFIX="unix/"
 DEF_CONFIGURE_ARGS="--disable-static --disable-dtrace --enable-64bit --with-encoding=utf-8 --disable-symbols --enable-threads"
-DEF_AFTER_INSTALL_METHOD="after_install"
-after_install () {
-    ${LN_BIN} -s "${PREFIX}/bin/tclsh${DEF_VERSION%a*}" "${PREFIX}/bin/tcl"
-    # since tcl team doesn't know how to do make install properly we have to install library by ourselves:
-    ${CP_BIN} -r ../library/ "${PREFIX}/lib/tcl${DEF_VERSION%a*}"
+DEF_AFTER_CONFIGURE_METHOD="after_config"
+after_config () {
+    ${SED_BIN} -i '' \
+        -e 's,-DNO_MEMMOVE=1,,' \
+        -e 's,-DNO_STRING_H=1,,' \
+        -e 's,^COMPAT_OBJS.*,,' \
+        Makefile
 }
-DEF_USELESS="lib/*.{a,la}"
+DEF_INSTALL_METHOD="make install install-libraries install-msgs install-private-headers"
+DEF_AFTER_INSTALL_METHOD="${LN_BIN} -s ${PREFIX}/bin/tclsh${DEF_VERSION%a*} ${PREFIX}/bin/tcl"
