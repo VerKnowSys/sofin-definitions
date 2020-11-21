@@ -1,0 +1,17 @@
+DEF_FULL_NAME="Expect"
+DEF_NAME="expect"
+DEF_VERSION="5.45.4"
+DEF_SHA="a97b2f377c6a799928d6728c2ada55beb7f57d96"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="tcl"
+DEF_EXPORTS="expect"
+DEF_COMPILER_FLAGS="-w"
+DEF_AFTER_UNPACK_METHOD="patch_stuff"
+patch_stuff () {
+    ${SED_BIN} -i '' -e 's|CONST84||g' exp_command.c
+}
+DEF_CONFIGURE_ARGS="--with-tcl=${PREFIX}/lib/tcl8.7 --enable-shared=no --enable-threads"
+DEF_AFTER_CONFIGURE_METHOD="after_configure"
+after_configure () {
+    ${SED_BIN} -i '' -e 's|\-lexpect5454|libexpect.a -lutil -ltcl8.7 -ltclstub8.7 -lz -lpthread -lm|g' Makefile
+}
