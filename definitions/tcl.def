@@ -1,0 +1,15 @@
+DEF_FULL_NAME="Tcl"
+DEF_NAME="tcl"
+DEF_VERSION="8.7a3"
+DEF_SHA="8c8380ae87feb81683cbfda1005f84c2d7cd892d"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-src.tar.gz"
+DEF_EXPORTS="tcl tclsh${DEF_VERSION%a*}"
+DEF_BUILD_DIR_SUFFIX="unix/"
+DEF_CONFIGURE_ARGS="--disable-static --disable-dtrace --enable-64bit --with-encoding=utf-8 --disable-symbols --enable-threads"
+DEF_AFTER_INSTALL_METHOD="after_install"
+after_install () {
+    ${LN_BIN} -s "${PREFIX}/bin/tclsh${DEF_VERSION%a*}" "${PREFIX}/bin/tcl"
+    # since tcl team doesn't know how to do make install properly we have to install library by ourselves:
+    ${CP_BIN} -r ../library/ "${PREFIX}/lib/tcl${DEF_VERSION%a*}"
+}
+DEF_USELESS="lib/*.{a,la}"
