@@ -1,13 +1,11 @@
 DEF_FULL_NAME="GNU Gettext Library"
 DEF_NAME="gettext"
-DEF_VERSION="0.20.2"
-DEF_SHA="3cb11e9648bacee4c56660d34de3ae3e8b143078"
+DEF_VERSION="0.21"
+DEF_SHA="e6c0a0cba5b00a604c9118403a8199c77a538526"
 DEF_ORIGIN="https://ftp.gnu.org/pub/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--disable-relocatable --enable-shared --enable-threads=posix --disable-static \
  --with-included-gettext --with-included-glib --with-included-libcroco --with-included-libunistring --without-emacs \
  --disable-debug --disable-java --disable-native-java --disable-csharp --disable-openmp"
-DEF_REQUIREMENTS="pkgconf"
 DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh msgcmp msgexec msginit msgcomm msguniq msgen msgconv xgettext msgfilter ngettext gettextize msgcat msgmerge envsubst recode-sr-latin"
 DEF_NO_TRAP_INT_OVERFLOW=YES
-unset DEF_USE_LTO
