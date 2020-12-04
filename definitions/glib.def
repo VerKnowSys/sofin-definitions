@@ -4,12 +4,8 @@ DEF_VERSION="2.66.3"
 DEF_SHA="423bb3d0f42b6dd7923b30f48eafb510eb6b0321"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnome.org/pub/gnome/sources/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pcre libffi gettext"
+DEF_REQUIREMENTS="pcre libffi gettext libinotify"
 DEF_CONFIGURE_METHOD="meson"
 DEF_CONFIGURE_ARGS="-Db_lundef=false -Dlibmount=disabled -Dselinux=disabled -Dinstalled_tests=false -Ddefault_library=shared -Dxattr=false -Ddtrace=false -Ddebug=false -Dbuildtype=release"
 DEF_USEFUL="bin/g* bin/*-config bin/pkgconf"
 DEF_EXPORTS="gio gio-querymodules glib-compile-resources glib-compile-schemas glib-genmarshal glib-gettextize glib-mkenums glibtoolize gobject-query gresource gsettings gtester gtester-report gdbus gdbus-codegen genbrk gapplication envsubst c_rehash gencfu gencnval gendict genrb"
-DEF_AFTER_PATCH_METHOD="patch_meson_build"
-patch_meson_build () {
-     try "${SED_BIN} -i '' -e '/inotify_init1/d' -e '/inotify.h/d' meson.build"
-}
