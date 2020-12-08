@@ -1,0 +1,66 @@
+inherit elasticsearch
+
+DEF_STANDALONE=YES
+DEF_VERSION="6.8.13"
+DEF_SHA="390105f57e28651f50ce7357bc3074383bf2e3c0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+DEF_REQUIREMENTS="@openjdk11 bash"
+DEF_EXPORTS="elasticsearch elasticsearch-certgen elasticsearch-certutil elasticsearch-cli elasticsearch-croneval elasticsearch-env elasticsearch-keystore elasticsearch-migrate elasticsearch-plugin elasticsearch-saml-metadata elasticsearch-setup-passwords elasticsearch-shard elasticsearch-sql-cli elasticsearch-syskeygen elasticsearch-translog elasticsearch-users x-pack-env x-pack-security-env x-pack-watcher-env"
+DEF_USELESS="bin/*.bat bin/*.exe demo sample samples src.zip THIRD_PARTY_* COPYING include NOTICE.txt ASSEMBLY_EXCEPTION README.textile lib/src.zip lib/{libsplashscreen.so,liblcms.so,libjsound.so,libjawt.so,libawt_xawt.so} lib/libX*.so THIRD_PARTY_README lib/*.{la,sh} share/{aclocal,gtk-doc} include docs share"
+
+prepare_and_link_service_dirs () {
+    debug "${0}: prepare_and_link_service_dirs(): Running initial service dir preparation"
+    mkdir -p "${PREFIX}/logs" "${PREFIX}/data"
+    if [ ! -L "${PREFIX}/data" ]; then
+        try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/data' '${PREFIX}/data'"
+    fi
+    if [ ! -L "${PREFIX}/plugins" ]; then
+        try "${MV_BIN} '${PREFIX}/plugins' '${SERVICE_DIR}/plugins'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/plugins' '${PREFIX}/plugins'"
+    fi
+    if [ ! -L "${PREFIX}/logs" ]; then
+        try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
+    fi
+    if [ ! -L "${PREFIX}/conf" ]; then
+        try "${MV_BIN} '${PREFIX}/conf' '${SERVICE_DIR}/conf'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/conf' '${PREFIX}/conf'"
+    fi
+    if [ ! -L "${PREFIX}/config" ]; then
+        try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/config' '${PREFIX}/config'"
+    fi
+    if [ ! -L "${PREFIX}/modules" ]; then
+        try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/modules' '${PREFIX}/modules'"
+    fi
+}
+
+patch_script () {
+    # patch sheebang:
+    for _exp_scrpt in $(to_iter "${DEF_EXPORTS}"); do
+        case "${SYSTEM_NAME}" in
+            FreeBSD)
+                ${SED_BIN} -i '' -e \
+                    "s#/bin/bash#${PREFIX}/bin/bash#g;  s#\"\`dirname \"\$0\"\`\"#${PREFIX}/bin#g;" \
+                    "${PREFIX}/bin/${_exp_scrpt}"
+                ;;
+        esac
+    done
+
+    case "${SYSTEM_NAME}" in
+        FreeBSD)
+            ${SED_BIN} -i '' -e \
+                "s#ES_HOME=.*\$#JAVA_HOME=${PREFIX}; ES_HOME=${PREFIX};#g" \
+                    "${PREFIX}/bin/elasticsearch"
+            ;;
+    esac
+
+    # patch jvm options file:
+    ${SED_BIN} -i '' -e \
+        "s#-Xms2g#-Xms4g#g;  s#-Xmx2g#-Xmx4g#g;" \
+            "${SERVICE_DIR}/config/jvm.options"
+}
