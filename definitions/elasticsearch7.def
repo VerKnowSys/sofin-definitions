@@ -1,8 +1,8 @@
-DEF_FULL_NAME="Elasticsearch"
+DEF_FULL_NAME="Elasticsearch 7"
 DEF_STANDALONE=YES
 DEF_NAME="elasticsearch"
-DEF_VERSION="7.0.1"
-DEF_SHA="844c5d5fd5d6087a12ffc1d6b418866fc965503a"
+DEF_VERSION="7.10.0"
+DEF_SHA="6f19ec7027ea8ed7ffdf8068eead353d31529568"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-no-jdk-linux-x86_64.tar.gz"
 DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}-no-jdk-linux-x86_64.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
@@ -21,19 +21,27 @@ esac
 prepare_and_link_service_dirs () {
     debug "${0}: prepare_and_link_service_dirs(): Running initial service dir preparation"
     mkdir -p "${PREFIX}/data" "${PREFIX}/logs"
-    if [ -d "${PREFIX}/data" ]; then
+    if [ ! -L "${PREFIX}/data" ]; then
         try "${MV_BIN} '${PREFIX}/data' '${SERVICE_DIR}/data'" \
         && try "${LN_BIN} -s '${SERVICE_DIR}/data' '${PREFIX}/data'"
     fi
-    if [ -d "${PREFIX}/logs" ]; then
+    if [ ! -L "${PREFIX}/plugins" ]; then
+        try "${MV_BIN} '${PREFIX}/plugins' '${SERVICE_DIR}/plugins'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/plugins' '${PREFIX}/plugins'"
+    fi
+    if [ ! -L "${PREFIX}/logs" ]; then
         try "${MV_BIN} '${PREFIX}/logs' '${SERVICE_DIR}/logs'" \
         && try "${LN_BIN} -s '${SERVICE_DIR}/logs' '${PREFIX}/logs'"
     fi
-    if [ -d "${PREFIX}/config" ]; then
+    if [ ! -L "${PREFIX}/conf" ]; then
+        try "${MV_BIN} '${PREFIX}/conf' '${SERVICE_DIR}/conf'" \
+        && try "${LN_BIN} -s '${SERVICE_DIR}/conf' '${PREFIX}/conf'"
+    fi
+    if [ ! -L "${PREFIX}/config" ]; then
         try "${MV_BIN} '${PREFIX}/config' '${SERVICE_DIR}/config'" \
         && try "${LN_BIN} -s '${SERVICE_DIR}/config' '${PREFIX}/config'"
     fi
-    if [ -d "${PREFIX}/modules" ]; then
+    if [ ! -L "${PREFIX}/modules" ]; then
         try "${MV_BIN} '${PREFIX}/modules' '${SERVICE_DIR}/modules'" \
         && try "${LN_BIN} -s '${SERVICE_DIR}/modules' '${PREFIX}/modules'"
     fi
