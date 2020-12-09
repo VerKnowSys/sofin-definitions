@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Bash Shell"
 DEF_STANDALONE=YES
 DEF_NAME="bash"
-DEF_SHA="d116b469b9e6ea5264a74661d3a4c797da7f997b"
-DEF_VERSION="5.0"
+DEF_VERSION="5.1"
+DEF_SHA="063019501ef1f30fad99d2b735a7ae2ce1d11423"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="bash bashbug"
 DEF_CONFIGURE_ARGS="--enable-multibyte --without-bash-malloc --disable-rpath --disable-nls --enable-readline --enable-disabled-builtins --with-libiconv-prefix=/usr"
