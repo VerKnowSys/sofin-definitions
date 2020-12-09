@@ -1,5 +1,6 @@
-inherit elasticsearch
+inherit elasticsearch7
 
+DEF_FULL_NAME="Elasticsearch 5"
 DEF_VERSION="5.6.16"
 DEF_SHA="4ce4a1087e79d552b0d95566095827b18bcb6f67"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
