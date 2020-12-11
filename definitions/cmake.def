@@ -1,13 +1,14 @@
 DEF_FULL_NAME="Cmake build system - fully featured build."
 DEF_STANDALONE=YES
 DEF_NAME="cmake"
-DEF_VERSION="3.16.0"
-DEF_SHA="9943ebbbf076bbe1b54c7dadcd6df28ad0d241ed"
+DEF_VERSION="3.19.1"
+DEF_SHA="0aec103faa6042683a42412e0f9c359c69208e2d"
 DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS}"
 DEF_REQUIREMENTS="jemalloc pkgconf-static make-static lzma xz expat libressl curl-dynamic libarchive rhash"
-DEF_EXPORTS="${DEF_NAME} c${DEF_NAME}"
+DEF_EXPORTS="${DEF_NAME} c${DEF_NAME} cpack ctest"
+DEF_USELESS="include lib/*.{a,la}"
 DEF_USE_SAFE_STACK=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
