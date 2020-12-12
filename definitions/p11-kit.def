@@ -1,11 +1,25 @@
 DEF_FULL_NAME="PKCS#11 - provides a way to load and enumerate PKCS#11 modules."
+DEF_STANDALONE=YES
 DEF_NAME="p11-kit"
-DEF_VERSION="0.23.20"
-DEF_SHA="35b8b044c5ce4f45aebc5391f24d94ecbba7a1f4"
+DEF_VERSION="0.23.22"
+DEF_SHA="339e5163ed50a9984a74739b9207ea8cd77fa7e2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/p11-glue/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
-DEF_CONFIGURE_ARGS="--disable-gtk-doc --disable-nls --enable-debug=no --with-trust-paths=${PREFIX}/share/certs/ca-root-nss.crt --disable-static --with-libtasn1=${PREFIX}"
+DEF_CONFIGURE_ARGS="-Dlibffi=enabled -Dtrust_module=enabled -Dtrust_paths=${SERVICE_DIR}/share/certs/ca-root-nss.crt -Dnls=false"
+DEF_CONFIGURE_METHOD="meson"
+DEF_EXPORTS="p11-kit trust asn1Coding asn1Decoding asn1Parser p11-kit-remote p11-kit-server trust-extract-compat"
+DEF_COMPILER_FLAGS="-DSIZE_MAX=__SSIZE_MAX -w"
+DEF_USELESS="libexec share/{aclocal,libtool} "
+
+DEF_AFTER_INSTALL_METHOD="move_libexec"
+move_libexec () {
+    mkdir -p "${SERVICE_DIR}/share/certs"
+    ${TOUCH_BIN} "${SERVICE_DIR}/share/certs/ca-root-nss.crt"
+    ${MV_BIN} "${PREFIX}/libexec/p11-kit/p11-kit-remote" "${PREFIX}/bin/p11-kit-remote"
+    ${MV_BIN} "${PREFIX}/libexec/p11-kit/p11-kit-server" "${PREFIX}/bin/p11-kit-server"
+    ${MV_BIN} "${PREFIX}/libexec/p11-kit/trust-extract-compat" "${PREFIX}/bin/trust-extract-compat"
+}
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
