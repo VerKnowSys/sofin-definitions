@@ -19,6 +19,7 @@ move_libexec () {
     ${MV_BIN} "${PREFIX}/libexec/p11-kit/p11-kit-remote" "${PREFIX}/bin/p11-kit-remote"
     ${MV_BIN} "${PREFIX}/libexec/p11-kit/p11-kit-server" "${PREFIX}/bin/p11-kit-server"
     ${MV_BIN} "${PREFIX}/libexec/p11-kit/trust-extract-compat" "${PREFIX}/bin/trust-extract-compat"
+    ${MV_BIN} "${PREFIX}/libdata/pkgconfig/p11-kit-1.pc" "${PREFIX}/lib/pkgconfig/"
 }
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
