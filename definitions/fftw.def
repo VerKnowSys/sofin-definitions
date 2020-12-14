@@ -1,7 +1,8 @@
 DEF_FULL_NAME="FFTW library for computing the discrete Fourier transform (DFT)"
 DEF_NAME="fftw"
-DEF_VERSION="3.3.8"
-DEF_SHA="59831bd4b2705381ee395e54aa6e0069b10c3626"
+DEF_VERSION="3.3.9"
+DEF_SHA="bf17b485417f0f6a896b8514a3813439fda075fc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://www.fftw.org/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-unset DEF_USE_LTO
+DEF_CONFIGURE_ARGS="--enable-static=no --enable-shared --enable-threads --enable-avx"
+DEF_EXPORTS="fftw-wisdom fftw-wisdom-to-conf"
