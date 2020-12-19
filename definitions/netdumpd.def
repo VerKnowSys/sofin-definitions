@@ -1,0 +1,13 @@
+DEF_FULL_NAME="Kernel dumps over network"
+DEF_SHA="a167b103959a4531e3f874bad0675c89f93e8f1e"
+DEF_NAME="netdumpd"
+DEF_VERSION="0eccf0e091f33258cbf0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_MAKE_METHOD="true"
+DEF_INSTALL_METHOD="install_netdumpd"
+install_netdumpd () {
+    try "mkdir -p ${PREFIX}/sbin ${PREFIX}/man/man8 ${PREFIX}/etc/rc.d"
+    run "/usr/bin/make -v all install BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man8 SCRIPTSDIR=${PREFIX}/etc/rc.d"
+}
+DEF_EXPORTS="netdumpd"
