@@ -1,9 +1,17 @@
 DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Harfbuzz - OpenType text shaping engine."
 DEF_NAME="harfbuzz"
-DEF_VERSION="2.6.8"
-DEF_SHA="22f3b273b8db325d1638417a9f3359fc652bea30"
+DEF_VERSION="2.7.4"
+DEF_SHA="a85339c716b0ff249e4afe0839ece611594cf648"
 DEF_ORIGIN="https://github.com/harfbuzz/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf-static make-static m4 expat libtool zlib pcre libffi gettext python27 glib graphite2"
-DEF_CONFIGURE_ARGS="--with-graphite2 --with-gobject=yes"
+DEF_CONFIGURE_METHOD="meson"
+DEF_REQUIREMENTS="@cairo ragel git-devel"
+DEF_EXPORTS="hb-ot-shape-closure hb-shape hb-subset hb-view"
+DEF_USELESS="libexec"
+
+DEF_AFTER_INSTALL_METHOD="move_pc"
+move_pc () {
+    ${MV_BIN} ${PREFIX}/libdata/pkgconfig/*.pc ${PREFIX}/lib/pkgconfig/
+    ${RM_BIN} -rf "${PREFIX}/libdata"
+}
