@@ -15,7 +15,7 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="--enable-static=no --disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
         ;;
 esac
-DEF_REQUIREMENTS="@glib libressl expat db jpeg jbig2dec jbigkit openjpeg libjpeg-turbo @fontconfig libpaper libidn tiff libtool graphite2 t1lib harfbuzz pixman poppler"
+DEF_REQUIREMENTS="@glib icu jpeg jbig2dec jbigkit openjpeg libjpeg-turbo @fontconfig pixman poppler"
 DEF_USEFUL="bin/pkg*"
 DEF_USELESS="lib/libxslt-plugins libexec ssl man share/man share/bash* share/aclocal* share/auto* share/{bison,doc,gtk-doc,gdb,emacs,examples,info,libtool,gettext,icu,util-macros,t1lib/doc} lib/*.a lib/openjpeg-* lib/*.sh share/glib-* share/gettext-* share/graphite* docs sbin"
 
