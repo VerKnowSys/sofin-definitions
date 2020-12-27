@@ -1,4 +1,4 @@
-DEF_FULL_NAME="Ragel"
+DEF_FULL_NAME="Ragel State Machine Compiler"
 DEF_SHA="946162090fb58b794ed53173fac13398d565b794"
 DEF_NAME="ragel"
 DEF_VERSION="6.10"
