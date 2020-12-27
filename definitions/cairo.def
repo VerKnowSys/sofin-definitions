@@ -12,7 +12,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_CONFIGURE_ARGS="--disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
+        DEF_CONFIGURE_ARGS="--enable-static=no --disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
         ;;
 esac
 DEF_REQUIREMENTS="@glib libressl expat db jpeg jbig2dec jbigkit openjpeg libjpeg-turbo @fontconfig libpaper libidn tiff libtool graphite2 t1lib harfbuzz pixman poppler"
