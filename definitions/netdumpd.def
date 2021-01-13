@@ -9,5 +9,7 @@ DEF_INSTALL_METHOD="install_netdumpd"
 install_netdumpd () {
     try "mkdir -p ${PREFIX}/sbin ${PREFIX}/man/man8 ${PREFIX}/man/man88 ${PREFIX}/etc/rc.d"
     run "/usr/bin/make all install BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man8 SCRIPTSDIR=${PREFIX}/etc/rc.d"
+    run "${MV_BIN} ${PREFIX}/man/man88/* ${PREFIX}/man/man8/"
+    run "${RM_BIN} -rf ${PREFIX}/man/man88"
 }
 DEF_EXPORTS="netdumpd"
