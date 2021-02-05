@@ -6,7 +6,7 @@ DEF_STANDALONE=YES
 DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} --without-mruby --without-neverbleed --without-systemd \
 --disable-debug --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert \
 --enable-app"
-DEF_REQUIREMENTS="@nghttp2 c-ares libev"
+DEF_REQUIREMENTS="jemalloc libressl libxml2 libevent c-ares libev"
 DEF_EXPORTS="h2load"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
