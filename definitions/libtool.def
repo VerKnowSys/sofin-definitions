@@ -7,4 +7,4 @@ DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.x
 DEF_REQUIREMENTS="m4"
 DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -L ${PREFIX}/bin/g${DEF_NAME}ize || ${LN_BIN} -s ${PREFIX}/bin/${DEF_NAME}ize ${PREFIX}/bin/g${DEF_NAME}ize"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}ize g${DEF_NAME}ize"
-DEF_CONFIGURE_ARGS="--disable-static"
+DEF_CONFIGURE_ARGS="--disable-static --enable-ltdl-install"
