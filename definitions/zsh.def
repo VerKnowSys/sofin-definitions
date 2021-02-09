@@ -7,10 +7,10 @@ DEF_SHA="966ea0498fb94140f3caf12af88e98b0e4d02078"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.zsh.org/pub/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-dynamic --enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp"
-DEF_REQUIREMENTS="pcre"
+DEF_REQUIREMENTS="pcre ncurses"
 DEF_USELESS="lib/pkgconfig lib/*.{a,la} libdata share/aclocal share/libtool docs include"
 
-DEF_AFTER_INSTALL_METHOD="link_sh"
+DEF_AFTER_INSTALL_METHOD="link_sh && strip_libs"
 link_sh () {
     debug "Linking $(distd "${PREFIX}/bin/zsh => ${PREFIX}/bin/sh"), $(distd "${PREFIX}/bin/zsh-${DEF_VERSION} => ${PREFIX}/bin/zsh")"
     try " \
@@ -18,6 +18,12 @@ link_sh () {
         ${LN_BIN} -s ${PREFIX}/bin/zsh-${DEF_VERSION} ${PREFIX}/bin/zsh; \
         ${LN_BIN} -s ${PREFIX}/bin/zsh ${PREFIX}/bin/sh; \
         "
+}
+
+strip_libs () {
+    try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/net/*.so"
+    try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/param/*.so"
+    try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/*.so"
 }
 
 DEF_AFTER_EXPORT_METHOD="validate_product"
