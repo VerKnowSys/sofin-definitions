@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.49.0"
-DEF_SHA="0a529d605715930e9004cf6a693b19ae2dec19c1"
+DEF_VERSION="1.50.0"
+DEF_SHA="4c4f41627ce0cd858d368eae473d596003f75f70"
 DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 DEF_STANDALONE=YES
