@@ -1,11 +1,47 @@
-inherit ruby25
-
 DEF_FULL_NAME="Ruby YARV 2.6"
+DEF_NAME="ruby"
 DEF_VERSION="2.6.6"
 DEF_SHA="4dc8d4f7abc1d498b7bac68e82efc01a849f300f"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_METHOD="debugflags= ./configure"
+DEF_REQUIREMENTS="libedit icu @libxslt @curl gettext sqlite gdbm libevent libuuid postgresql11-client mariadb-client gmp libtool yaml"
+DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --disable-static --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --enable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
+DEF_STANDALONE=YES
+DEF_NO_CCACHE=YES
 
+DEF_NO_PIE=YES
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
 DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
+
+unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}" in
+    Linux)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath"
+        ;;
+
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-rpath --enable-dtrace"
+        ;;
+
+    FreeBSD)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-dtrace"
+        ;;
+esac
+DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
+DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
+DEF_CONFLICTS_WITH="Jruby Ruby"
+DEF_USELESS="lib/*perl* lib/*python* lib/*.a man share sbin scripts ssl lib/cmake lib/libxslt-plugins lib/*.sh"
+
+DEF_AFTER_INSTALL_METHOD="after_install"
+after_install () {
+    ${STRIP_BIN} \
+        ${PREFIX}/lib/ruby/**/x86_64-**/*.so \
+        ${PREFIX}/lib/ruby/**/x86_64-**/**/*.so
+
+    try "${TEST_BIN} -f ${HOME}/.gemrc" || \
+        try "printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
+    try "${PREFIX}/bin/gem install bundler"
+}
