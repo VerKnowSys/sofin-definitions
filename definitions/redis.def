@@ -2,47 +2,34 @@ DEF_DISABLE_ON="Linux"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Redis is in-memory data structure store, used as database, cache and message broker."
 DEF_NAME="redis"
-DEF_SHA="896505daa2df988f767db5d6131ff2d123069c6c"
-DEF_VERSION="5.0.9"
+DEF_SHA="a09b62525fc4b122de4a28f4f2324d6cf8c872b5"
+DEF_VERSION="6.2.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://download.redis.io/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="jemalloc"
+DEF_REQUIREMENTS="jemalloc libressl lua51"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_USELESS="include lib/pkgconfig man share"
+DEF_USELESS="include lib/pkgconfig lib/*.{a,la} man share"
 
 DEF_MAKE_METHOD="build_and_install_redis"
 build_and_install_redis () {
-    _cwd="$(pwd 2>/dev/null)"
-    cd deps/lua/src \
-        && try "${CP_BIN} -vf fpconv.* lua_* strbuf.* '${_cwd}/src'"
-    cd "${_cwd}"
-
+    # don't link with jemalloc dynamically:
     ${SED_BIN} -i '' -e 's#../deps/jemalloc/lib/libjemalloc.a##g' Makefile src/Makefile
 
-    note "Installing prebuilt Jemalloc library from PREFIX: ${PREFIX}"
+    # use our version of jemalloc:
     try "${MKDIR_BIN} -p 'deps/jemalloc/lib/'"
     try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
     try "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
-    try "\
-        make \
-            STD= \
-            OPT= \
-            DEBUG= \
-            WARN= \
-            V=yo \
-            PREFIX='${PREFIX}' \
-            CFLAGS='${CFLAGS} -march=ivybridge -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include' \
-            LDFLAGS='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc' \
-            MALLOC=jemalloc \
-                install >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX} \
-    "
+
+    make \
+        BUILD_TLS=yes \
+        MALLOC=jemalloc \
+        PREFIX="${PREFIX}" \
+        CFLAGS="-march=ivybridge -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
+        LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc -llua" \
+        install
 }
 DEF_INSTALL_METHOD="true"
-DEF_NO_CCACHE=YES
 DEF_CONFLICTS_WITH="Redis"
-DEF_NO_SSP_BUFFER_OVERRIDE=YES
-DEF_NO_FORTIFY_SOURCE=YES
-DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof ${DEF_NAME}-server ${DEF_NAME}-sentinel ${DEF_NAME}-check-rdb"
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # under Darwin "leaks" is used .... so this crap is calling sudo N times one by one,
