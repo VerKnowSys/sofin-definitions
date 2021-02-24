@@ -32,7 +32,7 @@ install_wasm_compiler () {
     _wasm_target="wasm32-unknown-unknown"
     _wasm_name="${DEF_NAME}-std-${DEF_VERSION}-${_wasm_target}"
     _wasm_archive="${_wasm_name}.tar.gz"
-    fetch "${MAIN_SOURCE_REPOSITORY}${_wasm_archive}"
+    fetch "${MAIN_SOURCE_REPOSITORY}${_wasm_archive}" || fetch "https://static.rust-lang.org/dist/${_wasm_archive}" || exit 7
     ${TAR_BIN} xf "${_wasm_archive}"
     ${CP_BIN} -r \
         "${_wasm_name}/rust-std-${_wasm_target}/lib/rustlib/${_wasm_target}" \
