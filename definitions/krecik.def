@@ -1,0 +1,44 @@
+DEF_STANDALONE=YES
+DEF_NAME="krecik"
+DEF_VERSION="0.10.7"
+DEF_SHA="0f124d2bdb0561f65f1fc6bb25817daac9adef62"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/VerKnowSys/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="jemalloc pcre libunistring openssl lzo libffi libxml2 libidn2 nghttp2 curl-dynamic rust-basic"
+DEF_EXPORTS="${DEF_NAME}-server"
+DEF_USELESS="man share libexec lib/*.{a,la,sh,alias} lib/{cmake,engines-1.1,rustlib,pkgconfig} etc include lib/pkgconfig sbin"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_MAKE_METHOD="build_krecik"
+build_krecik () {
+    run "cargo build --release"
+    # XXX: hack with patchelf, since I don't know (yet) how to tell Cargo to include rpath in the binary properly:
+    run "patchelf --set-rpath ${PREFIX}/lib target/release/krecik-server"
+}
+DEF_INSTALL_METHOD="install_krecik"
+install_krecik () {
+    mkdir -p "${PREFIX}/bin" "${SERVICE_DIR}/log"
+    if [ ! -f "${SERVICE_DIR}/service.conf" ]; then
+        ${CAT_BIN} > "${SERVICE_DIR}/service.conf" <<EOF
+{
+    "krecik_root": "${SERVICE_DIR}",
+    "log_file": "${SERVICE_DIR}/log/krecik.log",
+    "log_level": "INFO",
+    "success_emoji": ":success:",
+    "failure_emoji": ":error:",
+    "ok_message": "All services are UP!",
+    "notifiers": [
+        {
+            "name": "notifier-name",
+            "slack_webhook": "https://hooks.slack.com/services/1111111111/222222222/3333333333333"
+        },
+        {
+            "name": "notifier-other-name",
+            "slack_webhook": "https://hooks.slack.com/services/1111111111/222222222/3333333333333"
+        }
+    ]
+}
+EOF
+    fi
+    run "${CP_BIN} -R checks ${SERVICE_DIR}/"
+    run "${INSTALL_BIN} -v target/release/krecik-server ${PREFIX}/bin/krecik-server"
+}
