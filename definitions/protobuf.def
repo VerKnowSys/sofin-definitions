@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Protocol Buffers - Google's data interchange format"
 DEF_NAME="protobuf"
-DEF_VERSION="3.14.0"
-DEF_SHA="5a5bc62b658d0de95e5d28acede6c65fcca748b7"
+DEF_VERSION="3.15.5"
+DEF_SHA="5f280189fafb187a1dc3b45c06e5397adadcd8e0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-all-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/protocolbuffers/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-all-${DEF_VERSION}.tar.gz"
 DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DHAVE_PTHREAD -D_THREAD_SAFE -DGOOGLE_PROTOBUF_NO_RTTI"
@@ -12,3 +12,8 @@ DEF_NO_FAST_MATH=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_USEFUL="bin/protoc*"
 DEF_EXPORTS="protoc"
+
+DEF_AFTER_UNPACK_METHOD="patch_sources"
+patch_sources () {
+    ${SED_BIN} -i '' -e 's|endian.h|machine/endian.h|g' ../src/google/protobuf/*.h ../src/google/protobuf/stubs/*.h ../src/google/protobuf/io/*.h
+}
