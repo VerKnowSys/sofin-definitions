@@ -1,10 +1,11 @@
 DEF_FULL_NAME="MaxmindDB library"
-DEF_SHA="52668a7944d8dd35ec998b545e1ab80d1e6c3257"
 DEF_NAME="libmaxminddb"
-DEF_VERSION="1.3.2"
+DEF_VERSION="1.5.2"
+DEF_SHA="9e00fef11ceb8df1dc56ce3276bf2193c5baa5c8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/maxmind/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-shared=off --disable-shared"
+DEF_CONFIGURE_ARGS="--enable-shared=on --enable-shared --enable-static=no --disable-static"
+DEF_EXPORTS="mmdblookup"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
