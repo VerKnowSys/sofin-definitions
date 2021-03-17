@@ -9,8 +9,23 @@ DEF_CONFIGURE_METHOD="cmake"
 DEF_REQUIREMENTS="svt-hevc"
 DEF_CONFIGURE_ARGS="-DENABLE_HDR10_PLUS=ON -DENABLE_AGGRESSIVE_CHECKS=ON -DENABLE_SVT_HEVC=ON -DENABLE_SHARED=ON -DENABLE_STATIC=OFF"
 DEF_EXPORTS="x265"
-DEF_AFTER_INSTALL_METHOD="install_missing_shared_object"
-install_missing_shared_object () {
+DEF_USELESS="lib/*.{a,la}"
+DEF_AFTER_INSTALL_METHOD="install_missing_files"
+install_missing_files () {
+    cat > "${PREFIX}/lib/pkgconfig/x265.pc" <<EOF
+prefix=${PREFIX}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: X265
+Description: H.265/HEVC video encoder
+Version: ${DEF_VERSION}
+Libs: -L\${libdir} -lx265
+Libs.private:
+Cflags: -I\${includedir}
+EOF
+
     run "${INSTALL_BIN} -v libx265.so.199 ${PREFIX}/lib/libx265.so.199"
     try "${LN_BIN} -fs ${PREFIX}/lib/libx265.so.199 ${PREFIX}/lib/libx265.so"
 }
