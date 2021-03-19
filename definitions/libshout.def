@@ -4,6 +4,7 @@ DEF_SHA="e059116226d05758192575db2965017f28424860"
 DEF_VERSION="2.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 unset DEF_USE_LTO
+DEF_CONFIGURE_ARGS="--enable-shared --enable-static=no --with-vorbis=${PREFIX} --with-theora=${PREFIX} --with-openssl=${PREFIX} --with-ogg=${PREFIX}"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-12*)
