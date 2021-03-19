@@ -10,7 +10,7 @@ DEF_REQUIREMENTS="perl-static"
 DEF_CONFIGURE_METHOD="./Configure"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+    FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
 esac

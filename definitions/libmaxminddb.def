@@ -8,7 +8,7 @@ DEF_CONFIGURE_ARGS="--enable-shared=on --enable-shared --enable-static=no --disa
 DEF_EXPORTS="mmdblookup"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+    FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
 esac

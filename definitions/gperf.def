@@ -6,3 +6,10 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="gperf"
 DEF_MAKE_METHOD="make -s"
 DEF_INSTALL_METHOD="make -s install"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-12*)
+        unset DEF_USE_LTO
+        ;;
+esac
+

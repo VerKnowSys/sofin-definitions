@@ -6,3 +6,10 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="libgpg-error libgcrypt libassuan"
 DEF_EXPORTS="pinentry pinentry-curses"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-12*)
+        unset DEF_USE_LTO
+        ;;
+esac
+

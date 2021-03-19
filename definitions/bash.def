@@ -9,7 +9,7 @@ DEF_CONFIGURE_ARGS="--enable-multibyte --without-bash-malloc --disable-rpath --d
 DEF_MAKE_METHOD="make"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+    FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
 esac
