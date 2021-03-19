@@ -1,11 +1,11 @@
-inherit "python37"
+inherit "python39"
 
 unset DEF_SUFFIX
-DEF_FULL_NAME="AWS-cli (Python 3.7)"
-DEF_VERSION="1.18.190"
+DEF_FULL_NAME="AWS-cli (Python 3.9)"
+DEF_VERSION="1.19.33"
 DEF_NAME="awscli"
 DEF_USEFUL="bin/python3*"
-DEF_REQUIREMENTS="@python37"
+DEF_REQUIREMENTS="@python39"
 DEF_EXPORTS="aws aws_bash_completer aws_completer aws_zsh_completer.sh"
 DEF_TYPE="meta"
 
