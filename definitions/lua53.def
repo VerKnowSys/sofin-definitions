@@ -6,3 +6,9 @@ DEF_VERSION="5.3.5"
 DEF_SHA="112eb10ff04d1b4c9898e121d6bdf54a81482447"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.lua.org/ftp/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+
+DEF_AFTER_MAKE_METHOD="create_pc"
+create_pc () {
+    ${MKDIR_BIN} -p "${PREFIX}/lib/pkgconfig"
+    make pc > "${PREFIX}/lib/pkgconfig/lua.pc"
+}

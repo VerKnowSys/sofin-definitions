@@ -5,9 +5,8 @@ DEF_SHA="b3882111ad02ecc6b972f8c1241647905cb2e3fc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="lua luac"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="readline"
 DEF_COMPILER_FLAGS="-fPIC -I${PREFIX}/include"
-DEF_LINKER_FLAGS="-lm -pthread -lreadline"
+DEF_LINKER_FLAGS="-lm -pthread"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
@@ -32,21 +31,23 @@ case "${SYSTEM_NAME}" in
 
     *)
         make_all () {
-            MYLIBS="-Wl,-E -L${PREFIX}/lib -lreadline -lrt" \
-            MYCFLAGS="${CFLAGS} -fPIC -fPIE -I${PREFIX}/include -DLUA_USE_READLINE" \
-            MYLDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-z,notext -fPIC -pie" \
-            CC="${CC}" \
-            LUA_T=lua \
-            LUAC_T=luac \
-            LUA_A=liblua.a \
-            LUA_SO=liblua.so \
-            LUA_SONAME=liblua.so \
-            TO_BIN="lua luac" \
-            TO_LIB="liblua.a liblua.so" \
-            INSTALL_TOP=${PREFIX} \
-            INSTALL_INC=${PREFIX}/include/lua \
-            INSTALL_EXEC="lua" \
-                make posix
+            # -lreadline
+            _lua_version="$(echo "${DEF_VERSION%.*}" | ${SED_BIN} 's/\.//g')"
+            gmake posix \
+                MYLIBS="-Wl,-z,notext -Wl,-E -L${PREFIX}/lib -lrt" \
+                MYCFLAGS="${CFLAGS} -fPIC -fPIE -I${PREFIX}/include" \
+                MYLDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-z,notext -fPIC -fPIE" \
+                CC="${CC} -fPIC" \
+                LUA_T=lua \
+                LUAC_T=luac \
+                LUA_A=liblua.a \
+                LUA_SO=liblua.so \
+                LUA_SONAME=liblua.so \
+                TO_BIN="lua luac" \
+                TO_LIB="liblua.a liblua.so" \
+                INSTALL_TOP="${PREFIX}" \
+                INSTALL_INC="${PREFIX}/include/lua${_lua_version}" \
+                INSTALL_EXEC="lua"
         }
         DEF_MAKE_METHOD="make_all"
         ;;
@@ -59,7 +60,7 @@ create_pc () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#" etc/lua.pc
     ${INSTALL_BIN} -v etc/lua.pc "${PREFIX}/lib/pkgconfig/"
 }
-DEF_INSTALL_METHOD="make -s install"
+DEF_INSTALL_METHOD="gmake -s install"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
