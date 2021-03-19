@@ -1,37 +1,31 @@
 DEF_FULL_NAME="Berkley DB"
-DEF_SHA="646c57b99799dc300207976e2270cdaca1a2f198"
+DEF_SHA="880c13a65b6c2126f6ec90d6d5f2f28485b237c3"
 DEF_NAME="db"
-DEF_VERSION="6.2.23"
+DEF_VERSION="18.1.40"
 DEF_ORIGIN="http://download.oracle.com/berkeley-db/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_BUILD_DIR_SUFFIX="build_unix/"
 DEF_CONFIGURE_METHOD="../dist/configure"
-DEF_CONFIGURE_ARGS="--enable-compat185 --enable-dbm --enable-posixmutexes --with-cryptography=yes"
+DEF_CONFIGURE_ARGS="--enable-posixmutexes --with-cryptography=yes --enable-shared --enable-static=no --enable-o_direct --enable-dbm"
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile_libtool_tag"
 DEF_EXPORTS="db_archive db_checkpoint db_deadlock db_dump db_hotbackup db_load db_log_verify db_printlog db_recover db_replicate db_stat db_tuner db_upgrade db_verify"
-DEF_MAKE_METHOD="docdir=/tmp make -s -j${CPUS}"
-DEF_INSTALL_METHOD="make -s install"
-DEF_REQUIREMENTS="make-static m4 libtool"
+DEF_MAKE_METHOD="gmake all"
+DEF_INSTALL_METHOD="gmake install"
+DEF_REQUIREMENTS="libtool"
 DEF_COMPILER_FLAGS="-DCRYPTO=1 -DL10N=1"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+    FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
 esac
 
 case "${SYSTEM_NAME}" in
-    Linux)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-cxx"
-        ;;
-
     FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cxx --disable-stl"
         DEF_AFTER_PATCH_METHOD="patch_db_files"
         patch_db_files () {
             if [ "FreeBSD" = "${SYSTEM_NAME}" ]; then
-                ${SED_BIN} -i '' -e '/^DOCLIST/{s/csharp//;}' ../dist/Makefile.in
-                ${SED_BIN} -i '' -Ee 's/[[:<:]]atomic_init[[:>:]]/db_atomic_init/g' ../src/mp/mp* ../src/mutex/mut_* ../src/dbinc/atomic.h
+                ${SED_BIN} -i '' -e 's/csharp//; s/bdb-sql//; s/gsg_db_server//;' ../dist/Makefile.in
             fi
         }
         ;;
