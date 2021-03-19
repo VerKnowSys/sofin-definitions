@@ -6,7 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-libmemcachedprotocol --disable-sasl --without-memcached ac_cv_have_htonll=no --disable-static"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+    FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
 esac
