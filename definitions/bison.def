@@ -7,7 +7,7 @@ DEF_REQUIREMENTS="make-static m4 perl-static"
 DEF_EXPORTS="bison yacc"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+    FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
 esac

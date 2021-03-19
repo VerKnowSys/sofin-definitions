@@ -12,7 +12,7 @@ DEF_EXPORTS="db_archive db_checkpoint db_deadlock db_dump db_hotbackup db_load d
 DEF_MAKE_METHOD="gmake all"
 DEF_INSTALL_METHOD="gmake install"
 DEF_REQUIREMENTS="libtool"
-DEF_COMPILER_FLAGS="-DCRYPTO=1 -DL10N=1"
+DEF_COMPILER_FLAGS="-w -DCRYPTO=1 -DL10N=1"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)

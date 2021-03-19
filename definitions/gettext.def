@@ -9,3 +9,4 @@ DEF_CONFIGURE_ARGS="--disable-relocatable --enable-shared --enable-threads=posix
  --disable-debug --disable-java --disable-native-java --disable-csharp --disable-openmp"
 DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh msgcmp msgexec msginit msgcomm msguniq msgen msgconv xgettext msgfilter ngettext gettextize msgcat msgmerge envsubst recode-sr-latin"
 DEF_NO_TRAP_INT_OVERFLOW=YES
+unset DEF_USE_LTO

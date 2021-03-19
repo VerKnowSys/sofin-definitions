@@ -6,3 +6,4 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://www.fftw.org/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-static=no --enable-shared --enable-threads --enable-avx"
 DEF_EXPORTS="fftw-wisdom fftw-wisdom-to-conf"
+unset DEF_USE_LTO
