@@ -1,4 +1,4 @@
-inherit python36
+inherit python39
 
 DEF_FULL_NAME="Python 3.7"
 DEF_SUFFIX="37"
