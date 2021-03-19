@@ -52,6 +52,9 @@ DEF_INSTALL_METHOD="install_method"
 install_method () {
     locale_cleanup
     make -s install
+
+    echo "Patching so object"
+    try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/amd64-freebsd-thread-multi/auto/DB_File/DB_File.so"
 }
 
 locale_cleanup () {
