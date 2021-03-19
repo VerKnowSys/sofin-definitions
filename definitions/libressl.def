@@ -1,13 +1,12 @@
 DEF_FULL_NAME="LibreSSL Library - OpenSSL replacement by OpenBSD team."
 DEF_NAME="libressl"
-DEF_VERSION="3.2.4"
-DEF_SHA="9ce82146cd48ed620ad065d9219efc3cb65e09d8"
+DEF_VERSION="3.2.5"
+DEF_SHA="51aad1e467dc51252ce4bd1755bde39acc007754"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="openssl nc ocspcheck"
-DEF_CONFIGURE_ARGS="--enable-shared --enable-nc --disable-tests" # disabled: --disable-static, cause it breaks build
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --enable-nc --disable-tests"
 DEF_INSTALL_METHOD="make -s install"
-DEF_USELESS="lib/*.a"
 DEF_STANDALONE=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
