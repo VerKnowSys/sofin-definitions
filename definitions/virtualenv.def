@@ -1,11 +1,11 @@
-inherit "python37"
+inherit "python39"
 
 unset DEF_SUFFIX
-DEF_FULL_NAME="Virtual ENV (Python 3.7)"
-DEF_VERSION="20.2.1"
+DEF_FULL_NAME="Virtual ENV (Python 3.9)"
+DEF_VERSION="20.4.3"
 DEF_NAME="virtualenv"
 DEF_USEFUL="bin/python3*"
-DEF_REQUIREMENTS="@python37"
+DEF_REQUIREMENTS="@python39"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_TYPE="meta"
 
