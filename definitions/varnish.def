@@ -5,7 +5,7 @@ DEF_VERSION="6.3.1"
 DEF_SHA="26d237294dec76e946b5feef4dabb0aff5b8dc77"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
 DEF_ORIGIN="https://varnish-cache.org/_downloads/${DEF_NAME}-${DEF_VERSION}.tgz"
-DEF_REQUIREMENTS="libffi pcre libressl expat readline gettext gmp python36"
+DEF_REQUIREMENTS="libffi pcre libressl expat readline gettext gmp python39"
 DEF_CONFIGURE_ARGS="--with-jemalloc --disable-epoll --disable-ports"
 DEF_EXPORTS="varnishd varnishstat varnishlog varnishadm varnishhist varnishncsa varnishtest varnishtop"
 
