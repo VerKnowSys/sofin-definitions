@@ -1,10 +1,10 @@
-inherit "python37"
+inherit "python39"
 
 unset DEF_SUFFIX
-DEF_FULL_NAME="Glances (Python 3.7)"
+DEF_FULL_NAME="Glances (Python 3.9)"
 DEF_VERSION="3.1.5"
 DEF_NAME="glances"
-DEF_REQUIREMENTS="@python37"
+DEF_REQUIREMENTS="@python39"
 DEF_TYPE="meta"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USEFUL="bin/python3*"
