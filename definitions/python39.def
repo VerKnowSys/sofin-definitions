@@ -1,0 +1,39 @@
+DEF_FULL_NAME="Python 3.9"
+DEF_NAME="Python"
+DEF_SUFFIX="39"
+DEF_VERSION="3.9.2"
+DEF_SHA="110ca5bca7989f9558a54ee6762e6774a4b9644a"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="libffi libressl expat readline gettext gmp"
+DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
+
+DEF_CONFIGURE_ARGS="ax_cv_c_float_words_bigendian=no --enable-shared --enable-ipv6 --with-system-expat --with-system-ffi --with-system-libmpdec --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-libs='-lncursesw -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-Bsymbolic-functions -fPIC'"
+DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib -Wl,-Bsymbolic-functions -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+DEF_USELESS="share/gtk-doc lib/*perl* lib/*.a include lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata lib/*.sh share/gettext* share/pkgconfig lib/cmake ssl"
+
+DEF_AFTER_CONFIGURE_METHOD="patch_so_called_config_of_so_called_language"
+patch_so_called_config_of_so_called_language () {
+    ${SED_BIN} -i '' -e 's|#define HAVE_DEV_PTMX 1|#undef HAVE_DEV_PTMX|' pyconfig.h # this doesn't exists.. but it's marked as existing feature. Sure
+    echo "#define HAVE_TIMEGM 1" >> pyconfig.h # this is required since configuration process is unable to detect existing function. Yea
+    echo "#define MAX_GROUPS 4096" >> Modules/posixmodule.h # this doesn't exist on BSDs. Who cares right? ;)
+}
+
+DEF_CONFLICTS_WITH="Python3"
+DEF_NO_FAST_MATH=YES
+DEF_NO_CCACHE=YES
+DEF_NO_HARDEN_FLAGS=YES
+DEF_NO_PIE=YES # actually matters. With that enabled there's no way of linkin unicodedata which is required for pip
+DEF_STRIP=NO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+
+    Darwin-*)
+        DEF_CONFIGURE_ARGS="ax_cv_c_float_words_bigendian=yes --enable-shared --disable-ipv6 --with-system-expat --with-system-ffi --with-system-libmpdec --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-libs='-lncurses -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -fPIC'"
+        DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib"
+        ;;
+esac
+
