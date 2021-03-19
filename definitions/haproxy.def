@@ -1,12 +1,12 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Haproxy"
 DEF_NAME="haproxy"
-DEF_VERSION="2.2.0"
-DEF_SHA="d0a95ff93ed63cdd49ed1b505b841c96792b709a"
+DEF_VERSION="2.2.11"
+DEF_SHA="a03e70fe910881b739fd53606d83863b937ff1f9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="make-static lua53 pcre2 libressl"
+DEF_REQUIREMENTS="lua53 pcre2 libressl"
 DEF_USELESS="lib/*.{a,la} man share/lua docs doc bin"
 DEF_EXPORTS="${DEF_NAME}"
 
