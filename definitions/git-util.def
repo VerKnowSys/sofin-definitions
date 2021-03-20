@@ -1,0 +1,3 @@
+inherit "git"
+
+unset DEF_CRITICAL
