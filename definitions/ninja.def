@@ -1,14 +1,8 @@
 DEF_FULL_NAME="Ninja build system"
-DEF_SHA="556ed5f8ee49753af1cf4b0ab2315d39d1954d58"
 DEF_NAME="ninja"
-DEF_VERSION="1.7.1"
+DEF_VERSION="1.10.2"
+DEF_SHA="8d2e8c1c070c27fb9dc46b4a6345bbb1de7ccbaf"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf-static make-static m4 zlib lzo lz4 zip libtool expat gdbm sqlite pcre gettext readline yaml libffi perl openssl autoconf texinfo automake python27"
-DEF_CONFIGURE_METHOD="ignore"
-DEF_MAKE_METHOD=":"
-DEF_INSTALL_METHOD="./configure.py --bootstrap && ${INSTALL_BIN} -v ./ninja ${PREFIX}/bin/ninja"
+DEF_REQUIREMENTS="@python39"
+DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="ninja"
-DEF_AFTER_PATCH_METHOD="patch_hardcodes"
-patch_hardcodes () {
-    ${SED_BIN} -i '' -e "s|g++|c++|g; s|\$cxx|clang++|g;" configure.py
-}
