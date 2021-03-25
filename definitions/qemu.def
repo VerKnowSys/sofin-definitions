@@ -5,8 +5,9 @@ DEF_SHA="146578267387e301423502d19024f8ffe35ab332"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="@glib @curl_lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb @sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image @fontconfig sdl2-ttf zlib bash"
-DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=mips-softmmu,arm-softmmu,aarch64-softmmu --disable-user --disable-linux-user"
-DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w"
+DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=arm-softmmu,aarch64-softmmu --disable-user --disable-linux-user"
+DEF_COMPILER_FLAGS="-I${PREFIX}/include -Wno-error -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+DEF_LINKER_FLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/glib/expat glib/' 2>/dev/null)"
