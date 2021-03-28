@@ -4,7 +4,7 @@ DEF_SHA="01f110a36a890ed5a527646a2bb85b7fe8eb9847"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/latest-v10.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc libedit gettext libxml2 libevent c-ares lzo pcre autoconf texinfo automake18 libffi icu yaml nghttp2 libuv"
+DEF_REQUIREMENTS="jemalloc libedit gettext libxml2 libevent c-ares lzo pcre autoconf texinfo automake18 libffi icu67 yaml nghttp2 libuv"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-snapshot --without-etw --shared-zlib --shared-nghttp2 --shared-cares --shared-openssl --shared-libuv"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass"
