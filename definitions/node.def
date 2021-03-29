@@ -1,13 +1,13 @@
 DEF_NAME="node"
-DEF_VERSION="10.24.0"
-DEF_SHA="01f110a36a890ed5a527646a2bb85b7fe8eb9847"
+DEF_VERSION="14.16.0"
+DEF_SHA="52ee20a121bc54990d6e0b3320c26a4be4c38325"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/latest-v10.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc libedit gettext libxml2 libevent c-ares lzo pcre autoconf texinfo automake18 libffi icu67 yaml nghttp2 libuv"
-DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-snapshot --without-etw --shared-zlib --shared-nghttp2 --shared-cares --shared-openssl --shared-libuv"
+DEF_REQUIREMENTS="jemalloc libedit gettext libxml2 libevent c-ares lzo pcre autoconf texinfo automake18 libffi icu yaml nghttp2 libuv openssl"
+DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-zlib --shared-nghttp2 --shared-cares --shared-openssl --shared-libuv --ninja"
 DEF_STANDALONE=YES
-DEF_EXPORTS="node npm npx gyp webpack rollup node-sass"
+DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-html postman-combine-collections"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-static bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
@@ -20,7 +20,6 @@ node_patch_configured () {
         -e "s#/usr/local#${PREFIX}#g" \
             "Makefile" \
             "common.gypi" \
-            "deps/http_parser/Makefile" \
             "tools/install.py" \
             "deps/npm/lib/config/defaults.js" \
             "deps/npm/lib/utils/completion.sh"
@@ -44,7 +43,7 @@ node_build () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                make ${MAKE_OPTS}" \
+                gmake ${MAKE_OPTS}" \
                     || error "Failed phase: node_build()"
 }
 
@@ -56,7 +55,7 @@ node_install () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                make install" \
+                gmake install" \
                     || error "Failed phase: node_install()"
 }
 
@@ -75,23 +74,26 @@ node_npm_setup_after_install () {
     debug "node_npm_setup_after_install(): $(distn "PREFIX: ${_prefix}"), $(distn "REGISTRY: ${_registry}"), $(distn "SSL_CA_CERT: ${_ssl_ca_cert}")"
 
     permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "prefix=${_prefix}")"
-    try "npm set prefix=\"${_prefix}\""
+    run "npm set prefix=\"${_prefix}\""
 
     permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "registry=${_registry}")"
-    try "npm config set registry \"${_registry}\""
+    run "npm config set registry \"${_registry}\""
 
     permnote "${DEF_NAME}${DEF_SUFFIX}-${DEF_VERSION}: NPM config-set: $(distn "cafile=${_ssl_ca_cert}")"
-    try "npm config set cafile=\"${_ssl_ca_cert}\""
+    run "npm config set cafile=\"${_ssl_ca_cert}\""
 
     permnote "Installing additional default utilities"
-    try "npm install -g webpack"
-    try "npm install -g rollup"
+    run "npm install -g webpack"
+    run "npm install -g rollup"
+    run "npm install -g newman"
+    run "npm install -g newman-reporter-html"
+    run "npm install -g postman-combine-collections"
 
     # NOTE: this is why I love Node developers, they're just awesome. I'm big fan:
     _pwd="$(pwd)"
     ${MKDIR_BIN} -p "${SERVICE_DIR}/lib"
     cd "${SERVICE_DIR}/lib"
-    try "npm install node-sass" # installing with -g fails, so a workaround:
+    run "npm install node-sass" # installing with -g fails, so a workaround:
     ${LN_BIN} -s "${SERVICE_DIR}/lib/node_modules/node-sass/bin/node-sass" "${SERVICE_DIR}/bin/node-sass"
     cd "${_pwd}"
 }
