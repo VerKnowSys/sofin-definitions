@@ -6,7 +6,7 @@ DEF_SHA="59c90abe1b456de3b513d022c1716f381d8623ef"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-linux-x86_64.tar.gz"
 DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}-linux-x86_64.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
-DEF_REQUIREMENTS="pkgconf-static jemalloc libedit gettext libxml2 libevent c-ares lzo pcre perl-static autoconf texinfo automake18 libffi icu67 yaml python27-static nghttp2 libuv node-util"
+DEF_REQUIREMENTS="bash jemalloc libedit gettext libxml2 libevent c-ares lzo pcre autoconf texinfo automake18 libffi icu yaml nghttp2 libuv openssl node-util"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-plugin ${DEF_NAME}-keystore"
 DEF_USEFUL="bin/bash bin/kibana* bin/npm* bin/node*"
 DEF_USELESS="node bin/*.dll bin/*.exe bin/*.bat demo sample samples src.zip THIRD_PARTY_* COPYING NOTICE.txt include THIRD_PARTY_README ASSEMBLY_EXCEPTION"
@@ -46,3 +46,5 @@ use_local_node () {
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
 DEF_APPLY_LOWER_SECURITY_ON="node"
+
+unset DEF_USE_RAMDISK
