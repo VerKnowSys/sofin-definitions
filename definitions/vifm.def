@@ -1,11 +1,10 @@
 DEF_FULL_NAME="VI-like File Manager"
 DEF_STANDALONE=YES
 DEF_NAME="vifm"
-DEF_VERSION="0.10.1"
-DEF_SHA="c5e6b110768dd14f8f13ed12e681cccaa2d49227"
+DEF_VERSION="0.11"
+DEF_SHA="f32294dcd822bb6fb4c32324e03aa831f8e77c2b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://netix.dl.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf-static make"
 DEF_CONFIGURE_ARGS="--disable-desktop-files --without-X11 --without-gtk --enable-extended-keys"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-pause ${DEF_NAME}rc-converter"
 DEF_CONFLICTS_WITH="${DEF_NAME}"
@@ -49,7 +48,7 @@ nmap h :cd ~<cr>
 nmap C :chmod<cr>
 nmap r :!./%%c<space>
 
-windo normal zo
+windo normal za
 
 set ${DEF_NAME}info=dhistory,savedirs,chistory,state,tui,shistory,phistory,dirstack,registers,bookmarks
 
