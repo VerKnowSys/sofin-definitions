@@ -125,7 +125,6 @@ fetch_and_install_fresh_ca_cert () {
 #
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} openssl"
         unset DEF_USE_LTO
         ;;
 esac
