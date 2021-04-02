@@ -17,10 +17,6 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
-
-    FreeBSD-13*)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LTO=Thin"
-        ;;
 esac
 
 # Cmake build can.. skip FileCheck installation, just because
