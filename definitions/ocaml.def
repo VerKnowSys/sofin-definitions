@@ -1,12 +1,12 @@
 DEF_FULL_NAME="OCaml is an industrial strength programming language supporting functional, imperative and object-oriented styles"
 DEF_STANDALONE=YES
 DEF_NAME="ocaml"
-DEF_VERSION="4.11.1"
-DEF_SHA="2bfc9e3af2a679b87f692e3b991034b920b8b3c3"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://caml.inria.fr/pub/distrib/ocaml-${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_VERSION="4.12.0"
+DEF_SHA="3e9ddc20e04277399fe75da4975f7170c298dcaf"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://caml.inria.fr/pub/distrib/ocaml-${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="make-static zlib lzo lz4 pcre db perl-static openssl bison gmp mpfr libmpc texinfo isl binutils"
-DEF_CONFIGURE_ARGS="--enable-shared=yes --enable-static=no --enable-flambda --disable-debug-runtime --disable-ocamldoc"
+DEF_CONFIGURE_ARGS="--enable-shared=yes --enable-static=no --enable-flambda --disable-debug-runtime --disable-ocamldoc --disable-ocamltest"
 DEF_MAKE_METHOD="make world.opt ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make install"
 DEF_USELESS="lib/*.a include/openssl docs ssl share/aclocal"
@@ -20,7 +20,7 @@ DEF_NO_CCACHE=YES
 unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
 
 # NOTE: override Sofin compiler setup - special case - no BINDNOW and no RELRO feature:
-CFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CFLAGS} -fPIE ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
-CXXFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CFLAGS} -fPIE ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
-LDFLAGS="-L${PREFIX}/lib -L/usr/lib ${HARDEN_SAFE_STACK_FLAGS} -fPIC -fPIE -pie"
+CFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
+CXXFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
+LDFLAGS="-L${PREFIX}/lib -L/usr/lib ${HARDEN_SAFE_STACK_FLAGS} -fPIE -pie"
 LD="ld.lld -m elf_x86_64_fbsd -pie"
