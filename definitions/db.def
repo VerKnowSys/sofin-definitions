@@ -6,12 +6,11 @@ DEF_ORIGIN="http://download.oracle.com/berkeley-db/${DEF_NAME}-${DEF_VERSION}.ta
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_BUILD_DIR_SUFFIX="build_unix/"
 DEF_CONFIGURE_METHOD="../dist/configure"
-DEF_CONFIGURE_ARGS="--enable-posixmutexes --with-cryptography=yes --enable-shared --enable-static=no --enable-o_direct --enable-dbm"
+DEF_CONFIGURE_ARGS="--enable-posixmutexes --with-cryptography=yes --enable-shared --disable-static --enable-o_direct --enable-dbm"
 DEF_AFTER_CONFIGURE_METHOD="fix_makefile_libtool_tag"
 DEF_EXPORTS="db_archive db_checkpoint db_deadlock db_dump db_hotbackup db_load db_log_verify db_printlog db_recover db_replicate db_stat db_tuner db_upgrade db_verify"
 DEF_MAKE_METHOD="gmake all"
 DEF_INSTALL_METHOD="gmake install"
-DEF_REQUIREMENTS="libtool"
 DEF_COMPILER_FLAGS="-w -DCRYPTO=1 -DL10N=1"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
