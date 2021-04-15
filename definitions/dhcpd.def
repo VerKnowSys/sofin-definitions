@@ -1,0 +1,20 @@
+DEF_DISABLE_ON="Darwin Linux"
+DEF_STANDALONE=YES
+DEF_FULL_NAME="FreeBSD port of OpenBSD dhcpd"
+DEF_NAME="dhcpd"
+DEF_VERSION="6.6.20200413"
+DEF_SHA="82cb45169e4e8016f2fb5e843f7cfb036fe41c01"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_BUILD_DIR_SUFFIX="src/usr.sbin/dhcpd"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_REQUIREMENTS="libressl"
+DEF_AFTER_UNPACK_METHOD="prepare_stuff"
+prepare_stuff () {
+    mkdir -p "${PREFIX}/sbin" "${PREFIX}/man/man5" "${PREFIX}/man/man8"
+    ${INSTALL_BIN} -v ../../etc/examples/dhcpd.conf "${SERVICE_DIR}/service.conf.example" || exit 65
+    ${SED_BIN} -i '' -e "s|#define _PATH_DHCPD_CONF.*\$|#define _PATH_DHCPD_CONF \"${SERVICE_DIR}/service.conf\"|" dhcpd.h
+}
+DEF_MAKE_METHOD="/usr/bin/make BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man"
+DEF_INSTALL_METHOD="/usr/bin/make install BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man"
+DEF_EXPORTS="dhcpd"
+DEF_USELESS="include share bin"
