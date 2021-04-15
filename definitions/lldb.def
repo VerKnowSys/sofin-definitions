@@ -12,9 +12,3 @@ DEF_USELESS="lib/*.{a,la,sh} include lib/{cmake,clang,pkgconfig} libexec share m
 DEF_AFTER_INSTALL_METHOD="${STRIP_BIN} ${PREFIX}/lib/python2.7/lib-dynload/*.so"
 
 unset DEF_USE_RAMDISK
-
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-13*)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DLLVM_ENABLE_LTO=Thin"
-        ;;
-esac
