@@ -1,6 +1,6 @@
 inherit nginx
 
-DEF_VERSION="1.19.8"
-DEF_SHA="c60654a70bea0a9bbc009b83cd95e1e76f0dd7ec"
+DEF_VERSION="1.19.10"
+DEF_SHA="9ddc1d02b1f6332b1a23daba89af93dcc903687d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nginx.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
