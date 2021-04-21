@@ -36,7 +36,7 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         _custom_cflags="-DNGX_SSL_SENDFILE"
         ;;
 esac
-_common_args="--with-cc-opt='${CFLAGS} ${_custom_cflags}' --with-ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
+_common_args="--with-cc-opt='${CFLAGS} ${_custom_cflags} -DNDEBUG' --with-ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=${USER:-nobody} --group=staff ${_paths_override_svdos}"
