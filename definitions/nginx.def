@@ -29,7 +29,14 @@ _paths_override_svdos="--build=VerKnowSys \
     --http-client-body-temp-path=${SERVICE_DIR}/body \
     --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi \
 "
-_common_args="--with-cc-opt='${CFLAGS}' --with-ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
+unset _custom_cflags
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-13*)
+        # NOTE: enable kTLS only on 13.0+ where it's officially supported:
+        _custom_cflags="-DNGX_SSL_SENDFILE"
+        ;;
+esac
+_common_args="--with-cc-opt='${CFLAGS} ${_custom_cflags}' --with-ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=${USER:-nobody} --group=staff ${_paths_override_svdos}"
@@ -45,7 +52,7 @@ case "${SYSTEM_NAME}" in
 esac
 DEF_AFTER_UNPACK_METHOD="define_custom_modules"
 define_custom_modules () {
-    local _ngx_geoip_module_version="3.3"
+    _ngx_geoip_module_version="3.3"
     ${GIT_BIN} clone --branch "${_ngx_geoip_module_version}" --depth 1 "https://github.com/leev/ngx_http_geoip2_module"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --add-module=ngx_http_geoip2_module"
 }
