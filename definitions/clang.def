@@ -9,5 +9,3 @@ DEF_CONFIGURE_ARGS="-DBUILD_SHARED_LIBS=ON -DLLVM_ENABLE_LTO=Thin -DLEVELDB_BUIL
 DEF_USEFUL="bin/clang* bin/llvm*"
 DEF_USELESS="lib/*.{a,la,sh} share/{aclocal,gtk-doc,opt-viewer,swig} libexec docs man lib/{pkgconfig,python2.7} include/{python2.7,openssl}"
 DEF_EXPORTS="clang clang-9 clang++ clang-cl clang-cpp clang-tblgen clang-check clang-format clang-import-test clang-offload-bundler clang-rename clang-refactor clang-extdef-mapping clang-scan-deps llvm-config"
-
-unset DEF_USE_RAMDISK

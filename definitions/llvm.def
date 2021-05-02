@@ -11,8 +11,6 @@ DEF_EXPORTS="FileCheck not lli-child-target bugpoint c-index-test idle llc lli l
 DEF_USEFUL="bin/llvm* bin/*conf"
 DEF_USELESS="lib/perl* share man doc"
 
-unset DEF_USE_RAMDISK
-
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-12*)
         unset DEF_USE_LTO

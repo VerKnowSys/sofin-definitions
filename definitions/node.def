@@ -11,7 +11,6 @@ DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-ht
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-static bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
-unset DEF_USE_RAMDISK
 
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
 node_patch_configured () {
