@@ -1,7 +1,7 @@
 DEF_STANDALONE=YES
 DEF_NAME="krecik"
-DEF_VERSION="0.10.8"
-DEF_SHA="37f985bbd80b7a58dcbc0bfe34b33ef6463b69dc"
+DEF_VERSION="0.10.9"
+DEF_SHA="e57a67ca3958ae9ea4dede6962d66baa0b9bb648"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/VerKnowSys/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="jemalloc pcre libunistring openssl lzo libffi libxml2 libidn2 nghttp2 curl-dynamic rust-basic"
