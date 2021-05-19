@@ -19,7 +19,7 @@ case "${SYSTEM_NAME}" in
         DEF_COMPILER_FLAGS="${DEF_OPTFLAGS} -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -L/usr/lib -ldtrace -lthr -lpthread"
         DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --with-dynamic-trace=dtrace --enable-kernel-poll --enable-shared-zlib --enable-dynamic-ssl-lib --with-ssl-rpath=${PREFIX}/lib" # causes BEAM to crash: --enable-native-libs like this: hipe_rtl_binary_match.erl: native-code compilation failed because of an unimplemented instruction (bs_start_match3).
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --with-dynamic-trace=dtrace --enable-kernel-poll --enable-shared-zlib --enable-dynamic-ssl-lib --with-ssl-rpath=${PREFIX}/lib --enable-native-libs"
         ;;
 
     Darwin)
