@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Elasticsearch 7"
 DEF_STANDALONE=YES
 DEF_NAME="elasticsearch"
-DEF_VERSION="7.10.0"
-DEF_SHA="6f19ec7027ea8ed7ffdf8068eead353d31529568"
+DEF_VERSION="7.12.1"
+DEF_SHA="39a571161d698c6b41ba7edb1b786c2c223b60ce"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-no-jdk-linux-x86_64.tar.gz"
 DEF_ORIGIN="https://artifacts.elastic.co/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}-no-jdk-linux-x86_64.tar.gz"
 DEF_CONFIGURE_METHOD="binary"
