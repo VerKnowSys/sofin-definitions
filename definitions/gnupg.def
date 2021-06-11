@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Modern version of GNU Privacy Guard 2"
 DEF_NAME="gnupg"
-DEF_VERSION="2.2.27"
-DEF_SHA="d928d4bd0808ffb8fe20d1161501401d5d389458"
+DEF_VERSION="2.3.1"
+DEF_SHA="a8f66ba4f7dcb2e7322aef786f942ce5ccca6f14"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="pkgconf-static make-static libedit gettext getopt pth npth libgpg-error nasm-static libgcrypt libassuan libksba gdbm db gmp nettle libtasn1 libffi p11-kit texinfo libidn libunistring gnutls sqlite pinentry"
@@ -9,7 +9,7 @@ DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-t
 --with-libgcrypt-prefix=${PREFIX} --with-libassuan-prefix=${PREFIX} --with-npth-prefix=${PREFIX} \
 --with-ksba-prefix=${PREFIX} --with-libgpg-error-prefix=${PREFIX} --with-readline=${PREFIX} \
 --with-zlib=/usr --with-regex=${PREFIX} --disable-dependency-tracking --disable-ldap \
---enable-gpg-is-gpg2 --enable-symcryptrun --enable-gnutls \
+--enable-gpg-is-gpg2 --enable-symcryptrun --enable-gnutls --enable-shared --disable-static \
 "
 DEF_EXPORTS="gpg-connect-agent gpg-agent gpg-connect-agent gpg-error gpg-error-config gpg gpg2 gpgconf gpgkey2ssh gpgparsemail gpgsm gpgsm-gencert.sh gpgv2 symcryptrun watchgnupg hmac256 pinentry pinentry-curses dirmngr gpg-preset-passphrase"
 DEF_USELESS="share/readline share/aclocal include lib/*.a"
