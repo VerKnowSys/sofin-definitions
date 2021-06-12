@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Pass"
 DEF_NAME="pass"
-DEF_SHA="20c5442b55ae6b3b083155defc3f63b267bcaadd"
-DEF_VERSION="1.7.3"
+DEF_VERSION="1.7.4"
+DEF_SHA="01ce4a6b855f617643e74b2b2398cde4e89e6d03"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}word-store-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://git.zx2c4.com/password-store/snapshot/${DEF_NAME}word-store-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="no-conf"
@@ -15,7 +15,7 @@ DEF_AFTER_INSTALL_METHOD="patch_hardcodes"
 patch_hardcodes () {
     ${SED_BIN} -i '' -e "s#GPG=\"gpg\"#GPG=\"${PREFIX}/bin/gpg2\"#" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#/usr/bin/env ##" "${PREFIX}/bin/pass"
-    ${SED_BIN} -i '' -e "s#tree -C -l#${PREFIX}/bin/tree -C -l#g" "${PREFIX}/bin/pass"
+    ${SED_BIN} -i '' -e "s#tree -N -C -l#${PREFIX}/bin/tree -N -C -l#g" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#sed #${PREFIX}/bin/sed #g" "${PREFIX}/bin/pass"
     ${SED_BIN} -i '' -e "s#GETOPT.*\$#GETOPT=${PREFIX}/bin/getopt#" "${PREFIX}/lib/password-store/platform.sh"
     case "${SYSTEM_NAME}" in
