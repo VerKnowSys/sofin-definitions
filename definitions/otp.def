@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Erlang OTP 24.x"
 DEF_NAME="otp"
-DEF_VERSION="24.0.2"
-DEF_SHA="46cbb6fc6d1fde7fb38ef2f11681adc318a5b55e"
+DEF_VERSION="24.0.3"
+DEF_SHA="6e5f44dae0f8b86674b74925666cfba33f7e7bd3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/erlang/otp/releases/download/OTP-${DEF_VERSION}/${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="lzo libxml2 libressl perl-static bison flex autoconf unixodbc"
@@ -43,8 +43,6 @@ strip_deeptree_bins () {
     ${STRIP_BIN} ${PREFIX}/lib/erlang/erts-*/bin/*
     return 0
 }
-
-unset DEF_USE_LTO
 
 DEF_NO_PIE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
