@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Erlang OTP 24.x"
 DEF_NAME="otp"
-DEF_VERSION="24.0.3"
-DEF_SHA="6e5f44dae0f8b86674b74925666cfba33f7e7bd3"
+DEF_VERSION="24.0.4"
+DEF_SHA="62c298ec2fca3c1061180b6fc9d40677de838f5d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/erlang/otp/releases/download/OTP-${DEF_VERSION}/${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="lzo libxml2 libressl perl-static bison flex autoconf unixodbc"
