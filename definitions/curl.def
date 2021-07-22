@@ -1,10 +1,10 @@
 DEF_NAME="curl"
-DEF_VERSION="7.76.1"
-DEF_SHA="d38ab79ef7a6d92df91ca8dfcf9a5eaf7e25b725"
+DEF_VERSION="7.78.0"
+DEF_SHA="52600f84018002cf9d0f58d65b65573ca08e1308"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://curl.haxx.se/download/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc pcre libunistring libressl lzo libffi libxml2 libidn2 nghttp2 libssh2"
-DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --disable-ldap --disable-ldaps --disable-debug --disable-static"
+DEF_CONFIGURE_ARGS="--with-ca-bundle=${SERVICE_DIR}/etc/ssl/cert.pem --with-openssl=${PREFIX} --with-libidn2=${PREFIX} --with-nghttp2=${PREFIX} --with-libssh2=${PREFIX} --without-gnutls --disable-ldap --disable-ldaps --disable-debug --disable-static"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-config"
 DEF_USELESS="man share lib/*.{a,la,sh} lib/cmake include lib/pkgconfig sbin"
 DEF_STANDALONE=YES
