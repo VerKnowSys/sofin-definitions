@@ -25,12 +25,12 @@ DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_NO_SSP_BUFFER_OVERRIDE=YES
 DEF_NO_FORTIFY_SOURCE=YES
 
-case "${SYSTEM_NAME}" in
-    Linux)
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    Linux-x86_64)
         DEF_NO_GOLDEN_LINKER=YES
         ;;
 
-    Darwin)
+    Darwin-x86_64)
         # Do not strip binaries on OS X, due to:
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
         DEF_STRIP=NO
@@ -39,7 +39,7 @@ case "${SYSTEM_NAME}" in
         # NOTE: postgresql has to be built BEFORE unixodbc (id present on DEF_REQUIREMENTS list)
         ;;
 
-    FreeBSD)
+    FreeBSD-amd64)
         # ...
         # <RhodiumToad> --enable-thread-safety only affects libpq, yes
 
@@ -50,6 +50,11 @@ case "${SYSTEM_NAME}" in
         # NOTE: it's required for initdb to pass as regular user on hardened system:
         #   sysctl security.bsd.hardlink_check_uid=0
         #   sysctl security.bsd.hardlink_check_gid=0
+        ;;
+
+    FreeBSD-arm64)
+        CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -Wno-unused-command-line-argument -fstack-protector -Wformat -Wformat-security -O2 -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -funroll-loops"
+        LDFLAGS="-pie -z relro -z now -L${PREFIX}/lib -fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags  -L/usr/lib -lelf -Wl,--as-needed"
         ;;
 
 esac
