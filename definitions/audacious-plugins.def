@@ -14,7 +14,7 @@ libogg \
 libvorbis \
 jemalloc \
 libressl \
-curl-minimal \
+curl-dynamic \
 faad \
 neon \
 libxml2 \
