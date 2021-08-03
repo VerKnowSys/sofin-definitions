@@ -17,7 +17,15 @@ esac
 
 case "${SYSTEM_NAME}" in
     FreeBSD|OpenBSD|NetBSD)
-        DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl BSD-x86_64"
+        case "${SYSTEM_ARCH}" in
+            amd64|x86_64)
+                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl BSD-x86_64"
+                ;;
+
+            arm64|aarch64)
+                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl BSD-generic64"
+                ;;
+        esac
         ;;
 
     Darwin)
