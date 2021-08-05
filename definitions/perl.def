@@ -5,7 +5,7 @@ DEF_VERSION="5.34.0"
 DEF_SHA="870b4e1ffe33f94a4996a4acbbcebb8422c5e73a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libressl db"
+DEF_REQUIREMENTS="libressl"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {
