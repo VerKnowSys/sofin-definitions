@@ -20,11 +20,16 @@ build_and_install_redis () {
     try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
     try "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
 
+    case "${SYSTEM_ARCH}" in
+        amd64|x86_64)
+            _redis_bonus_args="-march=ivybridge"
+            ;;
+    esac
     make \
         BUILD_TLS=yes \
         MALLOC=jemalloc \
         PREFIX="${PREFIX}" \
-        CFLAGS="-march=ivybridge -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
+        CFLAGS="${_redis_bonus_args} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
         LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc -llua" \
         install
 }
