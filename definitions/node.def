@@ -12,6 +12,18 @@ DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-static bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
 
+case "${SYSTEM_ARCH}" in
+    arm64)
+        # C++ linker process can take insane amount of RAM, not available on small systems:
+        _make_opts="-j1"
+        ;;
+
+    amd64|x86_64)
+        _make_opts="${MAKE_OPTS}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --ninja"
+        ;;
+esac
+
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
 node_patch_configured () {
     permnote "Replacing: '/usr/local' with: '${PREFIX}', since /usr/local is hardcoded multiple times among Node source files…"
@@ -42,7 +54,7 @@ node_build () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                gmake ${MAKE_OPTS}" \
+                gmake ${_make_opts}" \
                     || error "Failed phase: node_build()"
 }
 
