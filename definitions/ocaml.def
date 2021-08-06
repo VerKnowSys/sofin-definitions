@@ -20,7 +20,18 @@ DEF_NO_CCACHE=YES
 unset DEF_COMPILER_FLAGS DEF_LINKER_FLAGS CFLAGS CXXFLAGS LDFLAGS
 
 # NOTE: override Sofin compiler setup - special case - no BINDNOW and no RELRO feature:
-CFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
-CXXFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
-LDFLAGS="-L${PREFIX}/lib -L/usr/lib ${HARDEN_SAFE_STACK_FLAGS} -fPIE -pie"
-LD="ld.lld -m elf_x86_64_fbsd -pie"
+case "${SYSTEM_ARCH}" in
+    amd64)
+        CFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
+        CXXFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_SAFE_STACK_FLAGS} ${HARDEN_CMACROS}"
+        LDFLAGS="-L${PREFIX}/lib -L/usr/lib ${HARDEN_SAFE_STACK_FLAGS} -fPIE -pie"
+        LD="ld.lld -m elf_x86_64_fbsd -pie"
+        ;;
+
+    arm64)
+        CFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CMACROS}"
+        CXXFLAGS="-O2 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CMACROS}"
+        LDFLAGS="-L${PREFIX}/lib -L/usr/lib -fPIE -pie"
+        LD="ld.lld -m elf_arm64_fbsd -pie"
+        ;;
+esac
