@@ -1,19 +1,24 @@
 DEF_FULL_NAME="FFMPEG: Multimedia framework, able to decode, encode, transcode, mux, demux, stream, filter and play pretty much anything that humans and machines have created."
 DEF_NAME="ffmpeg"
-DEF_VERSION="4.3.2"
-DEF_SHA="017e74ab7014d1e88dc56fecd80a5df5a3fc0016"
+DEF_VERSION="4.4"
+DEF_SHA="bb323745507ab70919542f825153d5ed596cee79"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ffmpeg.org/releases/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-_ffmpeg_configure_flags="--cc=cc --cxx=c++ --enable-pic --enable-lzo --enable-openssl --enable-libwavpack --enable-libtwolame --enable-libsoxr --enable-libmp3lame --enable-ftrapv --enable-nonfree --enable-libopus --enable-libspeex --enable-libvorbis --enable-libtheora --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-xlib --disable-videotoolbox --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vdpau --disable-d3d11va --disable-dxva2 --disable-valgrind-backtrace --enable-gpl --enable-libx265"
-DEF_REQUIREMENTS="libtool jemalloc libffi libatomic_ops lzo libxml2 yasm pcre libressl gettext glib db sqlite fftw lame libid3tag mpg123 libcue libdca taglib yajl faad neon libogg libvorbis flac uriparser expat libxspf speex libao wavpack openal libsndfile twolame libbs2b libmpcdec libmad libtheora libshout opus libopusenc opusfile opus-tools faac audiofile soxr @x265"
-case "${SYSTEM_NAME}" in
-    FreeBSD) # HardenedBSD
+_ffmpeg_configure_flags="--cc=cc --cxx=c++ --enable-pic --enable-lzo --enable-openssl --enable-libtwolame --enable-libsoxr --enable-libmp3lame --enable-ftrapv --enable-nonfree --enable-libopus --enable-libspeex --enable-libvorbis --enable-libtheora --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-xlib --disable-videotoolbox --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vdpau --disable-d3d11va --disable-dxva2 --disable-valgrind-backtrace --enable-gpl --enable-libx265"
+DEF_REQUIREMENTS="libtool jemalloc libffi libatomic_ops lzo libxml2 yasm pcre libressl gettext glib db sqlite fftw lame libid3tag mpg123 libcue libdca taglib yajl faad neon libogg libvorbis flac uriparser expat libxspf speex libao openal libsndfile twolame libbs2b libmpcdec libmad libtheora libshout opus libopusenc opusfile opus-tools faac audiofile soxr @x265"
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    FreeBSD-amd64)
         DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --enable-lzma --disable-static --enable-rpath --extra-ldflags='-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib,--enable-new-dtags -pie -fPIC'"
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib ${DEF_OPTFLAGS} -fsanitize=safe-stack"
         DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -fsanitize=safe-stack"
         ;;
 
-    Darwin)
+    FreeBSD-arm64)
+        DEF_CONFIGURE_ARGS="--enable-shared --enable-lzma --disable-static --enable-rpath --extra-ldflags='-L${PREFIX}/lib -Wl,-z,notext -Wl,-rpath,${PREFIX}/lib,--enable-new-dtags -pie -fPIC'"
+        DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -Wl,-rpath,${PREFIX}/lib -Wl,-z,notext ${DEF_OPTFLAGS}"
+        ;;
+
+    Darwin-*)
         DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --disable-static --disable-rpath --disable-iconv --disable-lzma --disable-avx2 --disable-avx512"
         ;;
 
@@ -23,7 +28,7 @@ case "${SYSTEM_NAME}" in
         ;;
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${_ffmpeg_configure_flags}"
-DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/wavpack bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
+DEF_USEFUL="bin/ff* bin/*conf* bin/sndfile-* bin/speex* bin/*lame bin/fftw* bin/mpg123* bin/faa* bin/extract_* bin/dtsdec bin/dcadec bin/opus* bin/wv* bin/sf* bin/flac bin/openal-info"
 DEF_USELESS="docs share/a* share/{gdb,emacs,bash-completion,ffmpeg,gettext,gettext-0.20,glib-2.0,gtk-doc,icu,libtool,locale,openal,pkgconfig,vala} share/libatom* include lib/*.{a,la} lib/{ao,ckport,cmake,engines-1.1,gettext,gio,glib-2.0,icu,pkgconfig} man sbin bin/auto*"
 DEF_EXPORTS="ffmpeg ffprobe ffserver"
 DEF_STANDALONE=YES
