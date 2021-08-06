@@ -9,7 +9,9 @@ case "${SYSTEM_ARCH}" in
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-arm64-unknown-freebsd.tar.xz"
 
         # temporary arm64-specific HACK, caused by port build that wrote clang90 to :
-        DEF_AFTER_INSTALL_METHOD="${LN_BIN} -sf /usr/bin/clang /usr/bin/clang90"
+        DEF_AFTER_EXPORT_METHOD="${LN_BIN} -sf /usr/bin/clang /usr/bin/clang90"
+
+        _cargo_crates="rustfmt bindgen exa hexyl rdb tac ripgrep fd-find cargo-asm cargo-audit cargo-expand cargo-do cargo-check cargo-edit evcxr_repl" # lw wasm-pack
         ;;
 
     amd64|x86_64)
@@ -17,6 +19,8 @@ case "${SYSTEM_ARCH}" in
         DEF_SHA="4e17b40a032fac1f043d0522432fc5bdb81d788c"
         DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
+
+        _cargo_crates="rustfmt bindgen exa hexyl rdb tac ripgrep fd-find cargo-asm cargo-audit cargo-expand cargo-do cargo-check cargo-edit wasm-pack evcxr_repl" # lw
         ;;
 esac
 
@@ -25,7 +29,6 @@ DEF_CONFIGURE_METHOD="binary"
 DEF_USE_SAFE_STACK=YES
 DEF_CLEAN_USELESS=NO
 _base_tools="rustc cargo cargo.bin rust-gdb rust-gdbgui rust-lldb cargo-clippy cargo-miri clippy-driver miri rustdoc"
-_cargo_crates="rls rustfmt bindgen exa hexyl rdb tac ripgrep fd-find cargo-asm cargo-audit cargo-expand cargo-do cargo-check cargo-edit wasm-pack evcxr_repl" # lw
 _cargo_tools="cargo-fmt cargo-llvm-ir fd rg cargo-add evcxr" # NOTE: some crates (like ripgrep or fd-find here), have different name of crate and different utility name
 DEF_EXPORTS="${_base_tools} ${_cargo_crates} ${_cargo_tools}"
 DEF_CONFLICTS_WITH="Rust"
@@ -86,6 +89,6 @@ install_utils () {
     note "Installing cargo utilities: $(distn "${_cargo_crates}")"
     for _util in $(to_iter "${_cargo_crates}"); do
         try "CC=cc CXX=c++ LD=ld.lld PATH=${SERVICE_DIR}/bin:${PREFIX}/bin:/bin:/usr/bin:/Services/Sofin/exports cargo install --force ${_util} >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}" \
-                || exit 6
+                || exit 7
     done
 }
