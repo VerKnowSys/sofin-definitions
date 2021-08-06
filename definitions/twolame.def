@@ -1,6 +1,8 @@
 DEF_FULL_NAME="TwoLame Encoder"
-DEF_SHA="3ca460472c2f6eeedad70291d8e37da88b64eb8b"
 DEF_NAME="twolame"
-DEF_VERSION="0.3.13"
+DEF_VERSION="0.4.0"
+DEF_SHA="6ec05fdaf555ef4157746ac3c91e8cdd20d4a3bc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://deac-ams.dl.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--enable-shared=yes --enable-static=no"
 unset DEF_USE_LTO
