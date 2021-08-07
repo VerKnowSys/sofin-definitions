@@ -1,13 +1,13 @@
 DEF_DISABLE_ON="Darwin Linux FreeBSD-arm64"
 DEF_FULL_NAME="Simple Build Tool"
 DEF_NAME="sbt"
-DEF_SHA="879ee72d049f1718a29551f55590aa94972f4c96"
-DEF_VERSION="0.13.9"
+DEF_VERSION="1.5.5"
+DEF_SHA="62c48d3d37eafe2fe452a237cf531a6abb2adefb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
 DEF_CONFIGURE_METHOD="binary"
 DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
 DEF_AFTER_CONFIGURE_METHOD="after_jobs"
-DEF_REQUIREMENTS="openjdk8"
+DEF_REQUIREMENTS="@openjdk8"
 DEF_AFTER_INSTALL_METHOD="createLaunchScript"
 DEF_EXPORTS="sbt jdb jhat jinfo jmap jar jps jarsigner jrunscript policytool java jstack registervm classpath javac jstat rmic javadoc jstatd rmid javah keytool rmiregistry javap javavm jcmd"
 DEF_CONFLICTS_WITH="Openjdk"
@@ -22,7 +22,7 @@ createLaunchScript () {
   printf "#!/bin/sh
 
 SBT_OPTS=\"-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled\"
-${PREFIX}/bin/java \$SBT_OPTS -jar ${PREFIX}/lib/sbt-launch.jar \"\$\@\"
+${PREFIX}/bin/java \$SBT_OPTS -jar ${PREFIX}/lib/sbt-launch.jar \"\$@\"
 " > ${PREFIX}/bin/sbt
   ${CHMOD_BIN} +x ${PREFIX}/bin/sbt
 }
