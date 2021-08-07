@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin Linux FreeBSD-arm64"
 DEF_STANDALONE=YES
 DEF_DISABLE_ON="Darwin Linux"
 DEF_FULL_NAME="OpenJDK 1.8 (headless version 64-bit)"

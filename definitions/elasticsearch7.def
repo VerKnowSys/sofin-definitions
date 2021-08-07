@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin Linux FreeBSD-arm64"
 DEF_FULL_NAME="Elasticsearch 7"
 DEF_STANDALONE=YES
 DEF_NAME="elasticsearch"

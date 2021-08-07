@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin FreeBSD-arm64"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Sonar-scanner (command line version)"
 DEF_NAME="sonar-scanner"

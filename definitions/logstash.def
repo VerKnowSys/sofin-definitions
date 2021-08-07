@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin Linux FreeBSD-arm64"
 DEF_FULL_NAME="Logstash - an open source data collection engine with real-time pipelining capabilities."
 DEF_STANDALONE=YES
 DEF_NAME="logstash"
