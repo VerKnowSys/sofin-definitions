@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="FreeBSD-arm64"
 DEF_FULL_NAME="CdrTools"
 DEF_SHA="cd923377bd7ef15a08aa3bb1aff4e6604c7be7cd"
 DEF_NAME="cdrtools"
