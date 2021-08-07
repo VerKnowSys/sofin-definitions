@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="FreeBSD-arm64"
 DEF_FULL_NAME="Influxb database"
 DEF_STANDALONE=YES
 DEF_NAME="influxdb"

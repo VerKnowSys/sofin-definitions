@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Darwin Linux"
+DEF_DISABLE_ON="Darwin Linux FreeBSD-arm64"
 DEF_FULL_NAME="Go Language"
 DEF_STANDALONE=YES
 DEF_NAME="go"
