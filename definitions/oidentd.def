@@ -1,0 +1,8 @@
+DEF_FULL_NAME="Flexible, RFC 1413 compliant Ident daemon with NAT support"
+DEF_SHA="28e1a2126993f7c880b810e16175b256daa87a72"
+DEF_NAME="oidentd"
+DEF_VERSION="2.5.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--disable-masq --disable-nat --disable-ipv6 --disable-libnfct --disable-xdgbdir"
+DEF_REQUIREMENTS="bison"
+DEF_EXPORTS="oidentd"
