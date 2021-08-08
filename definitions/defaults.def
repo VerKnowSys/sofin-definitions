@@ -4,7 +4,7 @@
 #
 #  Every definition file name must be a lowercase name. An example:
 #     Problem: Software name contains capital letters (f.i. "ImageMagick")
-#     Solution: Use "ImageMagick" as value of DEF_NAME, and definition
+#     Solution: Use "Imagemagick" as value of DEF_NAME, and definition
 #       file will be called "imagemagick.def".
 #
 ################################################################################
