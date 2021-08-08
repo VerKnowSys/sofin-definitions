@@ -17,19 +17,24 @@ DEF_APPLY_LOWER_SECURITY_ON="${DEF_EXPORTS}"
 
 unset DEF_USE_LTO
 
-case "${SYSTEM_NAME}" in
-    Linux)
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    Linux-*)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath"
         ;;
 
-    Darwin)
+    Darwin-*)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-rpath --enable-dtrace"
         ;;
 
-    FreeBSD)
+    FreeBSD-amd64)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --enable-dtrace"
         ;;
+
+    FreeBSD-arm64)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-rpath --disable-dtrace"
+        ;;
 esac
+
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle"
 DEF_ORIGIN="http://www.ruby-lang.org/en/downloads/"
 DEF_CONFLICTS_WITH="Jruby Ruby"
@@ -37,9 +42,19 @@ DEF_USELESS="lib/*perl* lib/*python* lib/*.a man share sbin scripts ssl lib/cmak
 
 DEF_AFTER_INSTALL_METHOD="after_install"
 after_install () {
-    ${STRIP_BIN} \
-        ${PREFIX}/lib/ruby/**/x86_64-**/*.so \
-        ${PREFIX}/lib/ruby/**/x86_64-**/**/*.so
+    case "${SYSTEM_ARCH}" in
+        amd64|x86_64)
+            ${STRIP_BIN} \
+                ${PREFIX}/lib/ruby/**/x86_64-**/*.so \
+                ${PREFIX}/lib/ruby/**/x86_64-**/**/*.so
+            ;;
+
+        arm64|aarch64)
+            ${STRIP_BIN} \
+                ${PREFIX}/lib/ruby/**/aarch64-**/*.so \
+                ${PREFIX}/lib/ruby/**/aarch64-**/**/*.so
+            ;;
+    esac
 
     try "${TEST_BIN} -f ${HOME}/.gemrc" || \
         try "printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
