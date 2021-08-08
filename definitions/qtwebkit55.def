@@ -3,7 +3,7 @@ inherit qtbase55
 DEF_NAME="qtwebkit"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-opensource-src-${DEF_VERSION}.tar.xz"
 DEF_SHA="e1e16f3eb48c1ce863b9ab33364e4ac178ae51a7"
-DEF_REQUIREMENTS="pkgconf-static make-static sqlite m4 perl autoconf automake libtool flex bison icu gperf ruby22 python27 qtbase55"
+DEF_REQUIREMENTS="pkgconf-static make-static sqlite perl autoconf automake libtool flex bison icu gperf ruby22 python27 qtbase55"
 DEF_CONFIGURE_METHOD="no-conf"
 
 DEF_AFTER_UNPACK_METHOD="after_unpack"

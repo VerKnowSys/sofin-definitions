@@ -2,4 +2,4 @@ inherit qtbase55
 
 DEF_NAME="qtxcb"
 DEF_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -nomake examples -nomake tests -L${PREFIX}/lib -no-qpa-platform-guard -continue -xcb"
-DEF_REQUIREMENTS="pkgconf-static make-static python27 m4 libtool libxml2 libgpg-error libgcrypt libxslt xproto libpthread-stubs libxau perl bison autoconf automake util-macros xcb-proto libxcb xtrans xextproto libx11 xcb-util xcb-util-wm xcb-util-keysyms xcb-util-image xcb-util-renderutil renderproto libxrender"
+DEF_REQUIREMENTS="pkgconf-static make-static python27 libtool libxml2 libgpg-error libgcrypt libxslt xproto libpthread-stubs libxau perl bison autoconf automake util-macros xcb-proto libxcb xtrans xextproto libx11 xcb-util xcb-util-wm xcb-util-keysyms xcb-util-image xcb-util-renderutil renderproto libxrender"

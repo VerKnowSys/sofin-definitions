@@ -4,7 +4,7 @@ DEF_VERSION="3.7.3"
 DEF_SHA="9adfadd4ae4104c8aceb38bf16064d65d7edbcce"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="zlib make-static m4 gmp"
+DEF_REQUIREMENTS="zlib make-static gmp"
 if [ "${SYSTEM_ARCH}" = "arm" ]; then
     DEF_CONFIGURE_ARGS="--disable-static --enable-shared --disable-assembler"
 else

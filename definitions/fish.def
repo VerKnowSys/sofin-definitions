@@ -6,7 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/fish-shell/fish-shell/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS="-DPCRE2_SUPPORT_PCRE2GREP_JIT=OFF -DPCRE2_SUPPORT_LIBEDIT=ON"
-DEF_REQUIREMENTS="pkgconf-static make-static m4 pcre2 libedit"
+DEF_REQUIREMENTS="pkgconf-static make-static pcre2 libedit"
 DEF_EXPORTS="fish fish_indent fish_pager fishd fish_key_reader fish_indent"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in

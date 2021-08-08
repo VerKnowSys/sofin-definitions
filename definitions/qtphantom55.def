@@ -1,7 +1,7 @@
 inherit qtbase55
 
 DEF_NAME="qtphantom"
-DEF_REQUIREMENTS="pkgconf-static make-static sqlite m4 perl autoconf automake libtool flex bison sqlite icu gperf ruby python27 freetype libxml2 gperf fontconfig qtbase55"
+DEF_REQUIREMENTS="pkgconf-static make-static sqlite perl autoconf automake libtool flex bison sqlite icu gperf ruby python27 freetype libxml2 gperf fontconfig qtbase55"
 DEF_CONFIGURE_ARGS="-qpa phantom -static -v -prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -L${PREFIX}/lib -no-openvg -no-eglfs -no-egl -no-glib -no-gtkstyle -no-cups -no-sm -no-xinerama -no-xkb -no-xcb -no-kms -no-linuxfb -no-directfb -no-mtdev -no-libudev -no-evdev -no-pulseaudio -no-alsa -no-opengl -no-openvg -no-dbus -openssl -fontconfig -qt-sql-sqlite -qt-harfbuzz -qt-pcre -no-qml-debug -no-xinput2 -no-xrender -icu -pkg-config -no-compile-examples -continue -D QT_NO_GRAPHICSVIEW -D QT_NO_GRAPHICSEFFECT -D QT_NO_STYLESHEET -D QT_NO_STYLE_CDE -D QT_NO_STYLE_CLEANLOOKS "
 PHANTOM_QPA_REPO="https://github.com/dmilith/qtphantomqpa.git"
 

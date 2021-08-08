@@ -6,7 +6,7 @@ DEF_SUFFIX="18"
 DEF_VERSION="1.8.7-p374"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--enable-pthread --disable-install-doc --disable-install-rdoc"
-DEF_REQUIREMENTS="zlib libxml2 make m4 libtool libgpg-error libgcrypt libxslt yaml libffi sqlite libedit"
+DEF_REQUIREMENTS="zlib libxml2 make libtool libgpg-error libgcrypt libxslt yaml libffi sqlite libedit"
 DEF_EXPORTS="ruby gem irb ri rdoc erb rake bundle rackup"
 DEF_CONFLICTS_WITH="Jruby Ruby22 Ruby23 Ruby24"
 
