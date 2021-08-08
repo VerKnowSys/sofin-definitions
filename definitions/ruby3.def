@@ -1,4 +1,4 @@
-inherit ruby26
+inherit ruby27
 
 DEF_FULL_NAME="Ruby JIT 3.0"
 DEF_VERSION="3.0.2"
