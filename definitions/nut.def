@@ -1,0 +1,11 @@
+DEF_DISABLE_ON="Darwin"
+DEF_FULL_NAME="NUT - Network UPS Tools"
+DEF_STANDALONE=YES
+DEF_NAME="nut"
+DEF_VERSION="2.7.4"
+DEF_SHA="a450382dbfaff2e1bdeefeda8d3c682a36a7fc72"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="http://www.networkupstools.org/source/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="libressl"
+DEF_CONFIGURE_ARGS="--with-usb --with-serial --with-group=staff --with-user=root"
+DEF_EXPORTS="upsd upsdrvctl upsmon upssched al175 bcmxcp bestfcom blazer_ser dummy-ups gamatronic liebert mge-shut nutdrv_atcl_usb oneac powerpanel riello_usb tripplite upscmd upssched-cmd apcsmart bcmxcp_usb bestfortress blazer_usb genericups liebert-esp2 mge-utalk nutdrv_qx rhino safenet tripplite_usb upscode2 usbhid-ups apcsmart-old belkin bestuferrups clone etapro isbmex masterguard microdowell ocspcheck optiups richcomm_usb skel tripplitesu upslog victronups apcupsd-ups belkinunv bestups clone-outlet everups ivtscd metasys oldmge-shut powercom riello_ser solis upsc upsrw"
