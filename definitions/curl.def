@@ -1,6 +1,6 @@
 DEF_NAME="curl"
-DEF_VERSION="7.78.0"
-DEF_SHA="52600f84018002cf9d0f58d65b65573ca08e1308"
+DEF_VERSION="7.79.0"
+DEF_SHA="b048415f3071f04a44d441682b4a20675e566d8a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://curl.haxx.se/download/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc pcre libunistring libressl lzo libffi libxml2 libidn2 nghttp2 libssh2"
