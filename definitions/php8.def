@@ -2,10 +2,8 @@ inherit php73
 
 DEF_FULL_NAME="PHP 8"
 DEF_SUFFIX="8"
-DEF_VERSION="8.0.11"
-DEF_SHA="a69e003e68abe2a511fa7632f1cfa017f32be34d"
+DEF_VERSION="8.0.12"
+DEF_SHA="1c762150f4fbf60885752572eab0abb15208349a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_BUNDLED_EXTENSIONS="decimal apcu xdebug memcached redis igbinary" # NOTE: meminfo doesn't build for 8 yet
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-gd --with-gd=shared,${PREFIX}" # NOTE: with gd, not external-gd which is still broken: ld.lld: error: undefined symbol: zif_imagecreatefromxpm
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} openssl"
