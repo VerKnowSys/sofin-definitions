@@ -1,10 +1,7 @@
 Elasticsearch
 Mysql
 Mariadb
-Postgresql92
-Postgresql93
-Postgresql94
-Redis28
-Redis3
-Percona-server55
-Percona-server56
+Postgresql96
+Postgresql10
+Postgresql11
+Redis
