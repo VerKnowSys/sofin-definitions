@@ -1,0 +1,11 @@
+inherit postgresql96
+
+DEF_FULL_NAME="PostgreSQL 12.x - open source object-relational database system"
+DEF_NAME="postgresql"
+DEF_SUFFIX="12"
+DEF_VERSION="12.8"
+DEF_SHA="f3f4ae778036795bdc8f493cc7d0d15d409061e9"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} icu"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-icu"
