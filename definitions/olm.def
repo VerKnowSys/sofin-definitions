@@ -1,0 +1,7 @@
+DEF_FULL_NAME="OLM Matrix library"
+DEF_NAME="olm"
+DEF_SHA="786657f5da9ba3730fe2f304dccb85dd5c809814"
+DEF_VERSION="3.2.6"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://gitlab.matrix.org/matrix-org/${DEF_NAME}/-/releases"
+DEF_CONFIGURE_METHOD="cmake"
