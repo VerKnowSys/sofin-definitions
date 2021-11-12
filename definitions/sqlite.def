@@ -5,7 +5,7 @@ DEF_VERSION="3360000"
 DEF_SHA="a4bcf9e951bfb9745214241ba08476299fc2dc1e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-autoconf-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.sqlite.org/2019/${DEF_NAME}-autoconf-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--disable-static"
+DEF_CONFIGURE_ARGS="--disable-static --enable-threadsafe --enable-editline"
 DEF_EXPORTS="sqlite3"
 DEF_NO_FAST_MATH=YES
 
