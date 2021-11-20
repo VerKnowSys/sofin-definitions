@@ -2,8 +2,8 @@ inherit php73
 
 DEF_FULL_NAME="PHP 7.4"
 DEF_SUFFIX="74"
-DEF_VERSION="7.4.25"
-DEF_SHA="c873eabab28db07412a198ccc3482af6fbc6ab92"
+DEF_VERSION="7.4.26"
+DEF_SHA="7057da60ba8c65e2b0c75129bb9ffff8ddd2f9d0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_BUNDLED_EXTENSIONS="decimal apcu xdebug geoip memcached redis igbinary meminfo"
