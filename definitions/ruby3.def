@@ -1,8 +1,8 @@
 inherit ruby27
 
 DEF_FULL_NAME="Ruby JIT 3.0"
-DEF_VERSION="3.0.2"
-DEF_SHA="cd04711ed3adecbe244c3b4391e67430d11fa9f8"
+DEF_VERSION="3.0.3"
+DEF_SHA="c1e6dac2b8c08afbbee39e25e325c84e1cab7c17"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace"
