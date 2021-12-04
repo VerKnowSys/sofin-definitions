@@ -2,7 +2,7 @@ inherit "python39"
 
 unset DEF_SUFFIX
 DEF_FULL_NAME="Asciinema (Python 3.9)"
-DEF_VERSION="2.0.2"
+DEF_VERSION="2.1.0"
 DEF_NAME="asciinema"
 DEF_REQUIREMENTS="@python39"
 DEF_TYPE="meta"
