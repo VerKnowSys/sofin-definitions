@@ -5,7 +5,7 @@ DEF_SHA="4b1de90ec1ccfb6e91001e849f2cbe0222cc8b4c"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/P-H-C/${DEF_NAME}/archive/${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf" # no configure script for this package
-DEF_COMPILER_FLAGS="-I./include -pthread"
+DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -I./include -pthread"
 DEF_EXPORTS="argon2"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"

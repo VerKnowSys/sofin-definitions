@@ -9,7 +9,7 @@ DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
 DEF_CONFIGURE_ARGS="-Dlibffi=enabled -Dtrust_module=enabled -Dtrust_paths=${SERVICE_DIR}/share/certs/ca-root-nss.crt -Dnls=false"
 DEF_CONFIGURE_METHOD="meson"
 DEF_EXPORTS="p11-kit trust asn1Coding asn1Decoding asn1Parser p11-kit-remote p11-kit-server trust-extract-compat"
-DEF_COMPILER_FLAGS="-DSIZE_MAX=__SSIZE_MAX -w"
+DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DSIZE_MAX=__SSIZE_MAX"
 DEF_USELESS="libexec share/{aclocal,libtool} "
 
 DEF_AFTER_INSTALL_METHOD="move_libexec"

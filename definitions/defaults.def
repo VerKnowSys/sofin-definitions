@@ -111,7 +111,7 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
                 ;;
 
             FreeBSD-arm64)
-                DEF_COMPILER_FLAGS="-O3 ${DEF_VISIBILITY_FLAGS}"
+                DEF_COMPILER_FLAGS="-w -O3 ${DEF_VISIBILITY_FLAGS}"
                 unset DEF_USE_RAMDISK
                 ;;
 

@@ -25,7 +25,7 @@ DEF_EXPORTS="mysql mysqld_multi mysqld mysqld_safe mysql_ldb mysql_config mysqla
 DEF_USELESS="bin/zstdmt share/{bison,gdb,libtool,cmake,man,gettext,aclocal,pkgconfig} share/gtk* share/glib* share/gettext* doc sql-bench data man docs sql-bench INSTALL-BINARY README COPYING COPYING.LESSER COPYING.thirdparty CREDITS EXCEPTIONS-CLIENT README-wsrep scripts libexec mysql-test include libdata lib/{cmake,pkgconfig} lib/*.{a,la}"
 DEF_USEFUL="bin/my* bin/maria*" # always be prepared for more ;)
 
-DEF_COMPILER_FLAGS="-w -DJEMALLOC_USABLE_SIZE_CONST=const"
+DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DJEMALLOC_USABLE_SIZE_CONST=const"
 DEF_USE_CXX17=YES
 
 DEF_AFTER_PATCH_METHOD="sed_stuff"
