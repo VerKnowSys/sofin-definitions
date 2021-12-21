@@ -16,6 +16,7 @@ patch_tha_gnu_code () {
 }
 DEF_CONFIGURE_ARGS="--enable-curses=ncursesw --enable-dict-dir=${SERVICE_DIR}" # --disable-static
 DEF_USE_SAFE_STACK=YES
+DEF_INSTALL_METHOD="make install"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
