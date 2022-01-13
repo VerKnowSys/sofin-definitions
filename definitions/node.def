@@ -14,8 +14,9 @@ DEF_CONFLICTS_WITH="Node"
 
 case "${SYSTEM_ARCH}" in
     arm64)
-        # C++ linker process can take insane amount of RAM, not available on small systems:
-        _make_opts="-j1"
+        # C++ linker process can take insane amount of RAM, not available on small systems, hence
+        # 64g additional swap is required:
+        _make_opts="${MAKE_OPTS}"
         ;;
 
     amd64|x86_64)
