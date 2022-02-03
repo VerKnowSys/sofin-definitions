@@ -93,13 +93,13 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
         DEF_DEFAULT_CA_CERT_SOURCE="https://curl.se/ca/cacert.pem" # default source of ROOT-CA
         DEF_DEFAULT_CA_CERT_SOURCE_ALT="${MAIN_SOURCE_REPOSITORY}cacert.pem" # # backup source of ROOT-CA
 
-        DEF_DEFAULT_USED_ARCHITECTURE="x86_64" # deduplicated value of mainly used hw architecture
+        # DEF_DEFAULT_USED_ARCHITECTURE="x86_64" # deduplicated value of mainly used hw architecture
         DEF_WORKSTATION_VERSION_FLAGS="-mmacosx-version-min=${MINIMAL_MAJOR_OS_VERSION}" # default major workstation system version used
         DEF_VISIBILITY_FLAGS="-fvisibility=default"
 
         # Explicit compiler optimisation options:
         if [ -z "${DEBUGBUILD}" ]; then
-            BUILD_OPT_FLAGS="-w -O2"
+            BUILD_OPT_FLAGS="-w -O3"
         fi
         DEF_OPTFLAGS_ARM64="${BUILD_OPT_FLAGS}"
         DEF_OPTFLAGS_X86_64="${BUILD_OPT_FLAGS} -march=ivybridge" # -mfpmath=sse -fno-signed-zeros -freciprocal-math -ffp-contract=fast # -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2 -mfma -mavx -mtune=ivybridge
@@ -111,7 +111,7 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
                 ;;
 
             FreeBSD-arm64)
-                DEF_COMPILER_FLAGS="-w -O3 ${DEF_VISIBILITY_FLAGS}"
+                DEF_COMPILER_FLAGS="${DEF_OPTFLAGS_ARM64} ${DEF_VISIBILITY_FLAGS}"
                 unset DEF_USE_RAMDISK
                 ;;
 
