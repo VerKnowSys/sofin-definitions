@@ -4,19 +4,16 @@ DEF_NAME="rust"
 
 case "${SYSTEM_ARCH}" in
     arm64)
-        DEF_VERSION="1.53.0"
-        DEF_SHA="9908b82cbf154e0dff3b167646f5d254868a9845"
-        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-arm64-unknown-freebsd.tar.xz"
-
-        # temporary arm64-specific HACK, caused by port build that wrote clang90 to :
-        DEF_AFTER_EXPORT_METHOD="${LN_BIN} -sf /usr/bin/clang /usr/bin/clang90"
+        DEF_VERSION="1.58.0"
+        DEF_SHA="d966349c2655034cf432a3a34c4c1762d355526d"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-arm64-unknown-freebsd.tar.xz" # recent source of prebuilt package: http://pkg.us.ghostbsd.org/stable/FreeBSD:13:amd64/latest/All/
 
         _cargo_crates="rustfmt bindgen exa hexyl rdb tac ripgrep fd-find cargo-asm cargo-audit cargo-do cargo-check cargo-edit evcxr_repl" # lw wasm-pack
         ;;
 
     amd64|x86_64)
-        DEF_VERSION="1.57.0"
-        DEF_SHA="088d5ec4cc96601a2ba3e25f4eda1725012c6c51"
+        DEF_VERSION="1.58.1"
+        DEF_SHA="93ebf9c85a8d637a8522dd52c85d992aaabb6b22"
         DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 
