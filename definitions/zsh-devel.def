@@ -4,8 +4,8 @@ inherit zsh
 unset DEF_CRITICAL DEF_USE_SAFE_STACK DEF_TEST_METHOD
 
 DEF_SUFFIX="-devel"
-DEF_VERSION="5.8"
-DEF_SHA="966ea0498fb94140f3caf12af88e98b0e4d02078"
+DEF_VERSION="5.8.1"
+DEF_SHA="82ac4a80c527bfe01c0bdd109f65edc403176fb8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-dynamic --enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions"
 DEF_EXPORTS="zsh sh zsh-${DEF_VERSION}"
