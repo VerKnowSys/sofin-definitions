@@ -18,7 +18,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_REQUIREMENTS="lua51 olm aspell-lib libuuid @curl-lib @python310 @perl @libgcrypt @gnutls @guile-lib rust-basic"
+        DEF_REQUIREMENTS="lua51 olm aspell-lib libuuid @curl-lib @python39 @perl @libgcrypt @gnutls @guile-lib rust-basic"
         DEF_AFTER_MAKE_METHOD="install_dictionaries; install_additional_requirements; remove_services_bin"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
