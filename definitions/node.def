@@ -14,6 +14,9 @@ DEF_CONFLICTS_WITH="Node"
 
 case "${SYSTEM_ARCH}" in
     arm64)
+        # There's not enough memory for LTO with this project on small arm64
+        unset DEF_USE_LTO
+
         # C++ linker process can take insane amount of RAM, not available on small systems, hence
         # 64g additional swap is required:
         _make_opts="${MAKE_OPTS}"
