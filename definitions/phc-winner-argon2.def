@@ -10,7 +10,7 @@ DEF_EXPORTS="argon2"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
-    ${SED_BIN} -i '' -e "s|^PREFIX.*$|PREFIX=${PREFIX}|" Makefile
+    ${SED_BIN} -i '' -e "s|^PREFIX.*$|PREFIX=${PREFIX}|; s|libdata|lib|" Makefile
 }
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
