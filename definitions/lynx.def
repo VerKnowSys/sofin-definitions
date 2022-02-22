@@ -6,7 +6,7 @@ DEF_SHA="3e00ac30d008e0aa879bfd037abcfd9c0dd2faec"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://invisible-mirror.net/archives/${DEF_NAME}/tarballs/${DEF_NAME}${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="zlib libressl"
-DEF_CONFIGURE_ARGS="--with-bzlib --with-zlib=${PREFIX} --with-ssl=${PREFIX} --with-mime-libdir=${SERVICE_DIR} --enable-widec --disable-finger --disable-gopher --enable-default-colors --enable-underlines --with-screen=ncurses"
+DEF_CONFIGURE_ARGS="--with-bzlib --with-zlib=${PREFIX} --with-ssl=${PREFIX} --with-mime-libdir=${SERVICE_DIR} --enable-widec --disable-finger --enable-default-colors --enable-underlines --with-screen=ncurses"
 DEF_USELESS="lib/*.a include"
 DEF_EXPORTS="${DEF_NAME}"
 unset DEF_USE_LTO
