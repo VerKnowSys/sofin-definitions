@@ -56,7 +56,14 @@ after_install () {
             ;;
     esac
 
-    try "${TEST_BIN} -f ${HOME}/.gemrc" || \
-        try "printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc"
-    try "${PREFIX}/bin/gem install bundler"
+    if [ ! -x "${PREFIX}/bin/bundle" ]; then
+        run "${PREFIX}/bin/gem install bundler"
+    fi
+}
+
+DEF_AFTER_EXPORT_METHOD="after_export"
+after_export () {
+    if [ ! -f "${HOME}/.gemrc" ]; then
+        printf 'gem: --no-ri --no-rdoc' > "${HOME}/.gemrc"
+    fi
 }
