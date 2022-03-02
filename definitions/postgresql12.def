@@ -7,5 +7,16 @@ DEF_VERSION="12.8"
 DEF_SHA="f3f4ae778036795bdc8f493cc7d0d15d409061e9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} icu"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} icu bash"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-icu"
+
+DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions && install_timescaledb"
+install_timescaledb () {
+    _timescale_version="2.6.0"
+    run "git clone https://github.com/timescale/timescaledb.git"
+    cd timescaledb
+    run "git checkout ${_timescale_version}"
+    run "./bootstrap"
+    run "cd build && make ${MAKE_OPTS}"
+    run "make install"
+}
