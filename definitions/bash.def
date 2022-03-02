@@ -1,12 +1,11 @@
 DEF_FULL_NAME="Bash Shell"
 DEF_STANDALONE=YES
 DEF_NAME="bash"
-DEF_VERSION="5.1"
-DEF_SHA="063019501ef1f30fad99d2b735a7ae2ce1d11423"
+DEF_VERSION="5.1.12"
+DEF_SHA="c5c46ebd113cf80bb89c1fd3568efcb86a32ad4b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="bash bashbug"
 DEF_CONFIGURE_ARGS="--enable-multibyte --without-bash-malloc --disable-rpath --disable-nls --enable-readline --enable-disabled-builtins --with-libiconv-prefix=/usr"
-DEF_MAKE_METHOD="make"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
