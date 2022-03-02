@@ -5,7 +5,7 @@ DEF_NAME="collectd"
 DEF_VERSION="5.12.0"
 DEF_SHA="af36fe83e2995270b5632fc21e5a001e6702cdce"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="icu libxml2 libpcap yajl protobuf lua51 pth npth expat libstatgrab libffi @nginx perl @curl @liboping libuuid libedit postgresql11-client @python39 @mariadb-client"
+DEF_REQUIREMENTS="icu libxml2 libpcap yajl protobuf lua51 pth npth expat libstatgrab libffi @nginx perl @curl @liboping libuuid libedit postgresql12-client @python39 @mariadb-client"
 case ${SYSTEM_NAME} in
     FreeBSD)
         PLATFORM_SPECIFIC_OPTIONS="--enable-pf"
