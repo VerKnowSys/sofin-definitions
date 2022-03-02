@@ -27,7 +27,7 @@ make_action () {
     ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
     ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
     cd ${DEF_NAME}-${DEF_VERSION} && \
-    ${CP_BIN} -R public/ "${SERVICE_DIR}/public" && \
+    ${CP_BIN} -R public/ "${PREFIX}/public" && \
     ${CP_BIN} -R conf/ "${SERVICE_DIR}/conf" && \
     cd .. && \
     note "Done."
@@ -40,9 +40,6 @@ strip_wipe_and_link_stuff () {
     done
     if [ ! -L "${PREFIX}/conf" ]; then
         ${LN_BIN} -fs "${SERVICE_DIR}/conf" "${PREFIX}/conf"
-    fi
-    if [ ! -L "${PREFIX}/public" ]; then
-        ${LN_BIN} -fs "${SERVICE_DIR}/public" "${PREFIX}/public"
     fi
     if [ -n "${PREFIX}" ]; then
         ${RM_BIN} -rf \
