@@ -1,0 +1,9 @@
+inherit postgresql12
+
+DEF_FULL_NAME="PostgreSQL 13.x - open source object-relational database system"
+DEF_NAME="postgresql"
+DEF_SUFFIX="13"
+DEF_VERSION="13.6"
+DEF_SHA="640a00a1b08617a131495507debaaf5c863b2152"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
