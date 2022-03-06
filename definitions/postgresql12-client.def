@@ -8,3 +8,4 @@ install_client_only () {
     try "make -C src/interfaces install"
     try "make -C doc install"
 }
+unset DEF_AFTER_INSTALL_METHOD
