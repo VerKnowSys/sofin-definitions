@@ -1,41 +1,38 @@
-DEF_DISABLE_ON="Darwin Linux FreeBSD-arm64"
+DEF_DISABLE_ON="Darwin Linux"
 DEF_FULL_NAME="Go Language"
 DEF_STANDALONE=YES
 DEF_NAME="go"
-DEF_VERSION="1.17.8"
-DEF_SHA="96138618bba8fe7838dcdbc6c074cb1240479d6b"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
-DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
+
+case "${SYSTEM_ARCH}" in
+    aarch64|arm64)
+        DEF_VERSION="1.17.5"
+        DEF_SHA="ec1d81b82cd0c102f839a1170fe8502f007f09ac"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-arm64.tar.xz"
+        DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+        DEF_REQUIREMENTS="@binutils"
+        unset DEF_ORIGIN # no origin yet from go.dev
+        unset DEF_AFTER_MAKE_METHOD # no prebuilt dep
+        ;;
+
+    amd64|x86_64)
+        DEF_VERSION="1.17.8"
+        DEF_SHA="96138618bba8fe7838dcdbc6c074cb1240479d6b"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
+        DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
+
+        DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+        DEF_AFTER_MAKE_METHOD="install_dep"
+        install_dep () {
+            _dep_version="0.5.4"
+            note "Installing dep with version ${_dep_version}"
+            ${FETCH_BIN} -o "${PREFIX}/bin/dep" "https://github.com/golang/dep/releases/download/v${_dep_version}/dep-freebsd-amd64"
+            ${CHMOD_BIN} a+rx "${PREFIX}/bin/dep"
+        }
+        ;;
+esac
+
 DEF_CONFIGURE_METHOD="binary"
-DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+
 DEF_USEFUL="bin/go-${DEF_VERSION} bin/godoc-${DEF_VERSION} bin/gofmt-${DEF_VERSION}"
 DEF_USELESS="doc"
 DEF_EXPORTS="go godoc gofmt dep"
-
-DEF_AFTER_MAKE_METHOD="install_dep"
-install_dep () {
-    _dep_version="0.5.4"
-    note "Installing dep with version ${_dep_version}"
-    ${FETCH_BIN} -o "${PREFIX}/bin/dep" "https://github.com/golang/dep/releases/download/v${_dep_version}/dep-freebsd-amd64"
-    ${CHMOD_BIN} a+rx "${PREFIX}/bin/dep"
-}
-
-# DEF_AFTER_INSTALL_METHOD="install_wrappers ${DEF_VERSION}"
-# install_wrappers () {
-#     version="$1"
-#     if [ ! -x "${PREFIX}/bin/go-${version}" ]; then
-#         ${MV_BIN} "${PREFIX}/bin/go" "${PREFIX}/bin/go-${version}" && \
-#         printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/go-${version} \$@\n" > "${PREFIX}/bin/go"
-#         ${CHMOD_BIN} a+x "${PREFIX}/bin/go"
-#     fi
-#     if [ ! -x "${PREFIX}/bin/godoc-${version}" ]; then
-#         ${MV_BIN} "${PREFIX}/bin/godoc" "${PREFIX}/bin/godoc-${version}" && \
-#         printf "#!/bin/sh\n\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/godoc-${version} \$@\n" > "${PREFIX}/bin/godoc"
-#         ${CHMOD_BIN} a+x "${PREFIX}/bin/godoc"
-#     fi
-#     if [ ! -x "${PREFIX}/bin/gofmt-${version}" ]; then
-#         ${MV_BIN} "${PREFIX}/bin/gofmt" "${PREFIX}/bin/gofmt-${version}" && \
-#         printf "#!/bin/sh\nexport GOPATH=${SERVICE_DIR}\nexport GOROOT=${PREFIX}\n${PREFIX}/bin/gofmt-${version} \$@\n" > "${PREFIX}/bin/gofmt"
-#         ${CHMOD_BIN} a+x "${PREFIX}/bin/gofmt"
-#     fi
-# }
