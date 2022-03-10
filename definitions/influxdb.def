@@ -11,7 +11,7 @@ DEF_USELESS="doc test include share src local/src misc pkg api etc man lib/pytho
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="make_action"
 DEF_INSTALL_METHOD="install_action"
-DEF_EXPORTS="influx influxd"
+DEF_EXPORTS="influx influxd influx_inspect influx_tools"
 DEF_NO_CCACHE=YES
 
 make_action () {
@@ -20,6 +20,8 @@ make_action () {
     try "env GO111MODULE=on ${PREFIX}/bin/go get ./..." \
         && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -ldflags '-X main.version=${DEF_VERSION}' -o ${PREFIX}/bin/influx ./cmd/influx" \
         && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -ldflags '-X main.version=${DEF_VERSION}' -o ${PREFIX}/bin/influxd ./cmd/influxd" \
+        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -ldflags '-X main.version=${DEF_VERSION}' -o ${PREFIX}/bin/influx_inspect ./cmd/influx_inspect" \
+        && try "env GO111MODULE=on ${PREFIX}/bin/go build -tags 'assets ' -ldflags '-X main.version=${DEF_VERSION}' -o ${PREFIX}/bin/influx_tools ./cmd/influx_tools" \
         && return 0
     return 1
 }
