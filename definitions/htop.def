@@ -4,9 +4,14 @@ DEF_NAME="htop"
 DEF_VERSION="3.1.2"
 DEF_SHA="53bf3bde56dfdcdfa75b9dd4176ab55462fef786"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://dl.bintray.com/${DEF_NAME}/source/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_EXPORTS="${DEF_NAME}"
-DEF_REQUIREMENTS="@automake"
+DEF_ORIGIN="https://github.com/${DEF_NAME}-dev/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_ARGS="--enable-hwloc --enable-unicode"
+case "${SYSTEM_ARCH}" in
+    amd64|x86_64)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-unwind"
+        ;;
+esac
+DEF_REQUIREMENTS="hwloc libunwind"
+DEF_USELESS="include share/auto* share/ac* share/libtool"
 DEF_USE_SAFE_STACK=YES
-DEF_AFTER_UNPACK_METHOD="./autogen.sh"
-DEF_USELESS="include share/auto* share/ac* man lib share/libtool"
+DEF_EXPORTS="${DEF_NAME}"
