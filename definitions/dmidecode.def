@@ -3,7 +3,7 @@ DEF_NAME="dmidecode"
 DEF_VERSION="3.2"
 DEF_SHA="acf4b5c6e757066453fd06aa9060fceb257849bf"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="http://ftp.igh.cnrs.fr/pub/nongnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+# DEF_ORIGIN="http://ftp.igh.cnrs.fr/pub/nongnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="no-conf" # no configure script for this package
 DEF_AFTER_UNPACK_METHOD="prepare_build"
 prepare_build () {
