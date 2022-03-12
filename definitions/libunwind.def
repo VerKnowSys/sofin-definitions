@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Darwin"
+DEF_DISABLE_ON="Darwin FreeBSD-arm64"
 DEF_FULL_NAME="Unwind Library"
 DEF_NAME="libunwind"
 DEF_VERSION="1.6.2"
