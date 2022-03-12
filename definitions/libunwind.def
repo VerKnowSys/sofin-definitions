@@ -1,8 +1,8 @@
 DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Unwind Library"
-DEF_SHA="4ce18ee9c168ed6de85126534d855ddcb696bb17"
 DEF_NAME="libunwind"
-DEF_VERSION="1.2.1"
+DEF_VERSION="1.6.2"
+DEF_SHA="1e4d5e4b9502bfbe7609a4a64b83eb040be3f741"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-cxx-exceptions --enable-shared --enable-minidebuginfo --disable-debug --disable-static"
-unset DEF_USE_LTO
+DEF_ORIGIN="https://download.savannah.nongnu.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--enable-cxx-exceptions --enable-shared --disable-debug --disable-static"
