@@ -1,0 +1,6 @@
+DEF_FULL_NAME="Hwloc"
+DEF_NAME="hwloc"
+DEF_VERSION="2.7.0"
+DEF_SHA="6e971b7d182ef8dde3c95b1c6afc2c4c7b5a0ce7"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://download.open-mpi.org/release/${DEF_NAME}/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
