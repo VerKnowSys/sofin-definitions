@@ -85,7 +85,7 @@ ${PREFIX}/bin/cargo.bin \${@} \n" > "${PREFIX}/bin/cargo"
 install_utils () {
     note "Installing cargo utilities: $(distn "${_cargo_crates}")"
     for _util in $(to_iter "${_cargo_crates}"); do
-        try "CC=cc CXX=c++ LD=ld.lld PATH=${SERVICE_DIR}/bin:${PREFIX}/bin:/bin:/usr/bin:/Services/Sofin/exports cargo install --locked --force ${_util} >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}" \
+        try "CC=cc CXX=c++ LD=ld.lld PATH=${SERVICE_DIR}/bin:${PREFIX}/bin:/bin:/usr/bin:/Services/Sofin/exports cargo install --force ${_util} >> ${LOG}-${DEF_NAME} 2>> ${LOG}-${DEF_NAME}" \
                 || exit 7
     done
 }
