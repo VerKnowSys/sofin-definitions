@@ -1,6 +1,7 @@
 inherit "python39"
 
 unset DEF_SUFFIX
+DEF_DISABLE_ON="FreeBSD-arm64"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Fail2ban (Python 3.9)"
 DEF_VERSION="0.11.1"
