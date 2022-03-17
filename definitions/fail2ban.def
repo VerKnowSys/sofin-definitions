@@ -35,7 +35,7 @@ install_fail2ban () {
         fail2ban/tests/clientbeautifiertestcase.py \
         config/fail2ban.conf
 
-    try "${PREFIX}/bin/python3 setup.py install"
+    run "${PREFIX}/bin/python3 setup.py install"
 
     ${RM_BIN} -rf "${SERVICE_DIR}/exports"
 }
