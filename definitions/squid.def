@@ -1,10 +1,10 @@
 DEF_FULL_NAME="Squid proxy"
 DEF_NAME="squid"
-DEF_VERSION="4.9"
-DEF_SHA="43c90a1a2eb4d1613f1bfc603ad08e8a835be319"
+DEF_VERSION="4.16"
+DEF_SHA="4ddc098b5f7c276d19134c7c3b247cdb51d1c88d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.squid-cache.org/Versions/v4/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf-static gmp expat nettle libressl perl"
+DEF_REQUIREMENTS="gmp expat nettle libressl perl"
 DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} \
 --disable-select \
 --disable-poll \
@@ -39,4 +39,3 @@ DEF_USEFUL="bin/perl* bin/openssl"
 DEF_USELESS="include lib/*.{a,la} share/aclocal man docs"
 DEF_EXPORTS="squid squidclient purge cachemgr.cgi cert_tool cert_valid.pl diskd ext_delayer_acl ext_file_userip_acl ext_kerberos_ldap_group_acl ext_sql_session_acl ext_time_quota_acl ext_unix_group_acl ext_wbinfo_group_acl helper-mux log_db_daemon log_file_daemon storeid_file_rewrite unlinkd url_fake_rewrite url_fake_rewrite.sh url_lfs_rewrite"
 DEF_LINKER_FLAGS="-lpthread"
-# DEF_NO_LLVM_LINKER=YES
