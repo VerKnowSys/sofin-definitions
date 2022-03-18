@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Cmake build system - fully featured build."
 DEF_STANDALONE=YES
 DEF_NAME="cmake"
-DEF_VERSION="3.19.4"
-DEF_SHA="62850e348263985efa990b7f8b427c7677e3103b"
+DEF_VERSION="3.19.8"
+DEF_SHA="fb9cc392165c6f54b0e773027ca43e0c8ceadeac"
 DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS}"
