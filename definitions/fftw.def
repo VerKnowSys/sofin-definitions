@@ -13,4 +13,3 @@ case "${SYSTEM_ARCH}" in
         ;;
 esac
 DEF_EXPORTS="fftw-wisdom fftw-wisdom-to-conf"
-unset DEF_USE_LTO
