@@ -1,8 +1,15 @@
 DEF_FULL_NAME="mpdecimal"
 DEF_NAME="mpdecimal"
-DEF_SHA="b926360a96fba40f9363abe111e24d776c661adb"
-DEF_VERSION="2.4.2"
+DEF_VERSION="2.5.1"
+DEF_SHA="16d0b8df9be8cacda90dd4cd041e3f5838e17074"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://www.bytereef.org/software/${DEF_NAME}/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_ARGS="--enable-shared --enable-cxx"
+DEF_AFTER_INSTALL_METHOD="fix_rpath"
+fix_rpath () {
+    # HACK: required because no RPATH is written to the C++ library, even if explicitly specified:
+    patchelf --set-rpath "${PREFIX}/lib" "${PREFIX}/lib/libmpdec++.so"
+}
 
 # workaround for linker using clang as a wrapper:
 LD="clang"
