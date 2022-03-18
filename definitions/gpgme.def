@@ -2,8 +2,8 @@ inherit gnupg
 
 DEF_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
 DEF_NAME="gpgme"
-DEF_VERSION="1.15.1"
-DEF_SHA="5ae07a303fcf9cec490dabdfbc6e0f3b8f6dd5a0"
+DEF_VERSION="1.17.1"
+DEF_SHA="73d5c863ba5478370b191e79b19733807fef529e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-nls"
