@@ -1,8 +1,8 @@
 DEF_FULL_NAME="GNU Wget"
 DEF_STANDALONE=YES
 DEF_NAME="wget"
-DEF_VERSION="1.21.2"
-DEF_SHA="1a0f9beb9d34b41fd214e1c8ddcd58704c72acec"
+DEF_VERSION="1.21.3"
+DEF_SHA="e0c2c21aff77693c3e67cf3889945a2ef5a03a39"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="perl libgpg-error gmp nettle libffi libtasn1 p11-kit libunistring gnutls libidn2"
