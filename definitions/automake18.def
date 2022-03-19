@@ -1,5 +1,6 @@
 inherit automake
 
+unset DEF_ORIGIN
 _version_base="1.8"
 DEF_SHA="2ed5a20fd22bf1c2f4e2375ac8f2debfdc2b75c7"
 DEF_VERSION="${_version_base}.5"
