@@ -4,13 +4,7 @@ DEF_NAME="grafana"
 DEF_VERSION="7.5.15"
 DEF_SHA="292e451c457e936beb477bf5b4aec7b60f5a7d91"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="go"
-case "${SYSTEM_ARCH}" in
-    arm64|aarch64)
-        # BFD linker seems to be required here
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} @binutils"
-        ;;
-esac
+DEF_REQUIREMENTS="@go"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_EXPORTS="grafana-cli grafana-server"
 DEF_NO_CCACHE=YES
@@ -23,19 +17,20 @@ make_action () {
         pkg/cmd/grafana-server/main.go \
         pkg/cmd/grafana-cli/main.go
 
-    try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-server' ./pkg/cmd/grafana-server" \
-        && try "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-cli' ./pkg/cmd/grafana-cli" \
-        || return 1
+    run "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-server' ./pkg/cmd/grafana-server" \
+        && run "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-cli' ./pkg/cmd/grafana-cli"
 
     # ORIGIN for prebuild: https://dl.grafana.com/oss/release/grafana-6.5.2.linux-amd64.tar.gz
-    debug "Fetching prebuilt Grafana archive" && \
-    ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
-    ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" && \
-    cd ${DEF_NAME}-${DEF_VERSION} && \
-    ${CP_BIN} -R public/ "${PREFIX}/public" && \
-    ${CP_BIN} -R conf/ "${SERVICE_DIR}/conf" && \
-    cd .. && \
-    note "Done."
+    debug "Fetching prebuilt Grafana archive"
+    ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" \
+        && ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" \
+        && cd "${DEF_NAME}-${DEF_VERSION}" \
+        && ${CP_BIN} -R public/ "${PREFIX}/public" \
+        && ${CP_BIN} -R conf/ "${SERVICE_DIR}/conf" \
+        && cd .. \
+        && note "Done." \
+        && return 0
+    return 1
 }
 
 DEF_INSTALL_METHOD="strip_wipe_and_link_stuff"
