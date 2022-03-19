@@ -1,8 +1,8 @@
 DEF_FULL_NAME="WeeChat, the extensible chat client"
 DEF_STANDALONE=YES
 DEF_NAME="weechat"
-DEF_VERSION="3.4"
-DEF_SHA="4b6a477476a763abd933244f4d30384ba06a39d2"
+DEF_VERSION="3.4.1"
+DEF_SHA="e3e093aa53c343a1e4d67eb0d85bdad41c80d87e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
@@ -18,14 +18,13 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_REQUIREMENTS="lua51 aspell-lib libuuid @python39 curl-dynamic perl @libgcrypt @gnutls @guile-lib" # olm
+        DEF_REQUIREMENTS="@zstd lua51 perl aspell-lib libuuid @python39 curl-dynamic @libgcrypt @gnutls @guile-lib" # olm
         DEF_AFTER_MAKE_METHOD="install_dictionaries; install_additional_requirements; remove_services_bin"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
             # Install wee_slack.py requirements:
             run "${PREFIX}/bin/pip3 install --upgrade pip"
-            run "${PREFIX}/bin/pip3 install pync"
-            run "${PREFIX}/bin/pip3 install websocket-client"
+            run "${PREFIX}/bin/pip3 install pync websocket-client"
 
             # Install multiline.pl requirements:
             run "printf '%s\n' 'yes' | ${SERVICE_DIR}/bin/cpan Pod::Select"
