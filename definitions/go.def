@@ -15,8 +15,8 @@ case "${SYSTEM_ARCH}" in
         ;;
 
     amd64|x86_64)
-        DEF_VERSION="1.17.8"
-        DEF_SHA="96138618bba8fe7838dcdbc6c074cb1240479d6b"
+        DEF_VERSION="1.17.9"
+        DEF_SHA="c028308d0951d2db71d4b5cb8562fe966d1b0873"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
 
