@@ -19,7 +19,7 @@ case "${SYSTEM_ARCH}" in
 
         # C++ linker process can take insane amount of RAM, not available on small systems, hence
         # 64g additional swap is required:
-        _make_opts="${MAKE_OPTS}"
+        _make_opts="-j4"
         ;;
 
     amd64|x86_64)
