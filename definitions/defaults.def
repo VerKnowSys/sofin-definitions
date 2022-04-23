@@ -115,6 +115,12 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
                 unset DEF_USE_RAMDISK
                 ;;
 
+            OpenBSD-arm64)
+                DEF_COMPILER_FLAGS="${DEF_OPTFLAGS_ARM64} ${DEF_VISIBILITY_FLAGS}"
+                DEF_NO_PIE=YES
+                unset DEF_USE_RAMDISK
+                ;;
+
             Darwin-x86_64)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
                 DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS_X86_64} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
