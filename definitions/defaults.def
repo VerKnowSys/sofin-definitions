@@ -1,15 +1,3 @@
-
-################################################################################
-# SIMPLE SOFIN DEFINITION RULESET:
-#
-#  Every definition file name must be a lowercase name. An example:
-#     Problem: Software name contains capital letters (f.i. "ImageMagick")
-#     Solution: Use "Imagemagick" as value of DEF_NAME, and definition
-#       file will be called "imagemagick.def".
-#
-################################################################################
-
-
         DEF_COMPLIANCE='^1.[0-9]+.[0-9]+$' # defines version of Sofin required for this defaults (egrep format)
 
         DEF_LANG="en_US.UTF-8"
