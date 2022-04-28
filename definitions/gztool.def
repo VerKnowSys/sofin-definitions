@@ -10,5 +10,6 @@ DEF_INSTALL_METHOD="install_gztool"
 install_gztool () {
     try "mkdir -p ${PREFIX}/bin"
     run "cc -O3 -o ${PREFIX}/bin/${DEF_NAME} gztool.c -lz -lm"
+    try "${LN_BIN} -fs ${PREFIX}/bin/${DEF_NAME} ${PREFIX}/bin/ztail"
 }
-DEF_EXPORTS="${DEF_NAME}"
+DEF_EXPORTS="${DEF_NAME} ztail"
