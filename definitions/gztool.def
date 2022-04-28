@@ -1,0 +1,14 @@
+DEF_FULL_NAME="Gzip utility"
+DEF_NAME="gztool"
+DEF_VERSION="1.4.3"
+DEF_SHA="48cc141984273e6ad5f1a85d547d4dd21a52f22a"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://codeload.github.com/circulosmeos/${DEF_NAME}/tar.gz/refs/tags/v${DEF_VERSION}"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_MAKE_METHOD=":"
+DEF_INSTALL_METHOD="install_gztool"
+install_gztool () {
+    try "mkdir -p ${PREFIX}/bin"
+    run "cc -O3 -o ${PREFIX}/bin/${DEF_NAME} gztool.c -lz -lm"
+}
+DEF_EXPORTS="${DEF_NAME}"
