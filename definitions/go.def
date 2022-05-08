@@ -11,7 +11,6 @@ case "${SYSTEM_ARCH}" in
         DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
         DEF_REQUIREMENTS="@binutils"
         unset DEF_ORIGIN # no origin yet from go.dev
-        unset DEF_AFTER_MAKE_METHOD # no prebuilt dep
         ;;
 
     amd64|x86_64)
@@ -21,13 +20,6 @@ case "${SYSTEM_ARCH}" in
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
 
         DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
-        DEF_AFTER_MAKE_METHOD="install_dep"
-        install_dep () {
-            _dep_version="0.5.4"
-            note "Installing dep with version ${_dep_version}"
-            ${FETCH_BIN} -o "${PREFIX}/bin/dep" "https://github.com/golang/dep/releases/download/v${_dep_version}/dep-freebsd-amd64"
-            ${CHMOD_BIN} a+rx "${PREFIX}/bin/dep"
-        }
         ;;
 esac
 
@@ -35,4 +27,4 @@ DEF_CONFIGURE_METHOD="binary"
 
 DEF_USEFUL="bin/go-${DEF_VERSION} bin/godoc-${DEF_VERSION} bin/gofmt-${DEF_VERSION}"
 DEF_USELESS="doc"
-DEF_EXPORTS="go godoc gofmt dep"
+DEF_EXPORTS="go godoc gofmt"
