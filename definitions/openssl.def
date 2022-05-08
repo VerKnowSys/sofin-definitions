@@ -2,8 +2,8 @@ inherit libressl
 
 DEF_FULL_NAME="OpenSSL v1.1.1"
 DEF_NAME="openssl"
-DEF_VERSION="1.1.1n"
-DEF_SHA="4b0936dd798f60c97c68fc62b73033ecba6dfb0c"
+DEF_VERSION="1.1.1o"
+DEF_SHA="860fa10381ff0a121833583ccaa011bf266bcc63"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.openssl.org/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="perl-static"
