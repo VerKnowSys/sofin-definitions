@@ -1,18 +1,18 @@
 DEF_STANDALONE=YES
 DEF_NAME="krecik"
-DEF_VERSION="0.10.11"
-DEF_SHA="83579fca9a61cf85625536a4ce81679b92801f9e"
+DEF_VERSION="1.0.1"
+DEF_SHA="225b5607d62d4385b9df2792792dee45a176faad"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/VerKnowSys/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="jemalloc pcre libunistring openssl lzo libffi libxml2 libidn2 nghttp2 curl-dynamic rust-basic"
-DEF_EXPORTS="${DEF_NAME}-server"
+DEF_EXPORTS="${DEF_NAME}d"
 DEF_USELESS="man share libexec lib/*.{a,la,sh,alias} lib/{cmake,engines-1.1,rustlib,pkgconfig} etc include lib/pkgconfig sbin"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="build_krecik"
 build_krecik () {
     run "cargo build --release"
     # XXX: hack with patchelf, since I don't know (yet) how to tell Cargo to include rpath in the binary properly:
-    run "patchelf --set-rpath ${PREFIX}/lib target/release/krecik-server"
+    run "patchelf --set-rpath ${PREFIX}/lib target/release/krecikd"
 }
 DEF_INSTALL_METHOD="install_krecik"
 install_krecik () {
@@ -21,8 +21,6 @@ install_krecik () {
         ${CAT_BIN} > "${SERVICE_DIR}/service.conf" <<EOF
 {
     "krecik_root": "${SERVICE_DIR}",
-    "log_file": "${SERVICE_DIR}/log/krecik.log",
-    "log_level": "INFO",
     "success_emoji": ":success:",
     "failure_emoji": ":error:",
     "ok_message": "All services are UP!",
@@ -40,5 +38,5 @@ install_krecik () {
 EOF
     fi
     run "${CP_BIN} -R checks ${SERVICE_DIR}/"
-    run "${INSTALL_BIN} -v target/release/krecik-server ${PREFIX}/bin/krecik-server"
+    run "${INSTALL_BIN} -v target/release/krecikd ${PREFIX}/bin/krecikd"
 }
