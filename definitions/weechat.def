@@ -8,9 +8,9 @@ DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # h
 DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="weechat weechat-curses"
 DEF_USELESS="lib/*.{a,la,sh} lib/cmake include share/{aclocal,gettext,gettext-0.20.2,gtk-doc}"
-DEF_USEFUL="bin/pip* bin/python* bin/perl* bin/cpan* bin/guil*"
+DEF_USEFUL="bin/pip* bin/python* bin/perl* bin/cpan*"
 
-DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON -DENABLE_GUILE=ON"
+DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON -DENABLE_GUILE=OFF"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_REQUIREMENTS="curl-dynamic lua51 @libgcrypt @gnutls libuuid"
@@ -18,7 +18,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_REQUIREMENTS="@zstd lua51 perl aspell-lib libuuid @python39 curl-dynamic @libgcrypt @gnutls @guile-lib" # olm
+        DEF_REQUIREMENTS="@zstd lua51 perl aspell-lib libuuid @python39 curl-dynamic @libgcrypt @gnutls" # olm
         DEF_AFTER_MAKE_METHOD="install_dictionaries; install_additional_requirements; remove_services_bin"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
