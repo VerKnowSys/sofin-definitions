@@ -4,8 +4,8 @@ DEF_NAME="rust"
 
 case "${SYSTEM_ARCH}" in
     arm64)
-        DEF_VERSION="1.59.0"
-        DEF_SHA="08dcab43e4f0e6acc1cd24c3218518754934c801"
+        DEF_VERSION="1.60.0"
+        DEF_SHA="7403a3e5ef2949cc971a512685c7e175d0558d80"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-arm64-unknown-freebsd.tar.xz" # recent source of prebuilt package: http://pkg.us.ghostbsd.org/stable/FreeBSD:13:amd64/latest/All/
 
         _cargo_crates="rustfmt bindgen exa hexyl rdb tac ripgrep fd-find cargo-asm cargo-audit cargo-do cargo-check cargo-edit evcxr_repl" # lw wasm-pack
