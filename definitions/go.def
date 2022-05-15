@@ -5,17 +5,17 @@ DEF_NAME="go"
 
 case "${SYSTEM_ARCH}" in
     aarch64|arm64)
-        DEF_VERSION="1.17.5"
-        DEF_SHA="ec1d81b82cd0c102f839a1170fe8502f007f09ac"
-        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-arm64.tar.xz"
-        DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+        DEF_VERSION="1.17.9"
+        DEF_SHA="d44b1e6436c7d7c483b73419eb30544cbc71d33d"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-freebsd-arm64.tar.xz"
+        DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}${DEF_VERSION}-freebsd-arm64/ ${PREFIX}"
         DEF_REQUIREMENTS="@binutils"
         unset DEF_ORIGIN # no origin yet from go.dev
         ;;
 
     amd64|x86_64)
-        DEF_VERSION="1.17.9"
-        DEF_SHA="c028308d0951d2db71d4b5cb8562fe966d1b0873"
+        DEF_VERSION="1.18.2"
+        DEF_SHA="0fd8e6c2608515a762252b99116a9b684f426f2a"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
 
