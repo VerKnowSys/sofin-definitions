@@ -107,7 +107,7 @@ install_pear_modules () {
 
 
 install_memcached () {
-    memcached_name="memcached-3.1.5"
+    memcached_name="memcached-3.2.0"
     memcached_archive="${memcached_name}.tgz"
     try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${memcached_archive}\" ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${memcached_archive}" && \
@@ -122,7 +122,7 @@ install_memcached () {
 
 
 install_redis () {
-    redis_name="redis-5.3.3"
+    redis_name="redis-5.3.7"
     redis_archive="${redis_name}.tgz"
     try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\" ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${redis_archive}" && \
@@ -137,7 +137,7 @@ install_redis () {
 
 
 install_igbinary () {
-    igbinary_name="igbinary-3.2.1"
+    igbinary_name="igbinary-3.2.7"
     igbinary_archive="${igbinary_name}.tgz"
     try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${igbinary_archive}\" ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${igbinary_archive}" && \
@@ -197,7 +197,7 @@ install_geoip () {
 
 
 install_xdebug () {
-    arch_name="xdebug-3.0.3"
+    arch_name="xdebug-3.1.4"
     archive="${arch_name}.tgz"
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${archive}" && \
@@ -212,7 +212,7 @@ install_xdebug () {
 
 
 install_apcu () {
-    arch_name="apcu-5.1.19"
+    arch_name="apcu-5.1.21"
     archive="${arch_name}.tgz"
     try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
     try "${TAR_BIN} xf ${archive}" && \
