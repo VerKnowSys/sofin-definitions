@@ -49,15 +49,17 @@ case "${SYSTEM_NAME}" in
         }
 
         install_dictionaries () {
-            _pl_dict="sjp-aspell6-pl-6.0_20210731-0.tar.bz2"
-            run "fetch ${MAIN_SOURCE_REPOSITORY}${_main_pldict}"
-            run "tar xf ${_main_pldict}"
-            run "cd aspell6-pl-6.0_20200220-0 && ./configure && make && make install"
+            _pl_dict_root="aspell6-pl-6.0_20210731-0"
+            _pl_dict="sjp-${_pl_dict_root}.tar.bz2"
+            run "fetch ${MAIN_SOURCE_REPOSITORY}${_pl_dict}"
+            run "tar xf ${_pl_dict}"
+            run "cd ${_pl_dict_root} && ./configure && make && make install"
 
-            _en_dict="aspell6-en-2020.12.07-0.tar.bz2"
+            _en_dict_root="aspell6-en-2020.12.07-0"
+            _en_dict="${_en_dict_root}.tar.bz2"
             run "fetch ${MAIN_SOURCE_REPOSITORY}${_en_dict}"
             run "tar xf ${_en_dict}"
-            run "cd aspell6-en-2019.10.06-0 && ./configure && make && make install"
+            run "cd ${_en_dict_root} && ./configure && make && make install"
         }
 
         remove_services_bin () {
