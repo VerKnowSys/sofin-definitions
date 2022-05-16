@@ -1,0 +1,14 @@
+DEF_TYPE="meta"
+
+DEF_FULL_NAME="Pff - PF Filtering"
+DEF_NAME="pff"
+DEF_VERSION="0.3.0"
+DEF_REQUIREMENTS="rust-basic"
+DEF_EXPORTS="${DEF_NAME}"
+
+DEF_AFTER_INSTALL_METHOD="install_pff"
+install_pff () {
+    mkdir -p "${PREFIX}/bin"
+    run "cargo install --locked --version ${DEF_VERSION} ${DEF_NAME}"
+    run "${MV_BIN} -v ${SERVICE_DIR}/bin/${DEF_NAME} ${PREFIX}/bin/pff"
+}
