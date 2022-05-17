@@ -18,3 +18,8 @@ DEF_MAKE_METHOD="/usr/bin/make BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man"
 DEF_INSTALL_METHOD="/usr/bin/make install BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man"
 DEF_EXPORTS="dhcpd"
 DEF_USELESS="include share bin"
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-13.1)
+        DEF_NO_LLVM_LINKER=YES
+        ;;
+esac
