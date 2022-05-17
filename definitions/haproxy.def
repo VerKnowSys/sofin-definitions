@@ -16,9 +16,15 @@ make_haproxy () {
         FreeBSD)
             ${SED_BIN} -i '' -e "s|gcc|clang|g; s|g++|clang++|g" Makefile
             make -j "${CPUS}" \
+                CC=clang \
                 PREFIX="${PREFIX}" \
                 TARGET="freebsd" \
+                CPU_CFLAGS="${CFLAGS}" \
                 LUA_LIB_NAME="lua" \
+                USE_CPU_AFFINITY=1 \
+                USE_KQUEUE=1 \
+                USE_GETADDRINFO=1 \
+                USE_ACCEPT4=1 \
                 USE_OPENSSL=1 \
                 USE_ZLIB=1 \
                 USE_LUA=1 \
