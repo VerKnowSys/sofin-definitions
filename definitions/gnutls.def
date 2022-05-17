@@ -16,8 +16,17 @@ esac
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.gnupg.org/ftp/gcrypt/${DEF_NAME}/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libunistring libgpg-error gmp nettle libtasn1 libffi p11-kit"
-DEF_CONFIGURE_ARGS="--disable-cxx --disable-nls --disable-guile --enable-local-libopts"
-DEF_INSTALL_METHOD="make -s install"
+DEF_CONFIGURE_ARGS="--disable-cxx --disable-nls --disable-guile --enable-local-libopts --with-default-trust-store-pkcs11=\"pkcs11:model=p11-kit-trust;manufacturer=PKCS%2311%20Kit\" AUTOGEN=false ac_cv_type_max_align_t=yes ac_cv_lib_intl_gettext=no"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-13.1)
+        DEF_AFTER_UNPACK_METHOD="sed_makefile"
+        sed_makefile () {
+            ${SED_BIN} -i '' -e 's/\-Wa,\-march=all//g' lib/accelerated/aarch64/Makefile.am lib/accelerated/aarch64/Makefile.in lib/accelerated/aarch64/Makefile
+        }
+        ;;
+esac
+DEF_INSTALL_METHOD="make -s install-strip"
 DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-serv"
 DEF_USEFUL="bin/gnu*"
 
