@@ -13,3 +13,4 @@ install_netdumpd () {
     run "${RM_BIN} -rf ${PREFIX}/man/man88"
 }
 DEF_EXPORTS="netdumpd"
+DEF_NO_LLVM_LINKER=YES
