@@ -23,6 +23,7 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         DEF_AFTER_UNPACK_METHOD="sed_makefile"
         sed_makefile () {
             ${SED_BIN} -i '' -e 's/\-Wa,\-march=all//g' lib/accelerated/aarch64/Makefile.am lib/accelerated/aarch64/Makefile.in lib/accelerated/aarch64/Makefile
+            return 0
         }
         ;;
 esac
