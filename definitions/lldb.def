@@ -1,7 +1,7 @@
 DEF_FULL_NAME="LLVM debugger: LLDB"
 DEF_NAME="lldb"
-DEF_VERSION="11.0.1"
-DEF_SHA="49f5d91e20672b9e9756a776fc800c8c7da8eba2"
+DEF_VERSION="13.0.1"
+DEF_SHA="23b6e1dd5295965ec0adfe4447787f95d24b07c3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
 DEF_REQUIREMENTS="@clang"
 DEF_CONFIGURE_METHOD="cmake"
@@ -9,6 +9,6 @@ DEF_CONFIGURE_ARGS="-DBUILD_SHARED_LIBS=ON -DLEVELDB_BUILD_TESTS=OFF -DLLDB_INCL
 DEF_EXPORTS="lldb lldb-server lldb-argdumper lldb-instr lldb-mi lldb-vscode"
 DEF_USELESS="lib/*.{a,la,sh} include lib/{cmake,clang,pkgconfig} libexec share man"
 
-DEF_AFTER_INSTALL_METHOD="${STRIP_BIN} ${PREFIX}/lib/python2.7/lib-dynload/*.so"
+DEF_AFTER_INSTALL_METHOD="${STRIP_BIN} ${PREFIX}/lib/python*/lib-dynload/*.so"
 
 unset DEF_USE_RAMDISK
