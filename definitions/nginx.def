@@ -5,7 +5,7 @@ DEF_VERSION="1.22.0"
 DEF_SHA="419efb77b80f165666e2ee406ad8ae9b845aba93"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nginx.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pcre geoip libmaxminddb" # use openssl from base system of FreeBSD 13 where kTLS feature is enabled by default (svdOS only)
+DEF_REQUIREMENTS="pcre2 geoip libmaxminddb" # use openssl from base system of FreeBSD 13 where kTLS feature is enabled by default (svdOS only)
 DEF_USELESS="lib/*.{a,la} lib/pkgconfig include bin share man"
 
 case "${SYSTEM_ARCH}" in
