@@ -8,15 +8,15 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         ;;
 
     *)
-        DEF_SHA="6ba8fb898dcf4b4046b60662ba97df835593e687"
-        DEF_VERSION="3.6.16"
+        DEF_SHA="47591374259451fe2cd86c5fe7c345e769a6c79b"
+        DEF_VERSION="3.7.6"
         ;;
 esac
 
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.gnupg.org/ftp/gcrypt/${DEF_NAME}/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libunistring libgpg-error gmp nettle libtasn1 libffi p11-kit"
-DEF_CONFIGURE_ARGS="--disable-cxx --disable-nls --disable-guile --enable-local-libopts --with-default-trust-store-pkcs11=\"pkcs11:model=p11-kit-trust;manufacturer=PKCS%2311%20Kit\" AUTOGEN=false ac_cv_type_max_align_t=yes ac_cv_lib_intl_gettext=no"
+DEF_CONFIGURE_ARGS="--disable-doc --disable-ssl2-support --disable-nls --disable-guile --enable-local-libopts --enable-threads --with-default-trust-store-pkcs11=\"pkcs11:model=p11-kit-trust;manufacturer=PKCS%2311%20Kit\" AUTOGEN=false ac_cv_type_max_align_t=yes ac_cv_lib_intl_gettext=no"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-13.1)
