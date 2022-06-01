@@ -1,5 +1,7 @@
 inherit libressl
 
+unset DEF_USE_SAFE_STACK
+
 DEF_FULL_NAME="OpenSSL v1.1.1"
 DEF_NAME="openssl"
 DEF_VERSION="1.1.1o"
