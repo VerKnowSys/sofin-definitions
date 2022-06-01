@@ -7,7 +7,7 @@ DEF_VERSION="0.20.23"
 DEF_SHA="ab9b9b0118e4804716b6d05fa55b3bc1628a1ade"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.musicpd.org/download/mpd/"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} gdbm python39 boost ffmpeglib libmpdclient mpc curl-dynamic mpdscribble zlib"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} gdbm python39 boost ffmpeglib libmpdclient mpc curl-lib mpdscribble zlib"
 DEF_CONFIGURE_ARGS="" # just let the magic happen ;)
 case "${SYSTEM_NAME}" in
     Darwin)
