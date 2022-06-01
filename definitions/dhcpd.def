@@ -7,7 +7,7 @@ DEF_SHA="82cb45169e4e8016f2fb5e843f7cfb036fe41c01"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_BUILD_DIR_SUFFIX="src/usr.sbin/dhcpd"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="libressl"
+DEF_REQUIREMENTS="libressl-lib"
 DEF_AFTER_UNPACK_METHOD="prepare_stuff"
 prepare_stuff () {
     mkdir -p "${PREFIX}/sbin" "${PREFIX}/man/man5" "${PREFIX}/man/man8"

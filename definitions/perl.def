@@ -5,7 +5,7 @@ DEF_VERSION="5.34.1"
 DEF_SHA="e7dbef3c1ea7caa73e2c705bba9e4bfb92ea98f0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libressl"
+DEF_REQUIREMENTS="libressl-lib"
 DEF_STANDALONE=YES
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {

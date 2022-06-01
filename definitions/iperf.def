@@ -4,7 +4,7 @@ DEF_VERSION="3.7"
 DEF_SHA="0e36aaafa986e8d68f036aba709b0028895be3bf"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://downloads.es.net/pub/${DEF_NAME}/${DEF_NAME}2/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libressl"
+DEF_REQUIREMENTS="libressl-lib"
 DEF_CONFIGURE_ARGS="--with-openssl=${PREFIX} --disable-dependency-tracking"
 DEF_EXPORTS="${DEF_NAME}3"
 

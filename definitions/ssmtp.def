@@ -5,7 +5,7 @@ DEF_VERSION="master"
 DEF_GIT_CHECKOUT="master"
 DEF_SOURCE_PATH="https://github.com/ajwans/sSMTP.git"
 DEF_CONFIGURE_ARGS="--enable-ssl"
-DEF_REQUIREMENTS="libressl"
+DEF_REQUIREMENTS="libressl-lib"
 DEF_EXPORTS="ssmtp sendmail"
 
 DEF_AFTER_INSTALL_METHOD="link_as_sendmail"
