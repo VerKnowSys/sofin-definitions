@@ -3,7 +3,7 @@ DEF_NAME="ekg2"
 DEF_GIT_CHECKOUT="master"
 DEF_VERSION="${DEF_GIT_CHECKOUT}-v0.3.a"
 DEF_SOURCE_PATH="https://github.com/ekg2/ekg2.git"
-DEF_REQUIREMENTS="pkgconf-static libtool make-static pcre libunistring zlib lzma xz perl sqlite expat libgpg-error libgcrypt libassuan libksba pth npth gnupg gpgme libffi libressl python27 autoconf texinfo automake14 gmp nettle libtasn1 gettext glib libidn libidn2 p11-kit gnutls"
+DEF_REQUIREMENTS="pkgconf-static libtool make-static pcre libunistring zlib lzma xz perl sqlite expat libgpg-error libgcrypt libassuan libksba pth npth gnupg gpgme libffi libressl-lib python27 autoconf texinfo automake14 gmp nettle libtasn1 gettext glib libidn libidn2 p11-kit gnutls"
 DEF_CONFIGURE_METHOD="./autogen.sh"
 case ${SYSTEM_NAME} in
     Darwin)

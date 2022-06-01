@@ -4,7 +4,7 @@ DEF_VERSION="2.3.2"
 DEF_SHA="0a01fca61ab09f5ab3f2d7fa968d3276133f03d7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/libidn/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libressl gettext libunistring"
+DEF_REQUIREMENTS="libressl-lib gettext libunistring"
 DEF_CONFIGURE_ARGS="--with-libunistring-prefix=${PREFIX} --with-libintl-prefix=${PREFIX} --disable-valgrind-tests --disable-gtk-doc-html --disable-dependency-tracking --disable-silent-rules --disable-static"
 DEF_EXPORTS="idn2"
 

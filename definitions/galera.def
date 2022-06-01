@@ -4,7 +4,7 @@ DEF_VERSION="3-25.3.28"
 DEF_SHA="3d60fc0d850cb8b36f2396b02d4df5b1cb3db2ba"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://releases.galeracluster.com/galera-3/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libedit db pcre expat yaml libffi libressl boost check python27 scons"
+DEF_REQUIREMENTS="libedit db pcre expat yaml libffi libressl-lib boost check python27 scons"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD="make_products"
 make_products () {

@@ -1,5 +1,5 @@
 DEF_TYPE="meta"
 DEF_NAME="ruby-build-essentials"
 DEF_VERSION="dev"
-DEF_REQUIREMENTS="libffi libressl readline yaml"
+DEF_REQUIREMENTS="libffi libressl-lib readline yaml"
 DEF_CLEAN_USELESS=NO

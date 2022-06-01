@@ -13,7 +13,7 @@ yasm \
 libogg \
 libvorbis \
 jemalloc \
-libressl \
+libressl-lib \
 curl-dynamic \
 faad \
 neon \

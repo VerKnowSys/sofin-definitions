@@ -6,7 +6,7 @@ DEF_SHA="fb9cc392165c6f54b0e773027ca43e0c8ceadeac"
 DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS}"
-DEF_REQUIREMENTS="jemalloc pkgconf-static make-static lzma xz expat libressl curl-dynamic libarchive rhash"
+DEF_REQUIREMENTS="jemalloc pkgconf-static make-static lzma xz expat libressl-lib curl-dynamic libarchive rhash"
 DEF_EXPORTS="${DEF_NAME} c${DEF_NAME} cpack ctest"
 DEF_USELESS="include lib/*.{a,la}"
 DEF_USE_SAFE_STACK=YES
