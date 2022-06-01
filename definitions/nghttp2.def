@@ -4,8 +4,6 @@ DEF_VERSION="1.47.0"
 DEF_SHA="05ed6b79276d1239a8733f2114f043a820354088"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--with-jemalloc=${PREFIX} --with-libxml2=${PREFIX} \
---without-mruby --without-neverbleed --without-systemd \
---enable-lib-only --enable-asio-lib \
---disable-static --disable-debug --disable-app --disable-hpack-tools --disable-python-bindings --disable-examples --disable-failmalloc --disable-assert"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DENABLE_SHARED_LIB=ON -DWITH_LIBXML2=ON -DWITH_JEMALLOC=ON -DENABLE_THREADS=ON -DENABLE_PYTHON_BINDINGS=OFF -DENABLE_STATIC_LIB=OFF -DENABLE_EXAMPLES=OFF -DENABLE_FAILMALLOC=OFF"
 DEF_REQUIREMENTS="jemalloc libressl-lib libxml2 libevent"
