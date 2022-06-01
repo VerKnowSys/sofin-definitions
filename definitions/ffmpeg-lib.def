@@ -1,5 +1,6 @@
 inherit ffmpeg
 
+DEF_SUFFIX="-lib"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} ${FFMPEG_DEFAULT_CONFIGURE_FLAGS} \
     --disable-programs --disable-devices --enable-shared --enable-static"
 
@@ -8,7 +9,6 @@ DEF_CONFIGURE_ARGS="$(echo "${DEF_CONFIGURE_ARGS}" | ${SED_BIN} -e 's|--enable-l
 DEF_COMPILER_FLAGS="$(echo "${DEF_COMPILER_FLAGS}" | ${SED_BIN} -e 's|-fsanitize=safe-stack||;')"
 DEF_LINKER_FLAGS="$(echo "${DEF_LINKER_FLAGS}" | ${SED_BIN} -e 's|-fsanitize=safe-stack||;')"
 DEF_USELESS="docs lib/python* lib/perl* share/a* share/emacs bin/python* bin/db_* bin/glib-* bin/gettext* bin/msg* bin/easy_install bin/pip"
-
 unset DEF_STANDALONE
 unset DEF_EXPORTS
 unset DEF_USE_SAFE_STACK
