@@ -7,7 +7,7 @@ DEF_SHA="875416827be3ad63f20004510a354db0aaceb2ed"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}openldap-${DEF_VERSION}.tgz"
 DEF_ORIGIN="ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-${DEF_VERSION}.tgz"
 DEF_CONFIGURE_ARGS="--enable-dynamic --with-tls=openssl --enable-overlays=mod --enable-shell --enable-modules --enable-rewrite --enable-slapd --with-threads=posix --without-cyrus-sasl --enable-shell=mod --with-mp=gmp --enable-hdb=mod --enable-mdb=mod --enable-bdb=mod --enable-passwd=mod --with-tls=openssl --enable-ipv6 --enable-ldap --enable-local --enable-dynamic --enable-static=no --enable-shared=yes"
-DEF_REQUIREMENTS="libtool gmp db libressl"
+DEF_REQUIREMENTS="libtool gmp db libressl-lib"
 DEF_USELESS="man share docs include lib/*.{a,la}"
 DEF_EXPORTS="slapd ldapadd ldapcompare ldapdelete ldapexop ldapmodify ldapmodrdn ldappasswd ldapsearch ldapurl ldapwhoami"
 

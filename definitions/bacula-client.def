@@ -3,6 +3,6 @@ inherit bacula
 DEF_DISABLE_ON=""
 DEF_FULL_NAME="Bacula backup system client"
 DEF_SUFFIX="-client"
-DEF_REQUIREMENTS="make-static zlib libressl"
+DEF_REQUIREMENTS="make-static zlib libressl-lib"
 DEF_CONFIGURE_ARGS="--enable-smartalloc --disable-nls --with-openssl=${PREFIX} --disable-conio --with-scriptdir=${PREFIX}/share/${DEF_NAME} --enable-batch-insert --with-plugindir=${PREFIX}/lib --with-sbin-perm=755 --with-baseport=9101 --with-sd-group=operator --disable-libtool --enable-client-only DEBUG="
 DEF_EXPORTS="bacula bacula-fd bconsole btraceback"
