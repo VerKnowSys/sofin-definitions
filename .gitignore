@@ -6,3 +6,4 @@
 /bin/sofin-miliseconds
 /releases/
 .VolumeIcon.icns
+*.sublime-workspace
