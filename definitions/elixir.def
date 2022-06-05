@@ -20,7 +20,7 @@ export_stuff_and_make () {
     _elixir_timeout="2000"
 
     note "Setting explicit encoding: $(distn "${_lang}") for build of: $(distn "$(capitalize "${DEF_NAME}-${DEF_VERSION}"), OTP-${OTP_VERSION%.*}")"
-    try "export PATH=${PATH} \
+    run "export PATH=${PATH} \
         && export LANG=${_lang} \
         && export LC_CTYPE=${_lang} \
         && export LC_COLLATE=${_lang} \
@@ -34,4 +34,4 @@ export_stuff_and_make () {
     " && return 0
     return 1
 }
-DEF_TEST_METHOD="make test >> ${LOG}-${DEF_NAME}${DEF_SUFFIX} 2>> ${LOG}-${DEF_NAME}${DEF_SUFFIX}"
+DEF_TEST_METHOD="make ${MAKE_OPTS} test"
