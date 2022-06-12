@@ -1,11 +1,10 @@
 DEF_FULL_NAME="Vim editor"
 DEF_NAME="vim"
-DEF_VERSION="8.2.3813"
-DEF_SHA="e7967841dc332d5cd131d1ee7670348f30cc8dc7"
+DEF_VERSION="8.2.5079"
+DEF_SHA="e925a9d1baff9046fedadff95f3b54484e586ee3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://codeload.github.com/${DEF_NAME}/${DEF_NAME}/tar.gz/v${DEF_VERSION}"
 DEF_CONFIGURE_ARGS="--enable-gui=no --without-x --disable-perlinterp --disable-pythoninterp --disable-tclinterp --disable-rubyinterp --disable-luainterp --disable-nls --disable-selinux --disable-netbeans --disable-gtktest --disable-gpm --with-compiledby=VerKnowSys --enable-multibyte"
-DEF_REQUIREMENTS="make-static"
 DEF_AFTER_EXPORT_METHOD="create_vimrc_if_not_present"
 create_vimrc_if_not_present () {
     _vimrc="${HOME}/.${DEF_NAME}rc"
