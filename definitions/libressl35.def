@@ -1,0 +1,6 @@
+inherit libressl
+
+DEF_VERSION="3.5.3"
+DEF_SHA="edc27e094008953efa94349cc5b8cf69680c93d9"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/${DEF_NAME}-${DEF_VERSION}.tar.gz"
