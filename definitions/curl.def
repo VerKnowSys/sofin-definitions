@@ -32,3 +32,8 @@ fetch_and_install_fresh_ca_cert () {
         && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
         && return 0
 }
+
+DEF_TEST_METHOD="test_curl_features"
+test_curl_features () {
+    ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz NTLM NTLM_WB SSL UnixSockets"
+}
