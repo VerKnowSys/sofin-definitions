@@ -1,7 +1,0 @@
-inherit curl
-
-DEF_SUFFIX="-dynamic"
-DEF_REQUIREMENTS="jemalloc expat libressl-lib"
-DEF_CONFIGURE_ARGS="-DBUILD_SHARED_LIBS=ON -DCURL_LTO=ON -DBUILD_TESTING=OFF -DCURL_CA_BUNDLE=${SERVICE_DIR}/etc/ssl/cert.pem"
-
-unset DEF_USE_SAFE_STACK
