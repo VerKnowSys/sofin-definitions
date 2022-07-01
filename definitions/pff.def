@@ -5,6 +5,7 @@ DEF_NAME="pff"
 DEF_VERSION="0.3.0"
 DEF_REQUIREMENTS="rust-basic"
 DEF_EXPORTS="${DEF_NAME}"
+DEF_USELESS="etc lib libexec share"
 
 DEF_AFTER_INSTALL_METHOD="install_pff"
 install_pff () {
