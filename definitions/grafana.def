@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Grafana"
 DEF_NAME="grafana"
-DEF_VERSION="7.5.15"
-DEF_SHA="292e451c457e936beb477bf5b4aec7b60f5a7d91"
+DEF_VERSION="9.0.2"
+DEF_SHA="086589efbe5ef5bad17244757ecf45d1034c3ec3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="@go"
 DEF_CONFIGURE_METHOD="ignore"
@@ -17,10 +17,12 @@ make_action () {
         pkg/cmd/grafana-server/main.go \
         pkg/cmd/grafana-cli/main.go
 
+    run "GOPATH=${PREFIX} go install github.com/google/wire/cmd/wire@latest"
+    run "wire gen -tags oss ./pkg/server ./pkg/cmd/grafana-cli/runner"
     run "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-server' ./pkg/cmd/grafana-server" \
         && run "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana-cli' ./pkg/cmd/grafana-cli"
 
-    # ORIGIN for prebuild: https://dl.grafana.com/oss/release/grafana-6.5.2.linux-amd64.tar.gz
+    # ORIGIN for prebuild: https://dl.grafana.com/oss/release/grafana-9.0.2.linux-amd64.tar.gz
     debug "Fetching prebuilt Grafana archive"
     ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" \
         && ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" \
