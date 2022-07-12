@@ -2,11 +2,11 @@ DEF_DISABLE_ON="Linux"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Redis is in-memory data structure store, used as database, cache and message broker."
 DEF_NAME="redis"
-DEF_VERSION="6.2.6"
-DEF_SHA="e9fb68dfcee194b438bd0af6e4cbc277a2a425e2"
+DEF_VERSION="6.2.7"
+DEF_SHA="b01ef3f117c9815dea41bf2609e489a03c3a5ab1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://download.redis.io/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="jemalloc libressl-lib lua51"
+DEF_REQUIREMENTS="jemalloc libressl-lib"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_USELESS="include lib/pkgconfig lib/*.{a,la} man share"
 
@@ -30,7 +30,7 @@ build_and_install_redis () {
         MALLOC=jemalloc \
         PREFIX="${PREFIX}" \
         CFLAGS="${_redis_bonus_args} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
-        LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc -llua" \
+        LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc" \
         install
 }
 DEF_INSTALL_METHOD="true"
