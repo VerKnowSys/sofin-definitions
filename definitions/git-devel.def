@@ -4,8 +4,8 @@ unset DEF_CRITICAL
 
 DEF_FULL_NAME="Git SCM (recent version)"
 DEF_SUFFIX="-devel"
-DEF_VERSION="2.36.1"
-DEF_SHA="8d6d370d0a5dec947640ce09cb25ff697b1ca963"
+DEF_VERSION="2.37.1"
+DEF_SHA="a089236280039292dc88a6a6c9c29acc65703ec6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libunistring pcre2 icu @python39 perl @nghttp2 libssh2 libidn2 curl-lib"
