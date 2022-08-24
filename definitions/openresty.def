@@ -1,0 +1,69 @@
+DEF_FULL_NAME="OpenRESTy Standalone"
+DEF_STANDALONE=YES
+DEF_NAME="openresty"
+DEF_VERSION="1.21.4.1"
+DEF_SHA="d686b91b02376371cf2f47827fab12e88bcbeeb6"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://${DEF_NAME}.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_REQUIREMENTS="pcre-jit luajit" # use openssl from base system of FreeBSD 13 where kTLS feature is enabled by default (svdOS only)
+DEF_USELESS="lib/*.a man"
+
+unset CFLAGS LDFLAGS CXXFLAGS CC CXX CPP LD
+
+DEF_CONFIGURE_ARGS="--with-pcre-jit --with-threads --with-http_ssl_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_v2_module --modules-path=${PREFIX}/modules"
+
+DEF_AFTER_UNPACK_METHOD="patch_modules_after_unpack"
+patch_modules_after_unpack () {
+    for _file in $(find . -type f 2>/dev/null); do
+        ${SED_BIN} \
+            -i '' \
+            -e "s#/usr/local#${PREFIX}#g" "${_file}"
+    done
+}
+
+_paths_override_svdos="--build=VerKnowSys \
+    --error-log-path=${SERVICE_DIR}/logs/error.log \
+    --http-log-path=${SERVICE_DIR}/logs/access.log \
+    --pid-path=${SERVICE_DIR}/service.pid \
+    --lock-path=${SERVICE_DIR}/service.lock \
+    --conf-path=${SERVICE_DIR}/service.conf \
+    --http-proxy-temp-path=${SERVICE_DIR}/proxy \
+    --http-client-body-temp-path=${SERVICE_DIR}/body \
+    --http-fastcgi-temp-path=${SERVICE_DIR}/fcgi \
+"
+
+_common_args="--with-luajit=${PREFIX}" # --with-cc-opt='${CFLAGS} ${_custom_cflags} -DNDEBUG' --with-ld-opt='${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=${USER:-nobody} --group=staff ${_paths_override_svdos}"
+        ;;
+
+    Linux)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=www-data --group=www-data --with-file-aio --with-openssl=${PREFIX} --with-zlib=${PREFIX} ${_common_args}"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-file-aio --user=www --group=www ${_common_args} ${_paths_override_svdos}"
+        ;;
+esac
+
+DEF_AFTER_CONFIGURE_METHOD="patch_after_configure"
+patch_after_configure () {
+    ${SED_BIN} -i '' -e 's|z\\|z|' build/nginx-1.21.4/objs/Makefile
+}
+
+DEF_MAKE_METHOD="make ${MAKE_OPTS}" # OPENSSL=${PREFIX} &&  || read -r asdf
+DEF_AFTER_MAKE_METHOD="create_service_dirs"
+create_service_dirs () {
+    for _pref in /proxy /body /body /fcgi /logs; do
+        ${MKDIR_BIN} -p "${SERVICE_DIR}${_pref}"
+    done
+    unset _pref
+}
+DEF_EXPORTS="openresty resty restydoc restydoc-index"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
