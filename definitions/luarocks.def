@@ -1,0 +1,17 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="Luarocks"
+DEF_NAME="luarocks"
+DEF_VERSION="3.9.1"
+DEF_SHA="d033be3691a456168c4b7a6bb2beb49289162ec0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+# DEF_CONFIGURE_ARGS="--rocks-tree=${SERVICE_DIR}"
+DEF_USEFUL="bin/lua*"
+DEF_REQUIREMENTS="luajit"
+DEF_INSTALL_METHOD="make install && make bootstrap"
+DEF_EXPORTS="luarocks"
+
+DEF_AFTER_UNPACK_METHOD="patch_srcfile"
+patch_srcfile () {
+    mkdir -p "${SERVICE_DIR}/cache"
+    ${SED_BIN} -i '' -e "s|/var/cache|${SERVICE_DIR}/cache|g;" src/luarocks/fs/unix.lua
+}
