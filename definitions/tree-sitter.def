@@ -1,0 +1,7 @@
+DEF_FULL_NAME="TreeSitter parsing lib"
+DEF_NAME="tree-sitter"
+DEF_VERSION="0.20.6"
+DEF_SHA="69dfd6479c5c5c41912ef10c63670072155cb124"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://codeload.github.com/${DEF_NAME}/${DEF_NAME}/tar.gz/refs/tags/v${DEF_VERSION}"
+DEF_CONFIGURE_METHOD="ignore"
