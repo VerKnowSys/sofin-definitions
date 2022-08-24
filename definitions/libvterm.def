@@ -1,0 +1,12 @@
+DEF_FULL_NAME="LibVTerm"
+DEF_NAME="libvterm"
+DEF_VERSION="0.1.4"
+DEF_SHA="b4bd33b881b950d8759af4c20e913955e41cd706"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="ignore"
+
+DEF_AFTER_UNPACK_METHOD="patch_makefile"
+patch_makefile () {
+    ${SED_BIN} -i '' -e "s|gcc|cc|g; s|/usr/local|${PREFIX}|g;" \
+        Makefile
+}
