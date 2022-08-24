@@ -1,0 +1,12 @@
+DEF_FULL_NAME="Libtermkey"
+DEF_NAME="libtermkey"
+DEF_VERSION="0.22"
+DEF_SHA="e7eec6e33d7679fb109b66a83a8546436fb9f445"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="ignore"
+
+DEF_AFTER_UNPACK_METHOD="patch_makefile"
+patch_makefile () {
+    ${SED_BIN} -i '' -e "s|gcc|cc|g; s|/usr/local|${PREFIX}|g;" \
+        Makefile
+}
