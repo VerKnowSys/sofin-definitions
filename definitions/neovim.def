@@ -1,0 +1,27 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="NeoVim editor"
+DEF_NAME="neovim"
+DEF_VERSION="0.7.2"
+DEF_SHA="faf396d7dbe79c671844fd142ce1910fed9fdc50"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://codeload.github.com/${DEF_NAME}/${DEF_NAME}/tar.gz/refs/tags/v${DEF_VERSION}"
+DEF_REQUIREMENTS="libtool gettext msgpack @luv luarocks tree-sitter unibilium libtermkey libvterm libiconv gperf"
+DEF_AFTER_UNPACK_METHOD="install_luarocks_deps"
+install_luarocks_deps () {
+    CFLAGS=""
+    LDFLAGS="-Wl,-z,notext -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+    CXXFLAGS=""
+    CC="cc"
+    CXX="c++"
+    CPP="cpp"
+
+    ${PREFIX}/bin/luarocks install lpeg
+    ${PREFIX}/bin/luarocks install mpack
+    ${PREFIX}/bin/luarocks install luasocket
+    ${PREFIX}/bin/luarocks install fennel
+}
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DDEPS_PREFIX=${PREFIX}"
+DEF_EXPORTS="nvim"
+
+unset DEF_CLEAN_USELESS
