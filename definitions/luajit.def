@@ -1,0 +1,22 @@
+DEF_VERSION="2.0.5"
+DEF_NAME="LuaJIT"
+DEF_SHA="10427215da7d424fd9e48adbea087966053cdb6f"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_EXPORTS="luajit luajit-${DEF_VERSION}"
+
+DEF_AFTER_UNPACK_METHOD="patch_makefile"
+patch_makefile () {
+    # ${SED_BIN} -i '' -e 's,rand *(,random(,g' src/lmathlib.c
+    ${SED_BIN} -i '' -e "s|/usr/local|${PREFIX}|g;" src/luaconf.h
+    ${SED_BIN} -i '' -e "s|gcc|cc|g; s|/usr/local|${PREFIX}|g;" \
+        src/Makefile \
+        Makefile
+}
+
+CFLAGS=""
+LDFLAGS="-Wl,-z,notext -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+CXXFLAGS=""
+CC="cc"
+CXX="c++"
+CPP="cpp"
