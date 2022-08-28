@@ -4,7 +4,7 @@ DEF_VERSION=v2.1
 DEF_GIT_CHECKOUT=v2.1
 DEF_SOURCE_PATH="https://github.com/LuaJIT/LuaJIT.git"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_EXPORTS="luajit luajit-${DEF_VERSION}"
+DEF_EXPORTS="luajit luajit-2.1.0-beta3"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"
 patch_makefile () {
