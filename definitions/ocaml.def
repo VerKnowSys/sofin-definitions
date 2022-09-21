@@ -1,8 +1,8 @@
 DEF_FULL_NAME="OCaml is an industrial strength programming language supporting functional, imperative and object-oriented styles"
 DEF_STANDALONE=YES
 DEF_NAME="ocaml"
-DEF_VERSION="4.13.1"
-DEF_SHA="7fe8db8595841bc13da689f5d188e4a10c9b4a52"
+DEF_VERSION="4.14.0"
+DEF_SHA="23d68b1fc1baf1cebb5b655d3aedbe7a2602741c"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://caml.inria.fr/pub/distrib/ocaml-${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="lzo lz4 pcre db openssl @binutils"
