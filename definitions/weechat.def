@@ -1,8 +1,8 @@
 DEF_FULL_NAME="WeeChat, the extensible chat client"
 DEF_STANDALONE=YES
 DEF_NAME="weechat"
-DEF_VERSION="3.6"
-DEF_SHA="7550297a2ab533e6b3dd84807178a15936cb2bd6"
+DEF_VERSION="3.7"
+DEF_SHA="438de3c272c51433d9752c859251e9cdd27e35cc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
