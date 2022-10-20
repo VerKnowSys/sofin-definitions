@@ -1,4 +1,4 @@
-inherit php73
+inherit php74
 
 DEF_FULL_NAME="PHP 8.1"
 DEF_SUFFIX="81"
