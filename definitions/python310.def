@@ -2,8 +2,8 @@ inherit python39
 
 DEF_FULL_NAME="Python 3.10"
 DEF_SUFFIX="310"
-DEF_VERSION="3.10.7"
-DEF_SHA="e1d4c71059170ba841af310a04e0b4d7c38cb844"
+DEF_VERSION="3.10.8"
+DEF_SHA="49ca7a5be7f13375e863442fbd9ead893ace3238"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libffi libressl-lib expat readline gettext gmp"
