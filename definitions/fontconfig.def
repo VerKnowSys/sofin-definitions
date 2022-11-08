@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Fontconfig Library"
 DEF_STANDALONE=YES
 DEF_NAME="fontconfig"
-DEF_VERSION="2.13.96"
-DEF_SHA="de1f132ddafeaef7c80ffe0bae27da11f3a1cc06"
+DEF_VERSION="2.14.1"
+DEF_SHA="1e0c542d35783f25ed3f4d3eb843fd81cb01a81d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.freedesktop.org/software/${DEF_NAME}/release/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libpng libxml2 autoconf texinfo automake freetype gperf"
