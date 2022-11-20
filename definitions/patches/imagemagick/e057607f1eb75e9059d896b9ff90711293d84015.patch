@@ -1,0 +1,33 @@
+From e057607f1eb75e9059d896b9ff90711293d84015 Mon Sep 17 00:00:00 2001
+From: Cristy <urban-warrior@imagemagick.org>
+Date: Sun, 20 Nov 2022 08:44:31 -0500
+Subject: [PATCH] https://github.com/ImageMagick/ImageMagick/issues/5783
+
+---
+ coders/heic.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/coders/heic.c b/coders/heic.c
+index 74a65dfeba..0206180bcb 100644
+--- a/coders/heic.c
++++ b/coders/heic.c
+@@ -669,6 +669,9 @@ ModuleExport size_t RegisterHEICImage(void)
+   MagickInfo
+     *entry;
+ 
++#if defined(MAGICKCORE_HEIC_DELEGATE)
++  heif_init(NULL);
++#endif
+   entry=AcquireMagickInfo("HEIC","HEIC","High Efficiency Image Format");
+ #if defined(MAGICKCORE_HEIC_DELEGATE)
+   entry->decoder=(DecodeImageHandler *) ReadHEICImage;
+@@ -743,6 +746,9 @@ ModuleExport void UnregisterHEICImage(void)
+ #endif
+   (void) UnregisterMagickInfo("HEIC");
+   (void) UnregisterMagickInfo("HEIF");
++#if defined(MAGICKCORE_HEIC_DELEGATE)
++  heif_deinit();
++#endif
+ }
+ 
+ /*
