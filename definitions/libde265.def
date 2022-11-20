@@ -9,6 +9,7 @@ DEF_ORIGIN="https://github.com/strukturag/${DEF_NAME}/releases/download/${DEF_VE
 DEF_EXPORTS="dec265"
 case "${SYSTEM_ARCH}" in
     arm64|aarch64)
-        DEF_CONFIGURE_ARGS="-DDISABLE_SSE=ON"
+        # DEF_CONFIGURE_ARGS="-DDISABLE_SSE=ON"
+        DEF_CONFIGURE_ARGS="--disable-sse"
         ;;
 esac
