@@ -1,0 +1,22 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="DNSmasq"
+DEF_NAME="dnsmasq"
+DEF_VERSION="2.88"
+DEF_SHA="1503522f02cd9270b733067c29b868d9fd29dc38"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://thekelleys.org.uk/dnsmasq/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_METHOD="ignore"
+DEF_MAKE_METHOD="make install"
+DEF_INSTALL_METHOD=":"
+DEF_EXPORTS="dnsmasq"
+
+DEF_AFTER_UNPACK_METHOD="patch_source"
+patch_source () {
+    ${SED_BIN} -i '' -e \
+        "s#/usr/local#${PREFIX}#" \
+        Makefile
+
+    ${SED_BIN} -i '' -e \
+        "s#/usr/local/etc/dnsmasq.conf#${SERVICE_DIR}/service.conf#; s#/var/db#${SERVICE_DIR}#; s#/var/run/dnsmasq.pid#${SERVICE_DIR}/service.pid#" \
+        src/config.h
+}
