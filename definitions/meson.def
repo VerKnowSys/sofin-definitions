@@ -9,11 +9,11 @@ DEF_REQUIREMENTS="@python39"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_TYPE="meta"
 
-DEF_AFTER_INSTALL_METHOD="upgrade_pip && install_asciinema"
+DEF_AFTER_INSTALL_METHOD="upgrade_pip && install_meson"
 upgrade_pip () {
     pip3 install --upgrade pip
 }
 
-install_asciinema () {
+install_meson () {
     pip3 install ${DEF_NAME}==${DEF_VERSION}
 }
