@@ -1,0 +1,8 @@
+inherit "curl"
+
+DEF_SUFFIX="-lib"
+DEF_USELESS="man lib/*python* lib/*perl* include/*python* share/man share/texinfo share/info share/aclocal* lib/cmake"
+DEF_CONFIGURE_ARGS="-DBUILD_SHARED_LIBS=ON -DCURL_LTO=ON -DCURL_ZLIB=ON -DBUILD_TESTING=OFF -DBUILD_CURL_EXE=OFF -DCURL_CA_BUNDLE=${SERVICE_DIR}/etc/ssl/cert.pem"
+DEF_REQUIREMENTS="jemalloc pcre2 libunistring openssl lzo @zstd libffi libxml2 libidn2 nghttp2 brotli"
+
+unset DEF_EXPORTS DEF_USE_SAFE_STACK DEF_TEST_METHOD
