@@ -1,11 +1,11 @@
 inherit "python39"
 
 unset DEF_SUFFIX
-DEF_FULL_NAME="Meson build system (Python 3.9)"
-DEF_VERSION="0.56.0"
+DEF_FULL_NAME="Meson build system (Python 3.11)"
+DEF_VERSION="1.0.0"
 DEF_NAME="meson"
 DEF_USEFUL="bin/python3*"
-DEF_REQUIREMENTS="@python39"
+DEF_REQUIREMENTS="@python311"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_TYPE="meta"
 
