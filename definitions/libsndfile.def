@@ -1,10 +1,12 @@
 DEF_FULL_NAME="Lib sndfile"
-DEF_SHA="e95d9fca57f7ddace9f197071cbcfb92fa16748e"
 DEF_NAME="libsndfile"
-DEF_VERSION="1.0.25"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libogg libvorbis"
-DEF_CONFIGURE_ARGS="--disable-alsa"
+DEF_VERSION="1.2.0"
+DEF_SHA="a3d3f98c8063b191614fcbca959fb7b9d8942ceb"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="lame mpg123 opus libopusenc openssl libogg libvorbis opusfile flac speex"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     # solution for: 'configure script can't find "Carbon.h"' issue:
@@ -23,4 +25,3 @@ if [ "${SYSTEM_NAME}" = "Darwin" ]; then
     DEF_COMPILER_FLAGS="-I${_carbon_framework}/Versions/A/Headers -framework Carbon"
     DEF_LINKER_FLAGS="-L${PREFIX}/lib -lvorbis -logg -framework Carbon"
 fi
-unset DEF_USE_LTO
