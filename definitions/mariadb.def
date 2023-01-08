@@ -12,7 +12,8 @@ DEF_CONFIGURE_ARGS="-DSECURITY_HARDENED=ON -DBUILD_CONFIG=mysql_release -DINSTAL
 case "${SYSTEM_ARCH}" in
     arm64|aarch64)
         # NOTE: don't ask me why aria plugin has something s3-related that relies on curl… but only if ROCKSDB plugin is not built. Amazing.
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} expat curl-lib"
+        DEF_LINKER_FLAGS="-lcurl"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} expat @curl-lib"
         ;;
 esac
 
