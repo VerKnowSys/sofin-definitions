@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_NAME="mariadb"
 DEF_FULL_NAME="MariaDB 10.5"
-DEF_VERSION="10.5.17"
-DEF_SHA="4817a8351b6251db6236f7c8112b362bcb1c979f"
+DEF_VERSION="10.5.18"
+DEF_SHA="927468a0f356d637f8b6ce6ad7ce3c4add696b38"
 DEF_ORIGIN="http://ftp.icm.edu.pl/pub/unix/database/${DEF_NAME}//${DEF_NAME}-${DEF_VERSION}/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pcre2 libressl-lib libevent @zstd snappy"
