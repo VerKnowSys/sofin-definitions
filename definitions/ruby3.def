@@ -1,8 +1,8 @@
 inherit ruby27
 
 DEF_FULL_NAME="Ruby JIT 3.x"
-DEF_VERSION="3.2.0"
-DEF_SHA="bcdae07183d66fd902cb7bf995545a472d2fefea"
+DEF_VERSION="3.2.1"
+DEF_SHA="eab9eaa05c6f572032e8c8f6108c9a4fe229ddd3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libedit icu @libxslt @curl gettext sqlite gdbm libevent libuuid postgresql12-client @mariadb-client gmp libtool yaml rust-basic"
