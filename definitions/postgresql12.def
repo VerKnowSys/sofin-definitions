@@ -25,7 +25,7 @@ build_addons_and_extensions () {
     try "cd ${base_dir}/pg_stat_statements && make install"
 }
 install_timescaledb () {
-    _timescale_version="2.8.1"
+    _timescale_version="2.9.3"
     run "git clone https://github.com/timescale/timescaledb.git"
     cd timescaledb
     run "git checkout ${_timescale_version}"
