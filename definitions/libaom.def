@@ -1,6 +1,6 @@
 DEF_FULL_NAME="AV1 codec"
 DEF_NAME="libaom"
-DEF_VERSION="3.3.0"
+DEF_VERSION="3.6.0"
 DEF_GIT_MODE=YES
 DEF_GIT_CHECKOUT="v${DEF_VERSION}"
 DEF_SOURCE_PATH="https://aomedia.googlesource.com/aom"
