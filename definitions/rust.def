@@ -12,8 +12,8 @@ case "${SYSTEM_ARCH}" in
         ;;
 
     amd64|x86_64)
-        DEF_VERSION="1.66.0"
-        DEF_SHA="033ef77aecb1a65f7f4d79e0f8aebd2bc2ab8723"
+        DEF_VERSION="1.68.0"
+        DEF_SHA="367aa7df81b4e8de7009fb5d65e283e5f64194e5"
         DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 
