@@ -1,4 +1,13 @@
 inherit "rust"
 
-DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper"
-DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
+case "${SYSTEM_ARCH}" in
+    arm64|aarch64)
+        unset DEF_AFTER_MAKE_METHOD DEF_AFTER_UNPACK_METHOD
+        DEF_AFTER_INSTALL_METHOD="patch_prefix_and_install_arm64 && create_cargo_bin_wrapper"
+        ;;
+
+    amd64|x86_64)
+        DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper"
+        DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
+        ;;
+esac
