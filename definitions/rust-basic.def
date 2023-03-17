@@ -8,6 +8,6 @@ case "${SYSTEM_ARCH}" in
 
     amd64|x86_64)
         DEF_AFTER_MAKE_METHOD="create_cargo_bin_wrapper"
-        DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install"
+        DEF_AFTER_UNPACK_METHOD="patch_prefix_and_install_x86_64"
         ;;
 esac
