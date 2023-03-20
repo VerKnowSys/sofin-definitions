@@ -48,6 +48,8 @@ patch_prefix_and_install_x86_64 () {
 }
 
 patch_prefix_and_install_arm64 () {
+    fetch "${DEF_SOURCE_PATH}" || exit 8
+    ${TAR_BIN} xf "${DEF_SOURCE_PATH##*/}"
     ${CP_BIN} -R usr/local/ "${PREFIX}"
 }
 
