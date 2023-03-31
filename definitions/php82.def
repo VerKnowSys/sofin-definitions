@@ -1,0 +1,9 @@
+inherit php74
+
+DEF_FULL_NAME="PHP 8.2"
+DEF_SUFFIX="82"
+DEF_VERSION="8.2.4"
+DEF_SHA="d564d284a5d2982e12b6108961b53cd67a5a5d3a"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug memcached redis igbinary" # NOTE: meminfo doesn't build for 8 yet
