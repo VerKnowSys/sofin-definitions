@@ -7,3 +7,17 @@ DEF_SHA="d564d284a5d2982e12b6108961b53cd67a5a5d3a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug memcached redis igbinary" # NOTE: meminfo doesn't build for 8 yet
+
+install_xdebug () {
+    arch_name="xdebug-3.2.1"
+    archive="${arch_name}.tgz"
+    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    try "${TAR_BIN} xf ${archive}" && \
+    cd "${arch_name}" && \
+    try "${PREFIX}/bin/phpize" && \
+    try "./configure --prefix=${PREFIX} --enable-xdebug --with-php-config=${PREFIX}/bin/php-config" && \
+    try "PATH=${PREFIX}/bin:$PATH make install" && \
+    note "Installed Xdebug pecl module: ${arch_name}" && \
+    return 0
+    return 1
+}
