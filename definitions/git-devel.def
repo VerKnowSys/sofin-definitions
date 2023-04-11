@@ -4,8 +4,8 @@ unset DEF_CRITICAL
 
 DEF_FULL_NAME="Git SCM (recent version)"
 DEF_SUFFIX="-devel"
-DEF_VERSION="2.37.1"
-DEF_SHA="a089236280039292dc88a6a6c9c29acc65703ec6"
+DEF_VERSION="2.40.0"
+DEF_SHA="8ac6454e1b8c9e501d444add03e41e959e7b3d35"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="@curl-lib icu @python39 perl"
@@ -25,3 +25,8 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         unset DEF_USE_LTO
         ;;
 esac
+
+DEF_TEST_METHOD="test_git_features"
+test_git_features () {
+    ./${DEF_NAME} -v | ${GREP_BIN} -F "git version ${DEF_VERSION}"
+}
