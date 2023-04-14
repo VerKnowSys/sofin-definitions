@@ -2,8 +2,8 @@ DEF_CRITICAL=YES
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Z-Shell"
 DEF_NAME="zsh"
-DEF_VERSION="5.8.1"
-DEF_SHA="82ac4a80c527bfe01c0bdd109f65edc403176fb8"
+DEF_VERSION="5.9"
+DEF_SHA="bf6b252bc0d8618228eb609c5c19d495ed94e7c7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.zsh.org/pub/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-dynamic --enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp"
