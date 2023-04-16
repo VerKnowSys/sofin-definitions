@@ -143,6 +143,7 @@ esac
 
 unset DEF_USE_RAMDISK
 DEF_NO_PIE=YES
+# NOTE: enabled ccache means, that npm install of any package with native code, will require ccache being available on the system:
 # DEF_NO_CCACHE=YES
 DEF_NO_FAST_MATH=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
