@@ -44,9 +44,9 @@ GYP_DEFINES="clang=1"
 BUILD_DEFINES="" # -DDTRACE
 CFLAGS="${CFLAGS} ${BUILD_DEFINES}"
 CXXFLAGS="${CXXFLAGS} ${BUILD_DEFINES}"
-CC="ccache cc ${CFLAGS}"
-CXX="ccache c++ ${CXXFLAGS}"
-CPP="cpp"
+CC="${CCACHE_BIN} cc ${CFLAGS}"
+CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
+CPP="${CCACHE_BIN} cpp"
 LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 
 # Define Node-specific build environment magic:
