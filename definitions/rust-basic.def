@@ -1,5 +1,8 @@
 inherit "rust"
 
+DEF_FULL_NAME="Rust + Cargo"
+unset DEF_STANDALONE
+
 case "${SYSTEM_ARCH}" in
     arm64|aarch64)
         unset DEF_AFTER_MAKE_METHOD DEF_AFTER_UNPACK_METHOD
