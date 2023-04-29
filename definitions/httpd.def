@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Apache Web Server - Httpd (2.4.x)"
 DEF_STANDALONE=YES
 DEF_NAME="httpd"
-DEF_VERSION="2.4.56"
-DEF_SHA="0c4e5eded4c17f2df19324dd30044525ccd0518b"
+DEF_VERSION="2.4.57"
+DEF_SHA="01044512374941fad939ec4b1537428cc7edc769"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="http://ftp.ps.pl/pub/apache//${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="@curl-openssl libedit db gdbm expat apr apr-util lua53"
