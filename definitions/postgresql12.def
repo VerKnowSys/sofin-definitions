@@ -1,9 +1,9 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="PostgreSQL 12.x - open source object-relational database system"
 DEF_NAME="postgresql"
-DEF_VERSION="12.13"
+DEF_VERSION="12.14"
 DEF_SUFFIX="12"
-DEF_SHA="1da5a0e5997a2ade98b0ba0651cd509cd9047967"
+DEF_SHA="6e3eab9ce287586e8ce26f0f631f7a72b900c89c"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
@@ -25,7 +25,7 @@ build_addons_and_extensions () {
     try "cd ${base_dir}/pg_stat_statements && make install"
 }
 install_timescaledb () {
-    _timescale_version="2.9.3"
+    _timescale_version="2.10.3"
     run "git clone https://github.com/timescale/timescaledb.git"
     cd timescaledb
     run "git checkout ${_timescale_version}"
