@@ -2,7 +2,7 @@ DEF_TYPE="meta"
 
 DEF_FULL_NAME="CertsD - ACME client in pure Rust"
 DEF_NAME="certsd"
-DEF_VERSION="0.6.5"
+DEF_VERSION="0.6.6"
 DEF_REQUIREMENTS="@curl-openssl rust-basic"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USELESS="lib/libev* lib/libbro* lib/libcu* lib/libff* lib/liblz* lib/libi* lib/libj* lib/libng* lib/librust* lib/libstd* lib/libp* lib/libtest* lib/libu* lib/libx* lib/libz* lib/*.a lib/cmake lib/rustlib lib/engines* lib/pkgconfig cmake etc include libexec share man"
