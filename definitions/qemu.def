@@ -1,12 +1,12 @@
 DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: AARCH64 (ARM64)"
 DEF_NAME="qemu"
-DEF_VERSION="6.2.0"
-DEF_SHA="68cd61a466170115b88817e2d52db2cd7a92f43a"
+DEF_VERSION="8.0.2"
+DEF_SHA="ef7b2193dcc6cef4da86b6b707d734d6924960d6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="@glib @curl-lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 libusb vde2 vdetelweb @sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image @fontconfig sdl2-ttf zlib bash"
-DEF_CONFIGURE_ARGS="--interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-jemalloc --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-fdt --enable-bzip2 --enable-libusb --enable-vnc --enable-vnc-png --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=arm-softmmu,aarch64-softmmu --disable-user --disable-linux-user"
-DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -I${PREFIX}/include -Wno-error -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+DEF_REQUIREMENTS="@glib @curl-lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb @sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image @fontconfig sdl2-ttf zlib bash snappy"
+DEF_CONFIGURE_ARGS="--enable-tools --enable-fdt --enable-netmap --interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-bzip2 --enable-vnc --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --disable-user --disable-linux-user --disable-linux-aio --disable-virtfs --disable-cap-ng --disable-libusb --disable-smartcard --disable-tpm --disable-spice"
+DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -L${PREFIX}/lib -I${PREFIX}/include -Wno-error -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 DEF_LINKER_FLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 case "${SYSTEM_NAME}" in
     Darwin)
