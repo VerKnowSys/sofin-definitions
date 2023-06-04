@@ -5,11 +5,16 @@ DEF_SHA="17954e8e4c980a124e9e1aa24d87451d24a65a7b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="zlib make-static gmp"
-if [ "${SYSTEM_ARCH}" = "arm" ]; then
-    DEF_CONFIGURE_ARGS="--disable-static --enable-shared --disable-assembler"
-else
-    DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
-fi
+case "${SYSTEM_ARCH}" in
+    arm|arm64|aarch64)
+        DEF_CONFIGURE_ARGS="--disable-static --enable-shared --disable-assembler"
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
+        ;;
+esac
 DEF_EXPORTS="${DEF_NAME}-hash ${DEF_NAME}-lfib-stream"
 DEF_INSTALL_METHOD="make -s install"
 
