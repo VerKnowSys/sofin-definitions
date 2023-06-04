@@ -4,7 +4,7 @@ DEF_SHA="1f50244d48bf85aa8fc285d410fadf7eddee891f"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/latest-v16.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc libedit gettext libxml2 libevent lzo pcre autoconf texinfo automake18 libffi icu68 yaml nghttp2 libuv openssl brotli c-ares"
+DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu68 yaml nghttp2 libuv brotli c-ares"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-html postman-combine-collections"
@@ -28,6 +28,17 @@ case "${SYSTEM_ARCH}" in
         ;;
 esac
 
+_make="gmake"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        # DEF_REQUIREMENTS="libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu68 yaml nghttp2 zlib"
+        DEF_USE_LTO=YES
+        DEF_REQUIREMENTS="icu68 zlib openssl" # stay minimal on Darwin. A lot comes from the OS base system
+        DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-openssl --shared-zlib"
+        _make="gnumake"
+        ;;
+esac
+
 DEF_AFTER_CONFIGURE_METHOD="node_patch_configured"
 node_patch_configured () {
     permnote "Replacing: '/usr/local' with: '${PREFIX}', since /usr/local is hardcoded multiple times among Node source files…"
@@ -47,7 +58,16 @@ CXXFLAGS="${CXXFLAGS} ${BUILD_DEFINES}"
 CC="${CCACHE_BIN} cc ${CFLAGS}"
 CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
 CPP="${CCACHE_BIN} cpp"
-LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS}"
+        ;;
+
+    *)
+        LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS} -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+        ;;
+esac
 
 # Define Node-specific build environment magic:
 DEF_MAKE_METHOD="node_build"
@@ -57,7 +77,7 @@ node_build () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                gmake ${_make_opts}"
+                ${_make} ${_make_opts}"
 }
 
 # … and make install needs env magic too:
@@ -68,7 +88,7 @@ node_install () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                gmake install"
+                ${_make} install"
 }
 
 #
