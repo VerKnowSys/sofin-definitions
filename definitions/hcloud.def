@@ -1,0 +1,16 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Hetzner's HCloud"
+DEF_STANDALONE=YES
+DEF_NAME="hcloud"
+DEF_VERSION="1.34.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-darwin-arm64.tar.gz"
+DEF_TYPE=meta
+
+DEF_EXPORTS="hcloud"
+DEF_AFTER_INSTALL_METHOD="install_the_binary"
+install_the_binary () {
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    tar -xf "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
+}
