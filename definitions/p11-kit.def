@@ -1,13 +1,22 @@
 DEF_FULL_NAME="PKCS#11 - provides a way to load and enumerate PKCS#11 modules."
 DEF_STANDALONE=YES
 DEF_NAME="p11-kit"
-DEF_VERSION="0.23.22"
-DEF_SHA="339e5163ed50a9984a74739b9207ea8cd77fa7e2"
+DEF_VERSION="0.24.1"
+DEF_SHA="4d5c35c8c2d6ee12ed69ab58221d6d515c570089"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/p11-glue/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
-DEF_CONFIGURE_ARGS="-Dlibffi=enabled -Dtrust_module=enabled -Dtrust_paths=${SERVICE_DIR}/share/certs/ca-root-nss.crt -Dnls=false"
-DEF_CONFIGURE_METHOD="meson"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="--with-trust-paths=${SERVICE_DIR}/share/certs/ca-root-nss.crt --disable-nls"
+        # DEF_CONFIGURE_METHOD="meson"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="-Dlibffi=enabled -Dtrust_module=enabled -Dtrust_paths=${SERVICE_DIR}/share/certs/ca-root-nss.crt -Dnls=false"
+        DEF_CONFIGURE_METHOD="meson"
+        ;;
+esac
 DEF_EXPORTS="p11-kit trust asn1Coding asn1Decoding asn1Parser p11-kit-remote p11-kit-server trust-extract-compat"
 DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DSIZE_MAX=__SSIZE_MAX"
 DEF_USELESS="libexec share/{aclocal,libtool} "
@@ -20,10 +29,11 @@ move_libexec () {
     ${MV_BIN} "${PREFIX}/libexec/p11-kit/p11-kit-server" "${PREFIX}/bin/p11-kit-server"
     ${MV_BIN} "${PREFIX}/libexec/p11-kit/trust-extract-compat" "${PREFIX}/bin/trust-extract-compat"
     ${MV_BIN} "${PREFIX}/libdata/pkgconfig/p11-kit-1.pc" "${PREFIX}/lib/pkgconfig/"
+    return 0
 }
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*|FreeBSD-12*)
+    FreeBSD-11*|FreeBSD-12*|Darwin-*)
         unset DEF_USE_LTO
         ;;
 esac
