@@ -1,9 +1,9 @@
 DEF_FULL_NAME="GNU Bison Library"
-DEF_SHA="8270497aad88c7dd4f2c317298c50513fb0c3c8e"
 DEF_NAME="bison"
-DEF_VERSION="3.0.4"
+DEF_VERSION="3.8.2"
+DEF_SHA="da1522a00f8c23c1abf69dbd2e99078d2a484b96"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="make-static perl-static"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/bison/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="bison yacc"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
