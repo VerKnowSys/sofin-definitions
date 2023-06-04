@@ -5,15 +5,22 @@ DEF_SHA="5f280189fafb187a1dc3b45c06e5397adadcd8e0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-all-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/protocolbuffers/${DEF_NAME}/releases/download/v${DEF_VERSION}/${DEF_NAME}-all-${DEF_VERSION}.tar.gz"
 DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DHAVE_PTHREAD -D_THREAD_SAFE"
-DEF_BUILD_DIR_SUFFIX="cmake/"
+DEF_BUILD_DIR_SUFFIX="cmake"
+DEF_CONFIGURE_ARGS="-Dprotobuf_BUILD_LIBPROTOC=ON -Dprotobuf_ALLOW_CCACHE=ON -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -Dprotobuf_BUILD_SHARED_LIBS=ON"
 DEF_CONFIGURE_METHOD="cmake"
-DEF_CONFIGURE_ARGS="-Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF -Dprotobuf_BUILD_SHARED_LIBS=ON"
 DEF_NO_FAST_MATH=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
-DEF_USEFUL="bin/protoc*"
+DEF_USEFUL="bin/proto*"
 DEF_EXPORTS="protoc"
 
-DEF_AFTER_UNPACK_METHOD="patch_sources"
-patch_sources () {
-    ${SED_BIN} -i '' -e 's|endian.h|machine/endian.h|g' ../src/google/protobuf/*.h ../src/google/protobuf/stubs/*.h ../src/google/protobuf/io/*.h
-}
+case "${SYSTEM_NAME}" in
+    Darwin)
+        ;;
+
+    *)
+        DEF_AFTER_UNPACK_METHOD="patch_sources"
+        patch_sources () {
+            ${SED_BIN} -i '' -e 's|endian.h|machine/endian.h|g' ../src/google/protobuf/*.h ../src/google/protobuf/stubs/*.h ../src/google/protobuf/io/*.h
+        }
+        ;;
+esac

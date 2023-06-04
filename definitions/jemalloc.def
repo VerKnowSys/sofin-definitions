@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Jemalloc Library"
 DEF_NAME="jemalloc"
 DEF_VERSION="5.3.0"

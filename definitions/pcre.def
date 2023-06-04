@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="PCRE Library"
 DEF_NAME="pcre"
 DEF_VERSION="8.45"

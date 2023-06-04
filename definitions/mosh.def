@@ -3,18 +3,23 @@ DEF_NAME="mosh"
 DEF_VERSION="1.4.0"
 DEF_SHA="b6e135529e5787b8c2acc16dd5e59b5bb1dd11d4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf-static pcre libressl-lib perl protobuf"
 DEF_CONFIGURE_ARGS="--enable-hardening --without-ncurses"
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
+    export protobuf_CFLAGS="-L${PREFIX}/lib -I${PREFIX}/include"
+    export protobuf_LIBS="-lprotobuf"
+    DEF_REQUIREMENTS="pcre libressl perl protobuf"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-client --disable-server"
+    DEF_NO_FAST_MATH=YES
+    DEF_NO_TRAP_INT_OVERFLOW=YES
 else
+    DEF_REQUIREMENTS="pcre perl protobuf"
+    DEF_REQUIREMENTS="pcre openssl perl protobuf"
     DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-client --enable-server --with-utempter"
+    DEF_AFTER_INSTALL_METHOD="patch_mosh_bin"
+    patch_mosh_bin () {
+        ${SED_BIN} -i '' -e "s|#\!/usr/bin/env |#\!${PREFIX}/bin/|" "${PREFIX}/bin/mosh"
+    }
 fi
 DEF_EXPORTS="mosh-client mosh-server mosh"
 DEF_USEFUL="bin/perl"
 DEF_USELESS="lib/pkgconfig lib/*.a man docs include"
-
-DEF_AFTER_INSTALL_METHOD="patch_mosh_bin"
-patch_mosh_bin () {
-    ${SED_BIN} -i '' -e "s|#\!/usr/bin/env |#\!${PREFIX}/bin/|" "${PREFIX}/bin/mosh"
-}

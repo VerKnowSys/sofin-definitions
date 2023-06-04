@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="GNU NCurses Terminfo Library with utilities"
 DEF_NAME="ncurses"
 DEF_VERSION="6.4"
