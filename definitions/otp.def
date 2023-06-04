@@ -5,17 +5,17 @@ DEF_VERSION="26.0"
 DEF_SHA="fa52c4057fd663d2a45f22f9c3dc4a6bbae158e6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/erlang/otp/releases/download/OTP-${DEF_VERSION}/${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="lzo libxml2 libressl35-lib bison flex autoconf unixodbc"
-DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --without-docs --enable-sctp --enable-hipe --enable-native-libs"
+DEF_REQUIREMENTS="xz lzo libxml2 libressl35-lib bison flex unixodbc"
+DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --with-odbc=${PREFIX} --without-docs --enable-sctp --enable-hipe --enable-native-libs"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_USEFUL="bin/bison bin/yacc bin/flex"
 DEF_USELESS="docs include lib/*.{a,la} lib/cmake share/aclocal share/gtk-doc share/bison man"
-DEF_AFTER_PATCH_METHOD="./otp_build autoconf"
-DEF_INSTALL_METHOD="make -s install"
 DEF_TEST_METHOD="test_otp"
 test_otp () {
     ./bin/erl -version -noshell 2>&1 | ${GREP_BIN} -F "Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version"
 }
+
+DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
 
 # disabled since it may take hours to complete
 # DEF_TEST_METHOD="make test"
@@ -23,30 +23,20 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
     FreeBSD-amd64)
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -L/usr/lib -ldtrace -lthr -lpthread"
-        DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --with-dynamic-trace=dtrace --enable-kernel-poll --enable-shared-zlib --enable-dynamic-ssl-lib --with-ssl-rpath=${PREFIX}/lib"
         ;;
 
     FreeBSD-arm64)
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -L/usr/lib -lthr -lpthread"
-        DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-wx --disable-java --enable-kernel-poll --enable-shared-zlib --enable-dynamic-ssl-lib --with-ssl-rpath=${PREFIX}/lib"
         ;;
 
-    Darwin-x86_64)
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} wxwidgets"
-        DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-wx --with-dynamic-trace=dtrace --enable-shared-zlib --enable-dynamic-ssl-lib --without-javac  --enable-darwin-64bit"
-        case "${SYSTEM_VERSION}" in
-            10.11)
-                DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-kernel-poll"
-                ;;
-
-            *)
-                DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-kernel-poll"
-                ;;
-        esac
+    Darwin-*)
+        DEF_COMPILER_FLAGS="-O3 -fno-stack-check -fno-omit-frame-pointer"
+        DEF_LINKER_FLAGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
+        DEF_CONFIGURE_ARGS="--with-odbc=${PREFIX} --with-ssl=${PREFIX} --enable-dynamic-ssl-lib --enable-hipe --enable-shared-zlib --enable-smp-support --enable-threads --without-wx --disable-wx --without-javac --without-docs --enable-darwin-64bit --enable-kernel-poll --with-dynamic-trace=dtrace"
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
         ;;
 esac
 
