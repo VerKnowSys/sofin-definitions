@@ -109,6 +109,18 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
                 unset DEF_USE_RAMDISK
                 ;;
 
+            Darwin-arm64)
+                DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
+                DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS_ARM64} ${DEF_VISIBILITY_FLAGS}"
+                DEF_DEFAULT_USELESS="${DEF_DEFAULT_USELESS} share/acloc* share/automa* share/libtool share/bison share/readline"
+                # DEF_NO_LLVM_LINKER=YES
+                DEF_NO_LINKER_DTAGS=YES
+                DEF_NO_RETPOLINE=YES
+                DEF_NO_PIE=YES
+                DEF_USE_LTO=YES
+                unset DEF_USE_RAMDISK
+                ;;
+
             Darwin-x86_64)
                 DEF_VISIBILITY_FLAGS="${DEF_VISIBILITY_FLAGS} -fvisibility-inlines-hidden" # explicit symbol visibility
                 DEF_COMPILER_FLAGS="-fPIC ${DEF_OPTFLAGS_X86_64} ${DEF_WORKSTATION_VERSION_FLAGS} ${DEF_VISIBILITY_FLAGS}"
