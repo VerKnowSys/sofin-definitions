@@ -7,11 +7,27 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-src.tgz"
 DEF_BUILD_DIR_SUFFIX="source"
 DEF_EXPORTS="icu-config icu-info"
 DEF_USEFUL="bin/icu* bin/*conf*"
-DEF_REQUIREMENTS="make-static"
-DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --disable-plugins"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
+        ;;
+esac
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="--enable-static --disable-shared --enable-release --enable-icu-config --disable-samples --disable-tests --disable-plugins"
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        patch_makefile_shell () {
+            for _mfile in $(find . -name Makefile); do
+                ${SED_BIN} -i '' -e "s|prefix = /usr/local|prefix = ${PREFIX}|g;" "${_mfile}"
+                printf "\n%s\n" "SHELL = /bin/bash" >> "${_mfile}"
+            done
+        }
+
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --disable-plugins"
         ;;
 esac
