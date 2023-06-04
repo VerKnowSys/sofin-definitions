@@ -35,3 +35,13 @@ export_stuff_and_make () {
     return 1
 }
 DEF_TEST_METHOD="make ${MAKE_OPTS} test"
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        unset DEF_TEST_METHOD # XXX: fails on Darwin
+        DEF_AFTER_UNPACK_METHOD="patch_makefile_shell; patch_bins"
+        patch_bins () {
+            ${SED_BIN} -i '' -e 's|#!/bin/sh|#!/bin/bash|' ./bin/elixirc ./bin/elixir ./bin/iex ./bin/mix
+        }
+        ;;
+esac

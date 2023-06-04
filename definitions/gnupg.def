@@ -19,4 +19,8 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
+
+    Darwin-*)
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        ;;
 esac
