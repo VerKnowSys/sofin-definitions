@@ -4,18 +4,18 @@ DEF_VERSION="8.0.2"
 DEF_SHA="ef7b2193dcc6cef4da86b6b707d734d6924960d6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="@glib @curl-lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb @sdl2-lib libmodplug libogg libvorbis flac sdl2-mixer sdl2-image @fontconfig sdl2-ttf zlib bash snappy"
-DEF_CONFIGURE_ARGS="--enable-tools --enable-fdt --enable-netmap --interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-gnutls --enable-nettle --enable-curl --enable-sdl --enable-bzip2 --enable-vnc --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --disable-user --disable-linux-user --disable-linux-aio --disable-virtfs --disable-cap-ng --disable-libusb --disable-smartcard --disable-tpm --disable-spice"
-DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -L${PREFIX}/lib -I${PREFIX}/include -Wno-error -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
-DEF_LINKER_FLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+DEF_REQUIREMENTS="@glib @curl-lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb zlib bash snappy"
+DEF_CONFIGURE_ARGS="--enable-tools --enable-fdt --interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-gnutls --enable-nettle --enable-curl --disable-sdl --enable-bzip2 --enable-vnc --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --disable-user --disable-linux-user --disable-linux-aio --disable-virtfs --disable-cap-ng --disable-libusb --disable-smartcard --disable-tpm --disable-spice"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_REQUIREMENTS="$(printf "%b\n" "${DEF_REQUIREMENTS}" | ${SED_BIN} -e 's/glib/expat glib/' 2>/dev/null)"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-cocoa"
+        DEF_CONFIGURE_METHOD="/bin/bash ./configure"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-cocoa --disable-netmap"
         ;;
 
     *)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pie"
+        DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -L${PREFIX}/lib -I${PREFIX}/include -Wno-error -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+        DEF_LINKER_FLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-pie --enable-netmap"
         ;;
 esac
 DEF_USEFUL="bin/qemu*"
