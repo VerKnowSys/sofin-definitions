@@ -3,6 +3,13 @@ DEF_NAME="libffi"
 DEF_VERSION="3.4.4"
 DEF_SHA="ecc58fb89aac4329b34dd019fe337d291b47c799"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--disable-static"
-DEF_NO_CCACHE=YES
 DEF_NO_TRAP_INT_OVERFLOW=YES
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="--enable-shared --disable-static --disable-docs --disable-dependency-tracking --disable-builddir"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="--enable-shared --disable-static --disable-docs"
+        ;;
+esac
