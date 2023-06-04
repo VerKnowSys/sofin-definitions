@@ -7,4 +7,12 @@ DEF_ORIGIN="https://ftp.pcre.org/pub/pcre/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_USEFUL="bin/pcre*"
 DEF_EXPORTS="pcre2-config pcre2grep pcre2test"
 DEF_CONFIGURE_METHOD="cmake"
-DEF_CONFIGURE_ARGS="-DPCRE2_BUILD_TESTS=OFF -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="-DPCRE2_BUILD_TESTS=OFF"
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="-DPCRE2_BUILD_TESTS=OFF -DBUILD_STATIC_LIBS=OFF -DBUILD_SHARED_LIBS=ON"
+        ;;
+esac
