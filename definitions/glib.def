@@ -1,11 +1,21 @@
 DEF_FULL_NAME="GNU Lib"
 DEF_NAME="glib"
-DEF_VERSION="2.76.2"
-DEF_SHA="82814b53dfca129cc2ddae503c6340deb8b457ad"
+DEF_VERSION="2.76.3"
+DEF_SHA="0231a206281ae94ee5d406441b9647f3e1a5dbdc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnome.org/pub/gnome/sources/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="pcre2 libffi gettext"
 DEF_CONFIGURE_METHOD="meson"
-DEF_CONFIGURE_ARGS="-Db_lundef=false -Dlibmount=disabled -Dselinux=disabled -Dinstalled_tests=false -Ddefault_library=shared -Dxattr=false -Ddtrace=false -Ddebug=false -Dbuildtype=release"
+DEF_CONFIGURE_ARGS="-Db_lundef=false -Dlibmount=disabled -Dselinux=disabled -Dinstalled_tests=false -Dxattr=false -Ddtrace=false -Ddebug=false -Dbuildtype=release -Dbsymbolic_functions=false -Dgio_module_dir=${PREFIX}/lib/gio/modules -Druntime_dir=${SERVICE_DIR}/run --localstatedir=${SERVICE_DIR}"
 DEF_USEFUL="bin/g* bin/*-config bin/pkgconf"
 DEF_EXPORTS="gio gio-querymodules glib-compile-resources glib-compile-schemas glib-genmarshal glib-gettextize glib-mkenums glibtoolize gobject-query gresource gsettings gtester gtester-report gdbus gdbus-codegen genbrk gapplication envsubst c_rehash gencfu gencnval gendict genrb"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -Ddefault_library=both"
+        # unset DEF_USE_LTO
+        ;;
+
+    *)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -Ddefault_library=shared"
+        ;;
+esac
