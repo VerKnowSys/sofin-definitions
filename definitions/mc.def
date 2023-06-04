@@ -5,11 +5,20 @@ DEF_VERSION="4.8.29"
 DEF_SHA="250411bd93c31fd3d818588add444bffd9b641fb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://ftp.midnight-commander.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="@glib @slang"
-DEF_CONFIGURE_ARGS="--with-pic --with-screen=slang --with-mmap --with-search-engine=glib --with-subshell --with-readline=${PREFIX} --with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} --without-internal-edit --with-diff-viewer --without-x --enable-shared --enable-charset --enable-background --enable-mclib --enable-threads --disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html"
+DEF_REQUIREMENTS="@glib readline @slang"
+DEF_CONFIGURE_ARGS="--with-pic --with-screen=slang --with-mmap --with-search-engine=glib --with-subshell --with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} --without-internal-edit --with-diff-viewer --without-x --enable-shared --enable-charset --enable-background --enable-mclib --disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} pkgconf"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-vfs-extfs"
+        ;;
+
+    *)
+        DEF_LINKER_FLAGS="-lreadline -ltinfo"
+        ;;
+esac
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view"
 DEF_USELESS="share/{gdb,bash-completion,glib-2.0,info,libtool,emacs,icu,locale} share/*doc* man share/ac* share/auto* lib/{cmake,pkgconfig,icu,gettext,gio,glib-2.0} share/gettext* libdata sbin include lib/*.{a,la}"
-DEF_LINKER_FLAGS="-lreadline -ltinfo"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
