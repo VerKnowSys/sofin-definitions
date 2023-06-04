@@ -37,6 +37,7 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
         DEF_CONFIGURE_ARGS="--with-odbc=${PREFIX} --with-ssl=${PREFIX} --enable-dynamic-ssl-lib --enable-hipe --enable-shared-zlib --enable-smp-support --enable-threads --without-wx --disable-wx --without-javac --without-docs --enable-darwin-64bit --enable-kernel-poll --with-dynamic-trace=dtrace"
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        unset DEF_USE_LTO
         ;;
 esac
 
