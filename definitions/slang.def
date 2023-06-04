@@ -10,12 +10,6 @@ DEF_CONFIGURE_ARGS="--without-png --without-x --with-pcre=${PREFIX} --with-onig=
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
-        patch_makefile_shell () {
-            for _mfile in $(find . -name Makefile); do
-                ${SED_BIN} -i '' -e "s|prefix = /usr/local|prefix = ${PREFIX}|g;" "${_mfile}"
-                printf "\n%s\n" "SHELL = /bin/zsh" >> "${_mfile}"
-            done
-        }
         ;;
 
     *)

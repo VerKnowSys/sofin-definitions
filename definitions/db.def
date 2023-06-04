@@ -35,9 +35,3 @@ esac
 patch_db_files () {
     ${SED_BIN} -i '' -e 's/csharp//; s/bdb-sql//; s/gsg_db_server//;' ../dist/Makefile.in
 }
-
-patch_makefile_shell () {
-    for _mfile in $(find . -name Makefile); do
-        printf "\n%s\n" "SHELL = /bin/zsh" >> "${_mfile}"
-    done
-}

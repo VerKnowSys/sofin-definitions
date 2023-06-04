@@ -29,11 +29,5 @@ case "${SYSTEM_NAME}" in
         export MACOSX_DEPLOYMENT_TARGET=12.6
 
         DEF_AFTER_UNPACK_METHOD="patch_makefile; patch_makefile_shell"
-        patch_makefile_shell () {
-            for _mfile in $(find . -name Makefile); do
-                printf "\n%s\n" "SHELL = /bin/zsh" >> "${_mfile}"
-            done
-        }
-
         ;;
 esac

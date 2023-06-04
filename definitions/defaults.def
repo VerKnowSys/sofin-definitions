@@ -170,3 +170,9 @@ fix_makefile_libtool_tag () {
     done
     return 0
 }
+
+patch_makefile_shell () {
+    for _mfile in $(find . -name Makefile); do
+        printf "\n%s\n" "SHELL = /bin/bash" >> "${_mfile}"
+    done
+}

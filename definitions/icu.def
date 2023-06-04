@@ -18,13 +18,6 @@ case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="--enable-static --disable-shared --enable-release --enable-icu-config --disable-samples --disable-tests --disable-plugins"
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
-        patch_makefile_shell () {
-            for _mfile in $(find . -name Makefile); do
-                ${SED_BIN} -i '' -e "s|prefix = /usr/local|prefix = ${PREFIX}|g;" "${_mfile}"
-                printf "\n%s\n" "SHELL = /bin/bash" >> "${_mfile}"
-            done
-        }
-
         ;;
 
     *)

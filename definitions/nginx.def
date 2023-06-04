@@ -53,11 +53,6 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --user=${USER:-nobody} --group=staff ${_paths_override_svdos} --with-cc-opt='${CFLAGS} -I${PREFIX}/include -DNDEBUG' --with-ld-opt='${LDFLAGS} -L${PREFIX}/lib'"
 
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
-        patch_makefile_shell () {
-            for _mfile in $(find . -name Makefile); do
-                printf "\n%s\n" "SHELL = /bin/zsh" >> "${_mfile}"
-            done
-        }
         ;;
 
     Linux)

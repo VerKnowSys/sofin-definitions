@@ -15,11 +15,5 @@ patch_pc () {
         ${SED_BIN} -i '' -e '/SHOBJ_LDFLAGS = / s| = |&-ltermcapw |' shlib/Makefile.in
     else
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
-        patch_makefile_shell () {
-            for _mfile in $(find . -name Makefile); do
-                ${SED_BIN} -i '' -e "s|prefix = /usr/local|prefix = ${PREFIX}|g;" "${_mfile}"
-                printf "\n%s\n" "SHELL = /bin/zsh" >> "${_mfile}"
-            done
-        }
     fi
 }
