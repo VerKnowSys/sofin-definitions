@@ -2,17 +2,19 @@ DEF_CRITICAL=YES
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Git SCM"
 DEF_NAME="git"
-DEF_VERSION="2.26.2"
-DEF_SHA="bdb5eb6c014d7c372be70782a5155d964abe2c08"
+DEF_VERSION="2.40.1"
+DEF_SHA="092e1c160d6d602bfa69cc702c09c92ad1b2becb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libunistring pcre expat gmp perl libressl-lib nghttp2 libssh2 curl-lib"
+DEF_REQUIREMENTS="@curl-openssl icu @python311 perl"
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_CONFIGURE_ARGS="--with-iconv=/usr --with-zlib=/usr --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"
+        DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --with-python=${PREFIX} ${DEF_CONFIGURE_ARGS}"
         ;;
 
     Darwin)
         DEF_CONFIGURE_ARGS="--with-iconv=/usr --with-zlib=/usr --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"
+        DEF_CONFIGURE_ARGS="--with-perl=/usr/bin/perl --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --with-python=${PREFIX} ${DEF_CONFIGURE_ARGS}"
         ;;
 
     Minix)
@@ -25,9 +27,8 @@ case "${SYSTEM_NAME}" in
         ;;
 
 esac
-DEF_CONFIGURE_ARGS="--with-perl=${PREFIX}/bin/perl --with-expat=${PREFIX} --with-curl=${PREFIX} --with-openssl=${PREFIX} --with-libpcre=${PREFIX} --without-tcltk --without-python ${DEF_CONFIGURE_ARGS}"
 DEF_EXPORTS="git git-receive-pack git-shell git-upload-archive git-upload-pack"
-DEF_USEFUL="bin/perl* bin/python*"
+DEF_USEFUL="bin/git* bin/perl* bin/python*"
 DEF_USELESS="lib/*.{a,la} lib/{pkgconfig,icu} share/{examples,texinfo,gtk-doc,icu,nghttp2} share/aclocal* share/auto* include man sbin docs"
 DEF_USE_SAFE_STACK=YES
 
