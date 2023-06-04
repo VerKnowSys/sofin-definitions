@@ -1,0 +1,16 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Hashicorp Terraform"
+DEF_STANDALONE=YES
+DEF_NAME="terraform"
+DEF_VERSION="1.4.6"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}_darwin_arm64.zip"
+DEF_TYPE=meta
+
+DEF_EXPORTS="terraform"
+DEF_AFTER_INSTALL_METHOD="install_terraform_binary"
+install_terraform_binary () {
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    unzip -f "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
+}
