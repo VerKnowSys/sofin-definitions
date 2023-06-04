@@ -31,8 +31,17 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl darwin64-x86_64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
-        unset DEF_REQUIREMENTS
+        case "${SYSTEM_ARCH}" in
+            amd64|x86_64)
+                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl darwin64-x86_64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
+                ;;
+
+            arm64|aarch64)
+                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl darwin64-arm64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
+                ;;
+        esac
+
+        unset DEF_REQUIREMENTS DEF_USE_SAFE_STACK
         ;;
 
     *)
