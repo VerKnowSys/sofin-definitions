@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Minix"
+DEF_DISABLE_ON="Minix Darwin"
 DEF_FULL_NAME="Perl"
 DEF_NAME="perl"
 DEF_VERSION="5.36.1"
@@ -53,8 +53,10 @@ install_method () {
     locale_cleanup
     make -s install
 
-    echo "Patching so object"
-    try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${SYSTEM_ARCH}-freebsd-thread-multi/auto/DB_File/DB_File.so"
+    if [ "Darwin" != "${SYSTEM_NAME}" ]; then
+        echo "Patching so object"
+        try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${SYSTEM_ARCH}-freebsd-thread-multi/auto/DB_File/DB_File.so"
+    fi
 }
 
 locale_cleanup () {

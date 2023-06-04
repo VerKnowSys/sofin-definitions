@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Lzop compression utility"
 DEF_NAME="lzop"
 DEF_SHA="4ee0b49b2a6b0a13572ddca5785ee48ef4c8f80f"

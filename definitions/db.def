@@ -22,11 +22,22 @@ esac
 case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_AFTER_PATCH_METHOD="patch_db_files"
-        patch_db_files () {
-            if [ "FreeBSD" = "${SYSTEM_NAME}" ]; then
-                ${SED_BIN} -i '' -e 's/csharp//; s/bdb-sql//; s/gsg_db_server//;' ../dist/Makefile.in
-            fi
-        }
+        ;;
+
+    Darwin)
+        DEF_AFTER_PATCH_METHOD="patch_db_files"
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        DEF_MAKE_METHOD="gnumake all"
+        DEF_INSTALL_METHOD="gnumake install"
         ;;
 esac
 
+patch_db_files () {
+    ${SED_BIN} -i '' -e 's/csharp//; s/bdb-sql//; s/gsg_db_server//;' ../dist/Makefile.in
+}
+
+patch_makefile_shell () {
+    for _mfile in $(find . -name Makefile); do
+        printf "\n%s\n" "SHELL = /bin/zsh" >> "${_mfile}"
+    done
+}
