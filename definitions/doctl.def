@@ -1,0 +1,16 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="DigitalOcean's DOctl"
+DEF_STANDALONE=YES
+DEF_NAME="doctl"
+DEF_VERSION="1.96.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-darwin-arm64.tar.gz"
+DEF_TYPE=meta
+
+DEF_EXPORTS="doctl"
+DEF_AFTER_INSTALL_METHOD="install_doctl_binary"
+install_doctl_binary () {
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    tar -xf "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
+}
