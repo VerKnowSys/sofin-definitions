@@ -1,0 +1,8 @@
+DEF_FULL_NAME="GNU coreutils"
+DEF_NAME="coreutils"
+DEF_VERSION="9.3"
+DEF_SHA="cd1fd7e27d46fd2497b8f2a670b54785530ef7d2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_ARGS="--program-prefix=g"
+DEF_EXPORTS="gdate greadlink"
