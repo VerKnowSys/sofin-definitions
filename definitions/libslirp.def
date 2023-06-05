@@ -1,0 +1,6 @@
+DEF_FULL_NAME="An user-mode networking library used by virtual machines, containers or various tools."
+DEF_NAME="libslirp"
+DEF_VERSION="4.7.0"
+DEF_SHA="f0c1d7d4b9de05864b4559bf1ba8018117ad299b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.bz2"
+DEF_CONFIGURE_METHOD="meson"
