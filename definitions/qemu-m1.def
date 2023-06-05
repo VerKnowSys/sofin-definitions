@@ -1,0 +1,23 @@
+DEF_DISABLE_ON="FreeBSD Linux"
+DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: ARM64 (AARCH64) and X86_64 (AMD64)"
+DEF_NAME="qemu"
+DEF_VERSION="m1"
+DEF_SHA="f97debb9c3b03bf6b03add6d0beb5700a044495e"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="@glib @curl-lib expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb zlib bash snappy"
+DEF_CONFIGURE_ARGS="--enable-tools --enable-fdt --interp-prefix='${PREFIX}/lib/qemu-%%M' --enable-bsd-user --enable-gnutls --enable-nettle --enable-curl --disable-sdl --enable-bzip2 --enable-vnc --enable-coroutine-pool --enable-trace-backends=syslog --firmwarepath=${SERVICE_DIR} --extra-cflags='${CFLAGS}' --extra-ldflags='${LDFLAGS}' --disable-werror --disable-docs --disable-gtk --disable-guest-agent --disable-xen --disable-xen-pci-passthrough --target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --disable-user --disable-linux-user --disable-linux-aio --disable-virtfs --disable-cap-ng --disable-libusb --disable-smartcard --disable-tpm --disable-spice"
+DEF_CONFIGURE_METHOD="/bin/bash ./configure"
+DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-cocoa --disable-netmap"
+DEF_USEFUL="bin/qemu*"
+DEF_USELESS="share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.{a,sh,la} lib/{glib-2.0,cmake,pkgconfig,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
+DEF_EXPORTS="qemu-img qemu-nbd qemu-io qemu-system-aarch64-unsigned qemu-system-arm-unsigned qemu-system-x86_64-unsigned qemu-storage-daemon"
+DEF_USE_SAFE_STACK=YES
+
+DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
+name_tool_darwin () {
+    for _bin in ${PREFIX}/bin/qemu*; do
+        install_name_tool -add_rpath "${PREFIX}/lib" ${_bin}
+    done
+    return 0
+}
