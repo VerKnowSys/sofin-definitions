@@ -9,6 +9,7 @@ DEF_EXPORTS="${DEF_NAME}"
 DEF_AFTER_INSTALL_METHOD="install_the_binary"
 install_the_binary () {
     cd /tmp
+    rm -f "${DEF_SOURCE_PATH##*/}"
     ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
     unzip -x "${DEF_SOURCE_PATH##*/}"
     mkdir -p "${PREFIX}/bin/"

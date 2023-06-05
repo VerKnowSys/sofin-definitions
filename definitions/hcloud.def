@@ -10,6 +10,7 @@ DEF_EXPORTS="hcloud"
 DEF_AFTER_INSTALL_METHOD="install_the_binary"
 install_the_binary () {
     cd /tmp
+    rm -f "${DEF_SOURCE_PATH##*/}"
     ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
     tar -xf "${DEF_SOURCE_PATH##*/}"
     mkdir -p "${PREFIX}/bin/"
