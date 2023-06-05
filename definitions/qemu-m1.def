@@ -4,7 +4,6 @@ DEF_NAME="qemu"
 DEF_VERSION="m1"
 DEF_SHA="f97debb9c3b03bf6b03add6d0beb5700a044495e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://download.qemu.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libtool @glib @curl-openssl capstone libusb libslirp libssh expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb zlib bash snappy"
 DEF_CONFIGURE_ARGS="--target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --enable-gnutls --enable-nettle --enable-curl --enable-vnc --enable-libssh --enable-cocoa --enable-slirp --enable-capstone --enable-zstd --disable-werror --disable-docs --disable-gtk --disable-xen --disable-xen-pci-passthrough --extra-cflags=-DNCURSES_WIDECHAR=1 --disable-sdl"
 DEF_CONFIGURE_METHOD="/bin/bash ./configure"
@@ -15,8 +14,16 @@ DEF_USE_SAFE_STACK=YES
 
 DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
 name_tool_darwin () {
+    for _bin in ${PREFIX}/bin/qemu*; do
+        install_name_tool -add_rpath "${PREFIX}/lib" ${_bin}
+    done
+    return 0
+}
+
+DEF_AFTER_EXPORT_METHOD="sign_the_code"
+sign_the_code () {
     note "Setting entitlements to allow Qemu to run HVF acceleration…"
-    cat > entitlements.xml <<EOF
+    cat > /tmp/entitlements.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -26,9 +33,9 @@ name_tool_darwin () {
 </dict>
 </plist>
 EOF
-    for _bin in ${PREFIX}/bin/qemu*; do
-        codesign -s - --entitlements entitlements.xml --force "${_bin}"
-        install_name_tool -add_rpath "${PREFIX}/lib" ${_bin}
-    done
+    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-aarch64-unsigned"
+    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-arm-unsigned"
+    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-x86_64-unsigned"
+    ${RM_BIN} -f /tmp/entitlements.xml
     return 0
 }
