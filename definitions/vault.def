@@ -1,0 +1,16 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Hashicorp Vault"
+DEF_NAME="vault"
+DEF_VERSION="1.13.2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}_darwin_arm64.zip"
+DEF_TYPE=meta
+
+DEF_EXPORTS="${DEF_NAME}"
+DEF_AFTER_INSTALL_METHOD="install_the_binary"
+install_the_binary () {
+    cd /tmp
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    unzip -x "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
+}
