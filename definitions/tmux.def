@@ -10,6 +10,11 @@ case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-utempter"
         ;;
+
+    Darwin)
+        DEF_REQUIREMENTS="openssl libevent"
+        DEF_CONFIGURE_ARGS="--disable-static"
+        ;;
 esac
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USELESS="include lib/pkgconfig man"
