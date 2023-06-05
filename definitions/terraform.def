@@ -9,8 +9,9 @@ DEF_TYPE=meta
 DEF_EXPORTS="terraform"
 DEF_AFTER_INSTALL_METHOD="install_terraform_binary"
 install_terraform_binary () {
+    cd /tmp
     ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
-    unzip -f "${DEF_SOURCE_PATH##*/}"
+    unzip -x "${DEF_SOURCE_PATH##*/}"
     mkdir -p "${PREFIX}/bin/"
     run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
 }

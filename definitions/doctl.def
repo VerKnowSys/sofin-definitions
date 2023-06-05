@@ -9,6 +9,7 @@ DEF_TYPE=meta
 DEF_EXPORTS="doctl"
 DEF_AFTER_INSTALL_METHOD="install_doctl_binary"
 install_doctl_binary () {
+    cd /tmp
     ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
     tar -xf "${DEF_SOURCE_PATH##*/}"
     mkdir -p "${PREFIX}/bin/"
