@@ -1,0 +1,18 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Optimizer and compiler/toolchain library for WebAssembly"
+DEF_NAME="binaryen"
+DEF_VERSION="113"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-version_${DEF_VERSION}-arm64-macos.tar.gz"
+DEF_TYPE=meta
+
+DEF_EXPORTS="wasm2js wasm-split wasm-shell wasm-reduce wasm-opt wasm-metadce wasm-merge wasm-fuzz-types wasm-emscripten-finalize wasm-dis wasm-ctor-eval wasm-as binaryen-unittests"
+DEF_AFTER_INSTALL_METHOD="install_the_binary"
+install_the_binary () {
+    cd /tmp
+    rm -f "${DEF_SOURCE_PATH##*/}"
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    tar -xf "${DEF_SOURCE_PATH##*/}"
+    cd ./binaryen-version_113
+    ${CP_BIN} -R ./ ${PREFIX}
+}
+
