@@ -3,7 +3,6 @@ DEF_NAME="rsync"
 DEF_SHA="82e7829c0b3cefbd33c233005341e2073c425629"
 DEF_VERSION="3.1.3"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="perl-static"
 DEF_CONFIGURE_ARGS="--enable-ipv6 --disable-debug --enable-acl-support --enable-xattr-support --enable-iconv --enable-locale"
 DEF_EXPORTS="rsync"
 DEF_USELESS="lib/*perl* man"
@@ -12,5 +11,5 @@ DEF_CONFLICTS_WITH="Rsync"
 patch_max_path_length () {
     note "Increasing default MAXPATHLEN from 1024 to 8194"
     ${SED_BIN} -i '' -e 's/#define MAXPATHLEN 1024/#define MAXPATHLEN 8194/' rsync.h
-    true
+    return 0
 }

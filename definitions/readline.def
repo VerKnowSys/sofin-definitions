@@ -7,13 +7,17 @@ DEF_ORIGIN="http://ftp.gnu.org/gnu/readline/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--disable-static"
 
 DEF_AFTER_PATCH_METHOD="patch_pc"
-
 patch_pc () {
     ${SED_BIN} -i '' -e '/^Requires.private: @TERMCAP_PKG_CONFIG_LIB@/ s|^|#|' readline.pc.in
 
     if [ "${SYSTEM_NAME}" != "Darwin" ]; then
         ${SED_BIN} -i '' -e '/SHOBJ_LDFLAGS = / s| = |&-ltermcapw |' shlib/Makefile.in
-    else
-        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
     fi
 }
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        DEF_CONFIGURE_ARGS="--with-curses"
+        ;;
+esac

@@ -4,13 +4,11 @@ DEF_VERSION="0.46.1"
 DEF_SHA="b29b702a4fc004e3d680aca4cb556ad3ea082460"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/hanslub42/rlwrap/releases/tag/v${DEF_VERSION}"
-DEF_REQUIREMENTS="readline autoconf automake"
-DEF_AFTER_CONFIGURE_METHOD="after_config"
-after_config () {
-    aclocal
-    autoheader
-    autoconf
-    autoreconf
-    automake
+DEF_REQUIREMENTS="@automake readline"
+DEF_AFTER_UNPACK_METHOD="after_unpack"
+after_unpack () {
+    autoreconf -v -i
 }
+DEF_CONFIGURE_METHOD="./configure CFLAGS=-I${PREFIX}/include CPPFLAGS=-I${PREFIX}/include LDFLAGS=-L${PREFIX}/lib"
+DEF_CONFIGURE_ARGS="--disable-debug --disable-dependency-tracking --disable-proc-mountpoint"
 DEF_EXPORTS="rlwrap"
