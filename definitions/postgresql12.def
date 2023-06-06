@@ -55,13 +55,13 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         # Do not strip binaries on OS X, due to:
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
         DEF_STRIP=NO
-        DEF_REQUIREMENTS="readline openssl libuuid"
+        DEF_REQUIREMENTS="readline openssl libuuid icu"
 
         CFLAGS="-O3 -funroll-loops -I${PREFIX}/include -L${PREFIX}/lib"
         CXXFLAGS="-O3 -funroll-loops -I${PREFIX}/include -L${PREFIX}/lib"
         CPPFLAGS="-I${PREFIX}/include"
         LDFLAGS="-L${PREFIX}/lib -L/usr/lib -lpthread -lc -lm -ldtrace -fPIC"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-readline --without-icu --with-pam --with-perl --with-uuid=e2fs DTRACEFLAGS='-64' CFLAGS='${CFLAGS}' CPPFLAGS='${CPPFLAGS}' LDFLAGS='${LDFLAGS}'"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-readline --with-icu --with-pam --with-perl --with-uuid=e2fs DTRACEFLAGS='-64' CFLAGS='${CFLAGS}' CPPFLAGS='${CPPFLAGS}' LDFLAGS='${LDFLAGS}'"
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
 
         # NOTE: postgresql has to be built BEFORE unixodbc (id present on DEF_REQUIREMENTS list)
