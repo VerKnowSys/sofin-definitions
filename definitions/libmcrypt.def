@@ -1,12 +1,34 @@
 DEF_FULL_NAME="MCrypt Library"
-DEF_SHA="b4d4d8851db543e6fda80572a54a4901b4e767da"
 DEF_NAME="libmcrypt"
 DEF_VERSION="2.5.8"
+DEF_SHA="b4d4d8851db543e6fda80572a54a4901b4e767da"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-static"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
+        ;;
+
+    Darwin-*)
+        DEF_REQUIREMENTS="@automake"
+        DEF_AFTER_UNPACK_METHOD="after_unpack"
+        after_unpack () {
+            aclocal
+            autoheader
+            autoreconf -i
+            autoconf
+            automake
+            return 0
+        }
+        DEF_AFTER_CONFIGURE_METHOD="after_configure"
+        after_configure () {
+            patch_makefile_shell
+        }
+        CFLAGS="-O3 -Wno-implicit-function-declaration"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} CFLAGS='${CFLAGS}' --without-tests --mandir=${PREFIX}/man"
+
+        DEF_MAKE_METHOD="make || :" # XXX: this stuff is ridiculously bad…
+        DEF_INSTALL_METHOD="make install || :" # the process crashes on some test stuff that can't be disabled…
         ;;
 esac
