@@ -1,26 +1,20 @@
 DEF_FULL_NAME="ICU - International Components for Unicode"
 DEF_NAME="icu"
-DEF_VERSION="4c-70_1"
-DEF_SHA="f7c1363edee6be7de8b624ffbb801892b3417d4e"
+DEF_VERSION="4c-72_1"
+DEF_SHA="a97546f0119c37a3526143bc29fb573a4417ff84"
 DEF_ORIGIN="https://github.com/unicode-org/icu/releases/download/release-64-2/${DEF_NAME}${DEF_VERSION}-src.tgz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-src.tgz"
 DEF_BUILD_DIR_SUFFIX="source"
 DEF_EXPORTS="icu-config icu-info"
 DEF_USEFUL="bin/icu* bin/*conf*"
+DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --with-library-bits=64"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
         ;;
-esac
 
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="--enable-static --disable-shared --enable-release --enable-icu-config --disable-samples --disable-tests --disable-plugins"
+    Darwin-*)
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
-        ;;
-
-    *)
-        DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --disable-plugins"
         ;;
 esac
