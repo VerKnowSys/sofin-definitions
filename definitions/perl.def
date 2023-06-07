@@ -1,38 +1,29 @@
-DEF_DISABLE_ON="Minix Darwin"
 DEF_FULL_NAME="Perl"
 DEF_NAME="perl"
 DEF_VERSION="5.36.1"
 DEF_SHA="7b766266af08a6cef0487308e80b40d5d8069df7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libressl-lib"
+DEF_REQUIREMENTS="db"
 DEF_STANDALONE=YES
+
 DEF_AFTER_PATCH_METHOD="patch_Configure"
 patch_Configure () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" ./Configure
     mkdir -p "${SERVICE_DIR}/bin"
 }
+
+DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS} -L${PREFIX}/lib' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=y -Ui_malloc -Ui_iconv -Dscriptdir=${SERVICE_DIR}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
 DEF_AFTER_CONFIGURE_METHOD="patch_Makefile"
 patch_Makefile () {
-    if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-        ${SED_BIN} -i '' -e "s#-lpthread -lm -lcrypt -lutil#-lpthread -lm -lcrypt -lelf -pie#g;  s# -shared #  -shared -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fPIC -fPIE #;  s#/usr/local#${PREFIX}#g;  s#^CCDLFLAGS = #CCDLFLAGS = -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags #" ./Makefile
-    fi
-}
-DEF_CONFIGURE_METHOD="./Configure"
-DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS} -L${PREFIX}/lib' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=y -Ui_malloc -Ui_iconv -Dscriptdir=${SERVICE_DIR}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
-DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
-
-if [ "Darwin" = "${SYSTEM_NAME}" ]; then
-    case "${SYSTEM_VERSION}" in
-        10.14)
-            DEF_CONFIGURE_ARGS="-des -Doptimize='-I${PREFIX}/include ${CFLAGS} -L${PREFIX}/lib' -Dprefix=${PREFIX} -Dinstallusrbinperl=n -Dusethreads=y -Dusemymalloc=n -Duse64bitint=y -Duseshrplib=n -Ui_malloc -Ui_iconv -Dscriptdir=${SERVICE_DIR}/bin -Dusenm=n -Dinc_version_list=none -Dusemultiplicity=y -Dcf_by=VerKnowSys"
-            ;;
-
-        *)
-            unset DEF_USE_LTO
+    case "${SYSTEM_NAME}" in
+        FreeBSD)
+            ${SED_BIN} -i '' -e "s#-lpthread -lm -lcrypt -lutil#-lpthread -lm -lcrypt -lelf -pie#g;  s# -shared #  -shared -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -fPIC -fPIE #;  s#/usr/local#${PREFIX}#g;  s#^CCDLFLAGS = #CCDLFLAGS = -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags #" ./Makefile
             ;;
     esac
-fi
+}
+DEF_CONFIGURE_METHOD="./Configure"
+DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
@@ -46,12 +37,12 @@ DEF_MAKE_METHOD="make_method"
 make_method () {
     locale_cleanup
     note "Make!"
-    make -j"${CPUS}"
+    make -j"${CPUS}" SHELL="${SOFIN_UTILS_DIR}/exports/bash"
 }
 DEF_INSTALL_METHOD="install_method"
 install_method () {
     locale_cleanup
-    make -s install
+    make -s install SHELL="${SOFIN_UTILS_DIR}/exports/bash"
 
     if [ "Darwin" != "${SYSTEM_NAME}" ]; then
         echo "Patching so object"

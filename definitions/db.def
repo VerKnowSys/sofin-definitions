@@ -26,9 +26,8 @@ case "${SYSTEM_NAME}" in
 
     Darwin)
         DEF_AFTER_PATCH_METHOD="patch_db_files"
-        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
-        DEF_MAKE_METHOD="gnumake all"
-        DEF_INSTALL_METHOD="gnumake install"
+        DEF_MAKE_METHOD="gnumake ${MAKE_OPTS} SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+        DEF_INSTALL_METHOD="gnumake ${MAKE_OPTS} install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
         ;;
 esac
 
