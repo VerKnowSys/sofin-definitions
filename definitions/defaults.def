@@ -118,6 +118,10 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
                 DEF_NO_RETPOLINE=YES
                 DEF_NO_PIE=YES
                 DEF_USE_LTO=YES
+
+                DEF_MAKE_METHOD="make ${MAKE_OPTS} SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+                DEF_INSTALL_METHOD="make ${MAKE_OPTS} install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+
                 unset DEF_USE_RAMDISK
                 ;;
 
