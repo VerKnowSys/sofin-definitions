@@ -1,28 +1,38 @@
 DEF_FULL_NAME="Boost - C++ Libraries"
 DEF_NAME="boost"
-DEF_VERSION="1.69.0"
-DEF_SHA="ea6eee4b5999f9c02105386850f63a53f0250eaa"
+DEF_VERSION="1.77.0"
+DEF_SHA="0cb4f947d094fc311e13ffacaff00418130ef5ef"
 _major_ver="${DEF_VERSION%.*}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
 DEF_ORIGIN="https://dl.bintray.com/boostorg/release/${DEF_VERSION}/source/${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="--with-toolset=darwin"
-        ;;
-
-    *)
-        DEF_CONFIGURE_ARGS="--with-toolset=clang"
-        ;;
-esac
 case "${SYSTEM_ARCH}" in
     amd64)
         _sys_specific="-march=ivybridge"
         ;;
     arm64)
+        _sys_specific="-O3"
         unset _sys_specific
+        ;;
+esac
+DEF_CONFIGURE_ARGS="--with-toolset=clang"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_INSTALL_METHOD="./b2 -j${CPUS} cflags='${_sys_specific} -flto=thin' cxxflags='${_sys_specific} -flto=thin' linkflags='' variant=release threading=multi link=shared runtime-link=shared debug-symbols=off optimization=speed inlining=full warnings=off pch=on address-model=64 profiling=off install"
+        DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
+        name_tool_darwin () {
+            for _lib in ${PREFIX}/lib/*.dylib; do
+                install_name_tool -add_rpath "${PREFIX}/lib" ${_lib}
+            done
+            return 0
+        }
+        ;;
+
+    *)
+        DEF_INSTALL_METHOD="./b2 -j${CPUS} cflags='${_sys_specific} -flto=thin' cxxflags='${_sys_specific} -flto=thin' linkflags='-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags' variant=release threading=multi link=shared runtime-link=shared debug-symbols=off optimization=speed inlining=full warnings=off pch=on address-model=64 profiling=off install"
+
         ;;
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-icu --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,test"
 DEF_MAKE_METHOD="true"
-DEF_INSTALL_METHOD="./b2 -j${CPUS} cflags='${_sys_specific} -flto=thin' cxxflags='${_sys_specific} -flto=thin' linkflags='-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags' variant=release threading=multi link=shared runtime-link=shared debug-symbols=off optimization=speed inlining=full warnings=off pch=on address-model=64 profiling=off install"
+DEF_USE_CXX11=YES
