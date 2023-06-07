@@ -21,17 +21,25 @@ link_sh () {
 }
 
 strip_libs () {
-    try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/net/*.so"
-    try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/param/*.so"
-    try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/*.so"
+    if [ "Darwin" != "${SYSTEM_NAME}" ]; then
+        try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/net/*.so"
+        try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/param/*.so"
+        try "${STRIP_BIN} ${PREFIX}/lib/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}/*.so"
+    fi
 }
 
-DEF_AFTER_EXPORT_METHOD="validate_product"
+DEF_TEST_METHOD="validate_product"
 validate_product () {
     parse_version "${DEF_VERSION}"
     debug "validate_product(version=$(distd "${_major}.${_minor}.${_micro}"))"
-    run "${PREFIX}/bin/zsh --version 2>/dev/null | ${GREP_BIN} -F \"${_major}.${_minor}\" >/dev/null 2>&1"
+    run "./Src/zsh --version 2>/dev/null | ${GREP_BIN} -F \"${_major}.${_minor}\" >/dev/null 2>&1"
 }
 
 DEF_EXPORTS="zsh zsh-${DEF_VERSION} sh"
 DEF_NO_TRAP_INT_OVERFLOW=YES
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="--enable-cap --enable-zsh-secure-free --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp DL_EXT=bundle"
+        ;;
+esac
