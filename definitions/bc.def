@@ -1,0 +1,12 @@
+DEF_FULL_NAME="Gavin Howard's bc"
+DEF_NAME="bc"
+DEF_VERSION="6.6.0"
+DEF_SHA="d54de076b1139d8cad13e825e494615db821aa04"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://github.com/gavinhoward/bc/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="readline"
+DEF_EXPORTS="bc dc"
+
+# NOTE: the definition has a custom configure script that fails with exit code 0 so it's a workaround:
+DEF_MAKE_METHOD="./configure --prefix=${PREFIX} && make"
+DEF_CONFIGURE_METHOD="ignore"
