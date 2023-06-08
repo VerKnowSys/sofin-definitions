@@ -1,6 +1,6 @@
 DEF_STANDALONE=YES
 DEF_NAME="mysql"
-DEF_FULL_NAME="Mysql 8 - library only"
+DEF_FULL_NAME="Mysql 8 - client library only"
 DEF_VERSION="8.0.33"
 DEF_SHA="bc36d031e5ee5e78b6f506283278658300860218"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
@@ -15,7 +15,7 @@ DEF_CONFIGURE_ARGS="-DSECURITY_HARDENED=OFF \
     -DWITH_BOOST=${PREFIX} -DBOOST_INCLUDE_DIR=${PREFIX}/include -DLOCAL_BOOST_DIR=${PREFIX}/lib \
     -DWITH_CURL=0 -DWITH_FIDO=bundled -DWITH_ZLIB=bundled -DWITH_ZSTD=system \
     -DWITH_SYSTEM_LIBS=ON -DWITHOUT_SERVER=ON -DWITH_EMBEDDED_SERVER=OFF \
-    -DCMAKE_BUILD_RPATH=${PREFIX}/lib -DCMAKE_INSTALL_RPATH=${PREFIX}/lib -DCMAKE_SKIP_BUILD_RPATH=NO"
+    -DCMAKE_SKIP_BUILD_RPATH=NO"
 DEF_USEFUL="bin/my*" # always be prepared for more ;)
 DEF_EXPORTS="mysql mysqltest mysqlcheck mysqldump mysqlimport mysqlshow mysqlbinlog mysqladmin mysqlslap mysql_config_editor mysql_secure_installation mysql_ssl_rsa_setup mysqlpump mysql_migrate_keyring comp_err my_print_defaults"
 DEF_MAKE_METHOD="make DYLD_LIBRARY_PATH=${PREFIX}/lib"
