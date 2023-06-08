@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Lib Event"
 DEF_NAME="libevent"
 DEF_VERSION="2.1.12"
