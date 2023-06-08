@@ -1,23 +1,33 @@
 DEF_FULL_NAME="Fontconfig Library"
 DEF_STANDALONE=YES
 DEF_NAME="fontconfig"
-DEF_VERSION="2.14.1"
-DEF_SHA="1e0c542d35783f25ed3f4d3eb843fd81cb01a81d"
+DEF_VERSION="2.14.2"
+DEF_SHA="3631a6a6ccb870d88149538cf9e6ad3fa27e056b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.freedesktop.org/software/${DEF_NAME}/release/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libpng libxml2 autoconf texinfo automake freetype gperf"
-DEF_CONFIGURE_ARGS="--disable-docs --disable-static --enable-iconv \
-    --with-configdir=${SERVICE_DIR}/etc/fonts/conf.d \
-    --with-templatedir=${SERVICE_DIR}/etc/fonts/conf.avail \
-    --with-xmldir=${SERVICE_DIR}/etc/fonts \
-    --with-default-fonts=${PREFIX}/share/fonts \
-    --with-add-fonts=${PREFIX}/lib/X11/fonts \
-    --with-cache-dir=${SERVICE_DIR}/var/db/fontconfig \
-    --with-pkgconfigdir=${PREFIX}/lib/pkgconfig \
-    --enable-libxml2 \
-"
-DEF_MAKE_METHOD="LC_ALL=C make ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS}"
+DEF_REQUIREMENTS="xz libpng libxml2 autoconf texinfo automake freetype gperf"
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_METHOD="meson"
+        DEF_MAKE_METHOD="LC_ALL=C make ${MAKE_OPTS} SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+        DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS} SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+        ;;
+    *)
+        DEF_CONFIGURE_ARGS="--disable-docs --disable-static --enable-iconv \
+            --with-configdir=${SERVICE_DIR}/etc/fonts/conf.d \
+            --with-templatedir=${SERVICE_DIR}/etc/fonts/conf.avail \
+            --with-xmldir=${SERVICE_DIR}/etc/fonts \
+            --with-default-fonts=${PREFIX}/share/fonts \
+            --with-add-fonts=${PREFIX}/lib/X11/fonts \
+            --with-cache-dir=${SERVICE_DIR}/var/db/fontconfig \
+            --with-pkgconfigdir=${PREFIX}/lib/pkgconfig \
+            --enable-libxml2 \
+        "
+        DEF_MAKE_METHOD="LC_ALL=C make ${MAKE_OPTS}"
+        DEF_INSTALL_METHOD="LC_ALL=C make -s install ${MAKE_OPTS}"
+        ;;
+esac
 DEF_EXPORTS="fc-cache fc-cat fc-list fc-match fc-pattern fc-query fc-scan fc-validate"
 DEF_USELESS="include/python* lib/python* lib/perl*"
 
