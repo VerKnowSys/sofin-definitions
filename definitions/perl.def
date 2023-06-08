@@ -37,17 +37,32 @@ DEF_MAKE_METHOD="make_method"
 make_method () {
     locale_cleanup
     note "Make!"
-    make -j"${CPUS}" SHELL="${SOFIN_UTILS_DIR}/exports/bash"
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            make -j"${CPUS}" SHELL="${SOFIN_UTILS_DIR}/exports/bash"
+            ;;
+
+        *)
+            make -j"${CPUS}"
+            ;;
+    esac
+
 }
 DEF_INSTALL_METHOD="install_method"
 install_method () {
     locale_cleanup
-    make -s install SHELL="${SOFIN_UTILS_DIR}/exports/bash"
 
-    if [ "Darwin" != "${SYSTEM_NAME}" ]; then
-        echo "Patching so object"
-        try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${SYSTEM_ARCH}-freebsd-thread-multi/auto/DB_File/DB_File.so"
-    fi
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            make -s install SHELL="${SOFIN_UTILS_DIR}/exports/bash"
+            ;;
+
+        *)
+            make -s install
+            echo "Patching so object"
+            try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${SYSTEM_ARCH}-freebsd-thread-multi/auto/DB_File/DB_File.so"
+            ;;
+    esac
 }
 
 locale_cleanup () {
