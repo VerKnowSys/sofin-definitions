@@ -6,7 +6,7 @@ DEF_VERSION="8.2.6"
 DEF_SHA="6225a65cbc3f78aed4f6ee3777cf424a871d3b55"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug memcached redis igbinary" # NOTE: meminfo doesn't build for 8 yet
+DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug redis igbinary" # NOTE: meminfo doesn't build for 8 yet
 
 install_xdebug () {
     arch_name="xdebug-3.2.1"

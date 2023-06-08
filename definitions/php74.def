@@ -12,7 +12,7 @@ DEF_CONFIGURE_ARGS="--disable-all --disable-option-checking --disable-static --d
     --enable-libxml --enable-xmlwriter=shared --enable-xmlreader=shared --enable-simplexml=shared --enable-exif=shared \
     --enable-pcntl=shared --enable-posix=shared --enable-ftp=shared --enable-calendar=shared --enable-bcmath=shared \
     --enable-wddx=shared --enable-tokenizer=shared --enable-session=shared --enable-hash --enable-filter=shared \
-    --enable-mbstring=shared --enable-fileinfo=shared --enable-dom=shared --enable-gd-native-ttf --enable-opcache=shared \
+    --enable-mbstring=shared --enable-fileinfo=shared --enable-dom=shared --enable-opcache=shared \
     --enable-sysvshm=shared --enable-sysvmsg=shared --enable-sysvsem=shared --enable-shmop=shared --enable-phar \
     --enable-embed=shared --enable-cli --enable-fpm --enable-pdo=shared --enable-gettext=shared --enable-dba=shared \
     --with-pdo-mysql=shared,${PREFIX} --with-pdo-pgsql=shared,${PREFIX} --with-zlib=shared --with-zlib-dir=/usr \
@@ -21,7 +21,7 @@ DEF_CONFIGURE_ARGS="--disable-all --disable-option-checking --disable-static --d
     --with-mcrypt=shared,${PREFIX} --with-mysqli=mysqlnd --with-pgsql=shared,${PREFIX} --with-curl=shared,${PREFIX} \
     --with-gmp=shared,${PREFIX} --with-pear --with-xmlrpc=shared --enable-ctype=shared --with-mhash=shared,${PREFIX} \
     --with-png-dir=${PREFIX} --with-jpeg-dir=${PREFIX} --with-xsl=shared,${PREFIX} --with-libedit=shared,${PREFIX} \
-    --with-pcre-regex=${PREFIX} --without-pcre-jit --enable-gd --with-gd=shared,${PREFIX} --with-icu-dir=${PREFIX} \
+    --with-pcre-regex=${PREFIX} --without-pcre-jit --enable-gd --enable-gd-native-ttf --with-gd=shared,${PREFIX} --with-icu-dir=${PREFIX} \
     --with-freetype-dir=${PREFIX} --enable-freetype=shared --enable-fontconfig=shared \
     --with-config-file-scan-dir=${SERVICE_DIR}/etc/php --with-sodium=shared,${PREFIX} \
     --enable-intl=shared,${PREFIX} --with-libzip=shared,${PREFIX} \
@@ -50,13 +50,20 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --without-kerberos --without-ldap --with-fpm-user=_www --with-fpm-group=_www --with-bz2=${PREFIX} --with-zlib=shared,${PREFIX} ZLIB_CFLAGS=-I${PREFIX}/include ZLIB_LIBS=-L${PREFIX}/lib PNG_CFLAGS=I${PREFIX}/include PNG_LIBS=-L${PREFIX}/lib --with-iconv-dir=/usr --disable-embed --with-external-gd --without-xpm"
+        DEF_REQUIREMENTS="@automake ${DEF_REQUIREMENTS} bzip2 zlib"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --without-kerberos --without-ldap --with-fpm-user=_www --with-fpm-group=_www --with-bz2=${PREFIX} --with-zlib=shared,${PREFIX} ZLIB_CFLAGS=-I${PREFIX}/include ZLIB_LIBS=-L${PREFIX}/lib PNG_CFLAGS=I${PREFIX}/include PNG_LIBS=-L${PREFIX}/lib --with-iconv-dir=/usr --disable-embed --with-external-gd"
+
+        # XQuartz support files:
+        if [ -d "/opt/X11/lib" ]; then
+            DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-xpm=/opt/X11"
+        else
+            error "On Darwin platforms, XQuartz is required!"
+        fi
+
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -w"
         DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -liconv -lz -lc -lc++ -ldl -lm"
-        # LD="clang++"
         DEF_MAKE_METHOD="make SHELL=${SOFIN_UTILS_DIR}/exports/bash"
         DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
-        DEF_REQUIREMENTS="@automake ${DEF_REQUIREMENTS} bzip2 zlib"
         unset DEF_USE_LTO
         ;;
 esac
@@ -76,7 +83,9 @@ hack_after_unpack () {
 DEF_AFTER_CONFIGURE_METHOD="hack_phpisms"
 hack_phpisms () {
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#g" Makefile configure *.m4 main/build-defs.h main/php_config.h
-    ${SED_BIN} -i '' -e "s#HAVE_GD_XPM#NO_I_DONT_YOU_STUPID#g" ext/gd/gd.c
+    if [ "Darwin" != "${SYSTEM_NAME}" ]; then
+        ${SED_BIN} -i '' -e "s#HAVE_GD_XPM#NO_I_DONT_YOU_STUPID#g" ext/gd/gd.c
+    fi
     return 0
 }
 
