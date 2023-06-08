@@ -1,0 +1,7 @@
+DEF_DISABLE_ON="FreeBSD Linux"
+DEF_NAME="bzip2"
+DEF_SHA="bf7badf7e248e0ecf465d33c2f5aeec774209227"
+DEF_VERSION="1.0.8"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="no-conf"
+DEF_EXPORTS="bunzip2 bzcat bzcmp bzdiff bzegrep bzfgrep bzgrep bzip2 bzip2recover bzless bzmore"
