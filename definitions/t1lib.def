@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="T1lib"
 DEF_NAME="t1lib"
 DEF_SHA="4b4fc22c8688eefaaa8cfc990f0039f95f4287de"

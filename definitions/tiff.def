@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="TIFF Library"
 DEF_NAME="tiff"
 DEF_VERSION="4.4.0"

@@ -6,19 +6,27 @@ DEF_SHA="bc36d031e5ee5e78b6f506283278658300860218"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="@zstd openssl libevent libedit icu protobuf boost"
 DEF_CONFIGURE_METHOD="cmake"
-DEF_CONFIGURE_ARGS="-DSECURITY_HARDENED=OFF \
+DEF_CONFIGURE_ARGS="-DSECURITY_HARDENED=ON \
     -DBUILD_CONFIG=mysql_release -DINSTALL_INCLUDEDIR=include/mysql -DINSTALL_INFODIR=share/info -DINSTALL_MYSQLSHAREDIR=share/mysql \
     -DMYSQL_MAINTAINER_MODE=OFF -DINSTALL_SCRIPTDIR=bin -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci \
     -DENABLED_LOCAL_INFILE=ON -DENABLE_DEBUG_SYNC=OFF -DWITH_UNIT_TESTS=OFF -DWITH_VALGRIND=OFF \
     -DINSTALL_SYSCONFDIR=${SERVICE_DIR}/etc -DTMPDIR=/tmp -DMYSQL_DATADIR=${SERVICE_DIR}/data \
-    -DWITH_SSL=yes -DENABLED_PROFILING=OFF -DCOMPILATION_COMMENT=VerKnowSys -DWITH_LTO=YES \
+    -DWITH_SSL=yes -DENABLED_PROFILING=OFF -DCOMPILATION_COMMENT=VerKnowSys \
     -DWITH_BOOST=${PREFIX} -DBOOST_INCLUDE_DIR=${PREFIX}/include -DLOCAL_BOOST_DIR=${PREFIX}/lib \
     -DWITH_CURL=0 -DWITH_FIDO=bundled -DWITH_ZLIB=bundled -DWITH_ZSTD=system \
     -DWITH_SYSTEM_LIBS=ON -DWITHOUT_SERVER=ON -DWITH_EMBEDDED_SERVER=OFF \
-    -DCMAKE_SKIP_BUILD_RPATH=NO"
+    -DCMAKE_SKIP_BUILD_RPATH=NO -DINSTALL_SUPPORTFILESDIR=0"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DWITH_LTO=YES"
+        ;;
+
+    FreeBSD)
+        DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -ldl -pthread -lm -lexecinfo -lgcc_eh"
+        ;;
+esac
 DEF_USEFUL="bin/my*" # always be prepared for more ;)
 DEF_EXPORTS="mysql mysqltest mysqlcheck mysqldump mysqlimport mysqlshow mysqlbinlog mysqladmin mysqlslap mysql_config_editor mysql_secure_installation mysql_ssl_rsa_setup mysqlpump mysql_migrate_keyring comp_err my_print_defaults"
-DEF_MAKE_METHOD="make DYLD_LIBRARY_PATH=${PREFIX}/lib"
 DEF_AFTER_INSTALL_METHOD="strip_plugins"
 strip_plugins () {
     try "${STRIP_BIN} ${PREFIX}/lib/plugin/*.so"

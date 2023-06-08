@@ -5,11 +5,23 @@ DEF_SHA="16d0b8df9be8cacda90dd4cd041e3f5838e17074"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.bytereef.org/software/${DEF_NAME}/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-shared --enable-cxx"
-DEF_AFTER_INSTALL_METHOD="fix_rpath"
-fix_rpath () {
-    # HACK: required because no RPATH is written to the C++ library, even if explicitly specified:
-    patchelf --set-rpath "${PREFIX}/lib" "${PREFIX}/lib/libmpdec++.so"
-}
 
-# workaround for linker using clang as a wrapper:
-LD="clang"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_MAKE_METHOD="make SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+        LD="clang"
+        CFLAGS="-O3"
+        CXXFLAGS="-O3"
+        ;;
+
+    *)
+        DEF_AFTER_INSTALL_METHOD="fix_rpath"
+        fix_rpath () {
+            # HACK: required because no RPATH is written to the C++ library, even if explicitly specified:
+            patchelf --set-rpath "${PREFIX}/lib" "${PREFIX}/lib/libmpdec++.so"
+        }
+
+        # workaround for linker using clang as a wrapper:
+        LD="clang"
+        ;;
+esac
