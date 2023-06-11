@@ -1,1 +1,4 @@
 inherit "cmake"
+
+# simplest base cmake, no additional external deps required
+unset DEF_REQUIREMENTS
