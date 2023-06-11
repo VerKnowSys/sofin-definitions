@@ -4,7 +4,7 @@ DEF_VERSION="2.10.4"
 DEF_SHA="0181862673f7216ad2b5074f95fc131209e30b27"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.savannah.gnu.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="pkgconf-static make-static zlib libpng texinfo"
+DEF_REQUIREMENTS="pkgconf-util make-static zlib libpng texinfo"
 DEF_EXPORTS="freetype-config"
 
 DEF_CONFIGURE_METHOD="builds/unix/configure"

@@ -4,7 +4,7 @@ DEF_VERSION="2.3.7"
 DEF_SHA="9255a70a984bfbfa5312a9a52a1cf47cb0d1fc84"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pkgconf-static make-static libedit gettext getopt pth npth libgpg-error nasm-static libgcrypt libassuan libksba gdbm db gmp nettle libtasn1 libffi p11-kit texinfo libidn libunistring gnutls sqlite pinentry"
+DEF_REQUIREMENTS="pkgconf-util make-static libedit gettext getopt pth npth libgpg-error nasm-static libgcrypt libassuan libksba gdbm db gmp nettle libtasn1 libffi p11-kit texinfo libidn libunistring gnutls sqlite pinentry"
 DEF_CONFIGURE_ARGS="--disable-nls --disable-doc --disable-ntbtls --disable-wks-tools \
 --with-libgcrypt-prefix=${PREFIX} --with-libassuan-prefix=${PREFIX} --with-npth-prefix=${PREFIX} \
 --with-ksba-prefix=${PREFIX} --with-libgpg-error-prefix=${PREFIX} --with-readline=${PREFIX} \

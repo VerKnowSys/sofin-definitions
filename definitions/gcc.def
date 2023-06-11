@@ -19,7 +19,7 @@ DEF_CONFIGURE_ARGS="--disable-nls --enable-gnu-indirect-function --disable-libgc
 --with-system-zlib --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-mpc=${PREFIX} --with-isl=${PREFIX} \
 --disable-libstdcxx --enable-bootstrap --enable-shared --enable-host-shared --enable-default-pie \
 --with-pkgversion=VerKnowSys --with-gxx-include-dir=/usr/include/c++/v1"
-DEF_REQUIREMENTS="pkgconf-static make-static lzo lz4 perl-static gmp mpfr libmpc isl zip zlib libtool binutils-gold"
+DEF_REQUIREMENTS="pkgconf-util make-static lzo lz4 perl-static gmp mpfr libmpc isl zip zlib libtool binutils-gold"
 
 DEF_AFTER_UNPACK_METHOD="contrib/gcc_update --touch"
 # DEF_AFTER_INSTALL_METHOD="generate_libgfortran_spec"

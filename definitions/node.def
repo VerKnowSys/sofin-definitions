@@ -8,7 +8,7 @@ DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre 
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-html postman-combine-collections"
-DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-static bin/*conf"
+DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/pkgconf-util bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
 
