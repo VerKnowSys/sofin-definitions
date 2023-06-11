@@ -9,6 +9,7 @@ DEF_REQUIREMENTS="@curl-lib libgpg-error libgcrypt libxslt libogg libvorbis libt
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USELESS="include lib/*.{a,la} lib/{cmake,libxslt-plugins,pkgconfig} man share/{aclocal,libgpg-error}"
 DEF_USE_SAFE_STACK=YES
+DEF_COMPILER_FLAGS="-I${PREFIX}/include/libxml2"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
