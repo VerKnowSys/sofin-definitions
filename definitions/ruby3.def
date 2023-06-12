@@ -1,10 +1,10 @@
 inherit ruby27
 
 DEF_FULL_NAME="Ruby JIT 3.x"
-DEF_VERSION="3.2.1"
-DEF_SHA="eab9eaa05c6f572032e8c8f6108c9a4fe229ddd3"
+DEF_VERSION="3.2.2"
+DEF_SHA="087af286b70b0e17f88c9c4469b471eca2010161"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libedit icu @libxslt @curl gettext sqlite gdbm libevent libuuid postgresql12-client @mariadb-client gmp libtool yaml rust-basic"
+DEF_REQUIREMENTS="libedit icu @libxslt @curl-openssl gettext sqlite db gdbm libevent libuuid postgresql12-client @mysql-lib gmp libtool yaml rust-basic"
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace --enable-yjit"
 DEF_USELESS="${DEF_USELESS} cmake lib/rustlib libexec support-files lib/librust*"
