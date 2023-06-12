@@ -9,19 +9,7 @@ DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS="-DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
 
 if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    # solution for: 'configure script can't find "Carbon.h"' issue:
-    _found_carbon=""
-    for _macos_minor_version in 15 14 13 12 11 10 9 8 7 6; do
-        debug "${0}: Seeking Carbon framework in: $(distd "${_macos_minor_version}")"
-        _carbon_framework="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.${_macos_minor_version}.sdk/System/Library/Frameworks/Carbon.framework"
-        if [ -d "${_carbon_framework}" ]; then
-            _found_carbon="${_carbon_framework}"
-            break
-        fi
-    done
-    if [ -z "${_found_carbon}" ]; then
-        error "$(diste "Carbon") framework NOT found! Please make sure $(diste "Xcode.app") is available in your system!"
-    fi
+    _carbon_framework="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk//System/Library/Frameworks/Carbon.framework"
     DEF_COMPILER_FLAGS="-I${_carbon_framework}/Versions/A/Headers -framework Carbon"
     DEF_LINKER_FLAGS="-L${PREFIX}/lib -lvorbis -logg -framework Carbon"
 fi
