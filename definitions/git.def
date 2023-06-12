@@ -5,6 +5,7 @@ DEF_NAME="git"
 DEF_VERSION="2.40.1"
 DEF_SHA="092e1c160d6d602bfa69cc702c09c92ad1b2becb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="@curl-openssl icu @python311 perl"
 DEF_CONFIGURE_ARGS="--with-iconv=/usr --with-zlib=/usr --enable-pthreads=-pthread ac_cv_header_libcharset_h=no"
 case "${SYSTEM_NAME}" in
