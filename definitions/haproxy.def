@@ -6,7 +6,7 @@ DEF_SHA="e58863d25d3f6f4b1c8a3db3dfe083c160c59d1d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="lua53 pcre2 libressl-lib"
+DEF_REQUIREMENTS="lua53 pcre2 openssl"
 DEF_USELESS="lib/*.{a,la} man share/lua docs doc bin"
 DEF_EXPORTS="${DEF_NAME}"
 
