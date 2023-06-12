@@ -6,7 +6,7 @@ DEF_SHA="8aedeb1dcd57f0b3c8953ac3589a898373899faa"
 DEF_ORIGIN="https://cmake.org/files/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--no-qt-gui --parallel=${CPUS}"
-DEF_REQUIREMENTS="@curl-lib expat libarchive rhash"
+DEF_REQUIREMENTS="@curl-openssl expat libarchive rhash"
 DEF_EXPORTS="${DEF_NAME} c${DEF_NAME} cpack ctest"
 DEF_USELESS="include lib/*.{a,la}"
 DEF_USE_SAFE_STACK=YES
