@@ -1,4 +1,4 @@
-DEF_DISABLE_ON="Linux FreeBSD"
+DEF_DISABLE_ON="Darwin Linux FreeBSD"
 DEF_FULL_NAME="CUE Sheet Parser Library"
 DEF_NAME="libcue"
 DEF_SHA="3fd31f2da7c0e3967d5f56363f3051a85a8fd50d"

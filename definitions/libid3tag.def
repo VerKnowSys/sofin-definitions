@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="ID3 library"
 DEF_NAME="libid3tag"
 DEF_VERSION="0.15.1b"
