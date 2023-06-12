@@ -2,31 +2,9 @@ inherit "git"
 
 unset DEF_CRITICAL
 
-DEF_FULL_NAME="Git SCM (recent version)"
+DEF_FULL_NAME="Git SCM (devel version)"
 DEF_SUFFIX="-devel"
-DEF_VERSION="2.40.1"
-DEF_SHA="092e1c160d6d602bfa69cc702c09c92ad1b2becb"
+DEF_VERSION="2.41.0"
+DEF_SHA="e97003aecfe41cf4a65b96c67410be1e210486f2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="@curl-lib icu @python39 perl"
-DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-python=${PREFIX}/bin/python3"
-DEF_USEFUL="bin/perl* bin/python*"
-DEF_USELESS="lib/*.{a,la} lib/{pkgconfig,icu} share/{examples,texinfo,gtk-doc,icu,nghttp2} share/aclocal* share/auto* include man sbin docs"
-DEF_CONFLICTS_WITH="Git"
-
-DEF_AFTER_INSTALL_METHOD="strip_libexec"
-strip_libexec () {
-    ${STRIP_BIN} libexec/git-core/git-* 2>/dev/null
-    return 0
-}
-
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
-        unset DEF_USE_LTO
-        ;;
-esac
-
-DEF_TEST_METHOD="test_git_features"
-test_git_features () {
-    ./${DEF_NAME} -v | ${GREP_BIN} -F "git version ${DEF_VERSION}"
-}
