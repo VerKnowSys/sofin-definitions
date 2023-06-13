@@ -8,6 +8,9 @@ DEF_REQUIREMENTS="zlib make-static gmp"
 case "${SYSTEM_ARCH}" in
     arm|arm64|aarch64)
         DEF_CONFIGURE_ARGS="--disable-static --enable-shared --disable-assembler"
+        if [ "Darwin" = "${SYSTEM_NAME}" ]; then
+            DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+        fi
         ;;
 
     *)
