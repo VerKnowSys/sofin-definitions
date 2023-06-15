@@ -8,7 +8,7 @@ DEF_REQUIREMENTS="libtool @glib @curl-openssl capstone libusb libslirp libssh ex
 DEF_CONFIGURE_ARGS="--target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --enable-gnutls --enable-nettle --enable-curl --enable-vnc --enable-libssh --enable-cocoa --enable-slirp --enable-capstone --enable-zstd --disable-werror --disable-docs --disable-gtk --disable-xen --disable-xen-pci-passthrough --extra-cflags=-DNCURSES_WIDECHAR=1 --disable-sdl"
 DEF_CONFIGURE_METHOD="/bin/bash ./configure"
 DEF_USEFUL="bin/qemu*"
-DEF_USELESS="share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.{a,sh,la} lib/{glib-2.0,cmake,pkgconfig,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
+DEF_USELESS="cmake share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.a lib/*.sh lib/{glib-2.0,cmake,pkgconfig,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
 DEF_EXPORTS="qemu-edid qemu-img qemu-nbd qemu-io qemu-system-aarch64 qemu-system-arm qemu-system-x86_64 qemu-system-aarch64-unsigned qemu-system-arm-unsigned qemu-system-x86_64-unsigned qemu-storage-daemon"
 DEF_USE_SAFE_STACK=YES
 
