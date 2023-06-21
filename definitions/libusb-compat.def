@@ -1,0 +1,21 @@
+DEF_FULL_NAME="LibUSB compat"
+DEF_NAME="libusb-compat"
+DEF_VERSION="0.1.8"
+DEF_SHA="b57a8e03b6eb623c8218cefcd1511d9ed1a00c1e"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://downloads.sourceforge.net/project/libusb/${DEF_NAME}-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_REQUIREMENTS="@automake"
+DEF_AFTER_UNPACK_METHOD="after_unpack"
+after_unpack () {
+    # autotools is literally the worst thing that has happened to the open source community before the systemd…
+    ./bootstrap.sh
+    ${SED_BIN} -i '' -e 's|PKG_CHECK_MODULES.*$||' configure
+    return 0
+}
+DEF_COMPILER_FLAGS="-O3 -I${PREFIX}/include/libusb-1.0"
+
+CFLAGS="-O3 -I${PREFIX}/include/libusb-1.0"
+CXXFLAGS="-O3 -I${PREFIX}/include/libusb-1.0"
+LDFLAGS="-L${PREFIX}/lib -lusb-1.0"
+
+DEF_CONFIGURE_ARGS="--enable-static=no CFLAGS= CXXFLAGS= LDFLAGS=" # --disable-option-checking --disable-dependency-tracking
