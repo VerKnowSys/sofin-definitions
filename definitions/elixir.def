@@ -1,47 +1,22 @@
-inherit otp
-
-OTP_VERSION="${DEF_VERSION}"
-
-unset DEF_SUFFIX DEF_AFTER_UNPACK_METHOD DEF_AFTER_PATCH_METHOD DEF_AFTER_INSTALL_METHOD
-DEF_FULL_NAME="Elixir Lang on top of ${DEF_FULL_NAME}"
+DEF_FULL_NAME="Elixir Language"
+DEF_STANDALONE=YES
 DEF_NAME="elixir"
-DEF_VERSION="1.14.5"
-DEF_SHA="69c852438fa229c22c24a299b71018c8230852cc"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://github.com/elixir-lang/${DEF_NAME}/archive/v${DEF_VERSION}.tar.gz"
+DEF_VERSION="1.15.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-otp-26.zip"
+DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex ex_doc"
 DEF_REQUIREMENTS="@otp"
-DEF_CONFIGURE_METHOD="no-conf"
-DEF_CONFLICTS_WITH="Otp"
-DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex"
+DEF_TYPE=meta
 
-DEF_MAKE_METHOD="export_stuff_and_make"
-export_stuff_and_make () {
-    _lang="en_US.UTF-8"
-    _elixir_timeout="2000"
+DEF_AFTER_INSTALL_METHOD="install_elixir"
+install_elixir () {
+    cd /tmp
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    mkdir -p "${PREFIX}"
+    unzip -d "${PREFIX}" "${DEF_SOURCE_PATH##*/}"
 
-    note "Setting explicit encoding: $(distn "${_lang}") for build of: $(distn "$(capitalize "${DEF_NAME}-${DEF_VERSION}"), OTP-${OTP_VERSION%.*}")"
-    run "export PATH=${PATH} \
-        && export LANG=${_lang} \
-        && export LC_CTYPE=${_lang} \
-        && export LC_COLLATE=${_lang} \
-        && export LC_TIME=${_lang} \
-        && export LC_NUMERIC=${_lang} \
-        && export LC_MONETARY=${_lang} \
-        && export LC_MESSAGES=${_lang} \
-        && export ELIXIR_ASSERT_TIMEOUT=${_elixir_timeout} \
-        && export OTP_RELEASE=OTP-${OTP_VERSION%.*} \
-        && make compile ${MAKE_OPTS} \
-    " && return 0
-    return 1
+    run "${PREFIX}/bin/mix local.hex --force"
+    run "${PREFIX}/bin/mix escript.install hex ex_doc --force"
+    run "${MV_BIN} -f ${HOME}/.mix/escripts/ex_doc ${PREFIX}/bin/ex_doc"
 }
-DEF_TEST_METHOD="make ${MAKE_OPTS} test"
 
-case "${SYSTEM_NAME}" in
-    Darwin)
-        unset DEF_TEST_METHOD # XXX: fails on Darwin
-        DEF_AFTER_UNPACK_METHOD="patch_makefile_shell; patch_bins"
-        patch_bins () {
-            ${SED_BIN} -i '' -e 's|#!/bin/sh|#!/bin/bash|' ./bin/elixirc ./bin/elixir ./bin/iex ./bin/mix
-        }
-        ;;
-esac
+DEF_AFTER_EXPORT_METHOD="${PREFIX}/bin/mix local.hex --force"
