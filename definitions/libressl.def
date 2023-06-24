@@ -31,3 +31,10 @@ fetch_and_install_fresh_ca_cert () {
         && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
         && return 0
 }
+
+DEF_TEST_METHOD="test_ssl_exports"
+test_ssl_exports () {
+    nc -h 2>&1 | ${GREP_BIN} -F "usage: nc" && \
+    ocspcheck 2>&1 | ${GREP_BIN} -F "usage: ocspcheck" && \
+    openssl version | ${GREP_BIN} -F "LibreSSL ${DEF_VERSION}"
+}
