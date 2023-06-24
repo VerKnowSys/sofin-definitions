@@ -22,7 +22,6 @@ unset   DEF_CONFIGURE_ARGS # additional arguments to configuration script of sof
         DEF_MAKE_METHOD="make ${MAKE_OPTS}"
         DEF_TEST_ENV="test_harness" # default TEST_ENV passed to test
 unset   DEF_TEST_METHOD # define to enable software internal testing
-        DEF_SKIPPED_DEFINITION_TEST="neon lzo bash python27 python39 python310 perl cmake lz4"
         DEF_INSTALL_METHOD="make ${MAKE_OPTS} install"
 unset   DEF_BUILD_DIR_SUFFIX # special value required for software which delivers software sources in custom non standard directory.
 unset   DEF_AFTER_UNPACK_METHOD
