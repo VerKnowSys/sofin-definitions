@@ -1,13 +1,13 @@
 DEF_FULL_NAME="GNU Make"
-DEF_SHA="3c40e5b49b893dbb14f1e2e1f8fe89b7298cc51d"
 DEF_NAME="make"
-DEF_VERSION="4.3"
+DEF_VERSION="4.4.1"
+DEF_SHA="5ca41d365c35a4ded07d616190baf38814c25f2a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_EXPORTS="${DEF_NAME} g${DEF_NAME}"
-DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking" # NO: --program-prefix=g
+DEF_CONFIGURE_ARGS="--disable-nls --disable-dependency-tracking --disable-static" # NO: --program-prefix=g
 DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -x ${PREFIX}/bin/gmake || ${LN_BIN} -s ${PREFIX}/bin/make ${PREFIX}/bin/gmake"
-DEF_TEST_METHOD="make check"
+DEF_TEST_METHOD="${DEF_NAME} -v | ${GREP_BIN} -F 'GNU Make ${DEF_VERSION}'"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
