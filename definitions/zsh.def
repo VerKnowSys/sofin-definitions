@@ -30,9 +30,7 @@ strip_libs () {
 
 DEF_TEST_METHOD="validate_product"
 validate_product () {
-    parse_version "${DEF_VERSION}"
-    debug "validate_product(version=$(distd "${_major}.${_minor}.${_micro}"))"
-    run "./Src/zsh --version 2>/dev/null | ${GREP_BIN} -F \"${_major}.${_minor}\" >/dev/null 2>&1"
+    zsh --version | ${GREP_BIN} -F "zsh ${DEF_VERSION}"
 }
 
 DEF_EXPORTS="zsh zsh-${DEF_VERSION} sh"

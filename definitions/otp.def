@@ -12,14 +12,13 @@ DEF_USEFUL="bin/bison bin/yacc bin/flex"
 DEF_USELESS="docs include lib/*.{a,la} lib/cmake share/aclocal share/gtk-doc share/bison man"
 DEF_TEST_METHOD="test_otp"
 test_otp () {
-    ./bin/erl -version -noshell 2>&1 | ${GREP_BIN} -F "Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version"
+    erl -version -noshell 2>&1 | ${GREP_BIN} -F "Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version"
 }
 
 DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make ${MAKE_OPTS} install && make docs DOC_TARGETS=chunks && make install-docs"
 
 # disabled since it may take hours to complete
-# DEF_TEST_METHOD="make test"
 case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
     FreeBSD-amd64)
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
