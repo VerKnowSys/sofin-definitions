@@ -6,7 +6,7 @@ DEF_VERSION="6.2.7"
 DEF_SHA="b01ef3f117c9815dea41bf2609e489a03c3a5ab1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://download.redis.io/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="jemalloc libressl-lib"
+DEF_REQUIREMENTS="jemalloc openssl"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_USELESS="include lib/pkgconfig lib/*.{a,la} man share"
 
@@ -17,30 +17,48 @@ build_and_install_redis () {
 
     # use our version of jemalloc:
     try "${MKDIR_BIN} -p 'deps/jemalloc/lib/'"
-    try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
-    try "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
 
-    case "${SYSTEM_ARCH}" in
-        amd64|x86_64)
-            _redis_bonus_args="-march=ivybridge"
+    case "${SYSTEM_NAME}" in
+        Darwin)
+            make \
+                SHELL="${SOFIN_UTILS_DIR}/exports/bash" \
+                BUILD_TLS="yes" \
+                MALLOC="jemalloc" \
+                PREFIX="${PREFIX}" \
+                CFLAGS="${_redis_bonus_args} -fPIC -fPIE -I${PREFIX}/include -I/usr/include" \
+                LDFLAGS="-pie -L${PREFIX}/lib -L/usr/lib -lm -ljemalloc" \
+                install
+            ;;
+
+        *)
+            try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
+            try "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
+
+            case "${SYSTEM_ARCH}" in
+                amd64|x86_64)
+                    _redis_bonus_args="-march=ivybridge"
+                    ;;
+            esac
+            make \
+                BUILD_TLS=yes \
+                MALLOC=jemalloc \
+                PREFIX="${PREFIX}" \
+                CFLAGS="${_redis_bonus_args} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
+                LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc" \
+                install
             ;;
     esac
-    make \
-        BUILD_TLS=yes \
-        MALLOC=jemalloc \
-        PREFIX="${PREFIX}" \
-        CFLAGS="${_redis_bonus_args} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
-        LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc" \
-        install
 }
 DEF_INSTALL_METHOD="true"
 DEF_CONFLICTS_WITH="Redis"
 DEF_EXPORTS="${DEF_NAME}-cli ${DEF_NAME}-server ${DEF_NAME}-benchmark ${DEF_NAME}-check-dump ${DEF_NAME}-check-aof ${DEF_NAME}-server ${DEF_NAME}-sentinel ${DEF_NAME}-check-rdb"
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    # under Darwin "leaks" is used .... so this crap is calling sudo N times one by one,
-    # causing flood of "ask for root password" prompts... I have no further comments...
-    DEF_TEST_METHOD="false"
-fi
+
+DEF_TEST_METHOD="test_redis_binaries"
+test_redis_binaries () {
+    redis-benchmark --version | ${GREP_BIN} -F "redis-benchmark ${DEF_VERSION}" && \
+    redis-cli --version | ${GREP_BIN} -F "redis-cli ${DEF_VERSION}" && \
+    redis-server --version | ${GREP_BIN} -F "Redis server v=${DEF_VERSION}"
+}
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
