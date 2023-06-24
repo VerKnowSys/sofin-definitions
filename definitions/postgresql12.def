@@ -86,3 +86,10 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         ;;
 
 esac
+
+DEF_TEST_METHOD="test_postgres_exports"
+test_postgres_exports () {
+    for _bin in $(to_iter "${DEF_EXPORTS}"); do
+        "${_bin}" --version | ${GREP_BIN} -F "${_bin} (PostgreSQL) ${DEF_VERSION}" || exit 11
+    done
+}
