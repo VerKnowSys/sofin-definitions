@@ -4,8 +4,8 @@ unset DEF_USE_SAFE_STACK
 
 DEF_FULL_NAME="OpenSSL v1.1.1"
 DEF_NAME="openssl"
-DEF_VERSION="1.1.1t"
-DEF_SHA="a06b067b7e3bd6a2cb52a06f087ff13346ce7360"
+DEF_VERSION="1.1.1u"
+DEF_SHA="227f922048e132ca2d4181aabd34079cd82dd3be"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.openssl.org/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="perl-static"
@@ -25,7 +25,7 @@ case "${SYSTEM_NAME}" in
                 ;;
 
             arm64|aarch64)
-                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl BSD-generic64"
+                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl BSD-aarch64"
                 ;;
         esac
         ;;
@@ -33,15 +33,17 @@ case "${SYSTEM_NAME}" in
     Darwin)
         case "${SYSTEM_ARCH}" in
             amd64|x86_64)
-                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl darwin64-x86_64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
+                _arch_type="darwin64-x86_64-cc"
                 ;;
 
             arm64|aarch64)
-                DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl darwin64-arm64-cc enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
+                _arch_type="darwin64-arm64-cc"
                 ;;
         esac
 
-        unset DEF_REQUIREMENTS DEF_USE_SAFE_STACK
+        DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl ${_arch_type} enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
+        DEF_MAKE_METHOD="make -j4"
+        unset DEF_REQUIREMENTS
         ;;
 
     *)
