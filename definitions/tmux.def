@@ -1,20 +1,20 @@
 DEF_FULL_NAME="TMux - terminal multiplexer - modern screen-utility replacement"
 DEF_NAME="tmux"
-DEF_VERSION="3.2a"
-DEF_SHA="519c08880307ef13c799cb6988b4fd11ec5c2b77"
+DEF_VERSION="3.3a"
+DEF_SHA="90f8bffded13b16a463fd0af9af13091e4b0fb73"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="libevent utf8proc"
-DEF_CONFIGURE_ARGS="--disable-static --enable-utf8proc"
+DEF_REQUIREMENTS="openssl libevent"
+DEF_USELESS="include lib/pkgconfig man"
 case "${SYSTEM_NAME}" in
-    FreeBSD)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-utempter"
+    Darwin)
+        DEF_CONFIGURE_ARGS="--disable-static --disable-utf8proc"
         ;;
 
-    Darwin)
-        DEF_REQUIREMENTS="openssl libevent"
-        DEF_CONFIGURE_ARGS="--disable-static"
+    *)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-utempter --enable-utf8proc"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} utf8proc"
         ;;
 esac
+DEF_TEST_METHOD="tmux -V | ${GREP_BIN} -F 'tmux ${DEF_VERSION}'"
 DEF_EXPORTS="${DEF_NAME}"
-DEF_USELESS="include lib/pkgconfig man"
