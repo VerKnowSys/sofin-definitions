@@ -9,13 +9,16 @@ DEF_CONFIGURE_ARGS="--target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --e
 DEF_CONFIGURE_METHOD="/bin/bash ./configure"
 DEF_USEFUL="bin/qemu*"
 DEF_USELESS="cmake share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.a lib/*.sh lib/{glib-2.0,cmake,pkgconfig,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
-DEF_EXPORTS="qemu-edid qemu-img qemu-nbd qemu-io qemu-system-aarch64 qemu-system-arm qemu-system-x86_64 qemu-system-aarch64-unsigned qemu-system-arm-unsigned qemu-system-x86_64-unsigned qemu-storage-daemon"
+DEF_EXPORTS="qemu-edid qemu-img qemu-nbd qemu-io qemu-system-aarch64 qemu-system-arm qemu-system-x86_64 qemu-storage-daemon"
 DEF_USE_SAFE_STACK=YES
 
-DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
-name_tool_darwin () {
+DEF_AFTER_INSTALL_METHOD="set_rpath_and_rename_binaries"
+set_rpath_and_rename_binaries () {
     for _bin in ${PREFIX}/bin/qemu*; do
-        install_name_tool -add_rpath "${PREFIX}/lib" ${_bin}
+        run "install_name_tool -add_rpath ${PREFIX}/lib ${_bin}"
+    done
+    for _bin in qemu-system-aarch64-unsigned qemu-system-arm-unsigned qemu-system-x86_64-unsigned; do
+        run "${MV_BIN} -vf ${PREFIX}/bin/${_bin} ${PREFIX}/bin/${_bin%-unsigned}"
     done
     return 0
 }
@@ -33,9 +36,9 @@ sign_the_code () {
 </dict>
 </plist>
 EOF
-    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-aarch64-unsigned"
-    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-arm-unsigned"
-    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-x86_64-unsigned"
+    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-arm"
+    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-aarch64"
+    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-x86_64"
     ${RM_BIN} -f /tmp/entitlements.xml
     return 0
 }
