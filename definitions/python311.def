@@ -6,21 +6,23 @@ DEF_VERSION="3.11.4"
 DEF_SHA="413b3715d919a7b473281529ab91eeea5c82e632"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libffi openssl expat readline gettext gmp"
+DEF_REQUIREMENTS="xz libffi openssl expat readline gettext gmp sqlite"
 DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
         ;;
-
-    FreeBSD-13*)
-        DEF_CONFIGURE_ARGS="--enable-optimizations --enable-shared --disable-ipv6 --with-system-expat --with-system-ffi --with-system-readline --with-system-libmpdec --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-lto --with-ssl-default-suites=openssl --with-openssl=${PREFIX} --with-libs='-lncurses -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -fPIC'"
-        ;;
-
-    Darwin-*)
-        DEF_CONFIGURE_ARGS="--enable-optimizations --enable-shared --disable-ipv6 --with-system-expat --with-system-ffi --with-system-readline --with-system-libmpdec --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-lto --with-ssl-default-suites=openssl --with-openssl=${PREFIX} ax_cv_c_float_words_bigendian=yes --with-libs='-lncurses -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -fPIC'"
-        DEF_COMPILER_FLAGS="-fPIC -I${PREFIX}/include"
-        DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib"
-        ;;
 esac
+
+DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
+DEF_AFTER_INSTALL_METHOD="move_site_packages_to_the_service_dir"
+move_site_packages_to_the_service_dir () {
+    mkdir -p "${SERVICE_DIR}"
+    if [ ! -L "${SERVICE_DIR}/site-packages" ]; then
+        run "${MV_BIN} -vf ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages ${SERVICE_DIR}/site-packages"
+        run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
+    else
+        run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
+    fi
+}
