@@ -65,3 +65,8 @@ after_export () {
         printf 'gem: --no-ri --no-rdoc' > "${HOME}/.gemrc"
     fi
 }
+
+DEF_TEST_METHOD="test_ruby"
+test_ruby () {
+    ruby -v | ${GREP_BIN} -F "ruby ${DEF_VERSION}"
+}
