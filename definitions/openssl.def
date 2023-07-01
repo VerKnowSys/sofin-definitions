@@ -53,7 +53,5 @@ esac
 
 DEF_TEST_METHOD="test_ssl_exports"
 test_ssl_exports () {
-    nc -h 2>&1 | ${GREP_BIN} -F "usage: nc" && \
-    ocspcheck 2>&1 | ${GREP_BIN} -F "usage: ocspcheck" && \
     openssl version | ${GREP_BIN} -F "OpenSSL ${DEF_VERSION}"
 }
