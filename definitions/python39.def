@@ -39,13 +39,13 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
 esac
 
 DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
-DEF_AFTER_INSTALL_METHOD="move_site_packages_to_the_service_dir"
-move_site_packages_to_the_service_dir () {
-    mkdir -p "${SERVICE_DIR}"
-    if [ ! -L "${SERVICE_DIR}/site-packages" ]; then
-        run "${MV_BIN} -vf ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages ${SERVICE_DIR}/site-packages"
-        run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
-    else
-        run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
-    fi
-}
+# DEF_AFTER_INSTALL_METHOD="move_site_packages_to_the_service_dir"
+# move_site_packages_to_the_service_dir () {
+#     mkdir -p "${SERVICE_DIR}"
+#     if [ ! -L "${SERVICE_DIR}/site-packages" ]; then
+#         run "${MV_BIN} -vf ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages ${SERVICE_DIR}/site-packages"
+#         run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
+#     else
+#         run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
+#     fi
+# }
