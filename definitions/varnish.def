@@ -1,16 +1,16 @@
 DEF_FULL_NAME="Varnish cache"
 DEF_STANDALONE=YES
 DEF_NAME="varnish"
-DEF_VERSION="6.3.2"
-DEF_SHA="9fd71c8088035c7ea5e83123ed6ab4370875992f"
+DEF_VERSION="6.6.2"
+DEF_SHA="d2423c88186f5d409c72870199c8b46d489fdb48"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
 DEF_ORIGIN="https://varnish-cache.org/_downloads/${DEF_NAME}-${DEF_VERSION}.tgz"
-DEF_REQUIREMENTS="libffi pcre libressl-lib expat readline gettext gmp python39"
+DEF_REQUIREMENTS="@python311"
 DEF_CONFIGURE_ARGS="--with-jemalloc --disable-epoll --disable-ports"
 DEF_EXPORTS="varnishd varnishstat varnishlog varnishadm varnishhist varnishncsa varnishtest varnishtop"
 
 DEF_USEFUL="bin/varni*"
-DEF_USELESS="share/auto* share/acloca* share/{libtool,texinfo,groff} lib/*.{a,la} lib/{gettext,pkgconfig,python3.6}"
+DEF_USELESS="share/auto* share/acloca* share/{libtool,texinfo,groff} lib/*.{a,la} lib/{gettext,pkgconfig,python3.11}"
 
 DEF_AFTER_UNPACK_METHOD="install_requirements"
 install_requirements () {
