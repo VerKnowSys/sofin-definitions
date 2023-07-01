@@ -1,22 +1,22 @@
 DEF_FULL_NAME="Python 3.9"
 DEF_NAME="Python"
 DEF_SUFFIX="39"
-DEF_VERSION="3.9.16"
-DEF_SHA="19acd6a341e4f2d7ff97c10c2eada258e9898624"
+DEF_VERSION="3.9.17"
+DEF_SHA="34a6d24cef87fbf22b943d4fe22100a9bf0b3782"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="xz libffi openssl expat readline gettext gmp sqlite"
 DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
 
-DEF_CONFIGURE_ARGS="ax_cv_c_float_words_bigendian=no --enable-optimizations --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 --with-system-expat --with-system-libmpdec --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-lto --with-libs='-lncursesw -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-Bsymbolic-functions -fPIC'"
+DEF_CONFIGURE_ARGS="ax_cv_c_float_words_bigendian=no --with-platlibdir=${PREFIX}/lib --enable-optimizations --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 --with-system-expat --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-lto=full --with-libs='-lncursesw -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-Bsymbolic-functions -fPIC'"
 DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib -Wl,-Bsymbolic-functions -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 DEF_USELESS="share/gtk-doc lib/*perl* lib/*.a include lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata lib/*.sh share/gettext* share/pkgconfig lib/cmake ssl lib/python${DEF_VERSION%.*}/test"
 
-DEF_AFTER_CONFIGURE_METHOD="patch_so_called_config_of_so_called_language"
-patch_so_called_config_of_so_called_language () {
+DEF_AFTER_CONFIGURE_METHOD="patch_the_headers"
+patch_the_headers () {
     ${SED_BIN} -i '' -e 's|#define HAVE_DEV_PTMX 1|#undef HAVE_DEV_PTMX|' pyconfig.h # this doesn't exists.. but it's marked as existing feature. Sure
     echo "#define HAVE_TIMEGM 1" >> pyconfig.h # this is required since configuration process is unable to detect existing function. Yea
-    echo "#define MAX_GROUPS 4096" >> Modules/posixmodule.h # this doesn't exist on BSDs. Who cares right? ;)
+    # echo "#define MAX_GROUPS 4096" >> Modules/posixmodule.h # this doesn't exist on BSDs. Who cares right? ;)
 }
 
 DEF_CONFLICTS_WITH="Python3"
@@ -32,9 +32,20 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         ;;
 
     Darwin-*)
-        DEF_CONFIGURE_ARGS="--enable-shared --disable-ipv6 --with-system-expat --with-system-ffi --with-system-readline --with-system-libmpdec --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-ssl-default-suites=openssl --with-openssl=${PREFIX} ax_cv_c_float_words_bigendian=yes --with-libs='-lncurses -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -fPIC'"
+        DEF_CONFIGURE_ARGS="--with-platlibdir=${PREFIX}/lib --enable-optimizations --enable-shared --disable-ipv6 --with-system-expat --with-system-ffi --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-ssl-default-suites=openssl --with-openssl=${PREFIX} --with-lto=full ax_cv_c_float_words_bigendian=yes --with-libs='-lncurses -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -fPIC'"
         DEF_COMPILER_FLAGS="-fPIC -I${PREFIX}/include"
         DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib"
         ;;
 esac
 
+DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
+DEF_AFTER_INSTALL_METHOD="move_site_packages_to_the_service_dir"
+move_site_packages_to_the_service_dir () {
+    mkdir -p "${SERVICE_DIR}"
+    if [ ! -L "${SERVICE_DIR}/site-packages" ]; then
+        run "${MV_BIN} -vf ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages ${SERVICE_DIR}/site-packages"
+        run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
+    else
+        run "${LN_BIN} -sf ${SERVICE_DIR}/site-packages ${PREFIX}/lib/python${DEF_VERSION%.*}/site-packages"
+    fi
+}
