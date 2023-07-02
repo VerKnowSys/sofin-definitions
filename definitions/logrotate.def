@@ -5,7 +5,7 @@ DEF_NAME="logrotate"
 DEF_VERSION="3.8.5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="libiconv make-static popt"
+DEF_REQUIREMENTS="libiconv popt"
 DEF_MAKE_METHOD="make CFLAGS='${CFLAGS} -I${PREFIX}/include -D_GNU_SOURCE -Wall -DVERSION=\\\"${DEF_VERSION}\\\"' POPT_DIR=${PREFIX}/lib LOADLIBES='-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib -lpopt'"
 DEF_INSTALL_METHOD="
 ${CP_BIN} ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/logrotate ${PREFIX}/bin

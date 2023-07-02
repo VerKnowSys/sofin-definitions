@@ -4,7 +4,7 @@ DEF_VERSION="3.8"
 DEF_SHA="17954e8e4c980a124e9e1aa24d87451d24a65a7b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="zlib make-static gmp"
+DEF_REQUIREMENTS="zlib gmp"
 case "${SYSTEM_ARCH}" in
     arm|arm64|aarch64)
         DEF_CONFIGURE_ARGS="--disable-static --enable-shared --disable-assembler"

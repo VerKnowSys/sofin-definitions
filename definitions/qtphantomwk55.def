@@ -5,7 +5,7 @@ DEF_SOURCE_PATH="https://github.com/VerKnowSys/qtwebkit.git"
 DEF_GIT_CHECKOUT="phantomjs"
 DEF_VERSION="${DEF_GIT_CHECKOUT}"
 DEF_CONFIGURE_METHOD="no-conf"
-DEF_REQUIREMENTS="pkgconf-util make-static sqlite perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib python27 cmake qtbase55"
+DEF_REQUIREMENTS="sqlite perl autoconf automake libtool flex bison sqlite icu gperf ruby expat zlib python27 cmake qtbase55"
 DEF_AFTER_UNPACK_METHOD="patch_n_prepare"
 DEF_EXPORTS="jsc"
 

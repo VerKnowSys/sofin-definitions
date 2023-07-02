@@ -7,7 +7,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_MAKE_METHOD="make -s DESTDIR=${PREFIX}"
 DEF_INSTALL_METHOD="make -s install DESTDIR=${PREFIX}"
-DEF_REQUIREMENTS="make-static"
+DEF_REQUIREMENTS=""
 DEF_EXPORTS="btcflash cdda2mp3 cdda2ogg cdda2wav cdrecord devdump isodebug isodump isoinfo isovfy mkhybrid mkisofs readcd scgcheck scgskeleton"
 DEF_AFTER_INSTALL_METHOD="put_files_where_they_should_be"
 

@@ -4,7 +4,7 @@ DEF_SHA="e9ba4a4c754ec95fbe653dcf7344edd6cc47cd60"
 DEF_NAME="jack-audio-connection-kit"
 DEF_VERSION="0.124.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="pkgconf-util libsamplerate libsndfile db celt"
+DEF_REQUIREMENTS="libsamplerate libsndfile db celt"
 # issue: configure script can't find "Carbon.h". solution:
 DEF_COMPILER_FLAGS="-I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Headers"
 # and one more patch for hardcoded absolute path to header in source code..
