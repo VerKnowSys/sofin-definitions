@@ -9,6 +9,7 @@ DEF_CONFIGURE_ARGS="--disable-fill --disable-stats --disable-utrace --with-lg-qu
 case ${SYSTEM_NAME} in
     Darwin)
         unset DEF_USE_LTO
+        DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
         ;;
 
     *)
