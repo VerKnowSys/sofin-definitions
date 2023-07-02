@@ -10,6 +10,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.openssl.org/source/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="perl-static"
 DEF_CONFIGURE_METHOD="./Configure"
+DEF_INSTALL_METHOD="make install"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
