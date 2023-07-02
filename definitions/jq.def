@@ -6,6 +6,7 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="bison"
 DEF_CONFIGURE_ARGS="--disable-static --disable-docs --disable-valgrind --with-pic --enable-shared --without-oniguruma"
 DEF_EXPORTS="jq"
+DEF_TEST_METHOD="${DEF_NAME} --version | ${GREP_BIN} -F '${DEF_NAME}-${DEF_VERSION}'"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
