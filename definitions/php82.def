@@ -11,7 +11,7 @@ DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug redis igbinary" # NOTE: meminfo 
 install_xdebug () {
     arch_name="xdebug-3.2.1"
     archive="${arch_name}.tgz"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    try "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${archive}" && \
     try "${TAR_BIN} xf ${archive}" && \
     cd "${arch_name}" && \
     try "${PREFIX}/bin/phpize" && \

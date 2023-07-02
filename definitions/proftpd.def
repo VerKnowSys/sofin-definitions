@@ -15,6 +15,6 @@ DEF_USELESS="share/aclocal*"
 DEF_AFTER_UNPACK_METHOD="fetch_geoip"
 fetch_geoip () {
     cd contrib
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}/mod_geoip.c" ${FETCH_OPTS}
+    ${FETCH_BIN} ${FETCH_OPTS} -O "${MAIN_SOURCE_REPOSITORY}/mod_geoip.c"
     cd ..
 }

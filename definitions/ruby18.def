@@ -14,7 +14,7 @@ DEF_AFTER_INSTALL_METHOD="printf 'gem: --no-ri --no-rdoc' > ${HOME}/.gemrc ; ins
 install_rubygems () {
     # it's specific version of rubygems for compatibility with ruby 1.8.7. Don't trust rubygems.org about this compatibility, with newest version expect problems under OSX 10.8
     RUBYGEMS_VERSION="1.8.15"
-    ${FETCH_BIN} "${MAIN_SOURCE_REPOSITORY}rubygems-${RUBYGEMS_VERSION}.tgz" ${FETCH_OPTS}
+    ${FETCH_BIN} ${FETCH_OPTS} -O "${MAIN_SOURCE_REPOSITORY}rubygems-${RUBYGEMS_VERSION}.tgz"
     ${TAR_BIN} xf ./rubygems-${RUBYGEMS_VERSION}.tgz
     cd rubygems-${RUBYGEMS_VERSION}
     ${PREFIX}/bin/ruby ./setup.rb

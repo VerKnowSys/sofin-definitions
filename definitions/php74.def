@@ -113,7 +113,7 @@ install_pear_modules () {
 install_zip () {
     zip_name="zip-1.21.1"
     zip_archive="${zip_name}.tgz"
-    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${zip_archive}\" ${FETCH_OPTS}" && \
+    run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${zip_archive}\"" && \
     try "${TAR_BIN} xf ${zip_archive}" && \
     cd ${zip_name} && \
     try "${PREFIX}/bin/phpize" && \
@@ -128,7 +128,7 @@ install_zip () {
 install_redis () {
     redis_name="redis-5.3.7"
     redis_archive="${redis_name}.tgz"
-    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\" ${FETCH_OPTS}" && \
+    run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\"" && \
     try "${TAR_BIN} xf ${redis_archive}" && \
     cd ${redis_name} && \
     try "${PREFIX}/bin/phpize" && \
@@ -143,7 +143,7 @@ install_redis () {
 install_igbinary () {
     igbinary_name="igbinary-3.2.7"
     igbinary_archive="${igbinary_name}.tgz"
-    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${igbinary_archive}\" ${FETCH_OPTS}" && \
+    run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${igbinary_archive}\"" && \
     try "${TAR_BIN} xf ${igbinary_archive}" && \
     cd ${igbinary_name} && \
     try "${PREFIX}/bin/phpize" && \
@@ -157,9 +157,9 @@ install_igbinary () {
 
 install_decimal () {
     arch_name="decimal-1.4.0"
-    archive="${arch_name}.tgz"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
-    try "${TAR_BIN} xf ${archive}" && \
+    decimal_archive="${arch_name}.tgz"
+    run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${decimal_archive}" && \
+    try "${TAR_BIN} xf ${decimal_archive}" && \
     cd "${arch_name}" && \
     try "${PREFIX}/bin/phpize" && \
     try "./configure --prefix=${PREFIX} --enable-decimal --with-libmpdec-path=${PREFIX} --with-php-config=${PREFIX}/bin/php-config" && \
@@ -173,7 +173,7 @@ install_decimal () {
 install_meminfo () {
     phpmeminfo_name="php-meminfo-1.1.1"
     phpmeminfo_archive="${phpmeminfo_name}.tar.gz"
-    try "${FETCH_BIN} \"${MAIN_SOURCE_REPOSITORY}${phpmeminfo_archive}\" ${FETCH_OPTS}" && \
+    run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${phpmeminfo_archive}\"" && \
     try "${TAR_BIN} xf ${phpmeminfo_archive}" && \
     cd "${phpmeminfo_name}/extension/php7" && \
     try "${PREFIX}/bin/phpize" && \
@@ -188,7 +188,7 @@ install_meminfo () {
 install_xdebug () {
     arch_name="xdebug-3.1.4"
     archive="${arch_name}.tgz"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${archive}" && \
     try "${TAR_BIN} xf ${archive}" && \
     cd "${arch_name}" && \
     try "${PREFIX}/bin/phpize" && \
@@ -203,7 +203,7 @@ install_xdebug () {
 install_apcu () {
     arch_name="apcu-5.1.21"
     archive="${arch_name}.tgz"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${archive} ${FETCH_OPTS}" && \
+    run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${archive}" && \
     try "${TAR_BIN} xf ${archive}" && \
     cd "${arch_name}" && \
     try "${PREFIX}/bin/phpize" && \
