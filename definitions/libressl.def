@@ -23,11 +23,11 @@ fetch_and_install_fresh_ca_cert () {
     try "${MKDIR_BIN} -p ${SERVICE_DIR}/etc/ssl; ${RM_BIN} -vf ${SERVICE_DIR}/etc/ssl/cert.pem" \
         && note "Removed old CA cert: $(distn "${SERVICE_DIR}/etc/ssl/cert.pem")"
 
-    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE}" \
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${DEF_DEFAULT_CA_CERT_SOURCE}" \
         && note "Fetched most recent CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE}")" \
         && return 0
 
-    try "${FETCH_BIN} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${FETCH_OPTS} ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${SERVICE_DIR}/etc/ssl/cert.pem ${DEF_DEFAULT_CA_CERT_SOURCE_ALT}" \
         && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
         && return 0
 }

@@ -18,7 +18,7 @@ make_libexec_symlinks () {
 }
 
 install_pigeonhole () {
-    ${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}/dovecot-2.2-pigeonhole-${PIGEONHOLE_VERSION}.tar.gz ${FETCH_OPTS}
+    ${FETCH_BIN} ${FETCH_OPTS} -o ${MAIN_SOURCE_REPOSITORY}/dovecot-2.2-pigeonhole-${PIGEONHOLE_VERSION}.tar.gz
     tar xf dovecot-2.2-pigeonhole-${PIGEONHOLE_VERSION}.tar.gz
     cd dovecot-2.2-pigeonhole-${PIGEONHOLE_VERSION}
     PATH=$PATH:${PREFIX}/bin:${PREFIX}/libexec:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-dovecot=${PREFIX}/lib/dovecot --without-docs --with-managesieve

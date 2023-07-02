@@ -7,7 +7,7 @@ DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD="make_dirs_fetch_archive"
 make_dirs_fetch_archive () {
     try "${MKDIR_BIN} -p ${PREFIX}/lib/X11/fonts"
-    try "${FETCH_BIN} -o ${PREFIX}/lib/X11/fonts/archive.tar.gz ${FETCH_OPTS} ${DEF_SOURCE_PATH}"
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${PREFIX}/lib/X11/fonts/archive.tar.gz ${DEF_SOURCE_PATH}"
 }
 DEF_INSTALL_METHOD="install_font_files_in_prefix"
 install_font_files_in_prefix () {

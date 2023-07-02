@@ -39,7 +39,7 @@ build_addons_and_extensions () {
 build_limitipconn () {
     MOD_NAME="mod_limitipconn"
     MOD_VERSION="0.24"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2 ${FETCH_OPTS}"
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.bz2"
     try "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.bz2" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
     try "PATH=${PREFIX}/bin:/bin:/usr/bin make install" && \
@@ -50,7 +50,7 @@ build_limitipconn () {
 build_fcgid () {
     MOD_NAME="mod_fcgid"
     MOD_VERSION="2.3.9"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz ${FETCH_OPTS}"
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
     try "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
     try "PATH=${PREFIX}/bin:/bin:/usr/bin ./configure.apxs" && \
@@ -62,7 +62,7 @@ build_fcgid () {
 build_useragent2 () {
     MOD_NAME="mod_auth_useragent2"
     MOD_VERSION="0.9.1"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz ${FETCH_OPTS}"
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
     try "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
     try "PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_auth_useragent2.c" && \
@@ -73,7 +73,7 @@ build_useragent2 () {
 build_security () {
     MOD_NAME="modsecurity"
     MOD_VERSION="2.9.1"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz ${FETCH_OPTS}"
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}-${MOD_VERSION}.tar.gz"
     try "${TAR_BIN} xf ${MOD_NAME}-${MOD_VERSION}.tar.gz" && \
     cd "${MOD_NAME}-${MOD_VERSION}" && \
     try "PATH=${PREFIX}/bin:/bin:/usr/bin ./configure --prefix=${PREFIX} --with-libxml=${PREFIX} --with-apxs=${PREFIX}/bin/apxs --with-pcre=${PREFIX} --with-apr=${PREFIX} --with-apu=${PREFIX} --with-curl=${PREFIX} --enable-htaccess-config" && \
@@ -85,7 +85,7 @@ build_security () {
 build_evasive () {
     MOD_NAME="mod_evasive"
     MOD_VERSION="1.10.1"
-    try "${FETCH_BIN} ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz" ${FETCH_OPTS}
+    try "${FETCH_BIN} ${FETCH_OPTS} -o ${MAIN_SOURCE_REPOSITORY}${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz"
     try "${TAR_BIN} xf ${MOD_NAME}_${MOD_VERSION}_apache_2.4.tar.gz" && \
     cd "${MOD_NAME}" && \
     try "PATH=${PREFIX}/bin:/bin:/usr/bin apxs -cia mod_evasive24.c" && \
