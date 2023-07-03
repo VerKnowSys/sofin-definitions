@@ -1,9 +1,9 @@
 DEF_DISABLE_ON="FreeBSD Linux"
 DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: ARM64 (AARCH64) and X86_64 (AMD64)"
 DEF_NAME="qemu"
-DEF_VERSION="m1"
+DEF_VERSION="6.1.0"
 DEF_SHA="f97debb9c3b03bf6b03add6d0beb5700a044495e"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-m1-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libtool @glib @curl-openssl capstone libusb libslirp libssh expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb zlib bash snappy"
 DEF_CONFIGURE_ARGS="--target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --enable-gnutls --enable-nettle --enable-curl --enable-vnc --enable-libssh --enable-cocoa --enable-slirp --enable-capstone --enable-zstd --disable-werror --disable-docs --disable-gtk --disable-xen --disable-xen-pci-passthrough --extra-cflags=-DNCURSES_WIDECHAR=1 --disable-sdl"
 DEF_CONFIGURE_METHOD="/bin/bash ./configure"
@@ -15,12 +15,25 @@ DEF_USE_SAFE_STACK=YES
 DEF_AFTER_INSTALL_METHOD="set_rpath_and_rename_binaries"
 set_rpath_and_rename_binaries () {
     for _bin in ${PREFIX}/bin/qemu*; do
-        run "install_name_tool -add_rpath ${PREFIX}/lib ${_bin}"
+        try "install_name_tool -add_rpath ${PREFIX}/lib ${_bin}"
     done
     for _bin in qemu-system-aarch64-unsigned qemu-system-arm-unsigned qemu-system-x86_64-unsigned; do
         run "${MV_BIN} -vf ${PREFIX}/bin/${_bin} ${PREFIX}/bin/${_bin%-unsigned}"
     done
     return 0
+}
+
+DEF_TEST_METHOD="test_qemu_system_exports" # sign_the_code &&
+test_qemu_system_exports () {
+    for _bin in ${PREFIX}/bin/qemu-system-*; do
+        "${_bin}" --version | ${GREP_BIN} -F "QEMU emulator version ${DEF_VERSION}" || return 1
+    done
+    ${PREFIX}/bin/qemu-img --version | ${GREP_BIN} -F "qemu-img version ${DEF_VERSION}" && \
+    ${PREFIX}/bin/qemu-io --version | ${GREP_BIN} -F "qemu-io version ${DEF_VERSION}" && \
+    ${PREFIX}/bin/qemu-storage-daemon --version | ${GREP_BIN} -F "qemu-storage-daemon version ${DEF_VERSION}" && \
+    ${PREFIX}/bin/qemu-nbd --version | ${GREP_BIN} -F "qemu-nbd ${DEF_VERSION}" && \
+        return 0
+    return 1
 }
 
 DEF_AFTER_EXPORT_METHOD="sign_the_code"
