@@ -65,6 +65,7 @@ unset   DEF_STANDALONE # TODO: it's currently only a marker for standalone bundl
 unset   DEF_USE_CXX11 # use -std=c++11
 unset   DEF_USE_CXX14 # use -std=c++14
 unset   DEF_USE_CXX17 # use -std=c++17
+unset   DEF_USE_CXX20 # use -std=c++20
 unset   DEF_USE_LTO # Link time optimization feature
 unset   DEF_USE_CFI # Control Flow Integrity compiler feature
 unset   DEF_USE_SAFE_STACK # HardenedBSD specific feature for now, since it's the only open source system based on LLVM
