@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Elixir Language"
 DEF_STANDALONE=YES
 DEF_NAME="elixir"
-DEF_VERSION="1.15.0"
+DEF_VERSION="1.15.4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-otp-26.zip"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex ex_doc"
 DEF_REQUIREMENTS="@otp"
