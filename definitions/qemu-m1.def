@@ -1,15 +1,17 @@
 DEF_DISABLE_ON="FreeBSD Linux"
-DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for arch: ARM64 (AARCH64) and X86_64 (AMD64)"
+DEF_FULL_NAME="QEMU is a generic and open source machine emulator and virtualizer. Build for all supported architectures."
 DEF_NAME="qemu"
 DEF_VERSION="6.1.0"
 DEF_SHA="f97debb9c3b03bf6b03add6d0beb5700a044495e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-m1-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libtool @glib @curl-openssl capstone libusb libslirp libssh expat libzip lzop lz4 db sqlite libpcap libgpg-error pixman @gnutls userspace-rcu mpfr libmpc isl012 vde2 vdetelweb zlib bash snappy"
-DEF_CONFIGURE_ARGS="--target-list=arm-softmmu,aarch64-softmmu,x86_64-softmmu --enable-gnutls --enable-nettle --enable-curl --enable-vnc --enable-libssh --enable-cocoa --enable-slirp --enable-capstone --enable-zstd --disable-werror --disable-docs --disable-gtk --disable-xen --disable-xen-pci-passthrough --extra-cflags=-DNCURSES_WIDECHAR=1 --disable-sdl"
+DEF_CONFIGURE_ARGS="--enable-gnutls --enable-nettle --enable-curl --enable-vnc --enable-libssh --enable-cocoa --enable-slirp --enable-capstone --enable-zstd --disable-werror --disable-docs --disable-gtk --disable-xen --disable-xen-pci-passthrough --extra-cflags=-DNCURSES_WIDECHAR=1 --disable-sdl"
 DEF_CONFIGURE_METHOD="/bin/bash ./configure"
 DEF_USEFUL="bin/qemu*"
 DEF_USELESS="cmake share/gtk* share/ac* share/auto* share/{gettext-0.20,glib-2.0,bison,readline,libgpg-error,p11-kit,nghttp2,locale} share/read* include lib/*.a lib/*.sh lib/{glib-2.0,cmake,pkgconfig,gio,gettext,pkcs11,X11} share/{emacs,gdb,common-lisp,bash-completion} man libexec sbin docs"
-DEF_EXPORTS="qemu-edid qemu-img qemu-nbd qemu-io qemu-system-aarch64 qemu-system-arm qemu-system-x86_64 qemu-storage-daemon"
+
+_sys_bins="qemu-system-alpha qemu-system-mips64 qemu-system-rx qemu-system-avr qemu-system-mips64el qemu-system-s390x qemu-system-cris qemu-system-mipsel qemu-system-sh4 qemu-system-hppa qemu-system-nios2 qemu-system-sh4eb qemu-system-i386 qemu-system-aarch64 qemu-system-arm qemu-system-x86_64 qemu-system-or1k qemu-system-sparc qemu-system-m68k qemu-system-ppc qemu-system-sparc64 qemu-system-microblaze qemu-system-ppc64 qemu-system-tricore qemu-system-microblazeel qemu-system-riscv32 qemu-system-xtensa qemu-system-mips qemu-system-riscv64 qemu-system-xtensaeb"
+DEF_EXPORTS="qemu-edid qemu-img qemu-nbd qemu-io qemu-storage-daemon ${_sys_bins}"
 DEF_USE_SAFE_STACK=YES
 
 DEF_AFTER_INSTALL_METHOD="set_rpath_and_rename_binaries"
@@ -17,8 +19,8 @@ set_rpath_and_rename_binaries () {
     for _bin in ${PREFIX}/bin/qemu*; do
         try "install_name_tool -add_rpath ${PREFIX}/lib ${_bin}"
     done
-    for _bin in qemu-system-aarch64-unsigned qemu-system-arm-unsigned qemu-system-x86_64-unsigned; do
-        run "${MV_BIN} -vf ${PREFIX}/bin/${_bin} ${PREFIX}/bin/${_bin%-unsigned}"
+    for _bin in $(to_iter "${_sys_bins}"); do
+        run "${MV_BIN} -vf ${PREFIX}/bin/${_bin}-unsigned ${PREFIX}/bin/${_bin}"
     done
     return 0
 }
@@ -49,9 +51,9 @@ sign_the_code () {
 </dict>
 </plist>
 EOF
-    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-arm"
-    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-aarch64"
-    try "codesign -s - --entitlements /tmp/entitlements.xml --force ${PREFIX}/bin/qemu-system-x86_64"
+    for _bin in ${PREFIX}/bin/qemu-system-*; do
+        try "codesign -s - --entitlements /tmp/entitlements.xml --force ${_bin}"
+    done
     ${RM_BIN} -f /tmp/entitlements.xml
     return 0
 }
