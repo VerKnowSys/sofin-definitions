@@ -3,13 +3,17 @@ DEF_SHA="73bcbdc45be4db907a864e829b06cd869f77f4f7"
 DEF_NAME="jq"
 DEF_VERSION="1.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="bison"
-DEF_CONFIGURE_ARGS="--disable-static --disable-docs --disable-valgrind --with-pic --enable-shared --without-oniguruma"
+DEF_REQUIREMENTS="bison onig"
+DEF_CONFIGURE_ARGS="--disable-static --disable-docs --disable-valgrind --with-pic --enable-shared --with-oniguruma=${PREFIX}"
 DEF_EXPORTS="jq"
 DEF_TEST_METHOD="${DEF_NAME} --version | ${GREP_BIN} -F '${DEF_NAME}-${DEF_VERSION}'"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
+        ;;
+
+    Darwin-*)
+        DEF_AFTER_INSTALL_METHOD="install_name_tool -add_rpath ${PREFIX}/lib ${PREFIX}/bin/jq"
         ;;
 esac
