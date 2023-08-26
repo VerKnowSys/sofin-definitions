@@ -1,8 +1,8 @@
-inherit "python39"
+inherit "python311"
 
 unset DEF_SUFFIX
 DEF_FULL_NAME="AWS-cli (Python 3.11)"
-DEF_VERSION="1.27.133"
+DEF_VERSION="1.27.165"
 DEF_NAME="awscli"
 DEF_USEFUL="bin/python3*"
 DEF_REQUIREMENTS="@python311"
@@ -15,5 +15,8 @@ upgrade_pip () {
 }
 
 install_awscli () {
+    # workaround for a build failure for pyyaml:
+    pip3 install wheel
+    pip3 install "Cython<3.0" "pyyaml<6" --no-build-isolation
     pip3 install ${DEF_NAME}==${DEF_VERSION}
 }
