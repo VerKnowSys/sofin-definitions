@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Brotli compression format"
 DEF_NAME="brotli"
 DEF_VERSION="1.0.9"
@@ -7,15 +6,3 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://codeload.github.com/google/${DEF_NAME}/tar.gz/refs/tags/v${DEF_VERSION}"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="brotli"
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="-DBUILD_TESTING=OFF -DBROTLI_STATIC_LIBS=ON"
-        # hack required since the project produces broken rpath entry of shared libs,
-        # whilt macOS doesn't care since all is -fPIC anyway… (no static compilation at all)
-        DEF_AFTER_INSTALL_METHOD="${RM_BIN} -f ${PREFIX}/lib/libbro*.dylib"
-        ;;
-
-    *)
-        DEF_CONFIGURE_ARGS="-DBUILD_TESTING=OFF -DBROTLI_STATIC_LIBS=OFF"
-        ;;
-esac
