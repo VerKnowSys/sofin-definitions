@@ -18,7 +18,7 @@ esac
 DEF_CONFIGURE_ARGS="--with-toolset=clang"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_INSTALL_METHOD="./b2 -j${CPUS} cflags='${_sys_specific} -flto=thin' cxxflags='${_sys_specific} -flto=thin' linkflags='' variant=release threading=multi link=shared runtime-link=shared debug-symbols=off optimization=speed inlining=full warnings=off pch=on address-model=64 profiling=off install"
+        DEF_INSTALL_METHOD="./b2 -j${CPUS} cflags='${_sys_specific} -flto=thin' cxxflags='${_sys_specific} -std=c++14 -stdlib=libc++ -flto=thin' linkflags='-stdlib=libc++' variant=release threading=multi link=shared runtime-link=shared debug-symbols=off optimization=speed inlining=full warnings=off pch=on address-model=64 profiling=off install"
         DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
         name_tool_darwin () {
             for _lib in ${PREFIX}/lib/*.dylib; do
@@ -35,4 +35,4 @@ case "${SYSTEM_NAME}" in
 esac
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-icu --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,test"
 DEF_MAKE_METHOD="true"
-DEF_USE_CXX11=YES
+DEF_USE_CXX14=YES
