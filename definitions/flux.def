@@ -1,46 +1,18 @@
-DEF_FULL_NAME="Flux"
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Kubernetes Flux"
+DEF_STANDALONE=YES
 DEF_NAME="flux"
-DEF_VERSION="0.161.0"
-DEF_SHA="1ccfc5847690b791cf754ef3600c43ffea8625a0"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="go rust-basic pkgconf"
-DEF_CONFIGURE_METHOD="ignore"
-DEF_EXPORTS="flux fluxc"
-DEF_NO_CCACHE=YES
+DEF_VERSION="2.1.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}_darwin_arm64.tar.gz"
+DEF_TYPE=meta
 
-DEF_MAKE_METHOD="make_and_install_action"
-generate_pc () {
-    cat > "${PREFIX}/lib/pkgconfig/flux.pc" <<EOF
-prefix=${PREFIX}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
-
-Name: Flux
-Description: Flux
-Version: ${DEF_VERSION}
-Libs: -L\${libdir} -lflux
-Libs.private:
-Cflags: -I\${includedir}
-EOF
+DEF_EXPORTS="flux"
+DEF_AFTER_INSTALL_METHOD="install_flux_binary"
+install_flux_binary () {
+    cd /tmp
+    rm -f "${DEF_SOURCE_PATH##*/}"
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    tar -xf "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
 }
-
-make_and_install_action () {
-    mkdir -p "${PREFIX}/bin" "${PREFIX}/include/influxdata" "${PREFIX}/lib/pkgconfig"
-    (
-     cd libflux \
-     && run "cargo build --release" \
-     && run "install -m755 target/release/fluxc ${PREFIX}/bin/fluxc" \
-     && run "install -m644 target/release/libflux.so ${PREFIX}/lib/libflux.so" \
-     && run "install -m644 include/influxdata/flux.h ${PREFIX}/include/influxdata/flux.h" \
-    )
-
-    generate_pc
-    run "go install github.com/influxdata/pkg-config@latest"
-    run "go build -o ${PREFIX}/bin/flux ./cmd/flux"
-    run "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/bin/flux"
-}
-
-DEF_INSTALL_METHOD=":"
-DEF_STRIP=NO
-DEF_USELESS="api etc libexec man misc pkg src test CONTRIBUTORS AUTHORS"
