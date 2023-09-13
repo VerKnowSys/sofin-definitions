@@ -1,16 +1,17 @@
 DEF_NAME="node"
-DEF_VERSION="16.20.2"
-DEF_SHA="f95ac4a19044ddbe8614a47565d33f403d6ee8d5"
+DEF_VERSION="18.17.1"
+DEF_SHA="95acd26511d212189b6188c71c5f0ffe6924a4c4"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/latest-v16.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu68 yaml nghttp2 libuv brotli c-ares"
+DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu yaml nghttp2 libuv brotli c-ares"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-html postman-combine-collections"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
+DEF_USE_CXX17=YES
 
 case "${SYSTEM_ARCH}" in
     arm64)
@@ -33,7 +34,7 @@ case "${SYSTEM_NAME}" in
     Darwin)
         # DEF_REQUIREMENTS="libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu68 yaml nghttp2 zlib"
         DEF_USE_LTO=YES
-        DEF_REQUIREMENTS="icu68 zlib openssl" # stay minimal on Darwin. A lot comes from the OS base system
+        DEF_REQUIREMENTS="icu zlib openssl" # stay minimal on Darwin. A lot comes from the OS base system
         DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-openssl --shared-zlib"
         _make="gnumake"
         ;;
@@ -145,21 +146,6 @@ fetch_and_install_fresh_ca_cert () {
         && note "Fetched cached CA certs from: $(distn "${DEF_DEFAULT_CA_CERT_SOURCE_ALT}")" \
         && return 0
 }
-
-
-#
-# HardenedBSD build-time options and system hardening-features are too much for Node (V8) to handle. Details below:
-#
-#   Node specific issues:
-#       - No "Position Independent Executable" feature is enabled on bbuild-time. Build process is crashing on link with "-pie".
-#       - No C++11 standard enabled - recent Node (versions: +10) claim to use C++14, hence C++11 (C++ default) is disabled for Node.
-#       - Don't use ccache - Node can be built with ccache enabled, but it makes installation of native NPM modules _much_ more difficult later on…
-#
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
-        unset DEF_USE_LTO
-        ;;
-esac
 
 unset DEF_USE_RAMDISK
 DEF_NO_PIE=YES
