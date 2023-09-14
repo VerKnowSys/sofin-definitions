@@ -1,8 +1,8 @@
 DEF_FULL_NAME="VI-like File Manager"
 DEF_STANDALONE=YES
 DEF_NAME="vifm"
-DEF_VERSION="0.12"
-DEF_SHA="b93f2a6134e78bf1058ae880729c5e22a10c7bd4"
+DEF_VERSION="0.13"
+DEF_SHA="f2d37872aa240910eb0f98895ded57cc88e503bd"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://netix.dl.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-desktop-files --without-X11 --without-gtk --enable-extended-keys"
