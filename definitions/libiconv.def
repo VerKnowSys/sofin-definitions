@@ -3,6 +3,23 @@ DEF_NAME="libiconv"
 DEF_VERSION="1.17"
 DEF_SHA="409a6a8c07280e02cc33b65ae871311f4b33077b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-shared --enable-static --enable-extra-encodings --disable-nls am_cv_func_iconv=no"
+DEF_CONFIGURE_ARGS="--enable-shared --disable-static --enable-extra-encodings --disable-nls am_cv_func_iconv=no"
 DEF_EXPORTS="iconv"
 DEF_REQUIREMENTS="libtool"
+
+if [ "Darwin" = "${SYSTEM_NAME}" ]; then
+    DEF_MAKE_METHOD="make SHELL=${SOFIN_UTILS_DIR}/exports/bash || true" # welcome to the GNU software ;)
+    DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+
+    # override the default options since there's a DWARF problem on Darwin:
+    # ld: warning: dwarf DW_FORM_strx (index=4294967214) is too big in .libs/iconv.o
+    DEF_USE_CXX17=YES
+    BUILD_DEFINES="-fPIC -w -O3 -fvisibility=default --param ssp-buffer-size=4"
+    CFLAGS="${BUILD_DEFINES}"
+    CXXFLAGS="${BUILD_DEFINES}"
+    CC="${CCACHE_BIN} cc ${CFLAGS}"
+    CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
+    CPP="${CCACHE_BIN} cpp"
+
+    unset DEF_USE_LTO
+fi
