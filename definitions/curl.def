@@ -34,17 +34,6 @@ fetch_and_install_fresh_ca_cert () {
 }
 
 DEF_TEST_METHOD="test_curl_features"
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DCURL_BROTLI=OFF"
-        test_curl_features () {
-            ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz NTLM SSL threadsafe UnixSockets zstd"
-        }
-        ;;
-
-    *)
-        test_curl_features () {
-            ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz NTLM SSL threadsafe UnixSockets zstd"
-        }
-        ;;
-esac
+test_curl_features () {
+    ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz NTLM SSL threadsafe UnixSockets zstd"
+}
