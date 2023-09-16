@@ -43,7 +43,7 @@ case "${SYSTEM_NAME}" in
         esac
 
         DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --openssldir=${SERVICE_DIR}/etc/ssl ${_arch_type} enable-ec_nistp_64_gcc_128 shared zlib-dynamic"
-        DEF_MAKE_METHOD="make -j4"
+        DEF_MAKE_METHOD="make -j3"
         unset DEF_REQUIREMENTS
         ;;
 
