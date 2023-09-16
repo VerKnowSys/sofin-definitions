@@ -1,6 +1,0 @@
---- qtbase/config.tests/unix/glib/glib.pro.orig	2014-02-27 23:16:24.000000000 +0100
-+++ qtbase/config.tests/unix/glib/glib.pro	2014-02-27 23:16:41.000000000 +0100
-@@ -1,2 +1,2 @@
- SOURCES = glib.cpp
--CONFIG -= qt
-+CONFIG -= qt app_bundle
