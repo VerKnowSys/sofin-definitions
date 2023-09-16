@@ -50,8 +50,8 @@ case "${SYSTEM_NAME}" in
         ;;
 
     Darwin)
-        DEF_REQUIREMENTS="@automake ${DEF_REQUIREMENTS} bzip2 zlib"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --without-kerberos --without-ldap --with-fpm-user=_www --with-fpm-group=_www --with-bz2=${PREFIX} --with-zlib=shared,${PREFIX} ZLIB_CFLAGS=-I${PREFIX}/include ZLIB_LIBS=-L${PREFIX}/lib PNG_CFLAGS=I${PREFIX}/include PNG_LIBS=-L${PREFIX}/lib --with-iconv-dir=/usr --disable-embed --with-external-gd"
+        DEF_REQUIREMENTS="@automake ${DEF_REQUIREMENTS} bzip2 zlib libiconv"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-fpm --enable-dtrace --with-config-file-path=${SERVICE_DIR}/etc --without-kerberos --without-ldap --with-fpm-user=_www --with-fpm-group=_www --with-bz2=${PREFIX} --with-zlib=shared ZLIB_CFLAGS=-I${PREFIX}/include ZLIB_LIBS=-L${PREFIX}/lib PNG_CFLAGS=I${PREFIX}/include PNG_LIBS=-L${PREFIX}/lib --disable-embed --with-external-gd --with-external-pcre --with-iconv=${PREFIX}"
 
         # XQuartz support files:
         if [ -d "/opt/X11/lib" ]; then
@@ -61,8 +61,8 @@ case "${SYSTEM_NAME}" in
         fi
 
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -w"
-        DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -liconv -lz -lc -lc++ -ldl -lm"
-        DEF_MAKE_METHOD="make SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+        DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -lresolv -liconv -lz -lc -lc++ -ldl -lm"
+        DEF_MAKE_METHOD="make -j${CPUS:-4} SHELL=${SOFIN_UTILS_DIR}/exports/bash"
         DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
         unset DEF_USE_LTO
         ;;
