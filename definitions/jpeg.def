@@ -2,10 +2,9 @@ DEF_FULL_NAME="JPEG Library"
 DEF_NAME="jpeg"
 DEF_VERSION="9e"
 DEF_SHA="ed959b5f3551bc965fe6d0aff6ca48a26f8ce346"
-DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}src.v${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.ijg.org/files/${DEF_NAME}src.v${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--disable-static"
+DEF_CONFIGURE_ARGS="--disable-static --enable-shared"
 
 DEF_AFTER_INSTALL_METHOD="patch_header"
 patch_header () {
