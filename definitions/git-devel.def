@@ -4,7 +4,7 @@ unset DEF_CRITICAL
 
 DEF_FULL_NAME="Git SCM (devel version)"
 DEF_SUFFIX="-devel"
-DEF_VERSION="2.41.0"
-DEF_SHA="e97003aecfe41cf4a65b96c67410be1e210486f2"
+DEF_VERSION="2.42.0"
+DEF_SHA="b8f9760971bc16a0813bd66cb38e8582a59d4968"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://mirrors.edge.kernel.org/pub/software/scm/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
