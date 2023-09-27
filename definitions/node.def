@@ -1,9 +1,9 @@
 DEF_NAME="node"
-DEF_VERSION="18.17.1"
-DEF_SHA="95acd26511d212189b6188c71c5f0ffe6924a4c4"
+DEF_VERSION="18.18.0"
+DEF_SHA="12d6c5ef73fe033b8b243ca0322ada19caea028f"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://nodejs.org/dist/latest-v16.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://nodejs.org/dist/latest-v18.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu yaml nghttp2 libuv brotli c-ares"
 DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares"
 DEF_STANDALONE=YES
@@ -34,7 +34,7 @@ case "${SYSTEM_NAME}" in
     Darwin)
         # DEF_REQUIREMENTS="libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu68 yaml nghttp2 zlib"
         DEF_USE_LTO=YES
-        DEF_REQUIREMENTS="icu zlib openssl" # stay minimal on Darwin. A lot comes from the OS base system
+        DEF_REQUIREMENTS="icu openssl" # stay minimal on Darwin. A lot comes from the OS base system
         DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-openssl --shared-zlib"
         _make="gnumake"
         ;;
