@@ -1,6 +1,6 @@
-inherit postgresql12
+inherit postgresql13
 
-DEF_SUFFIX="12-client"
+DEF_SUFFIX="13-client"
 DEF_INSTALL_METHOD="install_client_only"
 install_client_only () {
     try "make -C src/bin install"
