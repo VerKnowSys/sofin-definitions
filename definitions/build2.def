@@ -1,0 +1,17 @@
+DEF_NAME="build2"
+DEF_VERSION="0.16.0"
+DEF_TYPE="meta"
+DEF_EXPORTS="b bdep bpkg"
+
+DEF_AFTER_INSTALL_METHOD="install_build2"
+install_build2 () {
+    curl -sSfO https://download.build2.org/${DEF_VERSION}/${DEF_NAME}-install-${DEF_VERSION}.sh
+    printf "y\n" | sh ${DEF_NAME}-install-${DEF_VERSION}.sh --yes --jobs 4 "${PREFIX}" >> "${LOG}-${DEF_NAME}${DEF_SUFFIX}" 2>> "${LOG}-${DEF_NAME}${DEF_SUFFIX}"
+}
+
+CFLAGS="-O3"
+CXXFLAGS="-O3"
+LDFLAGS=""
+CC="${CCACHE_BIN} cc ${CFLAGS}"
+CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
+CPP="${CCACHE_BIN} cpp"
