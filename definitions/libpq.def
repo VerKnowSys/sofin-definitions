@@ -3,3 +3,7 @@ DEF_VERSION="14.1.0+1"
 DEF_SHA="5ac2085907af0c7d57f05b9d6c1f25eda90d7464"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="build2"
+DEF_AFTER_INSTALL_METHOD="install_missing_header"
+install_missing_header () {
+    try "${CP_BIN} -vr libpq/include/libpq ${PREFIX}/include/"
+}
