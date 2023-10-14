@@ -5,7 +5,7 @@ DEF_SHA="1d04fbf24150eaa1297a7ef4c7057ec0a9dca527"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://cache.ruby-lang.org/pub/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="debugflags= ./configure"
-DEF_REQUIREMENTS="@curl-openssl libedit icu @libxslt gettext sqlite gdbm libevent libuuid postgresql13-client @mysql-lib gmp libtool yaml"
+DEF_REQUIREMENTS="@curl-openssl libedit icu @libxslt gettext sqlite gdbm libevent libuuid libpq @mysql-lib gmp libtool yaml"
 DEF_CONFIGURE_ARGS="--without-gcc --enable-pie --enable-shared --disable-static --with-search-path=${PREFIX}/lib --with-opt-dir=${PREFIX}:${PREFIX}/lib:${PREFIX}/include --enable-install-capi --disable-install-doc --disable-install-rdoc --enable-load-relative --without-valgrind --with-openssl=${PREFIX} --with-gdbm=${PREFIX} --with-readline=${PREFIX} --with-libffi=${PREFIX} --with-gmp=${PREFIX} --with-mantype=man --with-yaml=${PREFIX}"
 DEF_STANDALONE=YES
 DEF_NO_CCACHE=YES
