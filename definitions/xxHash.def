@@ -1,0 +1,23 @@
+DEF_NAME="xxHash"
+DEF_SHA="8df702581ebc48a5e05be0f1ede6e1e9139e4da1"
+DEF_VERSION="0.8.2"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="no-conf"
+
+DEF_MAKE_METHOD="make libxxhash"
+DEF_INSTALL_METHOD="make install_libxxhash install_libxxhash.includes"
+
+CC="clang"
+CXX="clang++"
+CPP="clang++"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        CFLAGS="-fPIC -O3 -dynamiclib"
+        CXXFLAGS="-fPIC -O3 -dynamiclib"
+        ;;
+
+    *)
+        CFLAGS="-fPIC -O3 -shared"
+        CXXFLAGS="-fPIC -O3 -shared"
+        ;;
+esac
