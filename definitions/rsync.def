@@ -1,10 +1,11 @@
 DEF_FULL_NAME="Rsync"
 DEF_NAME="rsync"
-DEF_SHA="82e7829c0b3cefbd33c233005341e2073c425629"
-DEF_VERSION="3.1.3"
+DEF_SHA="0729ee0cd5e7e609510583ce4768a6170a7a9de7"
+DEF_VERSION="3.2.7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-ipv6 --disable-debug --enable-acl-support --enable-xattr-support --enable-iconv --enable-locale"
-DEF_EXPORTS="rsync"
+DEF_CONFIGURE_ARGS="--enable-ipv6 --disable-debug --enable-acl-support --enable-xattr-support --enable-iconv --enable-locale --with-rsyncd-conf=${SERVICE_DIR}/service.conf --disable-xxhash"
+DEF_REQUIREMENTS="@zstd openssl"
+DEF_EXPORTS="rsync rsync-ssl"
 DEF_USELESS="lib/*perl* man"
 DEF_AFTER_UNPACK_METHOD="patch_max_path_length"
 DEF_CONFLICTS_WITH="Rsync"
@@ -13,3 +14,15 @@ patch_max_path_length () {
     ${SED_BIN} -i '' -e 's/#define MAXPATHLEN 1024/#define MAXPATHLEN 8194/' rsync.h
     return 0
 }
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
+        name_tool_darwin () {
+            for _bin in ${PREFIX}/bin/rsync*; do
+                install_name_tool -add_rpath "${PREFIX}/lib" ${_bin}
+            done
+            return 0
+        }
+        ;;
+esac
