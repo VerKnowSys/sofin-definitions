@@ -9,7 +9,7 @@ DEF_EXPORTS="rsync rsync-ssl"
 DEF_USELESS="lib/*perl* man"
 DEF_AFTER_UNPACK_METHOD="patch_max_path_length"
 DEF_CONFLICTS_WITH="Rsync"
-DEF_TEST_METHOD="${DEF_NAME} --version | ${GREP_BIN} -F 'version ${DEF_NAME}'"
+DEF_TEST_METHOD="${DEF_NAME} --version | ${GREP_BIN} -F 'version ${DEF_VERSION}'"
 
 patch_max_path_length () {
     note "Increasing default MAXPATHLEN from 1024 to 8194"
