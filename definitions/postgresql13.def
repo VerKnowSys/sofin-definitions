@@ -2,9 +2,9 @@ DEF_STANDALONE=YES
 DEF_FULL_NAME="PostgreSQL 13.x - open source object-relational database system"
 DEF_NAME="postgresql"
 DEF_SUFFIX="13"
-DEF_VERSION="13.12"
-TIMESCALE_VERSION="2.12.0"
-DEF_SHA="42b97e5e04398d54c0ad70cf3df1b37bf6039891"
+DEF_VERSION="13.13"
+DEF_SHA="4e7eedca825034f1e249935a811fa30ce3b58d97"
+TIMESCALE_VERSION="2.12.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
@@ -26,9 +26,10 @@ build_addons_and_extensions () {
     try "cd ${base_dir}/pg_stat_statements && make install"
 }
 install_timescaledb () {
-    run "git clone https://github.com/timescale/timescaledb.git"
-    cd timescaledb
-    run "git checkout ${TIMESCALE_VERSION}"
+    _the_archive="timescaledb-${TIMESCALE_VERSION}.tar.gz"
+    run "curl -O ${MAIN_SOURCE_REPOSITORY}${_the_archive}"
+    tar xf "${_the_archive}"
+    cd "timescaledb-${TIMESCALE_VERSION}"
     run "./bootstrap"
     run "cd build && make ${MAKE_OPTS}"
     run "make install"
