@@ -1,0 +1,18 @@
+inherit python39
+
+DEF_FULL_NAME="Python 3.12"
+DEF_SUFFIX="312"
+DEF_VERSION="3.12.1"
+DEF_SHA="5b11c58ea58cd6b8e1943c7e9b5f6e0997ca3632"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="xz libffi openssl expat readline gettext gmp sqlite"
+DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
+DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
