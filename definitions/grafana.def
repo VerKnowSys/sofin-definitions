@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Grafana"
 DEF_NAME="grafana"
-DEF_VERSION="9.5.13"
-DEF_SHA="147d0f12d2de32453c2672d541c8679b2e8cb1e7"
+DEF_VERSION="9.5.15"
+DEF_SHA="b062d774f8f87d674c2267947ffebbdb0b817949"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="@go"
 DEF_CONFIGURE_METHOD="ignore"
@@ -17,7 +17,7 @@ make_action () {
         pkg/cmd/grafana-server/main.go \
         pkg/cmd/grafana-cli/main.go
 
-    run "GOPATH=${PREFIX} go install github.com/google/wire/cmd/wire@latest"
+    run "GOPATH=${PREFIX} go install github.com/google/wire/cmd/wire@v0.5.0"
     run "wire gen -tags oss ./pkg/server ./pkg/cmd/grafana-cli/runner"
     run "go build -ldflags '-w -X main.version=${DEF_VERSION}' -o '${PREFIX}/bin/grafana' ./pkg/cmd/grafana"
 
@@ -25,7 +25,7 @@ make_action () {
     debug "Fetching prebuilt Grafana archive"
     ${FETCH_BIN} -o "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" "${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" \
         && ${TAR_BIN} xf "${DEF_NAME}-${DEF_VERSION}.linux-amd64.tar.gz" \
-        && cd "${DEF_NAME}-${DEF_VERSION}" \
+        && cd "${DEF_NAME}-v${DEF_VERSION}" \
         && ${CP_BIN} -R public/ "${PREFIX}/public" \
         && ${CP_BIN} -R conf/ "${SERVICE_DIR}/conf" \
         && cd .. \
