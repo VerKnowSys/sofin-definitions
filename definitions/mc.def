@@ -1,20 +1,26 @@
 DEF_FULL_NAME="GNU Midnight Commander File Manager"
 DEF_STANDALONE=YES
 DEF_NAME="mc"
-DEF_VERSION="4.8.29"
-DEF_SHA="250411bd93c31fd3d818588add444bffd9b641fb"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_VERSION="4.8.30"
+DEF_SHA="91708eb00ba0d7c1579de357745b1a6717b1dfac"
+ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://ftp.midnight-commander.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="@glib readline @slang"
-DEF_CONFIGURE_ARGS="--with-pic --with-screen=slang --with-mmap --with-search-engine=glib --with-subshell --with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} --without-internal-edit --with-diff-viewer --without-x --enable-shared --enable-charset --enable-background --enable-mclib --disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc --disable-doxygen-dot --disable-doxygen-html"
+DEF_REQUIREMENTS="@glib @slang"
+DEF_CONFIGURE_ARGS="--with-pic --with-screen=slang --with-mmap \
+--with-search-engine=glib --with-subshell --with-diff-viewer \
+--with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} \
+--enable-vfs-tar --enable-shared --enable-charset --enable-background --enable-mclib \
+--without-internal-edit --without-x \
+--disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc \
+--disable-doxygen-dot --disable-doxygen-html"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} pkgconf"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-vfs-extfs"
         ;;
 
     *)
-        DEF_LINKER_FLAGS="-lreadline -ltinfo"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} @libssh2"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-vfs-sftp"
+        DEF_LINKER_FLAGS="-lreadline -ltinfo -lssh2"
         ;;
 esac
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}view"
