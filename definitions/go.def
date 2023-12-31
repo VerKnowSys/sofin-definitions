@@ -2,6 +2,7 @@ DEF_DISABLE_ON="Linux"
 DEF_FULL_NAME="Go Language"
 DEF_STANDALONE=YES
 DEF_NAME="go"
+DEF_REQUIREMENTS="@binutils"
 
 case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
     FreeBSD-aarch64|FreeBSD-arm64)
@@ -9,7 +10,6 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         DEF_SHA="633cec36770b91c26852c7ac03aca7047dc60a54"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-freebsd-arm64.tar.xz"
         DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
-        DEF_REQUIREMENTS="@binutils"
         unset DEF_ORIGIN # no origin yet from go.dev
         ;;
 
@@ -20,6 +20,7 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
 
         DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+        unset DEF_REQUIREMENTS
         ;;
 
     Darwin-arm64)
@@ -29,6 +30,7 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.darwin-arm64.tar.gz"
 
         DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
+        unset DEF_REQUIREMENTS
         ;;
 esac
 
