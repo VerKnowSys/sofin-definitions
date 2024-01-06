@@ -1,11 +1,11 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.68.2"
+DEF_VERSION="1.72.0"
 
 case "${SYSTEM_ARCH}" in
     arm64|aarch64)
-        DEF_SHA="51989d57970bf8b673b80c017a38ea9f49d3a30e"
+        DEF_SHA="0a6f8609696fa3e30f00675a5537c4c951e252ee"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.pkg.tar.xz" # rust-1.66.0.pkg is taken from aarch64 ports build, file name was suffixed with tar.xz
 
         _cargo_crates="rustfmt exa hexyl ripgrep fd-find cargo-asm cargo-audit cargo-do cargo-check cargo-edit" # evcxr_repl rdb tac lw wasm-pack
