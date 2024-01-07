@@ -8,7 +8,7 @@ DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_V
 DEF_REQUIREMENTS="xz libffi openssl expat readline gettext gmp sqlite"
 DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
 
-DEF_CONFIGURE_ARGS="ax_cv_c_float_words_bigendian=no --enable-optimizations --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 --with-system-expat --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-lto=full --with-libs='-lncursesw -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-Bsymbolic-functions -fPIC'"
+DEF_CONFIGURE_ARGS="ax_cv_c_float_words_bigendian=no --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 --with-system-expat --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-lto=thin --with-libs='-lncursesw -lpthread -lm -lgmp -lssl -lintl -lexpat -lffi -ldl' OPT= LDFLAGS='-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-Bsymbolic-functions -fPIC'" # --enable-optimizations
 DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib -Wl,-Bsymbolic-functions -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 DEF_USELESS="share/gtk-doc lib/*perl* lib/*.a include lib/pkgconfig docs man share/aclocal share/libtool share/readline libdata lib/*.sh share/gettext* share/pkgconfig lib/cmake ssl lib/python${DEF_VERSION%.*}/test"
 
