@@ -54,8 +54,8 @@ node_patch_configured () {
 # Override default compiler setup for mr special a.k.a. as the "Node-the-Unicorn" ;)
 GYP_DEFINES="clang=1"
 BUILD_DEFINES="" # -DDTRACE
-CFLAGS="${CFLAGS} ${BUILD_DEFINES}"
-CXXFLAGS="${CXXFLAGS} ${BUILD_DEFINES}"
+CFLAGS="${CFLAGS} ${BUILD_DEFINES} -Wno-enum-constexpr-conversion"
+CXXFLAGS="${CXXFLAGS} ${BUILD_DEFINES} -Wno-enum-constexpr-conversion"
 CC="${CCACHE_BIN} cc ${CFLAGS}"
 CXX="${CCACHE_BIN} c++ ${CXXFLAGS}"
 CPP="${CCACHE_BIN} cpp"
