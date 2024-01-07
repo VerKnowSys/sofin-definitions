@@ -6,6 +6,15 @@ DEF_SHA="ea0f6faeedb0248c684cceb87f7ff3a8bd4b610d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.clamav.net/downloads/production/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="@curl-openssl json-c"
-DEF_CONFIGURE_ARGS="--with-zlib=${PREFIX} --with-libcurl=${PREFIX} --with-pcre=${PREFIX} --with-xml=${PREFIX} --with-openssl=${PREFIX} --with-libjson=${PREFIX} --enable-xml --enable-pcre --enable-libjson --enable-bigstack --enable-clamdtop --enable-experimental"
+DEF_CONFIGURE_ARGS="--with-zlib=${PREFIX} --with-libcurl=${PREFIX} --with-pcre=${PREFIX} --with-xml=${PREFIX} --with-libjson=${PREFIX} --enable-xml --enable-pcre --enable-libjson --enable-bigstack --enable-clamdtop --enable-experimental"
 DEF_EXPORTS="clamav-config clamconf clamdtop clamsubmit clambc clamd freshclam clamdscan clamscan sigtool"
 DEF_USELESS="share/info share/man lib/cmake lib/*.{a,la} share/texinfo include"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-14*)
+        ;;
+
+    *-*)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-openssl=${PREFIX}"
+        ;;
+esac
