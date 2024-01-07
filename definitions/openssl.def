@@ -16,6 +16,10 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
         unset DEF_USE_LTO
         ;;
+
+    FreeBSD-14*)
+        DEF_DISABLE_ON="FreeBSD"
+        ;;
 esac
 
 case "${SYSTEM_NAME}" in
