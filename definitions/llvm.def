@@ -1,15 +1,63 @@
 DEF_DISABLE_ON="Linux"
 DEF_FULL_NAME="Low Level Virtual Machine bundle (provided with shared build of Clang)"
 DEF_NAME="llvm"
-DEF_VERSION="13.0.1"
-DEF_SHA="8e50e3e47b6a14a0848862c574fb0007db212482"
+DEF_VERSION="17.0.6"
+DEF_SHA="860a3605f08a0a56a8de4e073e26a259871623a6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
-DEF_REQUIREMENTS="@python39"
-DEF_CONFIGURE_ARGS="-DLLVM_ENABLE_CXX1Y=on -DLLVM_INCLUDE_EXAMPLES=off -DLLVM_INCLUDE_TESTS=off -DLLVM_ENABLE_RTTI=on -DLLVM_ENABLE_PIC=on -DLLVM_TARGETS_TO_BUILD=\"X86;ARM\" -DLLVM_TARGET_ARCH=host -DLLVM_BUILD_32_BITS=off -DLLVM_INSTALL_UTILS=on -DLLVM_OPTIMIZED_TABLEGEN=on -DLLVM_ENABLE_ASSERTIONS=off -DLLVM_USE_FOLDERS=off -DLLVM_BUILD_DOCS=off -DLLVM_INCLUDE_DOCS=off -DLLVM_INCLUDE_GO_TESTS=off -DLLVM_PARALLEL_LINK_JOBS=$((${CPUS})) -DLLVM_PARALLEL_COMPILE_JOBS=$((${CPUS})) -DLLVM_APPEND_VC_REV=off -DLLVM_BUILD_LLVM_DYLIB=on -DBUILD_SHARED_LIBS=on"
+DEF_REQUIREMENTS="@python311"
+
+DEF_AFTER_UNPACK_METHOD="install_cmake_modules"
+install_cmake_modules () {
+    ${FETCH_BIN} -O "${MAIN_SOURCE_REPOSITORY}/cmake-17.0.6.src.tar.xz"
+    run "${TAR_BIN} xf cmake-17.0.6.src.tar.xz"
+    mkdir -p "../cmake/Modules"
+    run "${CP_BIN} -v cmake-17.0.6.src/Modules/*.cmake ./cmake/modules/"
+    run "${CP_BIN} -v cmake-17.0.6.src/Modules/*.cmake ../cmake/Modules/"
+    run "${RM_BIN} -f cmake-17.0.6.src.tar.xz"
+}
+
+DEF_CONFIGURE_ARGS=" \
+    -DFFI_INCLUDE_DIR=${PREFIX}/include \
+    -DFFI_LIBRARY_DIR=${PREFIX}/lib \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DLLVM_BUILD_LLVM_DYLIB=ON \
+    -DLLVM_LINK_LLVM_DYLIB=ON \
+    -DLLVM_TARGETS_TO_BUILD=\"AArch64\" \
+    -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=\"AArch64\" \
+    -DLLVM_TARGET_TRIPPLE=host \
+    -DLLVM_TARGET_ARCH=host \
+    -DLLVM_OPTIMIZED_TABLEGEN=ON \
+    -DLLVM_INSTALL_UTILS=ON \
+    -DLLVM_ENABLE_CXX1Y=ON \
+    -DLLVM_ENABLE_RTTI=ON \
+    -DLLVM_ENABLE_PIC=ON \
+    -DLLVM_INCLUDE_EXAMPLES=OFF \
+    -DLLVM_INCLUDE_TESTS=OFF \
+    -DLLVM_BUILD_32_BITS=OFF \
+    -DLLVM_ENABLE_ASSERTIONS=OFF \
+    -DLLVM_USE_FOLDERS=OFF \
+    -DLLVM_BUILD_DOCS=OFF \
+    -DLLVM_INCLUDE_DOCS=OFF \
+    -DLLVM_INCLUDE_GO_TESTS=OFF \
+    -DLLVM_APPEND_VC_REV=OFF \
+    -DLLVM_ENABLE_Z3_SOLVER=OFF \
+    -DLLVM_ENABLE_LIBXML2=OFF \
+    -DLLVM_ENABLE_LIBEDIT=OFF \
+    -DLLVM_ENABLE_TERMINFO=OFF \
+    -DLLVM_INCLUDE_BENCHMARKS=OFF \
+    -DLLVM_ENABLE_OCAMLDOC=OFF \
+    -DLLVM_ENABLE_LTO=OFF \
+"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_EXPORTS="FileCheck not lli-child-target bugpoint c-index-test idle llc lli llvm-ar llvm-as llvm-bcanalyzer llvm-config llvm-cov llvm-diff llvm-dis llvm-dwarfdump llvm-extract llvm-ld llvm-lto llvm-link llvm-jitlink llvm-mc llvm-ml llvm-nm llvm-objdump llvm-prof llvm-ranlib llvm-readobj llvm-rtdyld llvm-size llvm-stress llvm-stub llvm-tblgen macho-dump opt llvm-symbolizer llvm-split llvm-profdata llvm-PerfectShuffle llvm-pdbdump llvm-mcmarkup llvm-lib llvm-dwp llvm-dsymutil llvm-cxxdump llvm-c-test llvm-undname llvm-xray yaml-bench obj2yaml yaml2obj swig ccache-swig finish_swig c++-analyzer ccc-analyzer diagtool count hmaptool sanstats sancov dsymutil verify-uselistorder scan-build ocspcheck"
 DEF_USEFUL="bin/llvm* bin/*conf"
 DEF_USELESS="lib/perl* share man doc"
+
+DEF_USE_CXX17=YES
+DEF_COMPILER_FLAGS="-DNDEBUG"
+CFLAGS="-O3 ${DEF_COMPILER_FLAGS}"
+CXXFLAGS="-O3 ${DEF_COMPILER_FLAGS}"
+LDFLAGS=""
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-12*)
