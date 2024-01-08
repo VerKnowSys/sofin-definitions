@@ -7,6 +7,15 @@ DEF_SHA="0c5350ed7443f75b98c1e9b58ea664f243059e6e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://nlnetlabs.nl/downloads/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="expat openssl libevent libsodium"
-DEF_CONFIGURE_ARGS="--enable-pie --enable-relro-now --enable-shared --enable-dnscrypt --disable-static --with-pthreads --with-libexpat=${PREFIX} --with-ssl=${PREFIX} --with-libevent=${PREFIX} --with-libsodium=${PREFIX} --with-conf-file=${SERVICE_DIR}/service.conf --with-pidfile=${SERVICE_DIR}/service.pid --with-rootkey-file=${SERVICE_DIR}/root.key --with-run-dir=${SERVICE_DIR}"
+DEF_CONFIGURE_ARGS="--enable-pie --enable-relro-now --enable-shared --enable-dnscrypt --disable-static --with-pthreads --with-libexpat=${PREFIX} --with-libevent=${PREFIX} --with-libsodium=${PREFIX} --with-conf-file=${SERVICE_DIR}/service.conf --with-pidfile=${SERVICE_DIR}/service.pid --with-rootkey-file=${SERVICE_DIR}/root.key --with-run-dir=${SERVICE_DIR}"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-anchor ${DEF_NAME}-checkconf ${DEF_NAME}-control ${DEF_NAME}-control-setup"
 DEF_USELESS="lib/pkgconfig lib/*.{a,la,sh} bin man include"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-14*)
+        ;;
+
+    *-*)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-ssl=${PREFIX}"
+        ;;
+esac
