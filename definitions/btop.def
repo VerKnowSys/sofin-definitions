@@ -12,4 +12,8 @@ case "${SYSTEM_NAME}" in
     FreeBSD)
         DEF_LINKER_FLAGS="-lkvm"
         ;;
+
+    Darwin)
+        DEF_REQUIREMENTS="coreutils"
+        ;;
 esac
