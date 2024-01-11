@@ -5,7 +5,7 @@ DEF_VERSION="1.72.0"
 
 case "${SYSTEM_ARCH}" in
     arm64|aarch64)
-        DEF_SHA="0a6f8609696fa3e30f00675a5537c4c951e252ee"
+        DEF_SHA="e58939fd72481b1519eb6ace2ae0905f306dc758"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.pkg.tar.xz" # rust-1.66.0.pkg is taken from aarch64 ports build, file name was suffixed with tar.xz
 
         _cargo_crates="rustfmt exa hexyl ripgrep fd-find cargo-asm cargo-audit cargo-do cargo-check cargo-edit" # evcxr_repl rdb tac lw wasm-pack
@@ -48,9 +48,11 @@ patch_prefix_and_install_x86_64 () {
 
 patch_prefix_and_install_arm64 () {
     fetch "${DEF_SOURCE_PATH}" || exit 8
-    ${TAR_BIN} xf "${DEF_SOURCE_PATH##*/}"
+    _tarball="${DEF_SOURCE_PATH##*/}"
+    ${TAR_BIN} xf "${_tarball}"
     ${CP_BIN} -R usr/local/ "${PREFIX}"
-    ${RM_BIN} -rf "usr/local"
+    ${RM_BIN} -rf "./usr"
+    ${RM_BIN} -f "${_tarball}" "+MANIFEST" "+COMPACT_MANIFEST"
 }
 
 install_wasm_compiler () {
