@@ -8,7 +8,7 @@ DEF_REQUIREMENTS="pth npth libtool libgpg-error"
 DEF_CONFIGURE_ARGS="--disable-dev-random --disable-doc --disable-padlock-support --disable-static --with-libgpg-error-prefix=${PREFIX} --with-pth-prefix=${PREFIX}"
 
 case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
-    FreeBSD-a*64)
+    FreeBSD-arm64)
         unset DEF_USE_LTO
         ;;
 esac

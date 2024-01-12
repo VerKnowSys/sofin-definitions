@@ -11,7 +11,7 @@ DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh
 DEF_NO_TRAP_INT_OVERFLOW=YES
 
 case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
-    FreeBSD-a*64)
+    FreeBSD-arm64)
         unset DEF_USE_LTO
         ;;
 esac
