@@ -5,3 +5,9 @@ DEF_SHA="0578d48607ec0e272177d175fd1807c30b00fdf2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://gmplib.org/download/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-static"
+
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    FreeBSD-a*64)
+        unset DEF_USE_LTO
+        ;;
+esac
