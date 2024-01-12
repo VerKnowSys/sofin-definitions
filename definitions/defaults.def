@@ -98,8 +98,9 @@ unset   DEF_USEFUL # list of patterns of files to be left intact. It doesn't app
                 # DEF_USE_LTO=YES
                 ;;
 
-            FreeBSD-arm64)
+            FreeBSD-a*64)
                 DEF_COMPILER_FLAGS="${DEF_OPTFLAGS_ARM64} ${DEF_VISIBILITY_FLAGS}"
+                DEF_USE_LTO=YES
                 unset DEF_USE_RAMDISK
                 ;;
 
