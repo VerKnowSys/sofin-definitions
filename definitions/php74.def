@@ -67,6 +67,11 @@ case "${SYSTEM_NAME}" in
         unset DEF_USE_LTO
         ;;
 esac
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    FreeBSD-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac
 DEF_AFTER_UNPACK_METHOD="hack_after_unpack"
 hack_after_unpack () {
     try "${TEST_BIN} -f ${HOME}/.pearrc" && \

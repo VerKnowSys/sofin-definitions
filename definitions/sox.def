@@ -8,3 +8,9 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-alsa"
 DEF_EXPORTS="a2p c2ph enc2xs ffmpeg ffprobe ffserver flac h2ph h2xs lame libnetcfg metaflac play rec s2p sndfile-cmp sndfile-concat sndfile-convert sndfile-deinterleave sndfile-info sndfile-interleave sndfile-metadata-get sndfile-metadata-set sndfile-play sndfile-regtest sndfile-salvage sox soxi speexdec speexenc splain vsyasm wavpack wvgain wvunpack xmlwf xspf_check xspf_strip xsubpp"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} libmpdclient ffmpeg-lib"
+
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    FreeBSD-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac
