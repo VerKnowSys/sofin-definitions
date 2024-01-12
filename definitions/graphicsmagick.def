@@ -8,3 +8,9 @@ DEF_CONFIGURE_ARGS="--enable-magick-compat --enable-shared --disable-static"
 DEF_EXPORTS="gm convert display identify animate compare composite conjure mogrify montage thumbnail stream GraphicsMagick-config GraphicsMagick++-config GraphicsMagickWand-config"
 DEF_USELESS="lib/*.{a,la} lib/{pkgconfig,cmake} include man"
 DEF_CONFLICTS_WITH="Imagemagick"
+
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    FreeBSD-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac
