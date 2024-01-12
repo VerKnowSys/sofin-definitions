@@ -17,3 +17,9 @@ install_requirements () {
     try "${PREFIX}/bin/pip3 install --upgrade pip"
     try "${PREFIX}/bin/pip3 install docutils sphinx" # for rst2man, rst2html, sphinx-build
 }
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
+    FreeBSD-14*-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac

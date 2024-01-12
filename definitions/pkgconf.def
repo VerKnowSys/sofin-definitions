@@ -18,3 +18,9 @@ hack_symlink () {
         try "${LN_BIN} -s ${PREFIX}/bin/pkgconf ${PREFIX}/bin/pkg-config"
     return 0
 }
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
+    FreeBSD-14*-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac

@@ -7,8 +7,8 @@ DEF_ORIGIN="https://github.com/maxmind/${DEF_NAME}/releases/download/${DEF_VERSI
 DEF_CONFIGURE_ARGS="--enable-shared=on --enable-shared --enable-static=no --disable-static"
 DEF_EXPORTS="mmdblookup"
 
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*|FreeBSD-12*)
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
+    FreeBSD-11*-*|FreeBSD-12*-*|FreeBSD-14*-arm64)
         unset DEF_USE_LTO
         ;;
 esac

@@ -8,12 +8,12 @@ DEF_CONFIGURE_ARGS="--disable-static --disable-docs --disable-valgrind --with-pi
 DEF_EXPORTS="${DEF_NAME}"
 DEF_TEST_METHOD="${DEF_NAME} --version | ${GREP_BIN} -F '${DEF_NAME}-${DEF_VERSION}'"
 
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
+    FreeBSD-11*-*|FreeBSD-14*-arm64)
         unset DEF_USE_LTO
         ;;
 
-    Darwin-*)
+    Darwin-*-*)
         DEF_AFTER_INSTALL_METHOD="install_name_tool -add_rpath ${PREFIX}/lib ${PREFIX}/bin/${DEF_NAME}"
         DEF_CONFIGURE_METHOD="CPPFLAGS=-D_REENTRANT ./configure"
         ;;

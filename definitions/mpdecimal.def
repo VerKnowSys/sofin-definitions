@@ -25,3 +25,9 @@ case "${SYSTEM_NAME}" in
         LD="clang"
         ;;
 esac
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
+    FreeBSD-14*-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac

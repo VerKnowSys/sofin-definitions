@@ -5,4 +5,9 @@ DEF_SHA="2b6428dc563c56fb1374191d1244c8ac928e4d89"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://www.${DEF_NAME}.de/download/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-id3dump ${DEF_NAME}-strip"
-# unset DEF_USE_LTO
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
+    FreeBSD-14*-arm64)
+        unset DEF_USE_LTO
+        ;;
+esac
