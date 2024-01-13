@@ -34,6 +34,7 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-14*)
         # due to a clang bug: https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=276170
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-optimizations"
+        unset DEF_USE_LTO
         ;;
 
     Darwin-*)
