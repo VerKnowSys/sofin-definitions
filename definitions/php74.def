@@ -67,11 +67,6 @@ case "${SYSTEM_NAME}" in
         unset DEF_USE_LTO
         ;;
 esac
-case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
-    FreeBSD-arm64)
-        unset DEF_USE_LTO
-        ;;
-esac
 DEF_AFTER_UNPACK_METHOD="hack_after_unpack"
 hack_after_unpack () {
     try "${TEST_BIN} -f ${HOME}/.pearrc" && \
@@ -169,8 +164,8 @@ install_decimal () {
     try "${TAR_BIN} xf ${decimal_archive}" && \
     cd "${arch_name}" && \
     try "${PREFIX}/bin/phpize" && \
-    try "./configure --prefix=${PREFIX} --enable-decimal --with-libmpdec-path=${PREFIX} --with-php-config=${PREFIX}/bin/php-config" && \
-    try "PATH=${PREFIX}/bin:$PATH make install" && \
+    try "CFLAGS=\"${CFLAGS} -fno-lto\" CXXFLAGS=\"${CXXFLAGS} -fno-lto\" ./configure --prefix=${PREFIX} --enable-decimal --with-libmpdec-path=${PREFIX} --with-php-config=${PREFIX}/bin/php-config" && \
+    try "CFLAGS=\"${CFLAGS} -fno-lto\" CXXFLAGS=\"${CXXFLAGS} -fno-lto\" PATH=${PREFIX}/bin:$PATH make install" && \
     note "Installed Decimal pecl module: ${arch_name}" && \
     return 0
     return 1
