@@ -4,7 +4,7 @@ DEF_FULL_NAME="Nghttp2-utils, alias: h2load"
 DEF_SUFFIX="-utils"
 DEF_STANDALONE=YES
 DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_APP=ON"
-DEF_REQUIREMENTS="jemalloc libressl-lib libxml2 libevent c-ares libev"
+DEF_REQUIREMENTS="${DEF_REQUIREMENTS} c-ares libev"
 DEF_EXPORTS="h2load nghttpd nghttp"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
