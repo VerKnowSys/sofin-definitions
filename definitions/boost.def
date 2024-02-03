@@ -17,12 +17,28 @@ case "${SYSTEM_ARCH}" in
         unset _sys_specific
         ;;
 esac
-DEF_COMPILER_FLAGS="${_sys_specific} -flto=thin -Wno-enum-constexpr-conversion"
+DEF_COMPILER_FLAGS="${_sys_specific} -flto=thin -Wno-enum-constexpr-conversion -Wno-deprecated-declarations"
 DEF_CONFIGURE_ARGS="--with-toolset=clang --without-icu --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,test"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        unset _other_options
+        DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
+        name_tool_darwin () {
+            for _lib in ${PREFIX}/lib/*.dylib; do
+                install_name_tool -add_rpath "${PREFIX}/lib" ${_lib}
+            done
+            return 0
+        }
+        ;;
+
+    *)
+        _other_options="-Wl,-rpath,${PREFIX}/lib,--enable-new-dtags"
+        ;;
+esac
 DEF_INSTALL_METHOD="./b2 -j${CPUS} \
     cflags='${DEF_COMPILER_FLAGS}' \
     cxxflags='${DEF_COMPILER_FLAGS} -std=c++14 -stdlib=libc++' \
-    linkflags='-stdlib=libc++ -Wl,-rpath,${PREFIX}/lib,--enable-new-dtags' \
+    linkflags='-stdlib=libc++ ${_other_options}' \
     variant=release \
     threading=multi \
     link=shared \
@@ -35,16 +51,5 @@ DEF_INSTALL_METHOD="./b2 -j${CPUS} \
     address-model=64 \
     profiling=off \
     install"
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_AFTER_INSTALL_METHOD="name_tool_darwin"
-        name_tool_darwin () {
-            for _lib in ${PREFIX}/lib/*.dylib; do
-                install_name_tool -add_rpath "${PREFIX}/lib" ${_lib}
-            done
-            return 0
-        }
-        ;;
-esac
 DEF_MAKE_METHOD="true"
 DEF_USE_CXX14=YES
