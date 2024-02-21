@@ -1,22 +1,33 @@
 DEF_FULL_NAME="Elixir Language"
 DEF_STANDALONE=YES
 DEF_NAME="elixir"
-DEF_VERSION="1.15.5"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-otp-26.zip"
+DEF_VERSION="1.16.1"
+DEF_SHA="43da71376a41c80ead7dba3a71a3d4874aaa15c4"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex ex_doc"
-DEF_REQUIREMENTS="@otp"
-DEF_TYPE=meta
+DEF_MAKE_METHOD="make compile build_plt SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+DEF_REQUIREMENTS="@otp bash"
 
-DEF_AFTER_INSTALL_METHOD="install_elixir"
-install_elixir () {
-    cd /tmp
-    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
-    mkdir -p "${PREFIX}"
-    unzip -d "${PREFIX}" "${DEF_SOURCE_PATH##*/}"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        DEF_AFTER_UNPACK_METHOD="after_unpack"
+        after_unpack () {
+            ${SED_BIN} -i '' -e "s|#!/bin/sh|#!${PREFIX}/bin/bash|" \
+                bin/elixir \
+                bin/elixirc \
+                bin/iex \
+                bin/mix
+        }
+        ;;
+esac
 
-    run "${PREFIX}/bin/mix local.hex --force"
-    run "${PREFIX}/bin/mix escript.install hex ex_doc --force"
-    run "${MV_BIN} -f ${HOME}/.mix/escripts/ex_doc ${PREFIX}/bin/ex_doc"
+DEF_AFTER_INSTALL_METHOD="after_install_elixir"
+after_install_elixir () {
+    run "mix local.hex --force" # alternative: run "mix archive.install github hexpm/hex branch latest --force"
+    run "mix escript.install hex ex_doc --force"
+    run "test -x ${HOME}/.mix/escripts/ex_doc || ${CP_BIN} -fv ${HOME}/.mix/escripts/ex_doc ex_doc"
 }
 
-DEF_AFTER_EXPORT_METHOD="${PREFIX}/bin/mix local.hex --force"
+DEF_AFTER_EXPORT_METHOD="mix local.hex --force"
