@@ -1,12 +1,12 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Erlang OTP 26.x"
 DEF_NAME="otp"
-DEF_VERSION="26.1.2"
-DEF_SHA="d2b12dcc80d446204a679dc023e81c7a9ec88de0"
+DEF_VERSION="26.2.2"
+DEF_SHA="8eccb2d391d1294f75e26b200323eacdc398ad57"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/erlang/otp/releases/download/OTP-${DEF_VERSION}/${DEF_NAME}_src_${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="xz lzo openssl libxml2 @libxslt bison flex unixodbc"
-DEF_CONFIGURE_ARGS="--enable-threads --enable-smp-support --with-ssl=${PREFIX} --with-odbc=${PREFIX} --enable-shared-zlib --enable-sctp --enable-hipe --enable-native-libs --enable-docs --disable-wx --enable-kernel-poll"
+DEF_CONFIGURE_ARGS="--enable-kernel-poll --enable-threads --enable-smp-support --with-ssl=${PREFIX} --with-odbc=${PREFIX} --enable-shared-zlib --enable-sctp --enable-hipe --enable-native-libs --enable-docs --without-wx --without-javac"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer"
 DEF_USEFUL="bin/bison bin/yacc bin/flex"
 DEF_USELESS="docs include lib/*.{a,la} lib/cmake share/aclocal share/gtk-doc share/bison man"
@@ -23,19 +23,19 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
     FreeBSD-amd64)
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -L/usr/lib -ldtrace -lthr -lpthread"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-java --with-dynamic-trace=dtrace --with-ssl-rpath=${PREFIX}/lib"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-dynamic-trace=dtrace --with-ssl-rpath=${PREFIX}/lib"
         ;;
 
     FreeBSD-arm64)
         DEF_COMPILER_FLAGS="${DEF_COMPILER_FLAGS} -DMAP_NORESERVE=0 -fno-omit-frame-pointer"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -L/usr/lib -lthr -lpthread"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-java --with-ssl-rpath=${PREFIX}/lib"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-ssl-rpath=${PREFIX}/lib"
         ;;
 
     Darwin-*)
-        DEF_COMPILER_FLAGS="-O3 -fno-stack-check -fno-omit-frame-pointer"
+        DEF_COMPILER_FLAGS="-O3"
         DEF_LINKER_FLAGS="-L${PREFIX}/lib -L/usr/lib -ldtrace -lpthread"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-darwin-64bit --with-dynamic-trace=dtrace --disable-sctp"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-darwin-64bit --enable-dynamic-ssl-lib --with-dynamic-trace=dtrace --with-ssl-lib-subdir=${PREFIX}/lib --disable-sctp"
         DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
         unset DEF_USE_LTO
         ;;
