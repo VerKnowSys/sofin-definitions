@@ -23,8 +23,7 @@ patch_Makefile () {
     esac
 }
 DEF_CONFIGURE_METHOD="./Configure"
-DEF_EXPORTS="perl cpan cpan2dist cpanp config_data piconv psed prove pstruct ptar ptardiff shasum pl2pm"
-
+DEF_EXPORTS="perl pod2man pod2text pod2usage podchecker cpan corelist enc2xs encguess h2ph h2xs instmodsh json_pp libnetcfg perlbug perldoc perlivp piconv pl2pm pod2html prove ptar ptardiff ptargrep shasum splain streamzip xsubpp zipdetails"
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
