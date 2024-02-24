@@ -1,14 +1,14 @@
 DEF_DISABLE_ON="Darwin-10.14"
 DEF_FULL_NAME="SQLite"
 DEF_NAME="sqlite"
-DEF_VERSION="3430100"
-DEF_SHA="194f57642f191939a16399208a10b5e0a827b916"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-autoconf-${DEF_VERSION}.tar.gz"
-DEF_ORIGIN="https://www.sqlite.org/2019/${DEF_NAME}-autoconf-${DEF_VERSION}.tar.gz"
+DEF_VERSION="3.45.1"
+DEF_SHA="fdb18262350e85f806cc06f037fac8c06e5dfc48"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-vesion-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/sqlite/sqlite/archive/refs/tags/${DEF_NAME}-vesion-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--disable-static --enable-threadsafe --enable-editline"
 DEF_EXPORTS="${DEF_NAME}3"
 DEF_NO_FAST_MATH=YES
-DEF_TEST_METHOD="${DEF_NAME}3 --version | ${GREP_BIN} -F '$(( ${DEF_VERSION} >> 20 )).$(( ${DEF_VERSION} /10000 - $(( ${DEF_VERSION} >> 20 )) * 100 ))'"
+DEF_TEST_METHOD="${DEF_NAME}3 --version | ${GREP_BIN} -F '${DEF_VERSION}'"
 
 if [ "${SYSTEM_NAME}" = "Minix" ]; then
     DEF_COMPILER_FLAGS="-DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_LOAD_EXTENSION -DUSE_PREAD -I/usr/pkg/include -L/usr/pkg/lib"
