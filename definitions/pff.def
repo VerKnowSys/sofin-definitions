@@ -2,7 +2,7 @@ DEF_TYPE="meta"
 
 DEF_FULL_NAME="Pff - PF Filtering"
 DEF_NAME="pff"
-DEF_VERSION="0.6.0"
+DEF_VERSION="0.6.1"
 DEF_REQUIREMENTS="@curl-openssl rust-basic"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USELESS="etc lib libexec share"
