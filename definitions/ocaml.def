@@ -11,7 +11,7 @@ DEF_MAKE_METHOD="make world.opt ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make install"
 DEF_USELESS="lib/*.a include/openssl docs ssl share/aclocal"
 DEF_USEFUL="bin/ocaml*"
-DEF_EXPORTS="ocaml ocamlc.opt ocamldebug ocamldep.opt ocamllex ocamlmklib ocamlobjinfo.byte ocamlopt.byte ocamlprof ocamlruni ocamlc ocamlcmt ocamldep ocamldoc ocamllex.byte ocamlmktop ocamlobjinfo.opt ocamlopt.opt ocamlrun ocamlyacc ocamlc.byte ocamlcp ocamldep.byte ocamldoc.opt ocamllex.opt ocamlobjinfo ocamlopt ocamloptp ocamlrund"
+DEF_EXPORTS="ocaml ocamlc.opt ocamldebug ocamldep.opt ocamllex ocamlmklib ocamlobjinfo.byte ocamlopt.byte ocamlprof ocamlruni ocamlc ocamlcmt ocamldep ocamldoc ocamllex.byte ocamlmktop ocamlobjinfo.opt ocamlopt.opt ocamlrun ocamlyacc ocamlc.byte ocamlcp ocamldep.byte ocamldoc.opt ocamllex.opt ocamlobjinfo ocamlopt ocamloptp ocamlrund opam opam-installer"
 
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_USE_SAFE_STACK=YES
@@ -30,14 +30,28 @@ case "${SYSTEM_ARCH}" in
         ;;
 
     arm64)
-        CFLAGS="-O3 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CMACROS}"
-        CXXFLAGS="-O3 -w -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CMACROS}"
-        LDFLAGS="-L${PREFIX}/lib -L/usr/lib -fPIE -pie"
+        CFLAGS="-O3 -w -Wl,-z,notext -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CMACROS}"
+        CXXFLAGS="-O3 -w -Wl,-z,notext -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags ${HARDEN_CMACROS}"
+        LDFLAGS="-L${PREFIX}/lib -L/usr/lib -fPIE -pie -Wl,-z,notext"
         LD="ld.lld -m elf_arm64_fbsd -pie"
         ;;
 esac
 
-DEF_AFTER_INSTALL_METHOD="patch_shared_object_rpath"
+DEF_AFTER_INSTALL_METHOD="patch_shared_object_rpath && install_opam"
 patch_shared_object_rpath () {
     patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/ocaml/libcamlrun_shared.so
+}
+
+install_opam () {
+    _opam_version="2.1.5"
+    _opam_archive="opam-full-${_opam_version}.tar.gz"
+    curl -O "${MAIN_SOURCE_REPOSITORY}${_opam_archive}"
+    tar xf "${_opam_archive}"
+    (
+        cd "${_opam_archive%.tar.gz}";
+        make compiler;
+        ./configure --disable-checks --prefix="${PREFIX}";
+        make cold-lib-ext cold-all;
+        make install;
+    )
 }
