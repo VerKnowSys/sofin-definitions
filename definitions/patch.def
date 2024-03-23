@@ -5,3 +5,8 @@ DEF_SHA="6f64fa75993bdb285ac4ed6eca6c9212725bff91"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftpmirror.gnu.org/patch/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_EXPORTS="${DEF_NAME}"
+
+DEF_AFTER_INSTALL_METHOD="symlink_gpatch"
+symlink_gpatch () {
+    try "${LN_BIN} -fs ${PREFIX}/bin/patch ${PREFIX}/bin/gpatch"
+}
