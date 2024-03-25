@@ -10,8 +10,8 @@ DEF_CONFIGURE_ARGS="--enable-shared=yes --enable-static=no --enable-flambda --en
 DEF_MAKE_METHOD="make world.opt ${MAKE_OPTS}"
 DEF_INSTALL_METHOD="make install"
 DEF_USELESS="lib/*.a include/openssl docs ssl share/aclocal"
-DEF_USEFUL="bin/ocaml*"
-DEF_EXPORTS="ocaml ocamlc.opt ocamldebug ocamldep.opt ocamllex ocamlmklib ocamlobjinfo.byte ocamlopt.byte ocamlprof ocamlruni ocamlc ocamlcmt ocamldep ocamldoc ocamllex.byte ocamlmktop ocamlobjinfo.opt ocamlopt.opt ocamlrun ocamlyacc ocamlc.byte ocamlcp ocamldep.byte ocamldoc.opt ocamllex.opt ocamlobjinfo ocamlopt ocamloptp ocamlrund opam opam-installer"
+DEF_USEFUL="bin/ocaml* bin/as*"
+DEF_EXPORTS="as ocaml ocamlc.opt ocamldebug ocamldep.opt ocamllex ocamlmklib ocamlobjinfo.byte ocamlopt.byte ocamlprof ocamlruni ocamlc ocamlcmt ocamldep ocamldoc ocamllex.byte ocamlmktop ocamlobjinfo.opt ocamlopt.opt ocamlrun ocamlyacc ocamlc.byte ocamlcp ocamldep.byte ocamldoc.opt ocamllex.opt ocamlobjinfo ocamlopt ocamloptp ocamlrund opam opam-installer"
 
 DEF_NO_TRAP_INT_OVERFLOW=YES
 DEF_USE_SAFE_STACK=YES
