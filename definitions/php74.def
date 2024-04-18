@@ -113,7 +113,7 @@ install_pear_modules () {
 
 
 install_zip () {
-    zip_name="zip-1.21.1"
+    zip_name="zip-1.22.3"
     zip_archive="${zip_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${zip_archive}\"" && \
     try "${TAR_BIN} xf ${zip_archive}" && \
@@ -143,7 +143,7 @@ install_redis () {
 
 
 install_igbinary () {
-    igbinary_name="igbinary-3.2.7"
+    igbinary_name="igbinary-3.2.15"
     igbinary_archive="${igbinary_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${igbinary_archive}\"" && \
     try "${TAR_BIN} xf ${igbinary_archive}" && \
@@ -188,7 +188,7 @@ install_meminfo () {
 
 
 install_xdebug () {
-    arch_name="xdebug-3.1.4"
+    arch_name="xdebug-3.3.2"
     archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${archive}" && \
     try "${TAR_BIN} xf ${archive}" && \
