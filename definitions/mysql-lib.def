@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_NAME="mysql"
 DEF_FULL_NAME="Mysql 8 - client library only"
-DEF_VERSION="8.0.35"
-DEF_SHA="03f9521d4bd59af171ff624336c4e30310af740e"
+DEF_VERSION="8.0.36"
+DEF_SHA="a52740b5e5de99f6ee25d8d3c16506ef4d703327"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="@zstd openssl libevent libedit icu protobuf boost"
 DEF_CONFIGURE_METHOD="cmake"
@@ -16,13 +16,18 @@ DEF_CONFIGURE_ARGS="-DSECURITY_HARDENED=ON \
     -DWITH_CURL=0 -DWITH_FIDO=bundled -DWITH_ZLIB=bundled -DWITH_ZSTD=system \
     -DWITH_SYSTEM_LIBS=ON -DWITHOUT_SERVER=ON -DWITH_EMBEDDED_SERVER=OFF \
     -DCMAKE_SKIP_BUILD_RPATH=NO -DINSTALL_SUPPORTFILESDIR=0 -DWITH_LDAP=OFF"
-case "${SYSTEM_NAME}" in
-    Darwin)
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    Darwin-*)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DWITH_LTO=YES"
         ;;
 
-    FreeBSD)
+    FreeBSD-14*)
         DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -ldl -pthread -lm -lexecinfo -lgcc_eh"
+        ;;
+
+    FreeBSD-13*)
+        DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -ldl -pthread -lm -lexecinfo -lgcc_eh -lcrypto -lssl"
+        DEF_REQUIREMENTS="${DEF_REQUIREMENTS} hidapi"
         ;;
 esac
 DEF_USEFUL="bin/my*" # always be prepared for more ;)
