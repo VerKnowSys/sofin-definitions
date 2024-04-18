@@ -1,0 +1,19 @@
+inherit php74
+
+DEF_FULL_NAME="PHP 8.3"
+DEF_SUFFIX="83"
+DEF_VERSION="8.3.6"
+DEF_SHA="6aa14fdc9ae32d345e89c38d40eacaf1e1c2c2fc"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug redis igbinary" # NOTE: meminfo doesn't build for 8 yet
+DEF_NO_CCACHE=YES
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        # NOTE: I have no time to hack the build2 script that on Darwin, that uses /bin/bash that fails on "cd dir"
+        #       (because Apple doesn't give a shit about their base-system bash being old)
+        #       So libpq fails on some missing ssl BS on Darwin 13 and… I just don't care :)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-pgsql --without-pdo-pgsql"
+        ;;
+esac
