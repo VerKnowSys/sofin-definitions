@@ -17,3 +17,206 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-pgsql --without-pdo-pgsql"
         ;;
 esac
+
+create_default_php_ini () {
+    if [ ! -f "${SERVICE_DIR}/etc/php.ini" ]; then
+        mkdir -p "${SERVICE_DIR}/var/log"
+        ${CAT_BIN} > "${SERVICE_DIR}/etc/php.ini" <<EOF
+; default extensions:
+extension=openssl.so
+extension=filter.so
+extension=zlib.so
+extension=session.so
+extension=bcmath.so
+extension=calendar.so
+extension=ctype.so
+extension=curl.so
+extension=dba.so
+extension=dom.so
+extension=exif.so
+extension=fileinfo.so
+extension=ftp.so
+extension=gmp.so
+extension=igbinary.so
+extension=sodium.so
+extension=intl.so
+;extension=json.so
+extension=decimal.so
+extension=mbstring.so
+extension=pcntl.so
+extension=pdo.so
+extension=pdo_mysql.so
+extension=posix.so
+extension=redis.so
+extension=shmop.so
+extension=simplexml.so
+extension=soap.so
+extension=sockets.so
+extension=sysvmsg.so
+extension=sysvsem.so
+extension=sysvshm.so
+extension=tokenizer.so
+extension=xmlreader.so
+;extension=xmlrpc.so
+extension=xmlwriter.so
+extension=xsl.so
+extension=zip.so
+extension=readline.so
+zend_extension=opcache.so
+
+[PHP]
+engine = On
+short_open_tag = On
+output_buffering = 16384
+zlib.output_compression = On
+zlib.output_compression_level = 4
+asp_tags = Off
+implicit_flush = Off
+unserialize_callback_func =
+precision = 14
+serialize_precision = 17
+disable_classes =
+realpath_cache_size = 64k
+realpath_cache_ttl = 360
+disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,
+zend.enable_gc = On
+memory_limit = 1024M
+expose_php = Off
+upload_max_filesize = 256M
+max_input_nesting_level = 255
+max_input_vars = 100000
+post_max_size = 256M
+max_execution_time = 360
+max_input_time = 120
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+log_errors_max_len = 4096
+ignore_repeated_errors = Off
+ignore_repeated_source = Off
+report_memleaks = On
+report_zend_debug = 0
+track_errors = Off
+html_errors = On
+variables_order = "GPCS"
+error_log = ${SERVICE_DIR}/var/log/php_errors.log
+request_order = "GP"
+register_argc_argv = Off
+auto_globals_jit = On
+auto_prepend_file =
+auto_append_file =
+default_mimetype = "text/html"
+default_charset = "UTF-8"
+doc_root =
+user_dir =
+enable_dl = Off
+file_uploads = On
+max_file_uploads = 20
+allow_url_fopen = On
+allow_url_include = Off
+default_socket_timeout = 360
+
+[Date]
+date.timezone = Europe/Warsaw
+
+[CLI Server]
+cli_server.color = On
+
+[mail function]
+SMTP = localhost
+smtp_port = 25
+mail.add_x_header = On
+
+[SQL]
+sql.safe_mode = Off
+
+[MySQL]
+mysql.allow_local_infile = On
+mysql.allow_persistent = On
+mysql.cache_size = 2000
+mysql.max_persistent = -1
+mysql.max_links = -1
+mysql.default_socket =
+mysql.default_host =
+mysql.default_user =
+mysql.default_password =
+mysql.connect_timeout = 120
+mysql.trace_mode = Off
+mysql.default_port = 3306
+
+[MySQLi]
+mysqli.max_persistent = -1
+mysqli.allow_persistent = On
+mysqli.max_links = -1
+mysqli.cache_size = 2000
+mysqli.default_port = 3306
+mysqli.default_socket =
+mysqli.default_host =
+mysqli.default_user =
+mysqli.default_pw =
+mysqli.reconnect = Off
+
+[mysqlnd]
+mysqlnd.collect_statistics = Off
+mysqlnd.collect_memory_statistics = Off
+
+[PostgreSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
+
+[bcmath]
+bcmath.scale = 0
+
+[Session]
+session.save_handler = files
+session.save_path = /tmp
+session.use_strict_mode = 0
+session.use_cookies = 1
+session.use_only_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.serialize_handler = php
+session.gc_probability = 0
+session.gc_divisor = 10000
+session.gc_maxlifetime = 1209600
+session.referer_check =
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+session.hash_function = 0
+session.hash_bits_per_character = 5
+url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
+
+[Tidy]
+tidy.clean_output = Off
+
+[soap]
+soap.wsdl_cache_enabled = 1
+soap.wsdl_cache_dir = "/tmp"
+soap.wsdl_cache_ttl = 86400
+soap.wsdl_cache_limit = 16
+
+[sysvshm]
+; A default size of the shared memory segment
+sysvshm.init_mem = 32768
+
+[opcache]
+opcache.enable = 1
+opcache.enable_cli = 0
+; opcache.memory_consumption = 256
+; opcache.interned_strings_buffer = 8
+; opcache.max_accelerated_files = 8000
+; opcache.validate_timestamps = 0
+EOF
+    fi
+    return 0
+}
