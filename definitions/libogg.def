@@ -1,4 +1,3 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Lib OGG"
 DEF_NAME="libogg"
 DEF_VERSION="1.3.5"
