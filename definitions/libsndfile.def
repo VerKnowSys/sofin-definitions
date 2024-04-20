@@ -1,3 +1,4 @@
+DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Lib sndfile"
 DEF_NAME="libsndfile"
 DEF_VERSION="1.2.0"
