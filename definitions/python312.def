@@ -2,8 +2,8 @@ inherit python39
 
 DEF_FULL_NAME="Python 3.12"
 DEF_SUFFIX="312"
-DEF_VERSION="3.12.2"
-DEF_SHA="040eac171c17062253042f7faafea830b03bf07b"
+DEF_VERSION="3.12.3"
+DEF_SHA="3df73004a9b224d021fd397724e8bd4f9b6cc824"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="xz libffi openssl expat readline gettext gmp sqlite"
