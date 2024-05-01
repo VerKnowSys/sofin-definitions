@@ -31,4 +31,9 @@ after_install_elixir () {
     run "test -x ${HOME}/.mix/escripts/ex_doc || ${CP_BIN} -fv ${HOME}/.mix/escripts/ex_doc ex_doc"
 }
 
+DEF_TEST_METHOD="test_elxr"
+test_elxr () {
+    elixir --version 2>&1 | ${GREP_BIN} -F "Erlang/OTP"
+}
+
 DEF_AFTER_EXPORT_METHOD="mix local.hex --force"
