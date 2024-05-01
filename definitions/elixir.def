@@ -8,6 +8,7 @@ DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex ex_doc"
 DEF_MAKE_METHOD="make compile build_plt SHELL=${SOFIN_UTILS_DIR}/exports/bash"
 DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+DEF_USEFUL="bin/bash"
 DEF_REQUIREMENTS="@otp bash"
 
 case "${SYSTEM_NAME}" in
