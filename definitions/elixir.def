@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Elixir Language"
 DEF_STANDALONE=YES
 DEF_NAME="elixir"
-DEF_VERSION="1.16.1"
-DEF_SHA="43da71376a41c80ead7dba3a71a3d4874aaa15c4"
+DEF_VERSION="1.16.2"
+DEF_SHA="41c2de76106dc33aed0bf064fec9554c5e4367ed"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_EXPORTS="ct_run dialyzer epmd erl erlc escript run_erl to_erl typer mix elixir elixirc iex ex_doc"
