@@ -2,9 +2,9 @@ DEF_STANDALONE=YES
 DEF_FULL_NAME="PostgreSQL 13.x - open source object-relational database system"
 DEF_NAME="postgresql"
 DEF_SUFFIX="13"
-TIMESCALE_VERSION="2.14.2" # https://github.com/timescale/timescaledb/releases/
-DEF_VERSION="13.14"
-DEF_SHA="79dbababe688d5589fa1d255656bf2e8e35730ce"
+TIMESCALE_VERSION="2.15.0" # https://github.com/timescale/timescaledb/releases/
+DEF_VERSION="13.15"
+DEF_SHA="d2275aa3a69a6cdcdd9774945ec3dd7aded0f419"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
