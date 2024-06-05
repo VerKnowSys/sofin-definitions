@@ -9,6 +9,10 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         unset DEF_USE_LTO
         ;;
 
+    FreeBSD-14.1)
+        DEF_LINKER_FLAGS="-Wl,--undefined-version"
+        ;;
+
     Darwin-*)
         DEF_CONFIGURE_ARGS="--enable-static --disable-shared --disable-frontend"
         ;;
