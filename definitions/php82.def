@@ -2,11 +2,12 @@ inherit php74
 
 DEF_FULL_NAME="PHP 8.2"
 DEF_SUFFIX="82"
-DEF_VERSION="8.2.16"
-DEF_SHA="efc2a686615ffc677008efdf5224315ee8e862d0"
+DEF_VERSION="8.2.19"
+DEF_SHA="9524e3ca380d9cbf119fb4a7a898e0297b4c9562"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.php.net/distributions/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_BUNDLED_EXTENSIONS="zip decimal apcu xdebug redis igbinary" # NOTE: meminfo doesn't build for 8 yet
+DEF_USE_CXX17=YES
 
 install_xdebug () {
     arch_name="xdebug-3.2.1"
