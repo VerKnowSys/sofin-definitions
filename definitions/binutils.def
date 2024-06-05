@@ -1,11 +1,17 @@
 DEF_FULL_NAME="GNU Binutils are a collection of binary tools."
 DEF_ORIGIN="http://ftp.gnu.org/gnu/binutils/"
 DEF_NAME="binutils"
-DEF_VERSION="2.39"
-DEF_SHA="f17653e7b1d1fa5242a408919845da23e8cc5141"
+DEF_VERSION="2.42"
+DEF_SHA="44da41792c60419863d7e13fa1deaf6b24dd69b8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libtool bison gmp mpfr libmpc texinfo isl022 zlib"
 DEF_CONFIGURE_ARGS="--enable-shared --with-gmp=${PREFIX} --with-mpfr=${PREFIX} --with-isl=${PREFIX} --enable-vtable-verify --disable-werror --enable-host-shared --with-build-sysroot=/ --disable-libstdcxx --disable-static"
 DEF_EXPORTS="ld ld.bfd ld.gold addr2line as ar c dlltool gprof nlmconv nm objcopy objdump ranlib readelf size strings strip windmc windres"
 DEF_USELESS="share/bison share/libtool share/texinfo"
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-14.1)
+        DEF_LINKER_FLAGS="-Wl,--undefined-version"
+        ;;
+esac
