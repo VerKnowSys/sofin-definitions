@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Nginx Standalone"
 DEF_STANDALONE=YES
 DEF_NAME="nginx"
-DEF_VERSION="1.24.0"
-DEF_SHA="fec561c95c0320f1860c0d55a8724cd45e5cc238"
+DEF_VERSION="1.26.1"
+DEF_SHA="a73998570100134004d665e81783b2a2ff808bcd"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://nginx.org/download/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="pcre2 geoip libmaxminddb" # use openssl from base system of FreeBSD 13 where kTLS feature is enabled by default (svdOS only)
