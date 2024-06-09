@@ -13,6 +13,9 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
         ;;
+    Darwin-13*)
+        unset DEF_USE_LTO
+        ;;
 esac
 
 DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
