@@ -1,0 +1,96 @@
+DEF_STANDALONE=YES
+DEF_FULL_NAME="PostgreSQL 16.x - open source object-relational database system"
+DEF_NAME="postgresql"
+DEF_SUFFIX="16"
+TIMESCALE_VERSION="2.16.0" # https://github.com/timescale/timescaledb/releases/
+DEF_VERSION="16.3"
+DEF_SHA="35ffeb5cc46dc773dfcd1f270d65a29777994b3a"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
+DEF_REQUIREMENTS="libedit openssl libuuid icu bash"
+DEF_EXPORTS="postgres pg_ctl initdb pg_dump pg_dumpall pg_config psql createdb createuser dropdb pg_controldata pg_restore pg_resetxlog pg_archivecleanup pg_basebackup pg_isready pg_receivexlog pg_recvlogical pg_resetxlog postmaster reindexdb vacuumdb createlang droplang dropuser ecpg clusterdb"
+DEF_CONFLICTS_WITH="Postgresql"
+DEF_USELESS="lib/*.a include lib/pkgconfig sbin man"
+DEF_STRIP=BIN
+
+DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions && install_timescaledb"
+build_addons_and_extensions () {
+    base_dir="${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/contrib"
+    try "cd ${base_dir}/pg_archivecleanup && make install"
+    try "cd ${base_dir}/hstore && make install"
+    try "cd ${base_dir}/pg_trgm && make install"
+    try "cd ${base_dir}/pgcrypto && make install"
+    try "cd ${base_dir}/uuid-ossp && make install"
+    try "cd ${base_dir}/btree_gin && make install"
+    try "cd ${base_dir}/pg_stat_statements && make install"
+}
+install_timescaledb () {
+    _the_archive="timescaledb-${TIMESCALE_VERSION}.tar.gz"
+    run "curl -O ${MAIN_SOURCE_REPOSITORY}${_the_archive}"
+    tar xf "${_the_archive}"
+    cd "timescaledb-${TIMESCALE_VERSION}"
+    run "./bootstrap"
+    run "cd build && make ${MAKE_OPTS}"
+    run "make install"
+}
+
+case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
+    FreeBSD-11*)
+        unset DEF_USE_LTO
+        ;;
+esac
+
+DEF_USE_SAFE_STACK=YES
+DEF_NO_FAST_MATH=YES
+DEF_NO_TRAP_INT_OVERFLOW=YES
+DEF_NO_SSP_BUFFER_OVERRIDE=YES
+DEF_NO_FORTIFY_SOURCE=YES
+
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
+    Linux-x86_64)
+        DEF_NO_GOLDEN_LINKER=YES
+        ;;
+
+    Darwin-*)
+        # Do not strip binaries on OS X, due to:
+        # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
+        DEF_STRIP=NO
+        DEF_REQUIREMENTS="readline openssl libuuid icu"
+
+        CFLAGS="-O3 -funroll-loops -I${PREFIX}/include -L${PREFIX}/lib"
+        CXXFLAGS="-O3 -funroll-loops -I${PREFIX}/include -L${PREFIX}/lib"
+        CPPFLAGS="-I${PREFIX}/include"
+        LDFLAGS="-L${PREFIX}/lib -L/usr/lib -lpthread -lc -lm -ldtrace -fPIC"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace --with-readline --with-icu --with-pam --with-perl --with-uuid=e2fs DTRACEFLAGS='-64' CFLAGS='${CFLAGS}' CPPFLAGS='${CPPFLAGS}' LDFLAGS='${LDFLAGS}'"
+        DEF_AFTER_CONFIGURE_METHOD="patch_makefile_shell"
+
+        # NOTE: postgresql has to be built BEFORE unixodbc (id present on DEF_REQUIREMENTS list)
+        ;;
+
+    FreeBSD-amd64)
+        # ...
+        # <RhodiumToad> --enable-thread-safety only affects libpq, yes
+
+        CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -Wno-unused-command-line-argument -fstack-protector -Wformat -Wformat-security -O3 -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -funroll-loops"
+        LDFLAGS="-pie -z relro -z now -L${PREFIX}/lib -fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags  -L/usr/lib -lelf -ldtrace -Wl,--as-needed"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-dtrace DTRACEFLAGS='-64'"
+
+        # NOTE: it's required for initdb to pass as regular user on hardened system:
+        #   sysctl security.bsd.hardlink_check_uid=0
+        #   sysctl security.bsd.hardlink_check_gid=0
+        ;;
+
+    FreeBSD-arm64)
+        CFLAGS="-Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -Wno-unused-command-line-argument -fstack-protector -Wformat -Wformat-security -O3 -fPIE -Wl,-z,relro,-z,now -I${PREFIX}/include -fPIC -DHAVE_LIBRESSL -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -funroll-loops"
+        LDFLAGS="-pie -z relro -z now -L${PREFIX}/lib -fPIC -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags  -L/usr/lib -lelf -Wl,--as-needed"
+        ;;
+
+esac
+
+DEF_TEST_METHOD="test_postgres_exports"
+test_postgres_exports () {
+    for _bin in $(to_iter "${DEF_EXPORTS}"); do
+        "${_bin}" --version | ${GREP_BIN} -F "${_bin} (PostgreSQL) ${DEF_VERSION}" || exit 11
+    done
+}
