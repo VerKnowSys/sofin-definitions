@@ -15,7 +15,14 @@ case "${SYSTEM_NAME}" in
         # NOTE: I have no time to hack the build2 script that on Darwin, that uses /bin/bash that fails on "cd dir"
         #       (because Apple doesn't give a shit about their base-system bash being old)
         #       So libpq fails on some missing ssl BS on Darwin 13 and… I just don't care :)
+        #
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-pgsql --without-pdo-pgsql"
+
+        # NOTE: provide custom --host, cause configure can't handle this part since v8.3.9, likely because of 2 archs supported at once on Darwin (arm64 + x86_64)…
+        _host_custom="$(clang -v 2>&1 | awk '/.*64-apple-darwin/ {print $2;}')"
+        _tools_path="$(xcode-select -p)"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-opcache-jit --host=${_host_custom} --with-os-sdkpath=${_tools_path}/SDKs/MacOSX.sdk/ --with-iconv=${_tools_path}/SDKs/MacOSX.sdk/usr/"
+        LDFLAGS="-lz"
         ;;
 esac
 
