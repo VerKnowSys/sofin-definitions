@@ -19,9 +19,10 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-pgsql --without-pdo-pgsql"
 
         # NOTE: provide custom --host, cause configure can't handle this part since v8.3.9, likely because of 2 archs supported at once on Darwin (arm64 + x86_64)…
-        _host_custom="$(clang -v 2>&1 | awk '/.*64-apple-darwin/ {print $2;}')"
+        _arch="$(clang -v 2>&1 | awk '/.*64-apple-darwin/ {print $2;}')"
+        _host_custom="$(echo "${_arch}" | sed -e 's/arm64/aarch64/')" # since arm64-* causes JIT to fail to build
         _tools_path="$(xcode-select -p)"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-opcache-jit --host=${_host_custom} --with-os-sdkpath=${_tools_path}/SDKs/MacOSX.sdk/ --with-iconv=${_tools_path}/SDKs/MacOSX.sdk/usr/"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --host=${_host_custom} --with-os-sdkpath=${_tools_path}/SDKs/MacOSX.sdk/ --with-iconv=${_tools_path}/SDKs/MacOSX.sdk/usr/"
         LDFLAGS="-lz"
         ;;
 esac
