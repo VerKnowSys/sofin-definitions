@@ -221,6 +221,7 @@ sysvshm.init_mem = 32768
 [opcache]
 opcache.enable = 1
 opcache.enable_cli = 0
+opcache.jit = 1
 ; opcache.memory_consumption = 256
 ; opcache.interned_strings_buffer = 8
 ; opcache.max_accelerated_files = 8000
