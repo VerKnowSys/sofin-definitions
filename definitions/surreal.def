@@ -1,0 +1,22 @@
+DEF_DISABLE_ON="Darwin Linux"
+
+DEF_TYPE="meta"
+DEF_FULL_NAME="SurrealDB - multi paradigm database engine written in Rust"
+DEF_NAME="surreal"
+DEF_VERSION="1.5.4"
+DEF_REQUIREMENTS="@zstd protobuf @curl-openssl libpsl libssh2 rust-basic libidn2"
+DEF_EXPORTS="${DEF_NAME}"
+DEF_USELESS="lib/libev* lib/libbro* lib/libcu* lib/libff* lib/liblz* lib/libi* lib/libj* lib/libng* lib/librust* lib/libstd* lib/libp* lib/libu* lib/libx* lib/libz* lib/cmake lib/rustlib lib/pkgconfig cmake etc include libexec share man"
+
+DEF_AFTER_INSTALL_METHOD="install_surreal"
+install_surreal () {
+    mkdir -p "${PREFIX}/bin" "${PREFIX}/lib"
+    # a shortcut to not build the whole LLVM:
+    # instead we borrow two libraries required by the SurrealDB build process (rocksdb seems to require libclang.so)
+    fetch -o "${PREFIX}/lib/libclang.so" "${MAIN_SOURCE_REPOSITORY}libclang.so.15.0.7.aarch64.freebsd"
+    fetch -o "${PREFIX}/lib/libLLVM-15.so" "${MAIN_SOURCE_REPOSITORY}libLLVM-15.so.aarch64.freebsd"
+    run "export LIBCLANG_PATH=${PREFIX}/lib && cargo install --version ${DEF_VERSION} ${DEF_NAME} --git https://github.com/surrealdb/surrealdb --tag v${DEF_VERSION}"
+    run "patchelf --set-rpath ${PREFIX}/lib ${SERVICE_DIR}/bin/${DEF_NAME}"
+    run "${MV_BIN} -v ${SERVICE_DIR}/bin/${DEF_NAME} ${PREFIX}/bin/${DEF_NAME}"
+    run "${RM_BIN} -f ${PREFIX}/lib/libclang.so ${PREFIX}/lib/libLLVM-15.so"
+}
