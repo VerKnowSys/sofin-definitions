@@ -5,7 +5,7 @@ DEF_NAME="meilisearch"
 DEF_VERSION="1.9.0"
 DEF_REQUIREMENTS="@curl-openssl rust-basic"
 DEF_EXPORTS="${DEF_NAME}"
-DEF_USELESS="etc libexec share"
+DEF_USELESS="etc lib libexec share man cmake include"
 
 DEF_AFTER_INSTALL_METHOD="install_meilisearch"
 install_meilisearch () {
