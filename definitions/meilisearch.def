@@ -1,0 +1,15 @@
+DEF_TYPE="meta"
+
+DEF_FULL_NAME="Meilisearch"
+DEF_NAME="meilisearch"
+DEF_VERSION="1.9.0"
+DEF_REQUIREMENTS="@curl-openssl rust-basic"
+DEF_EXPORTS="${DEF_NAME}"
+DEF_USELESS="etc libexec share"
+
+DEF_AFTER_INSTALL_METHOD="install_meilisearch"
+install_meilisearch () {
+    mkdir -p "${PREFIX}/bin"
+    run "cargo install --locked ${DEF_NAME} --git https://github.com/meilisearch/meilisearch --tag v${DEF_VERSION}"
+    run "${MV_BIN} -v ${SERVICE_DIR}/bin/${DEF_NAME} ${PREFIX}/bin/${DEF_NAME}"
+}
