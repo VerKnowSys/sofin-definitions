@@ -3,8 +3,9 @@ DEF_FULL_NAME="PostgreSQL 16.x - open source object-relational database system"
 DEF_NAME="postgresql"
 DEF_SUFFIX="16"
 TIMESCALE_VERSION="2.16.0" # https://github.com/timescale/timescaledb/releases/
-DEF_VERSION="16.3"
-DEF_SHA="35ffeb5cc46dc773dfcd1f270d65a29777994b3a"
+VECTOR_VERSION="0.7.4" # https://github.com/pgvector/pgvector/releases
+DEF_VERSION="16.4"
+DEF_SHA="fe7169014b49d9c191fd181893b233b3accf5c07"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
@@ -14,7 +15,7 @@ DEF_CONFLICTS_WITH="Postgresql"
 DEF_USELESS="lib/*.a include lib/pkgconfig sbin man"
 DEF_STRIP=BIN
 
-DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions && install_timescaledb"
+DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions && install_timescaledb && install_pgvector"
 build_addons_and_extensions () {
     base_dir="${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/contrib"
     try "cd ${base_dir}/pg_archivecleanup && make install"
@@ -32,6 +33,14 @@ install_timescaledb () {
     cd "timescaledb-${TIMESCALE_VERSION}"
     run "./bootstrap"
     run "cd build && make ${MAKE_OPTS}"
+    run "make install"
+}
+install_pgvector () {
+    _the_archive="pgvector-${VECTOR_VERSION}.tar.gz"
+    run "curl -O ${MAIN_SOURCE_REPOSITORY}${_the_archive}"
+    tar xf "${_the_archive}"
+    cd "pgvector-${VECTOR_VERSION}"
+    run "make ${MAKE_OPTS}"
     run "make install"
 }
 
