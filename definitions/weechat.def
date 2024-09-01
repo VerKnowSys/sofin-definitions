@@ -1,8 +1,8 @@
 DEF_FULL_NAME="WeeChat, the extensible chat client"
 DEF_STANDALONE=YES
 DEF_NAME="weechat"
-DEF_VERSION="4.4.0"
-DEF_SHA="4602a159116760a5903fae1c5e2d7db0221eb7c2"
+DEF_VERSION="4.4.1"
+DEF_SHA="3379a9064c55282eb58ffe97f567acfcca5cead7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://weechat.org/files/src/${DEF_NAME}-${DEF_VERSION}.tar.xz" # https://github.com/weechat/weechat/releases
 DEF_CONFIGURE_METHOD="cmake"
@@ -11,7 +11,7 @@ DEF_USELESS="lib/*.{a,la,sh} lib/cmake include share/{aclocal,gettext,gettext-0.
 DEF_USEFUL="bin/pip* bin/python* bin/perl* bin/cpan*"
 DEF_LINKER_FLAGS="-lcurl -lintl"
 
-DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=OFF -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=OFF -DENABLE_SPELL=ON -DENABLE_GUILE=OFF"
+DEF_CONFIGURE_ARGS="-DENABLE_PHP=OFF -DENABLE_TCL=OFF -DENABLE_RELAY=OFF -DENABLE_XFER=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DCA_FILE=${SERVICE_DIR}/etc/ssl/cert.pem -DENABLE_PERL=ON -DENABLE_NCURSES=ON -DENABLE_GNUTLS=ON -DENABLE_PYTHON=ON -DENABLE_LUA=ON -DENABLE_SPELL=ON -DENABLE_GUILE=OFF"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_REQUIREMENTS="@curl-lib @libgcrypt @gnutls libuuid cjson"
@@ -19,7 +19,7 @@ case "${SYSTEM_NAME}" in
         ;;
 
     *)
-        DEF_REQUIREMENTS="@zstd perl aspell-lib libuuid @python312 @curl-openssl @libgcrypt @gnutls cjson" # olm
+        DEF_REQUIREMENTS="@zstd perl aspell-lib libuuid @python312 @curl-openssl @libgcrypt @gnutls cjson lua51" # olm
         DEF_AFTER_MAKE_METHOD="install_dictionaries; install_additional_requirements; remove_services_bin"
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DENABLE_RUBY=OFF"
         install_additional_requirements () {
