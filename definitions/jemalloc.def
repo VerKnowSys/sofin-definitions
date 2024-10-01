@@ -16,3 +16,4 @@ case ${SYSTEM_NAME} in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --enable-xmalloc --enable-lazy-lock"
         ;;
 esac
+DEF_USE_CXX11=YES
