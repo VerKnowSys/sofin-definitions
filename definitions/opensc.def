@@ -1,0 +1,6 @@
+DEF_FULL_NAME="OpenSC library"
+DEF_NAME="opensc"
+DEF_VERSION="0.25.1"
+DEF_SHA="7f20f0ef66a02d3d346adb18b5042129a5b0544b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_EXPORTS="cardos-toolw dtrust-toolw egk-toolw eidenvw goid-toolw iasecc-toolw openpgp-toolw opensc-asn1w opensc-explorerw opensc-notifyw opensc-toolw pkcs11-registerw pkcs11-toolw pkcs15-cryptw pkcs15-tool"
