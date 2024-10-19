@@ -16,6 +16,10 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     Darwin-13*)
         unset DEF_USE_LTO
         ;;
+    Darwin*)
+        DEF_INSTALL_METHOD="make install"
+        ;;
+
 esac
 
 DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
