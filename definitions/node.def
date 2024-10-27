@@ -1,11 +1,11 @@
 DEF_NAME="node"
-DEF_VERSION="18.20.4"
-DEF_SHA="0dfdcb73904b1335ae1ce56e12d3840626f96651"
+DEF_VERSION="20.18.0"
+DEF_SHA="99e68a04f3e1a186765d0f56e0546f33b6c010ef"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}-LTS"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_ORIGIN="https://nodejs.org/dist/latest-v18.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu yaml nghttp2 libuv brotli c-ares"
-DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares"
+DEF_ORIGIN="https://nodejs.org/dist/latest-v20.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu72 yaml nghttp2 libuv brotli c-ares"
+DEF_CONFIGURE_ARGS="--with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares --ninja"
 DEF_STANDALONE=YES
 DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-html postman-combine-collections"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/*conf"
@@ -14,7 +14,7 @@ DEF_CONFLICTS_WITH="Node"
 DEF_USE_CXX17=YES
 
 case "${SYSTEM_ARCH}" in
-    arm64)
+    arm64|aarch64)
         # There's not enough memory for LTO with this project on small arm64
         unset DEF_USE_LTO
 
@@ -25,18 +25,6 @@ case "${SYSTEM_ARCH}" in
 
     amd64|x86_64)
         _make_opts="${MAKE_OPTS}"
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --ninja"
-        ;;
-esac
-
-_make="gmake"
-case "${SYSTEM_NAME}" in
-    Darwin)
-        # DEF_REQUIREMENTS="libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu68 yaml nghttp2 zlib"
-        DEF_USE_LTO=YES
-        DEF_REQUIREMENTS="icu openssl" # stay minimal on Darwin. A lot comes from the OS base system
-        DEF_CONFIGURE_ARGS="--without-dtrace --with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --without-etw --shared-openssl --shared-zlib"
-        _make="gnumake"
         ;;
 esac
 
@@ -48,7 +36,8 @@ node_patch_configured () {
             "Makefile" \
             "common.gypi" \
             "tools/install.py" \
-            "deps/npm/lib/utils/completion.sh"
+            "deps/npm/lib/utils/completion.sh" \
+            "tools/v8_gypfiles/v8.gyp"
 }
 
 # Override default compiler setup for mr special a.k.a. as the "Node-the-Unicorn" ;)
@@ -62,6 +51,9 @@ CPP="${CCACHE_BIN} cpp"
 
 case "${SYSTEM_NAME}" in
     Darwin)
+        DEF_USE_LTO=YES
+        DEF_REQUIREMENTS="icu72 openssl zlib" # stay minimal on Darwin. A lot comes from the OS base system
+        DEF_CONFIGURE_ARGS="--with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --shared-openssl --shared-zlib --enable-lto --ninja"
         LINK="${CXX} -L${PREFIX}/lib -L/usr/lib ${LDFLAGS}"
         ;;
 
@@ -78,7 +70,7 @@ node_build () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                ${_make} ${_make_opts}"
+                gmake ${_make_opts}"
 }
 
 # … and make install needs env magic too:
@@ -89,7 +81,7 @@ node_install () {
             CXX.host=\"${CXX}\" \
             LINK.host=\"${CXX}\" \
             LINK.target=\"${CXX}\" \
-                ${_make} install"
+                gmake install"
 }
 
 #
