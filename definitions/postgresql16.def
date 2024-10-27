@@ -1,5 +1,5 @@
 DEF_STANDALONE=YES
-DEF_FULL_NAME="PostgreSQL 16.x - open source object-relational database system"
+DEF_FULL_NAME="PostgreSQL 16.x +contrib +timescaledb +pg_vector"
 DEF_NAME="postgresql"
 DEF_SUFFIX="16"
 TIMESCALE_VERSION="2.17.1" # https://github.com/timescale/timescaledb/releases/
