@@ -15,5 +15,6 @@ case "${SYSTEM_NAME}" in
 
     Darwin)
         DEF_REQUIREMENTS="coreutils"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -DCMAKE_OSX_ARCHITECTURES=arm64"
         ;;
 esac
