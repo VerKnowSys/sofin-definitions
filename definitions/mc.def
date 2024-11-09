@@ -1,9 +1,9 @@
 DEF_FULL_NAME="GNU Midnight Commander File Manager"
 DEF_STANDALONE=YES
 DEF_NAME="mc"
-DEF_VERSION="4.8.30"
-DEF_SHA="91708eb00ba0d7c1579de357745b1a6717b1dfac"
- DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_VERSION="4.8.32"
+DEF_SHA="34f81bca8fd0d79f2aa4884b1fed38ba80b09b22"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://ftp.midnight-commander.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="@glib @slang"
 DEF_CONFIGURE_ARGS="--with-pic --with-screen=slang --with-mmap \
