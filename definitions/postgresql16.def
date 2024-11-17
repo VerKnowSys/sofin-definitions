@@ -2,10 +2,10 @@ DEF_STANDALONE=YES
 DEF_FULL_NAME="PostgreSQL 16.x +contrib +timescaledb +pg_vector"
 DEF_NAME="postgresql"
 DEF_SUFFIX="16"
-TIMESCALE_VERSION="2.17.1" # https://github.com/timescale/timescaledb/releases/
+TIMESCALE_VERSION="2.17.2" # https://github.com/timescale/timescaledb/releases/
 VECTOR_VERSION="0.7.4" # https://github.com/pgvector/pgvector/releases
-DEF_VERSION="16.4"
-DEF_SHA="fe7169014b49d9c191fd181893b233b3accf5c07"
+DEF_VERSION="16.5"
+DEF_SHA="60e0536caa832131f074705b60baa5fc832859ad"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
