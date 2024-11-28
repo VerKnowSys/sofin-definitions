@@ -1,14 +1,13 @@
-DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="GNU NCurses Terminfo Library with utilities"
 DEF_NAME="ncurses"
 DEF_VERSION="6.4"
 DEF_SHA="bb5eb3f34b3ecd5bac8d0b58164b847f135b3d62"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_CONFIGURE_ARGS="--enable-relink --enable-pc-files --sysconfdir=${SERVICE_DIR}/etc --without-ada --with-shared --with-cxx-shared --without-static --enable-sigwinch --enable-tcap-names --enable-wgetch-events --without-debug --enable-ext-colors --enable-getcap --enable-symlinks  --enable-rpath --enable-widec --enable-bsdpad --enable-termcap --disable-overwrite --disable-root-environ --with-manpages --with-manpage-format=normal --without-manpage-renames --without-tests --enable-term-driver --without-pthread --enable-const --with-hashed-db --with-rcs-ids --enable-getcap-cache --with-termpath=/usr/share/misc/termcap CC= CXX= LD= LDFLAGS= CFLAGS= CXXFLAGS="
+DEF_CONFIGURE_ARGS="--enable-relink --enable-pc-files --with-pkg-config-libdir=${PREFIX}/lib/pkgconfig --sysconfdir=${SERVICE_DIR}/etc --without-ada --with-shared --with-cxx-shared --without-static --enable-sigwinch --enable-tcap-names --enable-wgetch-events --without-debug --enable-ext-colors --enable-getcap --enable-symlinks  --enable-rpath --enable-widec --enable-bsdpad --enable-termcap --disable-overwrite --disable-root-environ --with-manpages --with-manpage-format=normal --without-manpage-renames --without-tests --enable-term-driver --without-pthread --enable-const --with-hashed-db --with-rcs-ids --enable-getcap-cache --with-termpath=/usr/share/misc/termcap --with-terminfo-dirs=/usr/share/terminfo:${PREFIX}/share/terminfo --with-gpm=no --without-ada CC= CXX= LD= LDFLAGS= CFLAGS= CXXFLAGS= CPPFLAGS= "
 DEF_REQUIREMENTS="pkgconf"
 DEF_MAKE_METHOD="locale_cleanup_and_build"
 locale_cleanup_and_build () {
-    env  \
+    env \
         CC="cc" \
         LD="ld.lld" \
         CXX="c++" \
@@ -20,14 +19,16 @@ locale_cleanup_and_build () {
         LC_MONETARY="" \
         LC_NUMERIC="" \
         LC_TIME="" \
-        make -s -j${CPUS}
+        make -s -j${CPUS} \
+            SHELL=${SOFIN_UTILS_DIR}/exports/bash
 }
 
 DEF_INSTALL_METHOD="install_ncurses_lib"
 install_ncurses_lib () {
     env \
         LANG="en_GB.UTF-8" \
-        make install install.libs install.includes install.man
+        make install install.libs install.includes install.man \
+            SHELL=${SOFIN_UTILS_DIR}/exports/bash
 }
 
 DEF_EXPORTS="tput tset tic toe reset infocmp clear infotocap ncursesw6-config tabs captoinfo"
