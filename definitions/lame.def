@@ -9,7 +9,7 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         unset DEF_USE_LTO
         ;;
 
-    FreeBSD-14.1)
+    FreeBSD-14.*)
         DEF_LINKER_FLAGS="-Wl,--undefined-version"
         ;;
 
