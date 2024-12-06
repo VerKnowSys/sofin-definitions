@@ -6,7 +6,7 @@ DEF_VERSION="1.31.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}_darwin_arm64.tar.gz"
 DEF_TYPE=meta
 
-DEF_EXPORTS="stern"
+DEF_EXPORTS="${DEF_NAME}"
 DEF_AFTER_INSTALL_METHOD="install_binary"
 install_binary () {
     cd /tmp

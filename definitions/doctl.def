@@ -6,7 +6,7 @@ DEF_VERSION="1.119.1"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-darwin-arm64.tar.gz"
 DEF_TYPE=meta
 
-DEF_EXPORTS="doctl"
+DEF_EXPORTS="${DEF_NAME}"
 DEF_AFTER_INSTALL_METHOD="install_doctl_binary"
 install_doctl_binary () {
     cd /tmp
