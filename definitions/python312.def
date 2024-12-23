@@ -1,0 +1,10 @@
+inherit python313
+
+DEF_FULL_NAME="Python 3.12"
+DEF_SUFFIX="312"
+DEF_VERSION="3.12.8"
+DEF_SHA="8872c7a124c6970833e0bde4f25d6d7d61c6af6e"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
+DEF_EXPORTS="python3 python3-config python${DEF_VERSION%.*} python${DEF_VERSION%.*}m python${DEF_VERSION%.*}m-config python${DEF_VERSION%.*}-config easy_install3 pip3 pip${DEF_VERSION%.*} pyvenv pyvenv-${DEF_VERSION%.*} pydoc3 pydoc${DEF_VERSION%.*} easy_install-${DEF_VERSION%.*}"
+DEF_TEST_METHOD="python3 --version | ${GREP_BIN} -F '${DEF_NAME} ${DEF_VERSION}'"
