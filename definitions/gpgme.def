@@ -1,15 +1,12 @@
-inherit gnupg
-
 DEF_FULL_NAME="High-Level Crypto API for encryption, decryption, signing, signature verification and key management."
 DEF_NAME="gpgme"
-DEF_VERSION="1.17.1"
-DEF_SHA="73d5c863ba5478370b191e79b19733807fef529e"
+DEF_VERSION="1.24.1"
+DEF_SHA="d3b4010fc4036123f9cd5eeb3616b59dcd8fdc11"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://gnupg.org/ftp/gcrypt/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--disable-nls"
 DEF_REQUIREMENTS="@gnupg"
 DEF_USELESS="lib/*perl* share/readline share/common-lisp"
-DEF_AFTER_UNPACK_METHOD="link_gpg_to_gpg2"
-link_gpg_to_gpg2 () {
-    ${LN_BIN} -fs "${PREFIX}/bin/gpg2" "${PREFIX}/bin/gpg"
-}
+DEF_MAKE_METHOD="make SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+DEF_INSTALL_METHOD="make install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+DEF_EXPORTS="gpgme gpg-connect-agent gpg-agent gpg-connect-agent gpg-error gpg-error-config gpg gpg2 gpgconf gpgkey2ssh gpgparsemail gpgsm gpgsm-gencert.sh gpgv2 symcryptrun watchgnupg hmac256 pinentry pinentry-curses dirmngr gpg-preset-passphrase"
