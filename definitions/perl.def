@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Perl"
 DEF_NAME="perl"
-DEF_VERSION="5.36.1"
-DEF_SHA="7b766266af08a6cef0487308e80b40d5d8069df7"
+DEF_VERSION="5.40.1"
+DEF_SHA="4ffe5246c791df884363aed05ba81ba41cb02084"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="db"
@@ -59,7 +59,15 @@ install_method () {
         *)
             make -s install
             echo "Patching so object"
-            try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${SYSTEM_ARCH}-freebsd-thread-multi/auto/DB_File/DB_File.so"
+            case "${SYSTEM_ARCH}" in
+                arm64|aarch64)
+                    _os_arch="aarch64"
+                    try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${_os_arch}-freebsd-thread-multi/auto/DB_File/DB_File.so"
+                    ;;
+                *)
+                    try "patchelf --set-rpath ${PREFIX}/lib ${PREFIX}/lib/perl5/${DEF_VERSION}/${SYSTEM_ARCH}-freebsd-thread-multi/auto/DB_File/DB_File.so"
+                    ;;
+            esac
             ;;
     esac
 }
