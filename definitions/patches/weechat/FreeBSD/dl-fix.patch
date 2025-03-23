@@ -1,0 +1,13 @@
+--- CMakeLists.txt.orig 2025-03-23 13:59:26.836146000 +0100
++++ CMakeLists.txt      2025-03-23 13:59:31.845558000 +0100
+@@ -257,7 +257,9 @@
+   PATHS /lib /usr/lib /usr/libexec /usr/local/lib /usr/local/libexec
+ )
+ if(DL_LIBRARY)
+-  list(APPEND EXTRA_LIBS ${DL_LIBRARY})
++  string(REGEX REPLACE "/[^/]*$" "" DL_LIBRARY_PATH "${DL_LIBRARY}")
++  set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -L${DL_LIBRARY_PATH}")
++  list(APPEND EXTRA_LIBS dl)
+ endif()
+
+ add_subdirectory(icons)
