@@ -7,7 +7,7 @@ DEF_ORIGIN="https://nodejs.org/dist/latest-v20.x/${DEF_NAME}-v${DEF_VERSION}.tar
 DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi icu yaml nghttp2 libuv brotli c-ares"
 DEF_CONFIGURE_ARGS="--with-intl=system-icu --openssl-system-ca-path=${SERVICE_DIR}/etc/ssl --openssl-use-def-ca-store --without-inspector --shared-zlib --shared-nghttp2 --shared-openssl --shared-libuv --shared-brotli --shared-cares --ninja"
 DEF_STANDALONE=YES
-DEF_EXPORTS="node npm npx gyp webpack rollup node-sass newman newman-reporter-html postman-combine-collections"
+DEF_EXPORTS="node npm npx gyp webpack rollup newman newman-reporter-html postman-combine-collections"
 DEF_USEFUL="bin/npm* bin/node* bin/yar* bin/gyp* bin/*conf"
 DEF_USELESS="lib/*.a sbin share/systemtap info share/ac* share/auto* share/*doc share/gettext* lib/cmake lib/pkgconfig lib/*.sh docs"
 DEF_CONFLICTS_WITH="Node"
@@ -113,14 +113,6 @@ node_npm_setup_after_install () {
     run "npm install -g newman"
     run "npm install -g newman-reporter-html"
     run "npm install -g postman-combine-collections"
-
-    # NOTE: this is why I love Node developers, they're just awesome. I'm big fan:
-    _pwd="$(pwd)"
-    ${MKDIR_BIN} -p "${SERVICE_DIR}/lib"
-    cd "${SERVICE_DIR}/lib"
-    run "npm install node-sass" # installing with -g fails, so a workaround:
-    ${LN_BIN} -s "${SERVICE_DIR}/lib/node_modules/node-sass/bin/node-sass" "${SERVICE_DIR}/bin/node-sass"
-    cd "${_pwd}"
 }
 
 
