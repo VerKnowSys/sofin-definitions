@@ -3,14 +3,14 @@ DEF_FULL_NAME="K9s"
 DEF_STANDALONE=YES
 DEF_NAME="k9s"
 DEF_VERSION="0.50.4"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_Darwin_arm64.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}_Darwin_arm64.tar.gz"
 DEF_TYPE=meta
 
 DEF_EXPORTS="${DEF_NAME}"
 DEF_AFTER_INSTALL_METHOD="install_binary"
 install_binary () {
     cd /tmp
-    rm -f "${DEF_SOURCE_PATH##*/}"
+    rm -vf "${DEF_SOURCE_PATH##*/}" "${DEF_NAME}"
     ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
     tar -xf "${DEF_SOURCE_PATH##*/}"
     mkdir -p "${PREFIX}/bin/"
