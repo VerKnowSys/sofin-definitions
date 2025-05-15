@@ -1,9 +1,9 @@
 DEF_NAME="curl"
-DEF_VERSION="8.11.1"
-DEF_SHA="6fdb0ff655e25fd2e5bb76b9f14cda536f501fad"
+DEF_VERSION="8.13.0"
+DEF_SHA="24a023605e43aa45363c1ecedca7329d458a1c2d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://curl.haxx.se/download/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc pcre2 libunistring libressl-lib lzo @zstd libffi libxml2 libidn2 nghttp2 brotli"
+DEF_REQUIREMENTS="jemalloc pcre2 libunistring libressl-lib lzo @zstd libffi libxml2 libidn2 nghttp2 brotli libpsl"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS="-DBUILD_SHARED_LIBS=ON -DCURL_LTO=ON -DCURL_ZLIB=ON -DCURL_ZSTD=ON -DCURL_BROTLI=ON -DUSE_NGHTTP2=ON -DUSE_LIBIDN2=ON -DBUILD_TESTING=OFF -DCURL_CA_BUNDLE=${SERVICE_DIR}/etc/ssl/cert.pem"
 DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-config"
@@ -35,5 +35,5 @@ fetch_and_install_fresh_ca_cert () {
 
 DEF_TEST_METHOD="test_curl_features"
 test_curl_features () {
-    ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz NTLM SSL threadsafe UnixSockets zstd"
+    ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz NTLM PSL SSL threadsafe UnixSockets zstd"
 }
