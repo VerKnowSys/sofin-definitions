@@ -25,6 +25,11 @@ case "${SYSTEM_NAME}" in
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --host=${_host_custom} --with-os-sdkpath=${_tools_path}/SDKs/MacOSX.sdk/ --with-iconv=${_tools_path}/SDKs/MacOSX.sdk/usr/"
         LDFLAGS="-lz"
         ;;
+
+    FreeBSD)
+        # NOTE: php is unable to determine the libs of curl with PSL, so we need to specify it manually:
+        export CURL_CFLAGS="-L${PREFIX}/lib -I${PREFIX}/include -lcurl -lpthread -lidn2 -lssl -lcrypto -lz -lbrotlidec -lbrotlicommon -lzstd -lnghttp2 -lpsl"
+        ;;
 esac
 
 create_default_php_ini () {
