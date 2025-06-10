@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Python 3.13"
 DEF_NAME="Python"
 DEF_SUFFIX="313"
-DEF_VERSION="3.13.3"
-DEF_SHA="f26085cf12daef7b60b8a6fe93ef988b9a094aea"
+DEF_VERSION="3.13.4"
+DEF_SHA="c288ab7716f3633f8927a5fe75f46d65cb712415"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.python.org/ftp/${DEF_NAME}/${DEF_VERSION}/Python-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="xz libffi openssl expat libedit gettext gmp sqlite"
@@ -27,7 +27,6 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
 
     FreeBSD-14*)
         # due to a clang bug: https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=276170
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-optimizations"
         unset DEF_USE_LTO
         ;;
 
