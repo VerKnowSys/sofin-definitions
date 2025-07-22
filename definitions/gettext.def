@@ -1,7 +1,7 @@
 DEF_FULL_NAME="GNU Gettext Library"
 DEF_NAME="gettext"
-DEF_VERSION="0.25.1"
-DEF_SHA="f693a23a93efa70cb315413c61ce71a4314020fe"
+DEF_VERSION="0.26"
+DEF_SHA="06caeffe13e4e9f92912e8c4d99d340790f463ae"
 DEF_ORIGIN="https://ftp.gnu.org/pub/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--disable-relocatable --enable-shared --enable-threads=posix --disable-static \
@@ -10,8 +10,12 @@ DEF_CONFIGURE_ARGS="--disable-relocatable --enable-shared --enable-threads=posix
 DEF_EXPORTS="gettext gettext-config msgfmt msgunfmt msggrep msgattrib gettext.sh msgcmp msgexec msginit msgcomm msguniq msgen msgconv xgettext msgfilter ngettext gettextize msgcat msgmerge envsubst recode-sr-latin"
 DEF_NO_TRAP_INT_OVERFLOW=YES
 
-case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
-    FreeBSD-arm64)
+case "${SYSTEM_NAME}-${SYSTEM_ARCH}-${SYSTEM_VERSION}" in
+    FreeBSD-arm64-*)
         unset DEF_USE_LTO
+        ;;
+
+    Darwin-*-15.*)
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} am_cv_func_iconv_works=yes"
         ;;
 esac
