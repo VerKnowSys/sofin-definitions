@@ -31,7 +31,6 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         ;;
 
     Darwin-*)
-        DEF_REQUIREMENTS="libiconv ${DEF_REQUIREMENTS}"
         DEF_CONFIGURE_ARGS="--enable-optimizations --enable-shared --enable-loadable-sqlite-extensions --disable-ipv6 --with-system-expat --with-hash-algorithm=fnv --with-doc-strings --with-ensurepip --with-ssl-default-suites=openssl --with-openssl=${PREFIX} --with-readline=editline --with-lto ax_cv_c_float_words_bigendian=yes --with-libs='-ledit -lpthread -lm -lgmp -lssl -lexpat -lffi' OPT=-O2 LDFLAGS='-L${PREFIX}/lib -fPIC'" # NOTE: with default -O3, python segfaults with --enable-optimizations ;)
         DEF_COMPILER_FLAGS="-fPIC -I${PREFIX}/include"
         DEF_LINKER_FLAGS="-fPIC -L${PREFIX}/lib"
