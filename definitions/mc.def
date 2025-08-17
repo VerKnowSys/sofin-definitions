@@ -5,11 +5,11 @@ DEF_VERSION="4.8.33"
 DEF_SHA="5c717fe7f5fde13bb0af9c5bd15cd2f83942d9fc"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://ftp.midnight-commander.org/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="libiconv @glib @slang"
+DEF_REQUIREMENTS="@glib @slang"
 DEF_CONFIGURE_ARGS="--with-pic --with-screen=slang --with-mmap \
 --with-search-engine=glib --with-subshell --with-diff-viewer \
 --with-pcre=${PREFIX} --with-libintl-prefix=${PREFIX} \
---enable-vfs-tar --enable-shared --enable-charset --enable-background --enable-mclib \
+--enable-vfs-tar --enable-shared --enable-charset --enable-background \
 --without-internal-edit --without-x \
 --disable-static --disable-nls --disable-assert --disable-tests --disable-doxygen-doc \
 --disable-doxygen-dot --disable-doxygen-html"
