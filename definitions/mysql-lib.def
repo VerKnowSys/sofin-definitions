@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_NAME="mysql"
-DEF_FULL_NAME="Mysql 9 - client library only"
-DEF_VERSION="8.4.4"
-DEF_SHA="f14768688a25888455b75334f370c0a94ff66aa8"
+DEF_FULL_NAME="Mysql 8.4 - client library only"
+DEF_VERSION="8.4.6"
+DEF_SHA="69c9b9e73aebe0ecf58a1514cef14019cb492c72"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="@zstd openssl libevent libedit icu protobuf boost @libfido2"
 DEF_CONFIGURE_METHOD="cmake"
