@@ -1,18 +1,7 @@
 DEF_FULL_NAME="GNU TLS Library"
 DEF_NAME="gnutls"
-
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    Darwin-10.11)
-        DEF_SHA="e1243188791af409bca118d31faf3ec3d5f0a5ab"
-        DEF_VERSION="3.6.8"
-        ;;
-
-    *)
-        DEF_SHA="facf87b8e4ae9234f34753b4ee6cd3e66078f0bf"
-        DEF_VERSION="3.8.8"
-        ;;
-esac
-
+DEF_SHA="cdd236faa328ac3ad9c80a1c745461a75dcbc41b"
+DEF_VERSION="3.8.10"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.gnupg.org/ftp/gcrypt/${DEF_NAME}/v${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="libunistring libgpg-error gmp nettle libtasn1 libffi p11-kit"
