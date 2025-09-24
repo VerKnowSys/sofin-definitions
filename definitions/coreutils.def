@@ -5,7 +5,7 @@ DEF_SHA="920791e12e7471479565a066e116a087edcc0df9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_USEFUL="bin/*"
-DEF_EXPORTS="date gdate readlink realpath base32 base64"
+DEF_EXPORTS="date gdate readlink realpath"
 
 DEF_AFTER_INSTALL_METHOD="symlink_gnu_coreutils"
 symlink_gnu_coreutils () {
