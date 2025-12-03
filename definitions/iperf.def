@@ -18,7 +18,7 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         unset DEF_USE_LTO
         ;;
 
-    FreeBSD-14*)
+    FreeBSD-14*|FreeBSD-15*)
         unset DEF_CONFIGURE_ARGS
         ;;
 esac

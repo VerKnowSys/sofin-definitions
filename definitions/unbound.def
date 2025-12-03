@@ -12,7 +12,7 @@ DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}-anchor ${DEF_NAME}-checkconf ${DEF_NAME}-co
 DEF_USELESS="lib/pkgconfig lib/*.{a,la,sh} bin man include"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-14*)
+    FreeBSD-14*|FreeBSD-15*)
         ;;
 
     *-*)
