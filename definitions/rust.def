@@ -1,12 +1,12 @@
 DEF_DISABLE_ON="Linux Darwin"
 DEF_FULL_NAME="Rust + Cargo + Utilities"
 DEF_NAME="rust"
-DEF_VERSION="1.79.0"
+DEF_VERSION="1.89.0"
 
 case "${SYSTEM_ARCH}" in
     arm64|aarch64)
-        DEF_SHA="4fde17817f2c54cebfc21c855fbab3d207953094"
-        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.pkg.tar.xz" # rust-1.79.0.pkg is taken from aarch64 ports build, file name was suffixed with tar.xz
+        DEF_SHA="d596fe7336c6cb2fbe9afdcaf34e34555f64a74e"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.pkg.tar.xz" # rust-1.89.0.pkg is taken from aarch64 ports build, file name was suffixed with tar.xz
 
         _cargo_crates="rustfmt exa hexyl ripgrep fd-find cargo-asm cargo-audit cargo-do cargo-check cargo-edit" # evcxr_repl rdb tac lw wasm-pack
 
@@ -16,7 +16,7 @@ case "${SYSTEM_ARCH}" in
         ;;
 
     amd64|x86_64)
-        DEF_SHA="1c38b6a0132977d64d1e68df377c4791786ee6b3"
+        DEF_SHA="865dd64378f4cb090c526e58f820238daa890c0b"
         DEF_ORIGIN="https://static.rust-lang.org/dist/rust-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz" # https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-x86_64-unknown-freebsd.tar.gz"
 
