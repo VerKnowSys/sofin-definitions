@@ -2,20 +2,19 @@ DEF_DISABLE_ON="Linux"
 DEF_FULL_NAME="Go Language"
 DEF_STANDALONE=YES
 DEF_NAME="go"
-DEF_REQUIREMENTS="@binutils"
+DEF_REQUIREMENTS="perl @binutils"
+DEF_VERSION="1.25.5"
 
 case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
     FreeBSD-aarch64|FreeBSD-arm64)
-        DEF_VERSION="1.20.8"
-        DEF_SHA="633cec36770b91c26852c7ac03aca7047dc60a54"
-        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-freebsd-arm64.tar.xz"
-        DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/ ${PREFIX}"
+        DEF_SHA="7f579585ae9bf5c4cec08e432df764ee0d741de9"
+        DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-arm64.tar.gz"
+        DEF_AFTER_UNPACK_METHOD="${CP_BIN} -fR ${BUILD_DIR}/${DEF_NAME}/ ${PREFIX}"
         unset DEF_ORIGIN # no origin yet from go.dev
         ;;
 
     FreeBSD-amd64|FreeBSD-x86_64)
-        DEF_VERSION="1.20.1"
-        DEF_SHA="8047ab6c96c9b46b41f5881defae68c9cc20ca12"
+        DEF_SHA="e97b40b94b6b84141f9a52df2ee621c9819a41e9"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.freebsd-amd64.tar.gz"
 
@@ -24,8 +23,7 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         ;;
 
     Darwin-arm64)
-        DEF_VERSION="1.20.4"
-        DEF_SHA="810b69506a8d3a79b342e3a4214f16d544cbc141"
+        DEF_SHA="a8e7d4620c364529463e3a30a6ece54fed990653"
         DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.darwin-arm64.tar.gz"
         DEF_ORIGIN="https://dl.google.com/${DEF_NAME}/${DEF_NAME}${DEF_VERSION}.darwin-arm64.tar.gz"
 
