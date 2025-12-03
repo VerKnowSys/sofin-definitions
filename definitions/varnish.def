@@ -5,7 +5,7 @@ DEF_VERSION="7.4.2"
 DEF_SHA="3e00b014f57f1528c0e29e9f00d9d60ea214f6bb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tgz"
 DEF_ORIGIN="https://varnish-cache.org/_downloads/${DEF_NAME}-${DEF_VERSION}.tgz"
-DEF_REQUIREMENTS="@python311 pcre2"
+DEF_REQUIREMENTS="@python313 pcre2"
 DEF_CONFIGURE_ARGS="--with-jemalloc --disable-epoll --disable-ports"
 DEF_EXPORTS="varnishd varnishstat varnishlog varnishadm varnishhist varnishncsa varnishtest varnishtop"
 

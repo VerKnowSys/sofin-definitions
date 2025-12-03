@@ -15,6 +15,9 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
         unset DEF_USE_LTO
         ;;
 
+    FreeBSD-15*-arm64)
+        ;;
+
     *-*-*)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-openssl=${PREFIX}"
         ;;
