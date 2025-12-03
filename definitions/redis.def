@@ -2,8 +2,8 @@ DEF_DISABLE_ON="Linux"
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Redis is in-memory data structure store, used as database, cache and message broker."
 DEF_NAME="redis"
-DEF_VERSION="6.2.7"
-DEF_SHA="b01ef3f117c9815dea41bf2609e489a03c3a5ab1"
+DEF_VERSION="8.4.0"
+DEF_SHA="fbb3fb36d561bba2f62e874ed556e9d4ad9d848a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="http://download.redis.io/releases/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="jemalloc openssl"
@@ -12,39 +12,29 @@ DEF_USELESS="include lib/pkgconfig lib/*.{a,la} man share"
 
 DEF_MAKE_METHOD="build_and_install_redis"
 build_and_install_redis () {
-    # don't link with jemalloc dynamically:
-    ${SED_BIN} -i '' -e 's#../deps/jemalloc/lib/libjemalloc.a##g' Makefile src/Makefile
-
-    # use our version of jemalloc:
-    try "${MKDIR_BIN} -p 'deps/jemalloc/lib/'"
-
     case "${SYSTEM_NAME}" in
         Darwin)
             make \
+                V=yo \
+                OPTIMIZATION= \
                 SHELL="${SOFIN_UTILS_DIR}/exports/bash" \
-                BUILD_TLS="yes" \
-                MALLOC="jemalloc" \
+                BUILD_TLS=yes \
+                USE_JEMALLOC=yes \
                 PREFIX="${PREFIX}" \
-                CFLAGS="${_redis_bonus_args} -fPIC -fPIE -I${PREFIX}/include -I/usr/include" \
-                LDFLAGS="-pie -L${PREFIX}/lib -L/usr/lib -lm -ljemalloc" \
+                CFLAGS=-Wno-deprecated-declarations \
+                LDFLAGS="-L/usr/lib -lexecinfo" \
                 install
             ;;
 
         *)
-            try "${INSTALL_BIN} '${PREFIX}/lib/libjemalloc.so.2' 'deps/jemalloc/lib/'"
-            try "${LN_BIN} -fs '${PREFIX}/lib/libjemalloc.so.2' '${PREFIX}/lib/libjemalloc.so'"
-
-            case "${SYSTEM_ARCH}" in
-                amd64|x86_64)
-                    _redis_bonus_args="-march=ivybridge"
-                    ;;
-            esac
             make \
+                V=yo \
+                OPTIMIZATION= \
                 BUILD_TLS=yes \
-                MALLOC=jemalloc \
+                USE_JEMALLOC=yes \
                 PREFIX="${PREFIX}" \
-                CFLAGS="${_redis_bonus_args} -fPIC -fPIE -Wl,-z,relro,-z,now,-rpath=${PREFIX}/lib,--enable-new-dtags,-pie -I${PREFIX}/include -I/usr/include" \
-                LDFLAGS="-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie -L${PREFIX}/lib -L/usr/lib -lexecinfo -lm -ljemalloc" \
+                CFLAGS=-Wno-deprecated-declarations \
+                LDFLAGS="-L/usr/lib -lexecinfo" \
                 install
             ;;
     esac
