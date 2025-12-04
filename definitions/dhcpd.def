@@ -7,7 +7,6 @@ DEF_SHA="82cb45169e4e8016f2fb5e843f7cfb036fe41c01"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_BUILD_DIR_SUFFIX="src/usr.sbin/dhcpd"
 DEF_CONFIGURE_METHOD="ignore"
-DEF_REQUIREMENTS="libressl-lib"
 DEF_AFTER_UNPACK_METHOD="prepare_stuff"
 prepare_stuff () {
     mkdir -p "${PREFIX}/sbin" "${PREFIX}/man/man5" "${PREFIX}/man/man8"
@@ -18,9 +17,4 @@ DEF_MAKE_METHOD="/usr/bin/make BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man"
 DEF_INSTALL_METHOD="/usr/bin/make install BINDIR=${PREFIX}/sbin MANDIR=${PREFIX}/man/man"
 DEF_EXPORTS="dhcpd"
 DEF_USELESS="include share bin"
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-13.1)
-        DEF_NO_LLVM_LINKER=YES
-        ;;
-esac
 DEF_NO_LLVM_LINKER=YES
