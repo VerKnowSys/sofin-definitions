@@ -1,0 +1,18 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="ShellCheck"
+DEF_STANDALONE=YES
+DEF_NAME="shellcheck"
+DEF_VERSION="0.11.0"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.darwin.aarch64.tar.xz"
+DEF_TYPE=meta
+
+DEF_EXPORTS="${DEF_NAME}"
+DEF_AFTER_INSTALL_METHOD="install_binary"
+install_binary () {
+    cd /tmp
+    rm -vf "${DEF_SOURCE_PATH##*/}" "${DEF_NAME}"
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    tar -xf "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME}-v${DEF_VERSION}/${DEF_NAME} ${PREFIX}/bin/"
+}
