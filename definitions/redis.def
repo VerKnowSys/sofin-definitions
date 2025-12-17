@@ -21,8 +21,8 @@ build_and_install_redis () {
                 BUILD_TLS=yes \
                 USE_JEMALLOC=yes \
                 PREFIX="${PREFIX}" \
-                CFLAGS=-Wno-deprecated-declarations \
-                LDFLAGS="-L/usr/lib -lexecinfo" \
+                CFLAGS="-I${PREFIX}/include -Wno-deprecated-declarations" \
+                LDFLAGS="-L${PREFIX}/lib -L/usr/lib" \
                 install
             ;;
 
