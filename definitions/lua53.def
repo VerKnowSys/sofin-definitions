@@ -12,5 +12,5 @@ DEF_COMPILER_FLAGS="-DLUA_USE_DLOPEN -DDLUA_USE_POSIX"
 DEF_AFTER_MAKE_METHOD="create_pc"
 create_pc () {
     ${MKDIR_BIN} -p "${PREFIX}/lib/pkgconfig"
-    make pc > "${PREFIX}/lib/pkgconfig/lua.pc"
+    make pc > "${PREFIX}/lib/pkgconfig/lua-${DEF_VERSION%.*}.pc"
 }
