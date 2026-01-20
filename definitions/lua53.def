@@ -1,16 +1,26 @@
 inherit lua51
 
-unset DEF_AFTER_MAKE_METHOD
-
 DEF_VERSION="5.3.6"
 DEF_SHA="f27d20d6c81292149bc4308525a9d6733c224fa5"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.lua.org/ftp/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 
 DEF_COMPILER_FLAGS="-DLUA_USE_DLOPEN -DDLUA_USE_POSIX"
+DEF_AFTER_MAKE_METHOD="create_pc; build_so"
 
-DEF_AFTER_MAKE_METHOD="create_pc"
 create_pc () {
     ${MKDIR_BIN} -p "${PREFIX}/lib/pkgconfig"
     make pc > "${PREFIX}/lib/pkgconfig/lua-${DEF_VERSION%.*}.pc"
+}
+
+build_so () {
+    mkdir -p "${PREFIX}/lib"
+    (
+        cd src;
+        cc -fPIC -O2 -Wall -DLUA_USE_POSIX -DLUA_USE_DLOPEN \
+            -z relro -z now -L${PREFIX}/lib -lm -pthread \
+            -o "${PREFIX}/lib/liblua.so" \
+            -shared -Wl,-soname=liblua.so \
+            lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o lmathlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o loadlib.o linit.o
+    )
 }
