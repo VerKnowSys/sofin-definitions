@@ -4,3 +4,9 @@ DEF_VERSION="0.21.5"
 DEF_SHA="f2d1efc3c3e3ed1aeefd863f2e1e7f689662bf23"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="meson"
+
+DEF_AFTER_INSTALL_METHOD="move_pc"
+move_pc () {
+    mv "${PREFIX}/libdata/pkgconfig/libpsl.pc" "${PREFIX}/lib/pkgconfig/libpsl.pc"
+    rm -rf "${PREFIX}/libdata"
+}
