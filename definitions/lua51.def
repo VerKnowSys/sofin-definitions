@@ -23,44 +23,38 @@ patch_makefile () {
 case "${SYSTEM_NAME}" in
     Linux)
         DEF_MAKE_METHOD="make linux"
+        DEF_INSTALL_METHOD="make -s install"
         ;;
 
     Darwin)
-        DEF_MAKE_METHOD="make macosx"
+        DEF_MAKE_METHOD="mkdir -p ${PREFIX}/lib/pkgconfig; make macosx SHELL=${SOFIN_UTILS_DIR}/exports/bash"
+        DEF_INSTALL_METHOD="gmake -s install SHELL=${SOFIN_UTILS_DIR}/exports/bash"
         ;;
 
     *)
         make_all () {
-            # -lreadline
-            _lua_version="$(echo "${DEF_VERSION%.*}" | ${SED_BIN} 's/\.//g')"
-            gmake posix \
-                MYLIBS="-Wl,-z,notext -Wl,-E -L${PREFIX}/lib -lrt" \
-                MYCFLAGS="${CFLAGS} -fPIC -fPIE -I${PREFIX}/include" \
-                MYLDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -Wl,-z,notext -fPIC -fPIE" \
-                CC="${CC} -fPIC" \
-                LUA_T=lua \
-                LUAC_T=luac \
-                LUA_A=liblua.a \
-                LUA_SO=liblua.so \
-                LUA_SONAME=liblua.so \
-                TO_BIN="lua luac" \
-                TO_LIB="liblua.a liblua.so" \
-                INSTALL_TOP="${PREFIX}" \
-                INSTALL_INC="${PREFIX}/include/lua${_lua_version}" \
-                INSTALL_EXEC="lua"
+            make bsd CC="cc -fPIC"
         }
+
+        install_all () {
+            make -s install
+            if [ -f src/liblua.so ]; then
+                install -v src/liblua.so "${PREFIX}/lib"
+            fi
+        }
+
         DEF_MAKE_METHOD="make_all"
+        DEF_INSTALL_METHOD="install_all"
         ;;
 esac
 
 # because Lua guys possibly don't know how to do things correctly:
 DEF_AFTER_MAKE_METHOD="create_pc"
 create_pc () {
-    ${MKDIR_BIN} -p "${PREFIX}/lib/pkgconfig"
+    mkdir -p "${PREFIX}/lib/pkgconfig"
     ${SED_BIN} -i '' -e "s#/usr/local#${PREFIX}#" etc/lua.pc
     ${INSTALL_BIN} -v etc/lua.pc "${PREFIX}/lib/pkgconfig/"
 }
-DEF_INSTALL_METHOD="gmake -s install"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
