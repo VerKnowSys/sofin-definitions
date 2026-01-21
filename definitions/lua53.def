@@ -18,6 +18,12 @@ Version: \${version}
 Libs: -L\${libdir} -llua -lm
 Cflags: -I\${includedir}
 " >> "${PREFIX}/lib/pkgconfig/lua-${DEF_VERSION%.*}.pc"
+    (
+        cd "${PREFIX}/lib/pkgconfig";
+        if [ ! -f "lua.pc" ]; then
+            ln -sf "lua-${DEF_VERSION%.*}.pc" "lua.pc";
+        fi
+    )
 }
 
 build_and_install_so () {
