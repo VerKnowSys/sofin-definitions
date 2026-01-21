@@ -6,14 +6,21 @@ DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.lua.org/ftp/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 
 DEF_COMPILER_FLAGS="-DLUA_USE_DLOPEN -DDLUA_USE_POSIX"
-DEF_AFTER_MAKE_METHOD="create_pc; build_so"
+DEF_AFTER_MAKE_METHOD="create_pc && build_and_install_so"
 
 create_pc () {
     ${MKDIR_BIN} -p "${PREFIX}/lib/pkgconfig"
     make pc > "${PREFIX}/lib/pkgconfig/lua-${DEF_VERSION%.*}.pc"
+    printf "\n%s\n" "\
+Name: Lua
+Description: Powerful, efficient, lightweight, embeddable scripting language.
+Version: \${version}
+Libs: -L\${libdir} -llua -lm
+Cflags: -I\${includedir}
+" >> "${PREFIX}/lib/pkgconfig/lua-${DEF_VERSION%.*}.pc"
 }
 
-build_so () {
+build_and_install_so () {
     mkdir -p "${PREFIX}/lib"
     (
         cd src;
