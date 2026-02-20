@@ -15,7 +15,7 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}-${SYSTEM_VERSION}" in
         unset DEF_USE_LTO
         ;;
 
-    Darwin-*-15.*)
+    Darwin-*)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} am_cv_func_iconv_works=yes"
         ;;
 esac
