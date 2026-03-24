@@ -11,7 +11,7 @@ DEF_CONFIGURE_ARGS="-Dbuildtype=release -Ddbus=false -Dgtk=false -Dqt=true -Dbui
 DEF_COMPILER_FLAGS="-U_LIBCPP_ENABLE_ASSERTIONS"
 DEF_USE_CXX17=YES
 
-DEF_AFTER_INSTALL_METHOD="compile_macos_app_bundle"
+DEF_AFTER_INSTALL_METHOD="compile_macos_app_bundle && set_correct_rpath"
 compile_macos_app_bundle () {
     ${RM_BIN} -rf "${PREFIX}/Audacious.app"
     ${CP_BIN} -r ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/contrib/macpack/Audacious.app ${PREFIX}/
@@ -20,4 +20,9 @@ compile_macos_app_bundle () {
         ${LN_BIN} -fs "${PREFIX}/bin/${DEF_NAME}" "${DEF_NAME}";
     )
     return 0
+}
+
+set_correct_rpath () {
+    install_name_tool -add_rpath "${PREFIX}/lib" "${PREFIX}/lib/libaudcore.5.dylib"
+    install_name_tool -add_rpath "${PREFIX}/lib" "${PREFIX}/bin/${DEF_NAME}"
 }
