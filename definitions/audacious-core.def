@@ -1,10 +1,23 @@
 DEF_DISABLE_ON="Linux FreeBSD"
 DEF_FULL_NAME="Audacious Core"
 DEF_NAME="audacious"
-DEF_VERSION="devel"
-DEF_GIT_CHECKOUT="master"
-DEF_SOURCE_PATH="git@github.com:audacious-media-player/audacious.git"
-DEF_REQUIREMENTS="m4 autoconf automake zlib pcre pkgconf libffi gettext python27 libtool glib qtbase qtsvg qtmacextras"
+DEF_VERSION="4.5.1"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SHA="49829c641e2880e5c076b17db7c49980a553358f"
+DEF_REQUIREMENTS="@qtbase qtsvg @ffmpeg @glib ${DEF_NAME}-core ${DEF_NAME}-plugins" # qtmacextras
 BUILDSTAMP="Sofin-${SOFIN_VERSION} Darwin-${SYSTEM_VERSION} $(date +%Y-%m-%dT%H:%M:%S%z)"
-DEF_CONFIGURE_METHOD="./autogen.sh; ./configure --with-buildstamp='${BUILDSTAMP}' PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig"
-DEF_CONFIGURE_ARGS="--enable-qt --disable-gtk --disable-dbus"
+DEF_CONFIGURE_METHOD="meson"
+DEF_CONFIGURE_ARGS="-Dbuildtype=release -Ddbus=false -Dgtk=false -Dqt=true -Dbuildstamp=\"${BUILDSTAMP}\""
+DEF_COMPILER_FLAGS="-U_LIBCPP_ENABLE_ASSERTIONS"
+DEF_USE_CXX17=YES
+
+DEF_AFTER_INSTALL_METHOD="compile_macos_app_bundle"
+compile_macos_app_bundle () {
+    ${RM_BIN} -rf "${PREFIX}/Audacious.app"
+    ${CP_BIN} -r ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/contrib/macpack/Audacious.app ${PREFIX}/
+    (
+        cd "${PREFIX}/Audacious.app/Contents/MacOS";
+        ${LN_BIN} -fs "${PREFIX}/bin/${DEF_NAME}" "${DEF_NAME}";
+    )
+    return 0
+}
