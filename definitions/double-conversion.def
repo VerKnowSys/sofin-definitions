@@ -1,0 +1,6 @@
+DEF_FULL_NAME="Efficient binary-decimal and decimal-binary conversion routines for IEEE doubles. "
+DEF_NAME="double-conversion"
+DEF_VERSION="3.4.0"
+DEF_SHA="276b4b178b745a64092c554f137fd0632a07387b"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="cmake"
