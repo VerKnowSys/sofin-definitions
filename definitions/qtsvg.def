@@ -2,23 +2,7 @@ inherit qtbase
 
 DEF_FULL_NAME="${DEF_FULL_NAME} + SVG Library"
 DEF_NAME="qtsvg"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-everywhere-src-${DEF_VERSION}.tar.xz"
-DEF_SHA="d7e46f990e21941bbde143a2d658858b23fe48a9"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_SHA="26c19abd425bf8dfccb114613fe752cfa784a179"
 DEF_REQUIREMENTS="${DEF_REQUIREMENTS} qtbase"
-DEF_CONFIGURE_METHOD="no-conf"
-
-if [ "${SYSTEM_NAME}" = "FreeBSD" ]; then
-    DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake -spec freebsd-clang ${DEF_NAME}.pro"
-else
-    DEF_AFTER_UNPACK_METHOD="${PREFIX}/bin/qmake ${DEF_NAME}.pro"
-fi
-
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    make_symlinks () {
-        for lib in QtSvg; do
-            ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
-        done
-    }
-
-    DEF_AFTER_INSTALL_METHOD="make_symlinks"
-fi
+DEF_CONFIGURE_METHOD="cmake"
