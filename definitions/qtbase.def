@@ -1,61 +1,12 @@
-DEF_FULL_NAME="Qt 5.12 Base Library"
+DEF_FULL_NAME="Qt 6.10 Base Library"
 DEF_NAME="qtbase"
-DEF_SHA="dbe6ed4779998f757473a727b7ff3300c7d31155"
-DEF_VERSION="5.12.3"
+DEF_SHA="ae971fd0648e3e0683be8a4c3032c25149d431dc"
+DEF_VERSION="6.10.2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-everywhere-src-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="\
--prefix ${PREFIX} \
--opensource \
--confirm-license \
--release \
--shared \
--pkg-config \
--continue \
--system-zlib \
--nomake examples \
--nomake tests \
--no-pch \
--no-cups \
--no-dbus \
--no-glib \
--no-gtk \
--no-feature-sqlmodel \
--no-sql-sqlite \
--no-avx2 \
-"
-DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 DEF_CONFLICTS_WITH="Qt Qtws Qtwk Qtme"
-DEF_REQUIREMENTS="make"
-DEF_MAKE_METHOD="make -j${CPUS}"
-DEF_INSTALL_METHOD="make -s install"
-DEF_NO_CCACHE="YES"
-DEF_NO_FAST_MATH="YES"
-DEF_NO_TRAP_INT_OVERFLOW="YES"
-DEF_NO_SSP_BUFFER_OVERRIDE="YES"
-DEF_NO_FORTIFY_SOURCE="YES"
-
-if [ "${SYSTEM_NAME}" = "Darwin" ]; then
-    make_symlinks () {
-        for lib in QtCore QtGui QtWidgets QtOpenGL; do
-            ln -s "../lib/${lib}.framework/Headers" "${PREFIX}/include/${lib}"
-        done
-    }
-
-    DEF_USER_INFO="Make sure that Xcode is configured properly."
-
-    case "${SYSTEM_VERSION}" in
-        10.14)
-            DEF_USER_INFO="${DEF_USER_INFO} On macOS Mojave run:\n  $ xcode-select --install\n  $ open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg"
-            ;;
-
-        *)
-            ;;
-    esac
-
-    DEF_AFTER_INSTALL_METHOD="make_symlinks"
-    DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -no-rpath QMAKE_MACOSX_DEPLOYMENT_TARGET=10.11"
-    CFLAGS="${CFLAGS} --sysroot $(xcrun --show-sdk-path)"
-    CXXFLAGS="${CXXFLAGS} --sysroot $(xcrun --show-sdk-path)"
-else
-    LD="clang++ -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags -pie"
-fi
+DEF_REQUIREMENTS="openssl @freetype @zstd brotli libjpeg-turbo @libpng @glib libb2 double-conversion @icu" #  @harfbuzz
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DINSTALL_ARCHDATADIR=share/qt -DINSTALL_DATADIR=share/qt -DINSTALL_EXAMPLESDIR=share/qt/examples -DINSTALL_MKSPECSDIR=share/qt/mkspecs -DINSTALL_TESTSDIR=share/qt/tests -DFEATURE_sql_mysql=OFF -DFEATURE_sql_odbc=OFF -DFEATURE_sql_psql=OFF -DFEATURE_openssl_linked=ON -DFEATURE_pkg_config=ON -DFEATURE_system_doubleconversion=ON -DFEATURE_system_freetype=ON  -DFEATURE_system_jpeg=ON -DFEATURE_system_libb2=ON -DFEATURE_system_png=ON -DFEATURE_system_sqlite=ON -DFEATURE_system_zlib=ON -DQT_ALLOW_SYMLINK_IN_PATHS=ON -DFEATURE_relocatable=ON -DCMAKE_STAGING_PREFIX=${PREFIX}  -DQT_NO_APPLE_SDK_AND_XCODE_CHECK=ON -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DQT_USE_CCACHE=ON -Dzstd_DIR=${PREFIX} -Dunofficial-brotli_DIR=${PREFIX}"
+DEF_USE_CXX17=YES
+DEF_NO_CCACHE=YES
+DEF_EXPORTS="qt-cmake qt-cmake-create qt-configure-module qdbuscpp2xml qdbusxml2cpp qtpaths qtpaths6 androiddeployqt androiddeployqt6 androidtestrunner macdeployqt macdeployqt6 qmake qmake6"
