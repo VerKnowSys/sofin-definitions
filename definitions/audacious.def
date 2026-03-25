@@ -3,6 +3,15 @@ DEF_DISABLE_ON="Linux FreeBSD"
 DEF_FULL_NAME="Audacious"
 DEF_NAME="audacious"
 DEF_VERSION="4.5.1"
-DEF_REQUIREMENTS="@qtbase qtsvg @ffmpeg @glib m4 autoconf automake audacious-core wavpack audacious-plugins"
+DEF_REQUIREMENTS="@qtbase qtsvg @ffmpeg @glib audacious-core wavpack audacious-plugins"
 DEF_EXPORTS="audacious"
 DEF_CLEAN_USELESS=NO
+
+DEF_AFTER_INSTALL_METHOD="install_mac_app_bundle"
+install_mac_app_bundle () {
+    ${RM_BIN} -rf "/Applications/Audacious.app"
+    ${CP_BIN} -r "${PREFIX}/Audacious.app" "/Applications/Audacious.app"
+
+    install_name_tool -add_rpath "${PREFIX}/lib" "/Applications/Audacious.app/Contents/lib/libaudcore.5.dylib"
+    install_name_tool -add_rpath "${PREFIX}/lib" "/Applications/Audacious.app/Contents/MacOS/audacious"
+}

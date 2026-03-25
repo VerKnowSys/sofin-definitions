@@ -7,3 +7,26 @@ DEF_CONFIGURE_METHOD="meson"
 DEF_CONFIGURE_ARGS="-Dbuildtype=release -Dgtk=false -Dqt=true -Dmac-media-keys=true -Dmpris2=false"
 DEF_COMPILER_FLAGS="-U_LIBCPP_ENABLE_ASSERTIONS"
 DEF_USE_CXX17=YES
+DEF_AFTER_INSTALL_METHOD="install_plugins_to_the_mac_bundle"
+
+install_plugins_to_the_mac_bundle () {
+    ${CP_BIN} -r "${PREFIX}/lib/audacious" "${PREFIX}/Audacious.app/Contents/lib/"
+}
+
+# set_correct_rpath () {
+#     # echo "setting @rpath for audacious plugins…"
+#     # (
+#     #     cd "${PREFIX}/Audacious.app/Contents/lib";
+#     #     for _dylib in $(find audacious -name '*.dylib'); do
+#     #         for _known_lib in libaudcore.5.dylib libaudqt.3.dylib libaudtag.3.dylib libavcodec.62.dylib libavformat.62.dylib \
+#     #             libavutil.60.dylib libfaad.2.dylib libFLAC.12.dylib libgio-2.0.0.dylib libglib-2.0.0.dylib libgobject-2.0.0.dylib \
+#     #             libintl.8.dylib libmpg123.0.dylib libogg.0.dylib libopusfile.0.dylib libsoxr.0.dylib libz.1.dylib; do
+#     #             # install_name_tool -change "${PREFIX}/lib/${_known_lib}" "@rpath/${_known_lib}" "${_dylib}";
+#     #             install_name_tool -change "${PREFIX}/lib/${_known_lib}" "/Applications/Audacious.app/Contents/lib/${_known_lib}" "${_dylib}";
+#     #         done
+#     #     done
+#     # )
+
+#     echo "continue to finalize the thing"
+#     read -r _asdf
+# }

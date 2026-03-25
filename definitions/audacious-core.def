@@ -11,18 +11,58 @@ DEF_CONFIGURE_ARGS="-Dbuildtype=release -Ddbus=false -Dgtk=false -Dqt=true -Dbui
 DEF_COMPILER_FLAGS="-U_LIBCPP_ENABLE_ASSERTIONS"
 DEF_USE_CXX17=YES
 
-DEF_AFTER_INSTALL_METHOD="compile_macos_app_bundle && set_correct_rpath"
+DEF_AFTER_INSTALL_METHOD="compile_macos_app_bundle"
 compile_macos_app_bundle () {
     ${RM_BIN} -rf "${PREFIX}/Audacious.app"
     ${CP_BIN} -r ${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}/contrib/macpack/Audacious.app ${PREFIX}/
-    (
-        cd "${PREFIX}/Audacious.app/Contents/MacOS";
-        ${LN_BIN} -fs "${PREFIX}/bin/${DEF_NAME}" "${DEF_NAME}";
-    )
+
+    # the binary itself
+    ${CP_BIN} "${PREFIX}/bin/${DEF_NAME}" "${PREFIX}/Audacious.app/Contents/MacOS/${DEF_NAME}"
+
+    # all libraries
+    ${CP_BIN} -r "${PREFIX}/lib" "${PREFIX}/Audacious.app/Contents/lib"
+
+    # but remove not required files
+    ${RM_BIN} -rf \
+        "${PREFIX}/Audacious.app/Contents/lib/cmake" \
+        "${PREFIX}/Audacious.app/Contents/lib/gettext" \
+        "${PREFIX}/Audacious.app/Contents/lib/libpng" \
+        "${PREFIX}/Audacious.app/Contents/lib/objects-Release" \
+        "${PREFIX}/Audacious.app/Contents/lib/pkgconfig" \
+        "${PREFIX}/Audacious.app/Contents/lib/ckport" \
+        ${PREFIX}/Audacious.app/Contents/lib/*.a \
+        ${PREFIX}/Audacious.app/Contents/lib/*.prl
+
     return 0
 }
 
-set_correct_rpath () {
-    install_name_tool -add_rpath "${PREFIX}/lib" "${PREFIX}/lib/libaudcore.5.dylib"
-    install_name_tool -add_rpath "${PREFIX}/lib" "${PREFIX}/bin/${DEF_NAME}"
-}
+# set_correct_rpath () {
+#     echo "setting @rpath for libs…"
+#     (
+#         cd "${PREFIX}/Audacious.app/Contents/lib";
+#         for _dylib in $(find . -name '*.dylib'); do
+#             for _known_lib in libao.4.dylib libasprintf.0.dylib libaudcore.5.dylib libaudqt.3.dylib libaudtag.3.dylib \
+#                 libavcodec.62.dylib libavdevice.62.dylib libavfilter.11.dylib libavformat.62.dylib libavutil.60.dylib \
+#                 libb2.1.dylib libcrypto.3.dylib libdb-18.1.dylib libexpat.1.dylib libfaac.0.dylib libfaad.2.dylib \
+#                 libfaad_drm.2.dylib libffi.8.dylib libfftw3.3.dylib libfftw3_threads.3.dylib libFLAC++.10.dylib \
+#                 libFLAC.12.dylib libfreetype.6.dylib libgettextlib-0.26.dylib libgettextpo.0.dylib libgettextsrc-0.26.dylib \
+#                 libgio-2.0.0.dylib libgirepository-2.0.0.dylib libglib-2.0.0.dylib libgmodule-2.0.0.dylib libgobject-2.0.0.dylib \
+#                  libgthread-2.0.0.dylib libicudata.76.dylib libicui18n.76.dylib libicuio.76.dylib libicutest.76.dylib \
+#                  libicutu.76.dylib libicuuc.76.dylib libintl.8.dylib libjemalloc.2.dylib liblz4.1.dylib liblzma.5.dylib \
+#                  libmad.0.dylib libmpcdec.5.dylib libmpg123.0.dylib libogg.0.dylib libopus.0.dylib libopusenc.0.dylib \
+#                  libopusfile.0.dylib libopusurl.0.dylib libout123.0.dylib libsoxr-lsr.0.dylib libsoxr.0.dylib libspeex.1.dylib \
+#                  libsqlite3.0.dylib libssl.3.dylib libswresample.6.dylib libswscale.9.dylib libtag.1.dylib libtag_c.0.dylib \
+#                  libtextstyle.0.dylib libtwolame.0.dylib liburiparser.1.dylib libyajl.2.dylib libz.1.dylib libzstd.1.dylib; do
+#                 # install_name_tool -change "${PREFIX}/lib/${_known_lib}" "@rpath/${_known_lib}" "${_dylib}";
+#                 install_name_tool -change "${PREFIX}/lib/${_known_lib}" "/Applications/Audacious.app/Contents/lib/${_known_lib}" "${_dylib}";
+#             done
+#         done
+#     )
+#     (
+#         cd "${PREFIX}/Audacious.app/Contents/MacOS";
+#         for _known_lib in libaudcore.5.dylib libglib-2.0.0.dylib libintl.8.dylib; do
+#             # install_name_tool -change "${PREFIX}/lib/${_known_lib}" "@loader_path/../lib/${_known_lib}" "audacious";
+#             install_name_tool -change "${PREFIX}/lib/${_known_lib}" "/Applications/Audacious.app/Contents/lib/${_known_lib}" "audacious";
+#         done
+#     )
+# }
