@@ -1,8 +1,8 @@
 DEF_FULL_NAME="PKCS#11 - provides a way to load and enumerate PKCS#11 modules."
 DEF_STANDALONE=YES
 DEF_NAME="p11-kit"
-DEF_VERSION="0.25.5"
-DEF_SHA="c3a1607be931656bbc8a9e2ba3209ee1d3314f99"
+DEF_VERSION="0.26.2"
+DEF_SHA="c6aa53aa656b4ba4b066e1f2c8d7d4870562ec46"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/p11-glue/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
