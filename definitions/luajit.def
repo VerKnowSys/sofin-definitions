@@ -14,6 +14,8 @@ patch_makefile () {
         Makefile
 }
 
+DEF_AFTER_INSTALL_METHOD="mv ${PREFIX}/bin/luajit-2.1. ${PREFIX}/bin/luajit"
+
 CFLAGS=""
 LDFLAGS="-Wl,-z,notext -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
 CXXFLAGS=""
