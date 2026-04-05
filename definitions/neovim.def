@@ -1,0 +1,22 @@
+DEF_FULL_NAME="NeoVim editor"
+DEF_NAME="neovim"
+DEF_VERSION="0.12.0"
+DEF_SHA="761cbe7b240d94c1cfb6703d5ded27c60edfe01d"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://codeload.github.com/${DEF_NAME}/${DEF_NAME}/tar.gz/v${DEF_VERSION}"
+DEF_REQUIREMENTS="libtool msgpack libvterm luajit libuv luv unibilium tree-sitter utf8proc gettext"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_EXPORTS="vim evim xxd rview rvim ex vimdiff view nvim"
+
+DEF_AFTER_UNPACK_METHOD="install_reqs"
+install_reqs () {
+    (
+        fetch ${MAIN_SOURCE_REPOSITORY}/lpeg-1.1.0.tar.gz;
+        tar xzf lpeg-1.1.0.tar.gz;
+        cd lpeg-1.1.0;
+        cc -O2 -fPIC -shared -o lpeg.so \
+          -I${PREFIX}/include/luajit-2.1 \
+          lpcap.c lpcode.c lpcset.c lpprint.c lptree.c lpvm.c;
+        install lpeg.so "${PREFIX}/lib/lua/5.1/"
+    )
+}
