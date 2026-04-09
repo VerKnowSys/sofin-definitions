@@ -1,13 +1,14 @@
 DEF_FULL_NAME="NeoVim editor"
 DEF_NAME="neovim"
-DEF_VERSION="0.12.0"
-DEF_SHA="761cbe7b240d94c1cfb6703d5ded27c60edfe01d"
+DEF_VERSION="0.12.1"
+DEF_SHA="5b616eed9dfad4c2d383cdf781a6c42b298ec184"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://codeload.github.com/${DEF_NAME}/${DEF_NAME}/tar.gz/v${DEF_VERSION}"
-DEF_REQUIREMENTS="libtool msgpack libvterm luajit libuv luv unibilium tree-sitter utf8proc gettext"
+DEF_REQUIREMENTS="libtool msgpack libvterm luajit libuv luv unibilium tree-sitter utf8proc"
 DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DENABLE_LIBINTL=OFF -DENABLE_TRANSLATIONS=OFF"
 DEF_EXPORTS="nvim"
-DEF_USELESS="include lib/*.{a,la} share/{aclocal,doc,libtool,gettext,gettext-*,info} lib/{cmake,pkgconfig,gettext} libexec man"
+DEF_USELESS="include lib/*.{a,la} share/{aclocal,doc,libtool,info} lib/{cmake,pkgconfig} libexec man"
 
 DEF_AFTER_UNPACK_METHOD="install_reqs"
 install_reqs () {
