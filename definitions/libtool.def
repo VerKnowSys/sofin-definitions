@@ -5,6 +5,10 @@ DEF_SHA="0c90f1b046ea9cd7b32a4b5a6a9df4b46ddb637a"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="m4"
-DEF_AFTER_INSTALL_METHOD="${TEST_BIN} -L ${PREFIX}/bin/g${DEF_NAME}ize || ${LN_BIN} -s ${PREFIX}/bin/${DEF_NAME}ize ${PREFIX}/bin/g${DEF_NAME}ize"
-DEF_EXPORTS="${DEF_NAME} ${DEF_NAME}ize g${DEF_NAME}ize"
+DEF_AFTER_INSTALL_METHOD="make_gnu_links"
+make_gnu_links () {
+    ${TEST_BIN} -L ${PREFIX}/bin/g${DEF_NAME}ize || ${LN_BIN} -s ${PREFIX}/bin/${DEF_NAME}ize ${PREFIX}/bin/g${DEF_NAME}ize
+    ${TEST_BIN} -L ${PREFIX}/bin/g${DEF_NAME} || ${LN_BIN} -s ${PREFIX}/bin/${DEF_NAME} ${PREFIX}/bin/g${DEF_NAME}
+}
+DEF_EXPORTS="${DEF_NAME} g${DEF_NAME} ${DEF_NAME}ize g${DEF_NAME}ize"
 DEF_CONFIGURE_ARGS="--disable-static --enable-ltdl-install"
