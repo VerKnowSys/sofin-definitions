@@ -128,7 +128,7 @@ install_zip () {
 
 
 install_redis () {
-    redis_name="redis-5.3.7"
+    redis_name="redis-6.3.0"
     redis_archive="${redis_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${redis_archive}\"" && \
     try "${TAR_BIN} xf ${redis_archive}" && \
