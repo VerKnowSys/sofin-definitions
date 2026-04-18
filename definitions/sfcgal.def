@@ -1,0 +1,7 @@
+DEF_FULL_NAME="SFCGAL is a C++ wrapper library around CGAL with the aim of supporting ISO 19107:2013 and OGC Simple Features Access 1.2 for 3D operations."
+DEF_NAME="SFCGAL"
+DEF_VERSION="2.2.0"
+DEF_SHA="68d1f2d12df9ea1917e9ecb9cfefe196f3c9a461"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://download.osgeo.org/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="cmake"
