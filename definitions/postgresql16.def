@@ -75,7 +75,10 @@ case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
         # Do not strip binaries on OS X, due to:
         # PG::UndefinedFile: ERROR:  could not load library "/Software/Postgresql92/lib/postgresql/hstore.so": dlopen(/Software/Postgresql92/lib/postgresql/hstore.so, 10): Symbol not found: _CurrentMemoryContext
         DEF_STRIP=NO
+
+        DEF_FULL_NAME="PostgreSQL ${DEF_VERSION%.*}.x +contrib"
         DEF_REQUIREMENTS="readline openssl libuuid icu"
+        DEF_AFTER_INSTALL_METHOD="build_addons_and_extensions"
 
         CFLAGS="-O3 -funroll-loops -I${PREFIX}/include -L${PREFIX}/lib"
         CXXFLAGS="-O3 -funroll-loops -I${PREFIX}/include -L${PREFIX}/lib"
