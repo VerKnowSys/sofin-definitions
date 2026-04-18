@@ -1,5 +1,5 @@
 DEF_STANDALONE=YES
-DEF_FULL_NAME="PostgreSQL 16.x +contrib +timescaledb +pg_vector"
+DEF_FULL_NAME="PostgreSQL 16.x +contrib +timescaledb +pg_vector +postgis"
 DEF_NAME="postgresql"
 DEF_SUFFIX="16"
 DEF_VERSION="16.13"
