@@ -1,34 +1,14 @@
 DEF_FULL_NAME="Freetype - library to render fonts"
 DEF_NAME="freetype"
-DEF_VERSION="2.13.3"
-DEF_SHA="2437819d11c1205e81141735dcb0a36c0d541e96"
+DEF_VERSION="2.14.3"
+DEF_SHA="62e26b89a057ad4f1e28af977945d5c1975a8e67"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.savannah.gnu.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="zlib libpng texinfo"
-DEF_EXPORTS="freetype-config"
+DEF_REQUIREMENTS="zlib libpng texinfo brotli"
+DEF_CONFIGURE_METHOD="meson"
 
-DEF_CONFIGURE_METHOD="builds/unix/configure"
-DEF_CONFIGURE_ARGS="--prefix=${PREFIX} --with-pic --with-png=auto --with-bzip2=auto --with-zlib=auto --with-harfbuzz=no --enable-freetype-config --enable-static=no"
-DEF_INSTALL_METHOD="make install"
-DEF_AFTER_INSTALL_METHOD="patch_freetype_config"
-patch_freetype_config () {
-    case "${SYSTEM_NAME}" in
-        Darwin)
-            ${SED_BIN} -i '' -e 's|/Services/Sofin/exports/pkg-config|pkg-config|g' "${PREFIX}/bin/freetype-config"
-            ;;
-
-        *)
-            ${SED_BIN} -i '' -e 's|/Services/Sofin/exports/pkg-config|pkg-config|g' "${PREFIX}/bin/freetype-config"
-            ;;
-    esac
+DEF_AFTER_INSTALL_METHOD="move_libdata_pc"
+move_libdata_pc () {
+    mv -v "${PREFIX}/libdata/pkgconfig/freetype2.pc" "${PREFIX}/lib/pkgconfig/"
+    return 0
 }
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_MAKE_METHOD="make setup CFG='${DEF_CONFIGURE_ARGS}' SHELL=${SOFIN_UTILS_DIR}/exports/bash && make ${MAKE_OPTS} SHELL=${SOFIN_UTILS_DIR}/exports/bash"
-        ;;
-
-    *)
-        DEF_MAKE_METHOD="make setup CFG='${DEF_CONFIGURE_ARGS}' && make ${MAKE_OPTS}"
-        ;;
-esac
-
