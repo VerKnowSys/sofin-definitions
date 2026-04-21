@@ -1,11 +1,11 @@
-inherit "python313"
+inherit "python314"
 
 unset DEF_SUFFIX
-DEF_FULL_NAME="Meson build system (Python 3.13)"
-DEF_VERSION="1.8.2"
+DEF_FULL_NAME="Meson build system (Python 3.14)"
+DEF_VERSION="1.11.0"
 DEF_NAME="meson"
 DEF_USEFUL="bin/python3* bin/pip*"
-DEF_REQUIREMENTS="@python313"
+DEF_REQUIREMENTS="@python314"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_TYPE="meta"
 
