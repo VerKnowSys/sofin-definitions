@@ -11,7 +11,7 @@ DEF_AFTER_INSTALL_METHOD="install_packer_binary"
 install_packer_binary () {
     cd /tmp
     ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
-    unzip -x "${DEF_SOURCE_PATH##*/}"
+    unzip -xo "${DEF_SOURCE_PATH##*/}"
     mkdir -p "${PREFIX}/bin/"
     run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
 }
