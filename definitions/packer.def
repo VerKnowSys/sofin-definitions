@@ -1,0 +1,17 @@
+DEF_DISABLE_ON="Linux FreeBSD"
+DEF_FULL_NAME="Hashicorp Packer"
+DEF_STANDALONE=YES
+DEF_NAME="packer"
+DEF_VERSION="1.15.3"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${DEF_VERSION}_darwin_arm64.zip"
+DEF_TYPE=meta
+
+DEF_EXPORTS="${DEF_NAME}"
+DEF_AFTER_INSTALL_METHOD="install_packer_binary"
+install_packer_binary () {
+    cd /tmp
+    ${CURL_BIN} -O "${DEF_SOURCE_PATH}"
+    unzip -x "${DEF_SOURCE_PATH##*/}"
+    mkdir -p "${PREFIX}/bin/"
+    run "${CP_BIN} -f ${DEF_NAME} ${PREFIX}/bin/"
+}
