@@ -1,10 +1,10 @@
 DEF_STANDALONE=YES
 DEF_NAME="postgresql"
-DEF_SUFFIX="18"
-DEF_VERSION="18.3"
 DEF_FULL_NAME="PostgreSQL ${DEF_VERSION%.*}.x +contrib +timescaledb +pg_vector +postgis"
-DEF_SHA="715414a7dcf6ca491588b1c243610f11acdc501b"
-TIMESCALE_VERSION="2.26.3" # https://github.com/timescale/timescaledb/releases/
+DEF_SUFFIX="18"
+DEF_VERSION="18.4"
+DEF_SHA="25d1499917475db9f3129a7f658b7b005b577da8"
+TIMESCALE_VERSION="2.27.0" # https://github.com/timescale/timescaledb/releases/
 VECTOR_VERSION="0.8.2" # https://github.com/pgvector/pgvector/releases
 POSTGIS_VERSION="3.6.3" # https://postgis.net/development/source_code/
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
