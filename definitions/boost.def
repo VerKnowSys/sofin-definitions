@@ -1,12 +1,10 @@
 DEF_FULL_NAME="Boost - C++ Libraries"
 DEF_NAME="boost"
-# DEF_VERSION="1.84.0"
-# DEF_SHA="734dcfb452380a4d6304060dc2ed983668dd290f"
-DEF_VERSION="1.77.0"
-DEF_SHA="0cb4f947d094fc311e13ffacaff00418130ef5ef"
-_major_ver="${DEF_VERSION%.*}"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
-DEF_ORIGIN="https://dl.bintray.com/boostorg/release/${DEF_VERSION}/source/${DEF_NAME}_${_major_ver%%.*}_${_major_ver#*.}_${DEF_VERSION##*.}.tar.bz2"
+DEF_VERSION="1.90.0-b2"
+DEF_SHA="f83252611f4f7133b36c0f7730e356c12697aa3c"
+_major_ver="${DEF_VERSION%-*}"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}-nodocs.tar.xz"
+DEF_ORIGIN="https://github.com/boostorg/boost/releases/download/boost-${_major_ver}/${DEF_NAME}-${DEF_VERSION}-nodocs.tar.xz"
 DEF_CONFIGURE_METHOD="CC=cc CXX=clang++ ./bootstrap.sh"
 case "${SYSTEM_ARCH}" in
     amd64)
@@ -18,7 +16,7 @@ case "${SYSTEM_ARCH}" in
         ;;
 esac
 DEF_COMPILER_FLAGS="${_sys_specific} -flto=thin -Wno-enum-constexpr-conversion -Wno-deprecated-declarations"
-DEF_CONFIGURE_ARGS="--with-toolset=clang --without-icu --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,test"
+DEF_CONFIGURE_ARGS="--with-toolset=clang --without-icu --libdir=${PREFIX}/lib --includedir=${PREFIX}/include --without-libraries=python,test,mpi"
 case "${SYSTEM_NAME}" in
     Darwin)
         unset _other_options
@@ -35,9 +33,10 @@ case "${SYSTEM_NAME}" in
         _other_options="-Wl,-rpath,${PREFIX}/lib,--enable-new-dtags"
         ;;
 esac
+DEF_MAKE_METHOD="./b2 headers"
 DEF_INSTALL_METHOD="./b2 -j${CPUS} \
     cflags='${DEF_COMPILER_FLAGS}' \
-    cxxflags='${DEF_COMPILER_FLAGS} -std=c++14 -stdlib=libc++' \
+    cxxflags='${DEF_COMPILER_FLAGS} -std=c++17 -stdlib=libc++' \
     linkflags='-stdlib=libc++ ${_other_options}' \
     variant=release \
     threading=multi \
@@ -51,5 +50,4 @@ DEF_INSTALL_METHOD="./b2 -j${CPUS} \
     address-model=64 \
     profiling=off \
     install"
-DEF_MAKE_METHOD="true"
-DEF_USE_CXX14=YES
+DEF_USE_CXX17=YES
