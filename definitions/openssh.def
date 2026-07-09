@@ -1,13 +1,13 @@
 DEF_FULL_NAME="OpenSSH client with FIDO2 key support"
 DEF_NAME="openssh"
-DEF_VERSION="10.2p1"
-DEF_SHA="c34efade16109f065ec8c834f237bcedd8d7ef5c"
+DEF_VERSION="10.4p1"
+DEF_SHA="ae8650a71cc52dbbd049519cee276ae6d65c2c4d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--with-ssl-engine --with-pid-dir=${SERVICE_DIR} --with-zlib=${PREFIX} --with-ssl-dir=${PREFIX} --with-security-key-builtin --disable-etc-default-login --with-libedit=${PREFIX} --without-shadow"
 DEF_REQUIREMENTS="libedit openssl libcbor zlib libfido2"
 DEF_USEFUL="libexec"
-DEF_EXPORTS="c_rehash openssl scp sftp ssh ssh-add ssh-agent ssh-keygen ssh-keyscan ssh-askpass ssh-sk-helper sftp-server ssh-keysign ssh-pkcs11-helper ssh-sk-helper sshd sshd-session"
+DEF_EXPORTS="c_rehash scp sftp ssh ssh-add ssh-agent ssh-keygen ssh-keyscan ssh-askpass ssh-sk-helper sftp-server ssh-keysign ssh-pkcs11-helper ssh-sk-helper sshd sshd-session"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     Darwin-*)
