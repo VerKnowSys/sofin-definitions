@@ -113,7 +113,7 @@ install_pear_modules () {
 
 
 install_zip () {
-    zip_name="zip-1.22.3"
+    zip_name="zip-1.22.8"
     zip_archive="${zip_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${zip_archive}\"" && \
     try "${TAR_BIN} xf ${zip_archive}" && \
@@ -143,7 +143,7 @@ install_redis () {
 
 
 install_igbinary () {
-    igbinary_name="igbinary-3.2.15"
+    igbinary_name="igbinary-3.2.17RC1"
     igbinary_archive="${igbinary_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O \"${MAIN_SOURCE_REPOSITORY}${igbinary_archive}\"" && \
     try "${TAR_BIN} xf ${igbinary_archive}" && \
@@ -158,7 +158,7 @@ install_igbinary () {
 
 
 install_decimal () {
-    arch_name="decimal-1.4.0"
+    arch_name="decimal-2.0.1"
     decimal_archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${decimal_archive}" && \
     try "${TAR_BIN} xf ${decimal_archive}" && \
@@ -188,7 +188,7 @@ install_meminfo () {
 
 
 install_xdebug () {
-    arch_name="xdebug-3.3.2"
+    arch_name="xdebug-3.5.3"
     archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${archive}" && \
     try "${TAR_BIN} xf ${archive}" && \
@@ -203,7 +203,7 @@ install_xdebug () {
 
 
 install_apcu () {
-    arch_name="apcu-5.1.21"
+    arch_name="apcu-5.1.28"
     archive="${arch_name}.tgz"
     run "${FETCH_BIN} ${FETCH_OPTS} -O ${MAIN_SOURCE_REPOSITORY}${archive}" && \
     try "${TAR_BIN} xf ${archive}" && \
