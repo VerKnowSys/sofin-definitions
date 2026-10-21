@@ -1,0 +1,41 @@
+ICU-23263: Support shared/static data library that uses a pointer based table of contents.
+
+ICU 78 added length checks of the converter alias data in initAliasData().
+When ICU data is built without genccode assembly support (on 64-bit FreeBSD,
+and any host not matched by configure: *-linux*, i*86-*-*bsd*, ...),
+udata_getLength() returns -1, and valid data is rejected with:
+  genrb: can not initialize ICU.  status = U_INVALID_FORMAT_ERROR
+
+Upstream: https://github.com/unicode-org/icu/pull/3778
+
+diff --git a/icu4c/source/common/ucnv_io.cpp b/icu4c/source/common/ucnv_io.cpp
+index 46a26f821fd8..66813f5a0372 100644
+--- a/icu4c/source/common/ucnv_io.cpp
++++ b/icu4c/source/common/ucnv_io.cpp
+@@ -249,14 +249,15 @@ static void U_CALLCONV initAliasData(UErrorCode &errCode) {
+ 
+     sectionSizes = static_cast<const uint32_t*>(udata_getMemory(data));
+     int32_t dataLength = udata_getLength(data); // This is the length minus the UDataInfo size
+-    if (dataLength <= int32_t(sizeof(sectionSizes[0]))) {
++    UBool isDataLengthKnown = dataLength >= 0; // Only false when using a pointer table of contents (not files nor a common data archive)
++    if (isDataLengthKnown && dataLength <= int32_t(sizeof(sectionSizes[0]))) {
+         // We don't even have a TOC!
+         goto invalidFormat;
+     }
+     table = reinterpret_cast<const uint16_t*>(sectionSizes);
+     tableStart = sectionSizes[0];
+     sizeOfTOC = int32_t((tableStart + 1) * sizeof(sectionSizes[0]));
+-    if (tableStart < minTocLength || dataLength <= sizeOfTOC) {
++    if (tableStart < minTocLength || (isDataLengthKnown && dataLength <= sizeOfTOC)) {
+         // We don't have a whole TOC!
+         goto invalidFormat;
+     }
+@@ -279,7 +280,7 @@ static void U_CALLCONV initAliasData(UErrorCode &errCode) {
+     for (uint32_t section = 1; section <= tableStart; section++) {
+         sizeOfData += sectionSizes[section] * sizeof(table[0]);
+     }
+-    if (dataLength < sizeOfData) {
++    if (isDataLengthKnown && dataLength < sizeOfData) {
+         // Truncated file!
+         goto invalidFormat;
+     }
