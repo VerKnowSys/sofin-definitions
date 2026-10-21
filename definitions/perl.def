@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Perl"
 DEF_NAME="perl"
-DEF_VERSION="5.42.0"
-DEF_SHA="3b557f28dcb412b115d9628c37fc94b2fda08384"
+DEF_VERSION="5.44.0"
+DEF_SHA="f64277b1a19107491ebd59249a33b7ea986eadd4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cpan.org/src/5.0/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="db"
@@ -24,6 +24,12 @@ patch_Makefile () {
 }
 DEF_CONFIGURE_METHOD="./Configure"
 DEF_EXPORTS="perl pod2man pod2text pod2usage podchecker cpan corelist enc2xs encguess h2ph h2xs instmodsh json_pp libnetcfg perlbug perldoc perlivp piconv pl2pm pod2html prove ptar ptardiff ptargrep shasum splain streamzip xsubpp zipdetails"
+case "${SYSTEM_NAME}" in
+    Darwin)
+        # macOS 27 SDK declares pipe2() and dup3() (weak-linked), but they're missing on older systems:
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -Ud_pipe2 -Ud_dup3"
+        ;;
+esac
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
         unset DEF_USE_LTO
