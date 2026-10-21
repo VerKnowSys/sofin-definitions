@@ -1,17 +1,11 @@
 DEF_FULL_NAME="ICU - International Components for Unicode"
 DEF_NAME="icu"
-DEF_VERSION="4c-76_1"
-DEF_SHA="f7764341d196112573605881dbbf10e586d84841"
-DEF_ORIGIN="https://github.com/unicode-org/icu/releases/download/release-64-2/${DEF_NAME}${DEF_VERSION}-src.tgz"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}-src.tgz"
-DEF_BUILD_DIR_SUFFIX="source"
+DEF_VERSION="78.3"
+DEF_SHA="bd047df199b05cfda0fe5657caadb45e4934c8e6"
+DEF_ORIGIN="https://github.com/unicode-org/${DEF_NAME}/archive/refs/tags/release-${DEF_VERSION}.tar.gz"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-release-${DEF_VERSION}.tar.gz"
+DEF_BUILD_DIR_SUFFIX="icu4c/source"
 DEF_EXPORTS="icu-config icu-info"
 DEF_USEFUL="bin/icu* bin/*conf*"
 DEF_CONFIGURE_ARGS="--disable-static --enable-shared --enable-release --enable-icu-config --enable-rpath --disable-samples --disable-tests --with-library-bits=64"
 DEF_USE_CXX17=YES
-
-case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
-    FreeBSD-11*)
-        unset DEF_USE_LTO
-        ;;
-esac
