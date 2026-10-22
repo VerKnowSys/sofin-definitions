@@ -36,6 +36,11 @@ validate_product () {
 DEF_EXPORTS="zsh zsh-${DEF_VERSION} sh"
 DEF_NO_TRAP_INT_OVERFLOW=YES
 
+# NOTE: zsh 5.9 configure tests use pre-C99 "main() {…}". Clang 16+ treats implicit int as an error,
+#       so these tests fail silently and features are detected as broken (f.e. BROKEN_POSIX_SIGSUSPEND
+#       makes every $(…) command substitution hang):
+DEF_COMPILER_FLAGS="-Wno-error=implicit-int"
+
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="--enable-cap --enable-zsh-secure-free --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp DL_EXT=bundle"
