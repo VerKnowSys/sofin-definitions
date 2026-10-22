@@ -14,6 +14,16 @@ _sys_bins="qemu-system-alpha qemu-system-mips64 qemu-system-rx qemu-system-avr q
 DEF_EXPORTS="qemu-edid qemu-img qemu-nbd qemu-io qemu-storage-daemon ${_sys_bins}"
 DEF_USE_SAFE_STACK=YES
 
+DEF_AFTER_PATCH_METHOD="disable_new_sdk_functions"
+disable_new_sdk_functions () {
+    # NOTE: macOS 27 SDK declares pipe2() and dup3() (weak-linked), but they're missing on older systems,
+    #       so qemu_pipe() calls NULL. Don't detect them on Darwin:
+    ${SED_BIN} -i '' \
+        -e "s#config_host_data.set('CONFIG_PIPE2', cc.links(#config_host_data.set('CONFIG_PIPE2', targetos != 'darwin' and cc.links(#" \
+        -e "s#config_host_data.set('CONFIG_DUP3', cc.has_function('dup3'))#config_host_data.set('CONFIG_DUP3', targetos != 'darwin' and cc.has_function('dup3'))#" \
+        meson.build
+}
+
 DEF_AFTER_INSTALL_METHOD="set_rpath_and_rename_binaries"
 set_rpath_and_rename_binaries () {
     for _bin in ${PREFIX}/bin/qemu*; do
