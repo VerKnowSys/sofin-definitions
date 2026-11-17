@@ -1,7 +1,7 @@
 DEF_FULL_NAME="DMI Decode hardware reporting utility"
 DEF_NAME="dmidecode"
-DEF_VERSION="3.2"
-DEF_SHA="acf4b5c6e757066453fd06aa9060fceb257849bf"
+DEF_VERSION="3.7"
+DEF_SHA="6fb5157e0e5deef087187d0494167fe408f37130"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 # DEF_ORIGIN="http://ftp.igh.cnrs.fr/pub/nongnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="no-conf" # no configure script for this package
