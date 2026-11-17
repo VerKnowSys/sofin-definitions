@@ -2,11 +2,11 @@ DEF_STANDALONE=YES
 DEF_NAME="postgresql"
 DEF_FULL_NAME="PostgreSQL ${DEF_VERSION%.*}.x +contrib +timescaledb +pg_vector +postgis"
 DEF_SUFFIX="18"
-DEF_VERSION="18.4"
-DEF_SHA="25d1499917475db9f3129a7f658b7b005b577da8"
-TIMESCALE_VERSION="2.27.0" # https://github.com/timescale/timescaledb/releases/
-VECTOR_VERSION="0.8.2" # https://github.com/pgvector/pgvector/releases
-POSTGIS_VERSION="3.6.3" # https://postgis.net/development/source_code/
+DEF_VERSION="18.7"
+DEF_SHA="bdc6e7f70355c599cee32c9ed6aebfad939d9a35"
+TIMESCALE_VERSION="2.32.0" # https://github.com/timescale/timescaledb/releases/
+VECTOR_VERSION="0.8.7" # https://github.com/pgvector/pgvector/releases
+POSTGIS_VERSION="3.6.4" # https://postgis.net/development/source_code/
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://ftp.postgresql.org/pub/source/v${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_ARGS="--without-ldap --with-zlib --with-libedit-preferred --disable-debug --disable-nls --without-perl --without-python --without-libxml --with-openssl --disable-thread-safety --with-includes=${PREFIX}/include --with-libraries=${PREFIX}/lib --with-uuid=e2fs --disable-static --with-icu"
