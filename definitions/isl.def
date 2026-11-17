@@ -1,7 +1,7 @@
 DEF_FULL_NAME="Integer Set Library"
 DEF_NAME="isl"
-DEF_VERSION="0.23"
-DEF_SHA="b5f8eeb0780495e97d8e398a068253ee13ed13cb"
+DEF_VERSION="0.28"
+DEF_SHA="bf3ae963297cd2f58e9981cbe801fe62f89b4fe2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 # NOTE: disabled since any update above 0.22 is causing isl not being detected by software that relies on it
 # DEF_ORIGIN="https://mirror.sobukus.de/files/src/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
