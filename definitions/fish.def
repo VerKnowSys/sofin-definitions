@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Fish - Friendly Interactive Shell"
 DEF_NAME="fish"
-DEF_VERSION="3.7.0"
-DEF_SHA="d50b202eaaf9f0c7abaae6b6e745ee076d32faba"
+DEF_VERSION="3.7.1"
+DEF_SHA="d711f20b53693b4f0946489b1b0abcbccc8888d8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/fish-shell/fish-shell/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="cmake"
