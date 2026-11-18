@@ -4,7 +4,7 @@ DEF_VERSION="4.5.1"
 DEF_SHA="70aa82b9f06a41153c28bab81ca8c9276ec222b0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_CONFIGURE_METHOD="meson"
-DEF_CONFIGURE_ARGS="-Dbuildtype=release -Dgtk=false -Dqt=true -Dmac-media-keys=true -Dmpris2=false"
+DEF_CONFIGURE_ARGS="-Dbuildtype=release -Dgtk=false -Dqt=true -Dmpris2=false"
 DEF_COMPILER_FLAGS="-U_LIBCPP_ENABLE_ASSERTIONS"
 DEF_USE_CXX17=YES
 DEF_AFTER_INSTALL_METHOD="install_plugins_to_the_mac_bundle"
