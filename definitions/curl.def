@@ -35,5 +35,5 @@ fetch_and_install_fresh_ca_cert () {
 
 DEF_TEST_METHOD="test_curl_features"
 test_curl_features () {
-    ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS brotli HSTS HTTPS-proxy IDN IPv6 Largefile libz PSL SSL threadsafe UnixSockets zstd"
+    ${DEF_NAME} -V | ${GREP_BIN} -F "alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IDN IPv6 Largefile libz PSL SSL threadsafe UnixSockets zstd"
 }
