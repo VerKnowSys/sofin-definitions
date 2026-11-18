@@ -10,5 +10,5 @@ after_unpack () {
     autoreconf -v -i
 }
 DEF_CONFIGURE_METHOD="./configure CFLAGS=-I${PREFIX}/include CPPFLAGS=-I${PREFIX}/include LDFLAGS=-L${PREFIX}/lib"
-DEF_CONFIGURE_ARGS="--disable-debug --disable-dependency-tracking --disable-proc-mountpoint"
+DEF_CONFIGURE_ARGS="--without-libptytty --disable-debug --disable-dependency-tracking --disable-proc-mountpoint"
 DEF_EXPORTS="rlwrap"
