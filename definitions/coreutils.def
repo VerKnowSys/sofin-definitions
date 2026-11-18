@@ -1,7 +1,7 @@
 DEF_FULL_NAME="GNU coreutils"
 DEF_NAME="coreutils"
-DEF_VERSION="9.7"
-DEF_SHA="920791e12e7471479565a066e116a087edcc0df9"
+DEF_VERSION="9.12"
+DEF_SHA="ba149f3793d7078659c3cbc4942634e57df90bfa"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="FORCE_UNSAFE_CONFIGURE=1 ./configure" # configure refuses to run as root otherwise
