@@ -1,0 +1,21 @@
+DEF_FULL_NAME="Portable ASS/SSA subtitle renderer"
+DEF_NAME="libass"
+DEF_VERSION="0.17.5"
+DEF_SHA=""
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://github.com/libass/libass/releases/download/${DEF_VERSION}/libass-${DEF_VERSION}.tar.xz"
+DEF_REQUIREMENTS="@freetype fribidi @harfbuzz"
+DEF_CONFIGURE_ARGS="--disable-static --enable-shared --disable-libunibreak"
+
+case "${SYSTEM_NAME}" in
+    Darwin)
+        # System fonts through CoreText:
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-fontconfig"
+        ;;
+
+    *)
+        # No fontconfig definition: subtitles use the fonts embedded in the
+        # media, or the one given to the player.
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --disable-fontconfig --disable-require-system-font-provider"
+        ;;
+esac
