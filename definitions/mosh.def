@@ -3,6 +3,7 @@ DEF_NAME="mosh"
 DEF_VERSION="1.4.0"
 DEF_SHA="b6e135529e5787b8c2acc16dd5e59b5bb1dd11d4"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/mobile-shell/${DEF_NAME}/releases/download/mosh-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--enable-hardening --without-ncurses"
 if [ "Darwin" = "${SYSTEM_NAME}" ]; then
     export protobuf_CFLAGS="-L${PREFIX}/lib -I${PREFIX}/include"

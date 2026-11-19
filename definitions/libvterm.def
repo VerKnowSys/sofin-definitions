@@ -3,6 +3,7 @@ DEF_NAME="libvterm"
 DEF_VERSION="0.3.3"
 DEF_SHA="37379fb1a0b2817e84cffa7aefdba16b52e773d9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/neovim/${DEF_NAME}/archive/refs/tags/v${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
 
 DEF_AFTER_UNPACK_METHOD="patch_makefile"

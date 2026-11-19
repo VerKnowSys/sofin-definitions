@@ -4,6 +4,7 @@ DEF_SHA="9ce3c3fc01e0eb47d82827b1eb227eb371fefd5c"
 DEF_NAME="bsdmake"
 DEF_VERSION="24"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://distfiles.macports.org/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
 PPREFIX="$(echo $PREFIX | ${SED_BIN} -e 's/\//\\\//g')" # escape / in path
 BUILD_DIR="${BUILD_DIR}/${DEF_NAME}-${DEF_VERSION}"

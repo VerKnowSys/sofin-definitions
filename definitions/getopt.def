@@ -3,6 +3,7 @@ DEF_NAME="getopt"
 DEF_SHA="98725b4878d19ab6b126cd16263fed1f6090f6a7"
 DEF_VERSION="1.1.6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://frodo.looijaard.name/system/files/software/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_REQUIREMENTS="gettext"
 case "${SYSTEM_NAME}" in
