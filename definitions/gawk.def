@@ -1,7 +1,7 @@
 DEF_FULL_NAME="GNU Awk"
 DEF_NAME="gawk"
-DEF_VERSION="5.3.0"
-DEF_SHA="98c37c82d0d7370354e4e789406d6060c75c402a"
+DEF_VERSION="5.4.2"
+DEF_SHA="6d5ee0a9ddf6b6cead2a223a4e5cdb8da8c0ae71"
 DEF_CONFIGURE_ARGS="--disable-nls" # NO: --program-prefix=g
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
