@@ -1,12 +1,13 @@
 DEF_FULL_NAME="Open source antivirus engine for detecting trojans, viruses, malware & other malicious threats."
 DEF_STANDALONE=YES
 DEF_NAME="clamav"
-DEF_VERSION="0.102.4"
-DEF_SHA="ea0f6faeedb0248c684cceb87f7ff3a8bd4b610d"
+DEF_VERSION="1.5.4"
+DEF_SHA="b1b4b8ea76a32cff42a87335b3dbe20376301c37"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://www.clamav.net/downloads/production/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="@curl-openssl json-c"
-DEF_CONFIGURE_ARGS="--with-zlib=${PREFIX} --with-libcurl=${PREFIX} --with-pcre=${PREFIX} --with-xml=${PREFIX} --with-libjson=${PREFIX} --enable-xml --enable-pcre --enable-libjson --enable-bigstack --enable-clamdtop --enable-experimental"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_REQUIREMENTS="@curl-openssl json-c check"
+DEF_CONFIGURE_ARGS=""
 DEF_EXPORTS="clamav-config clamconf clamdtop clamsubmit clambc clamd freshclam clamdscan clamscan sigtool"
 DEF_USELESS="share/info share/man lib/cmake lib/*.{a,la} share/texinfo include"
 
@@ -19,6 +20,6 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
         ;;
 
     *-*-*)
-        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --with-openssl=${PREFIX}"
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS}"
         ;;
 esac
