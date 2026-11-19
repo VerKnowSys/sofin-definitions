@@ -1,8 +1,8 @@
 DEF_FULL_NAME="Lynx"
 DEF_STANDALONE=YES
 DEF_NAME="lynx"
-DEF_VERSION="2.8.9rel.1"
-DEF_SHA="3e00ac30d008e0aa879bfd037abcfd9c0dd2faec"
+DEF_VERSION="2.9.3"
+DEF_SHA="ff74670dc6112d6c9c301369ade1a1f9ec6286a6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}${DEF_VERSION}.tar.bz2"
 DEF_ORIGIN="https://invisible-mirror.net/archives/${DEF_NAME}/tarballs/lynx${DEF_VERSION}.tar.bz2"
 DEF_REQUIREMENTS="zlib libressl-lib"
