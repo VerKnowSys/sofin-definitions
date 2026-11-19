@@ -14,7 +14,6 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}-${SYSTEM_ARCH}" in
         ;;
 
     Darwin-*-*)
-        DEF_AFTER_INSTALL_METHOD="install_name_tool -add_rpath ${PREFIX}/lib ${PREFIX}/bin/${DEF_NAME}"
-        DEF_CONFIGURE_METHOD="CPPFLAGS=-D_REENTRANT ./configure"
+        DEF_LINKER_FLAGS="-Wl,-rpath,${PREFIX}/lib"
         ;;
 esac

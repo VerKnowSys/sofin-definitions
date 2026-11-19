@@ -8,7 +8,7 @@ DEF_REQUIREMENTS="openssl libevent"
 DEF_USELESS="include lib/pkgconfig man"
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="--disable-static --disable-utf8proc"
+        DEF_CONFIGURE_ARGS="--disable-static --disable-utf8proc --disable-jemalloc"
         ;;
 
     *)
