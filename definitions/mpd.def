@@ -5,7 +5,7 @@ DEF_VERSION="0.24.19"
 DEF_SHA="c3f72eeb4ef8875c1be9a2c4e31333e510f5ecb8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.musicpd.org/download/mpd/"
-DEF_REQUIREMENTS="libevent @curl-openssl @python314 boost @ffmpeg-lib libmpdclient mpc mpdscribble zlib"
+DEF_REQUIREMENTS="openssl libevent @curl-openssl @python314 boost @ffmpeg-lib libmpdclient mpc mpdscribble zlib"
 DEF_CONFIGURE_METHOD="meson"
 DEF_CONFIGURE_ARGS="-Dmpcdec=disabled"
 DEF_EXPORTS="mpd mpc mpdscribble"
@@ -14,7 +14,7 @@ DEF_USE_CXX20=YES
 
 DEF_AFTER_INSTALL_METHOD="create_mpdconf"
 create_mpdconf () {
-    try "${MKDIR_BIN} -p ${SERVICE_DIR}/logs ${SERVICE_DIR}/data"
+    try "${MKDIR_BIN} -p ${SERVICE_DIR}/etc ${SERVICE_DIR}/logs ${SERVICE_DIR}/data"
     if [ ! -f "${SERVICE_DIR}/etc/mpd.conf.example" ]; then
         try "${CP_BIN} -v doc/mpdconf.example ${SERVICE_DIR}/etc/mpd.conf.example"
     fi
