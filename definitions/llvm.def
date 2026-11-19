@@ -4,6 +4,7 @@ DEF_NAME="llvm"
 DEF_VERSION="17.0.6"
 DEF_SHA="860a3605f08a0a56a8de4e073e26a259871623a6"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
+DEF_ORIGIN="https://github.com/llvm/llvm-project/releases/download/llvmorg-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
 DEF_REQUIREMENTS="@python311"
 
 DEF_AFTER_UNPACK_METHOD="install_cmake_modules"

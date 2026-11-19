@@ -4,6 +4,7 @@ DEF_SHA="0b651543fa013ae151b7a11f0d0dee092050aa3f"
 DEF_VERSION="5.5.1"
 DEF_SUFFIX="55" # NOTE: reused by other definitions!
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-opensource-src-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://download.qt.io/archive/qt/${DEF_VERSION%.*}/${DEF_VERSION}/submodules/${DEF_NAME}-opensource-src-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="-prefix ${PREFIX} -no-pch -c++11 -opensource -confirm-license -release -shared -no-sql-sqlite -nomake examples -nomake tests -no-qpa-platform-guard -continue"
 DEF_EXPORTS="moc lconvert lrelease lupdate qdoc3 qmake rcc uic qtpaths qtdiag qdoc macdeployqt macchangeqt qlalr qcollectiongenerator qhelpconverter qhelpgenerator qlalr qml1plugindump qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner"
 DEF_CONFLICTS_WITH="Qt Qt55 Qt55 Qtws55 Qtwk55 Qtme55"

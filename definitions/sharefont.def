@@ -3,6 +3,7 @@ DEF_SHA="5dff356c338582c2485430bc0a764fee1666b657"
 DEF_NAME="sharefont"
 DEF_VERSION="0.10"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}s-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://download.gimp.org/pub/gimp/fonts/sharefonts-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD="make_dirs_fetch_archive"
 make_dirs_fetch_archive () {

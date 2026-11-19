@@ -10,6 +10,7 @@ DEF_VERSION="7.5.0"
 DEF_NAME="gcc"
 DEF_SHA="9153345fa05adfa58b4759ccb9f37d09662dd101"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/gcc-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_FULL_NAME="GNU Compiler (with langs: ${langs})"
 DEF_CONFIGURE_METHOD="env ${common_shared_env} ./configure"
 

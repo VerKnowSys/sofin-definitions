@@ -4,6 +4,7 @@ DEF_NAME="memcached"
 DEF_VERSION="1.6.45"
 DEF_SHA="45038980ea7045a548b9b5b5125ef7116312a768"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="http://www.memcached.org/files/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_REQUIREMENTS="libevent"
 if [ "${SYSTEM_NAME}" != "Minix" ]; then
     _addon="--enable-64bit"

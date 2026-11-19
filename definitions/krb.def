@@ -7,6 +7,7 @@ DEF_CONFIGURE_ARGS="--disable-static --enable-shared --with-pkinit-crypto-impl=o
 DEF_REQUIREMENTS="libnet libressl-lib perl db libtool bison yasm"
 DEF_BUILD_DIR_SUFFIX="src"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}5-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://kerberos.org/dist/krb5/${DEF_VERSION%.*}/krb5-${DEF_VERSION}.tar.gz"
 DEF_LINKER_FLAGS="-L${PREFIX}/lib"
 DEF_MAKE_METHOD="make"
 DEF_INSTALL_METHOD="make -s install"

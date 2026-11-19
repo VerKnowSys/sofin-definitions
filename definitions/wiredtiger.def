@@ -3,4 +3,5 @@ DEF_SHA="efcaf83e8aae717573ee8b03fb69f04ec03b567b"
 DEF_NAME="wiredtiger"
 DEF_VERSION="3.2.0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_ORIGIN="https://github.com/wiredtiger/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 unset DEF_USE_LTO

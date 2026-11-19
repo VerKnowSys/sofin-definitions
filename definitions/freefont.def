@@ -3,6 +3,7 @@ DEF_SHA="9521b10068649db2140ea80e33145bcd6e368704"
 DEF_NAME="freefont"
 DEF_VERSION="0.10"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}s-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://download.gimp.org/pub/gimp/fonts/freefonts-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="no-conf"
 DEF_MAKE_METHOD="make_dirs_fetch_archive"
 make_dirs_fetch_archive () {

@@ -3,6 +3,7 @@ DEF_NAME="autoconf"
 DEF_VERSION="2.73"
 DEF_SHA="d3686a380aeb8b98ae6b3d0a7e830c16ab19524e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="@perl"
 DEF_EXPORTS="autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames"
 DEF_CLEAN_USELESS=NO

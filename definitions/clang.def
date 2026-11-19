@@ -3,6 +3,7 @@ DEF_NAME="clang"
 DEF_VERSION="17.0.6"
 DEF_SHA="2822ff10a016df1fffdeb296f753e9c5fce764ee"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
+DEF_ORIGIN="https://github.com/llvm/llvm-project/releases/download/llvmorg-${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.src.tar.xz"
 DEF_REQUIREMENTS="@llvm"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS=" \
