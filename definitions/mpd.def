@@ -1,31 +1,16 @@
-inherit "ffmpeg"
-
 DEF_FULL_NAME="Music Player Daemon - Server (including: mpc + mpdscribble)"
 DEF_STANDALONE=YES
 DEF_NAME="mpd"
-DEF_VERSION="0.20.23"
-DEF_SHA="ab9b9b0118e4804716b6d05fa55b3bc1628a1ade"
+DEF_VERSION="0.24.19"
+DEF_SHA="c3f72eeb4ef8875c1be9a2c4e31333e510f5ecb8"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.musicpd.org/download/mpd/"
-DEF_REQUIREMENTS="${DEF_REQUIREMENTS} gdbm python39 boost ffmpeglib libmpdclient mpc curl-lib mpdscribble zlib"
-DEF_CONFIGURE_ARGS="" # just let the magic happen ;)
-case "${SYSTEM_NAME}" in
-    Darwin)
-        DEF_CONFIGURE_ARGS="--enable-osx --enable-eventfd"
-        ;;
-
-    FreeBSD)
-        DEF_LINKER_FLAGS="-L${PREFIX}/lib -lm -ltls -lavutil -lwrap"
-        DEF_COMPILER_FLAGS="-I${PREFIX}/include -arch=x86_64"
-        ;;
-esac
-unset DEF_USEFUL
+DEF_REQUIREMENTS="libevent @curl-openssl @python314 boost @ffmpeg-lib libmpdclient mpc mpdscribble zlib"
+DEF_CONFIGURE_METHOD="meson"
+DEF_CONFIGURE_ARGS="-Dmpcdec=disabled"
 DEF_EXPORTS="mpd mpc mpdscribble"
 DEF_USELESS="${DEF_USELESS} ssl doc* share man sbin include libdata lib/cmake lib/pkgconfig lib/glib-* lib/*python* lib/*perl* lib/*.a"
-DEF_USE_CXX14=YES
-DEF_NO_FAST_MATH=YES
-DEF_USE_SAFE_STACK=YES
-DEF_NO_CCACHE=YES
+DEF_USE_CXX20=YES
 
 DEF_AFTER_INSTALL_METHOD="create_mpdconf"
 create_mpdconf () {
