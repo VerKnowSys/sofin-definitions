@@ -1,5 +1,5 @@
 DEF_STANDALONE=YES
-DEF_FULL_NAME="Erlang OTP 26.x"
+DEF_FULL_NAME="Erlang OTP 29.x"
 DEF_NAME="otp"
 DEF_VERSION="29.1.2"
 DEF_SHA="323e63e9b46f471e0247a908f9f12b4629da8e51"
@@ -16,7 +16,7 @@ test_otp () {
 }
 
 DEF_MAKE_METHOD="ERL_TOP=${PWD} make ${MAKE_OPTS}"
-DEF_INSTALL_METHOD="make ${MAKE_OPTS} install && make docs DOC_TARGETS=chunks && make install-docs"
+DEF_INSTALL_METHOD="make ${MAKE_OPTS} install && make docs DOC_TARGETS=chunks && make install-docs DOC_TARGETS=chunks"
 
 DEF_AFTER_INSTALL_METHOD="strip_deeptree_bins"
 strip_deeptree_bins () {
