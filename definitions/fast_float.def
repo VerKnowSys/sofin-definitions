@@ -1,0 +1,8 @@
+DEF_FULL_NAME="Fast and exact C++ number parsing library (header-only)"
+DEF_NAME="fast_float"
+DEF_VERSION="8.3.3"
+DEF_SHA=""
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/fastfloat/fast_float/archive/refs/tags/v${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="cmake"
+DEF_CONFIGURE_ARGS="-DFASTFLOAT_INSTALL=ON -DFASTFLOAT_TEST=OFF -DFASTFLOAT_SANITIZE=OFF"
