@@ -1,0 +1,6 @@
+DEF_FULL_NAME="Plugins for Nagios"
+DEF_NAME="nagios-plugins"
+DEF_VERSION="2.4.4"
+DEF_SHA="1ca0d20931fc9b12e96f36bba8a95cc0ac5c8291"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_ORIGIN="https://github.com/nagios-plugins/nagios-plugins/releases/download/release-${DEF_VERSION}/nagios-plugins-${DEF_VERSION}.tar.gz"
