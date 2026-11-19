@@ -7,10 +7,18 @@ DEF_ORIGIN="https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${DEF_NAME}-${D
 DEF_CONFIGURE_ARGS="--with-ssl-engine --with-pid-dir=${SERVICE_DIR} --with-zlib=${PREFIX} --with-ssl-dir=${PREFIX} --with-security-key-builtin --disable-etc-default-login --with-libedit=${PREFIX} --without-shadow"
 DEF_REQUIREMENTS="libedit openssl libcbor zlib libfido2"
 DEF_USEFUL="libexec"
+# install-nokeys: plain "install" runs ./ssh-keygen -A, which writes host keys
+# into the bundle (shipped with the binary build), and runs sshd -t in parallel
+# with the files being installed.
+DEF_INSTALL_METHOD="make ${MAKE_OPTS} install-nokeys SHELL=${SOFIN_UTILS_DIR}/exports/bash"
 DEF_EXPORTS="c_rehash scp sftp ssh ssh-add ssh-agent ssh-keygen ssh-keyscan ssh-askpass ssh-sk-helper sftp-server ssh-keysign ssh-pkcs11-helper ssh-sk-helper sshd sshd-session"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     Darwin-*)
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} --without-rpath"
+        ;;
+    *)
+        # OpenSSH links its programs with LDFLAGS only, so Sofin's rpath (in CFLAGS) is missing.
+        DEF_LINKER_FLAGS="${DEF_LINKER_FLAGS} -Wl,-rpath=${PREFIX}/lib"
         ;;
 esac
