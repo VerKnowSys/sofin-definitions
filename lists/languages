@@ -4,7 +4,6 @@ Clang
 Elixir
 Fish
 Gawk
-Gcc
 Guile
 Lua51
 Lua53
@@ -19,4 +18,3 @@ Ruby3
 Rust
 Rust-basic
 Shc
-Zsh-devel
