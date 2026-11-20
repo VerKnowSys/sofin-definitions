@@ -1,18 +1,21 @@
 DEF_FULL_NAME="Cairo graphics library (headless build with support for: SVG, PS, PDF, PNG, JPEG, FC, FT and CairoScript)"
 DEF_STANDALONE=YES
 DEF_NAME="cairo"
-DEF_VERSION="1.17.2"
-DEF_SHA="c5d6f12701f23b2dc2988a5a5586848e70e858fe"
+DEF_VERSION="1.18.6"
+DEF_SHA="5536e160329129bd43a13238e116272c0e8be85e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.cairographics.org/releases/${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_CONFIGURE_METHOD="meson"
 
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="--disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes"
+        # autotools options left out with the switch (no meson option): --disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes
+        DEF_CONFIGURE_ARGS="-Dxlib=disabled -Dsymbol-lookup=disabled"
         ;;
 
     *)
-        DEF_CONFIGURE_ARGS="--enable-static=no --disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-xlib=no --enable-symbol-lookup=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'"
+        # autotools options left out with the switch (no meson option): --disable-full-testing --disable-valgrind --enable-gtk-doc-html=no --enable-test-surfaces=no --enable-directfb=no --enable-trace=no --enable-gl=no --enable-interpreter=yes --enable-script=yes --enable-ft=yes --enable-fc=yes --enable-gobject=yes --enable-pthread=yes --enable-xml=yes --enable-svg=yes --enable-ps=yes --enable-pdf=yes POPPLER_CFLAGS=-I${PREFIX}/include POPPLER_LIBS='-L${PREFIX}/lib -lpoppler -lpoppler-cpp'
+        DEF_CONFIGURE_ARGS="-Ddefault_library=shared -Dxlib=disabled -Dsymbol-lookup=disabled"
         ;;
 esac
 DEF_REQUIREMENTS="@glib icu jpeg jbig2dec jbigkit openjpeg libjpeg-turbo @fontconfig pixman poppler"
