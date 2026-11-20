@@ -29,6 +29,11 @@ case "${SYSTEM_NAME}" in
         # macOS 27 SDK declares pipe2() and dup3() (weak-linked), but they're missing on older systems:
         DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -Ud_pipe2 -Ud_dup3"
         ;;
+    FreeBSD)
+        # XS modules (GDBM_File, NDBM_File, ODBM_File, DB_File, CPAN ones) link with lddlflags, which the hints set to "-shared ".
+        # MakeMaker passes their library dirs only through LD_RUN_PATH, which LLD ignores, so they'd get no RUNPATH:
+        DEF_CONFIGURE_ARGS="${DEF_CONFIGURE_ARGS} -Alddlflags='-Wl,-rpath=${PREFIX}/lib,--enable-new-dtags'"
+        ;;
 esac
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*)
