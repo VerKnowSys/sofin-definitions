@@ -1,9 +1,9 @@
 DEF_DISABLE_ON="Darwin"
 DEF_FULL_NAME="Audiofile"
 DEF_NAME="audiofile"
-DEF_SHA="368a340e504180d57f3990cb29905753dc085ff2"
-DEF_VERSION="0.2.7"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_ORIGIN="https://download.gnome.org/sources/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_SHA="87e1db94b05367af7054070823430b9b7a2ab071"
+DEF_VERSION="0.3.6"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
+DEF_ORIGIN="https://download.gnome.org/sources/${DEF_NAME}/${DEF_VERSION%.*}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_ARGS="--enable-shared --disable-static"
 unset DEF_USE_LTO
