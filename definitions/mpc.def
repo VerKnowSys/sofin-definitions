@@ -5,7 +5,7 @@ DEF_VERSION="0.35"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://www.musicpd.org/download/${DEF_NAME}/0/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_CONFIGURE_METHOD="meson"
-DEF_REQUIREMENTS="readline lzo gdbm sqlite pcre perl openssl libxml2 libmpdclient"
+DEF_REQUIREMENTS="@libmpdclient"
 # autotools options left out with the switch (no meson option): LIBMPDCLIENT_CFLAGS=-I${PREFIX}/include LIBMPDCLIENT_LIBS='-L${PREFIX} -lmpdclient'
 DEF_CONFIGURE_ARGS=""
 DEF_EXPORTS="mpc"

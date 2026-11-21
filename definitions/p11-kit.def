@@ -5,7 +5,7 @@ DEF_VERSION="0.26.6"
 DEF_SHA="a73ce273c71609ad7fbbf088e5f24de66c7dee1e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/p11-glue/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="m4 libtool libtasn1 libffi"
+DEF_REQUIREMENTS="@libtool libtasn1 libffi"
 case "${SYSTEM_NAME}" in
     Darwin)
         DEF_CONFIGURE_ARGS="--with-trust-paths=${SERVICE_DIR}/share/certs/ca-root-nss.crt --disable-nls"

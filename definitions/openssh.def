@@ -5,7 +5,7 @@ DEF_SHA="c91a0b7860c80f29db874044af4d1a6f906231d9"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_ARGS="--with-ssl-engine --with-pid-dir=${SERVICE_DIR} --with-zlib=${PREFIX} --with-ssl-dir=${PREFIX} --with-security-key-builtin --disable-etc-default-login --with-libedit=${PREFIX} --without-shadow"
-DEF_REQUIREMENTS="libedit openssl libcbor zlib libfido2"
+DEF_REQUIREMENTS="libedit @libfido2"
 DEF_USEFUL="libexec"
 # install-nokeys: plain "install" runs ./ssh-keygen -A, which writes host keys
 # into the bundle (shipped with the binary build), and runs sshd -t in parallel

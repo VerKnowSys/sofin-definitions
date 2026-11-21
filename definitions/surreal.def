@@ -4,7 +4,7 @@ DEF_TYPE="meta"
 DEF_FULL_NAME="SurrealDB - multi paradigm database engine written in Rust"
 DEF_NAME="surreal"
 DEF_VERSION="1.5.4"
-DEF_REQUIREMENTS="@zstd protobuf @curl-openssl libpsl libssh2 rust-basic libidn2"
+DEF_REQUIREMENTS="@zstd protobuf @curl-openssl @libssh2 rust-basic"
 DEF_EXPORTS="${DEF_NAME}"
 DEF_USELESS="lib/libev* lib/libbro* lib/libcu* lib/libff* lib/liblz* lib/libi* lib/libj* lib/libng* lib/librust* lib/libstd* lib/libp* lib/libu* lib/libx* lib/libz* lib/cmake lib/rustlib lib/pkgconfig cmake etc include libexec share man"
 

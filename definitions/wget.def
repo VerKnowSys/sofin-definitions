@@ -5,7 +5,7 @@ DEF_VERSION="1.25.0"
 DEF_SHA="939b74b0759a2e5f57ec9ac12f5b4403fd9cf5cf"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://ftp.gnu.org/gnu/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="perl libgpg-error gmp nettle libffi libtasn1 p11-kit libunistring gnutls libidn2"
+DEF_REQUIREMENTS="perl libgpg-error gmp nettle libffi libtasn1 p11-kit @gnutls libidn2"
 DEF_USELESS="lib/perl* lib/*.{a,la} lib/{pkcs11,pkgconfig} include share/gtk* share/{info,aclocal,libgpg-error,p11-kit} libexec man"
 DEF_EXPORTS="${DEF_NAME}"
 

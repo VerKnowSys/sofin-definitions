@@ -5,7 +5,7 @@ DEF_SHA="cab8ddaca9e92a31cff8042614a9adfcf2f28adb"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://ffmpeg.org/releases/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 _ffmpeg_configure_flags="--cc=cc --cxx=c++ --enable-pic --enable-openssl --enable-libtwolame --enable-libsoxr --enable-libmp3lame --enable-ftrapv --enable-nonfree --enable-libopus --enable-libspeex --disable-libvorbis --disable-w32threads --disable-os2threads --disable-d3d11va --disable-devices --disable-doc --disable-htmlpages --disable-podpages --disable-txtpages --disable-debug --disable-xlib --disable-videotoolbox --disable-swscale-alpha --disable-videotoolbox --disable-vaapi --disable-vdpau --disable-d3d11va --disable-dxva2 --disable-valgrind-backtrace --enable-gpl --enable-libx265 --enable-libsvtav1"
-DEF_REQUIREMENTS="jemalloc @glib @zstd @flac libatomic_ops libxml2 yasm pcre openssl db sqlite fftw mpg123 lame gperf libid3tag libcue libdca taglib yajl faad neon uriparser expat libxspf speex libao openal @libsndfile twolame libbs2b libmpcdec libmad opus libopusenc opusfile opus-tools faac audiofile soxr svt-av1 @x265"
+DEF_REQUIREMENTS="jemalloc @glib @zstd @flac libatomic_ops libxml2 yasm pcre openssl db sqlite fftw @lame @libid3tag libcue libdca taglib yajl faad neon uriparser @libxspf speex libao openal @libsndfile twolame @libbs2b libmpcdec libmad opus-tools faac audiofile soxr svt-av1 @x265"
 case "${SYSTEM_NAME}-${SYSTEM_ARCH}" in
     FreeBSD-amd64)
         DEF_CONFIGURE_ARGS="--enable-shared --enable-lto --enable-lzma --disable-static --enable-rpath --extra-ldflags='-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib,--enable-new-dtags -pie -fPIC'"

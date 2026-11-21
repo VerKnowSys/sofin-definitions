@@ -5,7 +5,7 @@ DEF_VERSION="1.2.2.20251216"
 DEF_SHA="7f82765e46a42d95e9a65102d52b71626e18ad8e"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/${DEF_NAME}/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
-DEF_REQUIREMENTS="mpg123 lame opus libopusenc openssl libogg libvorbis opusfile flac speex"
+DEF_REQUIREMENTS="@lame @libopusenc openssl @libvorbis @opusfile flac speex"
 DEF_CONFIGURE_METHOD="cmake"
 DEF_CONFIGURE_ARGS="-DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
 

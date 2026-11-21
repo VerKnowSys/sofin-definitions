@@ -4,7 +4,7 @@ DEF_VERSION="2.15.0"
 DEF_SHA="1cddd9a66c8ce2972c20890c07b7a75231c21787"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://download.savannah.gnu.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="zlib libpng texinfo brotli"
+DEF_REQUIREMENTS="@libpng texinfo brotli"
 DEF_CONFIGURE_METHOD="meson"
 
 DEF_AFTER_INSTALL_METHOD="move_libdata_pc"
