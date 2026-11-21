@@ -1,8 +1,8 @@
 DEF_STANDALONE=YES
 DEF_FULL_NAME="Squid proxy"
 DEF_NAME="squid"
-DEF_VERSION="5.9"
-DEF_SHA="38a723c3ef8776ef3c880772d85020af8b345a84"
+DEF_VERSION="7.8"
+DEF_SHA="259d5a2355c13a10f1f1be69cfbf12c7b3365226"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://github.com/squid-cache/${DEF_NAME}/releases/download/SQUID_${DEF_VERSION%%.*}_${DEF_VERSION#*.}/${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_REQUIREMENTS="gmp expat nettle openssl perl"
