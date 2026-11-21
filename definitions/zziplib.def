@@ -1,8 +1,8 @@
 DEF_FULL_NAME="ZZIPlib Library"
-DEF_SHA="147ab9bef172f2b41544adfd19daa506256d83b7"
+DEF_SHA="6dc766666cbd55f34741ae4b16e11590320a6179"
 DEF_NAME="zziplib"
-DEF_VERSION="0.13.68"
-DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
+DEF_VERSION="0.13.80"
+DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/gdraheim/${DEF_NAME}/archive/refs/tags/v${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="cmake-make" # Ninja: multiple rules generate zzip/libzzip.so
 DEF_CONFIGURE_ARGS="-DZZIPTEST=OFF" # test/ packs a self-extracting example with zip(1), not on the build host
