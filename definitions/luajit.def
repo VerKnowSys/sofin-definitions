@@ -1,6 +1,6 @@
 DEF_NAME="LuaJIT"
-DEF_VERSION="2.1.ROLLING"
-DEF_SHA="5f3268607255e43e6bfdbde61fc120b67539064f"
+DEF_VERSION="2.1.0.20260908"
+DEF_SHA="64f3ffb05c714c08ea50658258e64095050fe69b"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_CONFIGURE_METHOD="ignore"
 DEF_USEFUL="bin/luajit*"
@@ -14,7 +14,14 @@ patch_makefile () {
         Makefile
 }
 
-DEF_AFTER_INSTALL_METHOD="mv ${PREFIX}/bin/luajit-2.1. ${PREFIX}/bin/luajit"
+# A source with .relver installs bin/luajit-2.1.<relver> and links bin/luajit
+# to it; one without (the 2023 2.1.ROLLING tarball) only bin/luajit-2.1.
+DEF_AFTER_INSTALL_METHOD="link_luajit"
+link_luajit () {
+    if [ ! -e "${PREFIX}/bin/luajit" ]; then
+        mv "${PREFIX}/bin/luajit-2.1." "${PREFIX}/bin/luajit"
+    fi
+}
 
 CFLAGS=""
 LDFLAGS="-Wl,-z,notext -Wl,-rpath=${PREFIX}/lib,--enable-new-dtags"
