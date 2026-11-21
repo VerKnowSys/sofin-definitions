@@ -4,6 +4,8 @@ DEF_VERSION="3.100"
 DEF_SHA="64c53b1a4d493237cef5e74944912cd9f98e618d"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://downloads.sourceforge.net/project/${DEF_NAME}/${DEF_NAME}/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+# Since 3.101 the decoder is the external libmpg123 (>= 1.26.0), not the internal mpglib:
+DEF_REQUIREMENTS="mpg123"
 
 case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
     FreeBSD-11*|FreeBSD-12*)
