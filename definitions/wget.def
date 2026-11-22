@@ -14,3 +14,6 @@ case "${SYSTEM_NAME}-${SYSTEM_VERSION}" in
         unset DEF_USE_LTO
         ;;
 esac
+
+# Nettle 4.0 removed the explicit length argument from the *_digest functions:
+DEF_AFTER_CONFIGURE_METHOD="sed -i '' 's/nettle_md4_digest(&MD4, MD4_DIGEST_SIZE, ntbuffer)/nettle_md4_digest(\&MD4, ntbuffer)/' src/http-ntlm.c"
