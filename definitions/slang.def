@@ -4,7 +4,7 @@ DEF_VERSION="2.3.3"
 DEF_SHA="38d9b8e80e4336f76dff3e1d85761d2d0f713595"
 DEF_ORIGIN="https://www.jedsoft.org/releases/${DEF_NAME}/${DEF_NAME}-${DEF_VERSION}.tar.bz2"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.bz2"
-DEF_REQUIREMENTS="pcre readline onig"
+DEF_REQUIREMENTS="pcre2 readline onig"
 DEF_CONFIGURE_ARGS="--without-png --without-x --with-pcre=${PREFIX} --with-onig=${PREFIX} --with-readline=${PREFIX}"
 
 case "${SYSTEM_NAME}" in

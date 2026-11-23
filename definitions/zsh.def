@@ -6,8 +6,8 @@ DEF_VERSION="5.9"
 DEF_SHA="bf6b252bc0d8618228eb609c5c19d495ed94e7c7"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="http://www.zsh.org/pub/${DEF_NAME}-${DEF_VERSION}.tar.xz"
-DEF_CONFIGURE_ARGS="--enable-dynamic --enable-cap --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp"
-DEF_REQUIREMENTS="pcre ncurses"
+DEF_CONFIGURE_ARGS="--enable-dynamic --enable-cap --enable-pcre2 --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp"
+DEF_REQUIREMENTS="pcre2 ncurses"
 DEF_USELESS="lib/pkgconfig lib/*.{a,la} libdata share/aclocal share/libtool docs include"
 
 DEF_AFTER_INSTALL_METHOD="link_sh && strip_libs"
@@ -43,6 +43,6 @@ DEF_COMPILER_FLAGS="-Wno-error=implicit-int"
 
 case "${SYSTEM_NAME}" in
     Darwin)
-        DEF_CONFIGURE_ARGS="--enable-cap --enable-zsh-secure-free --enable-pcre --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp DL_EXT=bundle"
+        DEF_CONFIGURE_ARGS="--enable-cap --enable-zsh-secure-free --enable-pcre2 --enable-multibyte --enable-unicode9 --disable-maildir-support --enable-fndir=${PREFIX}/share/zsh/functions --enable-scriptdir=${PREFIX}/share/zsh/scripts --enable-site-fndir=${SERVICE_DIR}/share/zsh/site-functions --enable-site-scriptdir=${SERVICE_DIR}/share/zsh/site-scripts --enable-runhelpdir=${PREFIX}/share/zsh/help --enable-additional-fpath=${SERVICE_DIR}/share/zsh/functions --with-tcsetpgrp DL_EXT=bundle"
         ;;
 esac

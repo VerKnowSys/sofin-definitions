@@ -4,7 +4,7 @@ DEF_SHA="f507a2ba1da4ecdebc1404cd91cf47cbf91002db"
 DEF_FULL_NAME="Node.js ${DEF_VERSION%.*}"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-v${DEF_VERSION}.tar.xz"
 DEF_ORIGIN="https://nodejs.org/dist/latest-v${DEF_VERSION%%.*}.x/${DEF_NAME}-v${DEF_VERSION}.tar.xz"
-DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre autoconf texinfo automake libffi yaml nghttp2 libuv brotli c-ares"
+DEF_REQUIREMENTS="jemalloc libedit gettext xz libxml2 openssl libevent lzo pcre2 autoconf texinfo automake libffi yaml nghttp2 libuv brotli c-ares"
 # Node's bundled ICU (full data; 78.3 in 26.13), the one its V8 is tested with:
 # with ICU 79, the case closure of a BMP character can hold a supplementary
 # one (U+1DF95 folds to U+00DF), and V8's regexp table generator aborts

@@ -1,6 +1,6 @@
 inherit pcre
 
-DEF_FULL_NAME="PCRE Library with JIT enabled"
+DEF_FULL_NAME="pcre2 Library with JIT enabled"
 DEF_SUFFIX="-jit"
 DEF_NO_MPROTECT=YES
 DEF_NO_PAGEEXEC=YES
