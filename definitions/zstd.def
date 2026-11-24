@@ -1,9 +1,10 @@
 DEF_FULL_NAME="Zstandard - Fast real-time compression algorithm"
 DEF_NAME="zstd"
-DEF_VERSION="1.5.7"
-DEF_SHA="6c7dd9c829561ac5475b72592a079a01ab7f3eab"
+DEF_VERSION="1.6.0"
+DEF_SHA="b59b19019cc292b98850732e72538d8a0cc580f0"
 DEF_SOURCE_PATH="${MAIN_SOURCE_REPOSITORY}${DEF_NAME}-${DEF_VERSION}.tar.gz"
 DEF_ORIGIN="https://github.com/facebook/${DEF_NAME}/releases/download/${DEF_VERSION}/${DEF_NAME}-${DEF_VERSION}.tar.gz"
+DEF_CONFIGURE_METHOD="cmake"
 DEF_REQUIREMENTS="xz lz4"
 DEF_USE_CXX11=YES
 DEF_EXPORTS="unzstd zstd zstdcat zstdgrep zstdless zstdmt"
